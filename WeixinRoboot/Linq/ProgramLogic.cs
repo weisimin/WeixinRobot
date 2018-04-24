@@ -663,7 +663,7 @@ namespace WeixinRoboot.Linq
                         decimal? TotalPoint = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == UserRow.Field<string>("User_ContactID")).Sum(t => t.ChangePoint);
 
                         LogicOK = true;
-                        return "充入:" + ChargeMoney.ToString("N0");
+                        return "余分:" + ChargeMoney.ToString("N0");
 
                         break;
                     case "下分":
@@ -700,7 +700,7 @@ namespace WeixinRoboot.Linq
 
 
                         LogicOK = true;
-                        return "下分:" + ChargeMoney.ToString("N0");
+                        return "余分:" + ChargeMoney.ToString("N0");
 
 
                         break;
