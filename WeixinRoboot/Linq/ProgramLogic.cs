@@ -865,7 +865,14 @@ namespace WeixinRoboot.Linq
                 );
             if (CheckRatioConfig == null)
             {
-                CheckResult = "未设置赔率:" + replylog.ReceiveContent;
+                Decimal? MaxLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.Key
+                    && t.BuyValue == newgl.Buy_Value
+                    ).Max(t=>t.MaxBuy);
+                Decimal? MinLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.Key
+                    && t.BuyValue == newgl.Buy_Value
+                    ).Min(t => t.MinBuy);
+
+                CheckResult = "下注无效，不在限范围" +ObjectToString(MinLimit,"N0")+"-"+ObjectToString(MaxLimit,"N0")+",余分";
                 return;
             }
             else
