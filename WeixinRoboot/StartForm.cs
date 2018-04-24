@@ -733,7 +733,7 @@ namespace WeixinRoboot
                                         && t.WX_UserName==userr.Field<string>("User_ContactID")
                                         ).ToList()
                                    , RunnerF.MemberSource);
-                    SendWXContent(ReturnSend + Environment.NewLine + tr.ToSlimString(), userr.Field<string>("User_ContactTEMPID"));
+                    SendWXContent(ReturnSend + Environment.NewLine + tr.ToSlimStringV2(), userr.Field<string>("User_ContactTEMPID"));
                 }
                 return ReturnSend;
 

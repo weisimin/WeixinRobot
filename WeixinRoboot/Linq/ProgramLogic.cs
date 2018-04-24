@@ -335,6 +335,35 @@ namespace WeixinRoboot.Linq
 
             }
 
+            public string ToSlimStringV2()
+            {
+
+                string Result = "";
+                var Periods = Buys.Select(t => t.ShowPeriod).Distinct();
+                foreach (var Perioditem in Periods)
+                {
+                    Result +="";
+                    foreach (var buyitem in Buys.Where(t => t.ShowPeriod == Perioditem))
+                    {
+                        Result += (buyitem.TotalTiger == 0 ? "" : ",虎" +ObjectToString (buyitem.TotalTiger,"N0"))
+                        + (buyitem.TotalDragon == 0 ? "" : ",龙" +ObjectToString( buyitem.TotalDragon,"N0"))
+                        + (buyitem.TotalOK == 0 ? "" : ",合" + ObjectToString(buyitem.TotalOK,"N0"))
+                        + (buyitem.TotalLarge == 0 ? "" : ",大" +ObjectToString( buyitem.TotalLarge,"N0"))
+                        + (buyitem.TotalSmall == 0 ? "" : ",小" + ObjectToString(buyitem.TotalSmall,"N0"))
+                        + (buyitem.TotalMiddle == 0 ? "" : ",和" + ObjectToString(buyitem.TotalMiddle,"N0"))
+                        + (buyitem.TotalSingle == 0 ? "" : ",单" +ObjectToString( buyitem.TotalSingle,"N0"))
+                        + (buyitem.TotalDouble == 0 ? "" : ",双" + ObjectToString(buyitem.TotalDouble,"N0"));
+                    }
+                    Result += Environment.NewLine;
+                }
+                Result=Result.Substring(1);
+                Result += "余分" + ObjectToString( Remainder,"N0");
+                return Result;
+
+
+
+            }
+
             public override string ToString()
             {
                 string Result = "查:" + (Remainder.HasValue ? Remainder.Value.ToString("N0") : "") + Environment.NewLine
