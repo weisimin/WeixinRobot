@@ -717,8 +717,12 @@ namespace WeixinRoboot
                 }
                 else if (LogicOK == false)
                 {
+          
                     GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, GlobalParam.db.WX_UserGameLog);
+                    GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, GlobalParam.db.WX_UserChangeLog);
+           
                 }
+            
                 if (LogicOK != null&&ShowBuy==true)
                 {
 
