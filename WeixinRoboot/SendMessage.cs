@@ -37,6 +37,9 @@ namespace WeixinRoboot
 
         private void Btn_Send_Click(object sender, EventArgs e)
         {
+            tb_MessageContent.Text = Linq.DataLogic.Dragon + Linq.DataLogic.Dragon + Linq.DataLogic.Dragon + Linq.DataLogic.Dragon + Linq.DataLogic.Dragon + Linq.DataLogic.Dragon;
+            tb_MessageContent.Text +=Environment.NewLine+ Linq.DataLogic.Tiger + Linq.DataLogic.Tiger + Linq.DataLogic.Tiger + Linq.DataLogic.Tiger + Linq.DataLogic.Tiger + Linq.DataLogic.Tiger;
+            tb_MessageContent.Text += Environment.NewLine + Linq.DataLogic.OK + Linq.DataLogic.OK + Linq.DataLogic.OK + Linq.DataLogic.OK + Linq.DataLogic.OK + Linq.DataLogic.OK;
 
             StartF.SendWXContent(  tb_MessageContent.Text, _UserRow.Field<string>("User_ContactTEMPID"));
             tb_MessageContent.Text = "";
