@@ -1060,11 +1060,12 @@ namespace WeixinRoboot
                         break;
                 }
                 datapindex += 1;
-                if (datapindex == 11)
-                {
-                    Datatextplain += Environment.NewLine;
-                    datapindex = 1;
-                }
+                //if (datapindex == 11)
+                //{
+                //    Datatextplain += Environment.NewLine;
+                //    datapindex = 1;
+                //}
+
             }//行循环
             if (System.IO.File.Exists(Application.StartupPath + "\\Data3.txt"))
             {

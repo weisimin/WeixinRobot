@@ -542,9 +542,16 @@ namespace WeixinRoboot.Linq
                     ShowOrders = true;
                     return Result;
                 }
+               
                 else if (reply.ReceiveContent.StartsWith("取消"))
                 {
-                    ShowOrders = true;
+                    ShowOrders = true; 
+                 if (reply.ReceiveTime.Hour >= 2 && reply.ReceiveTime.Hour < 9)
+                {
+                    ShowOrders = false;
+                    LogicOK = false;
+                    return "不在下注时间，开奖无效";
+                }
                     return WX_UserGameLog_Cancel(db, reply, MemberSource, out  LogicOK);
                 }//取消的单
                 else
@@ -569,6 +576,12 @@ namespace WeixinRoboot.Linq
                         return "";
                     }
                     #region
+                    if (reply.ReceiveTime.Hour >= 2 && reply.ReceiveTime.Hour < 9)
+                    {
+                        ShowOrders = false;
+                        LogicOK = false;
+                        return "不在下注时间，开奖无效";
+                    }
                     string CheckResult = "";
                     WX_UserGameLog newr = null;
                     bool NewData = false;
@@ -925,7 +938,7 @@ namespace WeixinRoboot.Linq
 
         public static string Dragon = Encoding.UTF8.GetString(new byte[] { 240, 159, 144, 178 });
         public static string OK = Encoding.UTF8.GetString(new byte[] { 240, 159, 136, 180 });
-        public static string Tiger = Encoding.UTF8.GetString(new byte[] { 32, 238, 129, 144 });
+        public static string Tiger = Encoding.UTF8.GetString(new byte[] {  238, 129, 144 });
 
 
 
