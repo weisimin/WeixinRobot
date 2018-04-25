@@ -545,7 +545,9 @@ namespace WeixinRoboot
             goto Repeat;
         }
 
-        private void KeepUpdateContactDo(Object ThreadID);
+        private void KeepUpdateContactDo(Object ThreadID)
+        { 
+        }
 
 
         Exception ShowError = new Exception("");

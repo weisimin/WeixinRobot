@@ -506,7 +506,7 @@ namespace WeixinRoboot.Linq
                 if (reply.ReceiveContent == "查")
                 {
                     LogicOK = true;
-                    decimal Remainder = WXUserChangeLog_GetRemainder(reply, db);
+                    decimal Remainder = WXUserChangeLog_GetRemainder(reply, db,new List<WX_UserGameLog>());
                     ShowOrders = false;
                     return "查：" + Remainder.ToString("N0");
                 }
@@ -689,7 +689,7 @@ namespace WeixinRoboot.Linq
                         change.WX_UserName = UserRow.Field<string>("User_ContactID");
                         db.WX_UserChangeLog.InsertOnSubmit(change);
 
-                        decimal? TotalPoint = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == UserRow.Field<string>("User_ContactID")).Sum(t => t.ChangePoint);
+                        decimal? TotalPoint = WXUserChangeLog_GetRemainder(null,GlobalParam.db,new List<WX_UserGameLog>());
 
                         LogicOK = true;
                         return "余分:" + ChargeMoney.ToString("N0");
@@ -882,8 +882,8 @@ namespace WeixinRoboot.Linq
             }
             #endregion
 
-            #region 检查查
-            decimal? Remainder = WXUserChangeLog_GetRemainder(replylog, db);
+            #region 检查余分
+            decimal? Remainder = WXUserChangeLog_GetRemainder(replylog, db,CheckHaveBuy);
             if (Remainder == null || Remainder <= CheckHaveBuy.Sum(t => t.Buy_Point) + newgl.Buy_Point)
             {
                 CheckResult = "下注额度" + newgl.Buy_Point.Value.ToString("N0") + "大于查" + Remainder.Value.ToString("N0");
@@ -894,7 +894,7 @@ namespace WeixinRoboot.Linq
 
         }
 
-        public static decimal WXUserChangeLog_GetRemainder(WX_UserReplyLog replylog, dbDataContext db)
+        public static decimal WXUserChangeLog_GetRemainder(WX_UserReplyLog replylog, dbDataContext db,List<WX_UserGameLog> HaveBuy)
         {
             decimal? Remainder = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == replylog.WX_UserName).Sum(t => t.ChangePoint);
             return Remainder.HasValue ? Remainder.Value : 0;
