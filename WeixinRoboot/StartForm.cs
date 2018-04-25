@@ -482,7 +482,7 @@ namespace WeixinRoboot
 
             }
         Sleep:
-            Thread.Sleep(10000);
+            Thread.Sleep(500);
             goto Repeat;
 
 
@@ -1271,10 +1271,10 @@ namespace WeixinRoboot
         public static string JavaTimeSpan()
         {
 
-            Int64 result = 0;
+            double result = 0;
             DateTime startdate = new DateTime(1970, 1, 1, 8, 0, 0);
             TimeSpan seconds = DateTime.Now - startdate;
-            result = Convert.ToInt64(seconds.TotalSeconds);
+            result = Math.Round( seconds.TotalMilliseconds,0);
             return result.ToString();
 
         }
@@ -1282,7 +1282,7 @@ namespace WeixinRoboot
         {
 
             DateTime startdate = new DateTime(1970, 1, 1, 8, 0, 0);
-            return startdate.AddSeconds(time);
+            return startdate.AddMilliseconds(time);
         }
 
         private void btn_resfresh_Click(object sender, EventArgs e)
