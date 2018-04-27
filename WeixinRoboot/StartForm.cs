@@ -23,7 +23,7 @@ namespace WeixinRoboot
         {
             InitializeComponent();
 
-       
+
             RunnerF.StartF = this;
             RunnerF.Show();
 
@@ -33,6 +33,7 @@ namespace WeixinRoboot
         Guid WaitScanTHreadID = Guid.NewGuid();
         Guid KeepAliveThreadID = Guid.NewGuid();
         Guid DownloadResultThreadID = Guid.NewGuid();
+        Guid UpdateContactThreadID = Guid.NewGuid();
         public string _uuid = "";
         public System.Net.CookieCollection cookie = new CookieCollection();
 
@@ -298,7 +299,7 @@ namespace WeixinRoboot
         private void KeepAlieveDo(Object ThreadID)
         {
         Repeat:
-
+            Console.Clear();
             try
             {
 
@@ -384,32 +385,42 @@ namespace WeixinRoboot
                                     {
                                         continue;
                                     }
-                                    string MyOutResult = Linq.DataLogic.WX_UserReplyLog_MySendCreate(Content, out LogicOk, tocontacts[0], GlobalParam.db);
+                                   //string MyOutResult = Linq.DataLogic.WX_UserReplyLog_MySendCreate(Content, out LogicOk, tocontacts[0], GlobalParam.db);
+
+                                  
 
 
+                                   // if (LogicOk == true)
+                                   // {
+                                   //     GlobalParam.db.SubmitChanges();
 
-                                    if (LogicOk == true)
-                                    {
-                                        GlobalParam.db.SubmitChanges();
+                                   // }//可以更新
+                                   // else if (LogicOk == false)
+                                   // {
+                                   //     GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, GlobalParam.db.WX_UserGameLog);
 
-                                    }//可以更新
-                                    else if (LogicOk == false)
-                                    {
-                                        GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, GlobalParam.db.WX_UserGameLog);
+                                   // }//不能更新回滚
+                                   // if (LogicOk != null)
+                                   // {
+                                   //     if (@ToUserNameTEMPID.Contains("@@") == false && Content != "自动跟踪")
+                                   //     {
+                                   //         decimal? TotalPoint = Linq.DataLogic.WXUserChangeLog_GetRemainder(GlobalParam.db, tocontacts[0].Field<string>("User_ContactID"));
+                                   //         SendWXContent(MyOutResult + ",剩余:"
+                                   //             + (TotalPoint.HasValue ? TotalPoint.Value.ToString("N0") : ""), tocontacts[0].Field<string>("User_ContactTEMPID"));
 
-                                    }//不能更新回滚
-                                    if (LogicOk != null)
-                                    {
-                                        if (@ToUserNameTEMPID.Contains("@@") == false && Content != "自动跟踪")
-                                        {
-                                            decimal? TotalPoint = GlobalParam.db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == tocontacts[0].Field<string>("User_ContactID")).Sum(t => t.ChangePoint);
-                                            SendWXContent(MyOutResult + ",剩余:"
-                                                + (TotalPoint.HasValue ? TotalPoint.Value.ToString("N0") : ""), tocontacts[0].Field<string>("User_ContactTEMPID"));
-
-                                        }
+                                   //     }
 
 
-                                    }
+                                   // }
+
+                                    string MyOutResult = "";
+                                     GlobalParam.db.Logic_WX_UserReplyLog_MySendCreate(Content, tocontacts[0].Field<string>("User_ContactID"), GlobalParam.Key, JavaTime(Convert.ToInt64(msgTime)), ref MyOutResult);
+                                     if (MyOutResult != "")
+                                     {
+                                         SendWXContent(MyOutResult, tocontacts[0].Field<string>("User_ContactTEMPID"));
+
+                                     }
+                                    
 
                                     continue;
                                 }
@@ -445,8 +456,11 @@ namespace WeixinRoboot
                                     {
                                         continue;
                                     }
-                                    NewWXContent(JavaTime(Convert.ToInt64(msgTime)), Content, userr, "微信");
-
+                                   String OutMessage= NewWXContent(JavaTime(Convert.ToInt64(msgTime)), Content, userr, "微信");
+                                   if (OutMessage!="")
+                                   {
+                                       SendWXContent(OutMessage,userr.Field<string>("User_ContactTEMPID"));
+                                   }
                                 }
 
                                 #endregion
@@ -482,7 +496,7 @@ namespace WeixinRoboot
 
             }
         Sleep:
-            Thread.Sleep(500);
+            Thread.Sleep(5000);
             goto Repeat;
 
 
@@ -494,7 +508,7 @@ namespace WeixinRoboot
             {
                 Boolean SendImage = false;
 
-                DownLoad163CaiPiao(ref SendImage, DateTime.Now,false);
+                DownLoad163CaiPiao(ref SendImage, DateTime.Now, false);
 
                 #region "有新的就通知,以及处理结果"
                 if (SendImage == true)
@@ -521,7 +535,7 @@ namespace WeixinRoboot
                             {
                                 FileStream fs = new FileStream(Application.StartupPath + "\\Data3.txt", System.IO.FileMode.Open);
                                 byte[] bs = new byte[fs.Length];
-                                fs.Read(bs,0, bs.Length);
+                                fs.Read(bs, 0, bs.Length);
                                 fs.Close();
                                 fs.Dispose();
                                 SendWXContent(Encoding.UTF8.GetString(bs), TEMPUserName);
@@ -546,7 +560,7 @@ namespace WeixinRoboot
         }
 
         private void KeepUpdateContactDo(Object ThreadID)
-        { 
+        {
         }
 
 
@@ -654,29 +668,40 @@ namespace WeixinRoboot
 
 
                 #region "发送余额"
-                var noticeChangelist = GlobalParam.db.WX_UserGameLog.Where(t => t.Result_HaveProcess == false
-                    && t.aspnet_UserID == GlobalParam.Key).Select(t => t.WX_UserName).Distinct();
-                foreach (var notice_item in noticeChangelist)
+                //var noticeChangelist = GlobalParam.db.WX_UserGameLog.Where(t => t.Result_HaveProcess == false
+                //    && t.aspnet_UserID == GlobalParam.Key).Select(t => t.WX_UserName).Distinct();
+                //foreach (var notice_item in noticeChangelist)
+                //{
+
+                //    Int32 TotalChanges = Linq.DataLogic.WX_UserGameLog_Deal(GlobalParam.db, this, notice_item);
+                //    GlobalParam.db.SubmitChanges();
+                //    if (TotalChanges == 0)
+                //    {
+                //        continue;
+                //    }
+
+                //    string TEMPUserName = RunnerF.MemberSource.Select("User_ContactID='" + notice_item + "'").First().Field<string>("User_ContactTEMPID");
+                //    decimal? ReminderMoney = Linq.DataLogic.WXUserChangeLog_GetRemainder(GlobalParam.db, notice_item);
+                //    String ContentResult = SendWXContent(ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : "", TEMPUserName);
+                //    var updatechangelog = GlobalParam.db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == notice_item && t.NeedNotice == false);
+                //    GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, updatechangelog);
+                //    foreach (var updatechangeitem in updatechangelog)
+                //    {
+                //        updatechangeitem.HaveNotice = true;
+                //    }
+                //    GlobalParam.db.SubmitChanges();
+
+                //}
+
+                var tonotice = GlobalParam.db.Logic_WX_UserGameLog_Deal(GlobalParam.Key);
+                foreach (var item in tonotice)
                 {
-
-                    Int32 TotalChanges = Linq.DataLogic.WX_UserGameLog_Deal(GlobalParam.db, this, notice_item);
-                    GlobalParam.db.SubmitChanges();
-                    if (TotalChanges == 0)
-                    {
-                        continue;
-                    }
-
-                    string TEMPUserName = RunnerF.MemberSource.Select("User_ContactID='" + notice_item + "'").First().Field<string>("User_ContactTEMPID");
-                    decimal? ReminderMoney = GlobalParam.db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == notice_item).Sum(t => t.ChangePoint);
-                    String ContentResult = SendWXContent(ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : "", TEMPUserName);
-                    var updatechangelog = GlobalParam.db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == notice_item && t.NeedNotice == false);
-                    GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, updatechangelog);
-                    foreach (var updatechangeitem in updatechangelog)
-                    {
-                        updatechangeitem.HaveNotice = true;
-                    }
-                    GlobalParam.db.SubmitChanges();
-
+                   DataRow[] user=RunnerF.MemberSource.Select("User_ContactID='"+item.WX_UserName+"'");
+                   if (user.Length==0)
+                   {
+                       continue;
+                   }
+                    SendWXContent((item.Remainder.HasValue?item.Remainder.Value.ToString("N0"):"0"), user[0].Field<string>("User_ContactID"));
                 }
 
                 #endregion
@@ -685,65 +710,67 @@ namespace WeixinRoboot
         }
         public string NewWXContent(DateTime ReceiveTime, string ReceiveContent, DataRow userr, string SourceType)
         {
-            Linq.WX_UserReplyLog log = GlobalParam.db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key
-                                          && t.WX_UserName == userr.Field<string>("User_ContactID")
-                                          && t.ReceiveTime == ReceiveTime
-                                          );
-            if (log == null)
-            {
-                Linq.WX_UserReplyLog newlogr = new Linq.WX_UserReplyLog();
-                newlogr.aspnet_UserID = GlobalParam.Key;
-                newlogr.WX_UserName = userr.Field<string>("User_ContactID");
-                newlogr.ReceiveContent = ReceiveContent;
-                newlogr.ReceiveTime = ReceiveTime;
-                newlogr.SourceType = SourceType;
+            //Linq.WX_UserReplyLog log = GlobalParam.db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key
+            //                              && t.WX_UserName == userr.Field<string>("User_ContactID")
+            //                              && t.ReceiveTime == ReceiveTime
+            //                              );
+            //if (log == null)
+            //{
+            //    Linq.WX_UserReplyLog newlogr = new Linq.WX_UserReplyLog();
+            //    newlogr.aspnet_UserID = GlobalParam.Key;
+            //    newlogr.WX_UserName = userr.Field<string>("User_ContactID");
+            //    newlogr.ReceiveContent = ReceiveContent;
+            //    newlogr.ReceiveTime = ReceiveTime;
+            //    newlogr.SourceType = SourceType;
 
-                newlogr.ReplyContent = "";
-                newlogr.HaveDeal = false;
-                GlobalParam.db.WX_UserReplyLog.InsertOnSubmit(newlogr);
-                GlobalParam.db.SubmitChanges();
-                Boolean? LogicOK = false;
-                bool ShowBuy = false;
-                string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, GlobalParam.db, RunnerF.MemberSource, out LogicOK, out ShowBuy);
+            //    newlogr.ReplyContent = "";
+            //    newlogr.HaveDeal = false;
+            //    GlobalParam.db.WX_UserReplyLog.InsertOnSubmit(newlogr);
+            //    GlobalParam.db.SubmitChanges();
+            //    Boolean? LogicOK = false;
+            //    bool ShowBuy = false;
+            //    string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, GlobalParam.db, RunnerF.MemberSource, out LogicOK, out ShowBuy);
 
+            //    newlogr.ReplyContent = ReturnSend;
+            //    newlogr.ReplyTime = DateTime.Now;
+            //    newlogr.HaveDeal = false;
+            //    if (LogicOK == true)
+            //    {
+            //        GlobalParam.db.SubmitChanges();
 
+            //    }
+            //    else if (LogicOK == false)
+            //    {
 
+            //        GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, GlobalParam.db.WX_UserGameLog);
+            //        GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, GlobalParam.db.WX_UserChangeLog);
 
-                newlogr.ReplyContent = ReturnSend;
-                newlogr.ReplyTime = DateTime.Now;
-                newlogr.HaveDeal = false;
-                if (LogicOK == true)
-                {
-                    GlobalParam.db.SubmitChanges();
+            //    }
 
-                }
-                else if (LogicOK == false)
-                {
-          
-                    GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, GlobalParam.db.WX_UserGameLog);
-                    GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, GlobalParam.db.WX_UserChangeLog);
-           
-                }
-            
-                if (LogicOK != null&&ShowBuy==true)
-                {
+            //    if (LogicOK != null && ShowBuy == true)
+            //    {
 
 
-                    Linq.DataLogic.TotalResult tr = Linq.DataLogic.BuildResult(
-                                    GlobalParam.db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key
-                                        && t.Result_HaveProcess == false
-                                        && t.WX_UserName==userr.Field<string>("User_ContactID")
-                                        ).ToList()
-                                   , RunnerF.MemberSource);
-                    SendWXContent(ReturnSend + Environment.NewLine + tr.ToSlimStringV2(), userr.Field<string>("User_ContactTEMPID"));
-                }
-                return ReturnSend;
+            //        Linq.DataLogic.TotalResult tr = Linq.DataLogic.BuildResult(
+            //                        GlobalParam.db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key
+            //                            && t.Result_HaveProcess == false
+            //                            && t.WX_UserName == userr.Field<string>("User_ContactID")
+            //                            ).ToList()
+            //                       , RunnerF.MemberSource);
+            //        SendWXContent(ReturnSend + Environment.NewLine + tr.ToSlimStringV2(), userr.Field<string>("User_ContactTEMPID"));
+            //    }
+            //    return ReturnSend;
 
-            }
-            else
-            {
-                return "下单记录已存在";
-            }
+            //}
+            //else
+            //{
+            //    return "下单记录已存在";
+            //}
+            string Message = "";
+                GlobalParam.db.Logic_WX_UserReplyLog_Create(ReceiveContent, userr.Field<string>("User_ContactID"), GlobalParam.Key, ReceiveTime, ref Message, SourceType);
+
+                return Message;
+
         }//新消息
 
 
@@ -833,7 +860,7 @@ namespace WeixinRoboot
 
             Thread DownloadResultThread = new Thread(new ParameterizedThreadStart(DownloadResultThreadDo));
             DownloadResultThread.Start();
-            
+
 
             return Members;
         }
@@ -841,17 +868,17 @@ namespace WeixinRoboot
 
         Dictionary<Guid, Boolean> KillThread = new Dictionary<Guid, bool>();
 
- 
-      
 
-        public void DownLoad163CaiPiao(ref Boolean NewResult, DateTime SelectDate,bool ReDrawGdi)
+
+
+        public void DownLoad163CaiPiao(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
         {
             #region 下载彩票结果
             //http://caipiao.163.com/award/cqssc/20180413.html
 
-            
-            Int32    LocalGameResultCount = GlobalParam.db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
-            
+
+            Int32 LocalGameResultCount = GlobalParam.db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+
 
 
             DateTime Now = SelectDate;
@@ -1006,7 +1033,7 @@ namespace WeixinRoboot
             }//每行处理
 
             Int32 AfterCheckCount = GlobalParam.db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
-            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi==true)
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
                 LocalGameResultCount = GlobalParam.db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
@@ -1048,13 +1075,13 @@ namespace WeixinRoboot
                 switch (tigerordragon)
                 {
                     case "龙":
-                        Datatextplain += Linq.DataLogic.Dragon;
+                        Datatextplain += Linq.BackUp.DataLogic.Dragon;
                         break;
                     case "虎":
-                        Datatextplain += Linq.DataLogic.Tiger;
+                        Datatextplain += Linq.BackUp.DataLogic.Tiger;
                         break;
                     case "合":
-                        Datatextplain += Linq.DataLogic.OK;
+                        Datatextplain += Linq.BackUp.DataLogic.OK;
                         break;
                     default:
                         break;
@@ -1275,7 +1302,7 @@ namespace WeixinRoboot
             double result = 0;
             DateTime startdate = new DateTime(1970, 1, 1, 8, 0, 0);
             TimeSpan seconds = DateTime.Now - startdate;
-            result = Math.Round( seconds.TotalMilliseconds,0);
+            result = Math.Round(seconds.TotalMilliseconds, 0);
             return result.ToString();
 
         }
@@ -1293,12 +1320,10 @@ namespace WeixinRoboot
 
             KillThread.Add(WaitScanTHreadID, true);
             KillThread.Add(KeepAliveThreadID, true);
-
-            WaitScanTHreadID = Guid.NewGuid();
-            KeepAliveThreadID = Guid.NewGuid();
+            KillThread.Add(DownloadResultThreadID, true);
 
 
-            
+
             Thread StartThread = new Thread(new ThreadStart(StartThreadDo));
             StartThread.Start();
 

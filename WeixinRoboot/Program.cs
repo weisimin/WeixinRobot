@@ -10,18 +10,19 @@ namespace WeixinRoboot
         [DllImport("kernel32.dll")]
         public static extern Boolean AllocConsole();
         [DllImport("kernel32.dll")]
-        public static extern Boolean FreeConsole(); 
+        public static extern Boolean FreeConsole();
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
         static void Main()
         {
-//#if DEBUG
-//            AllocConsole();
-//#endif
 
-          
+            AllocConsole();
+
+
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             loginf = new LoginForm();
@@ -33,11 +34,11 @@ namespace WeixinRoboot
             catch (Exception AnyError)
             {
                 MessageBox.Show(AnyError.Message);
-                if (System.IO.File.Exists( Application.StartupPath+"\\log.txt"))
+                if (System.IO.File.Exists(Application.StartupPath + "\\log.txt"))
                 {
                     System.IO.File.Delete(Application.StartupPath + "\\log.txt");
                 }
-                System.IO.FileStream fs = new System.IO.FileStream(Application.StartupPath+"\\log.txt", System.IO.FileMode.OpenOrCreate);
+                System.IO.FileStream fs = new System.IO.FileStream(Application.StartupPath + "\\log.txt", System.IO.FileMode.OpenOrCreate);
                 System.IO.StreamWriter sw = new System.IO.StreamWriter(fs);
                 sw.Write(AnyError.Message + Environment.NewLine + AnyError.StackTrace);
                 sw.Flush();
@@ -52,8 +53,8 @@ namespace WeixinRoboot
         {
             loginf.Hide();
             #region
-            
-             ReValidate:
+
+        ReValidate:
             string ActiveCode = GlobalParam.db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key).ActiveCode;
 
             DateTime? EndDate = null;
@@ -66,13 +67,13 @@ namespace WeixinRoboot
             else
             {
                 DateTime Now = GlobalParam.db.ExecuteQuery<DateTime>("select getdate()").First();
-               if (Now>=EndDate)
-               {
-                   MessageBox.Show("激活码已过期");
-                   UpdateActiveCode uac = new UpdateActiveCode();
-                   uac.ShowDialog();
-                   goto ReValidate;
-               }
+                if (Now >= EndDate)
+                {
+                    MessageBox.Show("激活码已过期");
+                    UpdateActiveCode uac = new UpdateActiveCode();
+                    uac.ShowDialog();
+                    goto ReValidate;
+                }
 
             }
             #endregion

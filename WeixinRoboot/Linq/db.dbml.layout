@@ -27,22 +27,10 @@
         <elementListCompartment Id="54b65cab-ae64-4347-b372-f9faf33faf65" absoluteBounds="0.76500000000000012, 3.71, 1.9700000000000002, 1.2025655110677083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="ffa26ed6-2f97-4a05-a2a8-efe1319750bb" isExpanded="false" absoluteBounds="0.75, 5, 2, 0.45">
-      <DataClassMoniker Name="/dbDataContext/WX_UserChangeLog" />
-      <nestedChildShapes>
-        <elementListCompartment Id="c00bed34-4b52-400a-8980-a1093ec572eb" absoluteBounds="0.76500000000000012, 5.46, 1.9700000000000002, 1.7756245930989585" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="004f8eef-098f-4144-b3ad-5814a58e47b2" isExpanded="false" absoluteBounds="0.625, 1.375, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_ChongqingshishicaiPeriodMinute" />
       <nestedChildShapes>
         <elementListCompartment Id="cf8d3103-b8c2-4c56-8f8b-40e9fd7148c4" absoluteBounds="0.64000000000000012, 1.835, 1.9700000000000002, 1.2025655110677083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="5abf4779-8af1-4a35-af3d-1b3f5566da32" isExpanded="false" absoluteBounds="0.75, 4.125, 2, 0.45">
-      <DataClassMoniker Name="/dbDataContext/WX_UserGameLog" />
-      <nestedChildShapes>
-        <elementListCompartment Id="5a59f791-3376-4021-80cc-cde68555eb9e" absoluteBounds="0.76500000000000012, 4.585, 1.9700000000000002, 3.685821533203125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="7b15f27f-ccb0-472f-b403-d426a8605bdc" isExpanded="false" absoluteBounds="3.125, 4.125, 2, 0.45">
@@ -63,10 +51,22 @@
         <elementListCompartment Id="af508d2f-4ac3-459c-b64b-d8ea8216c44d" absoluteBounds="0.51500000000000012, 1.085, 1.9700000000000002, 2.1576639811197915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="55de26c1-cdbe-4a82-8b9f-c35bb63d2e30" absoluteBounds="4.375, 2.375, 2, 1.3805261230468751">
+    <classShape Id="55de26c1-cdbe-4a82-8b9f-c35bb63d2e30" isExpanded="false" absoluteBounds="3.25, 2.25, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/aspnet_UsersNewGameResultSend" />
       <nestedChildShapes>
-        <elementListCompartment Id="15a4c8b8-51e5-45dc-9721-9ebf41508d1d" absoluteBounds="4.39, 2.835, 1.9700000000000002, 0.820526123046875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="15a4c8b8-51e5-45dc-9721-9ebf41508d1d" absoluteBounds="3.2649999999999997, 2.71, 1.9700000000000002, 0.820526123046875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="312ce508-8152-4d1f-a249-a88162252603" isExpanded="false" absoluteBounds="0.625, 4.125, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/WX_UserGameLog" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1bc120ab-af08-4957-aa26-fd5bdd6e4d99" absoluteBounds="0.64000000000000012, 4.585, 1.9700000000000002, 3.685821533203125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ebcd9118-b020-4766-bb86-d151cd2c70f4" isExpanded="false" absoluteBounds="0.625, 4.75, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/WX_UserChangeLog" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d552c8fe-ce6c-41d1-be95-80a58f83f2a6" absoluteBounds="0.64000000000000012, 5.21, 1.9700000000000002, 2.348683675130208" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

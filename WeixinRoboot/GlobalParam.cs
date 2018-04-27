@@ -19,8 +19,12 @@ namespace WeixinRoboot
         public static bool LogInSuccess = false;
         public static Guid Key = Guid.Empty;
 
-        public static Linq.dbDataContext db = null;      
-
+        public static Linq.dbDataContext db {
+            get { return _db; }
+            set { _db = value;
+            }
+        }
+        private static Linq.dbDataContext _db = null;     
 
     }
 

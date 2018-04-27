@@ -5,8 +5,11 @@ using System.Text;
 using System.Data;
 
 
-namespace WeixinRoboot.Linq
+namespace WeixinRoboot.Linq.BackUp
 {
+    /// <summary>
+    /// LINQ SUBMIT CHANGERS 不稳定 停用
+    /// </summary>
     public class DataLogic
     {
 
@@ -83,7 +86,17 @@ namespace WeixinRoboot.Linq
                 gamelogitem.Result_Point = Convert.ToInt32(Math.Floor(gamelogitem.Result_Point.Value));
 
                 gamelogitem.Result_HaveProcess = true;
-
+                #region "同步下单立即修改的"
+                var cltoupdate = db.WX_UserChangeLog.Where(t => t.FinalStatus == false
+                    && t.GamePeriod == gamelogitem.GamePeriod
+                    && t.aspnet_UserID == gamelogitem.aspnet_UserID
+                    && t.WX_UserName == gamelogitem.WX_UserName
+                    );
+                foreach (var clgameitem in cltoupdate)
+                {
+                    clgameitem.FinalStatus = true;
+                }
+                #endregion
 
 
                 if (gamelogitem.Result_Point != 0)
@@ -104,11 +117,13 @@ namespace WeixinRoboot.Linq
 
                     cl.NeedNotice = true;
                     cl.HaveNotice = false;
+                    cl.FinalStatus = true;
                     db.WX_UserChangeLog.InsertOnSubmit(cl);
                 }
 
 
                 db.SubmitChanges();
+                
                 Result += 1;
 
             }//行循环处理
@@ -342,22 +357,22 @@ namespace WeixinRoboot.Linq
                 var Periods = Buys.Select(t => t.ShowPeriod).Distinct();
                 foreach (var Perioditem in Periods)
                 {
-                    Result +="";
+                    Result += "";
                     foreach (var buyitem in Buys.Where(t => t.ShowPeriod == Perioditem))
                     {
-                        Result += (buyitem.TotalTiger == 0 ? "" : ",虎" +ObjectToString (buyitem.TotalTiger,"N0"))
-                        + (buyitem.TotalDragon == 0 ? "" : ",龙" +ObjectToString( buyitem.TotalDragon,"N0"))
-                        + (buyitem.TotalOK == 0 ? "" : ",合" + ObjectToString(buyitem.TotalOK,"N0"))
-                        + (buyitem.TotalLarge == 0 ? "" : ",大" +ObjectToString( buyitem.TotalLarge,"N0"))
-                        + (buyitem.TotalSmall == 0 ? "" : ",小" + ObjectToString(buyitem.TotalSmall,"N0"))
-                        + (buyitem.TotalMiddle == 0 ? "" : ",和" + ObjectToString(buyitem.TotalMiddle,"N0"))
-                        + (buyitem.TotalSingle == 0 ? "" : ",单" +ObjectToString( buyitem.TotalSingle,"N0"))
-                        + (buyitem.TotalDouble == 0 ? "" : ",双" + ObjectToString(buyitem.TotalDouble,"N0"));
+                        Result += (buyitem.TotalTiger == 0 ? "" : ",虎" + ObjectToString(buyitem.TotalTiger, "N0"))
+                        + (buyitem.TotalDragon == 0 ? "" : ",龙" + ObjectToString(buyitem.TotalDragon, "N0"))
+                        + (buyitem.TotalOK == 0 ? "" : ",合" + ObjectToString(buyitem.TotalOK, "N0"))
+                        + (buyitem.TotalLarge == 0 ? "" : ",大" + ObjectToString(buyitem.TotalLarge, "N0"))
+                        + (buyitem.TotalSmall == 0 ? "" : ",小" + ObjectToString(buyitem.TotalSmall, "N0"))
+                        + (buyitem.TotalMiddle == 0 ? "" : ",和" + ObjectToString(buyitem.TotalMiddle, "N0"))
+                        + (buyitem.TotalSingle == 0 ? "" : ",单" + ObjectToString(buyitem.TotalSingle, "N0"))
+                        + (buyitem.TotalDouble == 0 ? "" : ",双" + ObjectToString(buyitem.TotalDouble, "N0"));
                     }
                     Result += Environment.NewLine;
                 }
-                Result=Result.Substring(1);
-                Result += "余分" + ObjectToString( Remainder,"N0");
+                Result = Result.Substring(1);
+                Result += "余分" + ObjectToString(Remainder, "N0");
                 return Result;
 
 
@@ -444,7 +459,7 @@ namespace WeixinRoboot.Linq
             {
                 DataRow usrw = MemberSource.Select("User_ContactID='" + item.WX_UserName + "'")[0];
                 r.UserNickName = usrw.Field<string>("User_Contact");
-                decimal? Remainder = GlobalParam.db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == item.WX_UserName).Sum(t => t.ChangePoint);
+                decimal? Remainder = WXUserChangeLog_GetRemainder(GlobalParam.db, item.WX_UserName);
                 r.Remainder = Remainder;
                 string SubPeriod = "";
                 SubPeriod = item.GamePeriod.Length <= 3 ? item.GamePeriod : item.GamePeriod.Substring(8, 3);
@@ -506,7 +521,7 @@ namespace WeixinRoboot.Linq
                 if (reply.ReceiveContent == "查")
                 {
                     LogicOK = true;
-                    decimal Remainder = WXUserChangeLog_GetRemainder(reply, db,new List<WX_UserGameLog>());
+                    decimal Remainder = WXUserChangeLog_GetRemainder(db, reply.WX_UserName);
                     ShowOrders = false;
                     return "查：" + Remainder.ToString("N0");
                 }
@@ -542,16 +557,16 @@ namespace WeixinRoboot.Linq
                     ShowOrders = true;
                     return Result;
                 }
-               
+
                 else if (reply.ReceiveContent.StartsWith("取消"))
                 {
-                    ShowOrders = true; 
-                 if (reply.ReceiveTime.Hour >= 2 && reply.ReceiveTime.Hour < 9)
-                {
-                    ShowOrders = false;
-                    LogicOK = false;
-                    return "不在下注时间，开奖无效";
-                }
+                    ShowOrders = true;
+                    if (reply.ReceiveTime.Hour >= 2 && reply.ReceiveTime.Hour < 9)
+                    {
+                        ShowOrders = false;
+                        LogicOK = false;
+                        return "不在下注时间，开奖无效";
+                    }
                     return WX_UserGameLog_Cancel(db, reply, MemberSource, out  LogicOK);
                 }//取消的单
                 else
@@ -619,11 +634,11 @@ namespace WeixinRoboot.Linq
                             return "";
                     }
 
-
+                    Linq.WX_UserChangeLog cl = null;
                     if (newr != null && NewData == true)
                     {
                         newr.Result_Point = 0;
-                        Linq.WX_UserChangeLog cl = new WX_UserChangeLog();
+                        cl = new WX_UserChangeLog();
                         cl.aspnet_UserID = GlobalParam.Key;
                         cl.WX_UserName = newr.WX_UserName;
                         cl.ChangePoint = -newr.Buy_Point;
@@ -632,8 +647,9 @@ namespace WeixinRoboot.Linq
                         cl.ChangeTime = newr.TransTime;
                         cl.RemarkType = "下单";
                         cl.Remark = "下单自动扣减";
-                        db.WX_UserChangeLog.InsertOnSubmit(cl);
-                        db.WX_UserGameLog.InsertOnSubmit(newr);
+                        cl.FinalStatus = false;
+                        cl.GamePeriod = newr.GamePeriod;
+
                         checkHaveBuy.Add(newr);
                     }
                     if (CheckResult != "")
@@ -642,6 +658,11 @@ namespace WeixinRoboot.Linq
                     }
                     else
                     {
+                        if (cl != null)
+                        {
+                            db.WX_UserChangeLog.InsertOnSubmit(cl);
+                        }
+                        db.WX_UserGameLog.InsertOnSubmit(newr);
                         LogicOK = true;
                     }
                     ShowOrders = true;
@@ -702,31 +723,21 @@ namespace WeixinRoboot.Linq
                         change.WX_UserName = UserRow.Field<string>("User_ContactID");
                         db.WX_UserChangeLog.InsertOnSubmit(change);
 
-                        decimal? TotalPoint = WXUserChangeLog_GetRemainder(null,GlobalParam.db,new List<WX_UserGameLog>());
+                        db.SubmitChanges();
+                      
+                        decimal? TotalPoint = WXUserChangeLog_GetRemainder(GlobalParam.db, UserRow.Field<string>("User_ContactID"));
 
                         LogicOK = true;
-                        return "余分:" + ChargeMoney.ToString("N0");
+                        return "余分:" + TotalPoint.Value.ToString("N0");
 
                         break;
                     case "下分":
-                        var data = from dsl in db.WX_UserChangeLog
-                                   join dsu in db.WX_UserReply on dsl.WX_UserName equals dsu.WX_UserName
-                                   where dsl.aspnet_UserID == GlobalParam.Key
-                                   && dsl.WX_UserName == UserRow.Field<string>("User_ContactID")
-                                   select new
-                                   {
-                                       UserName = dsu.WX_UserName
-                                       ,
-                                       dsl.Remark
-                                       ,
-                                       dsl.RemarkType
-                                       ,
-                                       dsl.ChangePoint
-                                   };
-                        if (data.Sum(t => t.ChangePoint) < ChargeMoney)
+                        decimal? TotalPointIn = WXUserChangeLog_GetRemainder(GlobalParam.db, UserRow.Field<string>("User_ContactID"));
+
+                        if (TotalPointIn < ChargeMoney)
                         {
                             LogicOK = false;
-                            return "下分点数不能大于查" + data.Sum(t => t.ChangePoint).ToString();
+                            return "下分失败,超过可用余分" + TotalPointIn.ToString();
 
                         }
 
@@ -736,13 +747,18 @@ namespace WeixinRoboot.Linq
                         cleanup.ChangePoint = -ChargeMoney;
                         cleanup.Remark = "下分:" + UserRow.Field<string>("User_ContactID");
                         cleanup.RemarkType = "下分";
+                        cleanup.FinalStatus = true;
                         cleanup.WX_UserName = UserRow.Field<string>("User_ContactID");
                         db.WX_UserChangeLog.InsertOnSubmit(cleanup);
-                        db.SubmitChanges();
 
+                        db.SubmitChanges();
+                       
+                      
+
+                        decimal? TotalPoint2 = WXUserChangeLog_GetRemainder(GlobalParam.db, UserRow.Field<string>("User_ContactID"));
 
                         LogicOK = true;
-                        return "余分:" + ChargeMoney.ToString("N0");
+                        return "余分:" + TotalPoint2.Value.ToString("N0");
 
 
                         break;
@@ -848,7 +864,12 @@ namespace WeixinRoboot.Linq
                 string LocalDay = (replylog.ReceiveTime.Hour <= 2 ? replylog.ReceiveTime.AddDays(-1).ToString("yyyyMMdd") : replylog.ReceiveTime.ToString("yyyyMMdd"));
                 newgl.GameLocalPeriod = LocalDay + NextLocalPeriod;
 
+                CheckHaveBuy.Add(newgl);
                 GameLogChangeAndCheck(replylog, newgl, out CheckResult, db, CheckHaveBuy);
+
+
+
+
                 if (CheckResult != "")
                 {
                     return null;
@@ -880,12 +901,12 @@ namespace WeixinRoboot.Linq
             {
                 Decimal? MaxLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.Key
                     && t.BuyValue == newgl.Buy_Value
-                    ).Max(t=>t.MaxBuy);
+                    ).Max(t => t.MaxBuy);
                 Decimal? MinLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.Key
                     && t.BuyValue == newgl.Buy_Value
                     ).Min(t => t.MinBuy);
 
-                CheckResult = "下注无效，不在限范围" +ObjectToString(MinLimit,"N0")+"-"+ObjectToString(MaxLimit,"N0")+",余分";
+                CheckResult = "下注无效，不在限范围" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + ",余分";
                 return;
             }
             else
@@ -896,21 +917,35 @@ namespace WeixinRoboot.Linq
             #endregion
 
             #region 检查余分
-            decimal? Remainder = WXUserChangeLog_GetRemainder(replylog, db,CheckHaveBuy);
-            if (Remainder == null || Remainder <= CheckHaveBuy.Sum(t => t.Buy_Point) + newgl.Buy_Point)
+            decimal? NowRemainder = db.WX_UserChangeLog.Where(t => t.WX_UserName == replylog.WX_UserName
+                && t.aspnet_UserID == GlobalParam.Key
+                && t.FinalStatus == true
+                ).Sum(t => t.ChangePoint);
+            NowRemainder -= CheckHaveBuy.Sum(t => t.Buy_Point);
+            decimal? BeforeUpdateRemainder = WXUserChangeLog_GetRemainder(db, replylog.WX_UserName);
+            if (NowRemainder < 0)
             {
-                CheckResult = "下注额度" + newgl.Buy_Point.Value.ToString("N0") + "大于查" + Remainder.Value.ToString("N0");
+                CheckResult = "下注失败，余分不足。余分:" + BeforeUpdateRemainder.Value.ToString("N0");
                 return;
             }
             #endregion
             CheckResult = "";
 
         }
-
-        public static decimal WXUserChangeLog_GetRemainder(WX_UserReplyLog replylog, dbDataContext db,List<WX_UserGameLog> HaveBuy)
+        /// <summary>
+        /// 获取余分，只可以更新数据库后调用
+        /// </summary>
+        /// <param name="replylog"></param>
+        /// <param name="db"></param>
+        /// <param name="HaveBuy"></param>
+        /// <param name="TakeFinalStatus"></param>
+        /// <returns></returns>
+        public static decimal WXUserChangeLog_GetRemainder(dbDataContext db, string UserContactID)
         {
-            decimal? Remainder = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == replylog.WX_UserName).Sum(t => t.ChangePoint);
-            return Remainder.HasValue ? Remainder.Value : 0;
+            var RemindList = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key
+                && t.WX_UserName == UserContactID
+                );
+            return RemindList.Count() == 0 ? 0.0M : RemindList.Sum(t => t.ChangePoint).Value;
         }
 
         private static string ObjectToString(object param)
@@ -938,7 +973,7 @@ namespace WeixinRoboot.Linq
 
         public static string Dragon = Encoding.UTF8.GetString(new byte[] { 240, 159, 144, 178 });
         public static string OK = Encoding.UTF8.GetString(new byte[] { 240, 159, 136, 180 });
-        public static string Tiger = Encoding.UTF8.GetString(new byte[] {  238, 129, 144 });
+        public static string Tiger = Encoding.UTF8.GetString(new byte[] { 238, 129, 144 });
 
 
 

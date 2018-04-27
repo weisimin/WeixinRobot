@@ -45,20 +45,36 @@ namespace WeixinRoboot
                 {
                     case "Charge":
 
-                        string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("充值" + tb_ChargeMoney.Text, out LogicOK, _UserRow, GlobalParam.db);
 
-                        string WXSend = StartF.SendWXContent(Result
-                            , UserRow.Field<string>("User_ContactTEMPID")
-                            );
+                        //string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("充值" + tb_ChargeMoney.Text, out LogicOK, _UserRow, GlobalParam.db);
+                        
+                        //string WXSend = StartF.SendWXContent(Result
+                        //    , UserRow.Field<string>("User_ContactTEMPID")
+                        //    );
+
+                        string Result = "";
+                       GlobalParam.db.Logic_WX_UserReplyLog_MySendCreate("上分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), GlobalParam.Key, DateTime.Now, ref Result);
+                       
+                     string WXResult=   StartF.SendWXContent(Result
+                           , UserRow.Field<string>("User_ContactTEMPID")
+                           );
+
+
                         break;
                     case "CleanUp":
-                        string Result2 = Linq.DataLogic.WX_UserReplyLog_MySendCreate("清算" + tb_ChargeMoney.Text, out LogicOK, _UserRow, GlobalParam.db);
+                        //string Result2 = Linq.DataLogic.WX_UserReplyLog_MySendCreate("清算" + tb_ChargeMoney.Text, out LogicOK, _UserRow, GlobalParam.db);
 
-                        decimal? TotalPointClean = GlobalParam.db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == UserRow.Field<string>("User_ContactID")).Sum(t => t.ChangePoint);
+                        //decimal? TotalPointClean = Linq.DataLogic.WXUserChangeLog_GetRemainder(GlobalParam.db,UserRow.Field<string>("User_ContactTEMPID"));
 
-                        string WXSendClean = StartF.SendWXContent("清算:" + Result2
-                            , UserRow.Field<string>("User_ContactTEMPID")
-                            );
+                        //string WXSendClean = StartF.SendWXContent("清算:" + Result2
+                        //    , UserRow.Field<string>("User_ContactTEMPID")
+                        //    );
+                           string Result2 = "";
+                       GlobalParam.db.Logic_WX_UserReplyLog_MySendCreate("下分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), GlobalParam.Key, DateTime.Now, ref Result2);
+
+                       string WXResult2 = StartF.SendWXContent(Result2
+                           , UserRow.Field<string>("User_ContactTEMPID")
+                           );
 
                         break;
                     default:
