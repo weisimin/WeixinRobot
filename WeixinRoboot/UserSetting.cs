@@ -14,12 +14,14 @@ namespace WeixinRoboot
         public UserSetting()
         {
             InitializeComponent();
-            GlobalParam.db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+           
         }
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             switch (_Mode)
             {
                 case "New":
@@ -30,14 +32,14 @@ namespace WeixinRoboot
                         newGameResultSend.aspnet_UserID = (Guid)usr.ProviderUserKey;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
                         newGameResultSend.ActiveCode = fd_activecode.Text;
-                        GlobalParam.db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
-                        GlobalParam.db.SubmitChanges();
+                        db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
+                        db.SubmitChanges();
 
                         MembershipUser sysadmin=System.Web.Security.Membership.GetUser("sysadmin");
 
 
 
-                        var CopyRatio = GlobalParam.db.Game_BasicRatio.Where(t => t.aspnet_UserID == (sysadmin == null ? Guid.Empty : (Guid)sysadmin.ProviderUserKey));
+                        var CopyRatio = db.Game_BasicRatio.Where(t => t.aspnet_UserID == (sysadmin == null ? Guid.Empty : (Guid)sysadmin.ProviderUserKey));
 
                         if (CopyRatio.Count()!=0)
                         {
@@ -54,8 +56,8 @@ namespace WeixinRoboot
                                 newr.MinBuy = item.MinBuy;
 
                                 newr.OrderIndex = item.OrderIndex;
-                                GlobalParam.db.Game_BasicRatio.InsertOnSubmit(newr);
-                                GlobalParam.db.SubmitChanges();
+                                db.Game_BasicRatio.InsertOnSubmit(newr);
+                                db.SubmitChanges();
                             }
                         }
 
@@ -85,27 +87,27 @@ namespace WeixinRoboot
                         System.Web.Security.Membership.UpdateUser(user);
                         if (fd_IsLock.Checked == true)
                         {
-                            Linq.aspnet_Users aspnet_Users = GlobalParam.db.aspnet_Users.SingleOrDefault(t => t.UserId == new Guid(user.ProviderUserKey.ToString()));
+                            Linq.aspnet_Users aspnet_Users = db.aspnet_Users.SingleOrDefault(t => t.UserId == new Guid(user.ProviderUserKey.ToString()));
                             aspnet_Users.aspnet_Membership.IsLockedOut = true;
-                            GlobalParam.db.SubmitChanges();
+                            db.SubmitChanges();
                         }
 
                         #region 开奖立即发送设置
-                        Linq.aspnet_UsersNewGameResultSend finds = GlobalParam.db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)user.ProviderUserKey);
+                        Linq.aspnet_UsersNewGameResultSend finds = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)user.ProviderUserKey);
                         if (finds == null)
                         {
                             Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
                             newGameResultSend.aspnet_UserID = (Guid)user.ProviderUserKey;
                             newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
                             newGameResultSend.ActiveCode = fd_activecode.Text;
-                            GlobalParam.db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
+                            db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
 
                         }
                         else
                         {
                             finds.IsNewSend = fd_NewGameSend.Checked;
                         }
-                        GlobalParam.db.SubmitChanges();
+                        db.SubmitChanges();
 
                         #endregion
 
@@ -129,19 +131,19 @@ namespace WeixinRoboot
                     }
                     System.Web.Security.Membership.UpdateUser(usermydata);
                     #region 开奖立即发送设置
-                    Linq.aspnet_UsersNewGameResultSend findsmydata = GlobalParam.db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)usermydata.ProviderUserKey);
+                    Linq.aspnet_UsersNewGameResultSend findsmydata = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)usermydata.ProviderUserKey);
                     if (findsmydata == null)
                     {
                         Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
                         newGameResultSend.aspnet_UserID = (Guid)usermydata.ProviderUserKey;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
-                        GlobalParam.db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
+                        db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
                     }
                     else
                     {
                         findsmydata.IsNewSend = fd_NewGameSend.Checked;
                     }
-                    GlobalParam.db.SubmitChanges();
+                    db.SubmitChanges();
 
                     #endregion
 
@@ -193,6 +195,9 @@ namespace WeixinRoboot
 
         private void Btn_Load_Click(object sender, EventArgs e)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             try
             {
                 MembershipUser usr = Membership.GetUser(fd_username.Text);
@@ -207,7 +212,7 @@ namespace WeixinRoboot
                     btn_Save.Enabled = true;
 
 
-                    Linq.aspnet_UsersNewGameResultSend newgs = GlobalParam.db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)usr.ProviderUserKey);
+                    Linq.aspnet_UsersNewGameResultSend newgs = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)usr.ProviderUserKey);
                     if (newgs == null)
                     {
                         fd_NewGameSend.Checked = false;
@@ -252,8 +257,11 @@ namespace WeixinRoboot
 
         private void UserSetting_Load(object sender, EventArgs e)
         {
-            var source = from ms in GlobalParam.db.aspnet_Membership
-                         join us in GlobalParam.db.aspnet_Users on ms.UserId equals us.UserId
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
+            var source = from ms in db.aspnet_Membership
+                         join us in db.aspnet_Users on ms.UserId equals us.UserId
                          select new { us.UserId, us.UserName, ms.IsLockedOut };
             BS_UserList.DataSource = source;
         }

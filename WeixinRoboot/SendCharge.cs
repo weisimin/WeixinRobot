@@ -36,6 +36,9 @@ namespace WeixinRoboot
 
         private void Btn_Send_Click(object sender, EventArgs e)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             try
             {
                 ep_sql.Clear();
@@ -46,35 +49,35 @@ namespace WeixinRoboot
                     case "Charge":
 
 
-                        //string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("充值" + tb_ChargeMoney.Text, out LogicOK, _UserRow, GlobalParam.db);
+                        string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("上分" + tb_ChargeMoney.Text, out LogicOK, _UserRow, db);
                         
-                        //string WXSend = StartF.SendWXContent(Result
-                        //    , UserRow.Field<string>("User_ContactTEMPID")
-                        //    );
+                        string WXSend = StartF.SendWXContent(Result
+                            , UserRow.Field<string>("User_ContactTEMPID")
+                            );
 
-                        string Result = "";
-                       GlobalParam.db.Logic_WX_UserReplyLog_MySendCreate("上分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), GlobalParam.Key, DateTime.Now, ref Result);
+                     //   string Result = "";
+                     //  db.Logic_WX_UserReplyLog_MySendCreate("上分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), GlobalParam.Key, DateTime.Now, ref Result);
                        
-                     string WXResult=   StartF.SendWXContent(Result
-                           , UserRow.Field<string>("User_ContactTEMPID")
-                           );
+                     //string WXResult=   StartF.SendWXContent(Result
+                     //      , UserRow.Field<string>("User_ContactTEMPID")
+                     //      );
 
 
                         break;
                     case "CleanUp":
-                        //string Result2 = Linq.DataLogic.WX_UserReplyLog_MySendCreate("清算" + tb_ChargeMoney.Text, out LogicOK, _UserRow, GlobalParam.db);
+                        string Result2 = Linq.DataLogic.WX_UserReplyLog_MySendCreate("下分" + tb_ChargeMoney.Text, out LogicOK, _UserRow, db);
 
-                        //decimal? TotalPointClean = Linq.DataLogic.WXUserChangeLog_GetRemainder(GlobalParam.db,UserRow.Field<string>("User_ContactTEMPID"));
+                        decimal? TotalPointClean = Linq.DataLogic.WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactTEMPID"));
 
-                        //string WXSendClean = StartF.SendWXContent("清算:" + Result2
-                        //    , UserRow.Field<string>("User_ContactTEMPID")
-                        //    );
-                           string Result2 = "";
-                       GlobalParam.db.Logic_WX_UserReplyLog_MySendCreate("下分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), GlobalParam.Key, DateTime.Now, ref Result2);
+                        string WXSendClean = StartF.SendWXContent(Result2
+                            , UserRow.Field<string>("User_ContactTEMPID")
+                            );
+                       //    string Result2 = "";
+                       //db.Logic_WX_UserReplyLog_MySendCreate("下分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), GlobalParam.Key, DateTime.Now, ref Result2);
 
-                       string WXResult2 = StartF.SendWXContent(Result2
-                           , UserRow.Field<string>("User_ContactTEMPID")
-                           );
+                       //string WXResult2 = StartF.SendWXContent(Result2
+                       //    , UserRow.Field<string>("User_ContactTEMPID")
+                       //    );
 
                         break;
                     default:
@@ -99,8 +102,11 @@ namespace WeixinRoboot
 
         private void SendCharge_Load(object sender, EventArgs e)
         {
-            var data = from dsl in GlobalParam.db.WX_UserChangeLog
-                       join dsu in GlobalParam.db.WX_UserReply
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
+            var data = from dsl in db.WX_UserChangeLog
+                       join dsu in db.WX_UserReply
                        on new { dsl.WX_UserName, dsl.aspnet_UserID } equals new { dsu.WX_UserName, dsu.aspnet_UserID }
                        where dsl.aspnet_UserID == GlobalParam.Key
                         && dsl.WX_UserName == UserRow.Field<string>("User_ContactID")

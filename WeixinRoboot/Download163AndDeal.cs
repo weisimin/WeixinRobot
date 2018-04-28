@@ -20,17 +20,20 @@ namespace WeixinRoboot
 
         private void btn_download_Click(object sender, EventArgs e)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             bool SendImage = false;
             StartF.DownLoad163CaiPiao(ref SendImage, Dtp_DownloadDate.Value,true);
             StartF.DealGameLogAndNotice(true);
-            GlobalParam.db.SubmitChanges();
+            db.SubmitChanges();
             SendImage = true;
             #region "有新的就通知,以及处理结果"
             if (SendImage == true)
             {
 
 
-                var users = GlobalParam.db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
+                var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
                 foreach (var item in users)
                 {
                     #region  多人同号不到ID跳过
@@ -81,7 +84,10 @@ namespace WeixinRoboot
         private void Dtp_DownloadDate_ValueChanged(object sender, EventArgs e)
         {
 
-            BS_GameResult.DataSource = GlobalParam.db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key && t.GameTime.Value.Date == Dtp_DownloadDate.Value.Date)
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
+            BS_GameResult.DataSource = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key && t.GameTime.Value.Date == Dtp_DownloadDate.Value.Date)
                 .Select(t => new
                 {
 
@@ -95,7 +101,7 @@ namespace WeixinRoboot
                     Gr_GamePrivatePeriod = t.GamePrivatePeriod
                 }).ToList();
 
-            var GameLog = (from ds in GlobalParam.db.WX_UserGameLog
+            var GameLog = (from ds in db.WX_UserGameLog
                            where (
                  (ds.Result_HaveProcess == false || ds.Result_HaveProcess == null)
                  )

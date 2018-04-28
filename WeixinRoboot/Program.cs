@@ -53,9 +53,11 @@ namespace WeixinRoboot
         {
             loginf.Hide();
             #region
-
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
         ReValidate:
-            string ActiveCode = GlobalParam.db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key).ActiveCode;
+            string ActiveCode = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key).ActiveCode;
 
             DateTime? EndDate = null;
             bool Success = NetFramework.Util_MD5.MD5Success(ActiveCode, out EndDate, (Guid)System.Web.Security.Membership.GetUser(UserName).ProviderUserKey);
@@ -66,7 +68,7 @@ namespace WeixinRoboot
             }
             else
             {
-                DateTime Now = GlobalParam.db.ExecuteQuery<DateTime>("select getdate()").First();
+                DateTime Now = db.ExecuteQuery<DateTime>("select getdate()").First();
                 if (Now >= EndDate)
                 {
                     MessageBox.Show("激活码已过期");

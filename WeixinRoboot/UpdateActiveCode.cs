@@ -18,9 +18,12 @@ namespace WeixinRoboot
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            Linq.aspnet_UsersNewGameResultSend updatecode = GlobalParam.db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
+            Linq.aspnet_UsersNewGameResultSend updatecode = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
             updatecode.ActiveCode = fd_activecode.Text;
-            GlobalParam.db.SubmitChanges();
+            db.SubmitChanges();
             this.Close ();
 
         }

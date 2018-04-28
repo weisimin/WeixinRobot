@@ -34,13 +34,16 @@ namespace WeixinRoboot
 
         private void SendManulOrder_Load(object sender, EventArgs e)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             if (dtp_StartDate.Value == null || dtp_EndDate.Value == null || RunnerF == null || _UserRow == null)
             {
                 return;
             }
 
-            var datasource = from ds in GlobalParam.db.WX_UserReplyLog
-                             join dsgame in GlobalParam.db.WX_UserGameLog
+            var datasource = from ds in db.WX_UserReplyLog
+                             join dsgame in db.WX_UserGameLog
                              on new { ds.aspnet_UserID, ds.WX_UserName, ds.ReceiveTime } equals new { dsgame.aspnet_UserID, dsgame.WX_UserName, ReceiveTime = dsgame.TransTime }
                              into leftdsggame
                              from dsgame2 in leftdsggame.DefaultIfEmpty()
@@ -97,6 +100,9 @@ namespace WeixinRoboot
 
         private void MI_Delete_Click(object sender, EventArgs e)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             ep_sql.Clear();
             DataGridViewRow dr = GV_GameLog.SelectedRows[0];
             string aspnet_UserID = dr.Cells["aspnet_UserID"].Value.ToString();
@@ -115,25 +121,25 @@ namespace WeixinRoboot
             }
 
 
-            Linq.WX_UserGameLog testg = GlobalParam.db.WX_UserGameLog.SingleOrDefault(t => t.aspnet_UserID == new Guid(aspnet_UserID)
+            Linq.WX_UserGameLog testg = db.WX_UserGameLog.SingleOrDefault(t => t.aspnet_UserID == new Guid(aspnet_UserID)
                   && t.WX_UserName == WX_UserName
                   && t.TransTime == DT);
             if (testg != null && testg.Result_HaveProcess != false)
             {
                 ep_sql.SetError(GV_GameLog, "已开奖或已处理,不能删除");
             }
-            Linq.WX_UserReplyLog testrg = GlobalParam.db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == new Guid(aspnet_UserID)
+            Linq.WX_UserReplyLog testrg = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == new Guid(aspnet_UserID)
                       && t.WX_UserName == WX_UserName
                       && t.ReceiveTime == DT);
             if (testg != null)
             {
-                GlobalParam.db.WX_UserGameLog.DeleteOnSubmit(testg);
+                db.WX_UserGameLog.DeleteOnSubmit(testg);
             }
             if (testrg != null)
             {
-                GlobalParam.db.WX_UserReplyLog.DeleteOnSubmit(testrg);
+                db.WX_UserReplyLog.DeleteOnSubmit(testrg);
             }
-            GlobalParam.db.SubmitChanges();
+            db.SubmitChanges();
             MessageBox.Show("删除成功");
             SendManulOrder_Load(null, null);
         }

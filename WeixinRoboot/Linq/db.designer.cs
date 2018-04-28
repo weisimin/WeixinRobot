@@ -171,27 +171,6 @@ namespace WeixinRoboot.Linq
 				return this.GetTable<WX_UserChangeLog>();
 			}
 		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Logic_WX_UserGameLog_Deal")]
-		public ISingleResult<Logic_WX_UserGameLog_DealResult> Logic_WX_UserGameLog_Deal([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="UniqueIdentifier")] System.Nullable<System.Guid> aspnet_UserID)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), aspnet_UserID);
-			return ((ISingleResult<Logic_WX_UserGameLog_DealResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Logic_WX_UserReplyLog_MySendCreate")]
-		public void Logic_WX_UserReplyLog_MySendCreate([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Content", DbType="NVarChar(4000)")] string content, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToWXUserName", DbType="NVarChar(50)")] string toWXUserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="UniqueIdentifier")] System.Nullable<System.Guid> aspnet_UserID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ReplyTime", DbType="DateTime")] System.Nullable<System.DateTime> replyTime, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Message", DbType="NVarChar(MAX)")] ref string message)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), content, toWXUserName, aspnet_UserID, replyTime, message);
-			message = ((string)(result.GetParameterValue(4)));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Logic_WX_UserReplyLog_Create")]
-		public void Logic_WX_UserReplyLog_Create([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Content", DbType="NVarChar(4000)")] string content, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromWXUserName", DbType="NVarChar(50)")] string fromWXUserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="UniqueIdentifier")] System.Nullable<System.Guid> aspnet_UserID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ReceiveTime", DbType="DateTime")] System.Nullable<System.DateTime> receiveTime, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Message", DbType="NVarChar(MAX)")] ref string message, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="SourceType", DbType="NVarChar(50)")] string sourceType)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), content, fromWXUserName, aspnet_UserID, receiveTime, message, sourceType);
-			message = ((string)(result.GetParameterValue(4)));
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.aspnet_Users")]
@@ -2971,68 +2950,6 @@ namespace WeixinRoboot.Linq
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	public partial class Logic_WX_UserGameLog_DealResult
-	{
-		
-		private System.Nullable<decimal> _Remainder;
-		
-		private string _WX_UserName;
-		
-		private System.Guid _aspnet_UserID;
-		
-		public Logic_WX_UserGameLog_DealResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remainder", DbType="Decimal(18,6)")]
-		public System.Nullable<decimal> Remainder
-		{
-			get
-			{
-				return this._Remainder;
-			}
-			set
-			{
-				if ((this._Remainder != value))
-				{
-					this._Remainder = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string WX_UserName
-		{
-			get
-			{
-				return this._WX_UserName;
-			}
-			set
-			{
-				if ((this._WX_UserName != value))
-				{
-					this._WX_UserName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid aspnet_UserID
-		{
-			get
-			{
-				return this._aspnet_UserID;
-			}
-			set
-			{
-				if ((this._aspnet_UserID != value))
-				{
-					this._aspnet_UserID = value;
-				}
 			}
 		}
 	}

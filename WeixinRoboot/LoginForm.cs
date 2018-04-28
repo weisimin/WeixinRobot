@@ -47,7 +47,6 @@ namespace WeixinRoboot
                     GlobalParam.UserName = tb_UserName.Text;
                     GlobalParam.LogInSuccess = true;
                     GlobalParam.Key = (Guid)System.Web.Security.Membership.GetUser(tb_UserName.Text).ProviderUserKey;
-                    GlobalParam.db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
                     OnLoginSuccess(tb_UserName.Text);
                 }
                 else if (Success.Value == false)

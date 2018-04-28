@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 
 
-namespace WeixinRoboot.Linq.BackUp
+namespace WeixinRoboot.Linq
 {
     /// <summary>
     /// LINQ SUBMIT CHANGERS 不稳定 停用
@@ -123,7 +123,7 @@ namespace WeixinRoboot.Linq.BackUp
 
 
                 db.SubmitChanges();
-                
+
                 Result += 1;
 
             }//行循环处理
@@ -132,7 +132,7 @@ namespace WeixinRoboot.Linq.BackUp
 
         }
 
-        public static string WX_UserGameLog_Cancel(dbDataContext db, WX_UserReplyLog reply, DataTable MemberSource, out Boolean? LogicOK)
+        public static string WX_UserGameLog_Cancel(dbDataContext db, WX_UserReplyLog reply, DataTable MemberSource)
         {
 
             #region "时间转化期数"
@@ -170,7 +170,6 @@ namespace WeixinRoboot.Linq.BackUp
             }
             if (BuyPoint == 0)
             {
-                LogicOK = null;
                 return "";
 
             }
@@ -188,7 +187,6 @@ namespace WeixinRoboot.Linq.BackUp
                     && t.WX_UserName == reply.WX_UserName
                     && t.GamePeriod == NextPeriod
                     ).ToList();
-                LogicOK = false;
                 return "超过最大可取消:" + ToModify.Sum(t => t.Buy_Point).ToString() + reply.ReceiveContent + Environment.NewLine;
             }
             #endregion
@@ -222,7 +220,6 @@ namespace WeixinRoboot.Linq.BackUp
               );
                 if (CheckRatioConfig == null && modiitem.Buy_Point != 0)
                 {
-                    LogicOK = false;
                     return "其中一单取消后达不到购买要求";
                 }
                 else if (modiitem.Buy_Point == 0)
@@ -235,22 +232,39 @@ namespace WeixinRoboot.Linq.BackUp
                 {
                     modiitem.Buy_Ratio = CheckRatioConfig.BasicRatio;
                     modiitem.GP_LastModify = reply.ReceiveTime;
+
+                    Linq.WX_UserChangeLog cl = null;
+                    cl = new WX_UserChangeLog();
+                    cl.aspnet_UserID = GlobalParam.Key;
+                    cl.WX_UserName = modiitem.WX_UserName;
+                    cl.ChangePoint = -BuyPoint;
+                    cl.NeedNotice = false;
+                    cl.HaveNotice = false;
+                    cl.ChangeTime = reply.ReceiveTime;
+                    cl.RemarkType = "取消下单";
+                    cl.Remark = "取消下单@#" + reply.ReceiveContent;
+                    cl.FinalStatus = false;
+                    cl.BuyValue = FirstIndex;
+                    cl.GamePeriod = modiitem.GamePeriod;
+                    cl.FinalStatus = true;
+                    db.WX_UserChangeLog.InsertOnSubmit(cl);
+                    db.SubmitChanges();
+
+
+
+
                 }
 
                 #endregion
             }//循环处理
 
 
-            List<WX_UserGameLog> havemodify = db.WX_UserGameLog.Where(t => t.Buy_Point != 0
-                && t.Result_HaveProcess == false
-                && t.aspnet_UserID == GlobalParam.Key
+            TotalResult tr = BuildResult(db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key
                 && t.WX_UserName == reply.WX_UserName
-                && t.Buy_Value != FirstIndex
-                ).ToList();
-            havemodify.AddRange(ToModify.Where(t => t.Buy_Point != 0 && t.Result_HaveProcess != true));
-
-            LogicOK = true;
-            return "";
+                && t.Result_HaveProcess == false
+                ).ToList(), MemberSource);
+          
+            return "取消成功,"+tr.ToSlimStringV2()+"余"+ObjectToString( WXUserChangeLog_GetRemainder(reply.WX_UserName),"N0");
 
 
 
@@ -357,7 +371,10 @@ namespace WeixinRoboot.Linq.BackUp
                 var Periods = Buys.Select(t => t.ShowPeriod).Distinct();
                 foreach (var Perioditem in Periods)
                 {
-                    Result += "";
+                    if (Periods.Count() > 1)
+                    {
+                        Result += Perioditem + " ";
+                    }
                     foreach (var buyitem in Buys.Where(t => t.ShowPeriod == Perioditem))
                     {
                         Result += (buyitem.TotalTiger == 0 ? "" : ",虎" + ObjectToString(buyitem.TotalTiger, "N0"))
@@ -371,8 +388,6 @@ namespace WeixinRoboot.Linq.BackUp
                     }
                     Result += Environment.NewLine;
                 }
-                Result = Result.Substring(1);
-                Result += "余分" + ObjectToString(Remainder, "N0");
                 return Result;
 
 
@@ -453,13 +468,16 @@ namespace WeixinRoboot.Linq.BackUp
         /// <returns></returns>
         public static TotalResult BuildResult(List<WX_UserGameLog> logs, System.Data.DataTable MemberSource)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
             TotalResult r = new TotalResult();
 
             foreach (WX_UserGameLog item in logs)
             {
                 DataRow usrw = MemberSource.Select("User_ContactID='" + item.WX_UserName + "'")[0];
                 r.UserNickName = usrw.Field<string>("User_Contact");
-                decimal? Remainder = WXUserChangeLog_GetRemainder(GlobalParam.db, item.WX_UserName);
+                decimal? Remainder = WXUserChangeLog_GetRemainder(item.WX_UserName);
                 r.Remainder = Remainder;
                 string SubPeriod = "";
                 SubPeriod = item.GamePeriod.Length <= 3 ? item.GamePeriod : item.GamePeriod.Substring(8, 3);
@@ -514,18 +532,48 @@ namespace WeixinRoboot.Linq.BackUp
         /// <param name="reply"></param>
         /// <param name="db"></param>
         /// <returns></returns>
-        public static string WX_UserReplyLog_Create(WX_UserReplyLog reply, dbDataContext db, DataTable MemberSource, out Boolean? LogicOK, out bool ShowOrders)
+        public static string WX_UserReplyLog_Create(WX_UserReplyLog reply, DataTable MemberSource)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
             if (reply.ReceiveContent != "")
             {
                 if (reply.ReceiveContent == "查")
                 {
-                    LogicOK = true;
-                    decimal Remainder = WXUserChangeLog_GetRemainder(db, reply.WX_UserName);
-                    ShowOrders = false;
+
+                    decimal Remainder = WXUserChangeLog_GetRemainder(reply.WX_UserName);
                     return "查：" + Remainder.ToString("N0");
                 }
-                if (reply.ReceiveContent == "开奖")
+                if (reply.ReceiveContent == "全部取消")
+                {
+                    var ToCalcel = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key
+                        && t.WX_UserName == reply.WX_UserName
+                        && t.Result_HaveProcess == false
+                        && t.Buy_Point != 0
+                        );
+                    foreach (var cancelitem in ToCalcel)
+                    {
+                        WX_UserChangeLog cl = new WX_UserChangeLog();
+                        cl.aspnet_UserID = GlobalParam.Key;
+                        cl.WX_UserName = cancelitem.WX_UserName;
+                        cl.ChangePoint = cancelitem.Buy_Point;
+                        cl.NeedNotice = false;
+                        cl.HaveNotice = false;
+                        cl.ChangeTime = reply.ReceiveTime;
+                        cl.RemarkType = "取消" + cancelitem.Buy_Value;
+                        cl.Remark = "下单@#" + reply.ReceiveContent;
+                        cl.FinalStatus = false;
+                        cl.BuyValue = cancelitem.Buy_Value;
+                        cl.GamePeriod = cancelitem.GamePeriod;
+                        db.WX_UserChangeLog.InsertOnSubmit(cl);
+                    }
+                    db.SubmitChanges();
+
+                    return "余" + WXUserChangeLog_GetRemainder(reply.WX_UserName);
+
+                }
+                else if (reply.ReceiveContent == "开奖")
                 {
                     string Result = "";
                     var TodatBuyGameLog = db.WX_UserGameLog.Where(t =>
@@ -536,8 +584,7 @@ namespace WeixinRoboot.Linq.BackUp
                         );
                     TotalResult tr = BuildResult(TodatBuyGameLog.ToList(), MemberSource);
                     Result = tr.ToOpenString();
-                    LogicOK = true;
-                    ShowOrders = true;
+
                     return Result;
 
                 }
@@ -553,21 +600,17 @@ namespace WeixinRoboot.Linq.BackUp
                         );
                     TotalResult tr = BuildResult(TodatBuyGameLog.ToList(), MemberSource);
                     Result = tr.ToOpenString();
-                    LogicOK = true;
-                    ShowOrders = true;
+
                     return Result;
                 }
 
                 else if (reply.ReceiveContent.StartsWith("取消"))
                 {
-                    ShowOrders = true;
                     if (reply.ReceiveTime.Hour >= 2 && reply.ReceiveTime.Hour < 9)
                     {
-                        ShowOrders = false;
-                        LogicOK = false;
                         return "不在下注时间，开奖无效";
                     }
-                    return WX_UserGameLog_Cancel(db, reply, MemberSource, out  LogicOK);
+                    return WX_UserGameLog_Cancel(db, reply, MemberSource);
                 }//取消的单
                 else
                 {
@@ -586,16 +629,12 @@ namespace WeixinRoboot.Linq.BackUp
                     }
                     if (BuyPoint == 0)
                     {
-                        LogicOK = null;
-                        ShowOrders = true;
                         return "";
                     }
                     #region
                     if (reply.ReceiveTime.Hour >= 2 && reply.ReceiveTime.Hour < 9)
                     {
-                        ShowOrders = false;
-                        LogicOK = false;
-                        return "不在下注时间，开奖无效";
+                        return "下注无效，不在下注时间";
                     }
                     string CheckResult = "";
                     WX_UserGameLog newr = null;
@@ -629,51 +668,49 @@ namespace WeixinRoboot.Linq.BackUp
                             newr = NewGameLog(reply, "单双", FirstIndex, BuyPoint, out CheckResult, db, out NewData, checkHaveBuy);
                             break;
                         default:
-                            LogicOK = true;
-                            ShowOrders = true;
                             return "";
                     }
-
-                    Linq.WX_UserChangeLog cl = null;
                     if (newr != null && NewData == true)
                     {
                         newr.Result_Point = 0;
-                        cl = new WX_UserChangeLog();
-                        cl.aspnet_UserID = GlobalParam.Key;
-                        cl.WX_UserName = newr.WX_UserName;
-                        cl.ChangePoint = -newr.Buy_Point;
-                        cl.NeedNotice = false;
-                        cl.HaveNotice = false;
-                        cl.ChangeTime = newr.TransTime;
-                        cl.RemarkType = "下单";
-                        cl.Remark = "下单自动扣减";
-                        cl.FinalStatus = false;
-                        cl.GamePeriod = newr.GamePeriod;
-
-                        checkHaveBuy.Add(newr);
+                        db.WX_UserGameLog.InsertOnSubmit(newr);
                     }
                     if (CheckResult != "")
                     {
-                        LogicOK = false;
+                        return CheckResult;
+
+                        TotalResult tr = BuildResult(checkHaveBuy, MemberSource);
+                        return "下注失败," + CheckResult + tr.ToSlimStringV2() + ",余" + WXUserChangeLog_GetRemainder(reply.WX_UserName);
                     }
                     else
                     {
-                        if (cl != null)
-                        {
-                            db.WX_UserChangeLog.InsertOnSubmit(cl);
-                        }
-                        db.WX_UserGameLog.InsertOnSubmit(newr);
-                        LogicOK = true;
+                        Linq.WX_UserChangeLog cl = null;
+
+                        cl = new WX_UserChangeLog();
+                        cl.aspnet_UserID = GlobalParam.Key;
+                        cl.WX_UserName = newr.WX_UserName;
+                        cl.ChangePoint = -BuyPoint;
+                        cl.NeedNotice = false;
+                        cl.HaveNotice = false;
+                        cl.ChangeTime = reply.ReceiveTime;
+                        cl.RemarkType = "下单";
+                        cl.Remark = "下单@#" + reply.ReceiveContent;
+                        cl.FinalStatus = false;
+                        cl.BuyValue = FirstIndex;
+                        cl.GamePeriod = newr.GamePeriod;
+                        cl.FinalStatus = true;
+                        db.WX_UserChangeLog.InsertOnSubmit(cl);
+
+                        db.SubmitChanges();
+                        TotalResult tr = BuildResult(checkHaveBuy, MemberSource);
+                        return "下注成功," + tr.ToSlimStringV2() + ",余" + ObjectToString( WXUserChangeLog_GetRemainder(reply.WX_UserName),"N0");
                     }
-                    ShowOrders = true;
-                    return CheckResult;
+
                 }//下单
                     #endregion
-            }//有文字消息
+            }//有文字消息Result
             else
             {
-                LogicOK = true;
-                ShowOrders = true;
                 return "";
             }
         }
@@ -709,7 +746,7 @@ namespace WeixinRoboot.Linq.BackUp
                 if (ChargeMoney <= 0)
                 {
                     LogicOK = false;
-                    return "点数不能小于等于0";
+                    return "分数不能小于等于0";
                 }
                 switch (Mode)
                 {
@@ -721,23 +758,24 @@ namespace WeixinRoboot.Linq.BackUp
                         change.Remark = "上分:" + UserRow.Field<string>("User_ContactID");
                         change.RemarkType = "上分";
                         change.WX_UserName = UserRow.Field<string>("User_ContactID");
+                        change.FinalStatus = true;
                         db.WX_UserChangeLog.InsertOnSubmit(change);
 
                         db.SubmitChanges();
-                      
-                        decimal? TotalPoint = WXUserChangeLog_GetRemainder(GlobalParam.db, UserRow.Field<string>("User_ContactID"));
+
+                        decimal? TotalPoint = WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactID"));
 
                         LogicOK = true;
-                        return "余分:" + TotalPoint.Value.ToString("N0");
+                        return "余:" + TotalPoint.Value.ToString("N0");
 
                         break;
                     case "下分":
-                        decimal? TotalPointIn = WXUserChangeLog_GetRemainder(GlobalParam.db, UserRow.Field<string>("User_ContactID"));
+                        decimal? TotalPointIn = WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactID"));
 
                         if (TotalPointIn < ChargeMoney)
                         {
                             LogicOK = false;
-                            return "下分失败,超过可用余分" + TotalPointIn.ToString();
+                            return "下分失败,余分不足,余" + ObjectToString(WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactID")), "N0");
 
                         }
 
@@ -752,13 +790,13 @@ namespace WeixinRoboot.Linq.BackUp
                         db.WX_UserChangeLog.InsertOnSubmit(cleanup);
 
                         db.SubmitChanges();
-                       
-                      
 
-                        decimal? TotalPoint2 = WXUserChangeLog_GetRemainder(GlobalParam.db, UserRow.Field<string>("User_ContactID"));
+
+
+                        decimal? TotalPoint2 = WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactID"));
 
                         LogicOK = true;
-                        return "余分:" + TotalPoint2.Value.ToString("N0");
+                        return "余:" + TotalPoint2.Value.ToString("N0");
 
 
                         break;
@@ -922,7 +960,7 @@ namespace WeixinRoboot.Linq.BackUp
                 && t.FinalStatus == true
                 ).Sum(t => t.ChangePoint);
             NowRemainder -= CheckHaveBuy.Sum(t => t.Buy_Point);
-            decimal? BeforeUpdateRemainder = WXUserChangeLog_GetRemainder(db, replylog.WX_UserName);
+            decimal? BeforeUpdateRemainder = WXUserChangeLog_GetRemainder(replylog.WX_UserName);
             if (NowRemainder < 0)
             {
                 CheckResult = "下注失败，余分不足。余分:" + BeforeUpdateRemainder.Value.ToString("N0");
@@ -940,8 +978,11 @@ namespace WeixinRoboot.Linq.BackUp
         /// <param name="HaveBuy"></param>
         /// <param name="TakeFinalStatus"></param>
         /// <returns></returns>
-        public static decimal WXUserChangeLog_GetRemainder(dbDataContext db, string UserContactID)
+        public static decimal WXUserChangeLog_GetRemainder(string UserContactID)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
             var RemindList = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key
                 && t.WX_UserName == UserContactID
                 );

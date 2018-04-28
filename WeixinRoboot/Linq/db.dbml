@@ -139,27 +139,4 @@
       <Column Name="BuyValue" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
-  <Function Name="dbo.Logic_WX_UserGameLog_Deal" Method="Logic_WX_UserGameLog_Deal">
-    <Parameter Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier" />
-    <ElementType Name="Logic_WX_UserGameLog_DealResult">
-      <Column Name="Remainder" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.Logic_WX_UserReplyLog_MySendCreate" Method="Logic_WX_UserReplyLog_MySendCreate">
-    <Parameter Name="Content" Parameter="content" Type="System.String" DbType="NVarChar(4000)" />
-    <Parameter Name="ToWXUserName" Parameter="toWXUserName" Type="System.String" DbType="NVarChar(50)" />
-    <Parameter Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier" />
-    <Parameter Name="ReplyTime" Parameter="replyTime" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="Message" Parameter="message" Type="System.String" DbType="NVarChar(MAX)" Direction="InOut" />
-  </Function>
-  <Function Name="dbo.Logic_WX_UserReplyLog_Create" Method="Logic_WX_UserReplyLog_Create">
-    <Parameter Name="Content" Parameter="content" Type="System.String" DbType="NVarChar(4000)" />
-    <Parameter Name="FromWXUserName" Parameter="fromWXUserName" Type="System.String" DbType="NVarChar(50)" />
-    <Parameter Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier" />
-    <Parameter Name="ReceiveTime" Parameter="receiveTime" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="Message" Parameter="message" Type="System.String" DbType="NVarChar(MAX)" Direction="InOut" />
-    <Parameter Name="SourceType" Parameter="sourceType" Type="System.String" DbType="NVarChar(50)" />
-  </Function>
 </Database>

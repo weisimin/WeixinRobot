@@ -22,6 +22,9 @@ namespace WeixinRoboot
             }
             set
             {
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
                 _Members = value;
 
                 OperationStop = true;
@@ -40,7 +43,7 @@ namespace WeixinRoboot
 
                     string Seq = FindSeq.Match(HeadImgUrl).Value;
                     Seq = Seq.Substring(Seq.IndexOf("=") + 1);
-                    Linq.WX_UserReply usrc = GlobalParam.db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Seq);
+                    Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Seq);
                     if (usrc == null)
                     {
                         Linq.WX_UserReply newusrc = new Linq.WX_UserReply();
@@ -50,15 +53,15 @@ namespace WeixinRoboot
                         newusrc.RemarkName = RemarkName;
                         newusrc.NickName = NickName;
 
-                        GlobalParam.db.WX_UserReply.InsertOnSubmit(newusrc);
-                        GlobalParam.db.SubmitChanges();
+                        db.WX_UserReply.InsertOnSubmit(newusrc);
+                        db.SubmitChanges();
 
                     } //初始化，添加到数据库或同步数据库
                     else
                     {
                         usrc.RemarkName = RemarkName;
                         usrc.NickName = NickName;
-                        GlobalParam.db.SubmitChanges();
+                        db.SubmitChanges();
 
                     } //初始化，添加到数据库或同步数据库
 
@@ -111,8 +114,10 @@ namespace WeixinRoboot
         public RunnerForm()
         {
             InitializeComponent();
-            GlobalParam.db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
     
+           
             dtp_StartDate.Value = DateTime.Today.AddDays(-3);
             dtp_EndDate.Value = DateTime.Today.AddMonths(1);
 
@@ -157,6 +162,9 @@ namespace WeixinRoboot
             {
                 return;
             }
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             //ReplySource.Columns.Add("Reply_Contact");
             //ReplySource.Columns.Add("Reply_ContactID");
             //ReplySource.Columns.Add("Reply_ContactTEMPID");
@@ -212,8 +220,8 @@ namespace WeixinRoboot
                 return;
             }
 
-            var datasource = from ds in GlobalParam.db.WX_UserReplyLog
-                             join dsgame in GlobalParam.db.WX_UserGameLog
+            var datasource = from ds in db.WX_UserReplyLog
+                             join dsgame in db.WX_UserGameLog
                              on new { ds.aspnet_UserID, ds.WX_UserName, ds.ReceiveTime } equals new { dsgame.aspnet_UserID, dsgame.WX_UserName, ReceiveTime = dsgame.TransTime }
                              into leftdsggame
                              from dsgame2 in leftdsggame.DefaultIfEmpty()
@@ -249,23 +257,26 @@ namespace WeixinRoboot
 
         void RelySource_TableNewRow(object sender, DataTableNewRowEventArgs e)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             if (e.Row != null)
             {
                 return;
             }
-            Linq.WX_UserReply checkreply = GlobalParam.db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == e.Row.Field<string>("Reply_ContactID"));
+            Linq.WX_UserReply checkreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == e.Row.Field<string>("Reply_ContactID"));
             if (checkreply.IsReply == true)
             {
                 string Reply_ContactID = e.Row.Field<string>("Reply_ContactID");
                 string Reply_ReceiveTime = e.Row.Field<string>("Reply_ReceiveTime");
-                Linq.WX_UserReplyLog log = GlobalParam.db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key
+                Linq.WX_UserReplyLog log = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key
                      && t.WX_UserName == Reply_ContactID
                      && t.ReceiveTime == Convert.ToDateTime(Reply_ReceiveTime)
                      );
                 if (log == null)
                 {
-                    GlobalParam.db.WX_UserReplyLog.InsertOnSubmit(log);
-                    GlobalParam.db.SubmitChanges();
+                    db.WX_UserReplyLog.InsertOnSubmit(log);
+                    db.SubmitChanges();
                 }
             }
 
@@ -419,6 +430,9 @@ namespace WeixinRoboot
 
         private void MI_IsReply_Click(object sender, EventArgs e)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             if (OperationStop==true)
             {
                 MessageBox.Show("正在加载微信联系人，稍等");
@@ -431,12 +445,12 @@ namespace WeixinRoboot
 
                 editrow.SetField("User_IsReply", (IsReply == null ? true : !IsReply.Value));
 
-                Linq.WX_UserReply usr = GlobalParam.db.WX_UserReply.SingleOrDefault(
+                Linq.WX_UserReply usr = db.WX_UserReply.SingleOrDefault(
                     t => t.aspnet_UserID == GlobalParam.Key
                     && t.WX_UserName == editrow.Field<string>("User_ContactID"));
-                GlobalParam.db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, usr);
+                db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, usr);
                 usr.IsReply = editrow.Field<Boolean?>("User_IsReply");
-                GlobalParam.db.SubmitChanges();
+                db.SubmitChanges();
                 
                
             }

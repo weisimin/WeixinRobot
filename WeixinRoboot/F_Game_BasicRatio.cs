@@ -15,16 +15,18 @@ namespace WeixinRoboot
          public F_Game_BasicRatio()
         {
             InitializeComponent();
-            GlobalParam.db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           
+              
         }
 
         private void Btn_Save_Click(object sender, EventArgs e)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             try
             {
                 ep_gridview.Clear();
-                GlobalParam.db.SubmitChanges();
+                db.SubmitChanges();
                 MessageBox.Show("保存成功");
             }
             catch (Exception AnyError)
@@ -50,8 +52,10 @@ namespace WeixinRoboot
 
         private void F_Game_BasicRatio_Load(object sender, EventArgs e)
         {
-
-            BS_Game_BasicRatio.DataSource = GlobalParam.db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.Key);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
+            BS_Game_BasicRatio.DataSource = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.Key);
        
         }
 
