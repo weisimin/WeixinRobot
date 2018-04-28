@@ -49,7 +49,7 @@ namespace WeixinRoboot
                     case "Charge":
 
 
-                        string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("上分" + tb_ChargeMoney.Text, out LogicOK, _UserRow, db);
+                        string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("上分" + tb_ChargeMoney.Text, _UserRow);
                         
                         string WXSend = StartF.SendWXContent(Result
                             , UserRow.Field<string>("User_ContactTEMPID")
@@ -65,7 +65,7 @@ namespace WeixinRoboot
 
                         break;
                     case "CleanUp":
-                        string Result2 = Linq.DataLogic.WX_UserReplyLog_MySendCreate("下分" + tb_ChargeMoney.Text, out LogicOK, _UserRow, db);
+                        string Result2 = Linq.DataLogic.WX_UserReplyLog_MySendCreate("下分" + tb_ChargeMoney.Text, _UserRow);
 
                         decimal? TotalPointClean = Linq.DataLogic.WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactTEMPID"));
 

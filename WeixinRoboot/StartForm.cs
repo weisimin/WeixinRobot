@@ -305,7 +305,7 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-            Console.Clear();
+
             try
             {
 
@@ -328,15 +328,17 @@ namespace WeixinRoboot
                 Result3 = Result3.Substring(Result3.IndexOf("=") + 1);
                 JObject Check = JObject.Parse(Result3);
 
-                Console.WriteLine(DateTime.Now.ToString());
-                Console.WriteLine(Result3);
 
-                if (Check["retcode"].ToString() == "1101")
+
+                if (Check["retcode"].ToString() != "0")
                 {
+                    Console.WriteLine(DateTime.Now.ToString());
+                    Console.WriteLine(Result3);
                     //MessageBox.Show("微信已在别的地方登录");
                     //ReloadWX = true;
                     //return;
                     WXInit();
+                    return;
                 }
 
                 if ((Result3.Contains("selector:\"0\"")) == false)
@@ -381,38 +383,27 @@ namespace WeixinRoboot
                                 #region "如果是自己发出的"
                                 if (FromUserNameTEMPID == MyUserName)
                                 {
-                                    Boolean? LogicOk = false;
+
                                     var tocontacts = RunnerF.MemberSource.Select("User_ContactTEMPID='" + ToUserNameTEMPID + "'");
                                     if (tocontacts.Count() == 0)
                                     {
                                         continue;
                                     }
-                                    string MyOutResult = Linq.DataLogic.WX_UserReplyLog_MySendCreate(Content, out LogicOk, tocontacts[0], db);
+                                    string MyOutResult = Linq.DataLogic.WX_UserReplyLog_MySendCreate(Content, tocontacts[0]);
 
 
-
-
-                                    if (LogicOk == true)
+                                 
+                                    if (@ToUserNameTEMPID.Contains("@@") == false && Content != "自动跟踪")
                                     {
-                                        db.SubmitChanges();
-
-                                    }//可以更新
-                                    else if (LogicOk == false)
-                                    {
-                                        db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, db.WX_UserGameLog);
-
-                                    }//不能更新回滚
-                                    if (LogicOk != null)
-                                    {
-                                        if (@ToUserNameTEMPID.Contains("@@") == false && Content != "自动跟踪")
-                                        {
-                                            decimal? TotalPoint = Linq.DataLogic.WXUserChangeLog_GetRemainder( tocontacts[0].Field<string>("User_ContactID"));
-                                            SendWXContent(MyOutResult, tocontacts[0].Field<string>("User_ContactTEMPID"));
-
-                                        }
-
-
+                                        decimal? TotalPoint = Linq.DataLogic.WXUserChangeLog_GetRemainder(tocontacts[0].Field<string>("User_ContactID"));
+                                        SendWXContent(MyOutResult, tocontacts[0].Field<string>("User_ContactTEMPID"));
+                                        string OrderManul = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, tocontacts[0], "人工");
+                                        SendWXContent(OrderManul, tocontacts[0].Field<string>("User_ContactTEMPID"));
+                                 
                                     }
+
+
+
 
                                     //string MyOutResult = "";
 
@@ -447,7 +438,7 @@ namespace WeixinRoboot
                                 newr.SetField("Reply_ContactID", userr.Field<string>("User_ContactID"));
                                 newr.SetField("Reply_ContactTEMPID", userr.Field<string>("User_ContactTEMPID"));
                                 newr.SetField("Reply_ReceiveContent", Content);
-                                newr.SetField("Reply_ReceiveTime", JavaSecondTime (Convert.ToInt64(msgTime)));
+                                newr.SetField("Reply_ReceiveTime", JavaSecondTime(Convert.ToInt64(msgTime)));
                                 RunnerF.ReplySource.Rows.Add(newr);
                                 #region "检查是否启用自动跟踪"
                                 Linq.WX_UserReply checkreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == userr.Field<string>("User_ContactID"));
@@ -520,6 +511,7 @@ namespace WeixinRoboot
             {
                 Boolean SendImage = false;
                 DownLoad163CaiPiao(ref SendImage, DateTime.Now, false);
+                DownLoad163CaiPiao(ref SendImage, DateTime.Now.AddDays(-1), false);
                 #region "有新的就通知,以及处理结果"
                 if (SendImage == true)
                 {
@@ -686,7 +678,7 @@ namespace WeixinRoboot
                 foreach (var notice_item in noticeChangelist)
                 {
 
-                    Int32 TotalChanges = Linq.DataLogic.WX_UserGameLog_Deal(db, this, notice_item);
+                    Int32 TotalChanges = Linq.DataLogic.WX_UserGameLog_Deal(this, notice_item);
                     db.SubmitChanges();
                     if (TotalChanges == 0)
                     {
@@ -694,7 +686,7 @@ namespace WeixinRoboot
                     }
 
                     string TEMPUserName = RunnerF.MemberSource.Select("User_ContactID='" + notice_item + "'").First().Field<string>("User_ContactTEMPID");
-                    decimal? ReminderMoney = Linq.DataLogic.WXUserChangeLog_GetRemainder( notice_item);
+                    decimal? ReminderMoney = Linq.DataLogic.WXUserChangeLog_GetRemainder(notice_item);
                     String ContentResult = SendWXContent(ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : "", TEMPUserName);
                     var updatechangelog = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == notice_item && t.NeedNotice == false);
                     db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, updatechangelog);
@@ -746,7 +738,7 @@ namespace WeixinRoboot
                 db.SubmitChanges();
 
                 bool ShowBuy = false;
-                string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, RunnerF.MemberSource );
+                string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, RunnerF.MemberSource);
 
                 newlogr.ReplyContent = ReturnSend;
                 newlogr.ReplyTime = DateTime.Now;
@@ -895,13 +887,9 @@ namespace WeixinRoboot
             DateTime Now = SelectDate;
             string URL = "http://caipiao.163.com/award/cqssc/";
             if ((Now.Hour == 0) && (Now.Minute <= 3))
-            {
-                URL += SelectDate.AddDays(-1).ToString("yyyyMMdd") + ".html";
-            }
-            else
-            {
+
                 URL += SelectDate.ToString("yyyyMMdd") + ".html";
-            }
+
             string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
             Regex FindTableData = new Regex("<table width=\"100%\" border=\"0\" cellspacing=\"0\" class=\"awardList\">((?!</table>)[\\S\\s])+</table>", RegexOptions.IgnoreCase);
             string str_json = FindTableData.Match(Result).Value;
