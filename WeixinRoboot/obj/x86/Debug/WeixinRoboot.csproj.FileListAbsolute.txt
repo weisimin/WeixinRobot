@@ -42,3 +42,4 @@ E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.Properties.Resou
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.csproj.GenerateResource.Cache
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.exe
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.pdb
+E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.csprojResolveAssemblyReference.cache

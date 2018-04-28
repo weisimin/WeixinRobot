@@ -187,7 +187,7 @@ namespace WeixinRoboot.Linq
                     && t.WX_UserName == reply.WX_UserName
                     && t.GamePeriod == NextPeriod
                     ).ToList();
-                return "超过最大可取消:" + ToModify.Sum(t => t.Buy_Point).ToString() + reply.ReceiveContent + Environment.NewLine;
+                return "取消失败，下注不足够，"  +"余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); ;
             }
             #endregion
 
@@ -209,18 +209,11 @@ namespace WeixinRoboot.Linq
                     BuyPoint -= modiitem.Buy_Point.Value;
                 }
                 #region "赔率重算，如果为0"
-                var CheckRatioConfig = db.Game_BasicRatio.SingleOrDefault(t => t.GameType == "重庆时时彩"
-              && t.aspnet_UserID == GlobalParam.Key
-              && t.BuyType == modiitem.Buy_Type
-              && t.BuyValue == modiitem.Buy_Value
-              && t.MaxBuy >= modiitem.Buy_Point
-              && ((t.MinBuy <= modiitem.Buy_Point && t.IncludeMin == true)
-              || (t.MinBuy < modiitem.Buy_Point && t.IncludeMin == false)
-              )
-              );
-                if (CheckRatioConfig == null && modiitem.Buy_Point != 0)
+                string CheckResult="";
+                GameLogChangeAndCheck(reply, modiitem, out CheckResult, db, ToModify);
+                if (CheckResult == "")
                 {
-                    return "其中一单取消后达不到购买要求";
+                    return "取消失败，" + CheckResult + "余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); ; ;
                 }
                 else if (modiitem.Buy_Point == 0)
                 {
@@ -230,8 +223,7 @@ namespace WeixinRoboot.Linq
                 }
                 else
                 {
-                    modiitem.Buy_Ratio = CheckRatioConfig.BasicRatio;
-                    modiitem.GP_LastModify = reply.ReceiveTime;
+                    
 
                     Linq.WX_UserChangeLog cl = null;
                     cl = new WX_UserChangeLog();
@@ -923,8 +915,11 @@ namespace WeixinRoboot.Linq
 
         }
 
-        private static void GameLogChangeAndCheck(WX_UserReplyLog replylog, WX_UserGameLog newgl, out string CheckResult, dbDataContext db, List<WX_UserGameLog> CheckHaveBuy)
+        private static void GameLogChangeAndCheck(WX_UserReplyLog replylog, WX_UserGameLog newgl, out string CheckResult)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+    
             #region "转化赔率"
             var CheckRatioConfig = db.Game_BasicRatio.SingleOrDefault(t => t.GameType == "重庆时时彩"
                 && t.aspnet_UserID == GlobalParam.Key
@@ -944,7 +939,7 @@ namespace WeixinRoboot.Linq
                     && t.BuyValue == newgl.Buy_Value
                     ).Min(t => t.MinBuy);
 
-                CheckResult = "下注无效，不在限范围" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + ",余分";
+                CheckResult = "不在限范围" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") ;
                 return;
             }
             else
@@ -957,13 +952,13 @@ namespace WeixinRoboot.Linq
             #region 检查余分
             decimal? NowRemainder = db.WX_UserChangeLog.Where(t => t.WX_UserName == replylog.WX_UserName
                 && t.aspnet_UserID == GlobalParam.Key
-                && t.FinalStatus == true
+                &&t.BuyValue!=newgl.Buy_Value
+                &&t.GamePeriod!=newgl.GamePeriod
                 ).Sum(t => t.ChangePoint);
-            NowRemainder -= CheckHaveBuy.Sum(t => t.Buy_Point);
-            decimal? BeforeUpdateRemainder = WXUserChangeLog_GetRemainder(replylog.WX_UserName);
+            NowRemainder -=  newgl.Buy_Point;
             if (NowRemainder < 0)
             {
-                CheckResult = "下注失败，余分不足。余分:" + BeforeUpdateRemainder.Value.ToString("N0");
+                CheckResult = "余分不足";
                 return;
             }
             #endregion
