@@ -620,11 +620,16 @@ namespace WeixinRoboot.Linq
                 else if (reply.ReceiveContent == "开奖")
                 {
                     string Result = "";
+                    DateTime TestPeriod = DateTime.Now;
+                    if (TestPeriod.Hour <= 8)
+                    {
+                        TestPeriod.AddDays(-1);
+                    }
                     var TodatBuyGameLog = db.WX_UserGameLog.Where(t =>
                         t.aspnet_UserID == GlobalParam.Key
                         && t.WX_UserName == reply.WX_UserName
                         && t.Buy_Point != 0
-                        && t.TransTime.Date == reply.ReceiveTime.Date
+                        && t.GameLocalPeriod.StartsWith(TestPeriod.ToString("yyyyMMdd"))
                         );
                     TotalResult tr = BuildResult(TodatBuyGameLog.ToList(), MemberSource);
                     Result = tr.ToOpenString();

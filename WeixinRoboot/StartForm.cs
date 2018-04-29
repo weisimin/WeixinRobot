@@ -274,15 +274,18 @@ namespace WeixinRoboot
                     string str_state = NetFramework.Util_WEB.OpenUrl("https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxstatusnotify"
                    , "https://wx2.qq.com/", j_BaseRequest.ToString(), "POST", cookie);
 
-                    DownLoad163 = new Thread(new ThreadStart(DownLoad163ThreadDo));
-                    DownLoad163.Start();
+                   Thread DownLoad163 = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo));
+                   DownLoad163.Start(DownloadResultThreadID);
                     while ((KillThread.ContainsKey((Guid)ThreadID)) == false)
                     {
                         Application.DoEvents();
-                        KeepAlieveThreadDo();
+                        KeepAlieveDo();
                     }
+                    
+                    return ;
+   
 
-                }
+                }//200 code
 
                 if (_tip != 0)
                 {
@@ -301,7 +304,7 @@ namespace WeixinRoboot
 
         }
 
-        private void KeepAlieveThreadDo()
+        private void KeepAlieveDo()
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -793,27 +796,27 @@ namespace WeixinRoboot
             string str_memb = NetFramework.Util_WEB.OpenUrl("https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan()
         , "https://wx2.qq.com/", "", "POST", cookie);
 
-            JObject Members = JObject.Parse(str_memb);
-
-
-            
-            RunnerF.Invoke(new Action(()=>{RunnerF.Members=Members;}));
-
-
-
-
-
+            JObject Members = RepeatGetMembers();
             return Members;
         }
 
+        private JObject RepeatGetMembers()
+        {
+            string str_memb = NetFramework.Util_WEB.OpenUrl("https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan()
+            , "https://wx2.qq.com/", "", "POST", cookie);
+
+            JObject Members = JObject.Parse(str_memb);
+            RunnerF.Invoke(new Action(() => { RunnerF.Members = Members; }));
+            return Members;
+        }
 
         Dictionary<Guid, Boolean> KillThread = new Dictionary<Guid, bool>();
 
-        Thread DownLoad163 = null;
+        
 
-        private void DownLoad163ThreadDo()
+        private void DownLoad163ThreadDo(object ThreadID)
         {
-            while (true)
+            while (KillThread.ContainsKey((Guid)ThreadID))
             {
                 DownloadResult();
                 System.Threading.Thread.Sleep(5000);
@@ -1332,8 +1335,8 @@ namespace WeixinRoboot
             KillThread.Add(WaitScanTHreadID, true);
             KillThread.Add(DownloadResultThreadID, true);
 
-
-
+            WaitScanTHreadID = Guid.NewGuid();
+            DownloadResultThreadID = Guid.NewGuid();
             Thread StartThread = new Thread(new ThreadStart(StartThreadDo));
             StartThread.Start();
 
