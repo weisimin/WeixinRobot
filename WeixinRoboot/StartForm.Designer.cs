@@ -113,28 +113,28 @@
             this.新用户ToolStripMenuItem,
             this.信息更改ToolStripMenuItem});
             this.MI_UserSetting.Name = "MI_UserSetting";
-            this.MI_UserSetting.Size = new System.Drawing.Size(152, 22);
+            this.MI_UserSetting.Size = new System.Drawing.Size(124, 22);
             this.MI_UserSetting.Text = "用户设置";
             this.MI_UserSetting.Click += new System.EventHandler(this.MI_UserSetting_Click);
             // 
             // 新用户ToolStripMenuItem
             // 
             this.新用户ToolStripMenuItem.Name = "新用户ToolStripMenuItem";
-            this.新用户ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.新用户ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.新用户ToolStripMenuItem.Text = "新用户";
             this.新用户ToolStripMenuItem.Click += new System.EventHandler(this.MI_NewUser_Click);
             // 
             // 信息更改ToolStripMenuItem
             // 
             this.信息更改ToolStripMenuItem.Name = "信息更改ToolStripMenuItem";
-            this.信息更改ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.信息更改ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.信息更改ToolStripMenuItem.Text = "信息更改";
             this.信息更改ToolStripMenuItem.Click += new System.EventHandler(this.MI_UserSetting_Click);
             // 
             // MI_MyData
             // 
             this.MI_MyData.Name = "MI_MyData";
-            this.MI_MyData.Size = new System.Drawing.Size(152, 22);
+            this.MI_MyData.Size = new System.Drawing.Size(124, 22);
             this.MI_MyData.Text = "我的资料";
             this.MI_MyData.Click += new System.EventHandler(this.MI_MyData_Click);
             // 

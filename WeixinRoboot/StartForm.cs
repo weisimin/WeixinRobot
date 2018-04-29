@@ -31,9 +31,8 @@ namespace WeixinRoboot
 
         }
         Guid WaitScanTHreadID = Guid.NewGuid();
-
         Guid DownloadResultThreadID = Guid.NewGuid();
-        Guid UpdateContactThreadID = Guid.NewGuid();
+
         public string _uuid = "";
         public System.Net.CookieCollection cookie = new CookieCollection();
 
@@ -96,7 +95,7 @@ namespace WeixinRoboot
 
         public RunnerForm RunnerF = new RunnerForm();
 
-        static bool MI_GameLogManulDealEnabled = false;
+
 
 
 
@@ -118,9 +117,11 @@ namespace WeixinRoboot
             //window.redirect_uri="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
             StatusMessage = "等待扫码";
             WaitScanTHreadID = Guid.NewGuid();
-            Thread WaitScan = new Thread(new ParameterizedThreadStart(WaitScanThreadDo));
+            WaitScan = new Thread(new ParameterizedThreadStart(WaitScanThreadDo));
+
             WaitScan.Start(WaitScanTHreadID);
         }
+        Thread WaitScan = null;
         private void WaitScanThreadDo(Object ThreadID)
         {
 
@@ -273,13 +274,12 @@ namespace WeixinRoboot
                     string str_state = NetFramework.Util_WEB.OpenUrl("https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxstatusnotify"
                    , "https://wx2.qq.com/", j_BaseRequest.ToString(), "POST", cookie);
 
-                    DownloadResultThreadID = Guid.NewGuid();
-                    Thread DownloadResultThread = new Thread(new ParameterizedThreadStart(DownloadResultThreadDo));
-                    DownloadResultThread.Start(DownloadResultThreadID);
-
+                    DownLoad163 = new Thread(new ThreadStart(DownLoad163ThreadDo));
+                    DownLoad163.Start();
                     while ((KillThread.ContainsKey((Guid)ThreadID)) == false)
                     {
-                        KeepAlieveDo();
+                        Application.DoEvents();
+                        KeepAlieveThreadDo();
                     }
 
                 }
@@ -300,7 +300,8 @@ namespace WeixinRoboot
 
 
         }
-        private void KeepAlieveDo()
+
+        private void KeepAlieveThreadDo()
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -329,15 +330,16 @@ namespace WeixinRoboot
                 JObject Check = JObject.Parse(Result3);
 
 
-
+                Console.WriteLine(DateTime.Now.ToString());
+                Console.WriteLine(Result3);
                 if (Check["retcode"].ToString() != "0")
                 {
-                    Console.WriteLine(DateTime.Now.ToString());
-                    Console.WriteLine(Result3);
+
                     //MessageBox.Show("微信已在别的地方登录");
                     //ReloadWX = true;
                     //return;
                     WXInit();
+
                     return;
                 }
 
@@ -392,14 +394,14 @@ namespace WeixinRoboot
                                     string MyOutResult = Linq.DataLogic.WX_UserReplyLog_MySendCreate(Content, tocontacts[0]);
 
 
-                                 
+
                                     if (@ToUserNameTEMPID.Contains("@@") == false && Content != "自动跟踪")
                                     {
                                         decimal? TotalPoint = Linq.DataLogic.WXUserChangeLog_GetRemainder(tocontacts[0].Field<string>("User_ContactID"));
                                         SendWXContent(MyOutResult, tocontacts[0].Field<string>("User_ContactTEMPID"));
                                         string OrderManul = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, tocontacts[0], "人工");
                                         SendWXContent(OrderManul, tocontacts[0].Field<string>("User_ContactTEMPID"));
-                                 
+
                                     }
 
 
@@ -485,7 +487,8 @@ namespace WeixinRoboot
             }
             catch (Exception AnyError)
             {
-                ShowError = AnyError;
+                Console.Write(AnyError.Message);
+                Console.Write(AnyError.StackTrace);
 
             }
 
@@ -496,77 +499,15 @@ namespace WeixinRoboot
         }//KeepAliveDo
 
 
-        private void DownloadResultThreadDo(Object ThreadID)
-        {
-            while (KillThread.ContainsKey((Guid)ThreadID) == false)
-            {
-                DownloadResult();
-            }
-        }
-        private void DownloadResult()
-        {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            try
-            {
-                Boolean SendImage = false;
-                DownLoad163CaiPiao(ref SendImage, DateTime.Now, false);
-                DownLoad163CaiPiao(ref SendImage, DateTime.Now.AddDays(-1), false);
-                #region "有新的就通知,以及处理结果"
-                if (SendImage == true)
-                {
 
 
-                    var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
-                    foreach (var item in users)
-                    {
-                        #region  多人同号不到ID跳过
-                        #endregion
-                        DataRow[] dr = RunnerF.MemberSource.Select("User_ContactID='" + item.WX_UserName + "'");
-                        if (dr.Length == 0)
-                        {
-                            continue;
-                        }
-                        string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
-                        if (TEMPUserName.StartsWith("@@"))
-                        {
-                            SendWXImage(Application.StartupPath + "\\Data.jpg", TEMPUserName);
-                            Thread.Sleep(1000);
-                            //SendWXImage(Application.StartupPath + "\\Data2.jpg", TEMPUserName);
-                            if (System.IO.File.Exists(Application.StartupPath + "\\Data3.txt"))
-                            {
-                                FileStream fs = new FileStream(Application.StartupPath + "\\Data3.txt", System.IO.FileMode.Open);
-                                byte[] bs = new byte[fs.Length];
-                                fs.Read(bs, 0, bs.Length);
-                                fs.Close();
-                                fs.Dispose();
-                                SendWXContent(Encoding.UTF8.GetString(bs), TEMPUserName);
-                            }
-                        }//向监听的群发送图片
-
-                    }//设置为自动监听的用户
-                    DealGameLogAndNotice();
-
-
-
-                }//新开奖
-
-                #endregion
-            }
-            catch (Exception)
-            {
-
-            }
-            Thread.Sleep(5000);
-
-        }
 
         private void KeepUpdateContactDo(Object ThreadID)
         {
         }
 
 
-        Exception ShowError = new Exception("");
+
         public string SendWXContent(string Content, string TempToUserID)
         {
             //10、发送信息
@@ -779,7 +720,7 @@ namespace WeixinRoboot
         private JObject WXInit()
         {
             cookie = new CookieCollection();
-            MI_GameLogManulDealEnabled = false;
+
             string Result = NetFramework.Util_WEB.OpenUrl("https://login.weixin.qq.com/cgi-bin/mmwebwx-bin/login?uuid=" + _uuid + "&tip=" + _tip.ToString() + "&_=" + JavaTimeSpan()
                   , "", "", "GET", cookie);
             string Redirect = Result.Substring(Result.IndexOf("redirect_uri"));
@@ -855,9 +796,9 @@ namespace WeixinRoboot
             JObject Members = JObject.Parse(str_memb);
 
 
-            RunnerF.Members = Members;
+            
+            RunnerF.Invoke(new Action(()=>{RunnerF.Members=Members;}));
 
-            MI_GameLogManulDealEnabled = true;
 
 
 
@@ -868,8 +809,73 @@ namespace WeixinRoboot
 
         Dictionary<Guid, Boolean> KillThread = new Dictionary<Guid, bool>();
 
+        Thread DownLoad163 = null;
+
+        private void DownLoad163ThreadDo()
+        {
+            while (true)
+            {
+                DownloadResult();
+                System.Threading.Thread.Sleep(5000);
+            }
+        }
+        private void DownloadResult()
+        {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            try
+            {
+                Boolean SendImage = false;
+                DownLoad163CaiPiao(ref SendImage, DateTime.Now, false);
+                DownLoad163CaiPiao(ref SendImage, DateTime.Now.AddDays(-1), false);
+                #region "有新的就通知,以及处理结果"
+                if (SendImage == true)
+                {
 
 
+                    var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
+                    foreach (var item in users)
+                    {
+                        #region  多人同号不到ID跳过
+                        #endregion
+                        DataRow[] dr = RunnerF.MemberSource.Select("User_ContactID='" + item.WX_UserName + "'");
+                        if (dr.Length == 0)
+                        {
+                            continue;
+                        }
+                        string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
+                        if (TEMPUserName.StartsWith("@@"))
+                        {
+                            SendWXImage(Application.StartupPath + "\\Data.jpg", TEMPUserName);
+                            Thread.Sleep(1000);
+                            //SendWXImage(Application.StartupPath + "\\Data2.jpg", TEMPUserName);
+                            if (System.IO.File.Exists(Application.StartupPath + "\\Data3.txt"))
+                            {
+                                FileStream fs = new FileStream(Application.StartupPath + "\\Data3.txt", System.IO.FileMode.Open);
+                                byte[] bs = new byte[fs.Length];
+                                fs.Read(bs, 0, bs.Length);
+                                fs.Close();
+                                fs.Dispose();
+                                SendWXContent(Encoding.UTF8.GetString(bs), TEMPUserName);
+                            }
+                        }//向监听的群发送图片
+
+                    }//设置为自动监听的用户
+                    DealGameLogAndNotice();
+
+
+
+                }//新开奖
+
+                #endregion
+            }
+            catch (Exception AnyError)
+            {
+                Console.Write(AnyError.Message);
+                Console.Write(AnyError.StackTrace);
+            }
+
+        }
 
         public void DownLoad163CaiPiao(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
         {
@@ -1337,6 +1343,8 @@ namespace WeixinRoboot
         static string StatusMessage = "扫描微信登陆";
         static bool ReloadWX = false;
 
+
+
         private void tm_refresh_Tick(object sender, EventArgs e)
         {
             lbl_msg.Text = StatusMessage + Environment.NewLine;
@@ -1347,10 +1355,9 @@ namespace WeixinRoboot
             SI_url.Text = NetFramework.Util_WEB.CurrentUrl;
             SI_url.ToolTipText = SI_url.Text;
 
-            SI_ShowError.Text = ShowError.Message + Environment.NewLine + ShowError.StackTrace;
-            SI_ShowError.ToolTipText = SI_ShowError.Text;
 
-            MI_GameLogManulDeal.Enabled = MI_GameLogManulDealEnabled;
+
+
 
             if (ReloadWX == true)
             {

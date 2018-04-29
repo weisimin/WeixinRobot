@@ -19,7 +19,8 @@ namespace WeixinRoboot
         {
 
             AllocConsole();
-
+            //局部线程，不能及时结束会造成没相应
+            //全局LINQ数据库，会频繁出现SQLDATAREADER已打开或关闭的问题
 
 
 

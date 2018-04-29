@@ -181,7 +181,13 @@ namespace WeixinRoboot.Linq
                     && t.WX_UserName == reply.WX_UserName
                     && t.GamePeriod == NextPeriod
                     ).ToList();
-                return "取消失败，下注不足够，" + "余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); ;
+
+                TotalResult tr1 = BuildResult(db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key
+              && t.WX_UserName == reply.WX_UserName
+              && t.Buy_Point != 0
+              && t.Result_HaveProcess != true
+              ).ToList(), MemberSource);
+                return "下注不足，" + tr1.ToSlimStringV2() + "余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); ;
             }
             #endregion
 
@@ -207,7 +213,12 @@ namespace WeixinRoboot.Linq
                 GameLogChangeAndCheck(reply, modiitem, out CheckResult);
                 if (CheckResult != "")
                 {
-                    return "取消失败，" + CheckResult + "余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); ; ;
+                    TotalResult tr2 = BuildResult(db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key
+               && t.WX_UserName == reply.WX_UserName
+               && t.Buy_Point != 0
+               && t.Result_HaveProcess != true
+               ).ToList(), MemberSource);
+                    return CheckResult + "," + tr2.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); ; ;
                 }
                 else if (modiitem.Buy_Point == 0)
                 {
@@ -254,7 +265,7 @@ namespace WeixinRoboot.Linq
                 &&t.Result_HaveProcess!=true
                 ).ToList(), MemberSource);
 
-            return "取消成功" + tr.ToSlimStringV2() + "余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+            return  tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
 
 
 
@@ -463,6 +474,10 @@ namespace WeixinRoboot.Linq
 
             foreach (WX_UserGameLog item in logs)
             {
+                if (item.Buy_Point==0)
+                {
+                    continue;
+                }
                 DataRow usrw = MemberSource.Select("User_ContactID='" + item.WX_UserName + "'")[0];
                 r.UserNickName = usrw.Field<string>("User_Contact");
                 decimal? Remainder = WXUserChangeLog_GetRemainder(item.WX_UserName);
@@ -529,16 +544,27 @@ namespace WeixinRoboot.Linq
             {
                 if (reply.ReceiveContent == "查")
                 {
+                    DateTime TestPeriod = DateTime.Now;
+                    if (TestPeriod.Hour<=8)
+	{
+		 TestPeriod.AddDays(-1);
+	}
+	
+                    var TodayBuys=db.WX_UserGameLog.Where(t=>t.aspnet_UserID==GlobalParam.Key&&t.WX_UserName==reply.WX_UserName&&t.GameLocalPeriod.StartsWith(TestPeriod.ToString("yyyyMMdd")));
 
-                    decimal Remainder = WXUserChangeLog_GetRemainder(reply.WX_UserName);
-                    return "查：" + Remainder.ToString("N0");
+                    string Result = "下注期数是" + TodayBuys.Select(t => t.GamePeriod).Count().ToString()
+                    + "期，下注总额是" +ObjectToString( TodayBuys.Sum(t => t.Buy_Point),"N0")
+                    + ",得分总额是" + ObjectToString(TodayBuys.Sum(t => t.Result_Point),"N0")
+                    + ",结果是" + ObjectToString((TodayBuys.Sum(t => t.Result_Point) - TodayBuys.Sum(t => t.Buy_Point)), "N0");
+
+                    return Result;
                 }
                 else if (reply.ReceiveContent == "全部取消")
                 {
                     Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == reply.ReceiveTime.ToString("HH:mm"));
                     if (testmin != null)
                     {
-                        return "整点不能取消" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); 
+                        return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); 
 
                     }
                     #region "时间转化期数"
@@ -628,7 +654,7 @@ namespace WeixinRoboot.Linq
                     Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == reply.ReceiveTime.ToString("HH:mm"));
                     if (testmin != null)
                     {
-                        return "整点不能取消" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); ;
+                        return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); ;
  
                     }
                     #endregion
@@ -662,7 +688,7 @@ namespace WeixinRoboot.Linq
                     Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == reply.ReceiveTime.ToString("HH:mm"));
                     if (testmin != null)
                     {
-                        return "整点不能下注" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); 
+                        return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); 
 
                     }
                     string CheckResult = "";
@@ -706,10 +732,8 @@ namespace WeixinRoboot.Linq
                     }
                     if (CheckResult != "")
                     {
-                        return CheckResult;
-
                         TotalResult tr = BuildResult(checkHaveBuy, MemberSource);
-                        return "下注失败," + CheckResult + tr.ToSlimStringV2() + ",余" + WXUserChangeLog_GetRemainder(reply.WX_UserName);
+                        return  CheckResult + tr.ToSlimStringV2()+ ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName),"N0"  );
                     }
                     else
                     {
@@ -732,7 +756,7 @@ namespace WeixinRoboot.Linq
 
                         db.SubmitChanges();
                         TotalResult tr = BuildResult(checkHaveBuy, MemberSource);
-                        return "下注成功" + tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+                        return  tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
                     }
 
                 }//下单
@@ -897,10 +921,7 @@ namespace WeixinRoboot.Linq
                 NewData = false;
                 GameLogChangeAndCheck(replylog, CheckExists, out CheckResult);
 
-                if (CheckResult!="")
-                {
-                    CheckResult = "下注失败，" + CheckResult + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(replylog.WX_UserName),"N0"); 
-                }
+                
 
 
                 return CheckExists;
@@ -928,10 +949,7 @@ namespace WeixinRoboot.Linq
 
                 CheckHaveBuy.Add(newgl);
                 GameLogChangeAndCheck(replylog, newgl, out CheckResult);
-                if (CheckResult!="")
-                {
-                    CheckResult = "下注失败，" + CheckResult + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(replylog.WX_UserName),"N0"); 
-                }
+                
 
 
 
@@ -975,7 +993,7 @@ namespace WeixinRoboot.Linq
                     && t.BuyValue == newgl.Buy_Value
                     ).Min(t => t.MinBuy);
 
-                CheckResult = "不在限范围" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0");
+                CheckResult = "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0")+"范围";
                 return;
             }
             else 

@@ -14,21 +14,21 @@ namespace WeixinRoboot
         private JObject _Members = null;
         public DataTable MemberSource = null;
         public DataTable ReplySource = null;
-        public JObject Members
+       
+
+        public JObject  Members
         {
-            get
-            {
+            get {
                 return _Members;
             }
-            set
-            {
+           set {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+
                 _Members = value;
 
-                OperationStop = true;
-           
+
+
 
 
 
@@ -69,8 +69,8 @@ namespace WeixinRoboot
                     DataRow newr = null;
                     if (Lists.Length == 0)
                     {
-                         newr = MemberSource.NewRow();
-                         MemberSource.Rows.Add(newr);
+                        newr = MemberSource.NewRow();
+                        MemberSource.Rows.Add(newr);
                     }
                     else
                     {
@@ -101,23 +101,21 @@ namespace WeixinRoboot
                     RepyRowitem.SetField("Reply_Contact", usr[0].Field<string>("User_Contact"));
                     RepyRowitem.SetField("Reply_ContactTEMPID", usr[0].Field<string>("User_ContactTEMPID"));
                 }
-                BS_Contact.DataSource = MemberSource;
-                OperationStop = false;
             }//Set结束
         }
 
         public JObject RoomMembers = null;
         public DataTable RoomMerbersSource = null;
 
-        public Boolean OperationStop = false;
+
 
         public RunnerForm()
         {
             InitializeComponent();
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
-           
+
+
             dtp_StartDate.Value = DateTime.Today.AddDays(-3);
             dtp_EndDate.Value = DateTime.Today.AddMonths(1);
 
@@ -158,13 +156,10 @@ namespace WeixinRoboot
 
         private void LoadReplyLog(string SelectUser)
         {
-            if (OperationStop==true)
-            {
-                return;
-            }
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+
             //ReplySource.Columns.Add("Reply_Contact");
             //ReplySource.Columns.Add("Reply_ContactID");
             //ReplySource.Columns.Add("Reply_ContactTEMPID");
@@ -210,12 +205,12 @@ namespace WeixinRoboot
                 }
                 ReplySource.Rows.Add(item.ItemArray);
             }
-           
-           
+
+
             BS_ReceiveReply.Sort = "Reply_ContactID,Reply_ReceiveTime";
 
 
-            if (dtp_StartDate.Value == null || dtp_EndDate.Value == null )
+            if (dtp_StartDate.Value == null || dtp_EndDate.Value == null)
             {
                 return;
             }
@@ -259,7 +254,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+
             if (e.Row != null)
             {
                 return;
@@ -299,11 +294,7 @@ namespace WeixinRoboot
         public StartForm StartF = null;
         private void MI_FasongXinxi_Click(object sender, EventArgs e)
         {
-            if (OperationStop == true)
-            {
-                MessageBox.Show("正在加载微信联系人，稍等");
-                return;
-            }
+
             SendMessage SM = new SendMessage();
             SM.UserRow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
             SM.StartF = StartF;
@@ -334,11 +325,7 @@ namespace WeixinRoboot
 
         private void MI_ChongZhi_Click(object sender, EventArgs e)
         {
-            if (OperationStop == true)
-            {
-                MessageBox.Show("正在加载微信联系人，稍等");
-                return;
-            }
+
             SendCharge sc = new SendCharge();
             sc.RunnerF = this;
             sc.StartF = this.StartF;
@@ -366,12 +353,16 @@ namespace WeixinRoboot
                 gv_contact.ContextMenuStrip.Show(
                     this, this.PointToClient(MousePosition)
                     );
+
+                LoadReplyLog(((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row.Field<string>("User_ContactID"));
+
+
             }
             else
             {
 
             }
-           
+
         }
 
         private void dtp_Start_ValueChanged(object sender, EventArgs e)
@@ -391,11 +382,7 @@ namespace WeixinRoboot
 
         private void MI_OrderManual_Click(object sender, EventArgs e)
         {
-            if (OperationStop == true)
-            {
-                MessageBox.Show("正在加载微信联系人，稍等");
-                return;
-            }
+
             SendManulOrder SM = new SendManulOrder();
             SM.StartF = this.StartF;
             SM.RunnerF = this;
@@ -406,11 +393,7 @@ namespace WeixinRoboot
 
         private void MI_CleanUp_Click(object sender, EventArgs e)
         {
-            if (OperationStop == true)
-            {
-                MessageBox.Show("正在加载微信联系人，稍等");
-                return;
-            }
+
             SendCharge sc = new SendCharge();
             sc.RunnerF = this;
             sc.StartF = this.StartF;
@@ -421,23 +404,15 @@ namespace WeixinRoboot
 
         private void gv_contact_SelectionChanged(object sender, EventArgs e)
         {
-            if (gv_contact.SelectedRows.Count != 0)
-            {
-                LoadReplyLog(((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row.Field<string>("User_ContactID"));
 
-            }
         }
 
         private void MI_IsReply_Click(object sender, EventArgs e)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
-            if (OperationStop==true)
-            {
-                MessageBox.Show("正在加载微信联系人，稍等");
-                return;
-            }
+
+
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
@@ -451,12 +426,12 @@ namespace WeixinRoboot
                 db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, usr);
                 usr.IsReply = editrow.Field<Boolean?>("User_IsReply");
                 db.SubmitChanges();
-                
-               
+
+
             }
         }
 
-     
+
 
 
 
