@@ -30,17 +30,16 @@ namespace WeixinRoboot
 
 
         }
-        Guid WaitScanTHreadID = Guid.NewGuid();
-        Guid DownloadResultThreadID = Guid.NewGuid();
 
         public string _uuid = "";
         public System.Net.CookieCollection cookie = new CookieCollection();
 
-        private string ImgUrl = "";
+
         private void LoadBarCode()
         {
+            this.Invoke(new Action(() => { lbl_msg.Text = "等待微信二维码"; }));
 
-            StatusMessage = "等待微信二维码";
+
             string Result = NetFramework.Util_WEB.OpenUrl("https://login.weixin.qq.com/jslogin?appid=wx782c26e4c19acffb&fun=new&lang=zh_CN&_=" + JavaTimeSpan()
               , "", "", "GET", cookie);
 
@@ -50,7 +49,7 @@ namespace WeixinRoboot
             UUID = UUID.Substring(0, UUID.Length - 2);
             _uuid = UUID;
             //登陆https://login.weixin.qq.com/qrcode/XXXXXX
-            ImgUrl = "https://login.weixin.qq.com/qrcode/" + UUID + "?t=" + new Random().Next().ToString();
+            this.Invoke(new Action(() => { PicBarCode.ImageLocation = "https://login.weixin.qq.com/qrcode/" + UUID + "?t=" + new Random().Next().ToString(); }));
 
         }
 
@@ -91,7 +90,7 @@ namespace WeixinRoboot
         public JObject j_BaseRequest = null;
         JObject synckeys = null;
 
-        bool HaveScan = false;
+
 
         public RunnerForm RunnerF = new RunnerForm();
 
@@ -115,13 +114,15 @@ namespace WeixinRoboot
 
             //window.code=200
             //window.redirect_uri="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-            StatusMessage = "等待扫码";
+            this.Invoke(new Action(() => { lbl_msg.Text = "等待扫码"; }));
             WaitScanTHreadID = Guid.NewGuid();
-            WaitScan = new Thread(new ParameterizedThreadStart(WaitScanThreadDo));
+            Thread WaitScan = new Thread(new ParameterizedThreadStart(WaitScanThreadDo));
 
             WaitScan.Start(WaitScanTHreadID);
         }
-        Thread WaitScan = null;
+        Guid WaitScanTHreadID = Guid.NewGuid();
+
+
         private void WaitScanThreadDo(Object ThreadID)
         {
 
@@ -154,13 +155,14 @@ namespace WeixinRoboot
                 if (Result.Contains("window.code=201"))
                 {
                     _tip = 0;
-                    StatusMessage = "手机已扫码";
-                    HaveScan = true;
+                    this.Invoke(new Action(() => { lbl_msg.Text = "手机已扫码"; }));
+                    this.Invoke(new Action(() => { PicBarCode.Visible = false; }));
                 }
                 else if (Result.Contains("window.code=200"))
                 {
-                    HaveScan = true;
-                    StatusMessage = "手机已确认";
+                    ;
+                    this.Invoke(new Action(() => { lbl_msg.Text = "手机已确认"; }));
+
 
 
                     // 用get方法，访问在上一步骤获得访问地址，并在参数后面加上：&fun=new，会返回一个xml格式的文本，类似这样：
@@ -176,8 +178,8 @@ namespace WeixinRoboot
                     //</error>
 
                     //把这里的wxuin，wxsid，skey，pass_ticket都记下来，这是重要数据。
-                    StatusMessage = "获取参数/Cookie";
 
+                    this.Invoke(new Action(() => { lbl_msg.Text = "获取参数/Cookie"; }));
 
 
 
@@ -196,7 +198,7 @@ namespace WeixinRoboot
                     //程序里面要注意使用UTF8编码方式。
                     JObject Members = WXInit();
 
-
+                    RunnerF.Invoke(new Action(()=>{RunnerF.Members=Members;}));
 
                     // 6、获取群成员列表
 
@@ -274,22 +276,24 @@ namespace WeixinRoboot
                     string str_state = NetFramework.Util_WEB.OpenUrl("https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxstatusnotify"
                    , "https://wx2.qq.com/", j_BaseRequest.ToString(), "POST", cookie);
 
-                   Thread DownLoad163 = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo));
-                   DownLoad163.Start(DownloadResultThreadID);
+                    Thread DownLoad163 = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo));
+                    DownLoad163.Start(Download163ThreadID);
+
+                    this.Invoke(new Action(() => { MI_GameLogManulDeal.Enabled = true; }));
                     while ((KillThread.ContainsKey((Guid)ThreadID)) == false)
                     {
                         Application.DoEvents();
                         KeepAlieveDo();
                     }
-                    
-                    return ;
-   
+
+                    return;
+
 
                 }//200 code
 
                 if (_tip != 0)
                 {
-                    StatusMessage = "等待扫码";
+                    this.Invoke(new Action(() => { lbl_msg.Text = "等待扫码"; }));
                     _tip += 1;
                 }
                 goto ReCheckURI;
@@ -316,7 +320,9 @@ namespace WeixinRoboot
 
 
                 #region "微信监听"
-                StatusMessage = "机器人监听中";
+                this.Invoke(new Action(() => { lbl_msg.Text = "机器人监听中"; }));
+
+
                 //使用get方法，设置超时为60秒，访问：https://webpush.wx2.qq.com/cgi-bin/mmwebwx-bin/synccheck?sid=XXXXXX&uin=XXXXXX&synckey=XXXXXX&r=时间戳&skey=XXXXXX&deviceid=XXXXXX&_=时间戳
 
                 //其他几个参数不用解释，这里的synckey需要说一下，前面的步骤获取的json串中有多个key信息，需要把这些信息拼起来，key_val，中间用|分割，类似这样：
@@ -349,7 +355,7 @@ namespace WeixinRoboot
                 if ((Result3.Contains("selector:\"0\"")) == false)
                 {
 
-                    StatusMessage = Result3;
+                    this.Invoke(new Action(() => { lbl_msg.Text = Result3; }));
 
 
                     // 9、读取新信息
@@ -377,6 +383,9 @@ namespace WeixinRoboot
                     {
                         foreach (var AddMsgList in (Newmsg["AddMsgList"] as JArray))
                         {
+
+                            Linq.aspnet_UsersNewGameResultSend mysetting = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
+
                             string FromUserNameTEMPID = AddMsgList["FromUserName"].ToString();
                             string ToUserNameTEMPID = AddMsgList["ToUserName"].ToString();
 
@@ -437,14 +446,18 @@ namespace WeixinRoboot
                                     // DataRow sayuserr = runnerf.MemberSource.Select("User_ContactTEMPID='" + FindSayUserID + "'").First();
                                 }
 
+                                RunnerF.Invoke(new Action(() =>
+                                {
 
-                                DataRow newr = RunnerF.ReplySource.NewRow();
-                                newr.SetField("Reply_Contact", userr.Field<string>("User_Contact"));
-                                newr.SetField("Reply_ContactID", userr.Field<string>("User_ContactID"));
-                                newr.SetField("Reply_ContactTEMPID", userr.Field<string>("User_ContactTEMPID"));
-                                newr.SetField("Reply_ReceiveContent", Content);
-                                newr.SetField("Reply_ReceiveTime", JavaSecondTime(Convert.ToInt64(msgTime)));
-                                RunnerF.ReplySource.Rows.Add(newr);
+                                    DataRow newr = RunnerF.ReplySource.NewRow();
+                                    newr.SetField("Reply_Contact", userr.Field<string>("User_Contact"));
+                                    newr.SetField("Reply_ContactID", userr.Field<string>("User_ContactID"));
+                                    newr.SetField("Reply_ContactTEMPID", userr.Field<string>("User_ContactTEMPID"));
+                                    newr.SetField("Reply_ReceiveContent", Content);
+                                    newr.SetField("Reply_ReceiveTime", JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    RunnerF.ReplySource.Rows.Add(newr);
+                                }));
+
                                 #region "检查是否启用自动跟踪"
                                 Linq.WX_UserReply checkreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == userr.Field<string>("User_ContactID"));
                                 if (checkreply.IsReply == true)
@@ -454,9 +467,15 @@ namespace WeixinRoboot
                                     {
                                         continue;
                                     }
+                                    //授权不处理订单
+                                    if (mysetting.IsReceiveOrder != true)
+                                    {
+                                        continue;
+                                    }
                                     String OutMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, userr, "微信");
                                     if (OutMessage != "")
                                     {
+
                                         SendWXContent(OutMessage, userr.Field<string>("User_ContactTEMPID"));
                                     }
                                 }
@@ -505,9 +524,7 @@ namespace WeixinRoboot
 
 
 
-        private void KeepUpdateContactDo(Object ThreadID)
-        {
-        }
+
 
 
 
@@ -718,8 +735,19 @@ namespace WeixinRoboot
 
         }//新消息
 
+        Guid KeepUpdateContactThreadID = Guid.NewGuid();
+        private void KeepUpdateContactThreadDo(Object param)
+        {
+            object ThreadID = (param as object[])[0];
+            object Skey = (param as object[])[1];
+            object passticket = (param as object[])[2];
+            System.Threading.Thread.Sleep(50000);
+            while (KillThread.ContainsKey((Guid)ThreadID) == false)
+            {
+                RepeatGetMembers(Skey.ToString(),passticket.ToString());
 
-
+            }
+        }
         private JObject WXInit()
         {
             cookie = new CookieCollection();
@@ -741,7 +769,7 @@ namespace WeixinRoboot
             Uin = newridata.SelectSingleNode("error/wxuin").InnerText;
             Sid = newridata.SelectSingleNode("error/wxsid").InnerText;
             Skey = newridata.SelectSingleNode("error/skey").InnerText;
-            StatusMessage = "初始化";
+            this.Invoke(new Action(() => { lbl_msg.Text = "初始化"; }));
             string CheckUrl3 = "https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxinit?r=" + JavaTimeSpan() + "&pass_ticket=" + pass_ticket;
 
             j_BaseRequest = new JObject();
@@ -788,32 +816,50 @@ namespace WeixinRoboot
             MyUserName = InitResponse["User"]["UserName"].ToString();
 
 
-            // 6、获取好友列表
 
-            //使用POST方法，访问：https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=时间戳
-
-            //POST的内容为空。成功则以JSON格式返回所有联系人的信息。格式类似：
-            string str_memb = NetFramework.Util_WEB.OpenUrl("https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan()
-        , "https://wx2.qq.com/", "", "POST", cookie);
-
-            JObject Members = RepeatGetMembers();
+            JObject Members = RepeatGetMembers(Skey, pass_ticket); ;
+            Thread KeepUpdateContactThread = new Thread(new ParameterizedThreadStart(KeepUpdateContactThreadDo));
+            KeepUpdateContactThread.Start(new object[]{ KeepUpdateContactThreadID,Skey,pass_ticket});
             return Members;
         }
-
-        private JObject RepeatGetMembers()
+        private JObject RepeatGetMembers(string Skey,string pass_ticket)
         {
-            string str_memb = NetFramework.Util_WEB.OpenUrl("https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan()
+            try
+            {
+                // 6、获取好友列表
+
+                //使用POST方法，访问：https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=时间戳
+
+                //POST的内容为空。成功则以JSON格式返回所有联系人的信息。格式类似：
+                string str_memb = NetFramework.Util_WEB.OpenUrl("https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan() + "&skey=" + HttpUtility.UrlDecode(Skey) + "&pass_ticket="+pass_ticket
             , "https://wx2.qq.com/", "", "POST", cookie);
 
-            JObject Members = JObject.Parse(str_memb);
-            RunnerF.Invoke(new Action(() => { RunnerF.Members = Members; }));
-            return Members;
+                JObject Members = JObject.Parse(str_memb);
+                RunnerF.Invoke(new Action(() => { RunnerF.Members = Members; }));
+                return Members;
+            }
+            catch (Exception AnyError)
+            {
+                Console.Write(AnyError.Message);
+                Console.Write(AnyError.StackTrace);
+                return JObject.Parse("{MemberList{}}");
+            }
+
         }
 
+        private JObject RepeatGetMembers_bug()
+        {
+            string CheckUrl3 = "";
+            string str_memb = NetFramework.Util_WEB.OpenUrl(CheckUrl3
+           , "https://wx2.qq.com/", j_BaseRequest.ToString().Replace(Environment.NewLine, "").Replace(" ", ""), "POST", cookie, false);
+              JObject Members = JObject.Parse(str_memb);
+                RunnerF.Invoke(new Action(() => { RunnerF.Members = Members; }));
+                return Members;
+        }
         Dictionary<Guid, Boolean> KillThread = new Dictionary<Guid, bool>();
 
-        
 
+        Guid Download163ThreadID = Guid.NewGuid();
         private void DownLoad163ThreadDo(object ThreadID)
         {
             while (KillThread.ContainsKey((Guid)ThreadID))
@@ -847,6 +893,11 @@ namespace WeixinRoboot
                             continue;
                         }
                         string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
+                        Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
+                        if (!myset.IsSendPIC == true)
+                        {
+                            continue;
+                        }
                         if (TEMPUserName.StartsWith("@@"))
                         {
                             SendWXImage(Application.StartupPath + "\\Data.jpg", TEMPUserName);
@@ -1330,31 +1381,34 @@ namespace WeixinRoboot
         private void btn_resfresh_Click(object sender, EventArgs e)
         {
 
-            HaveScan = false;
-
+            PicBarCode.Visible = true;
+            MI_GameLogManulDeal.Enabled = false;
             KillThread.Add(WaitScanTHreadID, true);
-            KillThread.Add(DownloadResultThreadID, true);
+            KillThread.Add(Download163ThreadID, true);
+            KillThread.Add(KeepUpdateContactThreadID, true);
 
             WaitScanTHreadID = Guid.NewGuid();
-            DownloadResultThreadID = Guid.NewGuid();
+            Download163ThreadID = Guid.NewGuid();
+            KeepUpdateContactThreadID = Guid.NewGuid();
+
             Thread StartThread = new Thread(new ThreadStart(StartThreadDo));
             StartThread.Start();
 
 
         }
 
-        static string StatusMessage = "扫描微信登陆";
+
         static bool ReloadWX = false;
 
 
 
         private void tm_refresh_Tick(object sender, EventArgs e)
         {
-            lbl_msg.Text = StatusMessage + Environment.NewLine;
-            PicBarCode.Visible = !HaveScan;
 
 
-            PicBarCode.ImageLocation = ImgUrl;
+
+
+
             SI_url.Text = NetFramework.Util_WEB.CurrentUrl;
             SI_url.ToolTipText = SI_url.Text;
 

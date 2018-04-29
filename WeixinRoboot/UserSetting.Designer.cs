@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_UserName = new System.Windows.Forms.Label();
             this.fd_username = new System.Windows.Forms.TextBox();
@@ -39,7 +39,6 @@
             this.lbl_Islock = new System.Windows.Forms.Label();
             this.fd_password = new System.Windows.Forms.TextBox();
             this.fd_IsLock = new System.Windows.Forms.CheckBox();
-            this.btn_Save = new System.Windows.Forms.Button();
             this.Btn_Load = new System.Windows.Forms.Button();
             this.lbl_NewGameSend = new System.Windows.Forms.Label();
             this.fd_NewGameSend = new System.Windows.Forms.CheckBox();
@@ -48,6 +47,9 @@
             this.lbl_endDate = new System.Windows.Forms.Label();
             this.fd_EndDate = new System.Windows.Forms.DateTimePicker();
             this.Btn_Build = new System.Windows.Forms.Button();
+            this.btn_Save = new System.Windows.Forms.Button();
+            this.lbl_IsBlock = new System.Windows.Forms.Label();
+            this.Fd_IsBlock = new System.Windows.Forms.CheckBox();
             this.ep_wf = new System.Windows.Forms.ErrorProvider(this.components);
             this.TC_Main = new System.Windows.Forms.TabControl();
             this.TP_Data = new System.Windows.Forms.TabPage();
@@ -57,6 +59,12 @@
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsLockedOut = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BS_UserList = new System.Windows.Forms.BindingSource(this.components);
+            this.lbl_pic = new System.Windows.Forms.Label();
+            this.lbl_order = new System.Windows.Forms.Label();
+            this.lbl_tracecount = new System.Windows.Forms.Label();
+            this.FD_SendPIC = new System.Windows.Forms.CheckBox();
+            this.FD_ReceiveOrder = new System.Windows.Forms.CheckBox();
+            this.fd_MaxPlayerCount = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ep_wf)).BeginInit();
             this.TC_Main.SuspendLayout();
@@ -83,7 +91,6 @@
             this.tableLayoutPanel1.Controls.Add(this.lbl_Islock, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.fd_password, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.fd_IsLock, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btn_Save, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.Btn_Load, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.lbl_NewGameSend, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.fd_NewGameSend, 1, 3);
@@ -92,6 +99,15 @@
             this.tableLayoutPanel1.Controls.Add(this.lbl_endDate, 3, 4);
             this.tableLayoutPanel1.Controls.Add(this.fd_EndDate, 3, 5);
             this.tableLayoutPanel1.Controls.Add(this.Btn_Build, 3, 6);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_IsBlock, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.Fd_IsBlock, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.btn_Save, 0, 11);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_pic, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_order, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_tracecount, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.FD_SendPIC, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.FD_ReceiveOrder, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.fd_MaxPlayerCount, 1, 8);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 23);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 13;
@@ -160,16 +176,6 @@
             this.fd_IsLock.Size = new System.Drawing.Size(15, 14);
             this.fd_IsLock.TabIndex = 6;
             this.fd_IsLock.UseVisualStyleBackColor = true;
-            // 
-            // btn_Save
-            // 
-            this.btn_Save.Location = new System.Drawing.Point(3, 123);
-            this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(75, 23);
-            this.btn_Save.TabIndex = 8;
-            this.btn_Save.Text = "保存";
-            this.btn_Save.UseVisualStyleBackColor = true;
-            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
             // Btn_Load
             // 
@@ -246,6 +252,34 @@
             this.Btn_Build.UseVisualStyleBackColor = true;
             this.Btn_Build.Click += new System.EventHandler(this.Btn_Build_Click);
             // 
+            // btn_Save
+            // 
+            this.btn_Save.Location = new System.Drawing.Point(3, 333);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(75, 23);
+            this.btn_Save.TabIndex = 8;
+            this.btn_Save.Text = "保存";
+            this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
+            // 
+            // lbl_IsBlock
+            // 
+            this.lbl_IsBlock.AutoSize = true;
+            this.lbl_IsBlock.Location = new System.Drawing.Point(3, 120);
+            this.lbl_IsBlock.Name = "lbl_IsBlock";
+            this.lbl_IsBlock.Size = new System.Drawing.Size(29, 12);
+            this.lbl_IsBlock.TabIndex = 17;
+            this.lbl_IsBlock.Text = "封盘";
+            // 
+            // Fd_IsBlock
+            // 
+            this.Fd_IsBlock.AutoSize = true;
+            this.Fd_IsBlock.Location = new System.Drawing.Point(103, 123);
+            this.Fd_IsBlock.Name = "Fd_IsBlock";
+            this.Fd_IsBlock.Size = new System.Drawing.Size(15, 14);
+            this.Fd_IsBlock.TabIndex = 18;
+            this.Fd_IsBlock.UseVisualStyleBackColor = true;
+            // 
             // ep_wf
             // 
             this.ep_wf.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
@@ -289,40 +323,40 @@
             this.gv_UserList.AllowUserToDeleteRows = false;
             this.gv_UserList.AllowUserToOrderColumns = true;
             this.gv_UserList.AutoGenerateColumns = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_UserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_UserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gv_UserList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_UserList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.UserID,
             this.UserName,
             this.IsLockedOut});
             this.gv_UserList.DataSource = this.BS_UserList;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_UserList.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_UserList.DefaultCellStyle = dataGridViewCellStyle2;
             this.gv_UserList.Location = new System.Drawing.Point(7, 7);
             this.gv_UserList.MultiSelect = false;
             this.gv_UserList.Name = "gv_UserList";
             this.gv_UserList.ReadOnly = true;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_UserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_UserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gv_UserList.RowHeadersVisible = false;
             this.gv_UserList.RowTemplate.Height = 23;
             this.gv_UserList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -352,6 +386,58 @@
             this.IsLockedOut.ReadOnly = true;
             this.IsLockedOut.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.IsLockedOut.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // lbl_pic
+            // 
+            this.lbl_pic.AutoSize = true;
+            this.lbl_pic.Location = new System.Drawing.Point(3, 180);
+            this.lbl_pic.Name = "lbl_pic";
+            this.lbl_pic.Size = new System.Drawing.Size(41, 12);
+            this.lbl_pic.TabIndex = 19;
+            this.lbl_pic.Text = "发图：";
+            // 
+            // lbl_order
+            // 
+            this.lbl_order.AutoSize = true;
+            this.lbl_order.Location = new System.Drawing.Point(3, 210);
+            this.lbl_order.Name = "lbl_order";
+            this.lbl_order.Size = new System.Drawing.Size(41, 12);
+            this.lbl_order.TabIndex = 20;
+            this.lbl_order.Text = "接单：";
+            // 
+            // lbl_tracecount
+            // 
+            this.lbl_tracecount.AutoSize = true;
+            this.lbl_tracecount.Location = new System.Drawing.Point(3, 240);
+            this.lbl_tracecount.Name = "lbl_tracecount";
+            this.lbl_tracecount.Size = new System.Drawing.Size(89, 24);
+            this.lbl_tracecount.TabIndex = 21;
+            this.lbl_tracecount.Text = "跟踪玩家最大数量：";
+            // 
+            // FD_SendPIC
+            // 
+            this.FD_SendPIC.AutoSize = true;
+            this.FD_SendPIC.Location = new System.Drawing.Point(103, 183);
+            this.FD_SendPIC.Name = "FD_SendPIC";
+            this.FD_SendPIC.Size = new System.Drawing.Size(15, 14);
+            this.FD_SendPIC.TabIndex = 22;
+            this.FD_SendPIC.UseVisualStyleBackColor = true;
+            // 
+            // FD_ReceiveOrder
+            // 
+            this.FD_ReceiveOrder.AutoSize = true;
+            this.FD_ReceiveOrder.Location = new System.Drawing.Point(103, 213);
+            this.FD_ReceiveOrder.Name = "FD_ReceiveOrder";
+            this.FD_ReceiveOrder.Size = new System.Drawing.Size(15, 14);
+            this.FD_ReceiveOrder.TabIndex = 23;
+            this.FD_ReceiveOrder.UseVisualStyleBackColor = true;
+            // 
+            // fd_MaxPlayerCount
+            // 
+            this.fd_MaxPlayerCount.Location = new System.Drawing.Point(103, 243);
+            this.fd_MaxPlayerCount.Name = "fd_MaxPlayerCount";
+            this.fd_MaxPlayerCount.Size = new System.Drawing.Size(149, 21);
+            this.fd_MaxPlayerCount.TabIndex = 24;
             // 
             // UserSetting
             // 
@@ -401,6 +487,14 @@
         private System.Windows.Forms.Label lbl_endDate;
         private System.Windows.Forms.DateTimePicker fd_EndDate;
         private System.Windows.Forms.Button Btn_Build;
+        private System.Windows.Forms.Label lbl_IsBlock;
+        private System.Windows.Forms.CheckBox Fd_IsBlock;
+        private System.Windows.Forms.Label lbl_pic;
+        private System.Windows.Forms.Label lbl_order;
+        private System.Windows.Forms.Label lbl_tracecount;
+        private System.Windows.Forms.CheckBox FD_SendPIC;
+        private System.Windows.Forms.CheckBox FD_ReceiveOrder;
+        private System.Windows.Forms.TextBox fd_MaxPlayerCount;
 
     }
 }

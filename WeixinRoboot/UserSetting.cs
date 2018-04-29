@@ -14,14 +14,14 @@ namespace WeixinRoboot
         public UserSetting()
         {
             InitializeComponent();
-           
+
         }
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+
             switch (_Mode)
             {
                 case "New":
@@ -32,21 +32,27 @@ namespace WeixinRoboot
                         newGameResultSend.aspnet_UserID = (Guid)usr.ProviderUserKey;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
                         newGameResultSend.ActiveCode = fd_activecode.Text;
+                        newGameResultSend.IsBlock = Fd_IsBlock.Checked;
+
+                        newGameResultSend.IsSendPIC = FD_SendPIC.Checked;
+                        newGameResultSend.IsReceiveOrder = FD_ReceiveOrder.Checked;
+                        newGameResultSend.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
+
                         db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
                         db.SubmitChanges();
 
-                        MembershipUser sysadmin=System.Web.Security.Membership.GetUser("sysadmin");
+                        MembershipUser sysadmin = System.Web.Security.Membership.GetUser("sysadmin");
 
 
 
                         var CopyRatio = db.Game_BasicRatio.Where(t => t.aspnet_UserID == (sysadmin == null ? Guid.Empty : (Guid)sysadmin.ProviderUserKey));
 
-                        if (CopyRatio.Count()!=0)
+                        if (CopyRatio.Count() != 0)
                         {
                             foreach (var item in CopyRatio)
                             {
                                 Linq.Game_BasicRatio newr = new Linq.Game_BasicRatio();
-                                newr.aspnet_UserID =(Guid) usr.ProviderUserKey;
+                                newr.aspnet_UserID = (Guid)usr.ProviderUserKey;
                                 newr.BasicRatio = item.BasicRatio;
                                 newr.BuyType = item.BuyType;
                                 newr.BuyValue = item.BuyValue;
@@ -100,12 +106,23 @@ namespace WeixinRoboot
                             newGameResultSend.aspnet_UserID = (Guid)user.ProviderUserKey;
                             newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
                             newGameResultSend.ActiveCode = fd_activecode.Text;
+                            newGameResultSend.IsBlock = Fd_IsBlock.Checked;
+                            newGameResultSend.IsSendPIC = FD_SendPIC.Checked;
+                            newGameResultSend.IsReceiveOrder = FD_ReceiveOrder.Checked;
+                            newGameResultSend.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
+
                             db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
+
 
                         }
                         else
                         {
                             finds.IsNewSend = fd_NewGameSend.Checked;
+                            finds.IsBlock = fd_IsLock.Checked;
+                            finds.IsSendPIC = FD_SendPIC.Checked;
+                            finds.IsReceiveOrder = FD_ReceiveOrder.Checked;
+                            finds.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
+
                         }
                         db.SubmitChanges();
 
@@ -185,6 +202,14 @@ namespace WeixinRoboot
 
                     fd_EndDate.Enabled = false;
                     Btn_Build.Visible = false;
+
+                    lbl_pic.Visible = false;
+                    lbl_order.Visible = false;
+                    lbl_tracecount.Visible = false;
+
+                    FD_SendPIC.Visible = false;
+                    FD_ReceiveOrder.Visible = false;
+                    fd_MaxPlayerCount.Visible = false;
                     break;
                 default:
                     break;
@@ -197,7 +222,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+
             try
             {
                 MembershipUser usr = Membership.GetUser(fd_username.Text);
@@ -207,7 +232,7 @@ namespace WeixinRoboot
                     fd_IsLock.Enabled = true;
 
                     fd_IsLock.Checked = usr.IsLockedOut;
-                
+
 
                     btn_Save.Enabled = true;
 
@@ -216,14 +241,29 @@ namespace WeixinRoboot
                     if (newgs == null)
                     {
                         fd_NewGameSend.Checked = false;
+
+                        fd_IsLock.Checked = false;
+                        FD_SendPIC.Checked = false;
+                        FD_ReceiveOrder.Checked = false;
+                        fd_MaxPlayerCount.Text = "50";
+
                     }
                     else
                     {
                         fd_NewGameSend.Checked = newgs.IsNewSend.HasValue ? newgs.IsNewSend.Value : false;
                         fd_activecode.Text = newgs.ActiveCode;
-                        DateTime? LastDate=null;
+                        DateTime? LastDate = null;
                         NetFramework.Util_MD5.MD5Success(newgs.ActiveCode, out LastDate, GlobalParam.Key);
-                        fd_EndDate.Value = LastDate.HasValue?LastDate.Value:fd_EndDate.MinDate ;
+                        fd_EndDate.Value = LastDate.HasValue ? LastDate.Value : fd_EndDate.MinDate;
+
+
+                        fd_IsLock.Checked = newgs.IsBlock.HasValue ? newgs.IsBlock.Value : false; ;
+                        FD_SendPIC.Checked = newgs.IsSendPIC.HasValue ? newgs.IsSendPIC.Value : false; ;
+                        FD_ReceiveOrder.Checked = newgs.IsReceiveOrder.HasValue ? newgs.IsReceiveOrder.Value : false; ;
+                        fd_MaxPlayerCount.Text = newgs.MaxPlayerCount.HasValue ? newgs.MaxPlayerCount.ToString() : "50";
+
+
+
                     }
 
                 }
@@ -259,7 +299,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+
             var source = from ms in db.aspnet_Membership
                          join us in db.aspnet_Users on ms.UserId equals us.UserId
                          select new { us.UserId, us.UserName, ms.IsLockedOut };
@@ -268,8 +308,8 @@ namespace WeixinRoboot
 
         private void Btn_Build_Click(object sender, EventArgs e)
         {
-            fd_activecode.Text = NetFramework.Util_MD5.BuidMD5ActiveCode(fd_EndDate.Value,(Guid) Membership.GetUser(fd_username.Text).ProviderUserKey);
+            fd_activecode.Text = NetFramework.Util_MD5.BuidMD5ActiveCode(fd_EndDate.Value, (Guid)Membership.GetUser(fd_username.Text).ProviderUserKey);
         }
-     
+
     }
 }
