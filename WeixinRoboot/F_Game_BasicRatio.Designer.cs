@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gv_Game_BasicRatio = new System.Windows.Forms.DataGridView();
+            this.BS_Game_BasicRatio = new System.Windows.Forms.BindingSource(this.components);
+            this.Btn_Save = new System.Windows.Forms.Button();
+            this.ep_gridview = new System.Windows.Forms.ErrorProvider(this.components);
+            this.lbl_class = new System.Windows.Forms.Label();
             this.GameType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.aspnet_userid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BuyType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -38,10 +42,6 @@
             this.MaxBuy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BuyValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.赔率 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BS_Game_BasicRatio = new System.Windows.Forms.BindingSource(this.components);
-            this.Btn_Save = new System.Windows.Forms.Button();
-            this.ep_gridview = new System.Windows.Forms.ErrorProvider(this.components);
-            this.lbl_class = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gv_Game_BasicRatio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Game_BasicRatio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ep_gridview)).BeginInit();
@@ -73,59 +73,6 @@
             this.gv_Game_BasicRatio.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_Game_BasicRatio_DataError);
             this.gv_Game_BasicRatio.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.gv_Game_BasicRatio_RowsAdded);
             // 
-            // GameType
-            // 
-            this.GameType.DataPropertyName = "GameType";
-            this.GameType.HeaderText = "游戏";
-            this.GameType.Name = "GameType";
-            // 
-            // aspnet_userid
-            // 
-            this.aspnet_userid.DataPropertyName = "aspnet_UserID";
-            this.aspnet_userid.HeaderText = "aspnet_UserID";
-            this.aspnet_userid.Name = "aspnet_userid";
-            this.aspnet_userid.Visible = false;
-            // 
-            // BuyType
-            // 
-            this.BuyType.DataPropertyName = "BuyType";
-            this.BuyType.HeaderText = "下注类";
-            this.BuyType.Name = "BuyType";
-            // 
-            // 含最小
-            // 
-            this.含最小.DataPropertyName = "IncludeMin";
-            this.含最小.HeaderText = "含最小";
-            this.含最小.Name = "含最小";
-            this.含最小.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.含最小.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // MinBuy
-            // 
-            this.MinBuy.DataPropertyName = "MinBuy";
-            this.MinBuy.HeaderText = "最小";
-            this.MinBuy.Name = "MinBuy";
-            this.MinBuy.Width = 60;
-            // 
-            // MaxBuy
-            // 
-            this.MaxBuy.DataPropertyName = "MaxBuy";
-            this.MaxBuy.HeaderText = "最大";
-            this.MaxBuy.Name = "MaxBuy";
-            this.MaxBuy.Width = 60;
-            // 
-            // BuyValue
-            // 
-            this.BuyValue.DataPropertyName = "BuyValue";
-            this.BuyValue.HeaderText = "下注值";
-            this.BuyValue.Name = "BuyValue";
-            // 
-            // 赔率
-            // 
-            this.赔率.DataPropertyName = "BasicRatio";
-            this.赔率.HeaderText = "赔率";
-            this.赔率.Name = "赔率";
-            // 
             // BS_Game_BasicRatio
             // 
             this.BS_Game_BasicRatio.Sort = "OrderIndex";
@@ -153,6 +100,64 @@
             this.lbl_class.Size = new System.Drawing.Size(35, 12);
             this.lbl_class.TabIndex = 2;
             this.lbl_class.Text = "分类:";
+            // 
+            // GameType
+            // 
+            this.GameType.DataPropertyName = "GameType";
+            this.GameType.HeaderText = "游戏";
+            this.GameType.Name = "GameType";
+            this.GameType.ReadOnly = true;
+            // 
+            // aspnet_userid
+            // 
+            this.aspnet_userid.DataPropertyName = "aspnet_UserID";
+            this.aspnet_userid.HeaderText = "aspnet_UserID";
+            this.aspnet_userid.Name = "aspnet_userid";
+            this.aspnet_userid.ReadOnly = true;
+            this.aspnet_userid.Visible = false;
+            // 
+            // BuyType
+            // 
+            this.BuyType.DataPropertyName = "BuyType";
+            this.BuyType.HeaderText = "下注类";
+            this.BuyType.Name = "BuyType";
+            this.BuyType.ReadOnly = true;
+            // 
+            // 含最小
+            // 
+            this.含最小.DataPropertyName = "IncludeMin";
+            this.含最小.HeaderText = "含最小";
+            this.含最小.Name = "含最小";
+            this.含最小.ReadOnly = true;
+            this.含最小.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.含最小.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // MinBuy
+            // 
+            this.MinBuy.DataPropertyName = "MinBuy";
+            this.MinBuy.HeaderText = "最小";
+            this.MinBuy.Name = "MinBuy";
+            this.MinBuy.Width = 60;
+            // 
+            // MaxBuy
+            // 
+            this.MaxBuy.DataPropertyName = "MaxBuy";
+            this.MaxBuy.HeaderText = "最大";
+            this.MaxBuy.Name = "MaxBuy";
+            this.MaxBuy.Width = 60;
+            // 
+            // BuyValue
+            // 
+            this.BuyValue.DataPropertyName = "BuyValue";
+            this.BuyValue.HeaderText = "下注值";
+            this.BuyValue.Name = "BuyValue";
+            this.BuyValue.ReadOnly = true;
+            // 
+            // 赔率
+            // 
+            this.赔率.DataPropertyName = "BasicRatio";
+            this.赔率.HeaderText = "赔率";
+            this.赔率.Name = "赔率";
             // 
             // F_Game_BasicRatio
             // 

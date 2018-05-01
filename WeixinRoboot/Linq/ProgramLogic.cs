@@ -276,7 +276,7 @@ namespace WeixinRoboot.Linq
                                 break;
 
                             case "双龙":
-                                 if (gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "龙")
+                                if (gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "龙")
                                 {
                                     gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
 
@@ -287,7 +287,7 @@ namespace WeixinRoboot.Linq
                                 }
                                 break;
                             case "单虎":
-                                 if (gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "虎")
+                                if (gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "虎")
                                 {
                                     gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
 
@@ -297,7 +297,7 @@ namespace WeixinRoboot.Linq
                                     gamelogitem.Result_Point = 0;
                                 }
                                 break;
-                              
+
                             case "双虎":
 
                                 if (gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "虎")
@@ -469,7 +469,7 @@ namespace WeixinRoboot.Linq
                                 }
                                 break;
                             case "和单合":
-                                  if (gamelogitem.Gr_BigSmall == "和" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "合")
+                                if (gamelogitem.Gr_BigSmall == "和" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "合")
                                 {
                                     gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
 
@@ -753,9 +753,19 @@ namespace WeixinRoboot.Linq
                 }//根据买的类型和数值处理
 
                 #region 单买龙虎出合，大小出和，庄家不吃的返点
-                if (true)
+                if (gamelogitem.Buy_Value == "大" || gamelogitem.Buy_Value == "小" || gamelogitem.Buy_Value == "和")
                 {
+                    if (gamelogitem.Gr_BigSmall=="和")
+                    {
+                        
+                    }
+                }
+                if (gamelogitem.Buy_Value == "龙" || gamelogitem.Buy_Value == "虎" || gamelogitem.Buy_Value == "合")
+                {
+                    if (gamelogitem.Gr_DragonTiger == "和")
+                    {
 
+                    }
                 }
                 #endregion
                 //只取正整数
@@ -974,42 +984,23 @@ namespace WeixinRoboot.Linq
 
             public class TotalResultRow
             {
-                public TotalResultRow(string P_ShowPeriod, decimal P_TotalTiger,
-                 decimal P_TotalDragon,
-                 decimal P_TotalOK,
-                 decimal P_TotalLarge,
-                 decimal P_TotalSmall,
-                 decimal P_TotalMiddle,
-                 decimal P_TotalSingle,
-                 decimal P_TotalDouble,
+                public TotalResultRow(string P_ShowPeriod,
                     string P_BuyVale,
                 decimal? P_BuyPoint,
                      decimal? P_ResultPoint
                     )
                 {
                     ShowPeriod = P_ShowPeriod;
-                    TotalTiger = P_TotalTiger;
-                    TotalDragon = P_TotalDragon;
-                    TotalOK = P_TotalOK;
-                    TotalLarge = P_TotalLarge;
-                    TotalSmall = P_TotalSmall;
-                    TotalMiddle = P_TotalMiddle;
-                    TotalSingle = P_TotalSingle;
-                    TotalDouble = P_TotalDouble;
+                   
                     BuyValue = P_BuyVale;
                     BuyPoint = P_BuyPoint;
                     ResultPoint = P_ResultPoint;
 
                 }
                 public string ShowPeriod = "";
-                public decimal TotalTiger = 0;
-                public decimal TotalDragon = 0;
-                public decimal TotalOK = 0;
-                public decimal TotalLarge = 0;
-                public decimal TotalSmall = 0;
-                public decimal TotalMiddle = 0;
-                public decimal TotalSingle = 0;
-                public decimal TotalDouble = 0;
+
+                public string GameResult = "";
+ 
 
                 public string BuyValue = "";
                 public decimal? BuyPoint = 0;
@@ -1032,14 +1023,8 @@ namespace WeixinRoboot.Linq
                     Result += "期号: " + Perioditem;
                     foreach (var buyitem in Buys.Where(t => t.ShowPeriod == Perioditem))
                     {
-                        Result += (buyitem.TotalTiger == 0 ? "" : ",虎" + buyitem.TotalTiger.ToString("N0"))
-                        + (buyitem.TotalDragon == 0 ? "" : ",龙" + buyitem.TotalDragon.ToString("N0"))
-                        + (buyitem.TotalOK == 0 ? "" : ",合" + buyitem.TotalOK.ToString("N0"))
-                        + (buyitem.TotalLarge == 0 ? "" : ",大" + buyitem.TotalLarge.ToString("N0"))
-                        + (buyitem.TotalSmall == 0 ? "" : ",小" + buyitem.TotalSmall.ToString("N0"))
-                        + (buyitem.TotalMiddle == 0 ? "" : ",和" + buyitem.TotalMiddle.ToString("N0"))
-                        + (buyitem.TotalSingle == 0 ? "" : ",单" + buyitem.TotalSingle.ToString("N0"))
-                        + (buyitem.TotalDouble == 0 ? "" : ",双" + buyitem.TotalDouble.ToString("N0"));
+                        Result += (buyitem.BuyValue + buyitem.BuyPoint.Value.ToString("N0"));
+                        
                     }
                     Result += Environment.NewLine;
                 }
@@ -1109,34 +1094,33 @@ namespace WeixinRoboot.Linq
             public string ToOpenString()
             {
 
-                string Result = "查:" + (Remainder.HasValue ? Remainder.Value.ToString("N0") : "") + Environment.NewLine
+                string Result = "余:" + (Remainder.HasValue ? Remainder.Value.ToString("N0") : "") + Environment.NewLine
                     + "用户：" + UserNickName + Environment.NewLine;
                 if (Buys.Count() == 0)
                 {
                     return "";
                 }
                 var Periods = Buys.Select(t => t.ShowPeriod).Distinct();
-                foreach (var Perioditem in Periods)
+
+                foreach (var buyitem in Buys)
                 {
-                    Result += "期号: " + Perioditem;
-                    foreach (var buyitem in Buys.Where(t => t.ShowPeriod == Perioditem))
-                    {
-                        Result += (buyitem.TotalTiger == 0 ? "" : ",虎" + buyitem.TotalTiger.ToString("N0"))
-                        + (buyitem.TotalDragon == 0 ? "" : ",龙" + buyitem.TotalDragon.ToString("N0"))
-                        + (buyitem.TotalOK == 0 ? "" : ",合" + buyitem.TotalOK.ToString("N0"))
-                        + (buyitem.TotalLarge == 0 ? "" : ",大" + buyitem.TotalLarge.ToString("N0"))
-                        + (buyitem.TotalSmall == 0 ? "" : ",小" + buyitem.TotalSmall.ToString("N0"))
-                        + (buyitem.TotalMiddle == 0 ? "" : ",和" + buyitem.TotalMiddle.ToString("N0"))
-                        + (buyitem.TotalSingle == 0 ? "" : ",单" + buyitem.TotalSingle.ToString("N0"))
-                        + (buyitem.TotalDouble == 0 ? "" : ",双" + buyitem.TotalDouble.ToString("N0"));
+                    Result += "期号: " + buyitem.ShowPeriod;
+                    Result += (buyitem.TotalTiger == 0 ? "" : ",虎" + buyitem.TotalTiger.ToString("N0"))
+                    + (buyitem.TotalDragon == 0 ? "" : ",龙" + buyitem.TotalDragon.ToString("N0"))
+                    + (buyitem.TotalOK == 0 ? "" : ",合" + buyitem.TotalOK.ToString("N0"))
+                    + (buyitem.TotalLarge == 0 ? "" : ",大" + buyitem.TotalLarge.ToString("N0"))
+                    + (buyitem.TotalSmall == 0 ? "" : ",小" + buyitem.TotalSmall.ToString("N0"))
+                    + (buyitem.TotalMiddle == 0 ? "" : ",和" + buyitem.TotalMiddle.ToString("N0"))
+                    + (buyitem.TotalSingle == 0 ? "" : ",单" + buyitem.TotalSingle.ToString("N0"))
+                    + (buyitem.TotalDouble == 0 ? "" : ",双" + buyitem.TotalDouble.ToString("N0"));
 
-                        Result += " 下注" + buyitem.BuyValue
-                            + (buyitem.BuyPoint.HasValue ? buyitem.BuyPoint.Value.ToString("N0") : "")
-                            + "变动" + (buyitem.ResultPoint.HasValue ? buyitem.ResultPoint.Value.ToString("N0") : "");
-                    }
-
-                    Result += Environment.NewLine;
+                    Result += " 下注" + buyitem.BuyValue
+                        + (buyitem.BuyPoint.HasValue ? buyitem.BuyPoint.Value.ToString("N0") : "")
+                        + "变动" + (buyitem.ResultPoint.HasValue ? buyitem.ResultPoint.Value.ToString("N0") : "");
                 }
+
+                Result += Environment.NewLine;
+
 
                 return Result;
 
@@ -1455,7 +1439,7 @@ namespace WeixinRoboot.Linq
                     DateTime TestPeriod = DateTime.Now;
                     if (TestPeriod.Hour <= 8)
                     {
-                        TestPeriod=TestPeriod.AddDays(-1);
+                        TestPeriod = TestPeriod.AddDays(-1);
                     }
                     var TodatBuyGameLog = db.WX_UserGameLog.Where(t =>
                         t.aspnet_UserID == GlobalParam.Key
@@ -1504,7 +1488,13 @@ namespace WeixinRoboot.Linq
                 }//取消的单
                 else if (reply.ReceiveContent.StartsWith("全"))
                 {
+                    if (reply.ReceiveContent.Length <= 3)
+                    {
+                        return "";
+                    }
                     string Str_BuyPoint = reply.ReceiveContent.Substring(2);
+                    string BuyXnUMBER = reply.ReceiveContent.Substring(1, 1);
+
                     decimal BuyPoint = 0;
                     try
                     {
@@ -1527,25 +1517,118 @@ namespace WeixinRoboot.Linq
                         return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
 
                     }
-                    string BuyXnUMBER = reply.ReceiveContent.Substring(1,1);
                     if (BuyXnUMBER == "0" || BuyXnUMBER == "1" || BuyXnUMBER == "2" || BuyXnUMBER == "3" || BuyXnUMBER == "4" || BuyXnUMBER == "5" || BuyXnUMBER == "6" || BuyXnUMBER == "7" || BuyXnUMBER == "8" || BuyXnUMBER == "9")
                     {
 
+                        if (NetFramework.Util_Math.IsNumber(Str_BuyPoint) == false)
+                        {
+                            return "";
+                        }
                         #region 检查赔率
-                        var ratios = db.Game_BasicRatio.Where(t => t.BuyType == "全X" && t.aspnet_UserID == GlobalParam.Key);
+                        var ratios = db.Game_BasicRatio.Where(t =>
+                            t.BuyType == "全X"
+                          && t.aspnet_UserID == GlobalParam.Key
+                           && t.MinBuy <= Convert.ToDecimal(Str_BuyPoint)
+                          && t.MaxBuy >= Convert.ToDecimal(Str_BuyPoint)
+                          );
                         if (ratios.Count() == 0)
                         {
+                            Decimal? MaxLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.Key
+                   && t.BuyValue == "全X"
+
+                   ).Max(t => t.MaxBuy);
+                            Decimal? MinLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.Key
+                                && t.BuyValue == "全X"
+                                    ).Min(t => t.MinBuy);
+                            return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); ;
 
                         }
-                        else
-                        { 
-                        
+                        if (ratios.Count() != 5)
+                        {
+                            return "全X限额范围不一致" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0"); ;
                         }
                         #endregion
 
                         #region 检查余额
+                        decimal Remainder = WXUserChangeLog_GetRemainder(reply.WX_UserName);
+                        if (Remainder < Convert.ToDecimal(Str_BuyPoint))
+                        {
+                            return "余分不足，余" + ObjectToString(Remainder, "N0");
+                        }
                         #endregion
-                        WX_UserGameLog gl = new WX_UserGameLog();
+                        #region "时间转化期数"
+                        string Minutes = reply.ReceiveTime.ToString("HH:mm");
+                        string NextPeriod = "";
+                        string NextLocalPeriod = "";
+                        var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) == 1).OrderBy(t => t.PeriodIndex);
+                        if (NextMonutes.Count() != 0)
+                        {
+                            NextPeriod = NextMonutes.First().PeriodIndex;
+                            NextLocalPeriod = NextMonutes.First().Private_Period;
+                        }
+                        else
+                        {
+                            NextPeriod = "120";
+                            NextLocalPeriod = "097";
+                        }
+                        #endregion
+                        WX_UserGameLog newgl = new WX_UserGameLog();
+                        newgl.aspnet_UserID = GlobalParam.Key;
+                        newgl.Buy_Point = BuyPoint;
+                        newgl.Buy_Type = "全X";
+                        newgl.Buy_Value = reply.ReceiveContent.Substring(0, 2); ;
+                        newgl.Buy_Point = Convert.ToDecimal(Str_BuyPoint);
+                        newgl.GameName = "重庆时时彩";
+                        newgl.TransTime = reply.ReceiveTime;
+                        newgl.WX_UserName = reply.WX_UserName;
+
+                        newgl.Buy_Ratio_Full1 = ratios.SingleOrDefault(t => t.BuyValue == "连1个").BasicRatio;
+                        newgl.Buy_Ratio_Full2 = ratios.SingleOrDefault(t => t.BuyValue == "连2个").BasicRatio;
+                        newgl.Buy_Ratio_Full3 = ratios.SingleOrDefault(t => t.BuyValue == "连3个").BasicRatio;
+                        newgl.Buy_Ratio_Full4 = ratios.SingleOrDefault(t => t.BuyValue == "连4个").BasicRatio;
+                        newgl.Buy_Ratio_Full5 = ratios.SingleOrDefault(t => t.BuyValue == "连5个").BasicRatio;
+
+
+
+
+                        newgl.Result_HaveProcess = false;
+                        newgl.GamePeriod = reply.ReceiveTime.ToString("yyyyMMdd") + NextPeriod;
+
+                        string LocalDay = (reply.ReceiveTime.Hour <= 2 ? reply.ReceiveTime.AddDays(-1).ToString("yyyyMMdd") : reply.ReceiveTime.ToString("yyyyMMdd"));
+                        newgl.GameLocalPeriod = LocalDay + NextLocalPeriod;
+                        db.WX_UserGameLog.InsertOnSubmit(newgl);
+
+
+                        Linq.WX_UserChangeLog cl = null;
+
+                        cl = new WX_UserChangeLog();
+                        cl.aspnet_UserID = GlobalParam.Key;
+                        cl.WX_UserName = reply.WX_UserName;
+                        cl.ChangePoint = -BuyPoint;
+                        cl.NeedNotice = false;
+                        cl.HaveNotice = false;
+                        cl.ChangeTime = reply.ReceiveTime;
+                        cl.RemarkType = "下单";
+                        cl.Remark = "下单@#" + reply.ReceiveContent;
+                        cl.FinalStatus = false;
+                        cl.BuyValue = newgl.Buy_Value;
+                        cl.GamePeriod = newgl.GamePeriod;
+                        cl.FinalStatus = true;
+                        db.WX_UserChangeLog.InsertOnSubmit(cl);
+                        try
+                        {
+                            db.SubmitChanges();
+
+                            TotalResult tr = BuildResult(db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == reply.WX_UserName && t.Result_HaveProcess == false && t.Buy_Point != 0).ToList(), MemberSource);
+                            return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+
+                        }
+                        catch (Exception AnyError)
+                        {
+
+                            return AnyError.Message + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+                        }
+
 
 
                     }
@@ -1563,6 +1646,11 @@ namespace WeixinRoboot.Linq
                     reply.ReceiveContent.StartsWith("万")
                     )
                 {
+                    if (reply.ReceiveContent.Length < 3)
+                    {
+                        return "";
+                    }
+                    string BuyXnUMBER = reply.ReceiveContent.Substring(1, 1);
                     string Str_BuyPoint = reply.ReceiveContent.Substring(2);
                     decimal BuyPoint = 0;
                     try
@@ -1586,8 +1674,127 @@ namespace WeixinRoboot.Linq
                         return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
 
                     }
+
+                    if (BuyXnUMBER == "0" || BuyXnUMBER == "1" || BuyXnUMBER == "2" || BuyXnUMBER == "3" || BuyXnUMBER == "4" || BuyXnUMBER == "5" || BuyXnUMBER == "6" || BuyXnUMBER == "7" || BuyXnUMBER == "8" || BuyXnUMBER == "9"
+                        || BuyXnUMBER == "单" || BuyXnUMBER == "双"
+                        )
+                    {
+
+                        if (NetFramework.Util_Math.IsNumber(Str_BuyPoint) == false)
+                        {
+                            return "";
+                        }
+                        #region 检查赔率
+                        Boolean BuyXnUMBERIsNumber = NetFramework.Util_Math.IsNumber(BuyXnUMBER);
+
+                        var ratios = db.Game_BasicRatio.SingleOrDefault(t => t.BuyType == "定X" && t.aspnet_UserID == GlobalParam.Key
+                           && (t.BuyValue == (BuyXnUMBERIsNumber == true ? "数字" : BuyXnUMBER))
+
+                            && t.MinBuy <= Convert.ToDecimal(Str_BuyPoint)
+                            && t.MaxBuy >= Convert.ToDecimal(Str_BuyPoint)
+                            );
+                        if (ratios == null)
+                        {
+                            Decimal? MaxLimit = db.Game_BasicRatio.Where(t =>
+                                t.aspnet_UserID == GlobalParam.Key
+                   && t.BuyValue == "定X"
+                      && (t.BuyValue == (BuyXnUMBERIsNumber == true ? "数字" : BuyXnUMBER))
+
+                   ).Max(t => t.MaxBuy);
+                            Decimal? MinLimit = db.Game_BasicRatio.Where(t =>
+                                t.aspnet_UserID == GlobalParam.Key
+                                && t.BuyValue == "定X"
+                                   && (t.BuyValue == (BuyXnUMBERIsNumber == true ? "数字" : BuyXnUMBER))
+
+                                ).Min(t => t.MinBuy);
+                            return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+
+                        }
+                        #endregion
+
+                        #region 检查余额
+                        decimal Remainder = WXUserChangeLog_GetRemainder(reply.WX_UserName);
+                        if (Remainder < Convert.ToDecimal(Str_BuyPoint))
+                        {
+                            return "余分不足，余" + ObjectToString(Remainder, "N0");
+                        }
+                        #endregion
+                        #region "时间转化期数"
+                        string Minutes = reply.ReceiveTime.ToString("HH:mm");
+                        string NextPeriod = "";
+                        string NextLocalPeriod = "";
+                        var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) == 1).OrderBy(t => t.PeriodIndex);
+                        if (NextMonutes.Count() != 0)
+                        {
+                            NextPeriod = NextMonutes.First().PeriodIndex;
+                            NextLocalPeriod = NextMonutes.First().Private_Period;
+                        }
+                        else
+                        {
+                            NextPeriod = "120";
+                            NextLocalPeriod = "097";
+                        }
+                        #endregion
+                        WX_UserGameLog newgl = new WX_UserGameLog();
+                        newgl.aspnet_UserID = GlobalParam.Key;
+                        newgl.Buy_Point = BuyPoint;
+                        newgl.Buy_Type = "定X";
+                        newgl.Buy_Value = reply.ReceiveContent.Substring(0, 2); ;
+                        newgl.Buy_Point = Convert.ToDecimal(Str_BuyPoint);
+                        newgl.GameName = "重庆时时彩";
+                        newgl.TransTime = reply.ReceiveTime;
+                        newgl.WX_UserName = reply.WX_UserName;
+                        newgl.Buy_Ratio = ratios.BasicRatio;
+
+
+                        newgl.Result_HaveProcess = false;
+                        newgl.GamePeriod = reply.ReceiveTime.ToString("yyyyMMdd") + NextPeriod;
+
+                        string LocalDay = (reply.ReceiveTime.Hour <= 2 ? reply.ReceiveTime.AddDays(-1).ToString("yyyyMMdd") : reply.ReceiveTime.ToString("yyyyMMdd"));
+                        newgl.GameLocalPeriod = LocalDay + NextLocalPeriod;
+                        db.WX_UserGameLog.InsertOnSubmit(newgl);
+
+
+                        Linq.WX_UserChangeLog cl = null;
+
+                        cl = new WX_UserChangeLog();
+                        cl.aspnet_UserID = GlobalParam.Key;
+                        cl.WX_UserName = reply.WX_UserName;
+                        cl.ChangePoint = -BuyPoint;
+                        cl.NeedNotice = false;
+                        cl.HaveNotice = false;
+                        cl.ChangeTime = reply.ReceiveTime;
+                        cl.RemarkType = "下单";
+                        cl.Remark = "下单@#" + reply.ReceiveContent;
+                        cl.FinalStatus = false;
+                        cl.BuyValue = newgl.Buy_Value;
+                        cl.GamePeriod = newgl.GamePeriod;
+                        cl.FinalStatus = true;
+                        db.WX_UserChangeLog.InsertOnSubmit(cl);
+                        try
+                        {
+                            db.SubmitChanges();
+
+                            TotalResult tr = BuildResult(db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == reply.WX_UserName && t.Result_HaveProcess == false && t.Buy_Point != 0).ToList(), MemberSource);
+                            return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+
+                        }
+                        catch (Exception AnyError)
+                        {
+
+                            return AnyError.Message + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        return "";
+                    }
+
                 }//定数字或定大小
-               
+
 
                 else
                 {
@@ -1596,44 +1803,273 @@ namespace WeixinRoboot.Linq
                     {
                         return "封盘";
                     }
-                  
+
                     string FirstIndex = reply.ReceiveContent.Substring(0, 1);
                     string Str_BuyPoint = reply.ReceiveContent.Substring(1);
                     decimal BuyPoint = 0;
-                    try
-                    {
-                        BuyPoint = Convert.ToDecimal(Str_BuyPoint);
-                    }
-                    catch (Exception Str1Error)
+
+
+
+
+                    if (NetFramework.Util_Math.IsNumber(Str_BuyPoint) == false)
                     {
                         #region 组合类
-                        if (reply.ReceiveContent.Length>=3)
+                        if (reply.ReceiveContent.Length >= 3)
                         {
-                            string Key2 = reply.ReceiveContent.Substring(0, 2);
+                            string BuyType2 = reply.ReceiveContent.Substring(0, 2);
                             string StrBuyPoint2 = reply.ReceiveContent.Substring(2);
 
-                            try
+                            if (NetFramework.Util_Math.IsNumber(StrBuyPoint2) == false)
                             {
-
-                            }
-                            catch (Exception Str2Error)
-                            {
-
-                                string Key3 = reply.ReceiveContent.Substring(0, 3);
+                                string BuyType3 = reply.ReceiveContent.Substring(0, 3);
                                 string StrBuyPoint3 = reply.ReceiveContent.Substring(3);
-                                Math.is
+                                if (reply.ReceiveContent.Length >= 4)
+                                {
+                                    if (NetFramework.Util_Math.IsNumber(StrBuyPoint3) == false)
+                                    {
+                                        return "";
+                                    }//3位后不是数字
+                                    else
+                                    {
+                                        if (ComboString.ContainsKey(StrBuyPoint3))
+                                        {
+                                            #region 检查赔率
 
-                            }
+                                            string KeyValue3 = "";
+                                            ComboString.TryGetValue(StrBuyPoint3, out KeyValue3);
+                                            var ratios = db.Game_BasicRatio.SingleOrDefault(t =>
+                                                t.BuyType == "组合"
+                                                && t.aspnet_UserID == GlobalParam.Key
+                                               && (t.BuyValue == KeyValue3)
 
+                                                && t.MinBuy <= Convert.ToDecimal(StrBuyPoint3)
+                                                && t.MaxBuy >= Convert.ToDecimal(StrBuyPoint3)
+                                                );
+                                            if (ratios == null)
+                                            {
+                                                Decimal? MaxLimit = db.Game_BasicRatio.Where(t =>
+                                                    t.aspnet_UserID == GlobalParam.Key
+                                       && t.BuyValue == "组合"
+                                          && (t.BuyValue == KeyValue3)
+
+                                       ).Max(t => t.MaxBuy);
+                                                Decimal? MinLimit = db.Game_BasicRatio.Where(t =>
+                                                    t.aspnet_UserID == GlobalParam.Key
+                                                   && t.BuyValue == "组合"
+                                          && (t.BuyValue == KeyValue3)
+                                                    ).Min(t => t.MinBuy);
+                                                return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+
+                                            }
+                                            #endregion
+
+                                            #region 检查余额
+                                            decimal Remainder = WXUserChangeLog_GetRemainder(reply.WX_UserName);
+                                            if (Remainder < Convert.ToDecimal(StrBuyPoint3))
+                                            {
+                                                return "余分不足，余" + ObjectToString(Remainder, "N0");
+                                            }
+                                            #endregion
+                                            #region "时间转化期数"
+                                            string Minutes = reply.ReceiveTime.ToString("HH:mm");
+                                            string NextPeriod = "";
+                                            string NextLocalPeriod = "";
+                                            var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) == 1).OrderBy(t => t.PeriodIndex);
+                                            if (NextMonutes.Count() != 0)
+                                            {
+                                                NextPeriod = NextMonutes.First().PeriodIndex;
+                                                NextLocalPeriod = NextMonutes.First().Private_Period;
+                                            }
+                                            else
+                                            {
+                                                NextPeriod = "120";
+                                                NextLocalPeriod = "097";
+                                            }
+                                            #endregion
+                                            WX_UserGameLog newgl = new WX_UserGameLog();
+                                            newgl.aspnet_UserID = GlobalParam.Key;
+                                            newgl.Buy_Point = Convert.ToDecimal(StrBuyPoint3);
+                                            newgl.Buy_Type = "组合";
+                                            newgl.Buy_Value = BuyType3;
+                                            newgl.Buy_Point = Convert.ToDecimal(StrBuyPoint3);
+                                            newgl.GameName = "重庆时时彩";
+                                            newgl.TransTime = reply.ReceiveTime;
+                                            newgl.WX_UserName = reply.WX_UserName;
+                                            newgl.Buy_Ratio = ratios.BasicRatio;
+
+
+                                            newgl.Result_HaveProcess = false;
+                                            newgl.GamePeriod = reply.ReceiveTime.ToString("yyyyMMdd") + NextPeriod;
+
+                                            string LocalDay = (reply.ReceiveTime.Hour <= 2 ? reply.ReceiveTime.AddDays(-1).ToString("yyyyMMdd") : reply.ReceiveTime.ToString("yyyyMMdd"));
+                                            newgl.GameLocalPeriod = LocalDay + NextLocalPeriod;
+                                            db.WX_UserGameLog.InsertOnSubmit(newgl);
+
+
+                                            Linq.WX_UserChangeLog cl = null;
+
+                                            cl = new WX_UserChangeLog();
+                                            cl.aspnet_UserID = GlobalParam.Key;
+                                            cl.WX_UserName = reply.WX_UserName;
+                                            cl.ChangePoint = newgl.Buy_Point;
+                                            cl.NeedNotice = false;
+                                            cl.HaveNotice = false;
+                                            cl.ChangeTime = reply.ReceiveTime;
+                                            cl.RemarkType = "下单";
+                                            cl.Remark = "下单@#" + reply.ReceiveContent;
+                                            cl.FinalStatus = false;
+                                            cl.BuyValue = newgl.Buy_Value;
+                                            cl.GamePeriod = newgl.GamePeriod;
+                                            cl.FinalStatus = true;
+                                            db.WX_UserChangeLog.InsertOnSubmit(cl);
+                                            try
+                                            {
+                                                db.SubmitChanges();
+
+                                                TotalResult tr = BuildResult(db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == reply.WX_UserName && t.Result_HaveProcess == false && t.Buy_Point != 0).ToList(), MemberSource);
+                                                return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+
+                                            }
+                                            catch (Exception AnyError)
+                                            {
+
+                                                return AnyError.Message + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+                                            }
+
+                                        }//字典有数字
+                                        else
+                                        {
+                                            return "";
+                                        }//字典没数字
+                                    }//3位后是数字
+                                }//超过4位才可能是3数字的组合
+                                else
+                                {
+                                    return "";
+                                }
+                            }//2位后不是数字
+                            {
+                                if (ComboString.ContainsKey(StrBuyPoint2))
+                                {
+                                    #region 检查赔率
+
+                                    string KeyValue2 = "";
+                                    ComboString.TryGetValue(StrBuyPoint2, out KeyValue2);
+                                    var ratios = db.Game_BasicRatio.SingleOrDefault(t =>
+                                        t.BuyType == "组合"
+                                        && t.aspnet_UserID == GlobalParam.Key
+                                       && (t.BuyValue == KeyValue2)
+
+                                        && t.MinBuy <= Convert.ToDecimal(StrBuyPoint2)
+                                        && t.MaxBuy >= Convert.ToDecimal(StrBuyPoint2)
+                                        );
+                                    if (ratios == null)
+                                    {
+                                        Decimal? MaxLimit = db.Game_BasicRatio.Where(t =>
+                                            t.aspnet_UserID == GlobalParam.Key
+                               && t.BuyValue == "组合"
+                                  && (t.BuyValue == KeyValue2)
+
+                               ).Max(t => t.MaxBuy);
+                                        Decimal? MinLimit = db.Game_BasicRatio.Where(t =>
+                                            t.aspnet_UserID == GlobalParam.Key
+                                           && t.BuyValue == "组合"
+                                  && (t.BuyValue == KeyValue2)
+                                            ).Min(t => t.MinBuy);
+                                        return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+
+                                    }
+                                    #endregion
+
+                                    #region 检查余额
+                                    decimal Remainder = WXUserChangeLog_GetRemainder(reply.WX_UserName);
+                                    if (Remainder < Convert.ToDecimal(StrBuyPoint2))
+                                    {
+                                        return "余分不足，余" + ObjectToString(Remainder, "N0");
+                                    }
+                                    #endregion
+                                    #region "时间转化期数"
+                                    string Minutes = reply.ReceiveTime.ToString("HH:mm");
+                                    string NextPeriod = "";
+                                    string NextLocalPeriod = "";
+                                    var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) == 1).OrderBy(t => t.PeriodIndex);
+                                    if (NextMonutes.Count() != 0)
+                                    {
+                                        NextPeriod = NextMonutes.First().PeriodIndex;
+                                        NextLocalPeriod = NextMonutes.First().Private_Period;
+                                    }
+                                    else
+                                    {
+                                        NextPeriod = "120";
+                                        NextLocalPeriod = "097";
+                                    }
+                                    #endregion
+                                    WX_UserGameLog newgl = new WX_UserGameLog();
+                                    newgl.aspnet_UserID = GlobalParam.Key;
+                                    newgl.Buy_Point = Convert.ToDecimal(StrBuyPoint2);
+                                    newgl.Buy_Type = "组合";
+                                    newgl.Buy_Value = BuyType2;
+                                    newgl.Buy_Point = Convert.ToDecimal(StrBuyPoint2);
+                                    newgl.GameName = "重庆时时彩";
+                                    newgl.TransTime = reply.ReceiveTime;
+                                    newgl.WX_UserName = reply.WX_UserName;
+                                    newgl.Buy_Ratio = ratios.BasicRatio;
+
+
+                                    newgl.Result_HaveProcess = false;
+                                    newgl.GamePeriod = reply.ReceiveTime.ToString("yyyyMMdd") + NextPeriod;
+
+                                    string LocalDay = (reply.ReceiveTime.Hour <= 2 ? reply.ReceiveTime.AddDays(-1).ToString("yyyyMMdd") : reply.ReceiveTime.ToString("yyyyMMdd"));
+                                    newgl.GameLocalPeriod = LocalDay + NextLocalPeriod;
+                                    db.WX_UserGameLog.InsertOnSubmit(newgl);
+
+
+                                    Linq.WX_UserChangeLog cl = null;
+
+                                    cl = new WX_UserChangeLog();
+                                    cl.aspnet_UserID = GlobalParam.Key;
+                                    cl.WX_UserName = reply.WX_UserName;
+                                    cl.ChangePoint = newgl.Buy_Point;
+                                    cl.NeedNotice = false;
+                                    cl.HaveNotice = false;
+                                    cl.ChangeTime = reply.ReceiveTime;
+                                    cl.RemarkType = "下单";
+                                    cl.Remark = "下单@#" + reply.ReceiveContent;
+                                    cl.FinalStatus = false;
+                                    cl.BuyValue = newgl.Buy_Value;
+                                    cl.GamePeriod = newgl.GamePeriod;
+                                    cl.FinalStatus = true;
+                                    db.WX_UserChangeLog.InsertOnSubmit(cl);
+                                    try
+                                    {
+                                        db.SubmitChanges();
+
+                                        TotalResult tr = BuildResult(db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == reply.WX_UserName && t.Result_HaveProcess == false && t.Buy_Point != 0).ToList(), MemberSource);
+                                        return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+
+                                    }
+                                    catch (Exception AnyError)
+                                    {
+
+                                        return AnyError.Message + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+                                    }
+                                }//字典有数字
+                                else
+                                {
+                                    return "";
+                                }//字典没数字
+                            }//2位后数数字
+
+
+                        }//超过3位才可能是数字
+                        else
+                        {
+                            return "";
                         }
-
                         #endregion
-                        return "";
+
                     }
-                    if (BuyPoint == 0)
-                    {
-                        return "";
-                    }
+                    BuyPoint = Convert.ToDecimal(Str_BuyPoint);
                     #region
                     if (reply.ReceiveTime.Hour >= 2 && reply.ReceiveTime.Hour < 9)
                     {
@@ -1924,7 +2360,7 @@ namespace WeixinRoboot.Linq
 
                 return CheckExists;
 
-            }
+            }//有记录合并
             else
             {
                 NewData = true;
@@ -1945,6 +2381,27 @@ namespace WeixinRoboot.Linq
                 string LocalDay = (replylog.ReceiveTime.Hour <= 2 ? replylog.ReceiveTime.AddDays(-1).ToString("yyyyMMdd") : replylog.ReceiveTime.ToString("yyyyMMdd"));
                 newgl.GameLocalPeriod = LocalDay + NextLocalPeriod;
 
+                Game_BasicRatio Middbouns = db.Game_BasicRatio.SingleOrDefault(t =>
+                    t.aspnet_UserID == GlobalParam.Key
+                    && t.BuyType == "不吃"
+                    && t.BuyValue == "和"
+                    &&t.MaxBuy>=newgl.Buy_Point
+                     && t.MinBuy <= newgl.Buy_Point
+                    );
+
+                newgl.BounsRatio_WhenMiddle = (Middbouns==null?0.0M:Middbouns.BasicRatio);
+
+
+                Game_BasicRatio okbouns = db.Game_BasicRatio.SingleOrDefault(t =>
+                   t.aspnet_UserID == GlobalParam.Key
+                   && t.BuyType == "不吃"
+                   && t.BuyValue == "合"
+                   && t.MaxBuy >= newgl.Buy_Point
+                    && t.MinBuy <= newgl.Buy_Point
+                   );
+
+                newgl.BounsRatio_WhenOK = (okbouns == null ? 0.0M : okbouns.BasicRatio);
+
                 CheckHaveBuy.Add(newgl);
                 GameLogChangeAndCheck(replylog, newgl, out CheckResult);
 
@@ -1961,7 +2418,7 @@ namespace WeixinRoboot.Linq
                     return newgl;
                 }
                 #endregion
-            }
+            }//没记录新加
 
 
 

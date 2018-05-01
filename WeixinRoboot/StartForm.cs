@@ -925,7 +925,7 @@ namespace WeixinRoboot
 
 
 
-            DateTime Now = SelectDate;
+     
             string URL = "http://caipiao.163.com/award/cqssc/";
      
 

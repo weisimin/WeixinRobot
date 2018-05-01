@@ -556,7 +556,7 @@ namespace NetFramework
 
     public class Util_Math
     {
-        public bool IsNumber(String strNumber)
+        public static bool IsNumber(String strNumber)
         {
             Regex objNotNumberPattern = new Regex("[^0-9.-]");
             Regex objTwoDotPattern = new Regex("[0-9]*[.][0-9]*[.][0-9]*");
