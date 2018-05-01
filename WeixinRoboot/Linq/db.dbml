@@ -86,28 +86,6 @@
       <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.WX_UserGameLog" Member="WX_UserGameLog">
-    <Type Name="WX_UserGameLog">
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="TransTime" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="GameName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="GamePeriod" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="GameResult" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Gr_NumTotal" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Gr_BigSmall" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="Gr_SingleDouble" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="Gr_DragonTiger" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="Buy_Type" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="Buy_Value" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="Buy_Ratio" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-      <Column Name="Buy_Point" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="Result_Point" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-      <Column Name="Result_HaveProcess" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="GameLocalPeriod" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="GP_LastModify" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.WX_UserChangeLog" Member="WX_UserChangeLog">
     <Type Name="WX_UserChangeLog">
       <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -141,6 +119,35 @@
       <Column Name="IsSendPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="IsReceiveOrder" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="MaxPlayerCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_UserGameLog" Member="WX_UserGameLog">
+    <Type Name="WX_UserGameLog">
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TransTime" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GameName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GamePeriod" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GameResult" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Gr_NumTotal" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Gr_BigSmall" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="Gr_SingleDouble" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="Gr_DragonTiger" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="Buy_Type" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="Buy_Value" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="Buy_Ratio" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Buy_Point" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Result_Point" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Result_HaveProcess" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="GameLocalPeriod" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="GP_LastModify" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Buy_Ratio_Full1" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Buy_Ratio_Full2" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Buy_Ratio_Full3" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Buy_Ratio_Full4" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Buy_Ratio_Full5" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="BounsRatio_WhenOK" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="BounsRatio_WhenMiddle" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

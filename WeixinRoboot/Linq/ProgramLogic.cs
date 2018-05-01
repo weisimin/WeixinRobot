@@ -46,33 +46,718 @@ namespace WeixinRoboot.Linq
                         {
                             gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
                         }
-
+                        else
+                        {
+                            gamelogitem.Result_Point = 0;
+                        }
                         break;
                     case "大小和":
                         if (gamelogitem.Buy_Value == gamelogitem.Gr_BigSmall)
                         {
                             gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
                         }
-
+                        else
+                        {
+                            gamelogitem.Result_Point = 0;
+                        }
                         break;
                     case "单双":
                         if (gamelogitem.Buy_Value == gamelogitem.Gr_SingleDouble)
                         {
                             gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
                         }
-
+                        else
+                        {
+                            gamelogitem.Result_Point = 0;
+                        }
                         break;
                     case "总数":
                         if (gamelogitem.Buy_Value == (gamelogitem.Gr_NumTotal.HasValue ? gamelogitem.Gr_NumTotal.ToString() : ""))
                         {
                             gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
                         }
+                        else
+                        {
+                            gamelogitem.Result_Point = 0;
+                        }
+                        break;
+                    case "组合":
+                        switch (gamelogitem.Buy_Value)
+                        {
+                            #region "两个组合3*2+3*3+2*3-1(和双)=20"
+                            case "大单":
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_SingleDouble == "单")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "大双":
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_SingleDouble == "双")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小单":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_SingleDouble == "单")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小双":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_SingleDouble == "双")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "和单":
+                                if (gamelogitem.Gr_BigSmall == "和" && gamelogitem.Gr_SingleDouble == "单")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+
+                            case "大虎":
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_DragonTiger == "虎")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "大合":
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_DragonTiger == "合")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "大龙":
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小虎":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_DragonTiger == "虎")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小合":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_DragonTiger == "合")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小龙":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "和虎":
+                                if (gamelogitem.Gr_BigSmall == "和" && gamelogitem.Gr_DragonTiger == "虎")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "和合":
+                                if (gamelogitem.Gr_BigSmall == "和" && gamelogitem.Gr_DragonTiger == "合")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "和龙":
+                                if (gamelogitem.Gr_BigSmall == "和" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+
+                            case "单合":
+                                if (gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "合")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "双合":
+                                if (gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "合")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "单龙":
+                                if (gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+
+                            case "双龙":
+                                 if (gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "单虎":
+                                 if (gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "虎")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                              
+                            case "双虎":
+
+                                if (gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "虎")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            #endregion
+
+                            #region 三个组合3*2*3- 3(和双*3)=15
+                            case "大单龙":
+
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "大单虎":
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "大单合":
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "合")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "大双龙":
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "大双虎":
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "虎")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "大双合":
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "合")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小单龙":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小单虎":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "虎")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小单合":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "合")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小双龙":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小双虎":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "虎")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "小双合":
+                                if (gamelogitem.Gr_BigSmall == "小" && gamelogitem.Gr_SingleDouble == "双" && gamelogitem.Gr_DragonTiger == "合")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "和单龙":
+                                if (gamelogitem.Gr_BigSmall == "和" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "龙")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "和单虎":
+                                if (gamelogitem.Gr_BigSmall == "和" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "虎")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            case "和单合":
+                                  if (gamelogitem.Gr_BigSmall == "和" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "合")
+                                {
+                                    gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
+
+                                }
+                                else
+                                {
+                                    gamelogitem.Result_Point = 0;
+                                }
+                                break;
+                            #endregion
+
+                            default:
+                                gamelogitem.Result_Point = 0;
+                                break;
+                        }
+                        break;
+                    case "全X":
+                        string BuyXNum = gamelogitem.Buy_Value.Substring(1, 1);
+                        string Grnum1 = gamelogitem.GameResult.Substring(0, 1);
+                        string Grnum2 = gamelogitem.GameResult.Substring(1, 1);
+                        string Grnum3 = gamelogitem.GameResult.Substring(2, 1);
+                        string Grnum4 = gamelogitem.GameResult.Substring(3, 1);
+                        string Grnum5 = gamelogitem.GameResult.Substring(4, 1);
+                        int FullCount = 0;
+                        if (Grnum1 == BuyXNum)
+                        {
+                            FullCount = 1;
+                        }
+                        if (Grnum1 == BuyXNum && Grnum2 == BuyXNum)
+                        {
+                            FullCount = 2;
+                        }
+                        if (Grnum1 == BuyXNum && Grnum2 == BuyXNum && Grnum3 == BuyXNum)
+                        {
+                            FullCount = 3;
+                        }
+                        if (Grnum1 == BuyXNum && Grnum2 == BuyXNum && Grnum3 == BuyXNum && Grnum4 == BuyXNum)
+                        {
+                            FullCount = 4;
+                        }
+                        if (Grnum1 == BuyXNum && Grnum2 == BuyXNum && Grnum3 == BuyXNum && Grnum4 == BuyXNum && Grnum5 == BuyXNum)
+                        {
+                            FullCount = 5;
+                        }
+                        switch (FullCount)
+                        {
+                            case 1:
+                                gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio_Full1;
+                                break;
+                            case 2:
+                                gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio_Full2;
+                                break;
+                            case 3:
+                                gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio_Full3;
+
+                                break;
+                            case 4:
+                                gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio_Full4;
+
+                                break;
+                            case 5:
+                                gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio_Full5;
+
+                                break;
+                            default:
+                                gamelogitem.Result_Point = 0;
+                                break;
+                        }
+                        break;
+                    case "定X":
+                        string Pos_BuyPos = gamelogitem.Buy_Value.Substring(0, 1);
+                        string Pos_BuyXNum = gamelogitem.Buy_Value.Substring(1, 1);
+
+                        string Pos_BGrnum1 = gamelogitem.GameResult.Substring(0, 1);
+                        string Pos_BGrnum2 = gamelogitem.GameResult.Substring(1, 1);
+                        string Pos_BGrnum3 = gamelogitem.GameResult.Substring(2, 1);
+                        string Pos_BGrnum4 = gamelogitem.GameResult.Substring(3, 1);
+                        string Pos_BGrnum5 = gamelogitem.GameResult.Substring(4, 1);
+
+                        if (Pos_BuyXNum == "单" || Pos_BuyXNum == "双")
+                        {
+                            #region 定位单双
+                            switch (Pos_BuyPos)
+                            {
+                                case "个":
+                                    if (
+                                        (Convert.ToInt32(Pos_BGrnum5) % 2 == 1 && Pos_BuyXNum == "单")
+                                        || (Convert.ToInt32(Pos_BGrnum5) % 2 == 0 && Pos_BuyXNum == "双")
+                                        )
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    else
+                                    {
+                                        gamelogitem.Result_Point = 0;
+                                    }
+                                    break;
+                                case "十":
+                                    if (
+                                       (Convert.ToInt32(Pos_BGrnum4) % 2 == 1 && Pos_BuyXNum == "单")
+                                       || (Convert.ToInt32(Pos_BGrnum4) % 2 == 0 && Pos_BuyXNum == "双")
+                                       )
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    else
+                                    {
+                                        gamelogitem.Result_Point = 0;
+                                    }
+                                    break;
+                                case "百":
+                                    if (
+                                        (Convert.ToInt32(Pos_BGrnum3) % 2 == 1 && Pos_BuyXNum == "单")
+                                        || (Convert.ToInt32(Pos_BGrnum3) % 2 == 0 && Pos_BuyXNum == "双")
+                                        )
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    else
+                                    {
+                                        gamelogitem.Result_Point = 0;
+                                    }
+                                    break;
+                                case "千":
+                                    if (
+                                        (Convert.ToInt32(Pos_BGrnum2) % 2 == 1 && Pos_BuyXNum == "单")
+                                        || (Convert.ToInt32(Pos_BGrnum2) % 2 == 0 && Pos_BuyXNum == "双")
+                                        )
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    else
+                                    {
+                                        gamelogitem.Result_Point = 0;
+                                    }
+                                    break;
+                                case "万":
+                                    if (
+                                        (Convert.ToInt32(Pos_BGrnum1) % 2 == 1 && Pos_BuyXNum == "单")
+                                        || (Convert.ToInt32(Pos_BGrnum1) % 2 == 0 && Pos_BuyXNum == "双")
+                                        )
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    else
+                                    {
+                                        gamelogitem.Result_Point = 0;
+                                    }
+                                    break;
+                                default:
+                                    gamelogitem.Result_Point = 0;
+                                    break;
+                            }//switch
+                            #endregion
+                        }
+
+                        else if (Pos_BuyXNum == "大" || Pos_BuyXNum == "小")
+                        {
+                            #region 定位大小
+                            switch (Pos_BuyPos)
+                            {
+                                case "个":
+                                    if (
+                                        (Convert.ToInt32(Pos_BGrnum5) >= 5 && Pos_BuyXNum == "大")
+                                        || (Convert.ToInt32(Pos_BGrnum5) <= 4 && Pos_BuyXNum == "小")
+                                        )
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    else
+                                    {
+                                        gamelogitem.Result_Point = 0;
+                                    }
+                                    break;
+                                case "十":
+                                    if (
+                                        (Convert.ToInt32(Pos_BGrnum4) >= 5 && Pos_BuyXNum == "大")
+                                        || (Convert.ToInt32(Pos_BGrnum4) <= 4 && Pos_BuyXNum == "小")
+                                        )
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    else
+                                    {
+                                        gamelogitem.Result_Point = 0;
+                                    }
+                                    break;
+                                case "百":
+                                    if (
+                                       (Convert.ToInt32(Pos_BGrnum3) >= 5 && Pos_BuyXNum == "大")
+                                       || (Convert.ToInt32(Pos_BGrnum3) <= 4 && Pos_BuyXNum == "小")
+                                       )
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    else
+                                    {
+                                        gamelogitem.Result_Point = 0;
+                                    }
+                                    break;
+                                case "千":
+                                    if (
+                                       (Convert.ToInt32(Pos_BGrnum2) >= 5 && Pos_BuyXNum == "大")
+                                       || (Convert.ToInt32(Pos_BGrnum2) <= 4 && Pos_BuyXNum == "小")
+                                       )
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    else
+                                    {
+                                        gamelogitem.Result_Point = 0;
+                                    }
+                                    break;
+                                case "万":
+                                    if (
+                                        (Convert.ToInt32(Pos_BGrnum1) >= 5 && Pos_BuyXNum == "大")
+                                        || (Convert.ToInt32(Pos_BGrnum1) <= 4 && Pos_BuyXNum == "小")
+                                        )
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    else
+                                    {
+                                        gamelogitem.Result_Point = 0;
+                                    }
+                                    break;
+                                default:
+                                    gamelogitem.Result_Point = 0;
+                                    break;
+                            }//switch
+                            #endregion
+                        }
+                        else
+                        {
+                            #region 定位数字
+                            switch (Pos_BuyPos)
+                            {
+                                case "个":
+                                    if (Pos_BGrnum5 == Pos_BuyXNum)
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    break;
+                                case "十":
+                                    if (Pos_BGrnum4 == Pos_BuyXNum)
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    break;
+                                case "百":
+                                    if (Pos_BGrnum3 == Pos_BuyXNum)
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    break;
+                                case "千":
+                                    if (Pos_BGrnum2 == Pos_BuyXNum)
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    break;
+                                case "万":
+                                    if (Pos_BGrnum1 == Pos_BuyXNum)
+                                    {
+                                        gamelogitem.Result_Point = gamelogitem.Buy_Point * gamelogitem.Buy_Ratio;
+                                    }
+                                    break;
+                                default:
+                                    gamelogitem.Result_Point = 0;
+                                    break;
+                            }
+                            #endregion
+
+                        }
+
+
 
                         break;
                     default:
                         break;
                 }//根据买的类型和数值处理
 
+                #region 单买龙虎出合，大小出和，庄家不吃的返点
+                if (true)
+                {
+
+                }
+                #endregion
                 //只取正整数
                 gamelogitem.Result_Point = Convert.ToInt32(Math.Floor(gamelogitem.Result_Point.Value));
 
@@ -537,6 +1222,144 @@ namespace WeixinRoboot.Linq
         /// <returns></returns>
         public static string WX_UserReplyLog_Create(WX_UserReplyLog reply, DataTable MemberSource)
         {
+            #region
+            if (ComboString == null)
+            {
+                ComboString = new Dictionary<string, string>();
+                ComboString.Add("大龙单", "大单龙");
+                ComboString.Add("大虎单", "大单虎");
+                ComboString.Add("大合单", "大单合");
+                ComboString.Add("大龙双", "大双龙");
+                ComboString.Add("大虎双", "大双虎");
+                ComboString.Add("大合双", "大双合");
+                ComboString.Add("大单龙", "大单龙");
+                ComboString.Add("大双龙", "大双龙");
+                ComboString.Add("大单虎", "大单虎");
+                ComboString.Add("大双虎", "大双虎");
+                ComboString.Add("大单合", "大单合");
+                ComboString.Add("大双合", "大双合");
+                ComboString.Add("小龙单", "小单龙");
+                ComboString.Add("小虎单", "小单虎");
+                ComboString.Add("小合单", "小单合");
+                ComboString.Add("小龙双", "小双龙");
+                ComboString.Add("小虎双", "小双虎");
+                ComboString.Add("小合双", "小双合");
+                ComboString.Add("小单龙", "小单龙");
+                ComboString.Add("小双龙", "小双龙");
+                ComboString.Add("小单虎", "小单虎");
+                ComboString.Add("小双虎", "小双虎");
+                ComboString.Add("小单合", "小单合");
+                ComboString.Add("小双合", "小双合");
+                ComboString.Add("和龙单", "和单龙");
+                ComboString.Add("和虎单", "和单虎");
+                ComboString.Add("和合单", "和单合");
+                ComboString.Add("和单龙", "和单龙");
+                ComboString.Add("和单虎", "和单虎");
+                ComboString.Add("和单合", "和单合");
+                ComboString.Add("单龙大", "大单龙");
+                ComboString.Add("单虎大", "大单虎");
+                ComboString.Add("单合大", "大单合");
+                ComboString.Add("单龙小", "小单龙");
+                ComboString.Add("单虎小", "小单虎");
+                ComboString.Add("单合小", "小单合");
+                ComboString.Add("单龙和", "和单龙");
+                ComboString.Add("单虎和", "和单虎");
+                ComboString.Add("单合和", "和单合");
+                ComboString.Add("单大龙", "大单龙");
+                ComboString.Add("单小龙", "小单龙");
+                ComboString.Add("单和龙", "和单龙");
+                ComboString.Add("单大虎", "大单虎");
+                ComboString.Add("单小虎", "小单虎");
+                ComboString.Add("单和虎", "和单虎");
+                ComboString.Add("单大合", "大单合");
+                ComboString.Add("单小合", "小单合");
+                ComboString.Add("单和合", "和单合");
+                ComboString.Add("双龙大", "大双龙");
+                ComboString.Add("双虎大", "大双虎");
+                ComboString.Add("双合大", "大双合");
+                ComboString.Add("双龙小", "小双龙");
+                ComboString.Add("双虎小", "小双虎");
+                ComboString.Add("双合小", "小双合");
+                ComboString.Add("双大龙", "大双龙");
+                ComboString.Add("双小龙", "小双龙");
+                ComboString.Add("双大虎", "大双虎");
+                ComboString.Add("双小虎", "小双虎");
+                ComboString.Add("双大合", "大双合");
+                ComboString.Add("双小合", "小双合");
+                ComboString.Add("龙单大", "大单龙");
+                ComboString.Add("龙双大", "大双龙");
+                ComboString.Add("龙单小", "小单龙");
+                ComboString.Add("龙双小", "小双龙");
+                ComboString.Add("龙单和", "和单龙");
+                ComboString.Add("龙大单", "大单龙");
+                ComboString.Add("龙小单", "小单龙");
+                ComboString.Add("龙和单", "和单龙");
+                ComboString.Add("龙大双", "大双龙");
+                ComboString.Add("龙小双", "小双龙");
+                ComboString.Add("虎单大", "大单虎");
+                ComboString.Add("虎双大", "大双虎");
+                ComboString.Add("虎单小", "小单虎");
+                ComboString.Add("虎双小", "小双虎");
+                ComboString.Add("虎单和", "和单虎");
+                ComboString.Add("虎大单", "大单虎");
+                ComboString.Add("虎小单", "小单虎");
+                ComboString.Add("虎和单", "和单虎");
+                ComboString.Add("虎大双", "大双虎");
+                ComboString.Add("虎小双", "小双虎");
+                ComboString.Add("合单大", "大单合");
+                ComboString.Add("合双大", "大双合");
+                ComboString.Add("合单小", "小单合");
+                ComboString.Add("合双小", "小双合");
+                ComboString.Add("合单和", "和单合");
+                ComboString.Add("合大单", "大单合");
+                ComboString.Add("合小单", "小单合");
+                ComboString.Add("合和单", "和单合");
+                ComboString.Add("合大双", "大双合");
+                ComboString.Add("合小双", "小双合");
+                ComboString.Add("大单", "大单");
+                ComboString.Add("大双", "大双");
+                ComboString.Add("小单", "小单");
+                ComboString.Add("小双", "小双");
+                ComboString.Add("和单", "和单");
+                ComboString.Add("单大", "大单");
+                ComboString.Add("单小", "小单");
+                ComboString.Add("单和", "和单");
+                ComboString.Add("双大", "大双");
+                ComboString.Add("双小", "小双");
+                ComboString.Add("大龙", "大龙");
+                ComboString.Add("大虎", "大虎");
+                ComboString.Add("大合", "大合");
+                ComboString.Add("小龙", "小龙");
+                ComboString.Add("小虎", "小虎");
+                ComboString.Add("小合", "小合");
+                ComboString.Add("和龙", "和龙");
+                ComboString.Add("和虎", "和虎");
+                ComboString.Add("和合", "和合");
+                ComboString.Add("龙大", "大龙");
+                ComboString.Add("龙小", "小龙");
+                ComboString.Add("龙和", "和龙");
+                ComboString.Add("虎大", "大虎");
+                ComboString.Add("虎小", "小虎");
+                ComboString.Add("虎和", "和虎");
+                ComboString.Add("合大", "大合");
+                ComboString.Add("合小", "小合");
+                ComboString.Add("合和", "和合");
+                ComboString.Add("单龙", "单龙");
+                ComboString.Add("单虎", "单虎");
+                ComboString.Add("单合", "单合");
+                ComboString.Add("双龙", "双龙");
+                ComboString.Add("双虎", "双虎");
+                ComboString.Add("双合", "双合");
+                ComboString.Add("龙单", "单龙");
+                ComboString.Add("龙双", "双龙");
+                ComboString.Add("虎单", "单虎");
+                ComboString.Add("虎双", "双虎");
+                ComboString.Add("合单", "单合");
+                ComboString.Add("合双", "双合");
+
+            }
+            #endregion
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -547,13 +1370,13 @@ namespace WeixinRoboot.Linq
                     DateTime TestPeriod = DateTime.Now;
                     if (TestPeriod.Hour <= 8)
                     {
-                        TestPeriod.AddDays(-1);
+                        TestPeriod = TestPeriod.AddDays(-1);
                     }
 
                     var TodayBuys = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key
                         && t.WX_UserName == reply.WX_UserName
                         && t.GameLocalPeriod.StartsWith(TestPeriod.ToString("yyyyMMdd"))
-                        && t.Buy_Point!=0
+                        && t.Buy_Point != 0
                         );
 
                     string Result = "下注期数是" + TodayBuys.Select(t => t.GamePeriod).Count().ToString()
@@ -632,7 +1455,7 @@ namespace WeixinRoboot.Linq
                     DateTime TestPeriod = DateTime.Now;
                     if (TestPeriod.Hour <= 8)
                     {
-                        TestPeriod.AddDays(-1);
+                        TestPeriod=TestPeriod.AddDays(-1);
                     }
                     var TodatBuyGameLog = db.WX_UserGameLog.Where(t =>
                         t.aspnet_UserID == GlobalParam.Key
@@ -679,15 +1502,9 @@ namespace WeixinRoboot.Linq
                     #endregion
                     return WX_UserGameLog_Cancel(db, reply, MemberSource);
                 }//取消的单
-                else
+                else if (reply.ReceiveContent.StartsWith("全"))
                 {
-                    Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
-                    if (myset.IsBlock == true)
-                    {
-                        return "封盘";
-                    }
-                    string FirstIndex = reply.ReceiveContent.Substring(0, 1);
-                    string Str_BuyPoint = reply.ReceiveContent.Substring(1);
+                    string Str_BuyPoint = reply.ReceiveContent.Substring(2);
                     decimal BuyPoint = 0;
                     try
                     {
@@ -695,9 +1512,123 @@ namespace WeixinRoboot.Linq
                     }
                     catch (Exception AnyError)
                     {
-                        //List<WX_UserGameLog> rhavebuy = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == reply.WX_UserName && t.Result_HaveProcess == false).ToList();
-                        //TotalResult trbuy = BuildResult(rhavebuy, MemberSource);
-                        //return "不能识别:" + reply.ReceiveContent + trbuy.ToString();
+                    }
+                    if (BuyPoint == 0)
+                    {
+                        return "";
+                    }
+                    if (reply.ReceiveTime.Hour >= 2 && reply.ReceiveTime.Hour < 9)
+                    {
+                        return "封盘时间";
+                    }
+                    Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == reply.ReceiveTime.ToString("HH:mm"));
+                    if (testmin != null)
+                    {
+                        return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+
+                    }
+                    string BuyXnUMBER = reply.ReceiveContent.Substring(1,1);
+                    if (BuyXnUMBER == "0" || BuyXnUMBER == "1" || BuyXnUMBER == "2" || BuyXnUMBER == "3" || BuyXnUMBER == "4" || BuyXnUMBER == "5" || BuyXnUMBER == "6" || BuyXnUMBER == "7" || BuyXnUMBER == "8" || BuyXnUMBER == "9")
+                    {
+
+                        #region 检查赔率
+                        var ratios = db.Game_BasicRatio.Where(t => t.BuyType == "全X" && t.aspnet_UserID == GlobalParam.Key);
+                        if (ratios.Count() == 0)
+                        {
+
+                        }
+                        else
+                        { 
+                        
+                        }
+                        #endregion
+
+                        #region 检查余额
+                        #endregion
+                        WX_UserGameLog gl = new WX_UserGameLog();
+
+
+                    }
+                    else
+                    {
+                        return "";
+                    }
+
+
+                }//全
+                else if (reply.ReceiveContent.StartsWith("个") ||
+                    reply.ReceiveContent.StartsWith("十") ||
+                    reply.ReceiveContent.StartsWith("百") ||
+                    reply.ReceiveContent.StartsWith("千") ||
+                    reply.ReceiveContent.StartsWith("万")
+                    )
+                {
+                    string Str_BuyPoint = reply.ReceiveContent.Substring(2);
+                    decimal BuyPoint = 0;
+                    try
+                    {
+                        BuyPoint = Convert.ToDecimal(Str_BuyPoint);
+                    }
+                    catch (Exception AnyError)
+                    {
+                    }
+                    if (BuyPoint == 0)
+                    {
+                        return "";
+                    }
+                    if (reply.ReceiveTime.Hour >= 2 && reply.ReceiveTime.Hour < 9)
+                    {
+                        return "封盘时间";
+                    }
+                    Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == reply.ReceiveTime.ToString("HH:mm"));
+                    if (testmin != null)
+                    {
+                        return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
+
+                    }
+                }//定数字或定大小
+               
+
+                else
+                {
+                    Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
+                    if (myset.IsBlock == true)
+                    {
+                        return "封盘";
+                    }
+                  
+                    string FirstIndex = reply.ReceiveContent.Substring(0, 1);
+                    string Str_BuyPoint = reply.ReceiveContent.Substring(1);
+                    decimal BuyPoint = 0;
+                    try
+                    {
+                        BuyPoint = Convert.ToDecimal(Str_BuyPoint);
+                    }
+                    catch (Exception Str1Error)
+                    {
+                        #region 组合类
+                        if (reply.ReceiveContent.Length>=3)
+                        {
+                            string Key2 = reply.ReceiveContent.Substring(0, 2);
+                            string StrBuyPoint2 = reply.ReceiveContent.Substring(2);
+
+                            try
+                            {
+
+                            }
+                            catch (Exception Str2Error)
+                            {
+
+                                string Key3 = reply.ReceiveContent.Substring(0, 3);
+                                string StrBuyPoint3 = reply.ReceiveContent.Substring(3);
+                                Math.is
+
+                            }
+
+                        }
+
+                        #endregion
+                        return "";
                     }
                     if (BuyPoint == 0)
                     {
@@ -791,6 +1722,10 @@ namespace WeixinRoboot.Linq
             }
         }
 
+        private static Dictionary<string, string> ComboString = null;
+
+
+
 
         public static string WX_UserReplyLog_MySendCreate(string Content, DataRow UserRow)
         {
@@ -812,12 +1747,28 @@ namespace WeixinRoboot.Linq
                     return "超过最大跟踪玩家数量";
                 }
                 Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Contact);
+                toupdate.IsReply = true;
+
                 db.SubmitChanges();
                 UserRow.SetField("User_IsReply", true);
-                toupdate.IsReply = true;
+
                 return "";
             }
-            if (Content.Length >= 2)
+            if (Content == "取消自动跟踪")
+            {
+
+                string Contact = UserRow.Field<string>("User_ContactID");
+
+
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Contact);
+                toupdate.IsReply = false;
+
+                db.SubmitChanges();
+                UserRow.SetField("User_IsReply", false);
+
+                return "";
+            }
+            else if (Content.Length >= 2)
             {
                 string Mode = Content.Substring(0, 2);
                 string Money = Content.Substring(2);
@@ -912,7 +1863,7 @@ namespace WeixinRoboot.Linq
             }
 
         }
-     
+
 
 
 

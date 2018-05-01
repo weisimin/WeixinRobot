@@ -86,7 +86,7 @@ namespace WeixinRoboot
         string Sid = "";
         string Skey = "";
         string DeviceID = "";
-
+        string pass_ticket = "";
         public JObject j_BaseRequest = null;
         JObject synckeys = null;
 
@@ -395,6 +395,10 @@ namespace WeixinRoboot
                             if (Content != "")
                             {
                                 #region "如果是自己发出的"
+                                if (Content=="加好友")
+                                {
+                                    RepeatGetMembers(Skey, pass_ticket);
+                                }
                                 if (FromUserNameTEMPID == MyUserName)
                                 {
 
@@ -698,7 +702,7 @@ namespace WeixinRoboot
                 db.WX_UserReplyLog.InsertOnSubmit(newlogr);
                 db.SubmitChanges();
 
-                bool ShowBuy = false;
+               
                 string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, RunnerF.MemberSource);
 
                 newlogr.ReplyContent = ReturnSend;
@@ -706,18 +710,7 @@ namespace WeixinRoboot
                 newlogr.HaveDeal = false;
                 db.SubmitChanges();
 
-                if (ShowBuy == true)
-                {
-
-
-                    Linq.DataLogic.TotalResult tr = Linq.DataLogic.BuildResult(
-                                    db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key
-                                        && t.Result_HaveProcess == false
-                                        && t.WX_UserName == userr.Field<string>("User_ContactID")
-                                        ).ToList()
-                                   , RunnerF.MemberSource);
-                    SendWXContent(ReturnSend + Environment.NewLine + tr.ToSlimStringV2(), userr.Field<string>("User_ContactTEMPID"));
-                }
+               
                 return ReturnSend;
 
             }
@@ -735,19 +728,7 @@ namespace WeixinRoboot
 
         }//新消息
 
-        Guid KeepUpdateContactThreadID = Guid.NewGuid();
-        private void KeepUpdateContactThreadDo(Object param)
-        {
-            object ThreadID = (param as object[])[0];
-            object Skey = (param as object[])[1];
-            object passticket = (param as object[])[2];
-            System.Threading.Thread.Sleep(50000);
-            while (KillThread.ContainsKey((Guid)ThreadID) == false)
-            {
-                RepeatGetMembers(Skey.ToString(),passticket.ToString());
-
-            }
-        }
+  
         private JObject WXInit()
         {
             cookie = new CookieCollection();
@@ -765,7 +746,7 @@ namespace WeixinRoboot
 
             newridata.LoadXml(Result2);
 
-            string pass_ticket = newridata.SelectSingleNode("error/pass_ticket").InnerText;
+            pass_ticket = newridata.SelectSingleNode("error/pass_ticket").InnerText;
             Uin = newridata.SelectSingleNode("error/wxuin").InnerText;
             Sid = newridata.SelectSingleNode("error/wxsid").InnerText;
             Skey = newridata.SelectSingleNode("error/skey").InnerText;
@@ -818,8 +799,8 @@ namespace WeixinRoboot
 
 
             JObject Members = RepeatGetMembers(Skey, pass_ticket); ;
-            Thread KeepUpdateContactThread = new Thread(new ParameterizedThreadStart(KeepUpdateContactThreadDo));
-            KeepUpdateContactThread.Start(new object[]{ KeepUpdateContactThreadID,Skey,pass_ticket});
+            //Thread KeepUpdateContactThread = new Thread(new ParameterizedThreadStart(KeepUpdateContactThreadDo));
+            //KeepUpdateContactThread.Start(new object[]{ KeepUpdateContactThreadID,Skey,pass_ticket});
             return Members;
         }
         private JObject RepeatGetMembers(string Skey,string pass_ticket)
@@ -862,7 +843,7 @@ namespace WeixinRoboot
         Guid Download163ThreadID = Guid.NewGuid();
         private void DownLoad163ThreadDo(object ThreadID)
         {
-            while (KillThread.ContainsKey((Guid)ThreadID))
+            while (KillThread.ContainsKey((Guid)ThreadID)==false)
             {
                 DownloadResult();
                 System.Threading.Thread.Sleep(5000);
@@ -946,7 +927,7 @@ namespace WeixinRoboot
 
             DateTime Now = SelectDate;
             string URL = "http://caipiao.163.com/award/cqssc/";
-            if ((Now.Hour == 0) && (Now.Minute <= 3))
+     
 
                 URL += SelectDate.ToString("yyyyMMdd") + ".html";
 
@@ -1385,11 +1366,11 @@ namespace WeixinRoboot
             MI_GameLogManulDeal.Enabled = false;
             KillThread.Add(WaitScanTHreadID, true);
             KillThread.Add(Download163ThreadID, true);
-            KillThread.Add(KeepUpdateContactThreadID, true);
+           
 
             WaitScanTHreadID = Guid.NewGuid();
             Download163ThreadID = Guid.NewGuid();
-            KeepUpdateContactThreadID = Guid.NewGuid();
+           
 
             Thread StartThread = new Thread(new ThreadStart(StartThreadDo));
             StartThread.Start();

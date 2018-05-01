@@ -14,14 +14,16 @@ namespace WeixinRoboot
         private JObject _Members = null;
         public DataTable MemberSource = null;
         public DataTable ReplySource = null;
-       
 
-        public JObject  Members
+
+        public JObject Members
         {
-            get {
+            get
+            {
                 return _Members;
             }
-           set {
+            set
+            {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -409,23 +411,32 @@ namespace WeixinRoboot
 
         private void MI_IsReply_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                Boolean? IsReply = editrow.Field<Boolean?>("User_IsReply");
 
-                editrow.SetField("User_IsReply", (IsReply == null ? true : !IsReply.Value));
+              
 
-                Linq.WX_UserReply usr = db.WX_UserReply.SingleOrDefault(
-                    t => t.aspnet_UserID == GlobalParam.Key
-                    && t.WX_UserName == editrow.Field<string>("User_ContactID"));
-                db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, usr);
-                usr.IsReply = editrow.Field<Boolean?>("User_IsReply");
-                db.SubmitChanges();
+                string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("自动跟踪", editrow);
+
+                if (Result != "")
+                {
+                    MessageBox.Show(Result);
+                }
+
+            }
+        }
+
+        private void MI_CancelIsReply_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消自动跟踪", editrow);
 
 
             }

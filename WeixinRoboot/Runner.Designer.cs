@@ -78,6 +78,7 @@
             this.Buy_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GameResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Result_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MI_CancelIsReply = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -305,48 +306,49 @@
             this.MI_ChongZhi,
             this.MI_FanXian,
             this.MI_OrderManual,
-            this.MI_CleanUp});
+            this.MI_CleanUp,
+            this.MI_CancelIsReply});
             this.MouseMenuReply.Name = "MouseMenuReply";
-            this.MouseMenuReply.Size = new System.Drawing.Size(125, 136);
+            this.MouseMenuReply.Size = new System.Drawing.Size(153, 180);
             // 
             // MI_IsReply
             // 
             this.MI_IsReply.Name = "MI_IsReply";
-            this.MI_IsReply.Size = new System.Drawing.Size(124, 22);
+            this.MI_IsReply.Size = new System.Drawing.Size(152, 22);
             this.MI_IsReply.Text = "自动跟踪";
             this.MI_IsReply.Click += new System.EventHandler(this.MI_IsReply_Click);
             // 
             // MI_FasongXinxi
             // 
             this.MI_FasongXinxi.Name = "MI_FasongXinxi";
-            this.MI_FasongXinxi.Size = new System.Drawing.Size(124, 22);
+            this.MI_FasongXinxi.Size = new System.Drawing.Size(152, 22);
             this.MI_FasongXinxi.Text = "发送消息";
             this.MI_FasongXinxi.Click += new System.EventHandler(this.MI_FasongXinxi_Click);
             // 
             // MI_ChongZhi
             // 
             this.MI_ChongZhi.Name = "MI_ChongZhi";
-            this.MI_ChongZhi.Size = new System.Drawing.Size(124, 22);
+            this.MI_ChongZhi.Size = new System.Drawing.Size(152, 22);
             this.MI_ChongZhi.Text = "充值";
             this.MI_ChongZhi.Click += new System.EventHandler(this.MI_ChongZhi_Click);
             // 
             // MI_FanXian
             // 
             this.MI_FanXian.Name = "MI_FanXian";
-            this.MI_FanXian.Size = new System.Drawing.Size(124, 22);
+            this.MI_FanXian.Size = new System.Drawing.Size(152, 22);
             this.MI_FanXian.Text = "返现";
             // 
             // MI_OrderManual
             // 
             this.MI_OrderManual.Name = "MI_OrderManual";
-            this.MI_OrderManual.Size = new System.Drawing.Size(124, 22);
+            this.MI_OrderManual.Size = new System.Drawing.Size(152, 22);
             this.MI_OrderManual.Text = "人工下单";
             this.MI_OrderManual.Click += new System.EventHandler(this.MI_OrderManual_Click);
             // 
             // MI_CleanUp
             // 
             this.MI_CleanUp.Name = "MI_CleanUp";
-            this.MI_CleanUp.Size = new System.Drawing.Size(124, 22);
+            this.MI_CleanUp.Size = new System.Drawing.Size(152, 22);
             this.MI_CleanUp.Text = "清算";
             this.MI_CleanUp.Click += new System.EventHandler(this.MI_CleanUp_Click);
             // 
@@ -506,6 +508,13 @@
             this.Result_Point.Name = "Result_Point";
             this.Result_Point.ReadOnly = true;
             // 
+            // MI_CancelIsReply
+            // 
+            this.MI_CancelIsReply.Name = "MI_CancelIsReply";
+            this.MI_CancelIsReply.Size = new System.Drawing.Size(152, 22);
+            this.MI_CancelIsReply.Text = "取消自动跟踪";
+            this.MI_CancelIsReply.Click += new System.EventHandler(this.MI_CancelIsReply_Click);
+            // 
             // RunnerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -525,7 +534,7 @@
             this.Name = "RunnerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "微信机器人";
-             this.Load += new System.EventHandler(this.Runner_Load);
+            this.Load += new System.EventHandler(this.Runner_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).EndInit();
@@ -585,5 +594,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn GameResult;
         private System.Windows.Forms.DataGridViewTextBoxColumn Result_Point;
         private System.Windows.Forms.ToolStripMenuItem MI_IsReply;
+        private System.Windows.Forms.ToolStripMenuItem MI_CancelIsReply;
     }
 }

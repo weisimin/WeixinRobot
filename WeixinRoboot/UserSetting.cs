@@ -184,11 +184,15 @@ namespace WeixinRoboot
                 case "New":
                     Btn_Load.Visible = false;
                     fd_EndDate.Value = DateTime.Today.AddMonths(3);
+                     fd_EndDate.Enabled = true;
+                     Btn_Build.Visible = true;
                     break;
                 case "Modify":
                     fd_password.Enabled = false;
                     fd_IsLock.Enabled = false;
                     btn_Save.Enabled = false;
+                       fd_EndDate.Enabled = true;
+                     Btn_Build.Visible = true;
                     break;
                 case "MyData":
                     fd_username.Enabled = false;
