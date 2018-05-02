@@ -1,8 +1,9 @@
-不能添加已经存在的实体。
-   在 System.Data.Linq.Table`1.InsertOnSubmit(TEntity entity)
-   在 WeixinRoboot.Linq.DataLogic.WX_UserReplyLog_Create(WX_UserReplyLog reply, DataTable MemberSource) 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\Linq\ProgramLogic.cs:行号 705
-   在 WeixinRoboot.StartForm.NewWXContent(DateTime ReceiveTime, String ReceiveContent, DataRow userr, String SourceType) 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\StartForm.cs:行号 749
-   在 WeixinRoboot.SendManulOrder.Btn_Send_Click(Object sender, EventArgs e) 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\SendManulOrder.cs:行号 83
+可为空的对象必须具有一个值。
+   在 System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   在 System.Nullable`1.get_Value()
+   在 WeixinRoboot.Linq.DataLogic.WX_UserGameLog_Deal(StartForm StartF, String ContactID) 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\Linq\ProgramLogic.cs:行号 814
+   在 WeixinRoboot.StartForm.DealGameLogAndNotice(Boolean IgoreDataSettingSend) 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\StartForm.cs:行号 646
+   在 WeixinRoboot.Download163AndDeal.btn_download_Click(Object sender, EventArgs e) 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\Download163AndDeal.cs:行号 28
    在 System.Windows.Forms.Control.OnClick(EventArgs e)
    在 System.Windows.Forms.Button.OnClick(EventArgs e)
    在 System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
@@ -18,4 +19,4 @@
    在 System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
    在 System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
    在 System.Windows.Forms.Application.Run(Form mainForm)
-   在 WeixinRoboot.Program.Main() 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\Program.cs:行号 32
+   在 WeixinRoboot.Program.Main() 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\Program.cs:行号 33
