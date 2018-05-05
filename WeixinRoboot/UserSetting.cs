@@ -21,6 +21,16 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            ep_wf.Clear();
+            if (fd_BossUserName.Text != "")
+            {
+                MembershipUser checkboss = Membership.GetUser(fd_BossUserName.Text);
+                if (checkboss == null)
+                {
+                    ep_wf.SetError(fd_BossUserName, "老板号找不到");
+                    return;
+                }
+            }
 
             switch (_Mode)
             {
@@ -31,17 +41,28 @@ namespace WeixinRoboot
                         Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
                         newGameResultSend.aspnet_UserID = (Guid)usr.ProviderUserKey;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
-                        newGameResultSend.ActiveCode = fd_activecode.Text;
+
                         newGameResultSend.IsBlock = Fd_IsBlock.Checked;
 
                         newGameResultSend.IsSendPIC = FD_SendPIC.Checked;
                         newGameResultSend.IsReceiveOrder = FD_ReceiveOrder.Checked;
                         newGameResultSend.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
 
+                        if (fd_activecode.Text == "" || fd_EndDate.Value.Date == DateTime.Today)
+                        {
+                            fd_EndDate.Value = DateTime.Today.AddMonths(3);
+                            Btn_Build_Click(null, null);
+                        }
+                        newGameResultSend.ActiveCode = fd_activecode.Text;
+
+                        MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
+                        newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
+
                         db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
                         db.SubmitChanges();
 
                         MembershipUser sysadmin = System.Web.Security.Membership.GetUser("sysadmin");
+
 
 
 
@@ -67,12 +88,16 @@ namespace WeixinRoboot
                             }
                         }
 
+
+
+
                         MessageBox.Show("保存成功");
                     }
                     catch (Exception anyerror)
                     {
 
                         ep_wf.SetError(btn_Save, anyerror.Message + Environment.NewLine + anyerror.StackTrace);
+                        fd_password.Enabled = true;
                     }
 
                     break;
@@ -110,6 +135,8 @@ namespace WeixinRoboot
                             newGameResultSend.IsSendPIC = FD_SendPIC.Checked;
                             newGameResultSend.IsReceiveOrder = FD_ReceiveOrder.Checked;
                             newGameResultSend.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
+                            MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
+                            newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                             db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
 
@@ -122,8 +149,20 @@ namespace WeixinRoboot
                             finds.IsSendPIC = FD_SendPIC.Checked;
                             finds.IsReceiveOrder = FD_ReceiveOrder.Checked;
                             finds.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
+                            finds.ActiveCode = fd_activecode.Text;
+
+                            finds.IsBlock = Fd_IsBlock.Checked;
+                            finds.IsSendPIC = FD_SendPIC.Checked;
+                            finds.IsReceiveOrder = FD_ReceiveOrder.Checked;
+                            finds.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
+                            MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
+                            finds.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
+
 
                         }
+                       
+
+
                         db.SubmitChanges();
 
                         #endregion
@@ -154,12 +193,17 @@ namespace WeixinRoboot
                         Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
                         newGameResultSend.aspnet_UserID = (Guid)usermydata.ProviderUserKey;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
+                        newGameResultSend.ActiveCode = fd_activecode.Text;
                         db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
                     }
                     else
                     {
                         findsmydata.IsNewSend = fd_NewGameSend.Checked;
                     }
+
+
+
+
                     db.SubmitChanges();
 
                     #endregion
@@ -184,15 +228,16 @@ namespace WeixinRoboot
                 case "New":
                     Btn_Load.Visible = false;
                     fd_EndDate.Value = DateTime.Today.AddMonths(3);
-                     fd_EndDate.Enabled = true;
-                     Btn_Build.Visible = true;
+                    fd_EndDate.Enabled = true;
+                    Btn_Build.Visible = true;
+                    Btn_Build.Enabled = false;
                     break;
                 case "Modify":
                     fd_password.Enabled = false;
                     fd_IsLock.Enabled = false;
                     btn_Save.Enabled = false;
-                       fd_EndDate.Enabled = true;
-                     Btn_Build.Visible = true;
+                    fd_EndDate.Enabled = true;
+                    Btn_Build.Visible = true;
                     break;
                 case "MyData":
                     fd_username.Enabled = false;
@@ -239,7 +284,7 @@ namespace WeixinRoboot
 
 
                     btn_Save.Enabled = true;
-
+                    Btn_Build.Enabled = true;
 
                     Linq.aspnet_UsersNewGameResultSend newgs = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)usr.ProviderUserKey);
                     if (newgs == null)
@@ -251,13 +296,15 @@ namespace WeixinRoboot
                         FD_ReceiveOrder.Checked = false;
                         fd_MaxPlayerCount.Text = "50";
 
+
+
                     }
                     else
                     {
                         fd_NewGameSend.Checked = newgs.IsNewSend.HasValue ? newgs.IsNewSend.Value : false;
                         fd_activecode.Text = newgs.ActiveCode;
                         DateTime? LastDate = null;
-                        NetFramework.Util_MD5.MD5Success(newgs.ActiveCode, out LastDate, GlobalParam.Key);
+                        NetFramework.Util_MD5.MD5Success(newgs.ActiveCode, out LastDate, (Guid)Membership.GetUser(fd_username.Text).ProviderUserKey);
                         fd_EndDate.Value = LastDate.HasValue ? LastDate.Value : fd_EndDate.MinDate;
 
 
@@ -265,7 +312,8 @@ namespace WeixinRoboot
                         FD_SendPIC.Checked = newgs.IsSendPIC.HasValue ? newgs.IsSendPIC.Value : false; ;
                         FD_ReceiveOrder.Checked = newgs.IsReceiveOrder.HasValue ? newgs.IsReceiveOrder.Value : false; ;
                         fd_MaxPlayerCount.Text = newgs.MaxPlayerCount.HasValue ? newgs.MaxPlayerCount.ToString() : "50";
-
+                        System.Web.Security.MembershipUser boss = System.Web.Security.Membership.GetUser(newgs.bossaspnet_UserID == null ? Guid.Empty : newgs.bossaspnet_UserID);
+                        fd_BossUserName.Text = (boss == null ? "" : boss.UserName);
 
 
                     }
@@ -294,6 +342,7 @@ namespace WeixinRoboot
                 fd_username.Text = gv_UserList.SelectedRows[0].Cells["UserName"].Value.ToString();
                 TC_Main.SelectedTab = TP_Data;
                 TP_Data.Show();
+                Btn_Load_Click(null, null);
 
             }
 

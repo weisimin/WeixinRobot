@@ -1,9 +1,19 @@
-可为空的对象必须具有一个值。
-   在 System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
-   在 System.Nullable`1.get_Value()
-   在 WeixinRoboot.Linq.DataLogic.WX_UserGameLog_Deal(StartForm StartF, String ContactID) 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\Linq\ProgramLogic.cs:行号 814
-   在 WeixinRoboot.StartForm.DealGameLogAndNotice(Boolean IgoreDataSettingSend) 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\StartForm.cs:行号 646
-   在 WeixinRoboot.Download163AndDeal.btn_download_Click(Object sender, EventArgs e) 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\Download163AndDeal.cs:行号 28
+DataGridView 控件中至少有一列没有单元格模板。
+   在 System.Windows.Forms.DataGridView.CompleteCellsCollection(DataGridViewRow dataGridViewRow)
+   在 System.Windows.Forms.DataGridView.get_RowTemplateClone()
+   在 System.Windows.Forms.DataGridView.RefreshRows(Boolean scrollIntoView)
+   在 System.Windows.Forms.DataGridView.RefreshColumnsAndRows()
+   在 System.Windows.Forms.DataGridView.DataGridViewDataConnection.DataSourceMetaDataChanged()
+   在 System.Windows.Forms.DataGridView.DataGridViewDataConnection.ProcessListChanged(ListChangedEventArgs e)
+   在 System.Windows.Forms.DataGridView.DataGridViewDataConnection.currencyManager_ListChanged(Object sender, ListChangedEventArgs e)
+   在 System.Windows.Forms.CurrencyManager.OnListChanged(ListChangedEventArgs e)
+   在 System.Windows.Forms.CurrencyManager.List_ListChanged(Object sender, ListChangedEventArgs e)
+   在 System.Windows.Forms.BindingSource.OnListChanged(ListChangedEventArgs e)
+   在 System.Windows.Forms.BindingSource.ResetBindings(Boolean metadataChanged)
+   在 System.Windows.Forms.BindingSource.SetList(IList list, Boolean metaDataChanged, Boolean applySortAndFilter)
+   在 System.Windows.Forms.BindingSource.ResetList()
+   在 System.Windows.Forms.BindingSource.set_DataSource(Object value)
+   在 WeixinRoboot.OpenQuery.BtnQuery_Click(Object sender, EventArgs e) 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\OpenQuery.cs:行号 151
    在 System.Windows.Forms.Control.OnClick(EventArgs e)
    在 System.Windows.Forms.Button.OnClick(EventArgs e)
    在 System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
@@ -19,4 +29,4 @@
    在 System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
    在 System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
    在 System.Windows.Forms.Application.Run(Form mainForm)
-   在 WeixinRoboot.Program.Main() 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\Program.cs:行号 33
+   在 WeixinRoboot.Program.Main() 位置 E:\WeixinRobotGIT\trunk\WeixinRoboot\Program.cs:行号 53

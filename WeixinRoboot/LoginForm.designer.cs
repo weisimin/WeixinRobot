@@ -44,7 +44,7 @@
             this.lbl_UserName.Name = "lbl_UserName";
             this.lbl_UserName.Size = new System.Drawing.Size(74, 21);
             this.lbl_UserName.TabIndex = 0;
-            this.lbl_UserName.Text = "用户名：";
+            this.lbl_UserName.Text = "会员号：";
             // 
             // lbl_Pwd
             // 

@@ -18,13 +18,31 @@ namespace WeixinRoboot
         static void Main()
         {
 
+
+
+            string ConfigFile = Application.StartupPath + "\\WeixinRoboot.exe.config";
+            string TempFileName = Application.StartupPath + "\\web.config";
+            if (System.IO.File.Exists(TempFileName))
+            {
+                System.IO.File.Delete(TempFileName);
+            }
+            System.IO.File.Move(ConfigFile, TempFileName);
+            System.Diagnostics.Process proc = System.Diagnostics.Process.Start("C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\aspnet_regiis.exe", "-pef \"connectionStrings\" \"" + Application.StartupPath + "\"");
+
+
+            if (proc != null)
+            {
+                proc.WaitForExit();
+                System.IO.File.Move(TempFileName, ConfigFile);
+            }
+
+
+
             AllocConsole();
             //局部线程，不能及时结束会造成没相应
             //全局LINQ数据库，会频繁出现SQLDATAREADER已打开或关闭的问题
 
             Linq.DataLogic.ComboStringInit();
-
-           
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -58,8 +76,8 @@ namespace WeixinRoboot
             #region
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
-        ReValidate:
+
+
             string ActiveCode = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key).ActiveCode;
 
             DateTime? EndDate = null;
@@ -77,7 +95,8 @@ namespace WeixinRoboot
                     MessageBox.Show("激活码已过期");
                     UpdateActiveCode uac = new UpdateActiveCode();
                     uac.ShowDialog();
-                    goto ReValidate;
+                    MessageBox.Show("激活码已保存，重新启动");
+                    Environment.Exit(0);
                 }
 
             }

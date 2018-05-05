@@ -37,17 +37,19 @@
             this.MI_Yonghu = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_UserSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.新用户ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.信息更改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_ModifyUser = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_MyData = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_Ratio = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_Ratio_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_GameLog = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_GameLogManulDeal = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_Query = new System.Windows.Forms.ToolStripMenuItem();
             this.Botton_Status = new System.Windows.Forms.StatusStrip();
             this.SI_url = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_ShowError = new System.Windows.Forms.ToolStripStatusLabel();
             this.SI_ShowError = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_waring = new System.Windows.Forms.Label();
+            this.MI_OpenQuery = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
             this.TopMenu.SuspendLayout();
             this.Botton_Status.SuspendLayout();
@@ -91,7 +93,8 @@
             this.TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MI_Yonghu,
             this.MI_Ratio,
-            this.MI_GameLog});
+            this.MI_GameLog,
+            this.MI_Query});
             this.TopMenu.Location = new System.Drawing.Point(0, 0);
             this.TopMenu.Name = "TopMenu";
             this.TopMenu.Size = new System.Drawing.Size(582, 25);
@@ -111,11 +114,10 @@
             // 
             this.MI_UserSetting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.新用户ToolStripMenuItem,
-            this.信息更改ToolStripMenuItem});
+            this.MI_ModifyUser});
             this.MI_UserSetting.Name = "MI_UserSetting";
             this.MI_UserSetting.Size = new System.Drawing.Size(124, 22);
             this.MI_UserSetting.Text = "用户设置";
-            this.MI_UserSetting.Click += new System.EventHandler(this.MI_UserSetting_Click);
             // 
             // 新用户ToolStripMenuItem
             // 
@@ -124,12 +126,12 @@
             this.新用户ToolStripMenuItem.Text = "新用户";
             this.新用户ToolStripMenuItem.Click += new System.EventHandler(this.MI_NewUser_Click);
             // 
-            // 信息更改ToolStripMenuItem
+            // MI_ModifyUser
             // 
-            this.信息更改ToolStripMenuItem.Name = "信息更改ToolStripMenuItem";
-            this.信息更改ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.信息更改ToolStripMenuItem.Text = "信息更改";
-            this.信息更改ToolStripMenuItem.Click += new System.EventHandler(this.MI_UserSetting_Click);
+            this.MI_ModifyUser.Name = "MI_ModifyUser";
+            this.MI_ModifyUser.Size = new System.Drawing.Size(124, 22);
+            this.MI_ModifyUser.Text = "信息更改";
+            this.MI_ModifyUser.Click += new System.EventHandler(this.MI_UserSetting_Click);
             // 
             // MI_MyData
             // 
@@ -168,6 +170,14 @@
             this.MI_GameLogManulDeal.Size = new System.Drawing.Size(124, 22);
             this.MI_GameLogManulDeal.Text = "人工开奖";
             this.MI_GameLogManulDeal.Click += new System.EventHandler(this.MI_GameLogManulDeal_Click);
+            // 
+            // MI_Query
+            // 
+            this.MI_Query.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MI_OpenQuery});
+            this.MI_Query.Name = "MI_Query";
+            this.MI_Query.Size = new System.Drawing.Size(44, 21);
+            this.MI_Query.Text = "查询";
             // 
             // Botton_Status
             // 
@@ -213,6 +223,13 @@
             this.lbl_waring.TabIndex = 5;
             this.lbl_waring.Text = "微信机器人仅用于学习和交流，不得用于非法用途";
             // 
+            // MI_OpenQuery
+            // 
+            this.MI_OpenQuery.Name = "MI_OpenQuery";
+            this.MI_OpenQuery.Size = new System.Drawing.Size(152, 22);
+            this.MI_OpenQuery.Text = "开奖统计";
+            this.MI_OpenQuery.Click += new System.EventHandler(this.MI_OpenQuery_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -251,7 +268,7 @@
         private System.Windows.Forms.ToolStripMenuItem MI_UserSetting;
         private System.Windows.Forms.ToolStripMenuItem MI_MyData;
         private System.Windows.Forms.ToolStripMenuItem 新用户ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 信息更改ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MI_ModifyUser;
         private System.Windows.Forms.StatusStrip Botton_Status;
         private System.Windows.Forms.ToolStripStatusLabel SI_url;
         private System.Windows.Forms.Label lbl_waring;
@@ -261,6 +278,8 @@
         private System.Windows.Forms.ToolStripMenuItem MI_Ratio_Setting;
         private System.Windows.Forms.ToolStripMenuItem MI_GameLog;
         private System.Windows.Forms.ToolStripMenuItem MI_GameLogManulDeal;
+        private System.Windows.Forms.ToolStripMenuItem MI_Query;
+        private System.Windows.Forms.ToolStripMenuItem MI_OpenQuery;
     }
 }
 

@@ -11,22 +11,41 @@ namespace WeixinRoboot
 {
     public partial class F_Game_BasicRatio : Form
     {
-        
-         public F_Game_BasicRatio()
+
+        public F_Game_BasicRatio()
         {
             InitializeComponent();
-              
+
         }
 
         private void Btn_Save_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+
             try
             {
                 ep_gridview.Clear();
-                db.SubmitChanges();
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception AnyError)
+                {
+                    System.Data.Linq.ChangeSet cs = db.GetChangeSet();
+                    for (int i = 0; i < cs.Inserts.Count; i++)
+                    {
+                        cs.Inserts.Remove(cs.Inserts[cs.Inserts.Count - i - 1]);
+                    }
+                    for (int i = 0; i < cs.Deletes.Count; i++)
+                    {
+                        cs.Deletes.Remove(cs.Deletes[cs.Inserts.Count - i - 1]);
+                    }
+
+                    db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, cs.Updates);
+                    ep_gridview.SetError(Btn_Save, AnyError.Message);
+
+                }
+
+
                 MessageBox.Show("保存成功");
             }
             catch (Exception AnyError)
@@ -48,19 +67,19 @@ namespace WeixinRoboot
         }
 
 
+        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+
 
 
         private void F_Game_BasicRatio_Load(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
             BS_Game_BasicRatio.DataSource = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.Key);
-       
+
         }
 
-      
 
-      
-         }
+
+
+    }
 }

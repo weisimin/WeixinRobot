@@ -20,7 +20,12 @@ E:\SourceCode\WeixinRoboot\WeixinRoboot\obj\x86\Debug\WeixinRoboot.csproj.Genera
 E:\SourceCode\WeixinRoboot\WeixinRoboot\obj\x86\Debug\WeixinRoboot.exe
 E:\SourceCode\WeixinRoboot\WeixinRoboot\obj\x86\Debug\WeixinRoboot.pdb
 E:\SourceCode\WeixinRoboot\WeixinRoboot\obj\x86\Debug\WeixinRoboot.UpdateActiveCode.resources
+E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\dragon.png
+E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\OK.png
+E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\tiger.png
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\WeixinRoboot.exe.config
+E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\WeixinRoboot.exe.manifest
+E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\WeixinRoboot.application
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\WeixinRoboot.exe
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\WeixinRoboot.pdb
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\Newtonsoft.Json.dll
@@ -28,6 +33,7 @@ E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\Newtonsoft.Json.pdb
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\Newtonsoft.Json.xml
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.Download163AndDeal.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.F_Game_BasicRatio.resources
+E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.OpenQuery.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.RecoverPasswordForm.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.SendManulOrder.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.SendMessage.resources
@@ -40,5 +46,7 @@ E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.RunnerForm.resou
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.StartForm.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.Properties.Resources.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.csproj.GenerateResource.Cache
+E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.exe.manifest
+E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.application
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.exe
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.pdb

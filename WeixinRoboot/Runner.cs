@@ -83,7 +83,7 @@ namespace WeixinRoboot
                     newr.SetField("User_ContactType", UserNametempID.StartsWith("@@") ? "群" : "个人");
                     newr.SetField("User_Contact", RemarkName == "" ? NickName : RemarkName);
                     newr.SetField("User_IsReply", usrc == null ? false : usrc.IsReply);
-
+                    newr.SetField("User_IsReceiveTransfer", usrc == null ? false : usrc.IsReceiveTransfer);
 
                     var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
                     foreach (var logitem in UpdateLogs)
@@ -139,7 +139,7 @@ namespace WeixinRoboot
             MemberSource.Columns.Add("User_ContactID");
             MemberSource.Columns.Add("User_ContactTEMPID");
             MemberSource.Columns.Add("User_IsReply", typeof(Boolean));
-
+            MemberSource.Columns.Add("User_IsReceiveTransfer", typeof(Boolean));
 
             BS_Contact.DataSource = MemberSource;
             BS_Contact.Sort = "User_Contact";
@@ -417,7 +417,7 @@ namespace WeixinRoboot
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
-              
+
 
                 string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("自动跟踪", editrow);
 
@@ -437,6 +437,32 @@ namespace WeixinRoboot
 
 
                 Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消自动跟踪", editrow);
+
+
+            }
+        }
+
+        private void MI_ReceiveTrans_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.DataLogic.WX_UserReplyLog_MySendCreate("转发", editrow);
+
+
+            }
+        }
+
+        private void MI_CancelReceiveTrans_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消转发", editrow);
 
 
             }

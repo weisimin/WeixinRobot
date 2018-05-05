@@ -29,16 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gv_contact = new System.Windows.Forms.DataGridView();
             this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_ContctID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BS_Contact = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.gv_ReceiveReply = new System.Windows.Forms.DataGridView();
@@ -61,6 +62,7 @@
             this.MI_FanXian = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_OrderManual = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_CleanUp = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_CancelIsReply = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_ContactFilter = new System.Windows.Forms.TextBox();
             this.dtp_EndDate = new System.Windows.Forms.DateTimePicker();
             this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
@@ -78,7 +80,8 @@
             this.Buy_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GameResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Result_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MI_CancelIsReply = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_ReceiveTrans = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_CancelReceiveTrans = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -94,30 +97,31 @@
             this.gv_contact.AllowUserToDeleteRows = false;
             this.gv_contact.AllowUserToOrderColumns = true;
             this.gv_contact.AutoGenerateColumns = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_contact.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_contact.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.gv_contact.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gv_contact.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.User_ContactType,
             this.User_Contact,
             this.User_ContctID,
             this.User_ContactTMPID,
-            this.User_IsReply});
+            this.User_IsReply,
+            this.User_IsReceiveTransfer});
             this.gv_contact.DataSource = this.BS_Contact;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_contact.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_contact.DefaultCellStyle = dataGridViewCellStyle6;
             this.gv_contact.Location = new System.Drawing.Point(12, 39);
             this.gv_contact.MultiSelect = false;
             this.gv_contact.Name = "gv_contact";
@@ -126,7 +130,7 @@
             this.gv_contact.RowTemplate.Height = 23;
             this.gv_contact.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gv_contact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gv_contact.Size = new System.Drawing.Size(164, 611);
+            this.gv_contact.Size = new System.Drawing.Size(189, 611);
             this.gv_contact.TabIndex = 0;
             this.gv_contact.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gv_contact_CellClick);
             this.gv_contact.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_contact_DataError);
@@ -170,7 +174,16 @@
             this.User_IsReply.HeaderText = "启";
             this.User_IsReply.Name = "User_IsReply";
             this.User_IsReply.ReadOnly = true;
-            this.User_IsReply.Width = 35;
+            this.User_IsReply.Width = 30;
+            // 
+            // User_IsReceiveTransfer
+            // 
+            this.User_IsReceiveTransfer.DataPropertyName = "User_IsReceiveTransfer";
+            this.User_IsReceiveTransfer.HeaderText = "转";
+            this.User_IsReceiveTransfer.Name = "User_IsReceiveTransfer";
+            this.User_IsReceiveTransfer.ReadOnly = true;
+            this.User_IsReceiveTransfer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.User_IsReceiveTransfer.Width = 30;
             // 
             // label1
             // 
@@ -186,14 +199,14 @@
             this.gv_ReceiveReply.AllowUserToAddRows = false;
             this.gv_ReceiveReply.AllowUserToDeleteRows = false;
             this.gv_ReceiveReply.AutoGenerateColumns = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_ReceiveReply.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_ReceiveReply.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.gv_ReceiveReply.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_ReceiveReply.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Reply_Contact,
@@ -204,20 +217,20 @@
             this.Reply_ReceiveTime,
             this.Reply_ReplyTime});
             this.gv_ReceiveReply.DataSource = this.BS_ReceiveReply;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_ReceiveReply.DefaultCellStyle = dataGridViewCellStyle4;
-            this.gv_ReceiveReply.Location = new System.Drawing.Point(184, 39);
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_ReceiveReply.DefaultCellStyle = dataGridViewCellStyle8;
+            this.gv_ReceiveReply.Location = new System.Drawing.Point(207, 39);
             this.gv_ReceiveReply.Name = "gv_ReceiveReply";
             this.gv_ReceiveReply.ReadOnly = true;
             this.gv_ReceiveReply.RowHeadersVisible = false;
             this.gv_ReceiveReply.RowTemplate.Height = 23;
-            this.gv_ReceiveReply.Size = new System.Drawing.Size(790, 235);
+            this.gv_ReceiveReply.Size = new System.Drawing.Size(767, 235);
             this.gv_ReceiveReply.TabIndex = 2;
             this.gv_ReceiveReply.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_ReceiveReply_DataError);
             // 
@@ -278,7 +291,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(182, 22);
+            this.label2.Location = new System.Drawing.Point(212, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 12);
             this.label2.TabIndex = 3;
@@ -287,7 +300,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(182, 277);
+            this.label3.Location = new System.Drawing.Point(209, 277);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 4;
@@ -307,9 +320,11 @@
             this.MI_FanXian,
             this.MI_OrderManual,
             this.MI_CleanUp,
-            this.MI_CancelIsReply});
+            this.MI_CancelIsReply,
+            this.MI_ReceiveTrans,
+            this.MI_CancelReceiveTrans});
             this.MouseMenuReply.Name = "MouseMenuReply";
-            this.MouseMenuReply.Size = new System.Drawing.Size(153, 180);
+            this.MouseMenuReply.Size = new System.Drawing.Size(153, 224);
             // 
             // MI_IsReply
             // 
@@ -351,6 +366,13 @@
             this.MI_CleanUp.Size = new System.Drawing.Size(152, 22);
             this.MI_CleanUp.Text = "清算";
             this.MI_CleanUp.Click += new System.EventHandler(this.MI_CleanUp_Click);
+            // 
+            // MI_CancelIsReply
+            // 
+            this.MI_CancelIsReply.Name = "MI_CancelIsReply";
+            this.MI_CancelIsReply.Size = new System.Drawing.Size(152, 22);
+            this.MI_CancelIsReply.Text = "取消自动跟踪";
+            this.MI_CancelIsReply.Click += new System.EventHandler(this.MI_CancelIsReply_Click);
             // 
             // tb_ContactFilter
             // 
@@ -406,14 +428,14 @@
             this.GameResult,
             this.Result_Point});
             this.GV_GameLog.DataSource = this.BS_GameLog;
-            this.GV_GameLog.Location = new System.Drawing.Point(184, 292);
+            this.GV_GameLog.Location = new System.Drawing.Point(207, 292);
             this.GV_GameLog.MultiSelect = false;
             this.GV_GameLog.Name = "GV_GameLog";
             this.GV_GameLog.ReadOnly = true;
             this.GV_GameLog.RowHeadersVisible = false;
             this.GV_GameLog.RowTemplate.Height = 23;
             this.GV_GameLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.GV_GameLog.Size = new System.Drawing.Size(790, 208);
+            this.GV_GameLog.Size = new System.Drawing.Size(767, 208);
             this.GV_GameLog.TabIndex = 10;
             // 
             // ReceiveTime
@@ -508,19 +530,25 @@
             this.Result_Point.Name = "Result_Point";
             this.Result_Point.ReadOnly = true;
             // 
-            // MI_CancelIsReply
+            // MI_ReceiveTrans
             // 
-            this.MI_CancelIsReply.Name = "MI_CancelIsReply";
-            this.MI_CancelIsReply.Size = new System.Drawing.Size(152, 22);
-            this.MI_CancelIsReply.Text = "取消自动跟踪";
-            this.MI_CancelIsReply.Click += new System.EventHandler(this.MI_CancelIsReply_Click);
+            this.MI_ReceiveTrans.Name = "MI_ReceiveTrans";
+            this.MI_ReceiveTrans.Size = new System.Drawing.Size(152, 22);
+            this.MI_ReceiveTrans.Text = "转发";
+            this.MI_ReceiveTrans.Click += new System.EventHandler(this.MI_ReceiveTrans_Click);
+            // 
+            // MI_CancelReceiveTrans
+            // 
+            this.MI_CancelReceiveTrans.Name = "MI_CancelReceiveTrans";
+            this.MI_CancelReceiveTrans.Size = new System.Drawing.Size(152, 22);
+            this.MI_CancelReceiveTrans.Text = "取消转发";
+            this.MI_CancelReceiveTrans.Click += new System.EventHandler(this.MI_CancelReceiveTrans_Click);
             // 
             // RunnerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 662);
-            this.ControlBox = false;
             this.Controls.Add(this.GV_GameLog);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dtp_StartDate);
@@ -532,6 +560,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gv_contact);
             this.Name = "RunnerForm";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "微信机器人";
             this.Load += new System.EventHandler(this.Runner_Load);
@@ -575,11 +604,6 @@
         private System.Windows.Forms.BindingSource BS_GameLog;
         private System.Windows.Forms.ToolStripMenuItem MI_OrderManual;
         private System.Windows.Forms.ToolStripMenuItem MI_CleanUp;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_Contact;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContctID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactTMPID;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReply;
         private System.Windows.Forms.DataGridView GV_GameLog;
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiveTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn aspnet_UserID;
@@ -595,5 +619,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Result_Point;
         private System.Windows.Forms.ToolStripMenuItem MI_IsReply;
         private System.Windows.Forms.ToolStripMenuItem MI_CancelIsReply;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_Contact;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContctID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactTMPID;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReply;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReceiveTransfer;
+        private System.Windows.Forms.ToolStripMenuItem MI_ReceiveTrans;
+        private System.Windows.Forms.ToolStripMenuItem MI_CancelReceiveTrans;
     }
 }

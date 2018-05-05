@@ -73,6 +73,8 @@ namespace WeixinRoboot
             tm_refresh.Start();
             Thread StartThread = new Thread(new ThreadStart(StartThreadDo));
             StartThread.Start();
+
+            this.Text = "会员号:" + GlobalParam.UserName;
         }
 
         private Int32 _tip = 1;
@@ -198,7 +200,7 @@ namespace WeixinRoboot
                     //程序里面要注意使用UTF8编码方式。
                     JObject Members = WXInit();
 
-                    RunnerF.Invoke(new Action(()=>{RunnerF.Members=Members;}));
+                    RunnerF.Invoke(new Action(() => { RunnerF.Members = Members; }));
 
                     // 6、获取群成员列表
 
@@ -391,11 +393,46 @@ namespace WeixinRoboot
 
                             string Content = AddMsgList["Content"].ToString();
                             string msgTime = AddMsgList["CreateTime"].ToString();
+                            string msgType = AddMsgList["MsgType"].ToString();
+
+                            #region "转发"
+                            if (Content.Contains("上分")||Content.Contains("下分")||(msgType=="10000"))
+                            {
+
+                                #region 转发设置
+
+                                DataRow[] FromContacts = RunnerF.MemberSource.Select("User_ContactTEMPID='" + FromUserNameTEMPID + "'");
+                                    if (FromContacts.Length != 0)
+                                    {
+                                        string FromContactName = FromContacts[0].Field<string>("User_Contact");
+
+                                        var ReceiveTrans = db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.Key && t.IsReceiveTransfer == true);
+
+                                        foreach (var recitem in ReceiveTrans)
+                                        {
+                                            DataRow[] ToContact = RunnerF.MemberSource.Select("User_ContactID='" + recitem.WX_UserName + "'");
+                                            if (ToContact.Length != 0)
+                                            {
+                                                SendWXContent(FromContactName + ":" + (msgType=="10000"?"收到红包，手机上查看":Content), ToContact[0].Field<string>("User_ContactTEMPID"));
+                                            }
+
+
+
+                                        }
+
+                                    }
+                              
+                                #endregion
+                            }
+                            #endregion
+
+
+
 
                             if (Content != "")
                             {
                                 #region "如果是自己发出的"
-                                if (Content=="加好友")
+                                if (Content == "加")
                                 {
                                     RepeatGetMembers(Skey, pass_ticket);
                                 }
@@ -407,11 +444,22 @@ namespace WeixinRoboot
                                     {
                                         continue;
                                     }
-                                    string MyOutResult = Linq.DataLogic.WX_UserReplyLog_MySendCreate(Content, tocontacts[0]);
+                                    string MyOutResult = "";
+                                    try
+                                    {
+                                        MyOutResult = Linq.DataLogic.WX_UserReplyLog_MySendCreate(Content, tocontacts[0]);
+
+                                    }
+                                    catch (Exception mysenderror)
+                                    {
+
+                                        Console.Write(mysenderror.Message);
+                                        Console.Write(mysenderror.StackTrace);
+                                    }
 
 
 
-                                    if (@ToUserNameTEMPID.Contains("@@") == false && Content != "自动跟踪")
+                                    if (@ToUserNameTEMPID.Contains("@@") == false && tocontacts[0].Field<Boolean>("User_IsReply")==true)
                                     {
                                         decimal? TotalPoint = Linq.DataLogic.WXUserChangeLog_GetRemainder(tocontacts[0].Field<string>("User_ContactID"));
                                         SendWXContent(MyOutResult, tocontacts[0].Field<string>("User_ContactTEMPID"));
@@ -462,7 +510,12 @@ namespace WeixinRoboot
                                     RunnerF.ReplySource.Rows.Add(newr);
                                 }));
 
+
+
+
+
                                 #region "检查是否启用自动跟踪"
+
                                 Linq.WX_UserReply checkreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == userr.Field<string>("User_ContactID"));
                                 if (checkreply.IsReply == true)
                                 {
@@ -476,7 +529,17 @@ namespace WeixinRoboot
                                     {
                                         continue;
                                     }
-                                    String OutMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, userr, "微信");
+                                    String OutMessage = "";
+                                    try
+                                    {
+                                        OutMessage=NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, userr, "微信");
+                                    }
+                                    catch (Exception mysenderror)
+                                    {
+
+                                        Console.Write(mysenderror.Message);
+                                        Console.Write(mysenderror.StackTrace);
+                                    }
                                     if (OutMessage != "")
                                     {
 
@@ -702,7 +765,7 @@ namespace WeixinRoboot
                 db.WX_UserReplyLog.InsertOnSubmit(newlogr);
                 db.SubmitChanges();
 
-               
+
                 string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, RunnerF.MemberSource);
 
                 newlogr.ReplyContent = ReturnSend;
@@ -710,7 +773,7 @@ namespace WeixinRoboot
                 newlogr.HaveDeal = false;
                 db.SubmitChanges();
 
-               
+
                 return ReturnSend;
 
             }
@@ -728,9 +791,15 @@ namespace WeixinRoboot
 
         }//新消息
 
-  
+        Int32 MaxInitCount = 0;
         private JObject WXInit()
         {
+            MaxInitCount += 1;
+            if (MaxInitCount>3)
+            {
+                MessageBox.Show("无法加载微信联系人");
+                Environment.Exit(0);
+            }
             cookie = new CookieCollection();
 
             string Result = NetFramework.Util_WEB.OpenUrl("https://login.weixin.qq.com/cgi-bin/mmwebwx-bin/login?uuid=" + _uuid + "&tip=" + _tip.ToString() + "&_=" + JavaTimeSpan()
@@ -803,7 +872,7 @@ namespace WeixinRoboot
             //KeepUpdateContactThread.Start(new object[]{ KeepUpdateContactThreadID,Skey,pass_ticket});
             return Members;
         }
-        private JObject RepeatGetMembers(string Skey,string pass_ticket)
+        private JObject RepeatGetMembers(string Skey, string pass_ticket)
         {
             try
             {
@@ -812,7 +881,7 @@ namespace WeixinRoboot
                 //使用POST方法，访问：https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=时间戳
 
                 //POST的内容为空。成功则以JSON格式返回所有联系人的信息。格式类似：
-                string str_memb = NetFramework.Util_WEB.OpenUrl("https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan() + "&skey=" + HttpUtility.UrlDecode(Skey) + "&pass_ticket="+pass_ticket
+                string str_memb = NetFramework.Util_WEB.OpenUrl("https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan() + "&skey=" + HttpUtility.UrlDecode(Skey) + "&pass_ticket=" + pass_ticket
             , "https://wx2.qq.com/", "", "POST", cookie);
 
                 JObject Members = JObject.Parse(str_memb);
@@ -833,9 +902,9 @@ namespace WeixinRoboot
             string CheckUrl3 = "";
             string str_memb = NetFramework.Util_WEB.OpenUrl(CheckUrl3
            , "https://wx2.qq.com/", j_BaseRequest.ToString().Replace(Environment.NewLine, "").Replace(" ", ""), "POST", cookie, false);
-              JObject Members = JObject.Parse(str_memb);
-                RunnerF.Invoke(new Action(() => { RunnerF.Members = Members; }));
-                return Members;
+            JObject Members = JObject.Parse(str_memb);
+            RunnerF.Invoke(new Action(() => { RunnerF.Members = Members; }));
+            return Members;
         }
         Dictionary<Guid, Boolean> KillThread = new Dictionary<Guid, bool>();
 
@@ -843,7 +912,7 @@ namespace WeixinRoboot
         Guid Download163ThreadID = Guid.NewGuid();
         private void DownLoad163ThreadDo(object ThreadID)
         {
-            while (KillThread.ContainsKey((Guid)ThreadID)==false)
+            while (KillThread.ContainsKey((Guid)ThreadID) == false)
             {
                 DownloadResult();
                 System.Threading.Thread.Sleep(5000);
@@ -925,11 +994,11 @@ namespace WeixinRoboot
 
 
 
-     
-            string URL = "http://caipiao.163.com/award/cqssc/";
-     
 
-                URL += SelectDate.ToString("yyyyMMdd") + ".html";
+            string URL = "http://caipiao.163.com/award/cqssc/";
+
+
+            URL += SelectDate.ToString("yyyyMMdd") + ".html";
 
             string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
             Regex FindTableData = new Regex("<table width=\"100%\" border=\"0\" cellspacing=\"0\" class=\"awardList\">((?!</table>)[\\S\\s])+</table>", RegexOptions.IgnoreCase);
@@ -1096,7 +1165,7 @@ namespace WeixinRoboot
 
 
             DataTable PrivatePerios = NetFramework.Util_Sql.RunSqlDataTable("LocalSqlServer"
-                , @"select GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where GamePrivatePeriod like '" + day.ToString("yyyyMMdd") + "%'");
+                , @"select GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where GamePrivatePeriod like '" + day.ToString("yyyyMMdd") + "%' and aspnet_Userid='"+GlobalParam.Key.ToString()+"'");
             DataView dv = PrivatePerios.AsDataView();
 
             ;
@@ -1366,11 +1435,11 @@ namespace WeixinRoboot
             MI_GameLogManulDeal.Enabled = false;
             KillThread.Add(WaitScanTHreadID, true);
             KillThread.Add(Download163ThreadID, true);
-           
+
 
             WaitScanTHreadID = Guid.NewGuid();
             Download163ThreadID = Guid.NewGuid();
-           
+
 
             Thread StartThread = new Thread(new ThreadStart(StartThreadDo));
             StartThread.Start();
@@ -1449,6 +1518,13 @@ namespace WeixinRoboot
             d163.StartF = this;
             d163.RunnerF = this.RunnerF;
             d163.Show();
+        }
+
+        private void MI_OpenQuery_Click(object sender, EventArgs e)
+        {
+            OpenQuery oq = new OpenQuery();
+            oq.RunnerF = this.RunnerF;
+            oq.Show();
         }
 
 

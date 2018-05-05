@@ -7,6 +7,7 @@ using System.Web;
 using System.Net;
 using System.IO.Compression;
 using System.Text.RegularExpressions;
+using System.Web.Configuration;
 namespace NetFramework
 {
     public class Util_WEB
@@ -516,29 +517,30 @@ namespace NetFramework
             {
 
                 Totalb = Convert.FromBase64String(Total);
+
+
+
+                string Text = Encoding.UTF8.GetString(Totalb);
+                string Time = Text.Substring(Text.Length - 59);
+                //yyyy-MM-dd HH:mm：ss FFFF
+                //bf697c61-e1ef-4848-9f03-558ab55686e9 36位
+                string MD5 = Text.Substring(0, Text.Length - 59);
+                string CheckMD5 = GetStrMd5X2(Time);
+
+                Guid Passid = new Guid(Time.Substring(0, 36));
+                string OutTime = Time.Substring(36);
+                if (CheckMD5 == MD5 && Passid == MyGuid)
+                {
+                    Value = DateTime.Parse(OutTime);
+                    return true;
+                }
+                else
+                {
+                    Value = null;
+                    return false;
+                }
             }
             catch (Exception)
-            {
-                Value = null;
-                return false;
-            }
-
-
-            string Text = Encoding.UTF8.GetString(Totalb);
-            string Time = Text.Substring(Text.Length - 59);
-            //yyyy-MM-dd HH:mm：ss FFFF
-            //bf697c61-e1ef-4848-9f03-558ab55686e9 36位
-            string MD5 = Text.Substring(0, Text.Length - 59);
-            string CheckMD5 = GetStrMd5X2(Time);
-
-            Guid Passid = new Guid(Time.Substring(0, 36));
-            string OutTime = Time.Substring(36);
-            if (CheckMD5 == MD5 && Passid == MyGuid)
-            {
-                Value = DateTime.Parse(OutTime);
-                return true;
-            }
-            else
             {
                 Value = null;
                 return false;
@@ -570,4 +572,35 @@ namespace NetFramework
                 objNumberPattern.IsMatch(strNumber);
         }
     }
+
+    public class Util_Cofig
+    {
+
+
+
+        //加密web.Config中的指定节
+        public static void ProtectSection(string sectionName,string Path)
+        {
+            System.Configuration.Configuration config = WebConfigurationManager.OpenWebConfiguration(Path);
+            System.Configuration.ConfigurationSection section = config.GetSection(sectionName);
+            if (section != null && !section.SectionInformation.IsProtected)
+            {
+                section.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
+                config.Save();
+            }
+        }
+
+        //解密web.Config中的指定节
+         public static void UnProtectSection(string sectionName,string Path)
+        {
+            System.Configuration.Configuration config = WebConfigurationManager.OpenWebConfiguration(Path);
+            System.Configuration.ConfigurationSection section = config.GetSection(sectionName);
+            if (section != null && section.SectionInformation.IsProtected)
+            {
+                section.SectionInformation.UnprotectSection();
+                config.Save();
+            }
+        }
+    }
+
 }
