@@ -396,32 +396,32 @@ namespace WeixinRoboot
                             string msgType = AddMsgList["MsgType"].ToString();
 
                             #region "转发"
-                            if (Content.Contains("上分")||Content.Contains("下分")||(msgType=="10000"))
+                            if (Content.Contains("上分") || Content.Contains("下分") || (msgType == "10000"))
                             {
 
                                 #region 转发设置
 
                                 DataRow[] FromContacts = RunnerF.MemberSource.Select("User_ContactTEMPID='" + FromUserNameTEMPID + "'");
-                                    if (FromContacts.Length != 0)
+                                if (FromContacts.Length != 0)
+                                {
+                                    string FromContactName = FromContacts[0].Field<string>("User_Contact");
+
+                                    var ReceiveTrans = db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.Key && t.IsReceiveTransfer == true);
+
+                                    foreach (var recitem in ReceiveTrans)
                                     {
-                                        string FromContactName = FromContacts[0].Field<string>("User_Contact");
-
-                                        var ReceiveTrans = db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.Key && t.IsReceiveTransfer == true);
-
-                                        foreach (var recitem in ReceiveTrans)
+                                        DataRow[] ToContact = RunnerF.MemberSource.Select("User_ContactID='" + recitem.WX_UserName + "'");
+                                        if (ToContact.Length != 0)
                                         {
-                                            DataRow[] ToContact = RunnerF.MemberSource.Select("User_ContactID='" + recitem.WX_UserName + "'");
-                                            if (ToContact.Length != 0)
-                                            {
-                                                SendWXContent(FromContactName + ":" + (msgType=="10000"?"收到红包，手机上查看":Content), ToContact[0].Field<string>("User_ContactTEMPID"));
-                                            }
-
-
-
+                                            SendWXContent(FromContactName + ":" + NetFramework.Util_WEB.CleanHtml(Content), ToContact[0].Field<string>("User_ContactTEMPID"));
                                         }
 
+
+
                                     }
-                              
+
+                                }
+
                                 #endregion
                             }
                             #endregion
@@ -459,7 +459,7 @@ namespace WeixinRoboot
 
 
 
-                                    if (@ToUserNameTEMPID.Contains("@@") == false && tocontacts[0].Field<Boolean>("User_IsReply")==true)
+                                    if (@ToUserNameTEMPID.Contains("@@") == false && tocontacts[0].Field<Boolean?>("User_IsReply") == true)
                                     {
                                         decimal? TotalPoint = Linq.DataLogic.WXUserChangeLog_GetRemainder(tocontacts[0].Field<string>("User_ContactID"));
                                         SendWXContent(MyOutResult, tocontacts[0].Field<string>("User_ContactTEMPID"));
@@ -532,7 +532,7 @@ namespace WeixinRoboot
                                     String OutMessage = "";
                                     try
                                     {
-                                        OutMessage=NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, userr, "微信");
+                                        OutMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, userr, "微信");
                                     }
                                     catch (Exception mysenderror)
                                     {
@@ -795,7 +795,7 @@ namespace WeixinRoboot
         private JObject WXInit()
         {
             MaxInitCount += 1;
-            if (MaxInitCount>3)
+            if (MaxInitCount > 5)
             {
                 MessageBox.Show("无法加载微信联系人");
                 Environment.Exit(0);
@@ -814,6 +814,16 @@ namespace WeixinRoboot
 
 
             newridata.LoadXml(Result2);
+
+            if (newridata.SelectSingleNode("error/message") != null)
+            {
+
+                if (newridata.SelectSingleNode("error/message").InnerText != "")
+                {
+                    MessageBox.Show(newridata.SelectSingleNode("error/message").InnerText);
+                    Environment.Exit(0);
+                }
+            }
 
             pass_ticket = newridata.SelectSingleNode("error/pass_ticket").InnerText;
             Uin = newridata.SelectSingleNode("error/wxuin").InnerText;
@@ -1165,7 +1175,7 @@ namespace WeixinRoboot
 
 
             DataTable PrivatePerios = NetFramework.Util_Sql.RunSqlDataTable("LocalSqlServer"
-                , @"select GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where GamePrivatePeriod like '" + day.ToString("yyyyMMdd") + "%' and aspnet_Userid='"+GlobalParam.Key.ToString()+"'");
+                , @"select GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where GamePrivatePeriod like '" + day.ToString("yyyyMMdd") + "%' and aspnet_Userid='" + GlobalParam.Key.ToString() + "'");
             DataView dv = PrivatePerios.AsDataView();
 
             ;

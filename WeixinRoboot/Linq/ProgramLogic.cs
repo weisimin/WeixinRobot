@@ -909,7 +909,7 @@ namespace WeixinRoboot.Linq
 
                     cl.GamePeriod = gamelogitem.GamePeriod;
                     cl.GameLocalPeriod = gamelogitem.GameLocalPeriod;
-
+                    cl.BuyValue = gamelogitem.Buy_Value;
 
                     cl.NeedNotice = true;
                     cl.HaveNotice = false;
@@ -1844,7 +1844,7 @@ namespace WeixinRoboot.Linq
                 {
 
                     Result += "期号: " + period.ShowPeriod;
-                    Result += " " + period.GameResult + Environment.NewLine + "本期下注";
+                    Result += " " + period.GameResult + Environment.NewLine + "本期";
                     var subbuys = Buys.Where(t => t.ShowPeriod == period.ShowPeriod);
                     string ResultOpen = "";
                     foreach (var subnuyitem in subbuys)
@@ -2094,15 +2094,20 @@ namespace WeixinRoboot.Linq
                         && t.GameLocalPeriod.StartsWith(TestPeriod.ToString("yyyyMMdd"))
                         && t.Buy_Point != 0
                         );
-
-                    string Result = "下注期数是" + ObjectToString(TodayBuys.Select(t => t.GamePeriod).Distinct().Count(), "N0")
-                    + "期，下注总额是" + ObjectToString(TodayBuys.Sum(t => t.Buy_Point), "N0")
-                        // + "平均下注" + ObjectToString(TodayBuys.Select(t => t.GamePeriod).Distinct().Count() == 0 ? 0 : (TodayBuys.Sum(t => t.Buy_Point.HasValue ? t.Buy_Point.Value : 0) / TodayBuys.Select(t => t.GamePeriod).Distinct().Count()), "N2")
-                    + ",得分总额是" + ObjectToString(TodayBuys.Sum(t => t.Result_Point), "N0")
-                    + ",结果是" + ObjectToString((TodayBuys.Sum(t => t.Result_Point.HasValue ? t.Result_Point.Value : 0) - TodayBuys.Sum(t => t.Buy_Point.HasValue ? t.Buy_Point.Value : 0)), "N0");
+                    decimal? TotalPeriodCount = TodayBuys.Select(t => t.GamePeriod).Distinct().Count();
+                    decimal? TotalBuy = TodayBuys.Sum(t => t.Buy_Point);
+                    TotalBuy = (TotalBuy == null ? 0 : TotalBuy.Value);
+                    decimal? TotalResult = TodayBuys.Sum(t => t.Result_Point);
+                    TotalResult = (TotalResult == null ? 0 : TotalResult.Value);
+                    string Result = "期数是" + ObjectToString(TotalPeriodCount, "N0")
+                    + "期，总额是" + ObjectToString(TotalBuy, "N0")
+                    + "平均" + ObjectToString((TotalPeriodCount == 0 ? 0 : TotalBuy / TotalPeriodCount), "N2")
+                    + ",得分总额是" + ObjectToString(TotalResult, "N0")
+                    + ",结果是" + ObjectToString(TotalResult - TotalBuy, "N0");
 
                     return Result;
                 }
+
                 else if (reply.ReceiveContent == "全部取消")
                 {
                     Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == reply.ReceiveTime.ToString("HH:mm"));
@@ -2137,7 +2142,7 @@ namespace WeixinRoboot.Linq
                         cl.HaveNotice = false;
                         cl.ChangeTime = reply.ReceiveTime;
                         cl.RemarkType = "取消@#" + cancelitem.Buy_Value;
-                        cl.Remark = "下单@#" + reply.ReceiveContent;
+                        cl.Remark = "取消@#" + reply.ReceiveContent;
                         cl.FinalStatus = false;
                         cl.BuyValue = cancelitem.Buy_Value;
                         cl.GamePeriod = cancelitem.GamePeriod;
@@ -2151,7 +2156,7 @@ namespace WeixinRoboot.Linq
                     return "全部取消成功,余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
 
                 }
-                else if (reply.ReceiveContent.StartsWith("开奖"))
+                else if (reply.ReceiveContent == "开")
                 {
                     string Result = "";
                     string QueryDate = reply.ReceiveContent.Substring(2);
@@ -2182,7 +2187,7 @@ namespace WeixinRoboot.Linq
 
                 }
 
-                else if (reply.ReceiveContent == "未开奖")
+                else if (reply.ReceiveContent == "未开")
                 {
                     string Result = "";
                     var TodatBuyGameLog = db.WX_UserGameLog.Where(t =>
@@ -2355,6 +2360,7 @@ namespace WeixinRoboot.Linq
                         cl.FinalStatus = false;
                         cl.BuyValue = (findupdate == null ? newgl.Buy_Value : findupdate.Buy_Value);
                         cl.GamePeriod = (findupdate == null ? newgl.GamePeriod : findupdate.GamePeriod);
+                        cl.GameLocalPeriod = (findupdate == null ? newgl.GameLocalPeriod : findupdate.GameLocalPeriod);
                         cl.FinalStatus = true;
                         db.WX_UserChangeLog.InsertOnSubmit(cl);
                         try
@@ -2563,6 +2569,7 @@ namespace WeixinRoboot.Linq
                         cl.FinalStatus = false;
                         cl.BuyValue = findupdate == null ? newgl.Buy_Value : findupdate.Buy_Value;
                         cl.GamePeriod = findupdate == null ? newgl.GamePeriod : findupdate.GamePeriod;
+                        cl.GameLocalPeriod = (findupdate == null ? newgl.GameLocalPeriod : findupdate.GameLocalPeriod);
                         cl.FinalStatus = true;
                         db.WX_UserChangeLog.InsertOnSubmit(cl);
                         try
@@ -2595,7 +2602,7 @@ namespace WeixinRoboot.Linq
 
                 else
                 {
-                   
+
 
                     string FirstIndex = reply.ReceiveContent.Substring(0, 1);
                     string Str_BuyPoint = reply.ReceiveContent.Substring(1);
@@ -2730,6 +2737,7 @@ namespace WeixinRoboot.Linq
                                             cl.FinalStatus = false;
                                             cl.BuyValue = (findupdate3 == null ? newgl.Buy_Value : findupdate3.Buy_Value);
                                             cl.GamePeriod = (findupdate3 == null ? newgl.GamePeriod : findupdate3.GamePeriod);
+                                            cl.GameLocalPeriod = (findupdate3 == null ? newgl.GameLocalPeriod : findupdate3.GameLocalPeriod);
                                             cl.FinalStatus = true;
                                             db.WX_UserChangeLog.InsertOnSubmit(cl);
                                             try
@@ -2869,7 +2877,7 @@ namespace WeixinRoboot.Linq
 
                                     cl.BuyValue = (findupdate2 == null ? newgl.Buy_Value : findupdate2.Buy_Value);
                                     cl.GamePeriod = (findupdate2 == null ? newgl.GamePeriod : findupdate2.GamePeriod);
-
+                                    cl.GameLocalPeriod = (findupdate2 == null ? newgl.GameLocalPeriod : findupdate2.GameLocalPeriod);
                                     cl.FinalStatus = true;
                                     db.WX_UserChangeLog.InsertOnSubmit(cl);
                                     try
@@ -2906,7 +2914,7 @@ namespace WeixinRoboot.Linq
                     }//1位后的不是数字
                     BuyPoint = Convert.ToDecimal(Str_BuyPoint);
                     #region
-                   
+
 
                     string CheckResult = "";
 
@@ -3043,6 +3051,7 @@ namespace WeixinRoboot.Linq
 
                 return "";
             }
+            #region 查询加日期
             else if (Content.StartsWith("查询"))
             {
                 //查询2018-06-01到2018-08-01
@@ -3087,23 +3096,23 @@ namespace WeixinRoboot.Linq
 
                                              ).ToList();
                     takeusers.Add(GlobalParam.Key);
-                    string Result = "";
-                    foreach (var item in takeusers)
-                    {
-                        var TodayBuys = db.WX_UserGameLog.Where(t =>
-                            t.aspnet_UserID == item
-                       && String.Compare(t.GameLocalPeriod.Substring(0, 8), dt_From.Value.ToString("yyyyMMdd")) >= 0
-                         && String.Compare(t.GameLocalPeriod.Substring(0, 8), dt_To.Value.ToString("yyyyMMdd")) <= 0
-                       && t.Buy_Point != 0
-                       );
-                        System.Web.Security.MembershipUser usr = System.Web.Security.Membership.GetUser(item);
-                        Result += usr.UserName + "的玩家," + dt_From.Value.ToString("yyyyMMdd") + "-" + dt_To.Value.ToString("yyyyMMdd") + Environment.NewLine
-                         + "下注" + ObjectToString(TodayBuys.Sum(t => t.Buy_Point), "N0")
-                         + ",得分" + ObjectToString(TodayBuys.Sum(t => t.Result_Point), "N0")
-                         + ",结果" + ObjectToString((TodayBuys.Sum(t => t.Result_Point.HasValue ? t.Result_Point.Value : 0) - TodayBuys.Sum(t => t.Buy_Point.HasValue ? t.Buy_Point.Value : 0)), "N0")
-                        + Environment.NewLine;
 
+
+                    string Result = "";
+
+                    foreach (Guid item in takeusers)
+                    {
+                        System.Web.Security.MembershipUser usr = System.Web.Security.Membership.GetUser(item);
+                        DataTable Fulls = BuildOpenQueryTable(dt_From.Value, dt_To.Value, item);
+                        foreach (DataRow rowitem in Fulls.Rows)
+                        {
+                            Result += usr.UserName + ":"
+                                + ObjectToString(rowitem.Field<object>("类别"))
+                                 + ObjectToString(rowitem.Field<object>("全部玩家")) + Environment.NewLine;
+
+                        }
                     }
+
                     return Result;
 
 
@@ -3114,6 +3123,7 @@ namespace WeixinRoboot.Linq
                     return "";
                 }
             }
+            #endregion
             else if (Content.Length >= 2)
             {
                 string Mode = Content.Substring(0, 2);
@@ -3131,17 +3141,20 @@ namespace WeixinRoboot.Linq
                 {
                     return "";
                 }
+                DateTime ReceiveTime = DateTime.Now;
+                string LocalDay = (ReceiveTime.Hour <= 2 ? ReceiveTime.AddDays(-1).ToString("yyyyMMdd") : ReceiveTime.ToString("yyyyMMdd"));
                 switch (Mode)
                 {
                     case "上分":
                         Linq.WX_UserChangeLog change = new Linq.WX_UserChangeLog();
                         change.aspnet_UserID = GlobalParam.Key;
-                        change.ChangeTime = DateTime.Now;
+                        change.ChangeTime = ReceiveTime;
                         change.ChangePoint = ChargeMoney;
                         change.Remark = "上分:" + UserRow.Field<string>("User_ContactID");
                         change.RemarkType = "上分";
                         change.WX_UserName = UserRow.Field<string>("User_ContactID");
                         change.FinalStatus = true;
+                        change.ChangeLocalDay = LocalDay;
 
                         change.BuyValue = "";
                         change.GamePeriod = "";
@@ -3165,13 +3178,13 @@ namespace WeixinRoboot.Linq
 
                         Linq.WX_UserChangeLog cleanup = new Linq.WX_UserChangeLog();
                         cleanup.aspnet_UserID = GlobalParam.Key;
-                        cleanup.ChangeTime = DateTime.Now;
+                        cleanup.ChangeTime = ReceiveTime;
                         cleanup.ChangePoint = -ChargeMoney;
                         cleanup.Remark = "下分:" + UserRow.Field<string>("User_ContactID");
                         cleanup.RemarkType = "下分";
                         cleanup.FinalStatus = true;
                         cleanup.WX_UserName = UserRow.Field<string>("User_ContactID");
-
+                        cleanup.ChangeLocalDay = LocalDay;
                         cleanup.BuyValue = "";
                         cleanup.GamePeriod = "";
                         db.WX_UserChangeLog.InsertOnSubmit(cleanup);
@@ -3197,6 +3210,27 @@ namespace WeixinRoboot.Linq
                         myset2.IsBlock = false;
                         db.SubmitChanges();
                         return "已解封";
+                        break;
+                    case "福利":
+                        Linq.WX_UserChangeLog ful_change = new Linq.WX_UserChangeLog();
+                        ful_change.aspnet_UserID = GlobalParam.Key;
+                        ful_change.ChangeTime = DateTime.Now;
+                        ful_change.ChangePoint = ChargeMoney;
+                        ful_change.Remark = "福利:" + UserRow.Field<string>("User_ContactID");
+                        ful_change.RemarkType = "福利";
+                        ful_change.WX_UserName = UserRow.Field<string>("User_ContactID");
+                        ful_change.FinalStatus = true;
+
+                        ful_change.BuyValue = "";
+                        ful_change.GamePeriod = "";
+                        db.WX_UserChangeLog.InsertOnSubmit(ful_change);
+
+                        db.SubmitChanges();
+
+                        decimal? fyl_TotalPoint = WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactID"));
+
+                        return "余:" + fyl_TotalPoint.Value.ToString("N0");
+
                         break;
                     default:
                         return "";
@@ -3324,6 +3358,7 @@ namespace WeixinRoboot.Linq
                 cl.FinalStatus = false;
                 cl.BuyValue = BuyValue;
                 cl.GamePeriod = CheckExists.GamePeriod;
+                cl.GameLocalPeriod = CheckExists.GameLocalPeriod;
                 cl.FinalStatus = true;
                 db.WX_UserChangeLog.InsertOnSubmit(cl);
 
@@ -3443,6 +3478,7 @@ namespace WeixinRoboot.Linq
                 cl.FinalStatus = false;
                 cl.BuyValue = BuyValue;
                 cl.GamePeriod = newgl.GamePeriod;
+                cl.GameLocalPeriod = newgl.GameLocalPeriod;
                 cl.FinalStatus = true;
                 db.WX_UserChangeLog.InsertOnSubmit(cl);
 
@@ -3515,6 +3551,161 @@ namespace WeixinRoboot.Linq
         public static string OK = Encoding.UTF8.GetString(new byte[] { 240, 159, 136, 180 });
         public static string Tiger = Encoding.UTF8.GetString(new byte[] { 238, 129, 144 });
 
+        public static DataTable BuildOpenQueryTable(DateTime StartDate, DateTime EndDate, Guid UserGuid)
+        {
+
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+
+
+
+            DataTable Result = new DataTable();
+            Result.Columns.Add("类别");
+
+
+
+
+            var buys = (from ds in db.WX_UserGameLog
+                        where
+                        ds.aspnet_UserID == UserGuid
+        && String.Compare(ds.GameLocalPeriod.Substring(0, 8), StartDate.ToString("yyyyMMdd")) >= 0
+        && String.Compare(ds.GameLocalPeriod.Substring(0, 8), EndDate.ToString("yyyyMMdd")) <= 0
+                        select ds).ToList();
+
+
+
+
+
+            DataColumn ucfull = new DataColumn();
+            ucfull.ColumnName = "全部玩家";
+            Result.Columns.Add(ucfull);
+
+
+
+            var BuyDays = buys.Select(t => t.GameLocalPeriod.Substring(0, 8)).Distinct().OrderBy(t => t);
+            foreach (var item in BuyDays)
+            {
+                DataRow newr = Result.NewRow();
+
+                newr.SetField("类别", item + "下注");
+
+                newr.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                         t.GameLocalPeriod.StartsWith(item)
+                            && t.aspnet_UserID == UserGuid
+                         ).Sum(t => t.Buy_Point)));
+
+
+
+
+                DataRow newr2 = Result.NewRow();
+                newr2.SetField("类别", item + "得分");
+
+                newr2.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                        t.GameLocalPeriod.StartsWith(item)
+                         && t.aspnet_UserID == UserGuid
+                        ).Sum(t => t.Result_Point)));
+
+
+
+
+
+
+                DataRow newr4 = Result.NewRow();
+                newr4.SetField("类别", item + "上分");
+
+                newr4.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                     t.RemarkType == "上分"
+                                        && t.aspnet_UserID == UserGuid
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint)));
+
+
+
+                DataRow newr5 = Result.NewRow();
+                newr5.SetField("类别", item + "下分");
+
+                newr5.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                     t.RemarkType == "下分"
+                                        && t.aspnet_UserID == UserGuid
+                         && t.ChangeLocalDay.StartsWith(item
+                         )
+                        ).Sum(t => t.ChangePoint)));
+
+
+
+                DataRow newr6 = Result.NewRow();
+                newr6.SetField("类别", item + "福利");
+
+                newr6.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                     t.RemarkType == "福利"
+                                        && t.aspnet_UserID == UserGuid
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint)));
+
+
+
+                DataRow newr3 = Result.NewRow();
+                newr3.SetField("类别", item + "合计");
+
+                newr3.SetField("全部玩家",
+
+                   NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+
+                          t.RemarkType == "上分"
+                             && t.aspnet_UserID == UserGuid
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint))
+
+                       + NetFramework.Util_Math.NullToZero(buys.Where(t =>
+
+                         t.GameLocalPeriod.StartsWith(item)
+                            && t.aspnet_UserID == UserGuid
+                        ).Sum(t => t.Buy_Point))
+
+                                            - NetFramework.Util_Math.NullToZero(buys.Where(t =>
+
+                         t.GameLocalPeriod.StartsWith(item)
+                            && t.aspnet_UserID == UserGuid
+                        ).Sum(t => t.Result_Point))
+
+                        - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+
+                          t.RemarkType == "下分"
+                         && t.ChangeLocalDay.StartsWith(item)
+                            && t.aspnet_UserID == UserGuid
+                        ).Sum(t => t.ChangePoint))
+
+                        - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                     t.RemarkType == "福利"
+                                        && t.aspnet_UserID == UserGuid
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint))
+
+
+
+                        );
+
+
+
+
+
+
+
+                Result.Rows.Add(newr4);
+                Result.Rows.Add(newr);
+
+
+                Result.Rows.Add(newr2);
+
+                Result.Rows.Add(newr5);
+                Result.Rows.Add(newr6);
+                Result.Rows.Add(newr3);
+
+            }
+
+            return Result;
+        }//函数结束
 
 
     }

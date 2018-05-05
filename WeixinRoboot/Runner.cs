@@ -53,7 +53,7 @@ namespace WeixinRoboot
                         newusrc.WX_UserName = Seq;
 
                         newusrc.RemarkName = RemarkName;
-                        newusrc.NickName = NickName;
+                        newusrc.NickName =  NetFramework.Util_WEB.CleanHtml(NickName);
 
                         db.WX_UserReply.InsertOnSubmit(newusrc);
                         db.SubmitChanges();
@@ -62,7 +62,7 @@ namespace WeixinRoboot
                     else
                     {
                         usrc.RemarkName = RemarkName;
-                        usrc.NickName = NickName;
+                        usrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName); ;
                         db.SubmitChanges();
 
                     } //初始化，添加到数据库或同步数据库
@@ -419,7 +419,7 @@ namespace WeixinRoboot
 
 
 
-                string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("自动跟踪", editrow);
+                string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("自动", editrow);
 
                 if (Result != "")
                 {
@@ -436,7 +436,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消自动跟踪", editrow);
+                Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消自动", editrow);
 
 
             }

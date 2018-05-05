@@ -42,9 +42,6 @@ namespace WeixinRoboot.Linq
     partial void InsertGame_Result(Game_Result instance);
     partial void UpdateGame_Result(Game_Result instance);
     partial void DeleteGame_Result(Game_Result instance);
-    partial void InsertWX_UserChangeLog(WX_UserChangeLog instance);
-    partial void UpdateWX_UserChangeLog(WX_UserChangeLog instance);
-    partial void DeleteWX_UserChangeLog(WX_UserChangeLog instance);
     partial void Insertaspnet_UsersNewGameResultSend(aspnet_UsersNewGameResultSend instance);
     partial void Updateaspnet_UsersNewGameResultSend(aspnet_UsersNewGameResultSend instance);
     partial void Deleteaspnet_UsersNewGameResultSend(aspnet_UsersNewGameResultSend instance);
@@ -60,6 +57,9 @@ namespace WeixinRoboot.Linq
     partial void InsertGame_BasicRatio(Game_BasicRatio instance);
     partial void UpdateGame_BasicRatio(Game_BasicRatio instance);
     partial void DeleteGame_BasicRatio(Game_BasicRatio instance);
+    partial void InsertWX_UserChangeLog(WX_UserChangeLog instance);
+    partial void UpdateWX_UserChangeLog(WX_UserChangeLog instance);
+    partial void DeleteWX_UserChangeLog(WX_UserChangeLog instance);
     #endregion
 		
 		public dbDataContext() : 
@@ -124,14 +124,6 @@ namespace WeixinRoboot.Linq
 			}
 		}
 		
-		public System.Data.Linq.Table<WX_UserChangeLog> WX_UserChangeLog
-		{
-			get
-			{
-				return this.GetTable<WX_UserChangeLog>();
-			}
-		}
-		
 		public System.Data.Linq.Table<aspnet_UsersNewGameResultSend> aspnet_UsersNewGameResultSend
 		{
 			get
@@ -169,6 +161,14 @@ namespace WeixinRoboot.Linq
 			get
 			{
 				return this.GetTable<Game_BasicRatio>();
+			}
+		}
+		
+		public System.Data.Linq.Table<WX_UserChangeLog> WX_UserChangeLog
+		{
+			get
+			{
+				return this.GetTable<WX_UserChangeLog>();
 			}
 		}
 	}
@@ -1405,332 +1405,6 @@ namespace WeixinRoboot.Linq
 					this._aspnet_UserID = value;
 					this.SendPropertyChanged("aspnet_UserID");
 					this.Onaspnet_UserIDChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserChangeLog")]
-	public partial class WX_UserChangeLog : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _WX_UserName;
-		
-		private System.Guid _aspnet_UserID;
-		
-		private System.DateTime _ChangeTime;
-		
-		private string _Remark;
-		
-		private string _RemarkType;
-		
-		private System.Nullable<decimal> _ChangePoint;
-		
-		private System.Nullable<bool> _NeedNotice;
-		
-		private System.Nullable<bool> _HaveNotice;
-		
-		private System.Nullable<bool> _FinalStatus;
-		
-		private string _GamePeriod;
-		
-		private string _BuyValue;
-		
-		private string _GameLocalPeriod;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnWX_UserNameChanging(string value);
-    partial void OnWX_UserNameChanged();
-    partial void Onaspnet_UserIDChanging(System.Guid value);
-    partial void Onaspnet_UserIDChanged();
-    partial void OnChangeTimeChanging(System.DateTime value);
-    partial void OnChangeTimeChanged();
-    partial void OnRemarkChanging(string value);
-    partial void OnRemarkChanged();
-    partial void OnRemarkTypeChanging(string value);
-    partial void OnRemarkTypeChanged();
-    partial void OnChangePointChanging(System.Nullable<decimal> value);
-    partial void OnChangePointChanged();
-    partial void OnNeedNoticeChanging(System.Nullable<bool> value);
-    partial void OnNeedNoticeChanged();
-    partial void OnHaveNoticeChanging(System.Nullable<bool> value);
-    partial void OnHaveNoticeChanged();
-    partial void OnFinalStatusChanging(System.Nullable<bool> value);
-    partial void OnFinalStatusChanged();
-    partial void OnGamePeriodChanging(string value);
-    partial void OnGamePeriodChanged();
-    partial void OnBuyValueChanging(string value);
-    partial void OnBuyValueChanged();
-    partial void OnGameLocalPeriodChanging(string value);
-    partial void OnGameLocalPeriodChanged();
-    #endregion
-		
-		public WX_UserChangeLog()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string WX_UserName
-		{
-			get
-			{
-				return this._WX_UserName;
-			}
-			set
-			{
-				if ((this._WX_UserName != value))
-				{
-					this.OnWX_UserNameChanging(value);
-					this.SendPropertyChanging();
-					this._WX_UserName = value;
-					this.SendPropertyChanged("WX_UserName");
-					this.OnWX_UserNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid aspnet_UserID
-		{
-			get
-			{
-				return this._aspnet_UserID;
-			}
-			set
-			{
-				if ((this._aspnet_UserID != value))
-				{
-					this.Onaspnet_UserIDChanging(value);
-					this.SendPropertyChanging();
-					this._aspnet_UserID = value;
-					this.SendPropertyChanged("aspnet_UserID");
-					this.Onaspnet_UserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChangeTime", DbType="DateTime NOT NULL", IsPrimaryKey=true)]
-		public System.DateTime ChangeTime
-		{
-			get
-			{
-				return this._ChangeTime;
-			}
-			set
-			{
-				if ((this._ChangeTime != value))
-				{
-					this.OnChangeTimeChanging(value);
-					this.SendPropertyChanging();
-					this._ChangeTime = value;
-					this.SendPropertyChanged("ChangeTime");
-					this.OnChangeTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remark", DbType="NVarChar(500)")]
-		public string Remark
-		{
-			get
-			{
-				return this._Remark;
-			}
-			set
-			{
-				if ((this._Remark != value))
-				{
-					this.OnRemarkChanging(value);
-					this.SendPropertyChanging();
-					this._Remark = value;
-					this.SendPropertyChanged("Remark");
-					this.OnRemarkChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemarkType", DbType="NVarChar(10) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string RemarkType
-		{
-			get
-			{
-				return this._RemarkType;
-			}
-			set
-			{
-				if ((this._RemarkType != value))
-				{
-					this.OnRemarkTypeChanging(value);
-					this.SendPropertyChanging();
-					this._RemarkType = value;
-					this.SendPropertyChanged("RemarkType");
-					this.OnRemarkTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChangePoint", DbType="Decimal(18,6)")]
-		public System.Nullable<decimal> ChangePoint
-		{
-			get
-			{
-				return this._ChangePoint;
-			}
-			set
-			{
-				if ((this._ChangePoint != value))
-				{
-					this.OnChangePointChanging(value);
-					this.SendPropertyChanging();
-					this._ChangePoint = value;
-					this.SendPropertyChanged("ChangePoint");
-					this.OnChangePointChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NeedNotice", DbType="Bit")]
-		public System.Nullable<bool> NeedNotice
-		{
-			get
-			{
-				return this._NeedNotice;
-			}
-			set
-			{
-				if ((this._NeedNotice != value))
-				{
-					this.OnNeedNoticeChanging(value);
-					this.SendPropertyChanging();
-					this._NeedNotice = value;
-					this.SendPropertyChanged("NeedNotice");
-					this.OnNeedNoticeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HaveNotice", DbType="Bit")]
-		public System.Nullable<bool> HaveNotice
-		{
-			get
-			{
-				return this._HaveNotice;
-			}
-			set
-			{
-				if ((this._HaveNotice != value))
-				{
-					this.OnHaveNoticeChanging(value);
-					this.SendPropertyChanging();
-					this._HaveNotice = value;
-					this.SendPropertyChanged("HaveNotice");
-					this.OnHaveNoticeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FinalStatus", DbType="Bit")]
-		public System.Nullable<bool> FinalStatus
-		{
-			get
-			{
-				return this._FinalStatus;
-			}
-			set
-			{
-				if ((this._FinalStatus != value))
-				{
-					this.OnFinalStatusChanging(value);
-					this.SendPropertyChanging();
-					this._FinalStatus = value;
-					this.SendPropertyChanged("FinalStatus");
-					this.OnFinalStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GamePeriod", DbType="NVarChar(50)")]
-		public string GamePeriod
-		{
-			get
-			{
-				return this._GamePeriod;
-			}
-			set
-			{
-				if ((this._GamePeriod != value))
-				{
-					this.OnGamePeriodChanging(value);
-					this.SendPropertyChanging();
-					this._GamePeriod = value;
-					this.SendPropertyChanged("GamePeriod");
-					this.OnGamePeriodChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyValue", DbType="NVarChar(50)")]
-		public string BuyValue
-		{
-			get
-			{
-				return this._BuyValue;
-			}
-			set
-			{
-				if ((this._BuyValue != value))
-				{
-					this.OnBuyValueChanging(value);
-					this.SendPropertyChanging();
-					this._BuyValue = value;
-					this.SendPropertyChanged("BuyValue");
-					this.OnBuyValueChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameLocalPeriod", DbType="NVarChar(50)")]
-		public string GameLocalPeriod
-		{
-			get
-			{
-				return this._GameLocalPeriod;
-			}
-			set
-			{
-				if ((this._GameLocalPeriod != value))
-				{
-					this.OnGameLocalPeriodChanging(value);
-					this.SendPropertyChanging();
-					this._GameLocalPeriod = value;
-					this.SendPropertyChanged("GameLocalPeriod");
-					this.OnGameLocalPeriodChanged();
 				}
 			}
 		}
@@ -3313,6 +2987,356 @@ namespace WeixinRoboot.Linq
 					this._IncludeMin = value;
 					this.SendPropertyChanged("IncludeMin");
 					this.OnIncludeMinChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserChangeLog")]
+	public partial class WX_UserChangeLog : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _WX_UserName;
+		
+		private System.Guid _aspnet_UserID;
+		
+		private System.DateTime _ChangeTime;
+		
+		private string _Remark;
+		
+		private string _RemarkType;
+		
+		private System.Nullable<decimal> _ChangePoint;
+		
+		private System.Nullable<bool> _NeedNotice;
+		
+		private System.Nullable<bool> _HaveNotice;
+		
+		private System.Nullable<bool> _FinalStatus;
+		
+		private string _GamePeriod;
+		
+		private string _BuyValue;
+		
+		private string _GameLocalPeriod;
+		
+		private string _ChangeLocalDay;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnWX_UserNameChanging(string value);
+    partial void OnWX_UserNameChanged();
+    partial void Onaspnet_UserIDChanging(System.Guid value);
+    partial void Onaspnet_UserIDChanged();
+    partial void OnChangeTimeChanging(System.DateTime value);
+    partial void OnChangeTimeChanged();
+    partial void OnRemarkChanging(string value);
+    partial void OnRemarkChanged();
+    partial void OnRemarkTypeChanging(string value);
+    partial void OnRemarkTypeChanged();
+    partial void OnChangePointChanging(System.Nullable<decimal> value);
+    partial void OnChangePointChanged();
+    partial void OnNeedNoticeChanging(System.Nullable<bool> value);
+    partial void OnNeedNoticeChanged();
+    partial void OnHaveNoticeChanging(System.Nullable<bool> value);
+    partial void OnHaveNoticeChanged();
+    partial void OnFinalStatusChanging(System.Nullable<bool> value);
+    partial void OnFinalStatusChanged();
+    partial void OnGamePeriodChanging(string value);
+    partial void OnGamePeriodChanged();
+    partial void OnBuyValueChanging(string value);
+    partial void OnBuyValueChanged();
+    partial void OnGameLocalPeriodChanging(string value);
+    partial void OnGameLocalPeriodChanged();
+    partial void OnChangeLocalDayChanging(string value);
+    partial void OnChangeLocalDayChanged();
+    #endregion
+		
+		public WX_UserChangeLog()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_UserName
+		{
+			get
+			{
+				return this._WX_UserName;
+			}
+			set
+			{
+				if ((this._WX_UserName != value))
+				{
+					this.OnWX_UserNameChanging(value);
+					this.SendPropertyChanging();
+					this._WX_UserName = value;
+					this.SendPropertyChanged("WX_UserName");
+					this.OnWX_UserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid aspnet_UserID
+		{
+			get
+			{
+				return this._aspnet_UserID;
+			}
+			set
+			{
+				if ((this._aspnet_UserID != value))
+				{
+					this.Onaspnet_UserIDChanging(value);
+					this.SendPropertyChanging();
+					this._aspnet_UserID = value;
+					this.SendPropertyChanged("aspnet_UserID");
+					this.Onaspnet_UserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChangeTime", DbType="DateTime NOT NULL", IsPrimaryKey=true)]
+		public System.DateTime ChangeTime
+		{
+			get
+			{
+				return this._ChangeTime;
+			}
+			set
+			{
+				if ((this._ChangeTime != value))
+				{
+					this.OnChangeTimeChanging(value);
+					this.SendPropertyChanging();
+					this._ChangeTime = value;
+					this.SendPropertyChanged("ChangeTime");
+					this.OnChangeTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remark", DbType="NVarChar(500)")]
+		public string Remark
+		{
+			get
+			{
+				return this._Remark;
+			}
+			set
+			{
+				if ((this._Remark != value))
+				{
+					this.OnRemarkChanging(value);
+					this.SendPropertyChanging();
+					this._Remark = value;
+					this.SendPropertyChanged("Remark");
+					this.OnRemarkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemarkType", DbType="NVarChar(10) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string RemarkType
+		{
+			get
+			{
+				return this._RemarkType;
+			}
+			set
+			{
+				if ((this._RemarkType != value))
+				{
+					this.OnRemarkTypeChanging(value);
+					this.SendPropertyChanging();
+					this._RemarkType = value;
+					this.SendPropertyChanged("RemarkType");
+					this.OnRemarkTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChangePoint", DbType="Decimal(18,6)")]
+		public System.Nullable<decimal> ChangePoint
+		{
+			get
+			{
+				return this._ChangePoint;
+			}
+			set
+			{
+				if ((this._ChangePoint != value))
+				{
+					this.OnChangePointChanging(value);
+					this.SendPropertyChanging();
+					this._ChangePoint = value;
+					this.SendPropertyChanged("ChangePoint");
+					this.OnChangePointChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NeedNotice", DbType="Bit")]
+		public System.Nullable<bool> NeedNotice
+		{
+			get
+			{
+				return this._NeedNotice;
+			}
+			set
+			{
+				if ((this._NeedNotice != value))
+				{
+					this.OnNeedNoticeChanging(value);
+					this.SendPropertyChanging();
+					this._NeedNotice = value;
+					this.SendPropertyChanged("NeedNotice");
+					this.OnNeedNoticeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HaveNotice", DbType="Bit")]
+		public System.Nullable<bool> HaveNotice
+		{
+			get
+			{
+				return this._HaveNotice;
+			}
+			set
+			{
+				if ((this._HaveNotice != value))
+				{
+					this.OnHaveNoticeChanging(value);
+					this.SendPropertyChanging();
+					this._HaveNotice = value;
+					this.SendPropertyChanged("HaveNotice");
+					this.OnHaveNoticeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FinalStatus", DbType="Bit")]
+		public System.Nullable<bool> FinalStatus
+		{
+			get
+			{
+				return this._FinalStatus;
+			}
+			set
+			{
+				if ((this._FinalStatus != value))
+				{
+					this.OnFinalStatusChanging(value);
+					this.SendPropertyChanging();
+					this._FinalStatus = value;
+					this.SendPropertyChanged("FinalStatus");
+					this.OnFinalStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GamePeriod", DbType="NVarChar(50)")]
+		public string GamePeriod
+		{
+			get
+			{
+				return this._GamePeriod;
+			}
+			set
+			{
+				if ((this._GamePeriod != value))
+				{
+					this.OnGamePeriodChanging(value);
+					this.SendPropertyChanging();
+					this._GamePeriod = value;
+					this.SendPropertyChanged("GamePeriod");
+					this.OnGamePeriodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyValue", DbType="NVarChar(50)")]
+		public string BuyValue
+		{
+			get
+			{
+				return this._BuyValue;
+			}
+			set
+			{
+				if ((this._BuyValue != value))
+				{
+					this.OnBuyValueChanging(value);
+					this.SendPropertyChanging();
+					this._BuyValue = value;
+					this.SendPropertyChanged("BuyValue");
+					this.OnBuyValueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameLocalPeriod", DbType="NVarChar(50)")]
+		public string GameLocalPeriod
+		{
+			get
+			{
+				return this._GameLocalPeriod;
+			}
+			set
+			{
+				if ((this._GameLocalPeriod != value))
+				{
+					this.OnGameLocalPeriodChanging(value);
+					this.SendPropertyChanging();
+					this._GameLocalPeriod = value;
+					this.SendPropertyChanged("GameLocalPeriod");
+					this.OnGameLocalPeriodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChangeLocalDay", DbType="NVarChar(15)")]
+		public string ChangeLocalDay
+		{
+			get
+			{
+				return this._ChangeLocalDay;
+			}
+			set
+			{
+				if ((this._ChangeLocalDay != value))
+				{
+					this.OnChangeLocalDayChanging(value);
+					this.SendPropertyChanging();
+					this._ChangeLocalDay = value;
+					this.SendPropertyChanged("ChangeLocalDay");
+					this.OnChangeLocalDayChanged();
 				}
 			}
 		}

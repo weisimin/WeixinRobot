@@ -18,6 +18,8 @@ namespace WeixinRoboot
         static void Main()
         {
 
+            
+
 
 
             string ConfigFile = Application.StartupPath + "\\WeixinRoboot.exe.config";

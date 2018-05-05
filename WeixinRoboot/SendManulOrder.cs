@@ -126,7 +126,7 @@ namespace WeixinRoboot
                   && t.TransTime == DT);
             if (testg != null && testg.Result_HaveProcess != false)
             {
-                ep_sql.SetError(GV_GameLog, "已开奖或已处理,不能删除");
+                ep_sql.SetError(GV_GameLog, "已开或已处理,不能删除");
             }
             Linq.WX_UserReplyLog testrg = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == new Guid(aspnet_UserID)
                       && t.WX_UserName == WX_UserName

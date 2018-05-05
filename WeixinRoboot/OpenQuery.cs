@@ -14,7 +14,7 @@ namespace WeixinRoboot
         public OpenQuery()
         {
             InitializeComponent();
-          
+
         }
         public RunnerForm RunnerF = null;
         private void gv_result_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -24,17 +24,16 @@ namespace WeixinRoboot
 
         private void BtnQuery_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < gv_result.Columns.Count; i++)
-            {
-                gv_result.Columns.RemoveAt(gv_result.Columns.Count-i-1);
-            }
+
+            gv_result.Columns.Clear();
 
 
-           
+
+
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-         
+
 
 
 
@@ -52,7 +51,7 @@ namespace WeixinRoboot
             var buys = (from ds in db.WX_UserGameLog
                         where
                         ds.aspnet_UserID == GlobalParam.Key
-        && String.Compare(ds.GameLocalPeriod.Substring(0,8), dtp_startdate.Value.ToString("yyyyMMdd")) >= 0
+        && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_startdate.Value.ToString("yyyyMMdd")) >= 0
         && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_enddate.Value.ToString("yyyyMMdd")) <= 0
                         select ds).ToList();
 
@@ -65,23 +64,23 @@ namespace WeixinRoboot
                 uc.ColumnName = item;
 
                 DataGridViewColumn dcc = new DataGridViewColumn();
-               
+
                 dcc.Name = item;
                 dcc.DataPropertyName = item;
                 gv_result.Columns.Add(dcc);
-                dcc.CellTemplate =  new DataGridViewTextBoxCell();
+                dcc.CellTemplate = new DataGridViewTextBoxCell();
 
 
                 DataRow[] ur = RunnerF.MemberSource.Select("User_ContactID='" + item + "'");
                 if (ur.Count() != 0)
                 {
-                  uc.Caption = ur[0].Field<string>("user_Contact");
+                    uc.Caption = ur[0].Field<string>("user_Contact");
 
                 }
                 else
                 {
                     uc.Caption = item;
-                   
+
                 }
                 dcc.HeaderText = uc.Caption;
                 Result.Columns.Add(uc);
@@ -99,7 +98,7 @@ namespace WeixinRoboot
             dccful.CellTemplate = new DataGridViewTextBoxCell();
             gv_result.Columns.Add(dccful);
 
-            var BuyDays = buys.Select(t => t.GameLocalPeriod.Substring(0,8)).Distinct().OrderBy(t=>t);
+            var BuyDays = buys.Select(t => t.GameLocalPeriod.Substring(0, 8)).Distinct().OrderBy(t => t);
             foreach (var item in BuyDays)
             {
                 DataRow newr = Result.NewRow();
@@ -107,12 +106,15 @@ namespace WeixinRoboot
                 newr.SetField("类别", item + "下注");
                 foreach (var usritem in myWXUSERS)
                 {
-                    newr.SetField(usritem, buys.Where(t =>
+                    newr.SetField(usritem, NetFramework.Util_Math.NullToZero( buys.Where(t =>
                         t.WX_UserName == usritem
-                        &&t.GameLocalPeriod.StartsWith(item)).Sum(t => t.Buy_Point));
+                        &&t.aspnet_UserID==GlobalParam.Key
+                        && t.GameLocalPeriod.StartsWith(item)).Sum(t => t.Buy_Point)));
                 }
-                newr.SetField("全部玩家", buys.Where(t =>
-                         t.GameLocalPeriod.StartsWith(item)).Sum(t => t.Buy_Point));
+                newr.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                         t.GameLocalPeriod.StartsWith(item)
+                            && t.aspnet_UserID == GlobalParam.Key
+                         ).Sum(t => t.Buy_Point)));
 
 
                 Application.DoEvents();
@@ -121,36 +123,179 @@ namespace WeixinRoboot
                 newr2.SetField("类别", item + "得分");
                 foreach (var usritem in myWXUSERS)
                 {
-                    newr2.SetField(usritem, buys.Where(t => 
+                    newr2.SetField(usritem, NetFramework.Util_Math.NullToZero(buys.Where(t =>
                         t.WX_UserName == usritem
-                         &&t.GameLocalPeriod.StartsWith(item)
-                        ).Sum(t => t.Result_Point));
+                           && t.aspnet_UserID == GlobalParam.Key
+                         && t.GameLocalPeriod.StartsWith(item)
+                        ).Sum(t => t.Result_Point)));
                 }
-                newr2.SetField("全部玩家", buys.Where(t =>
-                        t.GameLocalPeriod.StartsWith(item)).Sum(t => t.Result_Point));
+                newr2.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                        t.GameLocalPeriod.StartsWith(item)
+                         && t.aspnet_UserID == GlobalParam.Key
+                        ).Sum(t => t.Result_Point)));
                 Application.DoEvents();
+
+
+
+
+
+
+                DataRow newr4 = Result.NewRow();
+                newr4.SetField("类别", item + "上分");
+                foreach (var usritem in myWXUSERS)
+                {
+                    newr4.SetField(usritem, NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                        t.WX_UserName == usritem
+                         && t.RemarkType == "上分"
+                            && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint)));
+                }
+                newr4.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                     t.RemarkType == "上分"
+                                        && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint)));
+                Application.DoEvents();
+
+
+                DataRow newr5 = Result.NewRow();
+                newr5.SetField("类别", item + "下分");
+                foreach (var usritem in myWXUSERS)
+                {
+                    newr5.SetField(usritem, NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                        t.WX_UserName == usritem
+                         && t.RemarkType == "下分"
+                            && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint)));
+                }
+                newr5.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                     t.RemarkType == "下分"
+                                        && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item
+                         )
+                        ).Sum(t => t.ChangePoint)));
+                Application.DoEvents();
+
+
+                DataRow newr6 = Result.NewRow();
+                newr6.SetField("类别", item + "福利");
+                foreach (var usritem in myWXUSERS)
+                {
+                    newr6.SetField(usritem, NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                        t.WX_UserName == usritem
+                         && t.RemarkType == "福利"
+                            && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint)));
+                }
+                newr6.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                     t.RemarkType == "福利"
+                                        && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint)));
+                Application.DoEvents();
+
+
 
                 DataRow newr3 = Result.NewRow();
                 newr3.SetField("类别", item + "合计");
                 foreach (var usritem in myWXUSERS)
                 {
-                    newr3.SetField(usritem, buys.Where(t =>
+                    newr3.SetField(usritem,
+                    NetFramework.Util_Math.NullToZero( db.WX_UserChangeLog.Where(t =>
                         t.WX_UserName == usritem
+                         && t.RemarkType == "上分"
+                            && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint))
+
+                       + NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                        t.WX_UserName == usritem
+                           && t.aspnet_UserID == GlobalParam.Key
                          && t.GameLocalPeriod.StartsWith(item)
-                        ).Sum(t => t.Result_Point-t.Buy_Point));
+                        ).Sum(t => t.Buy_Point))
+
+                                            - NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                        t.WX_UserName == usritem
+                           && t.aspnet_UserID == GlobalParam.Key
+                         && t.GameLocalPeriod.StartsWith(item)
+                        ).Sum(t => t.Result_Point))
+
+                        - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                        t.WX_UserName == usritem
+                         && t.RemarkType == "下分"
+                            && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint))
+
+                        - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                     t.RemarkType == "福利"
+                                        && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint))
+
+
+                        );
                 }
-                newr3.SetField("全部玩家", buys.Where(t =>
-                        t.GameLocalPeriod.StartsWith(item)).Sum(t => t.Result_Point-t.Buy_Point));
+                newr3.SetField("全部玩家",
+
+                   NetFramework.Util_Math.NullToZero( db.WX_UserChangeLog.Where(t =>
+
+                          t.RemarkType == "上分"
+                             && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint))
+
+                       + NetFramework.Util_Math.NullToZero(buys.Where(t =>
+
+                         t.GameLocalPeriod.StartsWith(item)
+                            && t.aspnet_UserID == GlobalParam.Key
+                        ).Sum(t => t.Buy_Point))
+
+                                            -NetFramework.Util_Math.NullToZero( buys.Where(t =>
+
+                         t.GameLocalPeriod.StartsWith(item)
+                            && t.aspnet_UserID == GlobalParam.Key
+                        ).Sum(t => t.Result_Point))
+
+                        - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+
+                          t.RemarkType == "下分"
+                         && t.ChangeLocalDay.StartsWith(item)
+                            && t.aspnet_UserID == GlobalParam.Key
+                        ).Sum(t => t.ChangePoint))
+
+                        - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                     t.RemarkType == "福利"
+                                        && t.aspnet_UserID == GlobalParam.Key
+                         && t.ChangeLocalDay.StartsWith(item)
+                        ).Sum(t => t.ChangePoint))
+
+
+
+                        );
+
+
+
+
                 Application.DoEvents();
 
 
+                Result.Rows.Add(newr4);
                 Result.Rows.Add(newr);
+
+
                 Result.Rows.Add(newr2);
+
+                Result.Rows.Add(newr5);
+                Result.Rows.Add(newr6);
                 Result.Rows.Add(newr3);
 
             }
             BS_GVResult.DataSource = Result;
-           
+
 
 
 

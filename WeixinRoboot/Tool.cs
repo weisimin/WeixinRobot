@@ -478,7 +478,21 @@ namespace NetFramework
         #endregion
 
 
-
+         public static string CleanHtml(string strHtml)
+    {
+      if (string.IsNullOrEmpty(strHtml)) return strHtml;
+      //删除脚本
+      //Regex.Replace(strHtml, @"<script[^>]*?>.*?</script>", "", RegexOptions.IgnoreCase)
+      strHtml = Regex.Replace(strHtml, "(<script(.+?)</script>)|(<style(.+?)</style>)", "", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+      //删除标签
+      var r = new Regex(@"</?[^>]*>", RegexOptions.IgnoreCase);
+      Match m;
+      for (m = r.Match(strHtml); m.Success; m = m.NextMatch())
+      {
+        strHtml = strHtml.Replace(m.Groups[0].ToString(), "");
+      }
+      return strHtml.Trim();
+    }
 
     }
     public class Util_MD5
@@ -570,6 +584,11 @@ namespace NetFramework
                 !objTwoDotPattern.IsMatch(strNumber) &&
                 !objTwoMinusPattern.IsMatch(strNumber) &&
                 objNumberPattern.IsMatch(strNumber);
+        }
+
+        public static decimal NullToZero(decimal? dbvalue,Int32 KeepCount=0)
+        {
+            return dbvalue.HasValue ? Math.Round( dbvalue.Value,KeepCount) : 0;
         }
     }
 
