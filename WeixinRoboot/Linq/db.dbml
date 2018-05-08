@@ -156,4 +156,17 @@
       <Column Name="ChangeLocalDay" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.WX_BounsConfig" Member="WX_BounsConfig">
+    <Type Name="WX_BounsConfig">
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RowNumber" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StartBuyPeriod" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="EndBuyPeriod" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="StartBuyAverage" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="EndBuyAverage" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="FixNumber" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="FlowPercent" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="IfDivousPercent" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>

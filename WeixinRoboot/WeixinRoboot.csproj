@@ -27,7 +27,7 @@
     <InstallUrl>http://121.54.169.233:9123/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>25</ApplicationRevision>
+    <ApplicationRevision>33</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -95,6 +95,12 @@
     </Compile>
     <Compile Include="F_Game_BasicRatio.Designer.cs">
       <DependentUpon>F_Game_BasicRatio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="F_WX_BounsRatio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_WX_BounsRatio.Designer.cs">
+      <DependentUpon>F_WX_BounsRatio.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalParam.cs" />
     <Compile Include="Linq\db.designer.cs">
@@ -178,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="F_Game_BasicRatio.resx">
       <DependentUpon>F_Game_BasicRatio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="F_WX_BounsRatio.resx">
+      <DependentUpon>F_WX_BounsRatio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OpenQuery.resx">
       <DependentUpon>OpenQuery.cs</DependentUpon>

@@ -1373,13 +1373,7 @@ namespace WeixinRoboot.Linq
                                     }
                                     #endregion
 
-                                    #region 检查余额
-                                    decimal Remainder = WXUserChangeLog_GetRemainder(reply.WX_UserName);
-                                    if (Remainder < Convert.ToDecimal(StrBuyPoint3))
-                                    {
-                                        return "余分不足，余" + ObjectToString(Remainder, "N0");
-                                    }
-                                    #endregion
+                                    
 
 
 
@@ -1497,13 +1491,7 @@ namespace WeixinRoboot.Linq
                             }
                             #endregion
 
-                            #region 检查余额
-                            decimal Remainder = WXUserChangeLog_GetRemainder(reply.WX_UserName);
-                            if (Remainder < Convert.ToDecimal(StrBuyPoint2))
-                            {
-                                return "余分不足，余" + ObjectToString(Remainder, "N0");
-                            }
-                            #endregion
+                            
 
                             findupdate2.Buy_Point -= Convert.ToDecimal(StrBuyPoint2);
                             findupdate2.Buy_Ratio = ratios == null ? 0 : ratios.BasicRatio;
@@ -1758,10 +1746,14 @@ namespace WeixinRoboot.Linq
                 foreach (var Perioditem in Periods)
                 {
 
-                    Result += Perioditem + "期";
+                    Result += Perioditem + "期"+Environment.NewLine;
                     foreach (var buyitem in Buys.Where(t => t.ShowPeriod == Perioditem))
                     {
                         Result += buyitem.BuyValue + ObjectToString(buyitem.BuyPoint, "N0") + ",";
+                    }
+                    if (Result.EndsWith(","))
+                    {
+                        Result += Result.Substring(0, Result.Length - 1);
                     }
                     Result += Environment.NewLine;
                 }
@@ -1796,7 +1788,7 @@ namespace WeixinRoboot.Linq
             {
 
                 string Result = "余:" + (Remainder.HasValue ? Remainder.Value.ToString("N0") : "") + Environment.NewLine
-                    + "用户：" + UserNickName + Environment.NewLine;
+                 ;
                 if (Buys.Count() == 0)
                 {
                     return "";
@@ -1808,7 +1800,7 @@ namespace WeixinRoboot.Linq
                     Result += "期号: " + buyitem.ShowPeriod;
                     Result += " " + buyitem.GameResult + Environment.NewLine;
 
-                    Result += " 下注" + buyitem.BuyValue
+                    Result += " " + buyitem.BuyValue
                         + ObjectToString(buyitem.BuyPoint, "N0")
                         + "赔率" + ObjectToString(buyitem.BasicRatio, "N0") + Environment.NewLine
                         + "变动" + ObjectToString(buyitem.ResultPoint, "N0")
@@ -1833,7 +1825,7 @@ namespace WeixinRoboot.Linq
             {
 
                 string Result = "余:" + (Remainder.HasValue ? Remainder.Value.ToString("N0") : "") + Environment.NewLine
-                    + "用户：" + UserNickName + Environment.NewLine;
+                ;
                 if (Buys.Count() == 0)
                 {
                     return "";
@@ -2217,7 +2209,14 @@ namespace WeixinRoboot.Linq
 
                     }
                     #endregion
+                    if (reply.ReceiveContent.Length>2)
+                    {
                     return WX_UserGameLog_Cancel(db, reply, MemberSource);
+                    }
+                    else
+                    {
+                    return "";
+                    }
                 }//取消的单
                 #region 全
                 else if (reply.ReceiveContent.StartsWith("全"))

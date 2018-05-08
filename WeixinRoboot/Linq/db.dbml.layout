@@ -14,7 +14,7 @@
         <elementListCompartment Id="6b3dfb4f-5ab8-482a-a066-a6a41e7764fa" absoluteBounds="4.14, 1.835, 1.9700000000000002, 4.258880615234375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.0625 : 0.95); (5.0625 : 1.375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.0625 : 0.95); (5.0625 : 1.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/dbDataContext/aspnet_Users/aspnet_Users_aspnet_Membership" />
       <nodes>
         <classShapeMoniker Id="a17d83f0-97b9-4203-9195-8ee827330e83" />
@@ -67,6 +67,12 @@
       <DataClassMoniker Name="/dbDataContext/WX_UserChangeLog" />
       <nestedChildShapes>
         <elementListCompartment Id="ea22e50a-950e-4fcf-858f-96b838ff9056" absoluteBounds="0.89000000000000012, 4.96, 1.9700000000000002, 2.7307230631510415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1560af5f-51f6-45fa-8d8d-011c7741b7bf" isExpanded="false" absoluteBounds="0.875, 5.25, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/WX_BounsConfig" />
+      <nestedChildShapes>
+        <elementListCompartment Id="779ab198-c7a6-44cd-939e-d6d335ac8a29" absoluteBounds="0.89000000000000012, 5.71, 1.9700000000000002, 1.966644287109375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

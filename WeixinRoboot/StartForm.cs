@@ -597,6 +597,7 @@ namespace WeixinRoboot
 
         public string SendWXContent(string Content, string TempToUserID)
         {
+            Thread.Sleep(1500);
             //10、发送信息
 
             //这个比较简单，用POST方法，访问：https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxsendmsg
@@ -628,6 +629,7 @@ namespace WeixinRoboot
         }
         public string SendWXImage(string ImageFile, string TEMPUserName)
         {
+            Thread.Sleep(1500);
             string UpLoadResult2 = NetFramework.Util_WEB.UploadWXImage(ImageFile, MyUserName, TEMPUserName, JavaTimeSpan(), cookie, j_BaseRequest);
             //{
             //"BaseResponse": {
@@ -715,7 +717,7 @@ namespace WeixinRoboot
 
                     string TEMPUserName = RunnerF.MemberSource.Select("User_ContactID='" + notice_item + "'").First().Field<string>("User_ContactTEMPID");
                     decimal? ReminderMoney = Linq.DataLogic.WXUserChangeLog_GetRemainder(notice_item);
-                    String ContentResult = SendWXContent(ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : "", TEMPUserName);
+                    String ContentResult = SendWXContent("余"+(ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : ""), TEMPUserName);
                     var updatechangelog = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == notice_item && t.NeedNotice == false);
                     db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, updatechangelog);
                     foreach (var updatechangeitem in updatechangelog)

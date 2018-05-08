@@ -129,6 +129,8 @@ namespace NetFramework
             return responseBody;
         }
 
+        private static DateTime? ImageToday = null;
+        private static Int32 ImageFileid = 0;
 
         public static string UploadWXImage(string ImgFilePath, string MyUserID, string TOUserID, string JavaTimeSpan, CookieCollection tmpcookie, Newtonsoft.Json.Linq.JObject RequestBase)
         {
@@ -189,7 +191,13 @@ namespace NetFramework
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"id\"" + Environment.NewLine + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
-            buf = Encoding.UTF8.GetBytes("WU_FILE_0" + Environment.NewLine);
+            if (ImageToday==null||ImageToday!=DateTime.Today)
+            {
+                ImageToday = DateTime.Today;
+                ImageFileid = 1;
+            }
+            buf = Encoding.UTF8.GetBytes("WU_FILE_" + ImageFileid.ToString() + Environment.NewLine);
+            ImageFileid += 1;
             Strem_ToPost.Write(buf, 0, buf.Length);
 
 
