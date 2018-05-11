@@ -3962,7 +3962,7 @@ namespace WeixinRoboot.Linq
                 Linq.WX_UserReply contact = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == usritem);
                 if (contact != null)
                 {
-                    newr.SetField("NickNameRemarkName",   (contact.RemarkName!=""&&contact.RemarkName!=null?contact.RemarkName:contact.NickName ));
+                    newr.SetField("NickNameRemarkName",   (contact.RemarkName!=""&&contact.RemarkName!=null?contact.RemarkName+"@#"+contact.NickName:contact.NickName ));
                 }
                 else
                 {

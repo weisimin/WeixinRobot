@@ -171,7 +171,7 @@ namespace WeixinRoboot
             //ReplySource.Columns.Add("Reply_ReplyTime", typeof(object));
 
             DataTable PreRend = NetFramework.Util_Sql.RunSqlDataTable("LocalSqlServer"
-                  , "Select case when ur.RemarkName<>'' then ur.RemarkName else ur.NickName end as Reply_Contact ,RL.WX_UserName as Reply_ContactID "
+                  , "Select case when ur.RemarkName<>'' then ur.RemarkName+'@#'+ur.NickName else ur.NickName end as Reply_Contact ,RL.WX_UserName as Reply_ContactID "
 
               + " ,'' as Reply_ContactTEMPID"
               + " ,ReceiveContent as Reply_ReceiveContent"

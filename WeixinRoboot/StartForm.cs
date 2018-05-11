@@ -281,7 +281,10 @@ namespace WeixinRoboot
                     Thread DownLoad163 = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo));
                     DownLoad163.Start(Download163ThreadID);
 
-                    this.Invoke(new Action(() => { MI_GameLogManulDeal.Enabled = true; }));
+                    this.Invoke(new Action(() => { MI_GameLogManulDeal.Enabled = true;
+                    MI_Bouns_Manul.Enabled = true;
+                    
+                    }));
                     while ((KillThread.ContainsKey((Guid)ThreadID)) == false)
                     {
                         Application.DoEvents();
@@ -594,7 +597,7 @@ namespace WeixinRoboot
 
         public string SendWXContent(string Content, string TempToUserID)
         {
-            Thread.Sleep(1500);
+            Thread.Sleep(100);
             //10、发送信息
 
             //这个比较简单，用POST方法，访问：https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxsendmsg
@@ -626,7 +629,7 @@ namespace WeixinRoboot
         }
         public string SendWXImage(string ImageFile, string TEMPUserName)
         {
-            Thread.Sleep(1500);
+            Thread.Sleep(100);
             string UpLoadResult2 = NetFramework.Util_WEB.UploadWXImage(ImageFile, MyUserName, TEMPUserName, JavaTimeSpan(), cookie, j_BaseRequest);
             //{
             //"BaseResponse": {
@@ -838,7 +841,7 @@ namespace WeixinRoboot
             bcc.Add("Uin", Uin);
             bcc.Add("Sid", Sid);
             bcc.Add("Skey", Skey);
-            DeviceID = "e" + new Random().Next().ToString("000000000000000");
+            DeviceID = "e" + ("486480001508340");
             bcc.Add("DeviceID", DeviceID);
 
             j_BaseRequest["BaseRequest"] = bcc;

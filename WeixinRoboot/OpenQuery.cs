@@ -83,7 +83,7 @@ namespace WeixinRoboot
                 {
                   var FidnUser=  db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == item);
 
-                  uc.Caption = (FidnUser == null ? item : (FidnUser.NickName + FidnUser.RemarkName));
+                  uc.Caption = (FidnUser == null ? item : (FidnUser.RemarkName != "" && FidnUser.RemarkName != null ? FidnUser.RemarkName + "@#" + FidnUser.NickName : FidnUser.NickName));
 
                 }
                 dcc.HeaderText = uc.Caption;
