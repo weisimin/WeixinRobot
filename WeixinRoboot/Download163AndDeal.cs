@@ -25,8 +25,7 @@ namespace WeixinRoboot
     
             bool SendImage = false;
             StartF.DownLoad163CaiPiao(ref SendImage, Dtp_DownloadDate.Value,true);
-            StartF.DealGameLogAndNotice(true);
-            db.SubmitChanges();
+           
             SendImage = true;
             #region "有新的就通知,以及处理结果"
             if (SendImage == true)
@@ -61,13 +60,14 @@ namespace WeixinRoboot
                     }//向监听的群发送图片
 
                 }//设置为自动监听的用户
-                StartF.DealGameLogAndNotice();
-
-
 
             }//新开奖
 
             #endregion
+
+            StartF.DealGameLogAndNotice(true);
+            db.SubmitChanges();
+
             Download163AndDeal_Load(null, null);
 
 
@@ -87,7 +87,10 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
     
-            BS_GameResult.DataSource = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key && t.GameTime.Value.Date == Dtp_DownloadDate.Value.Date)
+            BS_GameResult.DataSource = db.Game_Result
+                .Where(t => t.aspnet_UserID == GlobalParam.Key
+                    && t.GameTime.Value.Date == Dtp_DownloadDate.Value.Date)
+
                 .Select(t => new
                 {
 
@@ -102,7 +105,10 @@ namespace WeixinRoboot
                 }).ToList();
 
             var GameLog = (from ds in db.WX_UserGameLog
-                           where (
+                           where
+                           (ds.aspnet_UserID==GlobalParam.Key)
+                           
+                           &&(
                  (ds.Result_HaveProcess == false || ds.Result_HaveProcess == null)
                  )
 

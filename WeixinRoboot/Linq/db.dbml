@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="WeinxinRoboot" Class="dbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=WeinxinRoboot;Persist Security Info=True;User ID=sa" SettingsObjectName="WeixinRoboot.Properties.Settings" SettingsPropertyName="WeinxinRobootConnectionString2" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=WeinxinRoboot;Persist Security Info=True;User ID=sa" SettingsObjectName="WeixinRoboot.Properties.Settings" SettingsPropertyName="WeinxinRobootConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.aspnet_Users" Member="aspnet_Users">
     <Type Name="aspnet_Users">
       <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
@@ -45,20 +45,6 @@
       <Column Name="TimeMinute" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Private_Period" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Private_day" Type="System.Int32" DbType="Int" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Game_Result" Member="Game_Result">
-    <Type Name="Game_Result">
-      <Column Name="GameName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="GamePeriod" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="GameResult" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="GameTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="NumTotal" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="BigSmall" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="SingleDouble" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="DragonTiger" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="GamePrivatePeriod" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.aspnet_UsersNewGameResultSend" Member="aspnet_UsersNewGameResultSend">
@@ -167,6 +153,21 @@
       <Column Name="FixNumber" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
       <Column Name="FlowPercent" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
       <Column Name="IfDivousPercent" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Game_Result" Member="Game_Result">
+    <Type Name="Game_Result">
+      <Column Name="GameName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GamePeriod" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GameResult" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="GameTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NumTotal" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BigSmall" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="SingleDouble" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="DragonTiger" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="GamePrivatePeriod" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="InsertDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

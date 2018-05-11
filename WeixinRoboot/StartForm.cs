@@ -1019,14 +1019,7 @@ namespace WeixinRoboot
             //<td class="award-winNum">
             Regex FindPeriod = new Regex("<td class=\"start\"((?!</td>)[\\S\\s])+</td>", RegexOptions.IgnoreCase);
 
-            DataTable GDISource = new DataTable();
-            GDISource.Columns.Add("期号");
-            GDISource.Columns.Add("时间");
-            GDISource.Columns.Add("开奖号码");
-            GDISource.Columns.Add("和数");
-            GDISource.Columns.Add("大小");
-            GDISource.Columns.Add("单双");
-            GDISource.Columns.Add("龙虎");
+           
             foreach (Match item in FindPeriod.Matches(str_json))
             {
                 Regex FindWin = new Regex("data-win-number='((?!')[\\S\\s])+'", RegexOptions.IgnoreCase);
@@ -1046,107 +1039,7 @@ namespace WeixinRoboot
                     str_Win = str_Win.Substring(0, str_Win.Length - 1);
 
 
-                    string str_win2 = str_Win;
-
-                    str_win2 = str_win2.Replace(" ", "");
-
-                    char[] numbs = str_win2.ToCharArray();
-                    int NUM1 = Convert.ToInt32(numbs[0].ToString());
-                    int NUM2 = Convert.ToInt32(numbs[1].ToString());
-                    int NUM3 = Convert.ToInt32(numbs[2].ToString());
-                    int NUM4 = Convert.ToInt32(numbs[3].ToString());
-                    int NUM5 = Convert.ToInt32(numbs[4].ToString());
-
-                    Int32 NumTotal = NUM1 + NUM2 + NUM3 + NUM4 + NUM5;
-
-
-                    String BigSmall = "";
-                    if (NumTotal == 23)
-                    {
-                        BigSmall = "和";
-                    }
-                    else if (NumTotal <= 22)
-                    {
-                        BigSmall = "小";
-                    }
-                    else
-                    {
-                        BigSmall = "大";
-                    }
-
-                    string SingleDouble = "";
-                    if (NumTotal % 2 == 1)
-                    {
-                        SingleDouble = "单";
-                    }
-                    else
-                    {
-                        SingleDouble = "双";
-                    }
-
-
-                    string TigerDragon = "";
-                    if (NUM1 > NUM5)
-                    {
-                        TigerDragon = "龙";
-                    }
-                    else if (NUM1 == NUM5)
-                    {
-                        TigerDragon = "合";
-                    }
-                    else
-                    {
-                        TigerDragon = "虎";
-                    }
-
-                    Linq.Game_ChongqingshishicaiPeriodMinute FindMinute = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(6, 3) && t.GameType == "重庆时时彩");
-
-
-                    var GameResult = db.Game_Result.SingleOrDefault(t => t.GameName == "重庆时时彩" && t.GamePeriod == str_dataperiod && t.aspnet_UserID == GlobalParam.Key);
-                    if (GameResult == null)
-                    {
-                        Linq.Game_Result gr = new Linq.Game_Result();
-                        gr.aspnet_UserID = GlobalParam.Key;
-                        gr.GamePeriod = str_dataperiod;
-                        gr.GameName = "重庆时时彩";
-                        gr.GameResult = str_win2;
-                        gr.NumTotal = NumTotal;
-                        gr.BigSmall = BigSmall;
-                        gr.SingleDouble = SingleDouble;
-                        gr.DragonTiger = TigerDragon;
-                        gr.GameTime = Convert.ToDateTime(
-                           "20" + str_dataperiod.Substring(0, 2) + "-" + str_dataperiod.Substring(2, 2) + "-" + str_dataperiod.Substring(4, 2) + " "
-                            + FindMinute.TimeMinute);
-                        gr.aspnet_UserID = GlobalParam.Key;
-                        gr.GamePrivatePeriod = Convert.ToDateTime(
-                           "20" + str_dataperiod.Substring(0, 2) + "-" + str_dataperiod.Substring(2, 2) + "-" + str_dataperiod.Substring(4, 2) + " "
-                           ).AddDays(Convert.ToDouble(FindMinute.Private_day)).ToString("yyyyMMdd") + FindMinute.Private_Period;
-
-                        db.Game_Result.InsertOnSubmit(gr);
-                        db.SubmitChanges();
-
-
-                    }//插入数据库
-
-                    if (GDISource.Select("期号='" + str_dataperiod + "'").Length == 0)
-                    {
-                        DataRow newr = GDISource.NewRow();
-                        newr.SetField("期号", str_dataperiod);
-
-                        newr.SetField("时间", FindMinute.TimeMinute);
-
-                        newr.SetField("开奖号码", str_Win);
-                        newr.SetField("和数", NumTotal.ToString());
-                        newr.SetField("大小", BigSmall);
-                        newr.SetField("单双", SingleDouble);
-                        newr.SetField("龙虎", TigerDragon);
-
-                        GDISource.Rows.Add(newr);
-
-                    }
-
-
-                    GDISource.NewRow();
+                    Linq.DataLogic.NewGameResult(str_Win, str_dataperiod);
 
 
 
@@ -1172,12 +1065,72 @@ namespace WeixinRoboot
             #endregion
 
         }
-        private void DrawGdi(DateTime day)
+
+
+         public void DownLoad163CaiPiaoV2(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        {
+            //http://m.zhcw.com/kaijiang/place_info.jsp?id=572
+
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://caipiao.163.com/award/cqssc/20180413.html
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+
+            string URL = "http://m.zhcw.com/clienth5.do?czId=572&pageNo=1&pageSize=20&transactionType=300306&src=0000100001%7C6000003060";
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
+
+            //{"czname":"重庆时时彩","pageNo":"1","pageSize":"20","totalPage":"5549","dataList":[{"kjIssue":"20180508058","kjdate":"2018/05/08","kjznum":"4 2 6 5 1","kjtnum":"--"},{"kjIssue":"20180508057","kjdate":"2018/05/08","kjznum":"7 2 4 1 9","kjtnum":"--"},{"kjIssue":"20180508056","kjdate":"2018/05/08","kjznum":"5 7 1 7 0","kjtnum":"--"},{"kjIssue":"20180508055","kjdate":"2018/05/08","kjznum":"0 9 8 1 5","kjtnum":"--"},{"kjIssue":"20180508054","kjdate":"2018/05/08","kjznum":"9 0 4 3 8","kjtnum":"--"},{"kjIssue":"20180508053","kjdate":"2018/05/08","kjznum":"7 5 5 0 0","kjtnum":"--"},{"kjIssue":"20180508052","kjdate":"2018/05/08","kjznum":"2 7 6 3 6","kjtnum":"--"},{"kjIssue":"20180508051","kjdate":"2018/05/08","kjznum":"5 1 6 7 6","kjtnum":"--"},{"kjIssue":"20180508050","kjdate":"2018/05/08","kjznum":"8 3 3 7 8","kjtnum":"--"},{"kjIssue":"20180508049","kjdate":"2018/05/08","kjznum":"7 7 0 7 1","kjtnum":"--"},{"kjIssue":"20180508048","kjdate":"2018/05/08","kjznum":"2 5 2 0 5","kjtnum":"--"},{"kjIssue":"20180508047","kjdate":"2018/05/08","kjznum":"1 3 6 7 7","kjtnum":"--"},{"kjIssue":"20180508046","kjdate":"2018/05/08","kjznum":"6 5 2 8 2","kjtnum":"--"},{"kjIssue":"20180508045","kjdate":"2018/05/08","kjznum":"0 3 7 2 7","kjtnum":"--"},{"kjIssue":"20180508044","kjdate":"2018/05/08","kjznum":"8 0 4 8 2","kjtnum":"--"},{"kjIssue":"20180508043","kjdate":"2018/05/08","kjznum":"2 8 6 5 5","kjtnum":"--"},{"kjIssue":"20180508042","kjdate":"2018/05/08","kjznum":"2 1 9 4 4","kjtnum":"--"},{"kjIssue":"20180508041","kjdate":"2018/05/08","kjznum":"8 2 3 4 3","kjtnum":"--"},{"kjIssue":"20180508040","kjdate":"2018/05/08","kjznum":"6 8 9 5 7","kjtnum":"--"},{"kjIssue":"20180508039","kjdate":"2018/05/08","kjznum":"4 8 9 6 1","kjtnum":"--"}]}
+
+
+
+           
+
+            JArray Periods = JObject.Parse(Result)["dataList"] as JArray;
+
+
+            foreach (JObject item in Periods)
+            {
+
+                string str_dataperiod = (item["kjIssue"] as JValue).Value.ToString();
+                str_dataperiod = str_dataperiod.Substring(2);
+
+
+                string str_Win = (item["kjznum"] as JValue).Value.ToString(); ;
+
+                Linq.DataLogic.NewGameResult(str_Win, str_dataperiod);
+
+
+
+            }//每行处理
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+                LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+                DateTime day = DateTime.Now;
+                if (day.Hour < 10)
+                {
+                    day = day.AddDays(-1);
+                }
+
+                DrawGdi(day);
+            }
+            #endregion
+
+        }
+
+        private void DrawGdi(DateTime Localday)
         {
 
 
             DataTable PrivatePerios = NetFramework.Util_Sql.RunSqlDataTable("LocalSqlServer"
-                , @"select GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where GamePrivatePeriod like '" + day.ToString("yyyyMMdd") + "%' and aspnet_Userid='" + GlobalParam.Key.ToString() + "'");
+                , @"select GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where GamePrivatePeriod like '" + Localday.ToString("yyyyMMdd") + "%' and aspnet_Userid='" + GlobalParam.Key.ToString() + "'");
             DataView dv = PrivatePerios.AsDataView();
 
             ;

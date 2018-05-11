@@ -41,15 +41,17 @@
             this.MI_MyData = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_Ratio = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_Ratio_Setting = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_Bouns_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_GameLog = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_GameLogManulDeal = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_Bouns_Manul = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_Query = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_OpenQuery = new System.Windows.Forms.ToolStripMenuItem();
             this.Botton_Status = new System.Windows.Forms.StatusStrip();
             this.SI_url = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_ShowError = new System.Windows.Forms.ToolStripStatusLabel();
             this.SI_ShowError = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbl_waring = new System.Windows.Forms.Label();
-            this.MI_OpenQuery = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
             this.TopMenu.SuspendLayout();
             this.Botton_Status.SuspendLayout();
@@ -143,7 +145,8 @@
             // MI_Ratio
             // 
             this.MI_Ratio.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MI_Ratio_Setting});
+            this.MI_Ratio_Setting,
+            this.MI_Bouns_Setting});
             this.MI_Ratio.Name = "MI_Ratio";
             this.MI_Ratio.Size = new System.Drawing.Size(44, 21);
             this.MI_Ratio.Text = "赔率";
@@ -151,25 +154,41 @@
             // MI_Ratio_Setting
             // 
             this.MI_Ratio_Setting.Name = "MI_Ratio_Setting";
-            this.MI_Ratio_Setting.Size = new System.Drawing.Size(100, 22);
-            this.MI_Ratio_Setting.Text = "设置";
+            this.MI_Ratio_Setting.Size = new System.Drawing.Size(124, 22);
+            this.MI_Ratio_Setting.Text = "赔率设置";
             this.MI_Ratio_Setting.Click += new System.EventHandler(this.MI_Ratio_Setting_Click);
+            // 
+            // MI_Bouns_Setting
+            // 
+            this.MI_Bouns_Setting.Name = "MI_Bouns_Setting";
+            this.MI_Bouns_Setting.Size = new System.Drawing.Size(124, 22);
+            this.MI_Bouns_Setting.Text = "福利设置";
+            this.MI_Bouns_Setting.Click += new System.EventHandler(this.MI_Bouns_Setting_Click);
             // 
             // MI_GameLog
             // 
             this.MI_GameLog.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MI_GameLogManulDeal});
+            this.MI_GameLogManulDeal,
+            this.MI_Bouns_Manul});
             this.MI_GameLog.Name = "MI_GameLog";
-            this.MI_GameLog.Size = new System.Drawing.Size(44, 21);
-            this.MI_GameLog.Text = "开奖";
+            this.MI_GameLog.Size = new System.Drawing.Size(68, 21);
+            this.MI_GameLog.Text = "人工操作";
             // 
             // MI_GameLogManulDeal
             // 
             this.MI_GameLogManulDeal.Enabled = false;
             this.MI_GameLogManulDeal.Name = "MI_GameLogManulDeal";
-            this.MI_GameLogManulDeal.Size = new System.Drawing.Size(124, 22);
+            this.MI_GameLogManulDeal.Size = new System.Drawing.Size(152, 22);
             this.MI_GameLogManulDeal.Text = "人工开奖";
             this.MI_GameLogManulDeal.Click += new System.EventHandler(this.MI_GameLogManulDeal_Click);
+            // 
+            // MI_Bouns_Manul
+            // 
+            this.MI_Bouns_Manul.Enabled = false;
+            this.MI_Bouns_Manul.Name = "MI_Bouns_Manul";
+            this.MI_Bouns_Manul.Size = new System.Drawing.Size(152, 22);
+            this.MI_Bouns_Manul.Text = "人工福利";
+            this.MI_Bouns_Manul.Click += new System.EventHandler(this.MI_Bouns_Manul_Click);
             // 
             // MI_Query
             // 
@@ -178,6 +197,13 @@
             this.MI_Query.Name = "MI_Query";
             this.MI_Query.Size = new System.Drawing.Size(44, 21);
             this.MI_Query.Text = "查询";
+            // 
+            // MI_OpenQuery
+            // 
+            this.MI_OpenQuery.Name = "MI_OpenQuery";
+            this.MI_OpenQuery.Size = new System.Drawing.Size(124, 22);
+            this.MI_OpenQuery.Text = "开奖统计";
+            this.MI_OpenQuery.Click += new System.EventHandler(this.MI_OpenQuery_Click);
             // 
             // Botton_Status
             // 
@@ -222,13 +248,6 @@
             this.lbl_waring.Size = new System.Drawing.Size(360, 16);
             this.lbl_waring.TabIndex = 5;
             this.lbl_waring.Text = "微信机器人仅用于学习和交流，不得用于非法用途";
-            // 
-            // MI_OpenQuery
-            // 
-            this.MI_OpenQuery.Name = "MI_OpenQuery";
-            this.MI_OpenQuery.Size = new System.Drawing.Size(152, 22);
-            this.MI_OpenQuery.Text = "开奖统计";
-            this.MI_OpenQuery.Click += new System.EventHandler(this.MI_OpenQuery_Click);
             // 
             // StartForm
             // 
@@ -280,6 +299,8 @@
         private System.Windows.Forms.ToolStripMenuItem MI_GameLogManulDeal;
         private System.Windows.Forms.ToolStripMenuItem MI_Query;
         private System.Windows.Forms.ToolStripMenuItem MI_OpenQuery;
+        private System.Windows.Forms.ToolStripMenuItem MI_Bouns_Setting;
+        private System.Windows.Forms.ToolStripMenuItem MI_Bouns_Manul;
     }
 }
 

@@ -26,7 +26,7 @@ namespace NetFramework
 
             WebRequest LoginPage = HttpWebRequest.Create(TargetURL);
             ((HttpWebRequest)LoginPage).AllowAutoRedirect = AllowRedirect;
-            ((HttpWebRequest)LoginPage).KeepAlive = true;
+            
             ((HttpWebRequest)LoginPage).Timeout = 60000;
             LoginPage.Method = Method;
             switch (Method)

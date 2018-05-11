@@ -171,7 +171,7 @@ namespace WeixinRoboot
             //ReplySource.Columns.Add("Reply_ReplyTime", typeof(object));
 
             DataTable PreRend = NetFramework.Util_Sql.RunSqlDataTable("LocalSqlServer"
-                  , "Select '未登录' as Reply_Contact ,WX_UserName as Reply_ContactID "
+                  , "Select case when ur.RemarkName<>'' then ur.RemarkName else ur.NickName end as Reply_Contact ,RL.WX_UserName as Reply_ContactID "
 
               + " ,'' as Reply_ContactTEMPID"
               + " ,ReceiveContent as Reply_ReceiveContent"
@@ -180,10 +180,10 @@ namespace WeixinRoboot
               + " ,ReceiveTime as ReplyReceiveTime"
               + " ,ReplyTime as Reply_ReplyTime"
 
-                  + " from WX_UserReplyLog where aspnet_UserID='" + GlobalParam.Key.ToString() + "' and "
+                  + " from WX_UserReplyLog RL with (nolock) join WX_UserReply ur with (nolock) on RL.aspnet_UserID=ur.aspnet_UserID and RL.WX_UserName=ur.WX_UserName   where RL.aspnet_UserID='" + GlobalParam.Key.ToString() + "' and "
                   + "ReceiveTime >='" + dtp_StartDate.Value.Date.ToString("yyyy-MM-dd") + "' and "
                   + "ReceiveTime <'" + dtp_EndDate.Value.Date.ToString("yyyy-MM-dd") + "'  "
-                 + (SelectUser == "" ? "" : " and WX_UserName='" + SelectUser + "'")
+                 + (SelectUser == "" ? "" : " and RL.WX_UserName='" + SelectUser + "'")
                   );
             if (ReplySource == null)
             {
@@ -202,7 +202,7 @@ namespace WeixinRoboot
                 }
                 else
                 {
-                    item.SetField("Reply_Contact", "非此微信号联系人");
+                    //item.SetField("Reply_Contact", "非此微信号联系人");
 
                 }
                 ReplySource.Rows.Add(item.ItemArray);

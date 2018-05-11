@@ -28,61 +28,194 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.wb_messages = new System.Windows.Forms.WebBrowser();
-            this.Btn_Send = new System.Windows.Forms.Button();
-            this.Btn_SendImage = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.components = new System.ComponentModel.Container();
+            this.dtp_querydate = new System.Windows.Forms.DateTimePicker();
+            this.lbl_QueryDate = new System.Windows.Forms.Label();
+            this.gv_result = new System.Windows.Forms.DataGridView();
+            this.BTN_QUERY = new System.Windows.Forms.Button();
+            this.BTN_SEND = new System.Windows.Forms.Button();
+            this.BS_DataSource = new System.Windows.Forms.BindingSource(this.components);
+            this.NickNameRemarkName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LocalPeriodDay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PeriodCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalBuy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AverageBuy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FixNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FlowPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IfDivousPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BounsCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.gv_result)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BS_DataSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // wb_messages
+            // dtp_querydate
             // 
-            this.wb_messages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.wb_messages.Location = new System.Drawing.Point(13, 12);
-            this.wb_messages.MinimumSize = new System.Drawing.Size(20, 20);
-            this.wb_messages.Name = "wb_messages";
-            this.wb_messages.Size = new System.Drawing.Size(544, 232);
-            this.wb_messages.TabIndex = 0;
+            this.dtp_querydate.Location = new System.Drawing.Point(77, 8);
+            this.dtp_querydate.Name = "dtp_querydate";
+            this.dtp_querydate.Size = new System.Drawing.Size(118, 21);
+            this.dtp_querydate.TabIndex = 1;
             // 
-            // Btn_Send
+            // lbl_QueryDate
             // 
-            this.Btn_Send.Location = new System.Drawing.Point(482, 251);
-            this.Btn_Send.Name = "Btn_Send";
-            this.Btn_Send.Size = new System.Drawing.Size(75, 56);
-            this.Btn_Send.TabIndex = 1;
-            this.Btn_Send.Text = "发送";
-            this.Btn_Send.UseVisualStyleBackColor = true;
-            this.Btn_Send.Click += new System.EventHandler(this.Btn_Send_Click);
+            this.lbl_QueryDate.AutoSize = true;
+            this.lbl_QueryDate.Location = new System.Drawing.Point(12, 14);
+            this.lbl_QueryDate.Name = "lbl_QueryDate";
+            this.lbl_QueryDate.Size = new System.Drawing.Size(59, 12);
+            this.lbl_QueryDate.TabIndex = 2;
+            this.lbl_QueryDate.Text = "统计日期:";
             // 
-            // Btn_SendImage
+            // gv_result
             // 
-            this.Btn_SendImage.Location = new System.Drawing.Point(13, 251);
-            this.Btn_SendImage.Name = "Btn_SendImage";
-            this.Btn_SendImage.Size = new System.Drawing.Size(75, 56);
-            this.Btn_SendImage.TabIndex = 2;
-            this.Btn_SendImage.Text = "发送图片";
-            this.Btn_SendImage.UseVisualStyleBackColor = true;
-            this.Btn_SendImage.Click += new System.EventHandler(this.Btn_SendImage_Click);
+            this.gv_result.AllowUserToAddRows = false;
+            this.gv_result.AllowUserToDeleteRows = false;
+            this.gv_result.AllowUserToOrderColumns = true;
+            this.gv_result.AutoGenerateColumns = false;
+            this.gv_result.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gv_result.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.NickNameRemarkName,
+            this.LocalPeriodDay,
+            this.PeriodCount,
+            this.TotalBuy,
+            this.AverageBuy,
+            this.TotalResult,
+            this.FixNumber,
+            this.FlowPercent,
+            this.IfDivousPercent,
+            this.BounsCount,
+            this.Remark});
+            this.gv_result.DataSource = this.BS_DataSource;
+            this.gv_result.Location = new System.Drawing.Point(14, 40);
+            this.gv_result.Name = "gv_result";
+            this.gv_result.ReadOnly = true;
+            this.gv_result.RowTemplate.Height = 23;
+            this.gv_result.Size = new System.Drawing.Size(694, 222);
+            this.gv_result.TabIndex = 3;
             // 
-            // textBox1
+            // BTN_QUERY
             // 
-            this.textBox1.Location = new System.Drawing.Point(94, 251);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(382, 56);
-            this.textBox1.TabIndex = 3;
+            this.BTN_QUERY.Location = new System.Drawing.Point(12, 268);
+            this.BTN_QUERY.Name = "BTN_QUERY";
+            this.BTN_QUERY.Size = new System.Drawing.Size(77, 46);
+            this.BTN_QUERY.TabIndex = 4;
+            this.BTN_QUERY.Text = "查询";
+            this.BTN_QUERY.UseVisualStyleBackColor = true;
+            this.BTN_QUERY.Click += new System.EventHandler(this.BTN_QUERY_Click);
             // 
-            // SendMessage
+            // BTN_SEND
+            // 
+            this.BTN_SEND.Location = new System.Drawing.Point(482, 268);
+            this.BTN_SEND.Name = "BTN_SEND";
+            this.BTN_SEND.Size = new System.Drawing.Size(75, 46);
+            this.BTN_SEND.TabIndex = 5;
+            this.BTN_SEND.Text = "发放";
+            this.BTN_SEND.UseVisualStyleBackColor = true;
+            this.BTN_SEND.Click += new System.EventHandler(this.BTN_SEND_Click);
+            // 
+            // NickNameRemarkName
+            // 
+            this.NickNameRemarkName.DataPropertyName = "NickNameRemarkName";
+            this.NickNameRemarkName.Frozen = true;
+            this.NickNameRemarkName.HeaderText = "玩家";
+            this.NickNameRemarkName.Name = "NickNameRemarkName";
+            this.NickNameRemarkName.ReadOnly = true;
+            // 
+            // LocalPeriodDay
+            // 
+            this.LocalPeriodDay.DataPropertyName = "LocalPeriodDay";
+            this.LocalPeriodDay.Frozen = true;
+            this.LocalPeriodDay.HeaderText = "统计期间";
+            this.LocalPeriodDay.Name = "LocalPeriodDay";
+            this.LocalPeriodDay.ReadOnly = true;
+            // 
+            // PeriodCount
+            // 
+            this.PeriodCount.DataPropertyName = "PeriodCount";
+            this.PeriodCount.Frozen = true;
+            this.PeriodCount.HeaderText = "期数";
+            this.PeriodCount.Name = "PeriodCount";
+            this.PeriodCount.ReadOnly = true;
+            this.PeriodCount.Width = 70;
+            // 
+            // TotalBuy
+            // 
+            this.TotalBuy.DataPropertyName = "TotalBuy";
+            this.TotalBuy.HeaderText = "总购买";
+            this.TotalBuy.Name = "TotalBuy";
+            this.TotalBuy.ReadOnly = true;
+            this.TotalBuy.Width = 80;
+            // 
+            // AverageBuy
+            // 
+            this.AverageBuy.DataPropertyName = "AverageBuy";
+            this.AverageBuy.HeaderText = "平均购买";
+            this.AverageBuy.Name = "AverageBuy";
+            this.AverageBuy.ReadOnly = true;
+            this.AverageBuy.Width = 80;
+            // 
+            // TotalResult
+            // 
+            this.TotalResult.DataPropertyName = "TotalResult";
+            this.TotalResult.HeaderText = "总得分";
+            this.TotalResult.Name = "TotalResult";
+            this.TotalResult.ReadOnly = true;
+            this.TotalResult.Width = 80;
+            // 
+            // FixNumber
+            // 
+            this.FixNumber.DataPropertyName = "FixNumber";
+            this.FixNumber.HeaderText = "福利分数";
+            this.FixNumber.Name = "FixNumber";
+            this.FixNumber.ReadOnly = true;
+            this.FixNumber.Width = 80;
+            // 
+            // FlowPercent
+            // 
+            this.FlowPercent.DataPropertyName = "FlowPercent";
+            this.FlowPercent.HeaderText = "流水比例";
+            this.FlowPercent.Name = "FlowPercent";
+            this.FlowPercent.ReadOnly = true;
+            this.FlowPercent.Width = 80;
+            // 
+            // IfDivousPercent
+            // 
+            this.IfDivousPercent.DataPropertyName = "IfDivousPercent";
+            this.IfDivousPercent.HeaderText = "负分比例";
+            this.IfDivousPercent.Name = "IfDivousPercent";
+            this.IfDivousPercent.ReadOnly = true;
+            this.IfDivousPercent.Width = 80;
+            // 
+            // BounsCount
+            // 
+            this.BounsCount.DataPropertyName = "BounsCount";
+            this.BounsCount.HeaderText = "应发放";
+            this.BounsCount.Name = "BounsCount";
+            this.BounsCount.ReadOnly = true;
+            // 
+            // Remark
+            // 
+            this.Remark.DataPropertyName = "Remark";
+            this.Remark.HeaderText = "备注";
+            this.Remark.Name = "Remark";
+            this.Remark.ReadOnly = true;
+            this.Remark.Width = 300;
+            // 
+            // SendBouns
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(569, 319);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.Btn_SendImage);
-            this.Controls.Add(this.Btn_Send);
-            this.Controls.Add(this.wb_messages);
-            this.Name = "SendMessage";
-            this.Text = "发送消息";
+            this.ClientSize = new System.Drawing.Size(720, 319);
+            this.Controls.Add(this.BTN_SEND);
+            this.Controls.Add(this.BTN_QUERY);
+            this.Controls.Add(this.gv_result);
+            this.Controls.Add(this.lbl_QueryDate);
+            this.Controls.Add(this.dtp_querydate);
+            this.Name = "SendBouns";
+            this.Text = "发放福利";
+            this.Load += new System.EventHandler(this.SendBouns_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.gv_result)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BS_DataSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -90,9 +223,22 @@
 
         #endregion
 
-        private System.Windows.Forms.WebBrowser wb_messages;
-        private System.Windows.Forms.Button Btn_Send;
-        private System.Windows.Forms.Button Btn_SendImage;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.DateTimePicker dtp_querydate;
+        private System.Windows.Forms.Label lbl_QueryDate;
+        private System.Windows.Forms.DataGridView gv_result;
+        private System.Windows.Forms.Button BTN_QUERY;
+        private System.Windows.Forms.Button BTN_SEND;
+        private System.Windows.Forms.BindingSource BS_DataSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NickNameRemarkName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LocalPeriodDay;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PeriodCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalBuy;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AverageBuy;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalResult;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FixNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FlowPercent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IfDivousPercent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BounsCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
     }
 }

@@ -31,14 +31,11 @@ namespace WeixinRoboot
                 catch (Exception AnyError)
                 {
                     System.Data.Linq.ChangeSet cs = db.GetChangeSet();
-                    for (int i = 0; i < cs.Inserts.Count; i++)
-                    {
-                        cs.Inserts.Remove(cs.Inserts[cs.Inserts.Count - i - 1]);
-                    }
-                    for (int i = 0; i < cs.Deletes.Count; i++)
-                    {
-                        cs.Deletes.Remove(cs.Deletes[cs.Inserts.Count - i - 1]);
-                    }
+                   
+                        cs.Inserts.Clear();
+
+                        cs.Deletes.Clear();
+                    
 
                     db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, cs.Updates);
                     ep_gridview.SetError(Btn_Save, AnyError.Message);

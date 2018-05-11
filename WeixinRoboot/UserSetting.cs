@@ -88,6 +88,27 @@ namespace WeixinRoboot
                             }
                         }
 
+                        var BounsConfig = db.WX_BounsConfig.Where(t => t.aspnet_UserID == (sysadmin == null ? Guid.Empty : (Guid)sysadmin.ProviderUserKey));
+
+                        if (BounsConfig.Count() != 0)
+                        {
+                            foreach (var item in BounsConfig)
+                            {
+                                Linq.WX_BounsConfig newr = new Linq.WX_BounsConfig();
+                                newr.aspnet_UserID = (Guid)usr.ProviderUserKey;
+                                newr.RowNumber = item.RowNumber;
+                                newr.StartBuyPeriod = item.StartBuyPeriod;
+                                newr.EndBuyPeriod = item.EndBuyPeriod;
+                                newr.StartBuyAverage = item.StartBuyAverage;
+                                newr.EndBuyAverage = item.EndBuyAverage;
+                                newr.FixNumber = item.FixNumber;
+                                newr.FlowPercent = item.FlowPercent;
+                                newr.IfDivousPercent = item.IfDivousPercent;
+                                db.WX_BounsConfig.InsertOnSubmit(newr);
+                                db.SubmitChanges();
+                            }
+                        }
+
 
 
 
