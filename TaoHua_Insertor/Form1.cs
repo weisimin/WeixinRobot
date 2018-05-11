@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.IO;
+namespace TaoHua_Insertor
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            timer1.Start();
+        }
+        public void Insert_Taohua()
+        {
+            FileStream fs = new FileStream("C:\\Program Files (x86)\\十里桃花挂机软件\\OpenCode\\CQSSC.txt", FileMode.Open);
+            Int32 ReadCount = 0;
+            StreamReader sr = new StreamReader(fs);
+            dbDataContext db = new dbDataContext();
+            while (ReadCount < 120 && sr.EndOfStream == false)
+            {
+                string NewLine = sr.ReadLine();
+                string[] datas = NewLine.Split("\t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                TaoHua_GameResult findr = db.TaoHua_GameResult.SingleOrDefault(t => t.GamePeriod == datas[0] & t.GameResult == datas[1]);
+                if (findr == null)
+                {
+                    TaoHua_GameResult gr = new TaoHua_GameResult();
+                    gr.GamePeriod = datas[0];
+                    gr.GameResult = datas[1];
+                    db.TaoHua_GameResult.InsertOnSubmit(gr);
+                    db.SubmitChanges();
+                }
+
+
+            }
+
+
+            fs.Flush();
+            fs.Close();
+
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                Insert_Taohua();
+                Console.Write("Complete");
+            }
+            catch (Exception AnyError)
+            {
+                Console.Write(AnyError.Message);
+                Console.Write(AnyError.StackTrace);
+            }
+        }
+
+
+    }
+}
