@@ -161,7 +161,7 @@
             // MI_Bouns_Setting
             // 
             this.MI_Bouns_Setting.Name = "MI_Bouns_Setting";
-            this.MI_Bouns_Setting.Size = new System.Drawing.Size(124, 22);
+            this.MI_Bouns_Setting.Size = new System.Drawing.Size(152, 22);
             this.MI_Bouns_Setting.Text = "福利设置";
             this.MI_Bouns_Setting.Click += new System.EventHandler(this.MI_Bouns_Setting_Click);
             // 
@@ -176,7 +176,6 @@
             // 
             // MI_GameLogManulDeal
             // 
-            this.MI_GameLogManulDeal.Enabled = false;
             this.MI_GameLogManulDeal.Name = "MI_GameLogManulDeal";
             this.MI_GameLogManulDeal.Size = new System.Drawing.Size(152, 22);
             this.MI_GameLogManulDeal.Text = "人工开奖";
@@ -184,7 +183,6 @@
             // 
             // MI_Bouns_Manul
             // 
-            this.MI_Bouns_Manul.Enabled = false;
             this.MI_Bouns_Manul.Name = "MI_Bouns_Manul";
             this.MI_Bouns_Manul.Size = new System.Drawing.Size(152, 22);
             this.MI_Bouns_Manul.Text = "人工福利";

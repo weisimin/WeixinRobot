@@ -318,9 +318,6 @@ namespace WeixinRoboot
 
             try
             {
-
-
-
                 #region "微信监听"
                 this.Invoke(new Action(() => { lbl_msg.Text = "机器人监听中"; }));
 
@@ -717,7 +714,7 @@ namespace WeixinRoboot
 
                     string TEMPUserName = RunnerF.MemberSource.Select("User_ContactID='" + notice_item + "'").First().Field<string>("User_ContactTEMPID");
                     decimal? ReminderMoney = Linq.DataLogic.WXUserChangeLog_GetRemainder(notice_item);
-                    String ContentResult = SendWXContent("余"+(ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : ""), TEMPUserName);
+                    String ContentResult = SendWXContent("余" + (ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : ""), TEMPUserName);
                     var updatechangelog = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == notice_item && t.NeedNotice == false);
                     db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, updatechangelog);
                     foreach (var updatechangeitem in updatechangelog)
@@ -932,58 +929,52 @@ namespace WeixinRoboot
         }
         private void DownloadResult()
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             try
             {
                 Boolean SendImage = false;
-                DownLoad163CaiPiao(ref SendImage, DateTime.Now, false);
-                DownLoad163CaiPiao(ref SendImage, DateTime.Now.AddDays(-1), false);
-                #region "有新的就通知,以及处理结果"
+                try
+                {
+                    DownLoad163CaiPiaoV4(ref SendImage, DateTime.Now, false);
+
+                }
+                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+                try
+                {
+                    DownLoad163CaiPiaoV3(ref SendImage, DateTime.Now, false);
+                }
+                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+                try
+                {
+                    DownLoad163CaiPiaoV3(ref SendImage, DateTime.Now.AddDays(-1), false);
+                }
+                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+                try
+                {
+                    DownLoad163CaiPiaoV2(ref SendImage, DateTime.Now, false);
+                }
+                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+
+                try
+                {
+                    DownLoad163CaiPiaoV2(ref SendImage, DateTime.Now.AddDays(-1), false);
+                }
+                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+
+                try
+                {
+                    DownLoad163CaiPiao(ref SendImage, DateTime.Now, false);
+                }
+                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+                try
+                {
+                    DownLoad163CaiPiao(ref SendImage, DateTime.Now.AddDays(-1), false);
+                }
+                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+
                 if (SendImage == true)
                 {
-
-
-                    var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
-                    foreach (var item in users)
-                    {
-                        #region  多人同号不到ID跳过
-                        #endregion
-                        DataRow[] dr = RunnerF.MemberSource.Select("User_ContactID='" + item.WX_UserName + "'");
-                        if (dr.Length == 0)
-                        {
-                            continue;
-                        }
-                        string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
-                        Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
-                        if (!myset.IsSendPIC == true)
-                        {
-                            continue;
-                        }
-                        if (TEMPUserName.StartsWith("@@"))
-                        {
-                            SendWXImage(Application.StartupPath + "\\Data.jpg", TEMPUserName);
-                            Thread.Sleep(1000);
-                            //SendWXImage(Application.StartupPath + "\\Data2.jpg", TEMPUserName);
-                            if (System.IO.File.Exists(Application.StartupPath + "\\Data3.txt"))
-                            {
-                                FileStream fs = new FileStream(Application.StartupPath + "\\Data3.txt", System.IO.FileMode.Open);
-                                byte[] bs = new byte[fs.Length];
-                                fs.Read(bs, 0, bs.Length);
-                                fs.Close();
-                                fs.Dispose();
-                                SendWXContent(Encoding.UTF8.GetString(bs), TEMPUserName);
-                            }
-                        }//向监听的群发送图片
-
-                    }//设置为自动监听的用户
-                    DealGameLogAndNotice();
-
-
-
-                }//新开奖
-
-                #endregion
+                    SendChongqingResult();
+                }
             }
             catch (Exception AnyError)
             {
@@ -992,6 +983,57 @@ namespace WeixinRoboot
             }
 
         }
+
+        public void SendChongqingResult()
+        {
+            #region "有新的就通知,以及处理结果"
+
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+
+            var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
+            foreach (var item in users)
+            {
+                #region  多人同号不到ID跳过
+                #endregion
+                DataRow[] dr = RunnerF.MemberSource.Select("User_ContactID='" + item.WX_UserName + "'");
+                if (dr.Length == 0)
+                {
+                    continue;
+                }
+                string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
+                Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
+                if (!myset.IsSendPIC == true)
+                {
+                    continue;
+                }
+                if (TEMPUserName.StartsWith("@@"))
+                {
+                    SendWXImage(Application.StartupPath + "\\Data.jpg", TEMPUserName);
+                    Thread.Sleep(1000);
+                    //SendWXImage(Application.StartupPath + "\\Data2.jpg", TEMPUserName);
+                    if (System.IO.File.Exists(Application.StartupPath + "\\Data3.txt"))
+                    {
+                        FileStream fs = new FileStream(Application.StartupPath + "\\Data3.txt", System.IO.FileMode.Open);
+                        byte[] bs = new byte[fs.Length];
+                        fs.Read(bs, 0, bs.Length);
+                        fs.Close();
+                        fs.Dispose();
+                        SendWXContent(Encoding.UTF8.GetString(bs), TEMPUserName);
+                    }
+                }//向监听的群发送图片
+
+            }//设置为自动监听的用户
+            DealGameLogAndNotice();
+
+
+
+            #endregion
+
+        }
+
+
 
         public void DownLoad163CaiPiao(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
         {
@@ -1019,7 +1061,7 @@ namespace WeixinRoboot
             //<td class="award-winNum">
             Regex FindPeriod = new Regex("<td class=\"start\"((?!</td>)[\\S\\s])+</td>", RegexOptions.IgnoreCase);
 
-           
+
             foreach (Match item in FindPeriod.Matches(str_json))
             {
                 Regex FindWin = new Regex("data-win-number='((?!')[\\S\\s])+'", RegexOptions.IgnoreCase);
@@ -1067,7 +1109,7 @@ namespace WeixinRoboot
         }
 
 
-         public void DownLoad163CaiPiaoV2(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        public void DownLoad163CaiPiaoV2(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
         {
             //http://m.zhcw.com/kaijiang/place_info.jsp?id=572
 
@@ -1088,7 +1130,7 @@ namespace WeixinRoboot
 
 
 
-           
+
 
             JArray Periods = JObject.Parse(Result)["dataList"] as JArray;
 
@@ -1125,7 +1167,144 @@ namespace WeixinRoboot
 
         }
 
-        private void DrawGdi(DateTime Localday)
+        public void DownLoad163CaiPiaoV3(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://m.500.com/info/kaijiang/ssc/2018-05-11.shtml
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+
+
+
+
+            string URL = "http://m.500.com/info/kaijiang/ssc/";
+
+
+            URL += SelectDate.ToString("yyyy-MM-dd") + ".shtml";
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
+            Regex FindTableData = new Regex("<div class=\"lcbqc-info-tb\">((?!</div>)[\\S\\s])+</div>", RegexOptions.IgnoreCase);
+            string str_json = FindTableData.Match(Result).Value;
+            //<td class="start" data-win-number="5 3 9 7 3" data-period="180404002">
+            //<td class="award-winNum">
+            Regex FindPeriod = new Regex("<ul class=\"l-flex-row\">((?!</ul>)[\\S\\s])+</ul>", RegexOptions.IgnoreCase);
+
+
+            foreach (Match item in FindPeriod.Matches(str_json))
+            {
+                Regex li = new Regex("<li((?!</li>)[\\S\\s])+<", RegexOptions.IgnoreCase);
+
+                Match dataperiod = li.Matches(item.Value)[0];
+                Match Win = li.Matches(item.Value)[2];
+
+                if (Win.Value != "")
+                {
+                    string str_dataperiod = dataperiod.Value;
+                    str_dataperiod = str_dataperiod.Substring(str_dataperiod.IndexOf(">") + 1);
+                    str_dataperiod = str_dataperiod.Substring(0, str_dataperiod.Length - 1);
+
+                    string str_Win = Win.Value;
+                    str_Win = str_Win.Substring(str_Win.IndexOf(">") + 1);
+                    str_Win = str_Win.Substring(0, str_Win.Length - 1);
+                    str_Win = str_Win.Replace(",", " ").Replace("\t", "").Replace("\r\n", "");
+
+                    try
+                    {
+                        Convert.ToInt64(str_dataperiod);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+
+                    }
+                    Linq.DataLogic.NewGameResult(str_Win, str_dataperiod);
+
+
+
+                }//已开奖励
+            }//每行处理
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+                LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+                DateTime day = DateTime.Now;
+                if (day.Hour < 10)
+                {
+                    day = day.AddDays(-1);
+                }
+
+                DrawGdi(day);
+            }
+
+
+
+            #endregion
+
+        }
+
+
+        public void DownLoad163CaiPiaoV4(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://m.500.com/info/kaijiang/ssc/2018-05-11.shtml
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+
+
+            var taohuaresult = db.TaoHua_GameResult.OrderByDescending(t => t.GamePeriod).Take(120);
+
+
+
+            foreach (Linq.TaoHua_GameResult item in taohuaresult)
+            {
+
+
+
+                string str_dataperiod = item.GamePeriod;
+
+
+                string str_Win = item.GameResult;
+                str_Win = str_Win.Substring(0, 1) + " " + str_Win.Substring(1, 1) + " " + str_Win.Substring(2, 1) + " " + str_Win.Substring(3, 1) + " " + str_Win.Substring(4, 1) + " " + str_Win.Substring(5, 1);
+
+                Linq.DataLogic.NewGameResult(str_Win, str_dataperiod);
+
+
+
+
+            }//每行处理
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+                LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+                DateTime day = DateTime.Now;
+                if (day.Hour < 10)
+                {
+                    day = day.AddDays(-1);
+                }
+
+                DrawGdi(day);
+            }
+
+
+
+            #endregion
+
+        }
+
+
+        public void DrawGdi(DateTime Localday)
         {
 
 
@@ -1490,6 +1669,19 @@ namespace WeixinRoboot
             OpenQuery oq = new OpenQuery();
             oq.RunnerF = this.RunnerF;
             oq.Show();
+        }
+
+        private void MI_Bouns_Manul_Click(object sender, EventArgs e)
+        {
+            SendBouns sb = new SendBouns();
+            sb.StartF = this;
+            sb.Show();
+        }
+
+        private void MI_Bouns_Setting_Click(object sender, EventArgs e)
+        {
+            F_WX_BounsRatio br = new F_WX_BounsRatio();
+            br.Show();
         }
 
 

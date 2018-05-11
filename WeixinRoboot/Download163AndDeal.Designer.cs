@@ -45,7 +45,6 @@
             this.lbl_GameResult = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.gv_GameLogNotDeal = new System.Windows.Forms.DataGridView();
-            this.BS_GameLogNotDeal = new System.Windows.Forms.BindingSource(this.components);
             this.Wgl_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Wgl_ContactID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Wgl_TransTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,6 +52,17 @@
             this.GameLocalPeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Wgl_Buy_Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Wgl_Buy_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BS_GameLogNotDeal = new System.Windows.Forms.BindingSource(this.components);
+            this.label3 = new System.Windows.Forms.Label();
+            this.fd_Period = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.fd_Num1 = new System.Windows.Forms.TextBox();
+            this.BtnSaveAndDeal = new System.Windows.Forms.Button();
+            this.fd_Num2 = new System.Windows.Forms.TextBox();
+            this.fd_Num3 = new System.Windows.Forms.TextBox();
+            this.fd_Num4 = new System.Windows.Forms.TextBox();
+            this.fd_Num5 = new System.Windows.Forms.TextBox();
+            this.fd_day = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.gv_GameResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_GameResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_GameLogNotDeal)).BeginInit();
@@ -218,7 +228,7 @@
             this.gv_GameLogNotDeal.ReadOnly = true;
             this.gv_GameLogNotDeal.RowTemplate.Height = 23;
             this.gv_GameLogNotDeal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gv_GameLogNotDeal.Size = new System.Drawing.Size(536, 156);
+            this.gv_GameLogNotDeal.Size = new System.Drawing.Size(536, 126);
             this.gv_GameLogNotDeal.TabIndex = 6;
             // 
             // Wgl_Contact
@@ -277,11 +287,99 @@
             this.Wgl_Buy_Point.ReadOnly = true;
             this.Wgl_Buy_Point.Width = 60;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(120, 427);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "3位期号:";
+            // 
+            // fd_Period
+            // 
+            this.fd_Period.Location = new System.Drawing.Point(180, 424);
+            this.fd_Period.Name = "fd_Period";
+            this.fd_Period.Size = new System.Drawing.Size(33, 21);
+            this.fd_Period.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 456);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(59, 12);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "开奖结果:";
+            // 
+            // fd_Num1
+            // 
+            this.fd_Num1.Location = new System.Drawing.Point(77, 453);
+            this.fd_Num1.Name = "fd_Num1";
+            this.fd_Num1.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num1.TabIndex = 10;
+            // 
+            // BtnSaveAndDeal
+            // 
+            this.BtnSaveAndDeal.Location = new System.Drawing.Point(308, 424);
+            this.BtnSaveAndDeal.Name = "BtnSaveAndDeal";
+            this.BtnSaveAndDeal.Size = new System.Drawing.Size(76, 44);
+            this.BtnSaveAndDeal.TabIndex = 11;
+            this.BtnSaveAndDeal.Text = "保存并开奖";
+            this.BtnSaveAndDeal.UseVisualStyleBackColor = true;
+            this.BtnSaveAndDeal.Click += new System.EventHandler(this.BtnSaveAndDeal_Click);
+            // 
+            // fd_Num2
+            // 
+            this.fd_Num2.Location = new System.Drawing.Point(112, 453);
+            this.fd_Num2.Name = "fd_Num2";
+            this.fd_Num2.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num2.TabIndex = 12;
+            // 
+            // fd_Num3
+            // 
+            this.fd_Num3.Location = new System.Drawing.Point(147, 453);
+            this.fd_Num3.Name = "fd_Num3";
+            this.fd_Num3.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num3.TabIndex = 13;
+            // 
+            // fd_Num4
+            // 
+            this.fd_Num4.Location = new System.Drawing.Point(182, 453);
+            this.fd_Num4.Name = "fd_Num4";
+            this.fd_Num4.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num4.TabIndex = 14;
+            // 
+            // fd_Num5
+            // 
+            this.fd_Num5.Location = new System.Drawing.Point(217, 453);
+            this.fd_Num5.Name = "fd_Num5";
+            this.fd_Num5.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num5.TabIndex = 15;
+            // 
+            // fd_day
+            // 
+            this.fd_day.CustomFormat = "yyyy-MM-dd";
+            this.fd_day.Location = new System.Drawing.Point(12, 424);
+            this.fd_day.Name = "fd_day";
+            this.fd_day.Size = new System.Drawing.Size(101, 21);
+            this.fd_day.TabIndex = 16;
+            // 
             // Download163AndDeal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(578, 480);
+            this.Controls.Add(this.fd_day);
+            this.Controls.Add(this.fd_Num5);
+            this.Controls.Add(this.fd_Num4);
+            this.Controls.Add(this.fd_Num3);
+            this.Controls.Add(this.fd_Num2);
+            this.Controls.Add(this.BtnSaveAndDeal);
+            this.Controls.Add(this.fd_Num1);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.fd_Period);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.gv_GameLogNotDeal);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbl_GameResult);
@@ -327,5 +425,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn GameLocalPeriod;
         private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_Buy_Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_Buy_Point;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox fd_Period;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox fd_Num1;
+        private System.Windows.Forms.Button BtnSaveAndDeal;
+        private System.Windows.Forms.TextBox fd_Num2;
+        private System.Windows.Forms.TextBox fd_Num3;
+        private System.Windows.Forms.TextBox fd_Num4;
+        private System.Windows.Forms.TextBox fd_Num5;
+        private System.Windows.Forms.DateTimePicker fd_day;
     }
 }

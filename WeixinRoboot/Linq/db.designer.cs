@@ -63,10 +63,13 @@ namespace WeixinRoboot.Linq
     partial void InsertGame_Result(Game_Result instance);
     partial void UpdateGame_Result(Game_Result instance);
     partial void DeleteGame_Result(Game_Result instance);
+    partial void InsertTaoHua_GameResult(TaoHua_GameResult instance);
+    partial void UpdateTaoHua_GameResult(TaoHua_GameResult instance);
+    partial void DeleteTaoHua_GameResult(TaoHua_GameResult instance);
     #endregion
 		
 		public dbDataContext() : 
-				base(global::WeixinRoboot.Properties.Settings.Default.WeinxinRobootConnectionString1, mappingSource)
+				base(global::WeixinRoboot.Properties.Settings.Default.WeinxinRobootConnectionString2, mappingSource)
 		{
 			OnCreated();
 		}
@@ -180,6 +183,14 @@ namespace WeixinRoboot.Linq
 			get
 			{
 				return this.GetTable<Game_Result>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TaoHua_GameResult> TaoHua_GameResult
+		{
+			get
+			{
+				return this.GetTable<TaoHua_GameResult>();
 			}
 		}
 	}
@@ -3626,6 +3637,92 @@ namespace WeixinRoboot.Linq
 					this._InsertDate = value;
 					this.SendPropertyChanged("InsertDate");
 					this.OnInsertDateChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TaoHua_GameResult")]
+	public partial class TaoHua_GameResult : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _GamePeriod;
+		
+		private string _GameResult;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnGamePeriodChanging(string value);
+    partial void OnGamePeriodChanged();
+    partial void OnGameResultChanging(string value);
+    partial void OnGameResultChanged();
+    #endregion
+		
+		public TaoHua_GameResult()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GamePeriod", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string GamePeriod
+		{
+			get
+			{
+				return this._GamePeriod;
+			}
+			set
+			{
+				if ((this._GamePeriod != value))
+				{
+					this.OnGamePeriodChanging(value);
+					this.SendPropertyChanging();
+					this._GamePeriod = value;
+					this.SendPropertyChanged("GamePeriod");
+					this.OnGamePeriodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameResult", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string GameResult
+		{
+			get
+			{
+				return this._GameResult;
+			}
+			set
+			{
+				if ((this._GameResult != value))
+				{
+					this.OnGameResultChanging(value);
+					this.SendPropertyChanging();
+					this._GameResult = value;
+					this.SendPropertyChanged("GameResult");
+					this.OnGameResultChanged();
 				}
 			}
 		}

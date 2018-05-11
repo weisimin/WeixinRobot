@@ -226,6 +226,7 @@ namespace WeixinRoboot
                              && ds.ReceiveTime < dtp_EndDate.Value
                              && ds.aspnet_UserID == GlobalParam.Key
                              && ds.WX_UserName == SelectUser
+                             orderby ds.ReceiveTime descending
                              select new
                              {
                                  ds.ReceiveTime,
@@ -466,6 +467,20 @@ namespace WeixinRoboot
 
 
             }
+        }
+
+        private void BtnSaveAndDeal_Click(object sender, EventArgs e)
+        {
+            Linq.DataLogic.NewGameResult(
+              fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text);
+            DateTime day = DateTime.Now;
+            if (day.Hour < 10)
+            {
+                day = day.AddDays(-1);
+            }
+
+            StartF.DrawGdi(day);
+            StartF.SendChongqingResult();
         }
 
 

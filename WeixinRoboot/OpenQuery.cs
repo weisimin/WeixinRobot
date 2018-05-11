@@ -44,6 +44,7 @@ namespace WeixinRoboot
             dc.Name = "类别";
             dc.DataPropertyName = "类别";
             dc.CellTemplate = new DataGridViewTextBoxCell();
+            dc.Frozen = true;
             gv_result.Columns.Add(dc);
 
 

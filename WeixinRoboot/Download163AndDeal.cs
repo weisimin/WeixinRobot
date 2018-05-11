@@ -22,10 +22,10 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+
             bool SendImage = false;
-            StartF.DownLoad163CaiPiao(ref SendImage, Dtp_DownloadDate.Value,true);
-           
+            StartF.DownLoad163CaiPiao(ref SendImage, Dtp_DownloadDate.Value, true);
+
             SendImage = true;
             #region "有新的就通知,以及处理结果"
             if (SendImage == true)
@@ -79,6 +79,10 @@ namespace WeixinRoboot
         private void Download163AndDeal_Load(object sender, EventArgs e)
         {
             Dtp_DownloadDate_ValueChanged(null, null);
+
+
+
+
         }
 
         private void Dtp_DownloadDate_ValueChanged(object sender, EventArgs e)
@@ -86,7 +90,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+
             BS_GameResult.DataSource = db.Game_Result
                 .Where(t => t.aspnet_UserID == GlobalParam.Key
                     && t.GameTime.Value.Date == Dtp_DownloadDate.Value.Date)
@@ -106,9 +110,9 @@ namespace WeixinRoboot
 
             var GameLog = (from ds in db.WX_UserGameLog
                            where
-                           (ds.aspnet_UserID==GlobalParam.Key)
-                           
-                           &&(
+                           (ds.aspnet_UserID == GlobalParam.Key)
+
+                           && (
                  (ds.Result_HaveProcess == false || ds.Result_HaveProcess == null)
                  )
 
@@ -120,7 +124,7 @@ namespace WeixinRoboot
                      ds.GamePeriod,
                      ds.Buy_Value,
                      ds.Buy_Point
-                     ,ds.GameLocalPeriod
+                     , ds.GameLocalPeriod
                )
                 ).ToList();
             #region
@@ -176,6 +180,22 @@ namespace WeixinRoboot
             public decimal? Wgl_Buy_Point { get { return _Wgl_Buy_Point; } set { _Wgl_Buy_Point = value; } }
             public string Wgl_GamePrivatePeriod { get { return _Wgl_GamePrivatePeriod; } set { _Wgl_GamePrivatePeriod = value; } }
 
+        }
+
+        private void BtnSaveAndDeal_Click(object sender, EventArgs e)
+        {
+            Linq.DataLogic.NewGameResult(
+                fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text);
+            DateTime day = DateTime.Now;
+            if (day.Hour < 10)
+            {
+                day = day.AddDays(-1);
+            }
+
+            StartF.DrawGdi(day);
+            StartF.SendChongqingResult();
+
+            Dtp_DownloadDate_ValueChanged(null, null); ;
         }
 
     }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="WeinxinRoboot" Class="dbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=WeinxinRoboot;Persist Security Info=True;User ID=sa" SettingsObjectName="WeixinRoboot.Properties.Settings" SettingsPropertyName="WeinxinRobootConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=WeinxinRoboot;Persist Security Info=True;User ID=sa" SettingsObjectName="WeixinRoboot.Properties.Settings" SettingsPropertyName="WeinxinRobootConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.aspnet_Users" Member="aspnet_Users">
     <Type Name="aspnet_Users">
       <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
@@ -168,6 +168,12 @@
       <Column Name="GamePrivatePeriod" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="InsertDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TaoHua_GameResult" Member="TaoHua_GameResult">
+    <Type Name="TaoHua_GameResult">
+      <Column Name="GamePeriod" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GameResult" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

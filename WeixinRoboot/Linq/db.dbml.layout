@@ -14,7 +14,7 @@
         <elementListCompartment Id="6b3dfb4f-5ab8-482a-a066-a6a41e7764fa" absoluteBounds="4.14, 1.835, 1.9700000000000002, 4.258880615234375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.0625 : 0.95); (5.0625 : 1.375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.0625 : 0.95); (5.0625 : 1.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/dbDataContext/aspnet_Users/aspnet_Users_aspnet_Membership" />
       <nodes>
         <classShapeMoniker Id="a17d83f0-97b9-4203-9195-8ee827330e83" />
@@ -73,6 +73,12 @@
       <DataClassMoniker Name="/dbDataContext/Game_Result" />
       <nestedChildShapes>
         <elementListCompartment Id="761d8569-9eb8-45d6-b98f-53d50ab17c5b" absoluteBounds="0.64000000000000012, 1.21, 1.9700000000000002, 2.348683675130208" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a8314ab6-baa8-4c86-8835-51a5b3b1b319" isExpanded="false" absoluteBounds="4.25, 5.375, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/TaoHua_GameResult" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f2eb0e00-c8a5-47e9-a286-d78c5bccb61f" absoluteBounds="4.265, 5.835, 1.9700000000000002, 0.62950642903645826" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>
