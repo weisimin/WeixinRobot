@@ -970,6 +970,8 @@ namespace WeixinRoboot
                     DownLoad163CaiPiao(ref SendImage, DateTime.Now.AddDays(-1), false);
                 }
                 catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+              
+                DealGameLogAndNotice();
 
                 if (SendImage == true)
                 {
@@ -1025,8 +1027,7 @@ namespace WeixinRoboot
                 }//向监听的群发送图片
 
             }//设置为自动监听的用户
-            DealGameLogAndNotice();
-
+          
 
 
             #endregion
@@ -1221,7 +1222,7 @@ namespace WeixinRoboot
                         continue;
 
                     }
-                    Linq.DataLogic.NewGameResult(str_Win, str_dataperiod);
+                    Linq.DataLogic.NewGameResult(str_Win, str_dataperiod.Substring(2));
 
 
 
@@ -1274,7 +1275,7 @@ namespace WeixinRoboot
 
 
                 string str_Win = item.GameResult;
-                str_Win = str_Win.Substring(0, 1) + " " + str_Win.Substring(1, 1) + " " + str_Win.Substring(2, 1) + " " + str_Win.Substring(3, 1) + " " + str_Win.Substring(4, 1) + " " + str_Win.Substring(5, 1);
+                str_Win = str_Win.Substring(0, 1) + " " + str_Win.Substring(1, 1) + " " + str_Win.Substring(2, 1) + " " + str_Win.Substring(3, 1) + " " + str_Win.Substring(4, 1) ;
 
                 Linq.DataLogic.NewGameResult(str_Win, str_dataperiod);
 

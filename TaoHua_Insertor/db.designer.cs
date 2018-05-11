@@ -84,6 +84,8 @@ namespace TaoHua_Insertor
 		
 		private string _GameResult;
 		
+		private System.Nullable<System.DateTime> _InsertTime;
+		
     #region 可扩展性方法定义
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -92,6 +94,8 @@ namespace TaoHua_Insertor
     partial void OnGamePeriodChanged();
     partial void OnGameResultChanging(string value);
     partial void OnGameResultChanged();
+    partial void OnInsertTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnInsertTimeChanged();
     #endregion
 		
 		public TaoHua_GameResult()
@@ -135,6 +139,26 @@ namespace TaoHua_Insertor
 					this._GameResult = value;
 					this.SendPropertyChanged("GameResult");
 					this.OnGameResultChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InsertTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> InsertTime
+		{
+			get
+			{
+				return this._InsertTime;
+			}
+			set
+			{
+				if ((this._InsertTime != value))
+				{
+					this.OnInsertTimeChanging(value);
+					this.SendPropertyChanging();
+					this._InsertTime = value;
+					this.SendPropertyChanged("InsertTime");
+					this.OnInsertTimeChanged();
 				}
 			}
 		}

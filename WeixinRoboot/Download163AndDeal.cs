@@ -186,6 +186,9 @@ namespace WeixinRoboot
         {
             Linq.DataLogic.NewGameResult(
                 fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text);
+            StartF.DealGameLogAndNotice();
+
+            
             DateTime day = DateTime.Now;
             if (day.Hour < 10)
             {

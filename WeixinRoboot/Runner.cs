@@ -478,6 +478,7 @@ namespace WeixinRoboot
             {
                 day = day.AddDays(-1);
             }
+            StartF.DealGameLogAndNotice();
 
             StartF.DrawGdi(day);
             StartF.SendChongqingResult();
