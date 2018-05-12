@@ -24,6 +24,7 @@ namespace WeixinRoboot
 
         private void BtnQuery_Click(object sender, EventArgs e)
         {
+            gv_result.Rows.Clear();
 
             gv_result.Columns.Clear();
 
@@ -81,9 +82,9 @@ namespace WeixinRoboot
                 }
                 else
                 {
-                  var FidnUser=  db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == item);
+                    var FidnUser = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == item);
 
-                  uc.Caption = (FidnUser == null ? item : (FidnUser.RemarkName != "" && FidnUser.RemarkName != null ? FidnUser.RemarkName + "@#" + FidnUser.NickName : FidnUser.NickName));
+                    uc.Caption = (FidnUser == null ? item : (FidnUser.RemarkName != "" && FidnUser.RemarkName != null ? FidnUser.RemarkName + "@#" + FidnUser.NickName : FidnUser.NickName));
 
                 }
                 dcc.HeaderText = uc.Caption;
@@ -239,6 +240,7 @@ namespace WeixinRoboot
 
                        - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
                                      t.RemarkType == "福利"
+                                     && t.WX_UserName == usritem
                                         && t.aspnet_UserID == GlobalParam.Key
                          && t.ChangeLocalDay.StartsWith(item)
                         ).Sum(t => t.ChangePoint))
@@ -370,7 +372,7 @@ namespace WeixinRoboot
                 Result.Rows.Add(newr7);
 
 
-            }
+            }//每日循环
             BS_GVResult.DataSource = Result;
 
 

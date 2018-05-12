@@ -176,6 +176,7 @@
             // 
             // MI_GameLogManulDeal
             // 
+            this.MI_GameLogManulDeal.Enabled = false;
             this.MI_GameLogManulDeal.Name = "MI_GameLogManulDeal";
             this.MI_GameLogManulDeal.Size = new System.Drawing.Size(152, 22);
             this.MI_GameLogManulDeal.Text = "人工开奖";
@@ -183,6 +184,7 @@
             // 
             // MI_Bouns_Manul
             // 
+            this.MI_Bouns_Manul.Enabled = false;
             this.MI_Bouns_Manul.Name = "MI_Bouns_Manul";
             this.MI_Bouns_Manul.Size = new System.Drawing.Size(152, 22);
             this.MI_Bouns_Manul.Text = "人工福利";
@@ -199,7 +201,7 @@
             // MI_OpenQuery
             // 
             this.MI_OpenQuery.Name = "MI_OpenQuery";
-            this.MI_OpenQuery.Size = new System.Drawing.Size(152, 22);
+            this.MI_OpenQuery.Size = new System.Drawing.Size(124, 22);
             this.MI_OpenQuery.Text = "开奖统计";
             this.MI_OpenQuery.Click += new System.EventHandler(this.MI_OpenQuery_Click);
             // 

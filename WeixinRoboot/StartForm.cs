@@ -281,9 +281,11 @@ namespace WeixinRoboot
                     Thread DownLoad163 = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo));
                     DownLoad163.Start(Download163ThreadID);
 
-                    this.Invoke(new Action(() => { MI_GameLogManulDeal.Enabled = true;
-                    MI_Bouns_Manul.Enabled = true;
-                    
+                    this.Invoke(new Action(() =>
+                    {
+                        MI_GameLogManulDeal.Enabled = true;
+                        MI_Bouns_Manul.Enabled = true;
+
                     }));
                     while ((KillThread.ContainsKey((Guid)ThreadID)) == false)
                     {
@@ -842,6 +844,7 @@ namespace WeixinRoboot
             bcc.Add("Sid", Sid);
             bcc.Add("Skey", Skey);
             DeviceID = "e" + ("486480001508340");
+            // DeviceID = "e" + ( Convert.ToInt64( JavaTimeSpan()) .ToString("000000000000000"));
             bcc.Add("DeviceID", DeviceID);
 
             j_BaseRequest["BaseRequest"] = bcc;
@@ -938,48 +941,79 @@ namespace WeixinRoboot
                 try
                 {
                     DownLoad163CaiPiaoV4(ref SendImage, DateTime.Now, false);
-
+                    if (SendImage == true)
+                    {
+                        SendChongqingResult();
+                    }
+                    DealGameLogAndNotice();
                 }
                 catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
                 try
                 {
                     DownLoad163CaiPiaoV3(ref SendImage, DateTime.Now, false);
+                    if (SendImage == true)
+                    {
+                        SendChongqingResult();
+                    }
+                    DealGameLogAndNotice();
                 }
                 catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
                 try
                 {
                     DownLoad163CaiPiaoV3(ref SendImage, DateTime.Now.AddDays(-1), false);
+                    if (SendImage == true)
+                    {
+                        SendChongqingResult();
+                    }
+                    DealGameLogAndNotice();
                 }
                 catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
                 try
                 {
                     DownLoad163CaiPiaoV2(ref SendImage, DateTime.Now, false);
+                    if (SendImage == true)
+                    {
+                        SendChongqingResult();
+                    }
+                    DealGameLogAndNotice();
                 }
                 catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
 
                 try
                 {
                     DownLoad163CaiPiaoV2(ref SendImage, DateTime.Now.AddDays(-1), false);
+                    if (SendImage == true)
+                    {
+                        SendChongqingResult();
+                    }
+                    DealGameLogAndNotice();
                 }
                 catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
 
                 try
                 {
                     DownLoad163CaiPiao(ref SendImage, DateTime.Now, false);
+                    if (SendImage == true)
+                    {
+                        SendChongqingResult();
+                    }
+                    DealGameLogAndNotice();
                 }
                 catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
                 try
                 {
                     DownLoad163CaiPiao(ref SendImage, DateTime.Now.AddDays(-1), false);
+                    if (SendImage == true)
+                    {
+                        SendChongqingResult();
+                    }
+                    DealGameLogAndNotice();
                 }
                 catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
-              
-                DealGameLogAndNotice();
 
-                if (SendImage == true)
-                {
-                    SendChongqingResult();
-                }
+
+
+
             }
             catch (Exception AnyError)
             {
@@ -1030,7 +1064,7 @@ namespace WeixinRoboot
                 }//向监听的群发送图片
 
             }//设置为自动监听的用户
-          
+
 
 
             #endregion
@@ -1278,7 +1312,7 @@ namespace WeixinRoboot
 
 
                 string str_Win = item.GameResult;
-                str_Win = str_Win.Substring(0, 1) + " " + str_Win.Substring(1, 1) + " " + str_Win.Substring(2, 1) + " " + str_Win.Substring(3, 1) + " " + str_Win.Substring(4, 1) ;
+                str_Win = str_Win.Substring(0, 1) + " " + str_Win.Substring(1, 1) + " " + str_Win.Substring(2, 1) + " " + str_Win.Substring(3, 1) + " " + str_Win.Substring(4, 1);
 
                 Linq.DataLogic.NewGameResult(str_Win, str_dataperiod);
 
