@@ -36,18 +36,9 @@ namespace WeixinRoboot.Linq
     partial void Insertaspnet_Membership(aspnet_Membership instance);
     partial void Updateaspnet_Membership(aspnet_Membership instance);
     partial void Deleteaspnet_Membership(aspnet_Membership instance);
-    partial void InsertGame_ChongqingshishicaiPeriodMinute(Game_ChongqingshishicaiPeriodMinute instance);
-    partial void UpdateGame_ChongqingshishicaiPeriodMinute(Game_ChongqingshishicaiPeriodMinute instance);
-    partial void DeleteGame_ChongqingshishicaiPeriodMinute(Game_ChongqingshishicaiPeriodMinute instance);
-    partial void Insertaspnet_UsersNewGameResultSend(aspnet_UsersNewGameResultSend instance);
-    partial void Updateaspnet_UsersNewGameResultSend(aspnet_UsersNewGameResultSend instance);
-    partial void Deleteaspnet_UsersNewGameResultSend(aspnet_UsersNewGameResultSend instance);
     partial void InsertWX_UserGameLog(WX_UserGameLog instance);
     partial void UpdateWX_UserGameLog(WX_UserGameLog instance);
     partial void DeleteWX_UserGameLog(WX_UserGameLog instance);
-    partial void InsertWX_UserReply(WX_UserReply instance);
-    partial void UpdateWX_UserReply(WX_UserReply instance);
-    partial void DeleteWX_UserReply(WX_UserReply instance);
     partial void InsertWX_UserReplyLog(WX_UserReplyLog instance);
     partial void UpdateWX_UserReplyLog(WX_UserReplyLog instance);
     partial void DeleteWX_UserReplyLog(WX_UserReplyLog instance);
@@ -66,6 +57,15 @@ namespace WeixinRoboot.Linq
     partial void InsertTaoHua_GameResult(TaoHua_GameResult instance);
     partial void UpdateTaoHua_GameResult(TaoHua_GameResult instance);
     partial void DeleteTaoHua_GameResult(TaoHua_GameResult instance);
+    partial void InsertWX_UserReply(WX_UserReply instance);
+    partial void UpdateWX_UserReply(WX_UserReply instance);
+    partial void DeleteWX_UserReply(WX_UserReply instance);
+    partial void Insertaspnet_UsersNewGameResultSend(aspnet_UsersNewGameResultSend instance);
+    partial void Updateaspnet_UsersNewGameResultSend(aspnet_UsersNewGameResultSend instance);
+    partial void Deleteaspnet_UsersNewGameResultSend(aspnet_UsersNewGameResultSend instance);
+    partial void InsertGame_ChongqingshishicaiPeriodMinute(Game_ChongqingshishicaiPeriodMinute instance);
+    partial void UpdateGame_ChongqingshishicaiPeriodMinute(Game_ChongqingshishicaiPeriodMinute instance);
+    partial void DeleteGame_ChongqingshishicaiPeriodMinute(Game_ChongqingshishicaiPeriodMinute instance);
     #endregion
 		
 		public dbDataContext() : 
@@ -114,35 +114,11 @@ namespace WeixinRoboot.Linq
 			}
 		}
 		
-		public System.Data.Linq.Table<Game_ChongqingshishicaiPeriodMinute> Game_ChongqingshishicaiPeriodMinute
-		{
-			get
-			{
-				return this.GetTable<Game_ChongqingshishicaiPeriodMinute>();
-			}
-		}
-		
-		public System.Data.Linq.Table<aspnet_UsersNewGameResultSend> aspnet_UsersNewGameResultSend
-		{
-			get
-			{
-				return this.GetTable<aspnet_UsersNewGameResultSend>();
-			}
-		}
-		
 		public System.Data.Linq.Table<WX_UserGameLog> WX_UserGameLog
 		{
 			get
 			{
 				return this.GetTable<WX_UserGameLog>();
-			}
-		}
-		
-		public System.Data.Linq.Table<WX_UserReply> WX_UserReply
-		{
-			get
-			{
-				return this.GetTable<WX_UserReply>();
 			}
 		}
 		
@@ -191,6 +167,30 @@ namespace WeixinRoboot.Linq
 			get
 			{
 				return this.GetTable<TaoHua_GameResult>();
+			}
+		}
+		
+		public System.Data.Linq.Table<WX_UserReply> WX_UserReply
+		{
+			get
+			{
+				return this.GetTable<WX_UserReply>();
+			}
+		}
+		
+		public System.Data.Linq.Table<aspnet_UsersNewGameResultSend> aspnet_UsersNewGameResultSend
+		{
+			get
+			{
+				return this.GetTable<aspnet_UsersNewGameResultSend>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Game_ChongqingshishicaiPeriodMinute> Game_ChongqingshishicaiPeriodMinute
+		{
+			get
+			{
+				return this.GetTable<Game_ChongqingshishicaiPeriodMinute>();
 			}
 		}
 	}
@@ -1016,394 +1016,6 @@ namespace WeixinRoboot.Linq
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Game_ChongqingshishicaiPeriodMinute")]
-	public partial class Game_ChongqingshishicaiPeriodMinute : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _GameType;
-		
-		private string _PeriodIndex;
-		
-		private string _TimeMinute;
-		
-		private string _Private_Period;
-		
-		private System.Nullable<int> _Private_day;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnGameTypeChanging(string value);
-    partial void OnGameTypeChanged();
-    partial void OnPeriodIndexChanging(string value);
-    partial void OnPeriodIndexChanged();
-    partial void OnTimeMinuteChanging(string value);
-    partial void OnTimeMinuteChanged();
-    partial void OnPrivate_PeriodChanging(string value);
-    partial void OnPrivate_PeriodChanged();
-    partial void OnPrivate_dayChanging(System.Nullable<int> value);
-    partial void OnPrivate_dayChanged();
-    #endregion
-		
-		public Game_ChongqingshishicaiPeriodMinute()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameType", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string GameType
-		{
-			get
-			{
-				return this._GameType;
-			}
-			set
-			{
-				if ((this._GameType != value))
-				{
-					this.OnGameTypeChanging(value);
-					this.SendPropertyChanging();
-					this._GameType = value;
-					this.SendPropertyChanged("GameType");
-					this.OnGameTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PeriodIndex", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string PeriodIndex
-		{
-			get
-			{
-				return this._PeriodIndex;
-			}
-			set
-			{
-				if ((this._PeriodIndex != value))
-				{
-					this.OnPeriodIndexChanging(value);
-					this.SendPropertyChanging();
-					this._PeriodIndex = value;
-					this.SendPropertyChanged("PeriodIndex");
-					this.OnPeriodIndexChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TimeMinute", DbType="NVarChar(50)")]
-		public string TimeMinute
-		{
-			get
-			{
-				return this._TimeMinute;
-			}
-			set
-			{
-				if ((this._TimeMinute != value))
-				{
-					this.OnTimeMinuteChanging(value);
-					this.SendPropertyChanging();
-					this._TimeMinute = value;
-					this.SendPropertyChanged("TimeMinute");
-					this.OnTimeMinuteChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Private_Period", DbType="NVarChar(50)")]
-		public string Private_Period
-		{
-			get
-			{
-				return this._Private_Period;
-			}
-			set
-			{
-				if ((this._Private_Period != value))
-				{
-					this.OnPrivate_PeriodChanging(value);
-					this.SendPropertyChanging();
-					this._Private_Period = value;
-					this.SendPropertyChanged("Private_Period");
-					this.OnPrivate_PeriodChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Private_day", DbType="Int")]
-		public System.Nullable<int> Private_day
-		{
-			get
-			{
-				return this._Private_day;
-			}
-			set
-			{
-				if ((this._Private_day != value))
-				{
-					this.OnPrivate_dayChanging(value);
-					this.SendPropertyChanging();
-					this._Private_day = value;
-					this.SendPropertyChanged("Private_day");
-					this.OnPrivate_dayChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.aspnet_UsersNewGameResultSend")]
-	public partial class aspnet_UsersNewGameResultSend : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _aspnet_UserID;
-		
-		private System.Nullable<bool> _IsNewSend;
-		
-		private string _ActiveCode;
-		
-		private System.Nullable<bool> _IsBlock;
-		
-		private System.Nullable<bool> _IsSendPIC;
-		
-		private System.Nullable<bool> _IsReceiveOrder;
-		
-		private System.Nullable<int> _MaxPlayerCount;
-		
-		private System.Nullable<System.Guid> _bossaspnet_UserID;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void Onaspnet_UserIDChanging(System.Guid value);
-    partial void Onaspnet_UserIDChanged();
-    partial void OnIsNewSendChanging(System.Nullable<bool> value);
-    partial void OnIsNewSendChanged();
-    partial void OnActiveCodeChanging(string value);
-    partial void OnActiveCodeChanged();
-    partial void OnIsBlockChanging(System.Nullable<bool> value);
-    partial void OnIsBlockChanged();
-    partial void OnIsSendPICChanging(System.Nullable<bool> value);
-    partial void OnIsSendPICChanged();
-    partial void OnIsReceiveOrderChanging(System.Nullable<bool> value);
-    partial void OnIsReceiveOrderChanged();
-    partial void OnMaxPlayerCountChanging(System.Nullable<int> value);
-    partial void OnMaxPlayerCountChanged();
-    partial void Onbossaspnet_UserIDChanging(System.Nullable<System.Guid> value);
-    partial void Onbossaspnet_UserIDChanged();
-    #endregion
-		
-		public aspnet_UsersNewGameResultSend()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid aspnet_UserID
-		{
-			get
-			{
-				return this._aspnet_UserID;
-			}
-			set
-			{
-				if ((this._aspnet_UserID != value))
-				{
-					this.Onaspnet_UserIDChanging(value);
-					this.SendPropertyChanging();
-					this._aspnet_UserID = value;
-					this.SendPropertyChanged("aspnet_UserID");
-					this.Onaspnet_UserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsNewSend", DbType="Bit")]
-		public System.Nullable<bool> IsNewSend
-		{
-			get
-			{
-				return this._IsNewSend;
-			}
-			set
-			{
-				if ((this._IsNewSend != value))
-				{
-					this.OnIsNewSendChanging(value);
-					this.SendPropertyChanging();
-					this._IsNewSend = value;
-					this.SendPropertyChanged("IsNewSend");
-					this.OnIsNewSendChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ActiveCode", DbType="NVarChar(4000)")]
-		public string ActiveCode
-		{
-			get
-			{
-				return this._ActiveCode;
-			}
-			set
-			{
-				if ((this._ActiveCode != value))
-				{
-					this.OnActiveCodeChanging(value);
-					this.SendPropertyChanging();
-					this._ActiveCode = value;
-					this.SendPropertyChanged("ActiveCode");
-					this.OnActiveCodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsBlock", DbType="Bit")]
-		public System.Nullable<bool> IsBlock
-		{
-			get
-			{
-				return this._IsBlock;
-			}
-			set
-			{
-				if ((this._IsBlock != value))
-				{
-					this.OnIsBlockChanging(value);
-					this.SendPropertyChanging();
-					this._IsBlock = value;
-					this.SendPropertyChanged("IsBlock");
-					this.OnIsBlockChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsSendPIC", DbType="Bit")]
-		public System.Nullable<bool> IsSendPIC
-		{
-			get
-			{
-				return this._IsSendPIC;
-			}
-			set
-			{
-				if ((this._IsSendPIC != value))
-				{
-					this.OnIsSendPICChanging(value);
-					this.SendPropertyChanging();
-					this._IsSendPIC = value;
-					this.SendPropertyChanged("IsSendPIC");
-					this.OnIsSendPICChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReceiveOrder", DbType="Bit")]
-		public System.Nullable<bool> IsReceiveOrder
-		{
-			get
-			{
-				return this._IsReceiveOrder;
-			}
-			set
-			{
-				if ((this._IsReceiveOrder != value))
-				{
-					this.OnIsReceiveOrderChanging(value);
-					this.SendPropertyChanging();
-					this._IsReceiveOrder = value;
-					this.SendPropertyChanged("IsReceiveOrder");
-					this.OnIsReceiveOrderChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaxPlayerCount", DbType="Int")]
-		public System.Nullable<int> MaxPlayerCount
-		{
-			get
-			{
-				return this._MaxPlayerCount;
-			}
-			set
-			{
-				if ((this._MaxPlayerCount != value))
-				{
-					this.OnMaxPlayerCountChanging(value);
-					this.SendPropertyChanging();
-					this._MaxPlayerCount = value;
-					this.SendPropertyChanged("MaxPlayerCount");
-					this.OnMaxPlayerCountChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bossaspnet_UserID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> bossaspnet_UserID
-		{
-			get
-			{
-				return this._bossaspnet_UserID;
-			}
-			set
-			{
-				if ((this._bossaspnet_UserID != value))
-				{
-					this.Onbossaspnet_UserIDChanging(value);
-					this.SendPropertyChanging();
-					this._bossaspnet_UserID = value;
-					this.SendPropertyChanged("bossaspnet_UserID");
-					this.Onbossaspnet_UserIDChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserGameLog")]
 	public partial class WX_UserGameLog : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2041,188 +1653,6 @@ namespace WeixinRoboot.Linq
 					this._BounsRatio_Wen23 = value;
 					this.SendPropertyChanged("BounsRatio_Wen23");
 					this.OnBounsRatio_Wen23Changed();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserReply")]
-	public partial class WX_UserReply : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _WX_UserName;
-		
-		private System.Nullable<bool> _IsReply;
-		
-		private System.Guid _aspnet_UserID;
-		
-		private string _NickName;
-		
-		private string _RemarkName;
-		
-		private System.Nullable<bool> _IsReceiveTransfer;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnWX_UserNameChanging(string value);
-    partial void OnWX_UserNameChanged();
-    partial void OnIsReplyChanging(System.Nullable<bool> value);
-    partial void OnIsReplyChanged();
-    partial void Onaspnet_UserIDChanging(System.Guid value);
-    partial void Onaspnet_UserIDChanged();
-    partial void OnNickNameChanging(string value);
-    partial void OnNickNameChanged();
-    partial void OnRemarkNameChanging(string value);
-    partial void OnRemarkNameChanged();
-    partial void OnIsReceiveTransferChanging(System.Nullable<bool> value);
-    partial void OnIsReceiveTransferChanged();
-    #endregion
-		
-		public WX_UserReply()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string WX_UserName
-		{
-			get
-			{
-				return this._WX_UserName;
-			}
-			set
-			{
-				if ((this._WX_UserName != value))
-				{
-					this.OnWX_UserNameChanging(value);
-					this.SendPropertyChanging();
-					this._WX_UserName = value;
-					this.SendPropertyChanged("WX_UserName");
-					this.OnWX_UserNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReply", DbType="Bit")]
-		public System.Nullable<bool> IsReply
-		{
-			get
-			{
-				return this._IsReply;
-			}
-			set
-			{
-				if ((this._IsReply != value))
-				{
-					this.OnIsReplyChanging(value);
-					this.SendPropertyChanging();
-					this._IsReply = value;
-					this.SendPropertyChanged("IsReply");
-					this.OnIsReplyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid aspnet_UserID
-		{
-			get
-			{
-				return this._aspnet_UserID;
-			}
-			set
-			{
-				if ((this._aspnet_UserID != value))
-				{
-					this.Onaspnet_UserIDChanging(value);
-					this.SendPropertyChanging();
-					this._aspnet_UserID = value;
-					this.SendPropertyChanged("aspnet_UserID");
-					this.Onaspnet_UserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NickName", DbType="NVarChar(512)")]
-		public string NickName
-		{
-			get
-			{
-				return this._NickName;
-			}
-			set
-			{
-				if ((this._NickName != value))
-				{
-					this.OnNickNameChanging(value);
-					this.SendPropertyChanging();
-					this._NickName = value;
-					this.SendPropertyChanged("NickName");
-					this.OnNickNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemarkName", DbType="NVarChar(512)")]
-		public string RemarkName
-		{
-			get
-			{
-				return this._RemarkName;
-			}
-			set
-			{
-				if ((this._RemarkName != value))
-				{
-					this.OnRemarkNameChanging(value);
-					this.SendPropertyChanging();
-					this._RemarkName = value;
-					this.SendPropertyChanged("RemarkName");
-					this.OnRemarkNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReceiveTransfer", DbType="Bit")]
-		public System.Nullable<bool> IsReceiveTransfer
-		{
-			get
-			{
-				return this._IsReceiveTransfer;
-			}
-			set
-			{
-				if ((this._IsReceiveTransfer != value))
-				{
-					this.OnIsReceiveTransferChanging(value);
-					this.SendPropertyChanging();
-					this._IsReceiveTransfer = value;
-					this.SendPropertyChanged("IsReceiveTransfer");
-					this.OnIsReceiveTransferChanged();
 				}
 			}
 		}
@@ -3723,6 +3153,840 @@ namespace WeixinRoboot.Linq
 					this._GameResult = value;
 					this.SendPropertyChanged("GameResult");
 					this.OnGameResultChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserReply")]
+	public partial class WX_UserReply : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _WX_UserName;
+		
+		private System.Nullable<bool> _IsReply;
+		
+		private System.Guid _aspnet_UserID;
+		
+		private string _NickName;
+		
+		private string _RemarkName;
+		
+		private System.Nullable<bool> _IsReceiveTransfer;
+		
+		private System.Nullable<bool> _IsCaculateFuli;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnWX_UserNameChanging(string value);
+    partial void OnWX_UserNameChanged();
+    partial void OnIsReplyChanging(System.Nullable<bool> value);
+    partial void OnIsReplyChanged();
+    partial void Onaspnet_UserIDChanging(System.Guid value);
+    partial void Onaspnet_UserIDChanged();
+    partial void OnNickNameChanging(string value);
+    partial void OnNickNameChanged();
+    partial void OnRemarkNameChanging(string value);
+    partial void OnRemarkNameChanged();
+    partial void OnIsReceiveTransferChanging(System.Nullable<bool> value);
+    partial void OnIsReceiveTransferChanged();
+    partial void OnIsCaculateFuliChanging(System.Nullable<bool> value);
+    partial void OnIsCaculateFuliChanged();
+    #endregion
+		
+		public WX_UserReply()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_UserName
+		{
+			get
+			{
+				return this._WX_UserName;
+			}
+			set
+			{
+				if ((this._WX_UserName != value))
+				{
+					this.OnWX_UserNameChanging(value);
+					this.SendPropertyChanging();
+					this._WX_UserName = value;
+					this.SendPropertyChanged("WX_UserName");
+					this.OnWX_UserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReply", DbType="Bit")]
+		public System.Nullable<bool> IsReply
+		{
+			get
+			{
+				return this._IsReply;
+			}
+			set
+			{
+				if ((this._IsReply != value))
+				{
+					this.OnIsReplyChanging(value);
+					this.SendPropertyChanging();
+					this._IsReply = value;
+					this.SendPropertyChanged("IsReply");
+					this.OnIsReplyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid aspnet_UserID
+		{
+			get
+			{
+				return this._aspnet_UserID;
+			}
+			set
+			{
+				if ((this._aspnet_UserID != value))
+				{
+					this.Onaspnet_UserIDChanging(value);
+					this.SendPropertyChanging();
+					this._aspnet_UserID = value;
+					this.SendPropertyChanged("aspnet_UserID");
+					this.Onaspnet_UserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NickName", DbType="NVarChar(512)")]
+		public string NickName
+		{
+			get
+			{
+				return this._NickName;
+			}
+			set
+			{
+				if ((this._NickName != value))
+				{
+					this.OnNickNameChanging(value);
+					this.SendPropertyChanging();
+					this._NickName = value;
+					this.SendPropertyChanged("NickName");
+					this.OnNickNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemarkName", DbType="NVarChar(512)")]
+		public string RemarkName
+		{
+			get
+			{
+				return this._RemarkName;
+			}
+			set
+			{
+				if ((this._RemarkName != value))
+				{
+					this.OnRemarkNameChanging(value);
+					this.SendPropertyChanging();
+					this._RemarkName = value;
+					this.SendPropertyChanged("RemarkName");
+					this.OnRemarkNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReceiveTransfer", DbType="Bit")]
+		public System.Nullable<bool> IsReceiveTransfer
+		{
+			get
+			{
+				return this._IsReceiveTransfer;
+			}
+			set
+			{
+				if ((this._IsReceiveTransfer != value))
+				{
+					this.OnIsReceiveTransferChanging(value);
+					this.SendPropertyChanging();
+					this._IsReceiveTransfer = value;
+					this.SendPropertyChanged("IsReceiveTransfer");
+					this.OnIsReceiveTransferChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCaculateFuli", DbType="Bit")]
+		public System.Nullable<bool> IsCaculateFuli
+		{
+			get
+			{
+				return this._IsCaculateFuli;
+			}
+			set
+			{
+				if ((this._IsCaculateFuli != value))
+				{
+					this.OnIsCaculateFuliChanging(value);
+					this.SendPropertyChanging();
+					this._IsCaculateFuli = value;
+					this.SendPropertyChanged("IsCaculateFuli");
+					this.OnIsCaculateFuliChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.aspnet_UsersNewGameResultSend")]
+	public partial class aspnet_UsersNewGameResultSend : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _aspnet_UserID;
+		
+		private System.Nullable<bool> _IsNewSend;
+		
+		private string _ActiveCode;
+		
+		private System.Nullable<bool> _IsBlock;
+		
+		private System.Nullable<bool> _IsSendPIC;
+		
+		private System.Nullable<bool> _IsReceiveOrder;
+		
+		private System.Nullable<int> _MaxPlayerCount;
+		
+		private System.Nullable<System.Guid> _bossaspnet_UserID;
+		
+		private System.Nullable<int> _SendImageEnd;
+		
+		private System.Nullable<int> _SendImageStart;
+		
+		private System.Nullable<int> _SendImageEnd2;
+		
+		private System.Nullable<int> _SendImageEnd3;
+		
+		private System.Nullable<int> _SendImageEnd4;
+		
+		private System.Nullable<int> _SendImageStart2;
+		
+		private System.Nullable<int> _SendImageStart3;
+		
+		private System.Nullable<int> _SendImageStart4;
+		
+		private string _ImageEndText;
+		
+		private string _ImageTopText;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onaspnet_UserIDChanging(System.Guid value);
+    partial void Onaspnet_UserIDChanged();
+    partial void OnIsNewSendChanging(System.Nullable<bool> value);
+    partial void OnIsNewSendChanged();
+    partial void OnActiveCodeChanging(string value);
+    partial void OnActiveCodeChanged();
+    partial void OnIsBlockChanging(System.Nullable<bool> value);
+    partial void OnIsBlockChanged();
+    partial void OnIsSendPICChanging(System.Nullable<bool> value);
+    partial void OnIsSendPICChanged();
+    partial void OnIsReceiveOrderChanging(System.Nullable<bool> value);
+    partial void OnIsReceiveOrderChanged();
+    partial void OnMaxPlayerCountChanging(System.Nullable<int> value);
+    partial void OnMaxPlayerCountChanged();
+    partial void Onbossaspnet_UserIDChanging(System.Nullable<System.Guid> value);
+    partial void Onbossaspnet_UserIDChanged();
+    partial void OnSendImageEndChanging(System.Nullable<int> value);
+    partial void OnSendImageEndChanged();
+    partial void OnSendImageStartChanging(System.Nullable<int> value);
+    partial void OnSendImageStartChanged();
+    partial void OnSendImageEnd2Changing(System.Nullable<int> value);
+    partial void OnSendImageEnd2Changed();
+    partial void OnSendImageEnd3Changing(System.Nullable<int> value);
+    partial void OnSendImageEnd3Changed();
+    partial void OnSendImageEnd4Changing(System.Nullable<int> value);
+    partial void OnSendImageEnd4Changed();
+    partial void OnSendImageStart2Changing(System.Nullable<int> value);
+    partial void OnSendImageStart2Changed();
+    partial void OnSendImageStart3Changing(System.Nullable<int> value);
+    partial void OnSendImageStart3Changed();
+    partial void OnSendImageStart4Changing(System.Nullable<int> value);
+    partial void OnSendImageStart4Changed();
+    partial void OnImageEndTextChanging(string value);
+    partial void OnImageEndTextChanged();
+    partial void OnImageTopTextChanging(string value);
+    partial void OnImageTopTextChanged();
+    #endregion
+		
+		public aspnet_UsersNewGameResultSend()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid aspnet_UserID
+		{
+			get
+			{
+				return this._aspnet_UserID;
+			}
+			set
+			{
+				if ((this._aspnet_UserID != value))
+				{
+					this.Onaspnet_UserIDChanging(value);
+					this.SendPropertyChanging();
+					this._aspnet_UserID = value;
+					this.SendPropertyChanged("aspnet_UserID");
+					this.Onaspnet_UserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsNewSend", DbType="Bit")]
+		public System.Nullable<bool> IsNewSend
+		{
+			get
+			{
+				return this._IsNewSend;
+			}
+			set
+			{
+				if ((this._IsNewSend != value))
+				{
+					this.OnIsNewSendChanging(value);
+					this.SendPropertyChanging();
+					this._IsNewSend = value;
+					this.SendPropertyChanged("IsNewSend");
+					this.OnIsNewSendChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ActiveCode", DbType="NVarChar(4000)")]
+		public string ActiveCode
+		{
+			get
+			{
+				return this._ActiveCode;
+			}
+			set
+			{
+				if ((this._ActiveCode != value))
+				{
+					this.OnActiveCodeChanging(value);
+					this.SendPropertyChanging();
+					this._ActiveCode = value;
+					this.SendPropertyChanged("ActiveCode");
+					this.OnActiveCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsBlock", DbType="Bit")]
+		public System.Nullable<bool> IsBlock
+		{
+			get
+			{
+				return this._IsBlock;
+			}
+			set
+			{
+				if ((this._IsBlock != value))
+				{
+					this.OnIsBlockChanging(value);
+					this.SendPropertyChanging();
+					this._IsBlock = value;
+					this.SendPropertyChanged("IsBlock");
+					this.OnIsBlockChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsSendPIC", DbType="Bit")]
+		public System.Nullable<bool> IsSendPIC
+		{
+			get
+			{
+				return this._IsSendPIC;
+			}
+			set
+			{
+				if ((this._IsSendPIC != value))
+				{
+					this.OnIsSendPICChanging(value);
+					this.SendPropertyChanging();
+					this._IsSendPIC = value;
+					this.SendPropertyChanged("IsSendPIC");
+					this.OnIsSendPICChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReceiveOrder", DbType="Bit")]
+		public System.Nullable<bool> IsReceiveOrder
+		{
+			get
+			{
+				return this._IsReceiveOrder;
+			}
+			set
+			{
+				if ((this._IsReceiveOrder != value))
+				{
+					this.OnIsReceiveOrderChanging(value);
+					this.SendPropertyChanging();
+					this._IsReceiveOrder = value;
+					this.SendPropertyChanged("IsReceiveOrder");
+					this.OnIsReceiveOrderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaxPlayerCount", DbType="Int")]
+		public System.Nullable<int> MaxPlayerCount
+		{
+			get
+			{
+				return this._MaxPlayerCount;
+			}
+			set
+			{
+				if ((this._MaxPlayerCount != value))
+				{
+					this.OnMaxPlayerCountChanging(value);
+					this.SendPropertyChanging();
+					this._MaxPlayerCount = value;
+					this.SendPropertyChanged("MaxPlayerCount");
+					this.OnMaxPlayerCountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bossaspnet_UserID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> bossaspnet_UserID
+		{
+			get
+			{
+				return this._bossaspnet_UserID;
+			}
+			set
+			{
+				if ((this._bossaspnet_UserID != value))
+				{
+					this.Onbossaspnet_UserIDChanging(value);
+					this.SendPropertyChanging();
+					this._bossaspnet_UserID = value;
+					this.SendPropertyChanged("bossaspnet_UserID");
+					this.Onbossaspnet_UserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendImageEnd", DbType="Int")]
+		public System.Nullable<int> SendImageEnd
+		{
+			get
+			{
+				return this._SendImageEnd;
+			}
+			set
+			{
+				if ((this._SendImageEnd != value))
+				{
+					this.OnSendImageEndChanging(value);
+					this.SendPropertyChanging();
+					this._SendImageEnd = value;
+					this.SendPropertyChanged("SendImageEnd");
+					this.OnSendImageEndChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendImageStart", DbType="Int")]
+		public System.Nullable<int> SendImageStart
+		{
+			get
+			{
+				return this._SendImageStart;
+			}
+			set
+			{
+				if ((this._SendImageStart != value))
+				{
+					this.OnSendImageStartChanging(value);
+					this.SendPropertyChanging();
+					this._SendImageStart = value;
+					this.SendPropertyChanged("SendImageStart");
+					this.OnSendImageStartChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendImageEnd2", DbType="Int")]
+		public System.Nullable<int> SendImageEnd2
+		{
+			get
+			{
+				return this._SendImageEnd2;
+			}
+			set
+			{
+				if ((this._SendImageEnd2 != value))
+				{
+					this.OnSendImageEnd2Changing(value);
+					this.SendPropertyChanging();
+					this._SendImageEnd2 = value;
+					this.SendPropertyChanged("SendImageEnd2");
+					this.OnSendImageEnd2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendImageEnd3", DbType="Int")]
+		public System.Nullable<int> SendImageEnd3
+		{
+			get
+			{
+				return this._SendImageEnd3;
+			}
+			set
+			{
+				if ((this._SendImageEnd3 != value))
+				{
+					this.OnSendImageEnd3Changing(value);
+					this.SendPropertyChanging();
+					this._SendImageEnd3 = value;
+					this.SendPropertyChanged("SendImageEnd3");
+					this.OnSendImageEnd3Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendImageEnd4", DbType="Int")]
+		public System.Nullable<int> SendImageEnd4
+		{
+			get
+			{
+				return this._SendImageEnd4;
+			}
+			set
+			{
+				if ((this._SendImageEnd4 != value))
+				{
+					this.OnSendImageEnd4Changing(value);
+					this.SendPropertyChanging();
+					this._SendImageEnd4 = value;
+					this.SendPropertyChanged("SendImageEnd4");
+					this.OnSendImageEnd4Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendImageStart2", DbType="Int")]
+		public System.Nullable<int> SendImageStart2
+		{
+			get
+			{
+				return this._SendImageStart2;
+			}
+			set
+			{
+				if ((this._SendImageStart2 != value))
+				{
+					this.OnSendImageStart2Changing(value);
+					this.SendPropertyChanging();
+					this._SendImageStart2 = value;
+					this.SendPropertyChanged("SendImageStart2");
+					this.OnSendImageStart2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendImageStart3", DbType="Int")]
+		public System.Nullable<int> SendImageStart3
+		{
+			get
+			{
+				return this._SendImageStart3;
+			}
+			set
+			{
+				if ((this._SendImageStart3 != value))
+				{
+					this.OnSendImageStart3Changing(value);
+					this.SendPropertyChanging();
+					this._SendImageStart3 = value;
+					this.SendPropertyChanged("SendImageStart3");
+					this.OnSendImageStart3Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendImageStart4", DbType="Int")]
+		public System.Nullable<int> SendImageStart4
+		{
+			get
+			{
+				return this._SendImageStart4;
+			}
+			set
+			{
+				if ((this._SendImageStart4 != value))
+				{
+					this.OnSendImageStart4Changing(value);
+					this.SendPropertyChanging();
+					this._SendImageStart4 = value;
+					this.SendPropertyChanged("SendImageStart4");
+					this.OnSendImageStart4Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageEndText", DbType="NVarChar(200)")]
+		public string ImageEndText
+		{
+			get
+			{
+				return this._ImageEndText;
+			}
+			set
+			{
+				if ((this._ImageEndText != value))
+				{
+					this.OnImageEndTextChanging(value);
+					this.SendPropertyChanging();
+					this._ImageEndText = value;
+					this.SendPropertyChanged("ImageEndText");
+					this.OnImageEndTextChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageTopText", DbType="NVarChar(200)")]
+		public string ImageTopText
+		{
+			get
+			{
+				return this._ImageTopText;
+			}
+			set
+			{
+				if ((this._ImageTopText != value))
+				{
+					this.OnImageTopTextChanging(value);
+					this.SendPropertyChanging();
+					this._ImageTopText = value;
+					this.SendPropertyChanged("ImageTopText");
+					this.OnImageTopTextChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Game_ChongqingshishicaiPeriodMinute")]
+	public partial class Game_ChongqingshishicaiPeriodMinute : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _GameType;
+		
+		private string _PeriodIndex;
+		
+		private string _TimeMinute;
+		
+		private string _Private_Period;
+		
+		private System.Nullable<int> _Private_day;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnGameTypeChanging(string value);
+    partial void OnGameTypeChanged();
+    partial void OnPeriodIndexChanging(string value);
+    partial void OnPeriodIndexChanged();
+    partial void OnTimeMinuteChanging(string value);
+    partial void OnTimeMinuteChanged();
+    partial void OnPrivate_PeriodChanging(string value);
+    partial void OnPrivate_PeriodChanged();
+    partial void OnPrivate_dayChanging(System.Nullable<int> value);
+    partial void OnPrivate_dayChanged();
+    #endregion
+		
+		public Game_ChongqingshishicaiPeriodMinute()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameType", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string GameType
+		{
+			get
+			{
+				return this._GameType;
+			}
+			set
+			{
+				if ((this._GameType != value))
+				{
+					this.OnGameTypeChanging(value);
+					this.SendPropertyChanging();
+					this._GameType = value;
+					this.SendPropertyChanged("GameType");
+					this.OnGameTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PeriodIndex", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string PeriodIndex
+		{
+			get
+			{
+				return this._PeriodIndex;
+			}
+			set
+			{
+				if ((this._PeriodIndex != value))
+				{
+					this.OnPeriodIndexChanging(value);
+					this.SendPropertyChanging();
+					this._PeriodIndex = value;
+					this.SendPropertyChanged("PeriodIndex");
+					this.OnPeriodIndexChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TimeMinute", DbType="NVarChar(50)")]
+		public string TimeMinute
+		{
+			get
+			{
+				return this._TimeMinute;
+			}
+			set
+			{
+				if ((this._TimeMinute != value))
+				{
+					this.OnTimeMinuteChanging(value);
+					this.SendPropertyChanging();
+					this._TimeMinute = value;
+					this.SendPropertyChanged("TimeMinute");
+					this.OnTimeMinuteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Private_Period", DbType="NVarChar(50)")]
+		public string Private_Period
+		{
+			get
+			{
+				return this._Private_Period;
+			}
+			set
+			{
+				if ((this._Private_Period != value))
+				{
+					this.OnPrivate_PeriodChanging(value);
+					this.SendPropertyChanging();
+					this._Private_Period = value;
+					this.SendPropertyChanged("Private_Period");
+					this.OnPrivate_PeriodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Private_day", DbType="Int")]
+		public System.Nullable<int> Private_day
+		{
+			get
+			{
+				return this._Private_day;
+			}
+			set
+			{
+				if ((this._Private_day != value))
+				{
+					this.OnPrivate_dayChanging(value);
+					this.SendPropertyChanging();
+					this._Private_day = value;
+					this.SendPropertyChanged("Private_day");
+					this.OnPrivate_dayChanged();
 				}
 			}
 		}

@@ -33,7 +33,11 @@
             this.lbl_msg = new System.Windows.Forms.Label();
             this.btn_resfresh = new System.Windows.Forms.Button();
             this.tm_refresh = new System.Windows.Forms.Timer(this.components);
-            this.TopMenu = new System.Windows.Forms.MenuStrip();
+            this.Botton_Status = new System.Windows.Forms.StatusStrip();
+            this.SI_url = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbl_ShowError = new System.Windows.Forms.ToolStripStatusLabel();
+            this.SI_ShowError = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbl_waring = new System.Windows.Forms.Label();
             this.MI_Yonghu = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_UserSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.新用户ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,14 +51,12 @@
             this.MI_Bouns_Manul = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_Query = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_OpenQuery = new System.Windows.Forms.ToolStripMenuItem();
-            this.Botton_Status = new System.Windows.Forms.StatusStrip();
-            this.SI_url = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lbl_ShowError = new System.Windows.Forms.ToolStripStatusLabel();
-            this.SI_ShowError = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lbl_waring = new System.Windows.Forms.Label();
+            this.TopMenu = new System.Windows.Forms.MenuStrip();
+            this.Btn_Draw = new System.Windows.Forms.Button();
+            this.Btn_StartDownLoad = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
-            this.TopMenu.SuspendLayout();
             this.Botton_Status.SuspendLayout();
+            this.TopMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // PicBarCode
@@ -90,18 +92,48 @@
             this.tm_refresh.Interval = 500;
             this.tm_refresh.Tick += new System.EventHandler(this.tm_refresh_Tick);
             // 
-            // TopMenu
+            // Botton_Status
             // 
-            this.TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MI_Yonghu,
-            this.MI_Ratio,
-            this.MI_GameLog,
-            this.MI_Query});
-            this.TopMenu.Location = new System.Drawing.Point(0, 0);
-            this.TopMenu.Name = "TopMenu";
-            this.TopMenu.Size = new System.Drawing.Size(582, 25);
-            this.TopMenu.TabIndex = 3;
-            this.TopMenu.Text = "menuStrip1";
+            this.Botton_Status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SI_url,
+            this.lbl_ShowError,
+            this.SI_ShowError});
+            this.Botton_Status.Location = new System.Drawing.Point(0, 308);
+            this.Botton_Status.Name = "Botton_Status";
+            this.Botton_Status.Size = new System.Drawing.Size(582, 22);
+            this.Botton_Status.TabIndex = 4;
+            this.Botton_Status.Text = "statusStrip1";
+            // 
+            // SI_url
+            // 
+            this.SI_url.AutoSize = false;
+            this.SI_url.Name = "SI_url";
+            this.SI_url.Size = new System.Drawing.Size(400, 17);
+            this.SI_url.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbl_ShowError
+            // 
+            this.lbl_ShowError.AutoSize = false;
+            this.lbl_ShowError.Name = "lbl_ShowError";
+            this.lbl_ShowError.Size = new System.Drawing.Size(150, 17);
+            // 
+            // SI_ShowError
+            // 
+            this.SI_ShowError.AutoSize = false;
+            this.SI_ShowError.Name = "SI_ShowError";
+            this.SI_ShowError.Size = new System.Drawing.Size(250, 17);
+            this.SI_ShowError.Text = "..";
+            this.SI_ShowError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbl_waring
+            // 
+            this.lbl_waring.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_waring.ForeColor = System.Drawing.Color.Red;
+            this.lbl_waring.Location = new System.Drawing.Point(80, 35);
+            this.lbl_waring.Name = "lbl_waring";
+            this.lbl_waring.Size = new System.Drawing.Size(370, 45);
+            this.lbl_waring.TabIndex = 5;
+            this.lbl_waring.Text = "微信机器人仅用于学习和交流，不得用于非法用途由此产生各种问题，均与作者无关";
             // 
             // MI_Yonghu
             // 
@@ -178,7 +210,7 @@
             // 
             this.MI_GameLogManulDeal.Enabled = false;
             this.MI_GameLogManulDeal.Name = "MI_GameLogManulDeal";
-            this.MI_GameLogManulDeal.Size = new System.Drawing.Size(152, 22);
+            this.MI_GameLogManulDeal.Size = new System.Drawing.Size(124, 22);
             this.MI_GameLogManulDeal.Text = "人工开奖";
             this.MI_GameLogManulDeal.Click += new System.EventHandler(this.MI_GameLogManulDeal_Click);
             // 
@@ -186,7 +218,7 @@
             // 
             this.MI_Bouns_Manul.Enabled = false;
             this.MI_Bouns_Manul.Name = "MI_Bouns_Manul";
-            this.MI_Bouns_Manul.Size = new System.Drawing.Size(152, 22);
+            this.MI_Bouns_Manul.Size = new System.Drawing.Size(124, 22);
             this.MI_Bouns_Manul.Text = "人工福利";
             this.MI_Bouns_Manul.Click += new System.EventHandler(this.MI_Bouns_Manul_Click);
             // 
@@ -205,55 +237,48 @@
             this.MI_OpenQuery.Text = "开奖统计";
             this.MI_OpenQuery.Click += new System.EventHandler(this.MI_OpenQuery_Click);
             // 
-            // Botton_Status
+            // TopMenu
             // 
-            this.Botton_Status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SI_url,
-            this.lbl_ShowError,
-            this.SI_ShowError});
-            this.Botton_Status.Location = new System.Drawing.Point(0, 308);
-            this.Botton_Status.Name = "Botton_Status";
-            this.Botton_Status.Size = new System.Drawing.Size(582, 22);
-            this.Botton_Status.TabIndex = 4;
-            this.Botton_Status.Text = "statusStrip1";
+            this.TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MI_Yonghu,
+            this.MI_Ratio,
+            this.MI_GameLog,
+            this.MI_Query});
+            this.TopMenu.Location = new System.Drawing.Point(0, 0);
+            this.TopMenu.Name = "TopMenu";
+            this.TopMenu.Size = new System.Drawing.Size(582, 25);
+            this.TopMenu.TabIndex = 3;
+            this.TopMenu.Text = "menuStrip1";
             // 
-            // SI_url
+            // Btn_Draw
             // 
-            this.SI_url.AutoSize = false;
-            this.SI_url.Name = "SI_url";
-            this.SI_url.Size = new System.Drawing.Size(400, 17);
-            this.SI_url.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Btn_Draw.Location = new System.Drawing.Point(469, 223);
+            this.Btn_Draw.Name = "Btn_Draw";
+            this.Btn_Draw.Size = new System.Drawing.Size(75, 23);
+            this.Btn_Draw.TabIndex = 6;
+            this.Btn_Draw.Text = "画图";
+            this.Btn_Draw.UseVisualStyleBackColor = true;
+            this.Btn_Draw.Visible = false;
+            this.Btn_Draw.Click += new System.EventHandler(this.BtnDrawGdi_Click);
             // 
-            // lbl_ShowError
+            // Btn_StartDownLoad
             // 
-            this.lbl_ShowError.AutoSize = false;
-            this.lbl_ShowError.Name = "lbl_ShowError";
-            this.lbl_ShowError.Size = new System.Drawing.Size(150, 17);
-            // 
-            // SI_ShowError
-            // 
-            this.SI_ShowError.AutoSize = false;
-            this.SI_ShowError.Name = "SI_ShowError";
-            this.SI_ShowError.Size = new System.Drawing.Size(250, 17);
-            this.SI_ShowError.Text = "..";
-            this.SI_ShowError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lbl_waring
-            // 
-            this.lbl_waring.AutoSize = true;
-            this.lbl_waring.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_waring.ForeColor = System.Drawing.Color.Red;
-            this.lbl_waring.Location = new System.Drawing.Point(89, 44);
-            this.lbl_waring.Name = "lbl_waring";
-            this.lbl_waring.Size = new System.Drawing.Size(360, 16);
-            this.lbl_waring.TabIndex = 5;
-            this.lbl_waring.Text = "微信机器人仅用于学习和交流，不得用于非法用途";
+            this.Btn_StartDownLoad.Location = new System.Drawing.Point(469, 190);
+            this.Btn_StartDownLoad.Name = "Btn_StartDownLoad";
+            this.Btn_StartDownLoad.Size = new System.Drawing.Size(75, 23);
+            this.Btn_StartDownLoad.TabIndex = 7;
+            this.Btn_StartDownLoad.Text = "启动下载开奖";
+            this.Btn_StartDownLoad.UseVisualStyleBackColor = true;
+            this.Btn_StartDownLoad.Visible = false;
+            this.Btn_StartDownLoad.Click += new System.EventHandler(this.Btn_StartDownLoad_Click);
             // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 330);
+            this.Controls.Add(this.Btn_StartDownLoad);
+            this.Controls.Add(this.Btn_Draw);
             this.Controls.Add(this.lbl_waring);
             this.Controls.Add(this.Botton_Status);
             this.Controls.Add(this.btn_resfresh);
@@ -267,10 +292,10 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StartForm_FormClosing);
             this.Load += new System.EventHandler(this.Start_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).EndInit();
-            this.TopMenu.ResumeLayout(false);
-            this.TopMenu.PerformLayout();
             this.Botton_Status.ResumeLayout(false);
             this.Botton_Status.PerformLayout();
+            this.TopMenu.ResumeLayout(false);
+            this.TopMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -282,25 +307,27 @@
         private System.Windows.Forms.Label lbl_msg;
         private System.Windows.Forms.Button btn_resfresh;
         private System.Windows.Forms.Timer tm_refresh;
-        private System.Windows.Forms.MenuStrip TopMenu;
-        private System.Windows.Forms.ToolStripMenuItem MI_Yonghu;
-        private System.Windows.Forms.ToolStripMenuItem MI_UserSetting;
-        private System.Windows.Forms.ToolStripMenuItem MI_MyData;
-        private System.Windows.Forms.ToolStripMenuItem 新用户ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem MI_ModifyUser;
         private System.Windows.Forms.StatusStrip Botton_Status;
         private System.Windows.Forms.ToolStripStatusLabel SI_url;
         private System.Windows.Forms.Label lbl_waring;
         private System.Windows.Forms.ToolStripStatusLabel lbl_ShowError;
         private System.Windows.Forms.ToolStripStatusLabel SI_ShowError;
+        private System.Windows.Forms.ToolStripMenuItem MI_Yonghu;
+        private System.Windows.Forms.ToolStripMenuItem MI_UserSetting;
+        private System.Windows.Forms.ToolStripMenuItem 新用户ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MI_ModifyUser;
+        private System.Windows.Forms.ToolStripMenuItem MI_MyData;
         private System.Windows.Forms.ToolStripMenuItem MI_Ratio;
         private System.Windows.Forms.ToolStripMenuItem MI_Ratio_Setting;
+        private System.Windows.Forms.ToolStripMenuItem MI_Bouns_Setting;
         private System.Windows.Forms.ToolStripMenuItem MI_GameLog;
         private System.Windows.Forms.ToolStripMenuItem MI_GameLogManulDeal;
+        private System.Windows.Forms.ToolStripMenuItem MI_Bouns_Manul;
         private System.Windows.Forms.ToolStripMenuItem MI_Query;
         private System.Windows.Forms.ToolStripMenuItem MI_OpenQuery;
-        private System.Windows.Forms.ToolStripMenuItem MI_Bouns_Setting;
-        private System.Windows.Forms.ToolStripMenuItem MI_Bouns_Manul;
+        private System.Windows.Forms.MenuStrip TopMenu;
+        private System.Windows.Forms.Button Btn_Draw;
+        private System.Windows.Forms.Button Btn_StartDownLoad;
     }
 }
 

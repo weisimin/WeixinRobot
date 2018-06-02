@@ -24,7 +24,7 @@ namespace WeixinRoboot
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             bool SendImage = false;
-            StartF.DownLoad163CaiPiao(ref SendImage, Dtp_DownloadDate.Value, true);
+            StartF.DownLoad163CaiPiao_V163(ref SendImage, Dtp_DownloadDate.Value, true);
 
             SendImage = true;
             #region "有新的就通知,以及处理结果"

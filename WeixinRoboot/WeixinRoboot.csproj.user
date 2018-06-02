@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PublishUrlHistory>ftp://121.54.169.233:9124/|publish\|http://121.54.169.233:9123/publish.html/</PublishUrlHistory>
-    <InstallUrlHistory>http://121.54.169.233:9123/|http://121.54.169.233:9123/publish.html/|http://192.168.1.133:9123/publish.html/</InstallUrlHistory>
+    <PublishUrlHistory>ftp://172.6.8.143:9124/|ftp://121.54.169.233:9124/|publish\|http://121.54.169.233:9123/publish.html/</PublishUrlHistory>
+    <InstallUrlHistory>http://172.6.8.143:9123/|http://121.54.169.233:9123/|http://121.54.169.233:9123/publish.html/|http://192.168.1.133:9123/publish.html/</InstallUrlHistory>
     <SupportUrlHistory />
     <UpdateUrlHistory />
     <BootstrapperUrlHistory />

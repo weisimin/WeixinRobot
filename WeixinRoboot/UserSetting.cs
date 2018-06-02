@@ -58,6 +58,24 @@ namespace WeixinRoboot
                         MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
                         newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
+                        newGameResultSend.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
+                        newGameResultSend.SendImageEnd = Convert.ToInt32(fd_SendTimeEnd1.Text);
+
+
+                        newGameResultSend.SendImageStart2 = Convert.ToInt32(fd_SendTimeStart2.Text);
+                        newGameResultSend.SendImageEnd2 = Convert.ToInt32(fd_SendTimeEnd2.Text);
+
+                        newGameResultSend.SendImageStart3 = Convert.ToInt32(fd_SendTimeStart3.Text);
+                        newGameResultSend.SendImageEnd3 = Convert.ToInt32(fd_SendTimeEnd3.Text);
+
+                        newGameResultSend.SendImageStart4 = Convert.ToInt32(fd_SendTimeStart4.Text);
+                        newGameResultSend.SendImageEnd4 = Convert.ToInt32(fd_SendTimeEnd4.Text);
+
+                        newGameResultSend.ImageTopText = fd_ImageTopText.Text;
+                        newGameResultSend.ImageEndText = fd_ImageEndText.Text; ;
+
+
+
                         db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
                         db.SubmitChanges();
 
@@ -159,6 +177,21 @@ namespace WeixinRoboot
                             MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
                             newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
+                            newGameResultSend.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
+                            newGameResultSend.SendImageEnd = Convert.ToInt32(fd_SendTimeEnd1.Text);
+
+                            newGameResultSend.SendImageStart2 = Convert.ToInt32(fd_SendTimeStart2.Text);
+                            newGameResultSend.SendImageEnd2 = Convert.ToInt32(fd_SendTimeEnd2.Text);
+
+                            newGameResultSend.SendImageStart3 = Convert.ToInt32(fd_SendTimeStart3.Text);
+                            newGameResultSend.SendImageEnd3 = Convert.ToInt32(fd_SendTimeEnd3.Text);
+
+                            newGameResultSend.SendImageStart4 = Convert.ToInt32(fd_SendTimeStart4.Text);
+                            newGameResultSend.SendImageEnd4 = Convert.ToInt32(fd_SendTimeEnd4.Text);
+
+                            newGameResultSend.ImageTopText = fd_ImageTopText.Text;
+                            newGameResultSend.ImageEndText = fd_ImageEndText.Text; ;
+
                             db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
 
 
@@ -179,9 +212,28 @@ namespace WeixinRoboot
                             MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
                             finds.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
+                            finds.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
+                            finds.SendImageEnd = Convert.ToInt32(fd_SendTimeEnd1.Text);
+
+
+                            finds.SendImageStart2 = Convert.ToInt32(fd_SendTimeStart2.Text);
+                            finds.SendImageEnd2 = Convert.ToInt32(fd_SendTimeEnd2.Text);
+
+                            finds.SendImageStart3 = Convert.ToInt32(fd_SendTimeStart3.Text);
+                            finds.SendImageEnd3 = Convert.ToInt32(fd_SendTimeEnd3.Text);
+
+                            finds.SendImageStart4 = Convert.ToInt32(fd_SendTimeStart4.Text);
+                            finds.SendImageEnd4 = Convert.ToInt32(fd_SendTimeEnd4.Text);
+
+                            finds.ImageTopText = fd_ImageTopText.Text;
+                            finds.ImageEndText = fd_ImageEndText.Text; ;
+
 
                         }
-                       
+
+                        fd_SendTimeStart1.Enabled = false;
+                        fd_SendTimeEnd1.Enabled = false;
+
 
 
                         db.SubmitChanges();
@@ -207,7 +259,6 @@ namespace WeixinRoboot
                         usermydata.ChangePassword(NewPassword, fd_password.Text);
                     }
                     System.Web.Security.Membership.UpdateUser(usermydata);
-                    #region 开奖立即发送设置
                     Linq.aspnet_UsersNewGameResultSend findsmydata = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)usermydata.ProviderUserKey);
                     if (findsmydata == null)
                     {
@@ -215,19 +266,69 @@ namespace WeixinRoboot
                         newGameResultSend.aspnet_UserID = (Guid)usermydata.ProviderUserKey;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
                         newGameResultSend.ActiveCode = fd_activecode.Text;
+                        newGameResultSend.IsBlock = Fd_IsBlock.Checked;
+                        newGameResultSend.IsSendPIC = FD_SendPIC.Checked;
+                        newGameResultSend.IsReceiveOrder = FD_ReceiveOrder.Checked;
+                        newGameResultSend.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
+                        MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
+                        newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
+
+                        newGameResultSend.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
+                        newGameResultSend.SendImageEnd = Convert.ToInt32(fd_SendTimeEnd1.Text);
+
+
+
+                        newGameResultSend.SendImageStart2 = Convert.ToInt32(fd_SendTimeStart2.Text);
+                        newGameResultSend.SendImageEnd2 = Convert.ToInt32(fd_SendTimeEnd2.Text);
+
+                        newGameResultSend.SendImageStart3 = Convert.ToInt32(fd_SendTimeStart3.Text);
+                        newGameResultSend.SendImageEnd3 = Convert.ToInt32(fd_SendTimeEnd3.Text);
+
+                        newGameResultSend.SendImageStart4 = Convert.ToInt32(fd_SendTimeStart4.Text);
+                        newGameResultSend.SendImageEnd4 = Convert.ToInt32(fd_SendTimeEnd4.Text);
+
+                        newGameResultSend.ImageTopText = fd_ImageTopText.Text;
+                        newGameResultSend.ImageEndText = fd_ImageEndText.Text; ;
+
                         db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
+
+
                     }
                     else
                     {
                         findsmydata.IsNewSend = fd_NewGameSend.Checked;
+                        findsmydata.IsBlock = fd_IsLock.Checked;
+                        findsmydata.IsSendPIC = FD_SendPIC.Checked;
+                        findsmydata.IsReceiveOrder = FD_ReceiveOrder.Checked;
+                        findsmydata.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
+                        findsmydata.ActiveCode = fd_activecode.Text;
+
+                        findsmydata.IsBlock = Fd_IsBlock.Checked;
+                        findsmydata.IsSendPIC = FD_SendPIC.Checked;
+                        findsmydata.IsReceiveOrder = FD_ReceiveOrder.Checked;
+                        findsmydata.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
+                        MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
+                        findsmydata.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
+
+                        findsmydata.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
+                        findsmydata.SendImageEnd = Convert.ToInt32(fd_SendTimeEnd1.Text);
+
+                        findsmydata.SendImageStart2 = Convert.ToInt32(fd_SendTimeStart2.Text);
+                        findsmydata.SendImageEnd2 = Convert.ToInt32(fd_SendTimeEnd2.Text);
+
+                        findsmydata.SendImageStart3 = Convert.ToInt32(fd_SendTimeStart3.Text);
+                        findsmydata.SendImageEnd3 = Convert.ToInt32(fd_SendTimeEnd3.Text);
+
+                        findsmydata.SendImageStart4 = Convert.ToInt32(fd_SendTimeStart4.Text);
+                        findsmydata.SendImageEnd4 = Convert.ToInt32(fd_SendTimeEnd4.Text);
+
+
+                        findsmydata.ImageTopText = fd_ImageTopText.Text;
+                        findsmydata.ImageEndText = fd_ImageEndText.Text; ;
+
                     }
 
 
-
-
-                    db.SubmitChanges();
-
-                    #endregion
 
 
                     break;
@@ -238,6 +339,11 @@ namespace WeixinRoboot
             fd_password.Enabled = false;
             fd_IsLock.Checked = false;
             fd_IsLock.Enabled = false;
+            db.SubmitChanges();
+            fd_ImageEndText.Enabled = false;
+            fd_ImageTopText.Enabled = false;
+
+            MessageBox.Show("保存成功");
         }//函数结束
 
         private string _Mode = "";
@@ -293,6 +399,9 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
+            fd_SendTimeEnd1.Enabled = true;
+            fd_SendTimeStart1.Enabled = true;
+
             try
             {
                 MembershipUser usr = Membership.GetUser(fd_username.Text);
@@ -307,6 +416,9 @@ namespace WeixinRoboot
                     btn_Save.Enabled = true;
                     Btn_Build.Enabled = true;
 
+                    fd_ImageEndText.Enabled = true;
+                    fd_ImageTopText.Enabled = true;
+
                     Linq.aspnet_UsersNewGameResultSend newgs = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)usr.ProviderUserKey);
                     if (newgs == null)
                     {
@@ -317,7 +429,8 @@ namespace WeixinRoboot
                         FD_ReceiveOrder.Checked = false;
                         fd_MaxPlayerCount.Text = "50";
 
-
+                        fd_SendTimeStart1.Text = "0";
+                        fd_SendTimeEnd1.Text = "24";
 
                     }
                     else
@@ -336,7 +449,21 @@ namespace WeixinRoboot
                         System.Web.Security.MembershipUser boss = System.Web.Security.Membership.GetUser(newgs.bossaspnet_UserID == null ? Guid.Empty : newgs.bossaspnet_UserID);
                         fd_BossUserName.Text = (boss == null ? "" : boss.UserName);
 
+                        fd_SendTimeStart1.Text = Object2Str(newgs.SendImageStart,"0");
+                        fd_SendTimeEnd1.Text = Object2Str(newgs.SendImageEnd,"24");
 
+                        fd_SendTimeStart2.Text = Object2Str(newgs.SendImageStart2, "0");
+                        fd_SendTimeEnd2.Text = Object2Str(newgs.SendImageEnd2, "24");
+
+                        fd_SendTimeStart3.Text = Object2Str(newgs.SendImageStart3, "0");
+                        fd_SendTimeEnd3.Text = Object2Str(newgs.SendImageEnd3, "24");
+
+                        fd_SendTimeStart4.Text = Object2Str(newgs.SendImageStart4, "0");
+                        fd_SendTimeEnd4.Text = Object2Str(newgs.SendImageEnd4, "24");
+
+
+                        fd_ImageTopText.Text = Object2Str(newgs.ImageTopText);
+                        fd_ImageEndText.Text = Object2Str(newgs.ImageEndText);
                     }
 
                 }
@@ -385,5 +512,10 @@ namespace WeixinRoboot
             fd_activecode.Text = NetFramework.Util_MD5.BuidMD5ActiveCode(fd_EndDate.Value, (Guid)Membership.GetUser(fd_username.Text).ProviderUserKey);
         }
 
+        private string Object2Str(object param,string NullValue="")
+        {
+
+            return param == null ? NullValue : param.ToString();
+        }
     }
 }

@@ -29,7 +29,8 @@ namespace TaoHua_Insertor
             while (ReadCount < 120 && sr.EndOfStream == false)
             {
                 string NewLine = sr.ReadLine();
-                Console.Write(NewLine);
+                Console.Write( NewLine);
+                textBox1.Text += NewLine;
                 string[] datas = NewLine.Split("\t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 TaoHua_GameResult findr = db.TaoHua_GameResult.SingleOrDefault(t => t.GamePeriod == datas[0] & t.GameResult == datas[1]);
                 if (findr == null)
@@ -58,11 +59,15 @@ namespace TaoHua_Insertor
         {
             try
             {
+                textBox1.Text = "";
                 Insert_Taohua();
+                textBox1.Text += "Complete";
                 Console.Write("Complete");
             }
             catch (Exception AnyError)
             {
+                textBox1.Text += AnyError.Message;
+                textBox1.Text += AnyError.StackTrace;
                 Console.Write(AnyError.Message);
                 Console.Write(AnyError.StackTrace);
             }

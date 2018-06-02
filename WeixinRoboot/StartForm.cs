@@ -49,7 +49,7 @@ namespace WeixinRoboot
             UUID = UUID.Substring(0, UUID.Length - 2);
             _uuid = UUID;
             //登陆https://login.weixin.qq.com/qrcode/XXXXXX
-            this.Invoke(new Action(() => { PicBarCode.ImageLocation = "https://login.weixin.qq.com/qrcode/" + UUID + "?t=" + new Random().Next().ToString(); }));
+            this.Invoke(new Action(() => { PicBarCode.ImageLocation = "https://login.weixin.qq.com/qrcode/" + UUID + "?t=" + JavaTimeSpan(); }));
 
         }
 
@@ -82,13 +82,53 @@ namespace WeixinRoboot
         public JObject InitResponse = null;
         public XmlDocument newridata = new XmlDocument();
         public string ScanResult = "";
-        public string AsyncKey = "";
+        public string AsyncKey
+        {
+            get
+            {
+                string Result = "";
+                if (synckeys == null)
+                {
+                    return "";
+                }
+                foreach (var keeyitem in synckeys["List"] as JArray)
+                {
+                    if (keeyitem["Key"].ToString().StartsWith("11") == false)
+                    {
+                        Result += keeyitem["Key"] + "_" + keeyitem["Val"] + "|";
+                    }
+
+                }
+                if (Result != "")
+                {
+                    Result = Result.Substring(0, Result.Length - 1);
+                }
+                return Result;
+
+            }
+        }
 
         string Uin = "";
         string Sid = "";
         string Skey = "";
-        string DeviceID = "";
+        string DeviceID
+        {
+            get
+            {
+                string ResultID = "";
+                for (int i = 0; i < 4; i++)
+                {
+                    ResultID += GlobalParam.Key.ToByteArray()[i].ToString("0000");
+                }
+                return ResultID;
+
+            }
+        }
         string pass_ticket = "";
+
+
+        string webhost = "";
+
         public JObject j_BaseRequest = null;
         JObject synckeys = null;
 
@@ -189,7 +229,7 @@ namespace WeixinRoboot
 
                     //这个是很重要的一步，我在这个步骤折腾了很久。。。
 
-                    //要使用POST方法，访问地址：https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxinit?r=时间戳&lang=ch_ZN&pass_ticket=XXXXXX
+                    //要使用POST方法，访问地址：https://"+webhost+"/cgi-bin/mmwebwx-bin/webwxinit?r=时间戳&lang=ch_ZN&pass_ticket=XXXXXX
 
                     //其中，时间戳不用解释，pass_ticket是我们在上面获取的一长串字符。
 
@@ -198,7 +238,7 @@ namespace WeixinRoboot
                     //uin、sid、skey分别对应上面步骤4获取的字符串，DeviceID是e后面跟着一个15字节的随机数。
 
                     //程序里面要注意使用UTF8编码方式。
-                    JObject Members = WXInit();
+                    JObject Members = WXInit(Result);
 
                     RunnerF.Invoke(new Action(() => { RunnerF.Members = Members; }));
 
@@ -243,8 +283,8 @@ namespace WeixinRoboot
                     queryRoomMember.Add("List", jaroom);
                     queryRoomMember.Add("Count", Groupcount);
 
-                    string str_membroom = NetFramework.Util_WEB.OpenUrl("https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxbatchgetcontact?type=ex&r=" + JavaTimeSpan()
-                  , "https://wx2.qq.com/", queryRoomMember.ToString(), "POST", cookie, Encoding.UTF8);
+                    string str_membroom = NetFramework.Util_WEB.OpenUrl("https://" + webhost + "/cgi-bin/mmwebwx-bin/webwxbatchgetcontact?type=ex&r=" + JavaTimeSpan()
+                  , "https://" + webhost + "/", queryRoomMember.ToString(), "POST", cookie, Encoding.UTF8);
 
                     JObject RoomMembers = JObject.Parse(str_membroom);
 
@@ -276,7 +316,7 @@ namespace WeixinRoboot
                     State.Add("ClientMsgId", JavaTimeSpan());
 
                     string str_state = NetFramework.Util_WEB.OpenUrl("https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxstatusnotify"
-                   , "https://wx2.qq.com/", j_BaseRequest.ToString(), "POST", cookie);
+                   , "https://" + webhost + "/", j_BaseRequest.ToString(), "POST", cookie);
 
                     Thread DownLoad163 = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo));
                     DownLoad163.Start(Download163ThreadID);
@@ -314,7 +354,7 @@ namespace WeixinRoboot
 
 
         }
-
+        Int32 keeperrorcount = 0;
         private void KeepAlieveDo()
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
@@ -324,10 +364,17 @@ namespace WeixinRoboot
             try
             {
                 #region "微信监听"
+
+                if (keeperrorcount >= 7)
+                {
+                    MessageBox.Show("微信已断线");
+                }
+
+
                 this.Invoke(new Action(() => { lbl_msg.Text = "机器人监听中"; }));
 
 
-                //使用get方法，设置超时为60秒，访问：https://webpush.wx2.qq.com/cgi-bin/mmwebwx-bin/synccheck?sid=XXXXXX&uin=XXXXXX&synckey=XXXXXX&r=时间戳&skey=XXXXXX&deviceid=XXXXXX&_=时间戳
+                //使用get方法，设置超时为60秒，访问：https://webpush."+webhost+"/cgi-bin/mmwebwx-bin/synccheck?sid=XXXXXX&uin=XXXXXX&synckey=XXXXXX&r=时间戳&skey=XXXXXX&deviceid=XXXXXX&_=时间戳
 
                 //其他几个参数不用解释，这里的synckey需要说一下，前面的步骤获取的json串中有多个key信息，需要把这些信息拼起来，key_val，中间用|分割，类似这样：
 
@@ -336,25 +383,91 @@ namespace WeixinRoboot
                 //服务器返回：window.synccheck={retcode:”0”,selector:”0”}
 
                 //retcode为0表示成功，selector为2和6表示有新信息。4表示公众号新信息。
-                string CheckUrl3 = "https://webpush.wx2.qq.com/cgi-bin/mmwebwx-bin/synccheck?sid=" + Sid + "&uin=" + Uin + "&synckey=" + System.Web.HttpUtility.UrlEncode(AsyncKey) + "&r=" + JavaTimeSpan() + "&skey=" + Skey + "&deviceid=" + DeviceID + "&_=" + JavaTimeSpan();
+                string CheckUrl3 = "https://webpush." + webhost + "/cgi-bin/mmwebwx-bin/synccheck?sid=" + Sid + "&uin=" + Uin + "&synckey=" + System.Web.HttpUtility.UrlEncode(AsyncKey) + "&r=" + JavaTimeSpan() + "&skey=" + Skey + "&deviceid=" + DeviceID + "&_=" + JavaTimeSpan();
                 string Result3 = NetFramework.Util_WEB.OpenUrl(CheckUrl3
-                  , "https://wx2.qq.com/", "", "GET", cookie, false);
+                  , "https://" + webhost + "/", "", "GET", cookie, false);
                 Result3 = Result3.Substring(Result3.IndexOf("=") + 1);
                 JObject Check = JObject.Parse(Result3);
 
 
-                Console.WriteLine(DateTime.Now.ToString());
-                Console.WriteLine(Result3);
-                if (Check["retcode"].ToString() != "0")
+                Console.WriteLine(GlobalParam.UserName + DateTime.Now.ToString());
+                Console.WriteLine(GlobalParam.UserName + Result3);
+                if (Check["retcode"].ToString() == "1100")
                 {
+                    keeperrorcount += 1;
+                    string CheckUrl3init = "https://" + webhost + "/cgi-bin/mmwebwx-bin/webwxinit?r=" + JavaTimeSpan() + "&pass_ticket=" + pass_ticket;
 
+                    j_BaseRequest = new JObject();
+                    j_BaseRequest.Add("BaseRequest", "");
+
+                    JObject bcc = new JObject();
+                    bcc.Add("Uin", Uin);
+                    bcc.Add("Sid", Sid);
+                    bcc.Add("Skey", Skey);
+                    // DeviceID = "e" + ( Convert.ToInt64( JavaTimeSpan()) .ToString("000000000000000"));
+                    bcc.Add("DeviceID", DeviceID);
+
+                    j_BaseRequest["BaseRequest"] = bcc;
+                    //Cookie guid = new Cookie("__guid", "16776304.2514178305917694000.1522594008310.6897", "/");
+                    //guid.Domain = cookie[0].Domain;
+                    //cookie.Add(guid);
+
+
+
+                    //Cookie freq = new Cookie("MM_WX_NOTIFY_STATE", "1");
+                    //Cookie last_wxuin = new Cookie("MM_WX_SOUND_STATE", "1");
+
+                    //freq.Domain = cookie[0].Domain;
+                    //cookie.Add(freq);
+                    //last_wxuin.Domain = cookie[0].Domain;
+                    //cookie.Add(last_wxuin);
+
+
+                    string Result3_init = NetFramework.Util_WEB.OpenUrl(CheckUrl3init
+                   , "https://" + webhost + "/", j_BaseRequest.ToString().Replace(Environment.NewLine, "").Replace(" ", ""), "POST", cookie, false);
+
+
+                    InitResponse = JObject.Parse(Result3_init);
+
+                    synckeys = (InitResponse["SyncKey"] as JObject);
+
+
+
+                    MyUserName = InitResponse["User"]["UserName"].ToString();
+
+
+
+                    JObject Members = RepeatGetMembers(Skey, pass_ticket); ;
+
+                    string CheckUrl3_r = "https://webpush." + webhost + "/cgi-bin/mmwebwx-bin/synccheck?sid=" + Sid + "&uin=" + Uin + "&synckey=" + System.Web.HttpUtility.UrlEncode(AsyncKey) + "&r=" + JavaTimeSpan() + "&skey=" + Skey + "&deviceid=" + DeviceID + "&_=" + JavaTimeSpan();
+                    Result3 = NetFramework.Util_WEB.OpenUrl(CheckUrl3_r
+                     , "https://" + webhost + "/", "", "GET", cookie, false);
+                    Result3 = Result3.Substring(Result3.IndexOf("=") + 1);
+                    Console.Write(Result3);
+
+                    WXInit();
+
+
+                }
+                else if (Check["retcode"].ToString() != "0")
+                {
+                    keeperrorcount += 1;
+                    WXInit();
+                }
+
+                if (Check["selector"].ToString() == "7")
+                {
+                    keeperrorcount += 1;
                     //MessageBox.Show("微信已在别的地方登录");
                     //ReloadWX = true;
                     //return;
-                    WXInit();
-
-                    return;
+                    string CheckUrl3_r = "https://webpush." + webhost + "/cgi-bin/mmwebwx-bin/synccheck?sid=" + Sid + "&uin=" + Uin + "&synckey=" + System.Web.HttpUtility.UrlEncode(AsyncKey) + "&r=" + JavaTimeSpan() + "&skey=" + Skey + "&deviceid=" + DeviceID + "&_=" + JavaTimeSpan();
+                    Result3 = NetFramework.Util_WEB.OpenUrl(CheckUrl3_r
+                     , "https://" + webhost + "/", "", "GET", cookie, false);
+                    Result3 = Result3.Substring(Result3.IndexOf("=") + 1);
+                    Console.Write(Result3);
                 }
+                ////////////////////////////////////////////////
 
                 if ((Result3.Contains("selector:\"0\"")) == false)
                 {
@@ -364,29 +477,33 @@ namespace WeixinRoboot
 
                     // 9、读取新信息
 
-                    //检测到有信息以后，用POST方法，访问：https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxsync?sid=XXXXXX&skey=XXXXXX
+                    //检测到有信息以后，用POST方法，访问：https://"+webhost+"/cgi-bin/mmwebwx-bin/webwxsync?sid=XXXXXX&skey=XXXXXX
 
                     //POST的内容：
 
                     //{"BaseRequest" : {"DeviceID":"XXXXXX,"Sid":"XXXXXX", "Skey":"XXXXXX", "Uin":"XXXXXX"},"SyncKey" : {"Count":4,"List":[{"Key":1,"Val":652653204},{"Key":2,"Val":652653674},{"Key":3,"Val":652653544},{"Key":1000,"Val":0}]},"rr" :时间戳}
 
                     //注意这里的SyncKey格式，参考前面的说明。
-                    string CheckUrl4 = "https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxsync?sid=" + Sid + "&skey=" + Skey;
+                    string CheckUrl4 = "https://" + webhost + "/cgi-bin/mmwebwx-bin/webwxsync?sid=" + Sid + "&skey=" + Skey;
                     JObject body4 = new JObject();
                     body4.Add("BaseRequest", j_BaseRequest["BaseRequest"]);
                     body4.Add("SyncKey", synckeys);
                     body4.Add("rr", JavaTimeSpan());
                     string Result4 = NetFramework.Util_WEB.OpenUrl(CheckUrl4
-                      , "https://wx2.qq.com/", body4.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.UTF8, false);
+                      , "https://" + webhost + "/", body4.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.UTF8, false);
 
                     JObject Newmsg = JObject.Parse(Result4);
 
 
                     string AddMsgCount = Newmsg["AddMsgCount"].ToString();
+                    synckeys = (Newmsg["SyncKey"] as JObject);
+
                     if (AddMsgCount != "0")
                     {
+
                         foreach (var AddMsgList in (Newmsg["AddMsgList"] as JArray))
                         {
+
 
                             Linq.aspnet_UsersNewGameResultSend mysetting = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
 
@@ -465,7 +582,7 @@ namespace WeixinRoboot
                                     {
                                         decimal? TotalPoint = Linq.DataLogic.WXUserChangeLog_GetRemainder(tocontacts[0].Field<string>("User_ContactID"));
                                         SendWXContent(MyOutResult, tocontacts[0].Field<string>("User_ContactTEMPID"));
-                                        string OrderManul = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, tocontacts[0], "人工");
+                                        string OrderManul = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, tocontacts[0], "人工", true);
                                         SendWXContent(OrderManul, tocontacts[0].Field<string>("User_ContactTEMPID"));
 
                                     }
@@ -534,7 +651,7 @@ namespace WeixinRoboot
                                     String OutMessage = "";
                                     try
                                     {
-                                        OutMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, userr, "微信");
+                                        OutMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, userr, "微信", false);
                                     }
                                     catch (Exception mysenderror)
                                     {
@@ -554,19 +671,13 @@ namespace WeixinRoboot
                         }//JSON消息循环
                     }//新消息数目不为0
 
-                    synckeys = (Newmsg["SyncKey"] as JObject);
-                    AsyncKey = "";
-                    foreach (var keeyitem in synckeys["List"])
-                    {
-                        AsyncKey += keeyitem["Key"] + "_" + keeyitem["Val"] + "|";
-                    }
-                    AsyncKey = AsyncKey.Substring(0, AsyncKey.Length - 1);
+
                 }//有新消息
 
 
                 //                10、发送信息
 
-                //这个比较简单，用POST方法，访问：https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxsendmsg
+                //这个比较简单，用POST方法，访问：https://"+webhost+"/cgi-bin/mmwebwx-bin/webwxsendmsg
 
                 //POST的还是json格式，类似这样：
 
@@ -583,7 +694,7 @@ namespace WeixinRoboot
 
             }
 
-            Thread.Sleep(5000);
+            Thread.Sleep(3000);
 
 
 
@@ -599,17 +710,17 @@ namespace WeixinRoboot
 
         public string SendWXContent(string Content, string TempToUserID)
         {
-            Thread.Sleep(100);
+            Thread.Sleep(200);
             //10、发送信息
 
-            //这个比较简单，用POST方法，访问：https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxsendmsg
+            //这个比较简单，用POST方法，访问：https://"+webhost+"/cgi-bin/mmwebwx-bin/webwxsendmsg
 
             //POST的还是json格式，类似这样：
 
             //{"Msg":{"Type":1,"Content":"测试信息","FromUserName":"XXXXXX","ToUserName":"XXXXXX","LocalID":"时间戳","ClientMsgId":"时间戳"},"BaseRequest":{"Uin":"XXXXXX","Sid":"XXXXXX","Skey":"XXXXXX","DeviceID":"XXXXXX"}}
             //?sid=QfLp+Z+FePzvOFoG&r=1377482079876
             //这里的Content是信息内容，LocalID和ClientMsgId都用当前时间戳。
-            string CheckUrl4 = "https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxsendmsg?sid=" + Sid + "&r_=" + JavaTimeSpan();
+            string CheckUrl4 = "https://" + webhost + "/cgi-bin/mmwebwx-bin/webwxsendmsg?sid=" + Sid + "&r_=" + JavaTimeSpan();
             JObject body4 = new JObject();
             body4.Add("BaseRequest", j_BaseRequest["BaseRequest"]);
             JObject Msg = new JObject();
@@ -624,15 +735,16 @@ namespace WeixinRoboot
             body4.Add("Msg", Msg);
 
             string Result4 = NetFramework.Util_WEB.OpenUrl(CheckUrl4
-                     , "https://wx2.qq.com/", body4.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.GetEncoding("UTF-8"), true);
+                     , "https://" + webhost + "/", body4.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.GetEncoding("UTF-8"), true);
 
             return Result4;
 
         }
         public string SendWXImage(string ImageFile, string TEMPUserName)
         {
-            Thread.Sleep(100);
-            string UpLoadResult2 = NetFramework.Util_WEB.UploadWXImage(ImageFile, MyUserName, TEMPUserName, JavaTimeSpan(), cookie, j_BaseRequest);
+
+            Thread.Sleep(500);
+            string UpLoadResult2 = NetFramework.Util_WEB.UploadWXImage(ImageFile, MyUserName, TEMPUserName, JavaTimeSpan(), cookie, j_BaseRequest, webhost);
             //{
             //"BaseResponse": {
             //"Ret": 0,
@@ -648,7 +760,7 @@ namespace WeixinRoboot
             JObject returnupload2 = JObject.Parse(UpLoadResult2);
             string MediaID2 = returnupload2["MediaId"].ToString();
             //POST /cgi-bin/mmwebwx-bin/webwxsendmsgimg?fun=async&f=json HTTP/1.1
-            //Host: wx2.qq.com
+            //Host: "+webhost+"
             //{
             //"BaseRequest": {
             //    "Uin": 2402981522,
@@ -667,7 +779,7 @@ namespace WeixinRoboot
             //},
             //"Scene": 0
             //}
-            string CheckUrl2 = "https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxsendmsgimg?fun=async&f=json";
+            string CheckUrl2 = "https://" + webhost + "/cgi-bin/mmwebwx-bin/webwxsendmsgimg?fun=async&f=json";
             JObject body2 = new JObject();
             body2.Add("BaseRequest", j_BaseRequest["BaseRequest"]);
             JObject Msg2 = new JObject();
@@ -686,7 +798,7 @@ namespace WeixinRoboot
             body2.Add("Scene", 0);
 
             string Result2 = NetFramework.Util_WEB.OpenUrl(CheckUrl2
-              , "https://wx2.qq.com/", body2.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.UTF8, false);
+              , "https://" + webhost + "/", body2.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.UTF8, false);
 
             return Result2;
 
@@ -746,7 +858,7 @@ namespace WeixinRoboot
             }
 
         }
-        public string NewWXContent(DateTime ReceiveTime, string ReceiveContent, DataRow userr, string SourceType)
+        public string NewWXContent(DateTime ReceiveTime, string ReceiveContent, DataRow userr, string SourceType, bool adminmode = false)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -770,7 +882,7 @@ namespace WeixinRoboot
                 db.SubmitChanges();
 
 
-                string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, RunnerF.MemberSource);
+                string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, RunnerF.MemberSource, adminmode);
 
                 newlogr.ReplyContent = ReturnSend;
                 newlogr.ReplyTime = DateTime.Now;
@@ -796,96 +908,113 @@ namespace WeixinRoboot
         }//新消息
 
         Int32 MaxInitCount = 0;
-        private JObject WXInit()
+        private JObject WXInit(string PreResult = "")
         {
-            MaxInitCount += 1;
-            if (MaxInitCount > 5)
-            {
-                MessageBox.Show("无法加载微信联系人");
-                Environment.Exit(0);
-            }
-            cookie = new CookieCollection();
-
-            string Result = NetFramework.Util_WEB.OpenUrl("https://login.weixin.qq.com/cgi-bin/mmwebwx-bin/login?uuid=" + _uuid + "&tip=" + _tip.ToString() + "&_=" + JavaTimeSpan()
-                  , "", "", "GET", cookie);
-            string Redirect = Result.Substring(Result.IndexOf("redirect_uri"));
-            Redirect = Redirect.Substring(Redirect.IndexOf("\"") + 1);
-            Redirect = Redirect.Substring(0, Redirect.Length - 2);
-            string CheckUrl2 = Redirect;
-
-            string Result2 = NetFramework.Util_WEB.OpenUrl(CheckUrl2 + "&fun=new&version=v2"
-           , "", "", "GET", cookie, false);
-
-
-            newridata.LoadXml(Result2);
-
-            if (newridata.SelectSingleNode("error/message") != null)
+        retry:
+            try
             {
 
-                if (newridata.SelectSingleNode("error/message").InnerText != "")
+                string Result = "";
+
+                MaxInitCount += 1; if (PreResult == "")
                 {
-                    MessageBox.Show(newridata.SelectSingleNode("error/message").InnerText);
-                    Environment.Exit(0);
+                    if (MaxInitCount > 5)
+                    {
+                        MessageBox.Show("无法加载微信联系人");
+                        Environment.Exit(0);
+                    }
+                    cookie = new CookieCollection();
+
+                    Result = NetFramework.Util_WEB.OpenUrl("https://login.weixin.qq.com/cgi-bin/mmwebwx-bin/login?loginicon=true&uuid=" + _uuid + "&tip=" + _tip.ToString() + "&_=" + JavaTimeSpan()
+                         , "", "", "GET", cookie);
                 }
+                else
+                {
+                    Result = PreResult;
+                }
+
+
+                Console.Write(Result);
+                string Redirect = Result.Substring(Result.IndexOf("redirect_uri"));
+                Redirect = Redirect.Substring(Redirect.IndexOf("\"") + 1);
+                Redirect = Redirect.Substring(0, Redirect.Length - 2);
+                string CheckUrl2 = Redirect;
+
+                string Result2 = NetFramework.Util_WEB.OpenUrl(CheckUrl2 + "&fun=new&version=v2"
+               , "", "", "GET", cookie, false);
+                webhost = CheckUrl2.Substring(CheckUrl2.IndexOf("//") + 2);
+                webhost = webhost.Substring(0, webhost.IndexOf("/"));
+
+                newridata.LoadXml(Result2);
+
+                if (newridata.SelectSingleNode("error/message") != null)
+                {
+
+                    if (newridata.SelectSingleNode("error/message").InnerText != "")
+                    {
+                        MessageBox.Show(newridata.SelectSingleNode("error/message").InnerText);
+                        Environment.Exit(0);
+                    }
+                }
+
+                pass_ticket = newridata.SelectSingleNode("error/pass_ticket").InnerText;
+                Uin = newridata.SelectSingleNode("error/wxuin").InnerText;
+                Sid = newridata.SelectSingleNode("error/wxsid").InnerText;
+                Skey = newridata.SelectSingleNode("error/skey").InnerText;
+                this.Invoke(new Action(() => { lbl_msg.Text = "初始化"; }));
+                string CheckUrl3 = "https://" + webhost + "/cgi-bin/mmwebwx-bin/webwxinit?r=" + JavaTimeSpan() + "&pass_ticket=" + pass_ticket;
+
+                j_BaseRequest = new JObject();
+                j_BaseRequest.Add("BaseRequest", "");
+
+                JObject bcc = new JObject();
+                bcc.Add("Uin", Uin);
+                bcc.Add("Sid", Sid);
+                bcc.Add("Skey", Skey);
+                // DeviceID = "e" + ( Convert.ToInt64( JavaTimeSpan()) .ToString("000000000000000"));
+                bcc.Add("DeviceID", DeviceID);
+
+                j_BaseRequest["BaseRequest"] = bcc;
+                //Cookie guid = new Cookie("__guid", "16776304.2514178305917694000.1522594008310.6897", "/");
+                //guid.Domain = cookie[0].Domain;
+                //cookie.Add(guid);
+
+
+
+                //Cookie freq = new Cookie("MM_WX_NOTIFY_STATE", "1");
+                //Cookie last_wxuin = new Cookie("MM_WX_SOUND_STATE", "1");
+
+                //freq.Domain = cookie[0].Domain;
+                //cookie.Add(freq);
+                //last_wxuin.Domain = cookie[0].Domain;
+                //cookie.Add(last_wxuin);
+
+
+                string Result3 = NetFramework.Util_WEB.OpenUrl(CheckUrl3
+               , "https://" + webhost + "/", j_BaseRequest.ToString().Replace(Environment.NewLine, "").Replace(" ", ""), "POST", cookie, false);
+
+
+                InitResponse = JObject.Parse(Result3);
+
+                synckeys = (InitResponse["SyncKey"] as JObject);
+
+
+
+                MyUserName = InitResponse["User"]["UserName"].ToString();
+
+
+
+                JObject Members = RepeatGetMembers(Skey, pass_ticket); ;
+                //Thread KeepUpdateContactThread = new Thread(new ParameterizedThreadStart(KeepUpdateContactThreadDo));
+                //KeepUpdateContactThread.Start(new object[]{ KeepUpdateContactThreadID,Skey,pass_ticket});
+                return Members;
             }
-
-            pass_ticket = newridata.SelectSingleNode("error/pass_ticket").InnerText;
-            Uin = newridata.SelectSingleNode("error/wxuin").InnerText;
-            Sid = newridata.SelectSingleNode("error/wxsid").InnerText;
-            Skey = newridata.SelectSingleNode("error/skey").InnerText;
-            this.Invoke(new Action(() => { lbl_msg.Text = "初始化"; }));
-            string CheckUrl3 = "https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxinit?r=" + JavaTimeSpan() + "&pass_ticket=" + pass_ticket;
-
-            j_BaseRequest = new JObject();
-            j_BaseRequest.Add("BaseRequest", "");
-
-            JObject bcc = new JObject();
-            bcc.Add("Uin", Uin);
-            bcc.Add("Sid", Sid);
-            bcc.Add("Skey", Skey);
-            DeviceID = "e" + ("486480001508340");
-            // DeviceID = "e" + ( Convert.ToInt64( JavaTimeSpan()) .ToString("000000000000000"));
-            bcc.Add("DeviceID", DeviceID);
-
-            j_BaseRequest["BaseRequest"] = bcc;
-            //Cookie guid = new Cookie("__guid", "16776304.2514178305917694000.1522594008310.6897", "/");
-            //guid.Domain = cookie[0].Domain;
-            //cookie.Add(guid);
-
-
-
-            //Cookie freq = new Cookie("MM_WX_NOTIFY_STATE", "1");
-            //Cookie last_wxuin = new Cookie("MM_WX_SOUND_STATE", "1");
-
-            //freq.Domain = cookie[0].Domain;
-            //cookie.Add(freq);
-            //last_wxuin.Domain = cookie[0].Domain;
-            //cookie.Add(last_wxuin);
-
-
-            string Result3 = NetFramework.Util_WEB.OpenUrl(CheckUrl3
-           , "https://wx2.qq.com/", j_BaseRequest.ToString().Replace(Environment.NewLine, "").Replace(" ", ""), "POST", cookie, false);
-
-
-            InitResponse = JObject.Parse(Result3);
-
-            synckeys = (InitResponse["SyncKey"] as JObject);
-            AsyncKey = "";
-            foreach (var keeyitem in (synckeys["List"] as JArray))
+            catch (Exception AnyError)
             {
-                AsyncKey += keeyitem["Key"] + "_" + keeyitem["Val"] + "|";
+                Console.Write(AnyError.Message);
+                Console.Write(AnyError.StackTrace);
+                goto retry;
             }
-            AsyncKey = AsyncKey.Substring(0, AsyncKey.Length - 1);
-
-
-            MyUserName = InitResponse["User"]["UserName"].ToString();
-
-
-
-            JObject Members = RepeatGetMembers(Skey, pass_ticket); ;
-            //Thread KeepUpdateContactThread = new Thread(new ParameterizedThreadStart(KeepUpdateContactThreadDo));
-            //KeepUpdateContactThread.Start(new object[]{ KeepUpdateContactThreadID,Skey,pass_ticket});
-            return Members;
         }
         private JObject RepeatGetMembers(string Skey, string pass_ticket)
         {
@@ -893,11 +1022,11 @@ namespace WeixinRoboot
             {
                 // 6、获取好友列表
 
-                //使用POST方法，访问：https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=时间戳
+                //使用POST方法，访问：https://"+webhost+"/cgi-bin/mmwebwx-bin/webwxgetcontact?r=时间戳
 
                 //POST的内容为空。成功则以JSON格式返回所有联系人的信息。格式类似：
-                string str_memb = NetFramework.Util_WEB.OpenUrl("https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan() + "&skey=" + HttpUtility.UrlDecode(Skey) + "&pass_ticket=" + pass_ticket
-            , "https://wx2.qq.com/", "", "POST", cookie);
+                string str_memb = NetFramework.Util_WEB.OpenUrl("https://" + webhost + "/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan()
+            , "https://" + webhost + "/", "", "POST", cookie);
 
                 JObject Members = JObject.Parse(str_memb);
                 RunnerF.Invoke(new Action(() => { RunnerF.Members = Members; }));
@@ -912,15 +1041,7 @@ namespace WeixinRoboot
 
         }
 
-        private JObject RepeatGetMembers_bug()
-        {
-            string CheckUrl3 = "";
-            string str_memb = NetFramework.Util_WEB.OpenUrl(CheckUrl3
-           , "https://wx2.qq.com/", j_BaseRequest.ToString().Replace(Environment.NewLine, "").Replace(" ", ""), "POST", cookie, false);
-            JObject Members = JObject.Parse(str_memb);
-            RunnerF.Invoke(new Action(() => { RunnerF.Members = Members; }));
-            return Members;
-        }
+
         Dictionary<Guid, Boolean> KillThread = new Dictionary<Guid, bool>();
 
 
@@ -930,47 +1051,56 @@ namespace WeixinRoboot
             while (KillThread.ContainsKey((Guid)ThreadID) == false)
             {
                 DownloadResult();
-                System.Threading.Thread.Sleep(5000);
+                System.Threading.Thread.Sleep(1000);
             }
         }
         private void DownloadResult()
         {
             try
             {
-                Boolean SendImage = false;
+
                 try
                 {
-                    DownLoad163CaiPiaoV4(ref SendImage, DateTime.Now, false);
+                    Boolean SendImage = false;
+                    DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, DateTime.Now, false);
                     if (SendImage == true)
                     {
                         SendChongqingResult();
                     }
                     DealGameLogAndNotice();
                 }
-                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+                catch (Exception AnyError)
+                { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+
                 try
                 {
-                    DownLoad163CaiPiaoV3(ref SendImage, DateTime.Now, false);
+                    Boolean SendImage = false;
+                    DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, DateTime.Now.AddDays(-1), false);
                     if (SendImage == true)
                     {
                         SendChongqingResult();
                     }
                     DealGameLogAndNotice();
                 }
-                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+                catch (Exception AnyError)
+                { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+
                 try
                 {
-                    DownLoad163CaiPiaoV3(ref SendImage, DateTime.Now.AddDays(-1), false);
+                    Boolean SendImage = false;
+                    DownLoad163CaiPiaoV_Taohua(ref SendImage, DateTime.Now, false);
                     if (SendImage == true)
                     {
                         SendChongqingResult();
                     }
                     DealGameLogAndNotice();
                 }
-                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+                catch (Exception AnyError)
+                { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
                 try
                 {
-                    DownLoad163CaiPiaoV2(ref SendImage, DateTime.Now, false);
+                    Boolean SendImage = false;
+                    DownLoad163CaiPiaoV_Taohua(ref SendImage, DateTime.Now.AddDays(-1), false);
                     if (SendImage == true)
                     {
                         SendChongqingResult();
@@ -979,37 +1109,82 @@ namespace WeixinRoboot
                 }
                 catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
 
-                try
-                {
-                    DownLoad163CaiPiaoV2(ref SendImage, DateTime.Now.AddDays(-1), false);
-                    if (SendImage == true)
-                    {
-                        SendChongqingResult();
-                    }
-                    DealGameLogAndNotice();
-                }
-                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+                //try
+                //{
+                //    Boolean SendImage = false;
+                //    DownLoad163CaiPiaoV_500(ref SendImage, DateTime.Now, false);
+                //    if (SendImage == true)
+                //    {
+                //        SendChongqingResult();
+                //    }
+                //    DealGameLogAndNotice();
+                //}
+                //catch (Exception AnyError) { }
+                //try
+                //{
+                //    Boolean SendImage = false;
+                //    DownLoad163CaiPiaoV_500(ref SendImage, DateTime.Now.AddDays(-1), false);
+                //    if (SendImage == true)
+                //    {
+                //        SendChongqingResult();
+                //    }
+                //    DealGameLogAndNotice();
+                //}
+                //catch (Exception AnyError) { }
+                //try
+                //{
+                //    Boolean SendImage = false;
+                //    DownLoad163CaiPiaoV_zhcw(ref SendImage, DateTime.Now, false);
+                //    if (SendImage == true)
+                //    {
+                //        SendChongqingResult();
+                //    }
+                //    DealGameLogAndNotice();
+                //}
+                //catch (Exception AnyError)
+                //{
+                //    //Console.Write(AnyError.Message);
+                //    //Console.Write(AnyError.StackTrace); 
+                //}
 
-                try
-                {
-                    DownLoad163CaiPiao(ref SendImage, DateTime.Now, false);
-                    if (SendImage == true)
-                    {
-                        SendChongqingResult();
-                    }
-                    DealGameLogAndNotice();
-                }
-                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
-                try
-                {
-                    DownLoad163CaiPiao(ref SendImage, DateTime.Now.AddDays(-1), false);
-                    if (SendImage == true)
-                    {
-                        SendChongqingResult();
-                    }
-                    DealGameLogAndNotice();
-                }
-                catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+                //try
+                //{
+                //    Boolean SendImage = false;
+                //    DownLoad163CaiPiaoV_zhcw(ref SendImage, DateTime.Now.AddDays(-1), false);
+                //    if (SendImage == true)
+                //    {
+                //        SendChongqingResult();
+                //    }
+                //    DealGameLogAndNotice();
+                //}
+                //catch (Exception AnyError) { }
+
+                //try
+                //{
+                //    Boolean SendImage = false;
+                //    DownLoad163CaiPiao_V163(ref SendImage, DateTime.Now, false);
+                //    if (SendImage == true)
+                //    {
+                //        SendChongqingResult();
+                //    }
+                //    DealGameLogAndNotice();
+                //}
+                //catch (Exception AnyError) { Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace); }
+                //try
+                //{
+                //    Boolean SendImage = false;
+                //    DownLoad163CaiPiao_V163(ref SendImage, DateTime.Now.AddDays(-1), false);
+                //    if (SendImage == true)
+                //    {
+                //        SendChongqingResult();
+                //    }
+                //    DealGameLogAndNotice();
+                //}
+                //catch (Exception AnyError)
+                //{
+                //    Console.Write(AnyError.Message); Console.Write(AnyError.StackTrace);
+
+                //}
 
 
 
@@ -1025,56 +1200,72 @@ namespace WeixinRoboot
 
         public void SendChongqingResult()
         {
+            Console.Write(GlobalParam.UserName + "开始发送图片" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
             #region "有新的就通知,以及处理结果"
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
+            Linq.aspnet_UsersNewGameResultSend myconfig = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
+            if (
+                (DateTime.Now.Hour >= myconfig.SendImageStart && DateTime.Now.Hour <= myconfig.SendImageEnd)
+                || (DateTime.Now.Hour >= myconfig.SendImageStart2 && DateTime.Now.Hour <= myconfig.SendImageEnd2)
+                || (DateTime.Now.Hour >= myconfig.SendImageStart3 && DateTime.Now.Hour <= myconfig.SendImageEnd3)
+                || (DateTime.Now.Hour >= myconfig.SendImageStart4 && DateTime.Now.Hour <= myconfig.SendImageEnd4)
 
-            var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
-            foreach (var item in users)
+
+                )
             {
-                #region  多人同号不到ID跳过
-                #endregion
-                DataRow[] dr = RunnerF.MemberSource.Select("User_ContactID='" + item.WX_UserName + "'");
-                if (dr.Length == 0)
+
+                Console.Write("正在发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+                var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
+                foreach (var item in users)
                 {
-                    continue;
-                }
-                string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
-                Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
-                if (!myset.IsSendPIC == true)
-                {
-                    continue;
-                }
-                if (TEMPUserName.StartsWith("@@"))
-                {
-                    SendWXImage(Application.StartupPath + "\\Data.jpg", TEMPUserName);
-                    Thread.Sleep(1000);
-                    //SendWXImage(Application.StartupPath + "\\Data2.jpg", TEMPUserName);
-                    if (System.IO.File.Exists(Application.StartupPath + "\\Data3.txt"))
+                    #region  多人同号不到ID跳过
+                    #endregion
+                    DataRow[] dr = RunnerF.MemberSource.Select("User_ContactID='" + item.WX_UserName + "'");
+                    if (dr.Length == 0)
                     {
-                        FileStream fs = new FileStream(Application.StartupPath + "\\Data3.txt", System.IO.FileMode.Open);
-                        byte[] bs = new byte[fs.Length];
-                        fs.Read(bs, 0, bs.Length);
-                        fs.Close();
-                        fs.Dispose();
-                        SendWXContent(Encoding.UTF8.GetString(bs), TEMPUserName);
+                        continue;
                     }
-                }//向监听的群发送图片
+                    string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
+                    Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
+                    if (!myset.IsSendPIC == true)
+                    {
+                        continue;
+                    }
+                    if (TEMPUserName.StartsWith("@@"))
+                    {
+                        SendWXImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg", TEMPUserName);
+                        Thread.Sleep(1000);
+                        //SendWXImage(Application.StartupPath + "\\Data2.jpg", TEMPUserName);
+                        if (System.IO.File.Exists(Application.StartupPath + "\\Data3" + GlobalParam.UserName + ".txt"))
+                        {
+                            FileStream fs = new FileStream(Application.StartupPath + "\\Data3" + GlobalParam.UserName + ".txt", System.IO.FileMode.Open);
+                            byte[] bs = new byte[fs.Length];
+                            fs.Read(bs, 0, bs.Length);
+                            fs.Close();
+                            fs.Dispose();
+                            SendWXContent(Encoding.UTF8.GetString(bs), TEMPUserName);
+                        }
+                    }//向监听的群发送图片
 
-            }//设置为自动监听的用户
+                }//设置为自动监听的用户
 
-
+            }//时间段范围的才发
 
             #endregion
 
+            Console.Write(GlobalParam.UserName + "发送图片完毕" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
         }
 
 
 
-        public void DownLoad163CaiPiao(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        public void DownLoad163CaiPiao_V163(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
         {
+            NewResult = false;
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -1147,8 +1338,9 @@ namespace WeixinRoboot
         }
 
 
-        public void DownLoad163CaiPiaoV2(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        public void DownLoad163CaiPiaoV_zhcw(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
         {
+            NewResult = false;
             //http://m.zhcw.com/kaijiang/place_info.jsp?id=572
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
@@ -1205,8 +1397,9 @@ namespace WeixinRoboot
 
         }
 
-        public void DownLoad163CaiPiaoV3(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        public void DownLoad163CaiPiaoV_500(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
         {
+            NewResult = false;
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -1287,8 +1480,9 @@ namespace WeixinRoboot
         }
 
 
-        public void DownLoad163CaiPiaoV4(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        public void DownLoad163CaiPiaoV_Taohua(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
         {
+            NewResult = false;
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -1342,9 +1536,77 @@ namespace WeixinRoboot
         }
 
 
+        public void DownLoad163CaiPiaoV_kaijiangwang(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        {
+            Console.Write(GlobalParam.UserName + "下载开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+
+
+
+
+            string URL = "https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
+
+
+            URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10002";
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
+
+
+            JObject Resultfull = JObject.Parse(Result);
+
+
+            foreach (JObject item in Resultfull["result"]["data"])
+            {
+
+
+
+                string str_dataperiod = (item["preDrawIssue"] as JValue).Value.ToString();
+                str_dataperiod = str_dataperiod.Substring(2);
+
+                string str_Win = (item["preDrawCode"] as JValue).Value.ToString();
+                str_Win = str_Win.Replace(",", " ");
+
+                Linq.DataLogic.NewGameResult(str_Win, str_dataperiod);
+
+
+
+
+            }//每行处理
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+                LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+                DateTime day = DateTime.Now;
+                if (day.Hour < 10)
+                {
+                    day = day.AddDays(-1);
+                }
+
+                DrawGdi(day);
+            }
+
+
+
+            #endregion
+
+            Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
+
+
         public void DrawGdi(DateTime Localday)
         {
-
+            Console.Write(GlobalParam.UserName + "准备发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
             DataTable PrivatePerios = NetFramework.Util_Sql.RunSqlDataTable("LocalSqlServer"
                 , @"select GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where GamePrivatePeriod like '" + Localday.ToString("yyyyMMdd") + "%' and aspnet_Userid='" + GlobalParam.Key.ToString() + "'");
@@ -1385,11 +1647,11 @@ namespace WeixinRoboot
                 //}
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data3.txt"))
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data3" + GlobalParam.UserName + ".txt"))
             {
-                System.IO.File.Delete(Application.StartupPath + "\\Data3.txt");
+                System.IO.File.Delete(Application.StartupPath + "\\Data3" + GlobalParam.UserName + ".txt");
             }
-            FileStream filetowrite = new FileStream(Application.StartupPath + "\\Data3.txt", FileMode.OpenOrCreate);
+            FileStream filetowrite = new FileStream(Application.StartupPath + "\\Data3" + GlobalParam.UserName + ".txt", FileMode.OpenOrCreate);
             byte[] Result = Encoding.UTF8.GetBytes(Datatextplain);
             filetowrite.Write(Result, 0, Result.Length);
             filetowrite.Flush();
@@ -1433,15 +1695,15 @@ namespace WeixinRoboot
                 ResultIndex += 1;
             }
 
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data2.jpg"))
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data2" + GlobalParam.UserName + ".jpg"))
             {
-                System.IO.File.Delete(Application.StartupPath + "\\Data2.jpg");
+                System.IO.File.Delete(Application.StartupPath + "\\Data2" + GlobalParam.UserName + ".jpg");
             }
             img_tiger.Dispose();
             img_dragon.Dispose();
             img_ok.Dispose();
 
-            img2.Save(Application.StartupPath + "\\Data2.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            img2.Save(Application.StartupPath + "\\Data2" + GlobalParam.UserName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
             img2.Dispose();
             g2.Dispose();
             #endregion
@@ -1450,6 +1712,11 @@ namespace WeixinRoboot
             Bitmap img = new Bitmap(472, 780);
             Graphics g = Graphics.FromImage(img);
 
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+
+            Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
 
             for (int i = 0; i <= 25; i++)
             {
@@ -1468,27 +1735,33 @@ namespace WeixinRoboot
                 }
                 Int32 MarginTop = 5;
                 Int32 MarginLeft = 5;
-
                 if (i == 0)
+                {
+                    Font sf = new Font("微软雅黑", 15);
+                    Brush br = new SolidBrush(Color.Black);
+                    g.DrawString(myset.ImageTopText, sf, br, new PointF(MarginLeft, MarginTop + i * 30));
+
+                }
+                else if (i == 1)
                 {
 
                     Font sf = new Font("微软雅黑", 15);
                     Brush br = new SolidBrush(Color.Red);
-                    g.DrawString("期号", sf, br, new PointF(MarginLeft, MarginTop));
-                    g.DrawString("时间", sf, br, new PointF(MarginLeft + 50, MarginTop));
-                    g.DrawString("开奖号码", sf, br, new PointF(MarginLeft + 145, MarginTop));
-                    g.DrawString("和数", sf, br, new PointF(MarginLeft + 275, MarginTop));
-                    g.DrawString("大小", sf, br, new PointF(MarginLeft + 325, MarginTop));
-                    g.DrawString("单双", sf, br, new PointF(MarginLeft + 375, MarginTop));
-                    g.DrawString("龙虎", sf, br, new PointF(MarginLeft + 420, MarginTop));
+                    g.DrawString("期号", sf, br, new PointF(MarginLeft, MarginTop + i * 30));
+                    g.DrawString("时间", sf, br, new PointF(MarginLeft + 50, MarginTop + i * 30));
+                    g.DrawString("开奖号码", sf, br, new PointF(MarginLeft + 145, MarginTop + i * 30));
+                    g.DrawString("和数", sf, br, new PointF(MarginLeft + 275, MarginTop + i * 30));
+                    g.DrawString("大小", sf, br, new PointF(MarginLeft + 325, MarginTop + i * 30));
+                    g.DrawString("单双", sf, br, new PointF(MarginLeft + 375, MarginTop + i * 30));
+                    g.DrawString("龙虎", sf, br, new PointF(MarginLeft + 420, MarginTop + i * 30));
                 }
-                else if (i <= 25 && i >= 1)
+                else if (i <= 24 && i > 1)
                 {
-                    if (dtCopy.Rows.Count - i < 0)
+                    if (dtCopy.Rows.Count - i + 1 < 0)
                     {
                         continue;
                     }
-                    DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - i];
+                    DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - i + 1];
                     Font sf = new Font("微软雅黑", 15);
                     Brush br_g = new SolidBrush(Color.FromArgb(96, 96, 96));
                     Brush br_black = new SolidBrush(Color.FromArgb(0, 0, 0));
@@ -1566,21 +1839,28 @@ namespace WeixinRoboot
                         g.DrawString(龙虎, sf, br_green, new PointF(MarginLeft + 420, MarginTop + i * 30));//龙虎
 
                     }
+                }//数据
+                else if (i == 25)
+                {
+                    Font sf = new Font("微软雅黑", 15);
+                    Brush br = new SolidBrush(Color.Black);
+                    g.DrawString(myset.ImageEndText, sf, br, new PointF(MarginLeft, MarginTop + i * 30));
+
                 }
 
 
 
             }//每行画图
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data.jpg"))
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg"))
             {
-                System.IO.File.Delete(Application.StartupPath + "\\Data.jpg");
+                System.IO.File.Delete(Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg");
             }
-            img.Save(Application.StartupPath + "\\Data.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            img.Save(Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
             img.Dispose();
             g.Dispose();
 
             #endregion
-
+            Console.Write(GlobalParam.UserName + "准备完毕发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
         }
 
 
@@ -1591,7 +1871,7 @@ namespace WeixinRoboot
         {
 
             double result = 0;
-            DateTime startdate = new DateTime(1970, 1, 1, 8, 0, 0);
+            DateTime startdate = DateTime.MinValue;
             TimeSpan seconds = DateTime.Now - startdate;
             result = Math.Round(seconds.TotalMilliseconds, 0);
             return result.ToString();
@@ -1721,6 +2001,30 @@ namespace WeixinRoboot
             F_WX_BounsRatio br = new F_WX_BounsRatio();
             br.Show();
         }
+
+        private void BtnDrawGdi_Click(object sender, EventArgs e)
+        {
+            DrawGdi(DateTime.Today);
+        }
+
+        private void Btn_StartDownLoad_Click(object sender, EventArgs e)
+        {
+            while (true)
+            {
+                try
+                {
+                    DownloadResult();
+                }
+                catch (Exception)
+                {
+
+                }
+                Application.DoEvents();
+                Thread.Sleep(1000);
+            }
+        }
+
+
 
 
 

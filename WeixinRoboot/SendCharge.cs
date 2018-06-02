@@ -120,6 +120,8 @@ namespace WeixinRoboot
                            dsl.RemarkType
                            ,
                            dsl.ChangePoint
+                           ,dsl.ChangeTime
+                           ,dsl.GamePeriod
                        };
             BS_TransLog.DataSource = data;
 

@@ -32,9 +32,9 @@
             this.dtp_querydate = new System.Windows.Forms.DateTimePicker();
             this.lbl_QueryDate = new System.Windows.Forms.Label();
             this.gv_result = new System.Windows.Forms.DataGridView();
+            this.BS_DataSource = new System.Windows.Forms.BindingSource(this.components);
             this.BTN_QUERY = new System.Windows.Forms.Button();
             this.BTN_SEND = new System.Windows.Forms.Button();
-            this.BS_DataSource = new System.Windows.Forms.BindingSource(this.components);
             this.NickNameRemarkName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LocalPeriodDay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PeriodCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -88,7 +88,6 @@
             this.gv_result.DataSource = this.BS_DataSource;
             this.gv_result.Location = new System.Drawing.Point(14, 40);
             this.gv_result.Name = "gv_result";
-            this.gv_result.ReadOnly = true;
             this.gv_result.RowTemplate.Height = 23;
             this.gv_result.Size = new System.Drawing.Size(694, 222);
             this.gv_result.TabIndex = 3;
@@ -191,7 +190,6 @@
             this.BounsCount.DataPropertyName = "BounsCount";
             this.BounsCount.HeaderText = "应发放";
             this.BounsCount.Name = "BounsCount";
-            this.BounsCount.ReadOnly = true;
             // 
             // Remark
             // 

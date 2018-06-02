@@ -331,7 +331,7 @@ namespace WeixinRoboot.Linq
                                 }
                                 break;
                             case "大单虎":
-                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "龙")
+                                if (gamelogitem.Gr_BigSmall == "大" && gamelogitem.Gr_SingleDouble == "单" && gamelogitem.Gr_DragonTiger == "虎")
                                 {
                                     gamelogitem.Result_Point = gamelogitem.Buy_Ratio * gamelogitem.Buy_Point;
 
@@ -1100,7 +1100,7 @@ namespace WeixinRoboot.Linq
                     cl.GamePeriod = findupdate.GamePeriod;
                     cl.GameLocalPeriod = findupdate.GameLocalPeriod;
                     cl.ChangeLocalDay = findupdate.GameLocalPeriod.Substring(0, 8);
-                    
+
                     cl.FinalStatus = true;
                     db.WX_UserChangeLog.InsertOnSubmit(cl);
                     try
@@ -1301,7 +1301,7 @@ namespace WeixinRoboot.Linq
                     cl.BuyValue = findupdate.Buy_Value;
                     cl.GamePeriod = findupdate.GamePeriod;
                     cl.GameLocalPeriod = findupdate.GameLocalPeriod;
-                    cl.ChangeLocalDay = findupdate.GameLocalPeriod.Substring(0,8);
+                    cl.ChangeLocalDay = findupdate.GameLocalPeriod.Substring(0, 8);
                     cl.FinalStatus = true;
                     db.WX_UserChangeLog.InsertOnSubmit(cl);
                     try
@@ -1450,7 +1450,7 @@ namespace WeixinRoboot.Linq
                                     cl.BuyValue = findupdate3.Buy_Value;
                                     cl.GamePeriod = findupdate3.GamePeriod;
                                     cl.ChangeLocalDay = findupdate3.GameLocalPeriod.Substring(0, 8);
-                   
+
                                     cl.FinalStatus = true;
                                     db.WX_UserChangeLog.InsertOnSubmit(cl);
                                     try
@@ -1833,16 +1833,15 @@ namespace WeixinRoboot.Linq
                 foreach (var Perioditem in Periods)
                 {
 
-                    Result += Perioditem + "期" + Environment.NewLine;
+                    Result += Perioditem + "期：";
                     foreach (var buyitem in Buys.Where(t => t.ShowPeriod == Perioditem))
                     {
-                        Result += buyitem.BuyValue + ObjectToString(buyitem.BuyPoint, "N0") + ",";
+                        Result += buyitem.BuyValue + ObjectToString(buyitem.BuyPoint, "N0") + "，";
                     }
-                    if (Result.EndsWith(","))
+                    if (Result.EndsWith("，"))
                     {
                         Result = Result.Substring(0, Result.Length - 1);
                     }
-                    Result += Environment.NewLine;
                 }
 
                 return Result;
@@ -2130,7 +2129,7 @@ namespace WeixinRoboot.Linq
         /// <param name="reply"></param>
         /// <param name="db"></param>
         /// <returns></returns>
-        public static string WX_UserReplyLog_Create(WX_UserReplyLog reply, DataTable MemberSource)
+        public static string WX_UserReplyLog_Create(WX_UserReplyLog reply, DataTable MemberSource, bool adminmode = false)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -2149,7 +2148,7 @@ namespace WeixinRoboot.Linq
                 string Minutes = reply.ReceiveTime.ToString("HH:mm");
                 string NextPeriod = "";
                 string NextLocalPeriod = "";
-                var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) == 1).OrderBy(t => t.PeriodIndex);
+                var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= (adminmode == false ? 1 : 0)).OrderBy(t => t.PeriodIndex);
                 if (NextMonutes.Count() != 0)
                 {
                     NextPeriod = NextMonutes.First().PeriodIndex;
@@ -2164,7 +2163,7 @@ namespace WeixinRoboot.Linq
                 if (reply.ReceiveContent == "查")
                 {
                     DateTime TestPeriod = DateTime.Now;
-                    if (TestPeriod.Hour <= 3)
+                    if (TestPeriod.Hour <= 9)
                     {
                         TestPeriod = TestPeriod.AddDays(-1);
                     }
@@ -2241,7 +2240,7 @@ namespace WeixinRoboot.Linq
                     string Result = "";
                     string QueryDate = reply.ReceiveContent.Substring(1);
                     DateTime TestPeriod = DateTime.Now;
-                    if (TestPeriod.Hour <= 3)
+                    if (TestPeriod.Hour <= 9)
                     {
                         TestPeriod = TestPeriod.AddDays(-1);
                     }
@@ -2310,7 +2309,7 @@ namespace WeixinRoboot.Linq
                 else if (reply.ReceiveContent.StartsWith("全"))
                 {
                     Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == reply.ReceiveTime.ToString("HH:mm"));
-                    if (testmin != null)
+                    if (testmin != null && adminmode == false)
                     {
                         return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
 
@@ -2465,7 +2464,7 @@ namespace WeixinRoboot.Linq
                         cl.BuyValue = (findupdate == null ? newgl.Buy_Value : findupdate.Buy_Value);
                         cl.GamePeriod = (findupdate == null ? newgl.GamePeriod : findupdate.GamePeriod);
                         cl.GameLocalPeriod = (findupdate == null ? newgl.GameLocalPeriod : findupdate.GameLocalPeriod);
-                        cl.ChangeLocalDay = (findupdate == null ? newgl.GameLocalPeriod : findupdate.GameLocalPeriod).Substring(0,8);
+                        cl.ChangeLocalDay = (findupdate == null ? newgl.GameLocalPeriod : findupdate.GameLocalPeriod).Substring(0, 8);
                         cl.FinalStatus = true;
                         db.WX_UserChangeLog.InsertOnSubmit(cl);
                         try
@@ -2504,7 +2503,7 @@ namespace WeixinRoboot.Linq
                     )
                 {
                     Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == reply.ReceiveTime.ToString("HH:mm"));
-                    if (testmin != null)
+                    if (testmin != null && adminmode == false)
                     {
                         return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
 
@@ -2692,7 +2691,7 @@ namespace WeixinRoboot.Linq
                         cl.GamePeriod = findupdate == null ? newgl.GamePeriod : findupdate.GamePeriod;
                         cl.GameLocalPeriod = (findupdate == null ? newgl.GameLocalPeriod : findupdate.GameLocalPeriod);
                         cl.ChangeLocalDay = (findupdate == null ? newgl.GameLocalPeriod : findupdate.GameLocalPeriod).Substring(0, 8);
-                      
+
                         cl.FinalStatus = true;
                         db.WX_UserChangeLog.InsertOnSubmit(cl);
                         try
@@ -2763,7 +2762,7 @@ namespace WeixinRoboot.Linq
                                                 return "封盘";
                                             }
                                             Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == reply.ReceiveTime.ToString("HH:mm"));
-                                            if (testmin != null)
+                                            if (testmin != null && adminmode == false)
                                             {
                                                 return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
 
@@ -2878,7 +2877,7 @@ namespace WeixinRoboot.Linq
                                             cl.GamePeriod = (findupdate3 == null ? newgl.GamePeriod : findupdate3.GamePeriod);
                                             cl.GameLocalPeriod = (findupdate3 == null ? newgl.GameLocalPeriod : findupdate3.GameLocalPeriod);
                                             cl.ChangeLocalDay = (findupdate3 == null ? newgl.GameLocalPeriod : findupdate3.GameLocalPeriod).Substring(0, 8);
-                      
+
                                             cl.FinalStatus = true;
                                             db.WX_UserChangeLog.InsertOnSubmit(cl);
                                             try
@@ -2920,7 +2919,7 @@ namespace WeixinRoboot.Linq
                                         return "封盘";
                                     }
                                     Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == reply.ReceiveTime.ToString("HH:mm"));
-                                    if (testmin != null)
+                                    if (testmin != null && adminmode == false)
                                     {
                                         return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName), "N0");
 
@@ -3036,7 +3035,7 @@ namespace WeixinRoboot.Linq
                                     cl.GamePeriod = (findupdate2 == null ? newgl.GamePeriod : findupdate2.GamePeriod);
                                     cl.GameLocalPeriod = (findupdate2 == null ? newgl.GameLocalPeriod : findupdate2.GameLocalPeriod);
                                     cl.ChangeLocalDay = (findupdate2 == null ? newgl.GameLocalPeriod : findupdate2.GameLocalPeriod).Substring(0, 8);
-                      
+
                                     cl.FinalStatus = true;
                                     db.WX_UserChangeLog.InsertOnSubmit(cl);
                                     try
@@ -3081,28 +3080,28 @@ namespace WeixinRoboot.Linq
                     switch (FirstIndex)
                     {
                         case "龙":
-                            CheckResult = NewGameLog(reply, "龙虎合", FirstIndex, BuyPoint, db);
+                            CheckResult = NewGameLog(reply, "龙虎合", FirstIndex, BuyPoint, db, adminmode);
                             break;
                         case "虎":
-                            CheckResult = NewGameLog(reply, "龙虎合", FirstIndex, BuyPoint, db);
+                            CheckResult = NewGameLog(reply, "龙虎合", FirstIndex, BuyPoint, db, adminmode);
                             break;
                         case "合":
-                            CheckResult = NewGameLog(reply, "龙虎合", FirstIndex, BuyPoint, db);
+                            CheckResult = NewGameLog(reply, "龙虎合", FirstIndex, BuyPoint, db, adminmode);
                             break;
                         case "大":
-                            CheckResult = NewGameLog(reply, "大小和", FirstIndex, BuyPoint, db);
+                            CheckResult = NewGameLog(reply, "大小和", FirstIndex, BuyPoint, db, adminmode);
                             break;
                         case "小":
-                            CheckResult = NewGameLog(reply, "大小和", FirstIndex, BuyPoint, db);
+                            CheckResult = NewGameLog(reply, "大小和", FirstIndex, BuyPoint, db, adminmode);
                             break;
                         case "和":
-                            CheckResult = NewGameLog(reply, "大小和", FirstIndex, BuyPoint, db);
+                            CheckResult = NewGameLog(reply, "大小和", FirstIndex, BuyPoint, db, adminmode);
                             break;
                         case "单":
-                            CheckResult = NewGameLog(reply, "单双", FirstIndex, BuyPoint, db);
+                            CheckResult = NewGameLog(reply, "单双", FirstIndex, BuyPoint, db, adminmode);
                             break;
                         case "双":
-                            CheckResult = NewGameLog(reply, "单双", FirstIndex, BuyPoint, db);
+                            CheckResult = NewGameLog(reply, "单双", FirstIndex, BuyPoint, db, adminmode);
                             break;
                         default:
                             return "";
@@ -3161,9 +3160,9 @@ namespace WeixinRoboot.Linq
                 }
                 Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Contact);
                 toupdate.IsReply = true;
-
-                db.SubmitChanges();
                 UserRow.SetField("User_IsReply", true);
+                db.SubmitChanges();
+
 
                 return "";
             }
@@ -3175,9 +3174,9 @@ namespace WeixinRoboot.Linq
 
                 Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Contact);
                 toupdate.IsReply = false;
-
-                db.SubmitChanges();
                 UserRow.SetField("User_IsReply", false);
+                db.SubmitChanges();
+
 
                 return "";
             }
@@ -3303,7 +3302,7 @@ namespace WeixinRoboot.Linq
                     }
                     newrl.SourceType = "补单";
                     newrl.ReceiveContent = BuyContent;
-                    return WX_UserReplyLog_Create(newrl, UserRow.Table);
+                    return WX_UserReplyLog_Create(newrl, UserRow.Table, true);
 
                 }
                 else
@@ -3312,10 +3311,32 @@ namespace WeixinRoboot.Linq
                 }
 
             }
-            //else if (Content.StartsWith("福利系统"))
-            //{ 
-            
-            //}
+            else if (Content == "福利")
+            {
+                string Contact = UserRow.Field<string>("User_ContactID");
+
+
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Contact);
+                toupdate.IsCaculateFuli = true;
+
+                db.SubmitChanges();
+                UserRow.SetField("User_IsCaculateFuli", true);
+
+                return "";
+            }
+            else if (Content == "取消福利")
+            {
+                string Contact = UserRow.Field<string>("User_ContactID");
+
+
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Contact);
+                toupdate.IsCaculateFuli = false;
+
+                db.SubmitChanges();
+                UserRow.SetField("User_IsCaculateFuli", false);
+
+                return "";
+            }
 
 
             else if (Content.Length >= 2)
@@ -3459,14 +3480,14 @@ namespace WeixinRoboot.Linq
         /// <param name="CheckResult"></param>
         /// <param name="db"></param>
         /// <returns></returns>
-        private static string NewGameLog(WX_UserReplyLog replylog, string BuyType, string BuyValue, decimal BuyPoint, dbDataContext db)
+        private static string NewGameLog(WX_UserReplyLog replylog, string BuyType, string BuyValue, decimal BuyPoint, dbDataContext db, bool adminmode)
         {
             if (string.Compare(replylog.ReceiveTime.ToString("HH:mm"), "01:55") >= 0 && string.Compare(replylog.ReceiveTime.ToString("HH:mm"), "09:00") <= 0)
             {
                 return "封盘时间";
             }
             Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == replylog.ReceiveTime.ToString("HH:mm"));
-            if (testmin != null)
+            if (testmin != null && adminmode == false)
             {
                 return "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(replylog.WX_UserName), "N0");
 
@@ -3475,7 +3496,7 @@ namespace WeixinRoboot.Linq
             string Minutes = replylog.ReceiveTime.ToString("HH:mm");
             string NextPeriod = "";
             string NextLocalPeriod = "";
-            var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) == 1).OrderBy(t => t.PeriodIndex);
+            var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= (adminmode == false ? 1 : 0)).OrderBy(t => t.PeriodIndex);
             if (NextMonutes.Count() != 0)
             {
                 NextPeriod = NextMonutes.First().PeriodIndex;
@@ -3574,7 +3595,7 @@ namespace WeixinRoboot.Linq
                 cl.GamePeriod = CheckExists.GamePeriod;
                 cl.GameLocalPeriod = CheckExists.GameLocalPeriod;
                 cl.ChangeLocalDay = CheckExists.GameLocalPeriod.Substring(0, 8);
-                      
+
                 cl.FinalStatus = true;
                 db.WX_UserChangeLog.InsertOnSubmit(cl);
 
@@ -3953,23 +3974,26 @@ namespace WeixinRoboot.Linq
             var users = buys.Select(t => t.WX_UserName).Distinct();
             foreach (var usritem in users)
             {
-                DataRow newr = Result.NewRow();
-                Result.Rows.Add(newr);
-                newr.SetField("aspnet_UserID", GlobalParam.Key);
 
-                newr.SetField("WX_UserName", usritem);
+
 
                 Linq.WX_UserReply contact = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == usritem);
+                DataRow newr = Result.NewRow();
+
+                newr.SetField("aspnet_UserID", GlobalParam.Key);
+                newr.SetField("WX_UserName", usritem);
                 if (contact != null)
                 {
-                    newr.SetField("NickNameRemarkName",   (contact.RemarkName!=""&&contact.RemarkName!=null?contact.RemarkName+"@#"+contact.NickName:contact.NickName ));
+                    newr.SetField("NickNameRemarkName", (contact.RemarkName != "" && contact.RemarkName != null ? contact.RemarkName + "@#" + contact.NickName : contact.NickName));
+                    if (contact.IsCaculateFuli == true)
+                    {
+                        Result.Rows.Add(newr);
+                    }
                 }
                 else
                 {
                     newr.SetField("NickNameRemarkName", usritem);
                 }
-
-
                 newr.SetField("LocalPeriodDay", QueryDate.ToString("yyyyMMdd"));
                 decimal PeriodCount = buys.Where(t => t.WX_UserName == usritem).Select(t => t.GamePeriod).Distinct().Count();
                 newr.SetField("PeriodCount", PeriodCount);

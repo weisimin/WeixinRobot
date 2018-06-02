@@ -31,6 +31,7 @@ E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\WeixinRoboot.pdb
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\Newtonsoft.Json.dll
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\Newtonsoft.Json.pdb
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\Newtonsoft.Json.xml
+E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.csprojResolveAssemblyReference.cache
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.Download163AndDeal.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.F_Game_BasicRatio.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.F_WX_BounsRatio.resources

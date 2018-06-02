@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_UserName = new System.Windows.Forms.Label();
             this.fd_username = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbl_pwd = new System.Windows.Forms.Label();
             this.lbl_Islock = new System.Windows.Forms.Label();
             this.fd_password = new System.Windows.Forms.TextBox();
             this.fd_IsLock = new System.Windows.Forms.CheckBox();
@@ -49,15 +49,31 @@
             this.Btn_Build = new System.Windows.Forms.Button();
             this.lbl_IsBlock = new System.Windows.Forms.Label();
             this.Fd_IsBlock = new System.Windows.Forms.CheckBox();
-            this.btn_Save = new System.Windows.Forms.Button();
-            this.lbl_pic = new System.Windows.Forms.Label();
-            this.lbl_order = new System.Windows.Forms.Label();
-            this.lbl_tracecount = new System.Windows.Forms.Label();
-            this.FD_SendPIC = new System.Windows.Forms.CheckBox();
-            this.FD_ReceiveOrder = new System.Windows.Forms.CheckBox();
-            this.fd_MaxPlayerCount = new System.Windows.Forms.TextBox();
             this.fd_BossUserName = new System.Windows.Forms.TextBox();
             this.lbl_boss = new System.Windows.Forms.Label();
+            this.btn_Save = new System.Windows.Forms.Button();
+            this.fd_MaxPlayerCount = new System.Windows.Forms.TextBox();
+            this.lbl_tracecount = new System.Windows.Forms.Label();
+            this.lbl_order = new System.Windows.Forms.Label();
+            this.FD_ReceiveOrder = new System.Windows.Forms.CheckBox();
+            this.lbl_pic = new System.Windows.Forms.Label();
+            this.FD_SendPIC = new System.Windows.Forms.CheckBox();
+            this.lbl_TimeLimit1 = new System.Windows.Forms.Label();
+            this.fd_SendTimeStart1 = new System.Windows.Forms.TextBox();
+            this.fd_SendTimeEnd1 = new System.Windows.Forms.TextBox();
+            this.lbl_TimeLimit2 = new System.Windows.Forms.Label();
+            this.lbl_TimeLimit3 = new System.Windows.Forms.Label();
+            this.lbl_TimeLimit4 = new System.Windows.Forms.Label();
+            this.fd_SendTimeStart2 = new System.Windows.Forms.TextBox();
+            this.fd_SendTimeEnd2 = new System.Windows.Forms.TextBox();
+            this.fd_SendTimeStart3 = new System.Windows.Forms.TextBox();
+            this.fd_SendTimeEnd3 = new System.Windows.Forms.TextBox();
+            this.fd_SendTimeStart4 = new System.Windows.Forms.TextBox();
+            this.fd_SendTimeEnd4 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.fd_ImageTopText = new System.Windows.Forms.TextBox();
+            this.fd_ImageEndText = new System.Windows.Forms.TextBox();
             this.ep_wf = new System.Windows.Forms.ErrorProvider(this.components);
             this.TC_Main = new System.Windows.Forms.TabControl();
             this.TP_Data = new System.Windows.Forms.TabPage();
@@ -89,7 +105,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel1.Controls.Add(this.lbl_UserName, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.fd_username, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_pwd, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.lbl_Islock, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.fd_password, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.fd_IsLock, 1, 2);
@@ -103,18 +119,35 @@
             this.tableLayoutPanel1.Controls.Add(this.Btn_Build, 3, 6);
             this.tableLayoutPanel1.Controls.Add(this.lbl_IsBlock, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.Fd_IsBlock, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.btn_Save, 0, 11);
-            this.tableLayoutPanel1.Controls.Add(this.lbl_pic, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.lbl_order, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.lbl_tracecount, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.FD_SendPIC, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.FD_ReceiveOrder, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.fd_MaxPlayerCount, 1, 8);
             this.tableLayoutPanel1.Controls.Add(this.fd_BossUserName, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.lbl_boss, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btn_Save, 0, 13);
+            this.tableLayoutPanel1.Controls.Add(this.fd_MaxPlayerCount, 1, 11);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_tracecount, 0, 11);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_order, 0, 10);
+            this.tableLayoutPanel1.Controls.Add(this.FD_ReceiveOrder, 1, 10);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_pic, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.FD_SendPIC, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_TimeLimit1, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.fd_SendTimeStart1, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.fd_SendTimeEnd1, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_TimeLimit2, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_TimeLimit3, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_TimeLimit4, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.fd_SendTimeStart2, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.fd_SendTimeEnd2, 2, 6);
+            this.tableLayoutPanel1.Controls.Add(this.fd_SendTimeStart3, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.fd_SendTimeEnd3, 2, 7);
+            this.tableLayoutPanel1.Controls.Add(this.fd_SendTimeStart4, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.fd_SendTimeEnd4, 2, 8);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 3, 9);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 3, 10);
+            this.tableLayoutPanel1.Controls.Add(this.fd_ImageTopText, 4, 9);
+            this.tableLayoutPanel1.Controls.Add(this.fd_ImageEndText, 4, 10);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 23);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 13;
+            this.tableLayoutPanel1.RowCount = 14;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -147,14 +180,14 @@
             this.fd_username.Size = new System.Drawing.Size(174, 21);
             this.fd_username.TabIndex = 1;
             // 
-            // label2
+            // lbl_pwd
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 30);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 12);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "密码:";
+            this.lbl_pwd.AutoSize = true;
+            this.lbl_pwd.Location = new System.Drawing.Point(3, 30);
+            this.lbl_pwd.Name = "lbl_pwd";
+            this.lbl_pwd.Size = new System.Drawing.Size(35, 12);
+            this.lbl_pwd.TabIndex = 2;
+            this.lbl_pwd.Text = "密码:";
             // 
             // lbl_Islock
             // 
@@ -273,69 +306,6 @@
             this.Fd_IsBlock.TabIndex = 18;
             this.Fd_IsBlock.UseVisualStyleBackColor = true;
             // 
-            // btn_Save
-            // 
-            this.btn_Save.Location = new System.Drawing.Point(3, 333);
-            this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(75, 23);
-            this.btn_Save.TabIndex = 8;
-            this.btn_Save.Text = "保存";
-            this.btn_Save.UseVisualStyleBackColor = true;
-            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
-            // 
-            // lbl_pic
-            // 
-            this.lbl_pic.AutoSize = true;
-            this.lbl_pic.Location = new System.Drawing.Point(3, 180);
-            this.lbl_pic.Name = "lbl_pic";
-            this.lbl_pic.Size = new System.Drawing.Size(41, 12);
-            this.lbl_pic.TabIndex = 19;
-            this.lbl_pic.Text = "发图：";
-            // 
-            // lbl_order
-            // 
-            this.lbl_order.AutoSize = true;
-            this.lbl_order.Location = new System.Drawing.Point(3, 210);
-            this.lbl_order.Name = "lbl_order";
-            this.lbl_order.Size = new System.Drawing.Size(41, 12);
-            this.lbl_order.TabIndex = 20;
-            this.lbl_order.Text = "接单：";
-            // 
-            // lbl_tracecount
-            // 
-            this.lbl_tracecount.AutoSize = true;
-            this.lbl_tracecount.Location = new System.Drawing.Point(3, 240);
-            this.lbl_tracecount.Name = "lbl_tracecount";
-            this.lbl_tracecount.Size = new System.Drawing.Size(89, 24);
-            this.lbl_tracecount.TabIndex = 21;
-            this.lbl_tracecount.Text = "跟踪玩家最大数量：";
-            // 
-            // FD_SendPIC
-            // 
-            this.FD_SendPIC.AutoSize = true;
-            this.FD_SendPIC.Location = new System.Drawing.Point(103, 183);
-            this.FD_SendPIC.Name = "FD_SendPIC";
-            this.FD_SendPIC.Size = new System.Drawing.Size(15, 14);
-            this.FD_SendPIC.TabIndex = 22;
-            this.FD_SendPIC.UseVisualStyleBackColor = true;
-            // 
-            // FD_ReceiveOrder
-            // 
-            this.FD_ReceiveOrder.AutoSize = true;
-            this.FD_ReceiveOrder.Location = new System.Drawing.Point(103, 213);
-            this.FD_ReceiveOrder.Name = "FD_ReceiveOrder";
-            this.FD_ReceiveOrder.Size = new System.Drawing.Size(15, 14);
-            this.FD_ReceiveOrder.TabIndex = 23;
-            this.FD_ReceiveOrder.UseVisualStyleBackColor = true;
-            // 
-            // fd_MaxPlayerCount
-            // 
-            this.fd_MaxPlayerCount.Location = new System.Drawing.Point(103, 243);
-            this.fd_MaxPlayerCount.Name = "fd_MaxPlayerCount";
-            this.fd_MaxPlayerCount.Size = new System.Drawing.Size(149, 21);
-            this.fd_MaxPlayerCount.TabIndex = 24;
-            this.fd_MaxPlayerCount.Text = "50";
-            // 
             // fd_BossUserName
             // 
             this.fd_BossUserName.Location = new System.Drawing.Point(563, 3);
@@ -351,6 +321,207 @@
             this.lbl_boss.Size = new System.Drawing.Size(47, 12);
             this.lbl_boss.TabIndex = 25;
             this.lbl_boss.Text = "老板号:";
+            // 
+            // btn_Save
+            // 
+            this.btn_Save.Location = new System.Drawing.Point(3, 393);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(75, 23);
+            this.btn_Save.TabIndex = 8;
+            this.btn_Save.Text = "保存";
+            this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
+            // 
+            // fd_MaxPlayerCount
+            // 
+            this.fd_MaxPlayerCount.Location = new System.Drawing.Point(103, 333);
+            this.fd_MaxPlayerCount.Name = "fd_MaxPlayerCount";
+            this.fd_MaxPlayerCount.Size = new System.Drawing.Size(149, 21);
+            this.fd_MaxPlayerCount.TabIndex = 24;
+            this.fd_MaxPlayerCount.Text = "50";
+            // 
+            // lbl_tracecount
+            // 
+            this.lbl_tracecount.AutoSize = true;
+            this.lbl_tracecount.Location = new System.Drawing.Point(3, 330);
+            this.lbl_tracecount.Name = "lbl_tracecount";
+            this.lbl_tracecount.Size = new System.Drawing.Size(89, 24);
+            this.lbl_tracecount.TabIndex = 21;
+            this.lbl_tracecount.Text = "跟踪玩家最大数量：";
+            // 
+            // lbl_order
+            // 
+            this.lbl_order.AutoSize = true;
+            this.lbl_order.Location = new System.Drawing.Point(3, 300);
+            this.lbl_order.Name = "lbl_order";
+            this.lbl_order.Size = new System.Drawing.Size(77, 12);
+            this.lbl_order.TabIndex = 20;
+            this.lbl_order.Text = "会员可接单：";
+            // 
+            // FD_ReceiveOrder
+            // 
+            this.FD_ReceiveOrder.AutoSize = true;
+            this.FD_ReceiveOrder.Location = new System.Drawing.Point(103, 303);
+            this.FD_ReceiveOrder.Name = "FD_ReceiveOrder";
+            this.FD_ReceiveOrder.Size = new System.Drawing.Size(15, 14);
+            this.FD_ReceiveOrder.TabIndex = 23;
+            this.FD_ReceiveOrder.UseVisualStyleBackColor = true;
+            // 
+            // lbl_pic
+            // 
+            this.lbl_pic.AutoSize = true;
+            this.lbl_pic.Location = new System.Drawing.Point(3, 270);
+            this.lbl_pic.Name = "lbl_pic";
+            this.lbl_pic.Size = new System.Drawing.Size(77, 12);
+            this.lbl_pic.TabIndex = 19;
+            this.lbl_pic.Text = "会员可发图：";
+            // 
+            // FD_SendPIC
+            // 
+            this.FD_SendPIC.AutoSize = true;
+            this.FD_SendPIC.Location = new System.Drawing.Point(103, 273);
+            this.FD_SendPIC.Name = "FD_SendPIC";
+            this.FD_SendPIC.Size = new System.Drawing.Size(15, 14);
+            this.FD_SendPIC.TabIndex = 22;
+            this.FD_SendPIC.UseVisualStyleBackColor = true;
+            // 
+            // lbl_TimeLimit1
+            // 
+            this.lbl_TimeLimit1.AutoSize = true;
+            this.lbl_TimeLimit1.Location = new System.Drawing.Point(3, 150);
+            this.lbl_TimeLimit1.Name = "lbl_TimeLimit1";
+            this.lbl_TimeLimit1.Size = new System.Drawing.Size(77, 24);
+            this.lbl_TimeLimit1.TabIndex = 29;
+            this.lbl_TimeLimit1.Text = "发图时间范围1(0-24):";
+            // 
+            // fd_SendTimeStart1
+            // 
+            this.fd_SendTimeStart1.Enabled = false;
+            this.fd_SendTimeStart1.Location = new System.Drawing.Point(103, 153);
+            this.fd_SendTimeStart1.Name = "fd_SendTimeStart1";
+            this.fd_SendTimeStart1.Size = new System.Drawing.Size(50, 21);
+            this.fd_SendTimeStart1.TabIndex = 27;
+            this.fd_SendTimeStart1.Text = "0";
+            // 
+            // fd_SendTimeEnd1
+            // 
+            this.fd_SendTimeEnd1.Enabled = false;
+            this.fd_SendTimeEnd1.Location = new System.Drawing.Point(283, 153);
+            this.fd_SendTimeEnd1.Name = "fd_SendTimeEnd1";
+            this.fd_SendTimeEnd1.Size = new System.Drawing.Size(50, 21);
+            this.fd_SendTimeEnd1.TabIndex = 28;
+            this.fd_SendTimeEnd1.Text = "24";
+            // 
+            // lbl_TimeLimit2
+            // 
+            this.lbl_TimeLimit2.AutoSize = true;
+            this.lbl_TimeLimit2.Location = new System.Drawing.Point(3, 180);
+            this.lbl_TimeLimit2.Name = "lbl_TimeLimit2";
+            this.lbl_TimeLimit2.Size = new System.Drawing.Size(77, 24);
+            this.lbl_TimeLimit2.TabIndex = 31;
+            this.lbl_TimeLimit2.Text = "发图时间范围1(0-24):";
+            // 
+            // lbl_TimeLimit3
+            // 
+            this.lbl_TimeLimit3.AutoSize = true;
+            this.lbl_TimeLimit3.Location = new System.Drawing.Point(3, 210);
+            this.lbl_TimeLimit3.Name = "lbl_TimeLimit3";
+            this.lbl_TimeLimit3.Size = new System.Drawing.Size(77, 24);
+            this.lbl_TimeLimit3.TabIndex = 30;
+            this.lbl_TimeLimit3.Text = "发图时间范围3(0-24):";
+            // 
+            // lbl_TimeLimit4
+            // 
+            this.lbl_TimeLimit4.AutoSize = true;
+            this.lbl_TimeLimit4.Location = new System.Drawing.Point(3, 240);
+            this.lbl_TimeLimit4.Name = "lbl_TimeLimit4";
+            this.lbl_TimeLimit4.Size = new System.Drawing.Size(77, 24);
+            this.lbl_TimeLimit4.TabIndex = 32;
+            this.lbl_TimeLimit4.Text = "发图时间范围4(0-24):";
+            // 
+            // fd_SendTimeStart2
+            // 
+            this.fd_SendTimeStart2.Location = new System.Drawing.Point(103, 183);
+            this.fd_SendTimeStart2.Name = "fd_SendTimeStart2";
+            this.fd_SendTimeStart2.Size = new System.Drawing.Size(50, 21);
+            this.fd_SendTimeStart2.TabIndex = 33;
+            this.fd_SendTimeStart2.Text = "0";
+            // 
+            // fd_SendTimeEnd2
+            // 
+            this.fd_SendTimeEnd2.Location = new System.Drawing.Point(283, 183);
+            this.fd_SendTimeEnd2.Name = "fd_SendTimeEnd2";
+            this.fd_SendTimeEnd2.Size = new System.Drawing.Size(50, 21);
+            this.fd_SendTimeEnd2.TabIndex = 34;
+            this.fd_SendTimeEnd2.Text = "24";
+            // 
+            // fd_SendTimeStart3
+            // 
+            this.fd_SendTimeStart3.Location = new System.Drawing.Point(103, 213);
+            this.fd_SendTimeStart3.Name = "fd_SendTimeStart3";
+            this.fd_SendTimeStart3.Size = new System.Drawing.Size(50, 21);
+            this.fd_SendTimeStart3.TabIndex = 35;
+            this.fd_SendTimeStart3.Text = "0";
+            // 
+            // fd_SendTimeEnd3
+            // 
+            this.fd_SendTimeEnd3.Location = new System.Drawing.Point(283, 213);
+            this.fd_SendTimeEnd3.Name = "fd_SendTimeEnd3";
+            this.fd_SendTimeEnd3.Size = new System.Drawing.Size(50, 21);
+            this.fd_SendTimeEnd3.TabIndex = 36;
+            this.fd_SendTimeEnd3.Text = "24";
+            // 
+            // fd_SendTimeStart4
+            // 
+            this.fd_SendTimeStart4.Location = new System.Drawing.Point(103, 243);
+            this.fd_SendTimeStart4.Name = "fd_SendTimeStart4";
+            this.fd_SendTimeStart4.Size = new System.Drawing.Size(50, 21);
+            this.fd_SendTimeStart4.TabIndex = 37;
+            this.fd_SendTimeStart4.Text = "0";
+            // 
+            // fd_SendTimeEnd4
+            // 
+            this.fd_SendTimeEnd4.Location = new System.Drawing.Point(283, 243);
+            this.fd_SendTimeEnd4.Name = "fd_SendTimeEnd4";
+            this.fd_SendTimeEnd4.Size = new System.Drawing.Size(50, 21);
+            this.fd_SendTimeEnd4.TabIndex = 38;
+            this.fd_SendTimeEnd4.Text = "24";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(383, 270);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 39;
+            this.label1.Text = "顶部文字";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(383, 300);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 40;
+            this.label2.Text = "底部文字";
+            // 
+            // fd_ImageTopText
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.fd_ImageTopText, 2);
+            this.fd_ImageTopText.Enabled = false;
+            this.fd_ImageTopText.Location = new System.Drawing.Point(563, 273);
+            this.fd_ImageTopText.Name = "fd_ImageTopText";
+            this.fd_ImageTopText.Size = new System.Drawing.Size(187, 21);
+            this.fd_ImageTopText.TabIndex = 41;
+            // 
+            // fd_ImageEndText
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.fd_ImageEndText, 2);
+            this.fd_ImageEndText.Enabled = false;
+            this.fd_ImageEndText.Location = new System.Drawing.Point(563, 303);
+            this.fd_ImageEndText.Name = "fd_ImageEndText";
+            this.fd_ImageEndText.Size = new System.Drawing.Size(187, 21);
+            this.fd_ImageEndText.TabIndex = 42;
             // 
             // ep_wf
             // 
@@ -395,40 +566,40 @@
             this.gv_UserList.AllowUserToDeleteRows = false;
             this.gv_UserList.AllowUserToOrderColumns = true;
             this.gv_UserList.AutoGenerateColumns = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_UserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_UserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gv_UserList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_UserList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.UserID,
             this.UserName,
             this.IsLockedOut});
             this.gv_UserList.DataSource = this.BS_UserList;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_UserList.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_UserList.DefaultCellStyle = dataGridViewCellStyle2;
             this.gv_UserList.Location = new System.Drawing.Point(7, 7);
             this.gv_UserList.MultiSelect = false;
             this.gv_UserList.Name = "gv_UserList";
             this.gv_UserList.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_UserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_UserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gv_UserList.RowHeadersVisible = false;
             this.gv_UserList.RowTemplate.Height = 23;
             this.gv_UserList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -484,7 +655,7 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lbl_UserName;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbl_pwd;
         private System.Windows.Forms.Label lbl_Islock;
         private System.Windows.Forms.TextBox fd_password;
         private System.Windows.Forms.CheckBox fd_IsLock;
@@ -517,6 +688,22 @@
         private System.Windows.Forms.TextBox fd_MaxPlayerCount;
         private System.Windows.Forms.Label lbl_boss;
         private System.Windows.Forms.TextBox fd_BossUserName;
+        private System.Windows.Forms.TextBox fd_SendTimeEnd1;
+        private System.Windows.Forms.TextBox fd_SendTimeStart1;
+        private System.Windows.Forms.Label lbl_TimeLimit1;
+        private System.Windows.Forms.Label lbl_TimeLimit2;
+        private System.Windows.Forms.Label lbl_TimeLimit3;
+        private System.Windows.Forms.Label lbl_TimeLimit4;
+        private System.Windows.Forms.TextBox fd_SendTimeStart2;
+        private System.Windows.Forms.TextBox fd_SendTimeEnd2;
+        private System.Windows.Forms.TextBox fd_SendTimeStart3;
+        private System.Windows.Forms.TextBox fd_SendTimeEnd3;
+        private System.Windows.Forms.TextBox fd_SendTimeStart4;
+        private System.Windows.Forms.TextBox fd_SendTimeEnd4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox fd_ImageTopText;
+        private System.Windows.Forms.TextBox fd_ImageEndText;
 
     }
 }

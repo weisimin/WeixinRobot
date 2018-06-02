@@ -26,7 +26,7 @@ namespace NetFramework
 
             WebRequest LoginPage = HttpWebRequest.Create(TargetURL);
             ((HttpWebRequest)LoginPage).AllowAutoRedirect = AllowRedirect;
-            
+
             ((HttpWebRequest)LoginPage).Timeout = 15000;
             LoginPage.Method = Method;
             switch (Method)
@@ -73,6 +73,8 @@ namespace NetFramework
             try
             {
                 CurrentUrl = "正在下载" + TargetURL;
+                System.GC.Collect();
+                Console.Write("下载URL" + LoginPage_Return.ResponseUri.AbsoluteUri + Environment.NewLine);
                 LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
 
                 CurrentUrl = "已下载" + TargetURL;
@@ -92,7 +94,7 @@ namespace NetFramework
 
                 throw AnyError;
             }
-
+           
             string responseBody = string.Empty;
             if (LoginPage_Return.ContentEncoding.ToLower().Contains("gzip"))
             {
@@ -101,6 +103,7 @@ namespace NetFramework
                     using (StreamReader reader = new StreamReader(stream))
                     {
                         responseBody = reader.ReadToEnd();
+                        stream.Close();
                     }
                 }
             }
@@ -111,6 +114,7 @@ namespace NetFramework
                     using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
                     {
                         responseBody = reader.ReadToEnd();
+                        stream.Close();
                     }
                 }
             }
@@ -121,39 +125,59 @@ namespace NetFramework
                     using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
                     {
                         responseBody = reader.ReadToEnd();
+                        stream.Close();
                     }
                 }
             }
             LoginPage.Abort();
+
+
+            Console.Write("下载完成" + LoginPage_Return.ResponseUri.AbsoluteUri+Environment.NewLine);
+
+            LoginPage_Return.Close();
+            LoginPage_Return = null;
+            LoginPage = null;
+            System.GC.Collect();
+
 
             return responseBody;
         }
 
         private static DateTime? ImageToday = null;
         private static Int32 ImageFileid = 0;
+        private static string Boundary = "wWMqeF7OGA3s1GXQ";
 
-        public static string UploadWXImage(string ImgFilePath, string MyUserID, string TOUserID, string JavaTimeSpan, CookieCollection tmpcookie, Newtonsoft.Json.Linq.JObject RequestBase)
+        public static string UploadWXImage(string ImgFilePath, string MyUserID, string TOUserID, string JavaTimeSpan, CookieCollection tmpcookie, Newtonsoft.Json.Linq.JObject RequestBase, string webhost)
         {
             #region 上传文件
+
+            if (ImageToday == null || ImageToday != DateTime.Today || ImageFileid > 9)
+            {
+                ImageToday = DateTime.Today;
+                ImageFileid = 1;
+                Boundary = GenerateRandom(16);
+
+            }
+
             FileInfo fi = new FileInfo(ImgFilePath);
             //POST /cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json HTTP/1.1
             //Content-Type: multipart/form-data; boundary=----WebKitFormBoundarywWMqeF7OGA3s1GXQ
 
-            //Host: file.wx2.qq.com
+            //Host: file."+webhost+"
 
 
 
 
 
-            string UploadUrl = "https://file.wx2.qq.com/cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json";
+            string UploadUrl = "https://file." + webhost + "/cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json";
             System.Net.ServicePointManager.DefaultConnectionLimit = 5000;
             System.Net.ServicePointManager.SetTcpKeepAlive(true, 3000, 3000);
 
-            string optionurl = "https://file.wx2.qq.com/cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json";
+            string optionurl = "https://file." + webhost + "/cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json";
             WebRequest OptionPage = HttpWebRequest.Create(optionurl);
             ((HttpWebRequest)OptionPage).Method = "OPTIONS";
             ((HttpWebRequest)OptionPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
-            ((HttpWebRequest)OptionPage).Referer = "https://wx2.qq.com/";
+            ((HttpWebRequest)OptionPage).Referer = "https://" + webhost + "/";
             ((HttpWebRequest)OptionPage).UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)";
             OptionPage.Headers.Add("Accept-Encoding", "gzip, deflate");
             ((HttpWebRequest)OptionPage).CookieContainer = new CookieContainer();
@@ -172,12 +196,12 @@ namespace NetFramework
             ((HttpWebRequest)LoginPage).Timeout = 60000;
             ((HttpWebRequest)LoginPage).Method = "POST";
             ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
-            ((HttpWebRequest)LoginPage).Referer = "https://wx2.qq.com/";
+            ((HttpWebRequest)LoginPage).Referer = "https://" + webhost + "/";
             ((HttpWebRequest)LoginPage).UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)";
             LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate");
             ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)LoginPage).CookieContainer.Add(tmpcookie);
-            ((HttpWebRequest)LoginPage).ContentType = "multipart/form-data; boundary=----WebKitFormBoundarywWMqeF7OGA3s1GXQ";
+            ((HttpWebRequest)LoginPage).ContentType = "multipart/form-data; boundary=----WebKitFormBoundary" + Boundary;
             ((HttpWebRequest)LoginPage).ServicePoint.Expect100Continue = false;
             ((HttpWebRequest)LoginPage).Connection = "KeepAlive";
             LoginPage.Headers.Add("Origin", ((HttpWebRequest)LoginPage).Referer.Substring(0, ((HttpWebRequest)LoginPage).Referer.Length - 1));
@@ -187,15 +211,11 @@ namespace NetFramework
             //------WebKitFormBoundarywWMqeF7OGA3s1GXQ
             //Content-Disposition: form-data; name="id"
             //WU_FILE_2
-            byte[] buf = Encoding.UTF8.GetBytes("------WebKitFormBoundarywWMqeF7OGA3s1GXQ" + Environment.NewLine);
+            byte[] buf = Encoding.UTF8.GetBytes("------WebKitFormBoundary" + Boundary + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"id\"" + Environment.NewLine + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
-            if (ImageToday==null||ImageToday!=DateTime.Today)
-            {
-                ImageToday = DateTime.Today;
-                ImageFileid = 1;
-            }
+
             buf = Encoding.UTF8.GetBytes("WU_FILE_" + ImageFileid.ToString() + Environment.NewLine);
             ImageFileid += 1;
             Strem_ToPost.Write(buf, 0, buf.Length);
@@ -204,7 +224,7 @@ namespace NetFramework
             //------WebKitFormBoundarywWMqeF7OGA3s1GXQ
             //Content-Disposition: form-data; name="name"
             //Data.jpg
-            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundarywWMqeF7OGA3s1GXQ" + Environment.NewLine);
+            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundary" + Boundary + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"name\"" + Environment.NewLine + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
@@ -213,7 +233,7 @@ namespace NetFramework
             //------WebKitFormBoundarywWMqeF7OGA3s1GXQ
             //Content-Disposition: form-data; name="type"
             //image/jpeg
-            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundarywWMqeF7OGA3s1GXQ" + Environment.NewLine);
+            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundary" + Boundary + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"type\"" + Environment.NewLine + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
@@ -222,7 +242,7 @@ namespace NetFramework
             //------WebKitFormBoundarywWMqeF7OGA3s1GXQ
             //Content-Disposition: form-data; name="lastModifiedDate"
             //Mon Apr 09 2018 17:40:22 GMT+0800 (中国标准时间)
-            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundarywWMqeF7OGA3s1GXQ" + Environment.NewLine);
+            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundary" + Boundary + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"lastModifiedDate\"" + Environment.NewLine + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
@@ -232,7 +252,7 @@ namespace NetFramework
             //------WebKitFormBoundarywWMqeF7OGA3s1GXQ
             //Content-Disposition: form-data; name="size"
             //79253
-            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundarywWMqeF7OGA3s1GXQ" + Environment.NewLine);
+            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundary" + Boundary + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"size\"" + Environment.NewLine + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
@@ -243,7 +263,7 @@ namespace NetFramework
             //------WebKitFormBoundarywWMqeF7OGA3s1GXQ
             //Content-Disposition: form-data; name="mediatype"
             //pic
-            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundarywWMqeF7OGA3s1GXQ" + Environment.NewLine);
+            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundary" + Boundary + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"mediatype\"" + Environment.NewLine + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
@@ -252,7 +272,7 @@ namespace NetFramework
             //------WebKitFormBoundarywWMqeF7OGA3s1GXQ
             //Content-Disposition: form-data; name="uploadmediarequest"
             //{"UploadType":2,"BaseRequest":{"Uin":2402981522,"Sid":"W8Ia83fMnlcuKK0U","Skey":"@crypt_bbd454c7_9465a672aa848c64c765ea727877bdd1","DeviceID":"e718028710913369"},"ClientMediaId":1523267109886,"TotalLen":79253,"StartPos":0,"DataLen":79253,"MediaType":4,"FromUserName":"@ac0308d92ae0d88beb8d90feee45a86c02f36bd5f3560398b544abeac4e70a14","ToUserName":"@@f2a3e52ae022d3303864e9dfcda631635a429b2c28c4d93388ec25429280df00","FileMd5":"a5a03dda3342443cfd15c2ccc8f970e5"}
-            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundarywWMqeF7OGA3s1GXQ" + Environment.NewLine);
+            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundary" + Boundary + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"uploadmediarequest\"" + Environment.NewLine + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
@@ -276,7 +296,7 @@ namespace NetFramework
             //------WebKitFormBoundarywWMqeF7OGA3s1GXQ
             //Content-Disposition: form-data; name="webwx_data_ticket"
             //gScs3xfj201uhj/fk3wxSMQA
-            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundarywWMqeF7OGA3s1GXQ" + Environment.NewLine);
+            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundary" + Boundary + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"webwx_data_ticket\"" + Environment.NewLine + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
@@ -286,7 +306,7 @@ namespace NetFramework
             //------WebKitFormBoundarywWMqeF7OGA3s1GXQ
             //Content-Disposition: form-data; name="pass_ticket"
             //undefined
-            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundarywWMqeF7OGA3s1GXQ" + Environment.NewLine);
+            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundary" + Boundary + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"pass_ticket\"" + Environment.NewLine + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
@@ -297,7 +317,7 @@ namespace NetFramework
             //------WebKitFormBoundarywWMqeF7OGA3s1GXQ
             //Content-Disposition: form-data; name="filename"; filename="Data.jpg"
             //Content-Type: image/jpeg
-            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundarywWMqeF7OGA3s1GXQ" + Environment.NewLine);
+            buf = Encoding.UTF8.GetBytes("------WebKitFormBoundary" + Boundary + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
             buf = Encoding.UTF8.GetBytes("Content-Disposition: form-data; name=\"filename\" filename=\"" + fi.Name + "\"" + Environment.NewLine);
             Strem_ToPost.Write(buf, 0, buf.Length);
@@ -311,7 +331,7 @@ namespace NetFramework
                 Strem_ToPost.WriteByte((byte)Read);
                 Read = fs.ReadByte();
             }
-            buf = Encoding.UTF8.GetBytes(Environment.NewLine + "------WebKitFormBoundarywWMqeF7OGA3s1GXQ");
+            buf = Encoding.UTF8.GetBytes(Environment.NewLine + "------WebKitFormBoundary" + Boundary);
             Strem_ToPost.Write(buf, 0, buf.Length);
 
             buf = Encoding.UTF8.GetBytes("--" + Environment.NewLine);
@@ -401,7 +421,7 @@ namespace NetFramework
 
 
             //POST /cgi-bin/mmwebwx-bin/webwxsendmsgimg?fun=async&f=json HTTP/1.1
-            //Host: wx2.qq.com
+            //Host: "+webhost+"
             //        {
             //    "BaseRequest": {
             //        "Uin": 2402981522,
@@ -486,22 +506,37 @@ namespace NetFramework
         #endregion
 
 
-         public static string CleanHtml(string strHtml)
-    {
-      if (string.IsNullOrEmpty(strHtml)) return strHtml;
-      //删除脚本
-      //Regex.Replace(strHtml, @"<script[^>]*?>.*?</script>", "", RegexOptions.IgnoreCase)
-      strHtml = Regex.Replace(strHtml, "(<script(.+?)</script>)|(<style(.+?)</style>)", "", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-      //删除标签
-      var r = new Regex(@"</?[^>]*>", RegexOptions.IgnoreCase);
-      Match m;
-      for (m = r.Match(strHtml); m.Success; m = m.NextMatch())
-      {
-        strHtml = strHtml.Replace(m.Groups[0].ToString(), "");
-      }
-      return strHtml.Trim();
-    }
+        public static string CleanHtml(string strHtml)
+        {
+            if (string.IsNullOrEmpty(strHtml)) return strHtml;
+            //删除脚本
+            //Regex.Replace(strHtml, @"<script[^>]*?>.*?</script>", "", RegexOptions.IgnoreCase)
+            strHtml = Regex.Replace(strHtml, "(<script(.+?)</script>)|(<style(.+?)</style>)", "", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            //删除标签
+            var r = new Regex(@"</?[^>]*>", RegexOptions.IgnoreCase);
+            Match m;
+            for (m = r.Match(strHtml); m.Success; m = m.NextMatch())
+            {
+                strHtml = strHtml.Replace(m.Groups[0].ToString(), "");
+            }
+            return strHtml.Trim();
+        }
 
+        private static char[] constant =
+{
+'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+};
+        public static string GenerateRandom(int Length)
+        {
+            System.Text.StringBuilder newRandom = new System.Text.StringBuilder(52);
+            Random rd = new Random();
+            for (int i = 0; i < Length; i++)
+            {
+                newRandom.Append(constant[rd.Next(52)]);
+            }
+            return newRandom.ToString();
+        }
     }
     public class Util_MD5
     {
@@ -594,9 +629,9 @@ namespace NetFramework
                 objNumberPattern.IsMatch(strNumber);
         }
 
-        public static decimal NullToZero(decimal? dbvalue,Int32 KeepCount=0)
+        public static decimal NullToZero(decimal? dbvalue, Int32 KeepCount = 0)
         {
-            return dbvalue.HasValue ? Math.Round( dbvalue.Value,KeepCount) : 0;
+            return dbvalue.HasValue ? Math.Round(dbvalue.Value, KeepCount) : 0;
         }
     }
 
@@ -606,7 +641,7 @@ namespace NetFramework
 
 
         //加密web.Config中的指定节
-        public static void ProtectSection(string sectionName,string Path)
+        public static void ProtectSection(string sectionName, string Path)
         {
             System.Configuration.Configuration config = WebConfigurationManager.OpenWebConfiguration(Path);
             System.Configuration.ConfigurationSection section = config.GetSection(sectionName);
@@ -618,7 +653,7 @@ namespace NetFramework
         }
 
         //解密web.Config中的指定节
-         public static void UnProtectSection(string sectionName,string Path)
+        public static void UnProtectSection(string sectionName, string Path)
         {
             System.Configuration.Configuration config = WebConfigurationManager.OpenWebConfiguration(Path);
             System.Configuration.ConfigurationSection section = config.GetSection(sectionName);

@@ -55,6 +55,8 @@ namespace WeixinRoboot
                         newusrc.RemarkName = RemarkName;
                         newusrc.NickName =  NetFramework.Util_WEB.CleanHtml(NickName);
 
+                        newusrc.IsCaculateFuli = true;
+
                         db.WX_UserReply.InsertOnSubmit(newusrc);
                         db.SubmitChanges();
 
@@ -62,7 +64,7 @@ namespace WeixinRoboot
                     else
                     {
                         usrc.RemarkName = RemarkName;
-                        usrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName); ;
+                        usrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName); 
                         db.SubmitChanges();
 
                     } //初始化，添加到数据库或同步数据库
@@ -84,6 +86,7 @@ namespace WeixinRoboot
                     newr.SetField("User_Contact", RemarkName == "" ? NickName : RemarkName);
                     newr.SetField("User_IsReply", usrc == null ? false : usrc.IsReply);
                     newr.SetField("User_IsReceiveTransfer", usrc == null ? false : usrc.IsReceiveTransfer);
+                    newr.SetField("User_IsCaculateFuli", usrc == null ? false : usrc.IsCaculateFuli);
 
                     var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
                     foreach (var logitem in UpdateLogs)
@@ -102,7 +105,7 @@ namespace WeixinRoboot
                     }
                     RepyRowitem.SetField("Reply_Contact", usr[0].Field<string>("User_Contact"));
                     RepyRowitem.SetField("Reply_ContactTEMPID", usr[0].Field<string>("User_ContactTEMPID"));
-                }
+                        }
             }//Set结束
         }
 
@@ -140,6 +143,9 @@ namespace WeixinRoboot
             MemberSource.Columns.Add("User_ContactTEMPID");
             MemberSource.Columns.Add("User_IsReply", typeof(Boolean));
             MemberSource.Columns.Add("User_IsReceiveTransfer", typeof(Boolean));
+            MemberSource.Columns.Add("User_IsCaculateFuli", typeof(Boolean));
+         
+
 
             BS_Contact.DataSource = MemberSource;
             BS_Contact.Sort = "User_Contact";
@@ -482,6 +488,34 @@ namespace WeixinRoboot
 
             StartF.DrawGdi(day);
             StartF.SendChongqingResult();
+        }
+
+        private void MI_FuliCheck_Click(object sender, EventArgs e)
+        {
+
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.DataLogic.WX_UserReplyLog_MySendCreate("福利", editrow);
+
+
+            }
+        }
+
+        private void MI_CancelFuliCheck_Click(object sender, EventArgs e)
+        {
+
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消福利", editrow);
+
+
+            }
         }
 
 

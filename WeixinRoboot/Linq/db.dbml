@@ -38,27 +38,6 @@
       <Association Name="aspnet_Users_aspnet_Membership" Member="aspnet_Users" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Users" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Game_ChongqingshishicaiPeriodMinute" Member="Game_ChongqingshishicaiPeriodMinute">
-    <Type Name="Game_ChongqingshishicaiPeriodMinute">
-      <Column Name="GameType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="PeriodIndex" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="TimeMinute" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Private_Period" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Private_day" Type="System.Int32" DbType="Int" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.aspnet_UsersNewGameResultSend" Member="aspnet_UsersNewGameResultSend">
-    <Type Name="aspnet_UsersNewGameResultSend">
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsNewSend" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ActiveCode" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
-      <Column Name="IsBlock" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsSendPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsReceiveOrder" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="MaxPlayerCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="bossaspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.WX_UserGameLog" Member="WX_UserGameLog">
     <Type Name="WX_UserGameLog">
       <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -87,16 +66,6 @@
       <Column Name="BounsRatio_WhenOK" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
       <Column Name="BounsRatio_WhenMiddle" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
       <Column Name="BounsRatio_Wen23" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.WX_UserReply" Member="WX_UserReply">
-    <Type Name="WX_UserReply">
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsReply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="NickName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
-      <Column Name="RemarkName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
-      <Column Name="IsReceiveTransfer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.WX_UserReplyLog" Member="WX_UserReplyLog">
@@ -174,6 +143,48 @@
     <Type Name="TaoHua_GameResult">
       <Column Name="GamePeriod" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="GameResult" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_UserReply" Member="WX_UserReply">
+    <Type Name="WX_UserReply">
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsReply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NickName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="RemarkName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="IsReceiveTransfer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsCaculateFuli" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_UsersNewGameResultSend" Member="aspnet_UsersNewGameResultSend">
+    <Type Name="aspnet_UsersNewGameResultSend">
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsNewSend" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ActiveCode" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="IsBlock" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsSendPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsReceiveOrder" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MaxPlayerCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="bossaspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="SendImageEnd" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageStart" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageEnd2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageEnd3" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageEnd4" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageStart2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageStart3" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageStart4" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImageEndText" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ImageTopText" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Game_ChongqingshishicaiPeriodMinute" Member="Game_ChongqingshishicaiPeriodMinute">
+    <Type Name="Game_ChongqingshishicaiPeriodMinute">
+      <Column Name="GameType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PeriodIndex" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TimeMinute" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Private_Period" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Private_day" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

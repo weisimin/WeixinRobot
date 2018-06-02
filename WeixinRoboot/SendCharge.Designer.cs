@@ -30,16 +30,18 @@
         {
             this.components = new System.ComponentModel.Container();
             this.GV_ChangeLog = new System.Windows.Forms.DataGridView();
-            this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RemarkType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ChangePoint = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BS_TransLog = new System.Windows.Forms.BindingSource(this.components);
             this.lbl_User = new System.Windows.Forms.Label();
             this.ep_sql = new System.Windows.Forms.ErrorProvider(this.components);
             this.Btn_Send = new System.Windows.Forms.Button();
             this.tb_ChargeMoney = new System.Windows.Forms.TextBox();
             this.lbl_ChargeMoney = new System.Windows.Forms.Label();
+            this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RemarkType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.时间 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.期数 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ChangePoint = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GV_ChangeLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_TransLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ep_sql)).BeginInit();
@@ -55,6 +57,8 @@
             this.GV_ChangeLog.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.UserName,
             this.RemarkType,
+            this.时间,
+            this.期数,
             this.ChangePoint,
             this.Remark});
             this.GV_ChangeLog.DataSource = this.BS_TransLog;
@@ -63,36 +67,8 @@
             this.GV_ChangeLog.ReadOnly = true;
             this.GV_ChangeLog.RowHeadersVisible = false;
             this.GV_ChangeLog.RowTemplate.Height = 23;
-            this.GV_ChangeLog.Size = new System.Drawing.Size(544, 208);
+            this.GV_ChangeLog.Size = new System.Drawing.Size(920, 208);
             this.GV_ChangeLog.TabIndex = 2;
-            // 
-            // UserName
-            // 
-            this.UserName.DataPropertyName = "UserName";
-            this.UserName.HeaderText = "用户";
-            this.UserName.Name = "UserName";
-            this.UserName.ReadOnly = true;
-            // 
-            // RemarkType
-            // 
-            this.RemarkType.DataPropertyName = "RemarkType";
-            this.RemarkType.HeaderText = "类别";
-            this.RemarkType.Name = "RemarkType";
-            this.RemarkType.ReadOnly = true;
-            // 
-            // ChangePoint
-            // 
-            this.ChangePoint.DataPropertyName = "ChangePoint";
-            this.ChangePoint.HeaderText = "变更点数";
-            this.ChangePoint.Name = "ChangePoint";
-            this.ChangePoint.ReadOnly = true;
-            // 
-            // Remark
-            // 
-            this.Remark.DataPropertyName = "Remark";
-            this.Remark.HeaderText = "备注";
-            this.Remark.Name = "Remark";
-            this.Remark.ReadOnly = true;
             // 
             // lbl_User
             // 
@@ -134,11 +110,53 @@
             this.lbl_ChargeMoney.TabIndex = 9;
             this.lbl_ChargeMoney.Text = "充值金额:";
             // 
+            // UserName
+            // 
+            this.UserName.DataPropertyName = "UserName";
+            this.UserName.HeaderText = "用户";
+            this.UserName.Name = "UserName";
+            this.UserName.ReadOnly = true;
+            // 
+            // RemarkType
+            // 
+            this.RemarkType.DataPropertyName = "RemarkType";
+            this.RemarkType.HeaderText = "类别";
+            this.RemarkType.Name = "RemarkType";
+            this.RemarkType.ReadOnly = true;
+            // 
+            // 时间
+            // 
+            this.时间.DataPropertyName = "ChangeTime";
+            this.时间.HeaderText = "时间";
+            this.时间.Name = "时间";
+            this.时间.ReadOnly = true;
+            // 
+            // 期数
+            // 
+            this.期数.DataPropertyName = "GamePeriod";
+            this.期数.HeaderText = "期数";
+            this.期数.Name = "期数";
+            this.期数.ReadOnly = true;
+            // 
+            // ChangePoint
+            // 
+            this.ChangePoint.DataPropertyName = "ChangePoint";
+            this.ChangePoint.HeaderText = "变更点数";
+            this.ChangePoint.Name = "ChangePoint";
+            this.ChangePoint.ReadOnly = true;
+            // 
+            // Remark
+            // 
+            this.Remark.DataPropertyName = "Remark";
+            this.Remark.HeaderText = "备注";
+            this.Remark.Name = "Remark";
+            this.Remark.ReadOnly = true;
+            // 
             // SendCharge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(595, 338);
+            this.ClientSize = new System.Drawing.Size(945, 338);
             this.Controls.Add(this.Btn_Send);
             this.Controls.Add(this.tb_ChargeMoney);
             this.Controls.Add(this.lbl_ChargeMoney);
@@ -161,12 +179,14 @@
         private System.Windows.Forms.BindingSource BS_TransLog;
         private System.Windows.Forms.Label lbl_User;
         private System.Windows.Forms.ErrorProvider ep_sql;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RemarkType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ChangePoint;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
         private System.Windows.Forms.Button Btn_Send;
         private System.Windows.Forms.TextBox tb_ChargeMoney;
         private System.Windows.Forms.Label lbl_ChargeMoney;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RemarkType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 时间;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 期数;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ChangePoint;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
     }
 }

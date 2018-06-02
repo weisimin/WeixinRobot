@@ -34,12 +34,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gv_contact = new System.Windows.Forms.DataGridView();
-            this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContctID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BS_Contact = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.gv_ReceiveReply = new System.Windows.Forms.DataGridView();
@@ -65,6 +59,8 @@
             this.MI_CancelIsReply = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_ReceiveTrans = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_CancelReceiveTrans = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_CheckFuli = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_CancelCheckFuli = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_ContactFilter = new System.Windows.Forms.TextBox();
             this.dtp_EndDate = new System.Windows.Forms.DateTimePicker();
             this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
@@ -92,6 +88,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.fd_Period = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContctID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsCaculateFuli = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -122,7 +125,8 @@
             this.User_ContctID,
             this.User_ContactTMPID,
             this.User_IsReply,
-            this.User_IsReceiveTransfer});
+            this.User_IsReceiveTransfer,
+            this.User_IsCaculateFuli});
             this.gv_contact.DataSource = this.BS_Contact;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -132,7 +136,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gv_contact.DefaultCellStyle = dataGridViewCellStyle2;
-            this.gv_contact.Location = new System.Drawing.Point(12, 39);
+            this.gv_contact.Location = new System.Drawing.Point(12, 68);
             this.gv_contact.MultiSelect = false;
             this.gv_contact.Name = "gv_contact";
             this.gv_contact.ReadOnly = true;
@@ -140,65 +144,17 @@
             this.gv_contact.RowTemplate.Height = 23;
             this.gv_contact.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gv_contact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gv_contact.Size = new System.Drawing.Size(189, 611);
+            this.gv_contact.Size = new System.Drawing.Size(189, 582);
             this.gv_contact.TabIndex = 0;
             this.gv_contact.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gv_contact_CellClick);
             this.gv_contact.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_contact_DataError);
             this.gv_contact.SelectionChanged += new System.EventHandler(this.gv_contact_SelectionChanged);
             this.gv_contact.Leave += new System.EventHandler(this.gv_contact_Leave);
             // 
-            // User_ContactType
-            // 
-            this.User_ContactType.DataPropertyName = "User_ContactType";
-            this.User_ContactType.HeaderText = "类";
-            this.User_ContactType.Name = "User_ContactType";
-            this.User_ContactType.ReadOnly = true;
-            this.User_ContactType.Width = 25;
-            // 
-            // User_Contact
-            // 
-            this.User_Contact.DataPropertyName = "User_Contact";
-            this.User_Contact.HeaderText = "联系人";
-            this.User_Contact.Name = "User_Contact";
-            this.User_Contact.ReadOnly = true;
-            this.User_Contact.Width = 90;
-            // 
-            // User_ContctID
-            // 
-            this.User_ContctID.DataPropertyName = "User_ContctID";
-            this.User_ContctID.HeaderText = "联系人ID";
-            this.User_ContctID.Name = "User_ContctID";
-            this.User_ContctID.ReadOnly = true;
-            this.User_ContctID.Visible = false;
-            // 
-            // User_ContactTMPID
-            // 
-            this.User_ContactTMPID.HeaderText = "联系人临时ID";
-            this.User_ContactTMPID.Name = "User_ContactTMPID";
-            this.User_ContactTMPID.ReadOnly = true;
-            this.User_ContactTMPID.Visible = false;
-            // 
-            // User_IsReply
-            // 
-            this.User_IsReply.DataPropertyName = "User_IsReply";
-            this.User_IsReply.HeaderText = "启";
-            this.User_IsReply.Name = "User_IsReply";
-            this.User_IsReply.ReadOnly = true;
-            this.User_IsReply.Width = 30;
-            // 
-            // User_IsReceiveTransfer
-            // 
-            this.User_IsReceiveTransfer.DataPropertyName = "User_IsReceiveTransfer";
-            this.User_IsReceiveTransfer.HeaderText = "转";
-            this.User_IsReceiveTransfer.Name = "User_IsReceiveTransfer";
-            this.User_IsReceiveTransfer.ReadOnly = true;
-            this.User_IsReceiveTransfer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.User_IsReceiveTransfer.Width = 30;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 22);
+            this.label1.Location = new System.Drawing.Point(11, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 12);
             this.label1.TabIndex = 1;
@@ -332,9 +288,11 @@
             this.MI_CleanUp,
             this.MI_CancelIsReply,
             this.MI_ReceiveTrans,
-            this.MI_CancelReceiveTrans});
+            this.MI_CancelReceiveTrans,
+            this.MI_CheckFuli,
+            this.MI_CancelCheckFuli});
             this.MouseMenuReply.Name = "MouseMenuReply";
-            this.MouseMenuReply.Size = new System.Drawing.Size(149, 202);
+            this.MouseMenuReply.Size = new System.Drawing.Size(149, 246);
             // 
             // MI_IsReply
             // 
@@ -398,9 +356,23 @@
             this.MI_CancelReceiveTrans.Text = "取消转发";
             this.MI_CancelReceiveTrans.Click += new System.EventHandler(this.MI_CancelReceiveTrans_Click);
             // 
+            // MI_CheckFuli
+            // 
+            this.MI_CheckFuli.Name = "MI_CheckFuli";
+            this.MI_CheckFuli.Size = new System.Drawing.Size(148, 22);
+            this.MI_CheckFuli.Text = "计算福利";
+            this.MI_CheckFuli.Click += new System.EventHandler(this.MI_FuliCheck_Click);
+            // 
+            // MI_CancelCheckFuli
+            // 
+            this.MI_CancelCheckFuli.Name = "MI_CancelCheckFuli";
+            this.MI_CancelCheckFuli.Size = new System.Drawing.Size(148, 22);
+            this.MI_CancelCheckFuli.Text = "取消计算福利";
+            this.MI_CancelCheckFuli.Click += new System.EventHandler(this.MI_CancelFuliCheck_Click);
+            // 
             // tb_ContactFilter
             // 
-            this.tb_ContactFilter.Location = new System.Drawing.Point(60, 12);
+            this.tb_ContactFilter.Location = new System.Drawing.Point(59, 33);
             this.tb_ContactFilter.Name = "tb_ContactFilter";
             this.tb_ContactFilter.Size = new System.Drawing.Size(100, 21);
             this.tb_ContactFilter.TabIndex = 6;
@@ -632,6 +604,62 @@
             this.label6.TabIndex = 17;
             this.label6.Text = "3位期号:";
             // 
+            // User_ContactType
+            // 
+            this.User_ContactType.DataPropertyName = "User_ContactType";
+            this.User_ContactType.HeaderText = "类";
+            this.User_ContactType.Name = "User_ContactType";
+            this.User_ContactType.ReadOnly = true;
+            this.User_ContactType.Width = 25;
+            // 
+            // User_Contact
+            // 
+            this.User_Contact.DataPropertyName = "User_Contact";
+            this.User_Contact.HeaderText = "联系人";
+            this.User_Contact.Name = "User_Contact";
+            this.User_Contact.ReadOnly = true;
+            this.User_Contact.Width = 80;
+            // 
+            // User_ContctID
+            // 
+            this.User_ContctID.DataPropertyName = "User_ContctID";
+            this.User_ContctID.HeaderText = "联系人ID";
+            this.User_ContctID.Name = "User_ContctID";
+            this.User_ContctID.ReadOnly = true;
+            this.User_ContctID.Visible = false;
+            // 
+            // User_ContactTMPID
+            // 
+            this.User_ContactTMPID.HeaderText = "联系人临时ID";
+            this.User_ContactTMPID.Name = "User_ContactTMPID";
+            this.User_ContactTMPID.ReadOnly = true;
+            this.User_ContactTMPID.Visible = false;
+            // 
+            // User_IsReply
+            // 
+            this.User_IsReply.DataPropertyName = "User_IsReply";
+            this.User_IsReply.HeaderText = "启";
+            this.User_IsReply.Name = "User_IsReply";
+            this.User_IsReply.ReadOnly = true;
+            this.User_IsReply.Width = 25;
+            // 
+            // User_IsReceiveTransfer
+            // 
+            this.User_IsReceiveTransfer.DataPropertyName = "User_IsReceiveTransfer";
+            this.User_IsReceiveTransfer.HeaderText = "转";
+            this.User_IsReceiveTransfer.Name = "User_IsReceiveTransfer";
+            this.User_IsReceiveTransfer.ReadOnly = true;
+            this.User_IsReceiveTransfer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.User_IsReceiveTransfer.Width = 25;
+            // 
+            // User_IsCaculateFuli
+            // 
+            this.User_IsCaculateFuli.DataPropertyName = "User_IsCaculateFuli";
+            this.User_IsCaculateFuli.HeaderText = "福";
+            this.User_IsCaculateFuli.Name = "User_IsCaculateFuli";
+            this.User_IsCaculateFuli.ReadOnly = true;
+            this.User_IsCaculateFuli.Width = 25;
+            // 
             // RunnerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -717,12 +745,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Result_Point;
         private System.Windows.Forms.ToolStripMenuItem MI_IsReply;
         private System.Windows.Forms.ToolStripMenuItem MI_CancelIsReply;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_Contact;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContctID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactTMPID;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReply;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReceiveTransfer;
         private System.Windows.Forms.ToolStripMenuItem MI_ReceiveTrans;
         private System.Windows.Forms.ToolStripMenuItem MI_CancelReceiveTrans;
         private System.Windows.Forms.DateTimePicker fd_day;
@@ -735,5 +757,14 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox fd_Period;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ToolStripMenuItem MI_CheckFuli;
+        private System.Windows.Forms.ToolStripMenuItem MI_CancelCheckFuli;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_Contact;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContctID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactTMPID;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReply;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReceiveTransfer;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsCaculateFuli;
     }
 }
