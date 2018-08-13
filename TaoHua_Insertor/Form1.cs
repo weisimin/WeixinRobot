@@ -29,7 +29,7 @@ namespace TaoHua_Insertor
             while (ReadCount < 120 && sr.EndOfStream == false)
             {
                 string NewLine = sr.ReadLine();
-                Console.Write( NewLine);
+                Console.Write(NewLine);
                 textBox1.Text += NewLine;
                 string[] datas = NewLine.Split("\t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 TaoHua_GameResult findr = db.TaoHua_GameResult.SingleOrDefault(t => t.GamePeriod == datas[0] & t.GameResult == datas[1]);

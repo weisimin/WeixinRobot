@@ -32,9 +32,6 @@
             this.dtp_querydate = new System.Windows.Forms.DateTimePicker();
             this.lbl_QueryDate = new System.Windows.Forms.Label();
             this.gv_result = new System.Windows.Forms.DataGridView();
-            this.BS_DataSource = new System.Windows.Forms.BindingSource(this.components);
-            this.BTN_QUERY = new System.Windows.Forms.Button();
-            this.BTN_SEND = new System.Windows.Forms.Button();
             this.NickNameRemarkName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LocalPeriodDay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PeriodCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,6 +43,10 @@
             this.IfDivousPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BounsCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BS_DataSource = new System.Windows.Forms.BindingSource(this.components);
+            this.BTN_QUERY = new System.Windows.Forms.Button();
+            this.BTN_SEND = new System.Windows.Forms.Button();
+            this.cb_SourceType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.gv_result)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_DataSource)).BeginInit();
             this.SuspendLayout();
@@ -91,26 +92,6 @@
             this.gv_result.RowTemplate.Height = 23;
             this.gv_result.Size = new System.Drawing.Size(694, 222);
             this.gv_result.TabIndex = 3;
-            // 
-            // BTN_QUERY
-            // 
-            this.BTN_QUERY.Location = new System.Drawing.Point(12, 268);
-            this.BTN_QUERY.Name = "BTN_QUERY";
-            this.BTN_QUERY.Size = new System.Drawing.Size(77, 46);
-            this.BTN_QUERY.TabIndex = 4;
-            this.BTN_QUERY.Text = "查询";
-            this.BTN_QUERY.UseVisualStyleBackColor = true;
-            this.BTN_QUERY.Click += new System.EventHandler(this.BTN_QUERY_Click);
-            // 
-            // BTN_SEND
-            // 
-            this.BTN_SEND.Location = new System.Drawing.Point(482, 268);
-            this.BTN_SEND.Name = "BTN_SEND";
-            this.BTN_SEND.Size = new System.Drawing.Size(75, 46);
-            this.BTN_SEND.TabIndex = 5;
-            this.BTN_SEND.Text = "发放";
-            this.BTN_SEND.UseVisualStyleBackColor = true;
-            this.BTN_SEND.Click += new System.EventHandler(this.BTN_SEND_Click);
             // 
             // NickNameRemarkName
             // 
@@ -199,11 +180,40 @@
             this.Remark.ReadOnly = true;
             this.Remark.Width = 300;
             // 
+            // BTN_QUERY
+            // 
+            this.BTN_QUERY.Location = new System.Drawing.Point(12, 268);
+            this.BTN_QUERY.Name = "BTN_QUERY";
+            this.BTN_QUERY.Size = new System.Drawing.Size(77, 46);
+            this.BTN_QUERY.TabIndex = 4;
+            this.BTN_QUERY.Text = "查询";
+            this.BTN_QUERY.UseVisualStyleBackColor = true;
+            this.BTN_QUERY.Click += new System.EventHandler(this.BTN_QUERY_Click);
+            // 
+            // BTN_SEND
+            // 
+            this.BTN_SEND.Location = new System.Drawing.Point(482, 268);
+            this.BTN_SEND.Name = "BTN_SEND";
+            this.BTN_SEND.Size = new System.Drawing.Size(75, 46);
+            this.BTN_SEND.TabIndex = 5;
+            this.BTN_SEND.Text = "发放";
+            this.BTN_SEND.UseVisualStyleBackColor = true;
+            this.BTN_SEND.Click += new System.EventHandler(this.BTN_SEND_Click);
+            // 
+            // cb_SourceType
+            // 
+            this.cb_SourceType.FormattingEnabled = true;
+            this.cb_SourceType.Location = new System.Drawing.Point(202, 8);
+            this.cb_SourceType.Name = "cb_SourceType";
+            this.cb_SourceType.Size = new System.Drawing.Size(69, 20);
+            this.cb_SourceType.TabIndex = 6;
+            // 
             // SendBouns
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(720, 319);
+            this.Controls.Add(this.cb_SourceType);
             this.Controls.Add(this.BTN_SEND);
             this.Controls.Add(this.BTN_QUERY);
             this.Controls.Add(this.gv_result);
@@ -238,5 +248,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn IfDivousPercent;
         private System.Windows.Forms.DataGridViewTextBoxColumn BounsCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
+        private System.Windows.Forms.ComboBox cb_SourceType;
     }
 }

@@ -54,14 +54,20 @@
             this.TopMenu = new System.Windows.Forms.MenuStrip();
             this.Btn_Draw = new System.Windows.Forms.Button();
             this.Btn_StartDownLoad = new System.Windows.Forms.Button();
+            this.btn_TestOrder = new System.Windows.Forms.Button();
+            this.OpenBlack = new System.Windows.Forms.Button();
+            this.PicBarCode_yixin = new System.Windows.Forms.PictureBox();
+            this.codeweixin = new System.Windows.Forms.Label();
+            this.codeyixin = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
             this.SuspendLayout();
             // 
             // PicBarCode
             // 
-            this.PicBarCode.Location = new System.Drawing.Point(162, 83);
+            this.PicBarCode.Location = new System.Drawing.Point(161, 131);
             this.PicBarCode.Name = "PicBarCode";
             this.PicBarCode.Size = new System.Drawing.Size(223, 190);
             this.PicBarCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -71,7 +77,7 @@
             // lbl_msg
             // 
             this.lbl_msg.AutoSize = true;
-            this.lbl_msg.Location = new System.Drawing.Point(251, 295);
+            this.lbl_msg.Location = new System.Drawing.Point(250, 343);
             this.lbl_msg.Name = "lbl_msg";
             this.lbl_msg.Size = new System.Drawing.Size(77, 12);
             this.lbl_msg.TabIndex = 1;
@@ -79,7 +85,7 @@
             // 
             // btn_resfresh
             // 
-            this.btn_resfresh.Location = new System.Drawing.Point(469, 261);
+            this.btn_resfresh.Location = new System.Drawing.Point(798, 292);
             this.btn_resfresh.Name = "btn_resfresh";
             this.btn_resfresh.Size = new System.Drawing.Size(75, 23);
             this.btn_resfresh.TabIndex = 2;
@@ -98,9 +104,9 @@
             this.SI_url,
             this.lbl_ShowError,
             this.SI_ShowError});
-            this.Botton_Status.Location = new System.Drawing.Point(0, 308);
+            this.Botton_Status.Location = new System.Drawing.Point(0, 368);
             this.Botton_Status.Name = "Botton_Status";
-            this.Botton_Status.Size = new System.Drawing.Size(582, 22);
+            this.Botton_Status.Size = new System.Drawing.Size(891, 22);
             this.Botton_Status.TabIndex = 4;
             this.Botton_Status.Text = "statusStrip1";
             // 
@@ -246,13 +252,13 @@
             this.MI_Query});
             this.TopMenu.Location = new System.Drawing.Point(0, 0);
             this.TopMenu.Name = "TopMenu";
-            this.TopMenu.Size = new System.Drawing.Size(582, 25);
+            this.TopMenu.Size = new System.Drawing.Size(891, 25);
             this.TopMenu.TabIndex = 3;
             this.TopMenu.Text = "menuStrip1";
             // 
             // Btn_Draw
             // 
-            this.Btn_Draw.Location = new System.Drawing.Point(469, 223);
+            this.Btn_Draw.Location = new System.Drawing.Point(798, 254);
             this.Btn_Draw.Name = "Btn_Draw";
             this.Btn_Draw.Size = new System.Drawing.Size(75, 23);
             this.Btn_Draw.TabIndex = 6;
@@ -263,20 +269,73 @@
             // 
             // Btn_StartDownLoad
             // 
-            this.Btn_StartDownLoad.Location = new System.Drawing.Point(469, 190);
+            this.Btn_StartDownLoad.Location = new System.Drawing.Point(798, 221);
             this.Btn_StartDownLoad.Name = "Btn_StartDownLoad";
             this.Btn_StartDownLoad.Size = new System.Drawing.Size(75, 23);
             this.Btn_StartDownLoad.TabIndex = 7;
-            this.Btn_StartDownLoad.Text = "启动下载开奖";
+            this.Btn_StartDownLoad.Text = "启动下载";
             this.Btn_StartDownLoad.UseVisualStyleBackColor = true;
             this.Btn_StartDownLoad.Visible = false;
             this.Btn_StartDownLoad.Click += new System.EventHandler(this.Btn_StartDownLoad_Click);
+            // 
+            // btn_TestOrder
+            // 
+            this.btn_TestOrder.Location = new System.Drawing.Point(798, 185);
+            this.btn_TestOrder.Name = "btn_TestOrder";
+            this.btn_TestOrder.Size = new System.Drawing.Size(75, 23);
+            this.btn_TestOrder.TabIndex = 8;
+            this.btn_TestOrder.Text = "测试下单";
+            this.btn_TestOrder.UseVisualStyleBackColor = true;
+            this.btn_TestOrder.Visible = false;
+            this.btn_TestOrder.Click += new System.EventHandler(this.btn_TestOrder_Click);
+            // 
+            // OpenBlack
+            // 
+            this.OpenBlack.Location = new System.Drawing.Point(12, 295);
+            this.OpenBlack.Name = "OpenBlack";
+            this.OpenBlack.Size = new System.Drawing.Size(91, 26);
+            this.OpenBlack.TabIndex = 9;
+            this.OpenBlack.Text = "显示/隐藏黑框";
+            this.OpenBlack.UseVisualStyleBackColor = true;
+            this.OpenBlack.Click += new System.EventHandler(this.OpenBlack_Click);
+            // 
+            // PicBarCode_yixin
+            // 
+            this.PicBarCode_yixin.Location = new System.Drawing.Point(524, 131);
+            this.PicBarCode_yixin.Name = "PicBarCode_yixin";
+            this.PicBarCode_yixin.Size = new System.Drawing.Size(223, 190);
+            this.PicBarCode_yixin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBarCode_yixin.TabIndex = 11;
+            this.PicBarCode_yixin.TabStop = false;
+            // 
+            // codeweixin
+            // 
+            this.codeweixin.AutoSize = true;
+            this.codeweixin.Location = new System.Drawing.Point(218, 101);
+            this.codeweixin.Name = "codeweixin";
+            this.codeweixin.Size = new System.Drawing.Size(65, 12);
+            this.codeweixin.TabIndex = 12;
+            this.codeweixin.Text = "微信二维码";
+            // 
+            // codeyixin
+            // 
+            this.codeyixin.AutoSize = true;
+            this.codeyixin.Location = new System.Drawing.Point(580, 99);
+            this.codeyixin.Name = "codeyixin";
+            this.codeyixin.Size = new System.Drawing.Size(65, 12);
+            this.codeyixin.TabIndex = 13;
+            this.codeyixin.Text = "易信二维码";
             // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 330);
+            this.ClientSize = new System.Drawing.Size(891, 390);
+            this.Controls.Add(this.codeyixin);
+            this.Controls.Add(this.codeweixin);
+            this.Controls.Add(this.PicBarCode_yixin);
+            this.Controls.Add(this.OpenBlack);
+            this.Controls.Add(this.btn_TestOrder);
             this.Controls.Add(this.Btn_StartDownLoad);
             this.Controls.Add(this.Btn_Draw);
             this.Controls.Add(this.lbl_waring);
@@ -296,6 +355,7 @@
             this.Botton_Status.PerformLayout();
             this.TopMenu.ResumeLayout(false);
             this.TopMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -328,6 +388,11 @@
         private System.Windows.Forms.MenuStrip TopMenu;
         private System.Windows.Forms.Button Btn_Draw;
         private System.Windows.Forms.Button Btn_StartDownLoad;
+        private System.Windows.Forms.Button btn_TestOrder;
+        private System.Windows.Forms.Button OpenBlack;
+        private System.Windows.Forms.PictureBox PicBarCode_yixin;
+        private System.Windows.Forms.Label codeweixin;
+        private System.Windows.Forms.Label codeyixin;
     }
 }
 

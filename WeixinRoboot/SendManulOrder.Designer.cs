@@ -43,9 +43,11 @@
             this.lbl_FromTo = new System.Windows.Forms.Label();
             this.MS_Data = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MI_Delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.ep_sql = new System.Windows.Forms.ErrorProvider(this.components);
             this.ReceiveTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.aspnet_UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WX_UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WX_SourceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ReceiveContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GamePeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GameLocalPeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,7 +57,6 @@
             this.Buy_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GameResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Result_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ep_sql = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.GV_GameLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_GameLog)).BeginInit();
             this.MS_Data.SuspendLayout();
@@ -98,6 +99,7 @@
             this.ReceiveTime,
             this.aspnet_UserID,
             this.WX_UserName,
+            this.WX_SourceType,
             this.ReceiveContent,
             this.GamePeriod,
             this.GameLocalPeriod,
@@ -196,6 +198,11 @@
             this.MI_Delete.Text = "删除";
             this.MI_Delete.Click += new System.EventHandler(this.MI_Delete_Click);
             // 
+            // ep_sql
+            // 
+            this.ep_sql.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.ep_sql.ContainerControl = this;
+            // 
             // ReceiveTime
             // 
             this.ReceiveTime.DataPropertyName = "ReceiveTime";
@@ -218,6 +225,13 @@
             this.WX_UserName.Name = "WX_UserName";
             this.WX_UserName.ReadOnly = true;
             this.WX_UserName.Visible = false;
+            // 
+            // WX_SourceType
+            // 
+            this.WX_SourceType.HeaderText = "WX_SourceType";
+            this.WX_SourceType.Name = "WX_SourceType";
+            this.WX_SourceType.ReadOnly = true;
+            this.WX_SourceType.Visible = false;
             // 
             // ReceiveContent
             // 
@@ -288,11 +302,6 @@
             this.Result_Point.Name = "Result_Point";
             this.Result_Point.ReadOnly = true;
             // 
-            // ep_sql
-            // 
-            this.ep_sql.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.ep_sql.ContainerControl = this;
-            // 
             // SendManulOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -337,9 +346,11 @@
         private System.Windows.Forms.Label lbl_FromTo;
         private System.Windows.Forms.ContextMenuStrip MS_Data;
         private System.Windows.Forms.ToolStripMenuItem MI_Delete;
+        private System.Windows.Forms.ErrorProvider ep_sql;
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiveTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn aspnet_UserID;
         private System.Windows.Forms.DataGridViewTextBoxColumn WX_UserName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn WX_SourceType;
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiveContent;
         private System.Windows.Forms.DataGridViewTextBoxColumn GamePeriod;
         private System.Windows.Forms.DataGridViewTextBoxColumn GameLocalPeriod;
@@ -349,7 +360,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Buy_Point;
         private System.Windows.Forms.DataGridViewTextBoxColumn GameResult;
         private System.Windows.Forms.DataGridViewTextBoxColumn Result_Point;
-        private System.Windows.Forms.ErrorProvider ep_sql;
 
     }
 }

@@ -36,6 +36,7 @@
             this.dtp_startdate = new System.Windows.Forms.DateTimePicker();
             this.lbl_fromto = new System.Windows.Forms.Label();
             this.dtp_enddate = new System.Windows.Forms.DateTimePicker();
+            this.cb_SourceType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.gv_result)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_GVResult)).BeginInit();
             this.SuspendLayout();
@@ -99,11 +100,23 @@
             this.dtp_enddate.Size = new System.Drawing.Size(105, 21);
             this.dtp_enddate.TabIndex = 5;
             // 
+            // cb_SourceType
+            // 
+            this.cb_SourceType.FormattingEnabled = true;
+            this.cb_SourceType.Items.AddRange(new object[] {
+            "微",
+            "易"});
+            this.cb_SourceType.Location = new System.Drawing.Point(333, 15);
+            this.cb_SourceType.Name = "cb_SourceType";
+            this.cb_SourceType.Size = new System.Drawing.Size(58, 20);
+            this.cb_SourceType.TabIndex = 6;
+            // 
             // OpenQuery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(770, 377);
+            this.Controls.Add(this.cb_SourceType);
             this.Controls.Add(this.dtp_enddate);
             this.Controls.Add(this.lbl_fromto);
             this.Controls.Add(this.dtp_startdate);
@@ -112,6 +125,7 @@
             this.Controls.Add(this.btn_ExportToExcel);
             this.Name = "OpenQuery";
             this.Text = "查询";
+            this.Load += new System.EventHandler(this.OpenQuery_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gv_result)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_GVResult)).EndInit();
             this.ResumeLayout(false);
@@ -128,5 +142,6 @@
         private System.Windows.Forms.DateTimePicker dtp_startdate;
         private System.Windows.Forms.Label lbl_fromto;
         private System.Windows.Forms.DateTimePicker dtp_enddate;
+        private System.Windows.Forms.ComboBox cb_SourceType;
     }
 }

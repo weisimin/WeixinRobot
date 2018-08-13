@@ -37,15 +37,16 @@ namespace WeixinRoboot
                 {
                     #region  多人同号不到ID跳过
                     #endregion
-                    DataRow[] dr = RunnerF.MemberSource.Select("User_ContactID='" + item.WX_UserName + "'");
+                    DataRow[] dr = RunnerF.MemberSource.Select("User_ContactID='" + item.WX_UserName + "' and User_SourceType='"+item.WX_SourceType+"'");
                     if (dr.Length == 0)
                     {
                         continue;
                     }
                     string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
-                    if (TEMPUserName.StartsWith("@@"))
+                    string WX_SourceType = dr[0].Field<string>("User_SourceType");
+                    if (dr[0].Field<string>("User_ContactType")=="群")
                     {
-                        StartF.SendWXImage(Application.StartupPath + "\\Data.jpg", TEMPUserName);
+                        StartF.SendRobotImage(Application.StartupPath + "\\Data.jpg", TEMPUserName, WX_SourceType);
                         System.Threading.Thread.Sleep(1000);
                         //SendWXImage(Application.StartupPath + "\\Data2.jpg", TEMPUserName);
                         if (System.IO.File.Exists(Application.StartupPath + "\\Data3.txt"))
@@ -55,7 +56,7 @@ namespace WeixinRoboot
                             fs.Read(bs, 0, bs.Length);
                             fs.Close();
                             fs.Dispose();
-                            StartF.SendWXContent(Encoding.UTF8.GetString(bs), TEMPUserName);
+                            StartF.SendRobotContent(Encoding.UTF8.GetString(bs), TEMPUserName, WX_SourceType);
                         }
                     }//向监听的群发送图片
 
@@ -125,12 +126,13 @@ namespace WeixinRoboot
                      ds.Buy_Value,
                      ds.Buy_Point
                      , ds.GameLocalPeriod
+                     ,ds.WX_SourceType
                )
                 ).ToList();
             #region
             foreach (var GameLogitem in GameLog)
             {
-                DataRow[] usrrow = RunnerF.MemberSource.Select("User_ContactID='" + GameLogitem.Wgl_ContantID + "'");
+                DataRow[] usrrow = RunnerF.MemberSource.Select("User_ContactID='" + GameLogitem.Wgl_ContantID + "' and User_SourceType='"+GameLogitem.WX_UerSourceType+"'");
                 if (usrrow.Length == 0)
                 {
                     continue;
@@ -153,7 +155,7 @@ namespace WeixinRoboot
         {
             public GameLogClass(string P_Wgl_Contant, string P_Wgl_ContantID
                 , DateTime? P_Wgl_TransTime, string P_Wgl_GamePeriod
-                , string P_Wgl_Buy_Value, decimal? P_Wgl_Buy_Point, string P_Wgl_GamePrivatePeriod)
+                , string P_Wgl_Buy_Value, decimal? P_Wgl_Buy_Point, string P_Wgl_GamePrivatePeriod, string P_WX_UerSourceType)
             {
                 _Wgl_Contact = P_Wgl_Contant;
                 _Wgl_ContactID = P_Wgl_ContantID;
@@ -162,6 +164,7 @@ namespace WeixinRoboot
                 _Wgl_Buy_Value = P_Wgl_Buy_Value;
                 _Wgl_Buy_Point = P_Wgl_Buy_Point;
                 _Wgl_GamePrivatePeriod = P_Wgl_GamePrivatePeriod;
+                _WX_UerSourceType = P_WX_UerSourceType;
             }
             private string _Wgl_Contact = "";
             private string _Wgl_ContactID = "";
@@ -170,7 +173,7 @@ namespace WeixinRoboot
             private string _Wgl_GamePrivatePeriod = "";
             private string _Wgl_Buy_Value = "";
             private decimal? _Wgl_Buy_Point = null;
-
+            private string _WX_UerSourceType = "";
 
             public string Wgl_Contact { get { return _Wgl_Contact; } set { _Wgl_Contact = value; } }
             public string Wgl_ContantID { get { return _Wgl_ContactID; } set { _Wgl_ContactID = value; } }
@@ -180,12 +183,15 @@ namespace WeixinRoboot
             public decimal? Wgl_Buy_Point { get { return _Wgl_Buy_Point; } set { _Wgl_Buy_Point = value; } }
             public string Wgl_GamePrivatePeriod { get { return _Wgl_GamePrivatePeriod; } set { _Wgl_GamePrivatePeriod = value; } }
 
+            public string WX_UerSourceType { get { return _WX_UerSourceType; } set { _WX_UerSourceType = value; } }
+
         }
 
         private void BtnSaveAndDeal_Click(object sender, EventArgs e)
         {
+            bool Newdb = false;
             Linq.DataLogic.NewGameResult(
-                fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text);
+                fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb);
             StartF.DealGameLogAndNotice();
 
             
@@ -196,6 +202,7 @@ namespace WeixinRoboot
             }
 
             StartF.DrawGdi(day);
+            StartF.DealGameLogAndNotice();
             StartF.SendChongqingResult();
 
             Dtp_DownloadDate_ValueChanged(null, null); ;

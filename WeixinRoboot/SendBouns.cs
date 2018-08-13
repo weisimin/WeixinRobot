@@ -33,7 +33,7 @@ namespace WeixinRoboot
 
         private void BTN_QUERY_Click(object sender, EventArgs e)
         {
-            BS_DataSource.DataSource = Linq.DataLogic.GetBounsSource(dtp_querydate.Value);
+            BS_DataSource.DataSource = Linq.DataLogic.GetBounsSource(dtp_querydate.Value,cb_SourceType.SelectedItem.ToString());
 
 
         }
@@ -63,11 +63,12 @@ namespace WeixinRoboot
             var SendList = ToSend.AsEnumerable().Where(t => t.Field<decimal?>("BounsCount") > 10);
             foreach (var Senditem in SendList)
             {
-                DataRow[] usrrow = StartF.RunnerF.MemberSource.Select("User_ContactID='" + Senditem.Field<string>("WX_UserName") + "'");
+                DataRow[] usrrow = StartF.RunnerF.MemberSource.Select("User_ContactID='" + Senditem.Field<string>("WX_UserName") + "' and User_SourceType='" +cb_SourceType.SelectedItem.ToString() + "'");
 
                 var fcl = db.WX_UserChangeLog.Where(t =>
                     t.aspnet_UserID == GlobalParam.Key
                     && t.WX_UserName == Senditem.Field<string>("WX_UserName")
+                    && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
                     && t.RemarkType == "福利"
                     && t.ChangeLocalDay == Senditem.Field<String>("LocalPeriodDay")
                     );
@@ -76,11 +77,12 @@ namespace WeixinRoboot
 
                     String Returnstr = Linq.DataLogic.WX_UserReplyLog_MySendCreate(
                          "福利" + NetFramework.Util_Math.NullToZero(Senditem.Field<decimal?>("BounsCount"))
-                         , usrrow.First());
+                         , usrrow.First(), DateTime.Now);
                     if (Returnstr != "")
                     {
-                        StartF.SendWXContent( "福利" + NetFramework.Util_Math.NullToZero(Senditem.Field<decimal?>("BounsCount"))+","+Returnstr
+                        StartF.SendRobotContent("福利" + NetFramework.Util_Math.NullToZero(Senditem.Field<decimal?>("BounsCount")) + "," + Returnstr
                          , usrrow.First().Field<string>("User_ContactTEMPID")
+                          , usrrow.First().Field<string>("User_SourceType")
                          );
                     }
 
@@ -93,7 +95,21 @@ namespace WeixinRoboot
 
         private void SendBouns_Load(object sender, EventArgs e)
         {
+            if (StartF.WeiXinOnLine)
+            {
+                this.cb_SourceType.Items.AddRange(new object[] {
+            "微"});
+            }
+            if (StartF.YiXinOnline)
+            {
+                this.cb_SourceType.Items.AddRange(new object[] {
+            "易"});
+            }
+
+
+            cb_SourceType.SelectedIndex = 0;
             dtp_querydate.Value = DateTime.Today.AddDays(-1);
+
         }
     }
 }

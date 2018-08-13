@@ -34,16 +34,17 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gv_contact = new System.Windows.Forms.DataGridView();
+            this.User_SourceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContctID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsCaculateFuli = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BS_Contact = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.gv_ReceiveReply = new System.Windows.Forms.DataGridView();
-            this.Reply_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Reply_ContactID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Reply_ContactTEMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Reply_ReceiveContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Reply_ReplyContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Reply_ReceiveTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Reply_ReplyTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BS_ReceiveReply = new System.Windows.Forms.BindingSource(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -66,18 +67,6 @@
             this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.GV_GameLog = new System.Windows.Forms.DataGridView();
-            this.ReceiveTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.aspnet_UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.WX_UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ReceiveContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GamePeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GameLocalPeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TransTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Buy_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Buy_Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Buy_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GameResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Result_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fd_day = new System.Windows.Forms.DateTimePicker();
             this.fd_Num5 = new System.Windows.Forms.TextBox();
             this.fd_Num4 = new System.Windows.Forms.TextBox();
@@ -88,13 +77,28 @@
             this.label5 = new System.Windows.Forms.Label();
             this.fd_Period = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContctID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.User_IsCaculateFuli = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Btn_Resend = new System.Windows.Forms.Button();
+            this.ReceiveTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.aspnet_UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WX_UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WX_UserSourceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReceiveContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GamePeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GameLocalPeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TransTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Buy_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Buy_Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Buy_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GameResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Result_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reply_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reply_ContactID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reply_SourceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reply_ContactTEMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reply_ReceiveContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reply_ReplyContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reply_ReceiveTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reply_ReplyTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -120,6 +124,7 @@
             this.gv_contact.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gv_contact.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gv_contact.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.User_SourceType,
             this.User_ContactType,
             this.User_Contact,
             this.User_ContctID,
@@ -144,12 +149,77 @@
             this.gv_contact.RowTemplate.Height = 23;
             this.gv_contact.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gv_contact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gv_contact.Size = new System.Drawing.Size(189, 582);
+            this.gv_contact.Size = new System.Drawing.Size(209, 582);
             this.gv_contact.TabIndex = 0;
             this.gv_contact.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gv_contact_CellClick);
             this.gv_contact.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_contact_DataError);
             this.gv_contact.SelectionChanged += new System.EventHandler(this.gv_contact_SelectionChanged);
             this.gv_contact.Leave += new System.EventHandler(this.gv_contact_Leave);
+            // 
+            // User_SourceType
+            // 
+            this.User_SourceType.DataPropertyName = "User_SourceType";
+            this.User_SourceType.HeaderText = "源";
+            this.User_SourceType.Name = "User_SourceType";
+            this.User_SourceType.ReadOnly = true;
+            this.User_SourceType.Width = 25;
+            // 
+            // User_ContactType
+            // 
+            this.User_ContactType.DataPropertyName = "User_ContactType";
+            this.User_ContactType.HeaderText = "类";
+            this.User_ContactType.Name = "User_ContactType";
+            this.User_ContactType.ReadOnly = true;
+            this.User_ContactType.Width = 25;
+            // 
+            // User_Contact
+            // 
+            this.User_Contact.DataPropertyName = "User_Contact";
+            this.User_Contact.HeaderText = "联系人";
+            this.User_Contact.Name = "User_Contact";
+            this.User_Contact.ReadOnly = true;
+            this.User_Contact.Width = 80;
+            // 
+            // User_ContctID
+            // 
+            this.User_ContctID.DataPropertyName = "User_ContctID";
+            this.User_ContctID.HeaderText = "联系人ID";
+            this.User_ContctID.Name = "User_ContctID";
+            this.User_ContctID.ReadOnly = true;
+            this.User_ContctID.Visible = false;
+            // 
+            // User_ContactTMPID
+            // 
+            this.User_ContactTMPID.DataPropertyName = "User_ContactTMPID";
+            this.User_ContactTMPID.HeaderText = "联系人临时ID";
+            this.User_ContactTMPID.Name = "User_ContactTMPID";
+            this.User_ContactTMPID.ReadOnly = true;
+            this.User_ContactTMPID.Visible = false;
+            // 
+            // User_IsReply
+            // 
+            this.User_IsReply.DataPropertyName = "User_IsReply";
+            this.User_IsReply.HeaderText = "启";
+            this.User_IsReply.Name = "User_IsReply";
+            this.User_IsReply.ReadOnly = true;
+            this.User_IsReply.Width = 25;
+            // 
+            // User_IsReceiveTransfer
+            // 
+            this.User_IsReceiveTransfer.DataPropertyName = "User_IsReceiveTransfer";
+            this.User_IsReceiveTransfer.HeaderText = "转";
+            this.User_IsReceiveTransfer.Name = "User_IsReceiveTransfer";
+            this.User_IsReceiveTransfer.ReadOnly = true;
+            this.User_IsReceiveTransfer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.User_IsReceiveTransfer.Width = 25;
+            // 
+            // User_IsCaculateFuli
+            // 
+            this.User_IsCaculateFuli.DataPropertyName = "User_IsCaculateFuli";
+            this.User_IsCaculateFuli.HeaderText = "福";
+            this.User_IsCaculateFuli.Name = "User_IsCaculateFuli";
+            this.User_IsCaculateFuli.ReadOnly = true;
+            this.User_IsCaculateFuli.Width = 25;
             // 
             // label1
             // 
@@ -177,6 +247,7 @@
             this.gv_ReceiveReply.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Reply_Contact,
             this.Reply_ContactID,
+            this.Reply_SourceType,
             this.Reply_ContactTEMPID,
             this.Reply_ReceiveContent,
             this.Reply_ReplyContent,
@@ -191,73 +262,19 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gv_ReceiveReply.DefaultCellStyle = dataGridViewCellStyle4;
-            this.gv_ReceiveReply.Location = new System.Drawing.Point(209, 166);
+            this.gv_ReceiveReply.Location = new System.Drawing.Point(229, 166);
             this.gv_ReceiveReply.Name = "gv_ReceiveReply";
             this.gv_ReceiveReply.ReadOnly = true;
             this.gv_ReceiveReply.RowHeadersVisible = false;
             this.gv_ReceiveReply.RowTemplate.Height = 23;
-            this.gv_ReceiveReply.Size = new System.Drawing.Size(767, 235);
+            this.gv_ReceiveReply.Size = new System.Drawing.Size(747, 235);
             this.gv_ReceiveReply.TabIndex = 2;
             this.gv_ReceiveReply.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_ReceiveReply_DataError);
-            // 
-            // Reply_Contact
-            // 
-            this.Reply_Contact.DataPropertyName = "Reply_Contact";
-            this.Reply_Contact.Frozen = true;
-            this.Reply_Contact.HeaderText = "联系人";
-            this.Reply_Contact.Name = "Reply_Contact";
-            this.Reply_Contact.ReadOnly = true;
-            // 
-            // Reply_ContactID
-            // 
-            this.Reply_ContactID.DataPropertyName = "Reply_ContactID";
-            this.Reply_ContactID.HeaderText = "联系人ID";
-            this.Reply_ContactID.Name = "Reply_ContactID";
-            this.Reply_ContactID.ReadOnly = true;
-            this.Reply_ContactID.Visible = false;
-            // 
-            // Reply_ContactTEMPID
-            // 
-            this.Reply_ContactTEMPID.DataPropertyName = "Reply_ContactTEMPID";
-            this.Reply_ContactTEMPID.HeaderText = "联系人临时ID";
-            this.Reply_ContactTEMPID.Name = "Reply_ContactTEMPID";
-            this.Reply_ContactTEMPID.ReadOnly = true;
-            this.Reply_ContactTEMPID.Visible = false;
-            // 
-            // Reply_ReceiveContent
-            // 
-            this.Reply_ReceiveContent.DataPropertyName = "Reply_ReceiveContent";
-            this.Reply_ReceiveContent.HeaderText = "收到";
-            this.Reply_ReceiveContent.Name = "Reply_ReceiveContent";
-            this.Reply_ReceiveContent.ReadOnly = true;
-            this.Reply_ReceiveContent.Width = 300;
-            // 
-            // Reply_ReplyContent
-            // 
-            this.Reply_ReplyContent.DataPropertyName = "Reply_ReplyContent";
-            this.Reply_ReplyContent.HeaderText = "回复";
-            this.Reply_ReplyContent.Name = "Reply_ReplyContent";
-            this.Reply_ReplyContent.ReadOnly = true;
-            this.Reply_ReplyContent.Width = 300;
-            // 
-            // Reply_ReceiveTime
-            // 
-            this.Reply_ReceiveTime.DataPropertyName = "Reply_ReceiveTime";
-            this.Reply_ReceiveTime.HeaderText = "接收时间";
-            this.Reply_ReceiveTime.Name = "Reply_ReceiveTime";
-            this.Reply_ReceiveTime.ReadOnly = true;
-            // 
-            // Reply_ReplyTime
-            // 
-            this.Reply_ReplyTime.DataPropertyName = "Reply_ReplyTime";
-            this.Reply_ReplyTime.HeaderText = "回复时间";
-            this.Reply_ReplyTime.Name = "Reply_ReplyTime";
-            this.Reply_ReplyTime.ReadOnly = true;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(212, 141);
+            this.label2.Location = new System.Drawing.Point(232, 141);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 12);
             this.label2.TabIndex = 3;
@@ -266,7 +283,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(207, 417);
+            this.label3.Location = new System.Drawing.Point(227, 417);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 4;
@@ -414,6 +431,7 @@
             this.ReceiveTime,
             this.aspnet_UserID,
             this.WX_UserName,
+            this.WX_UserSourceType,
             this.ReceiveContent,
             this.GamePeriod,
             this.GameLocalPeriod,
@@ -424,15 +442,103 @@
             this.GameResult,
             this.Result_Point});
             this.GV_GameLog.DataSource = this.BS_GameLog;
-            this.GV_GameLog.Location = new System.Drawing.Point(207, 442);
+            this.GV_GameLog.Location = new System.Drawing.Point(227, 442);
             this.GV_GameLog.MultiSelect = false;
             this.GV_GameLog.Name = "GV_GameLog";
             this.GV_GameLog.ReadOnly = true;
             this.GV_GameLog.RowHeadersVisible = false;
             this.GV_GameLog.RowTemplate.Height = 23;
             this.GV_GameLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.GV_GameLog.Size = new System.Drawing.Size(767, 208);
+            this.GV_GameLog.Size = new System.Drawing.Size(749, 208);
             this.GV_GameLog.TabIndex = 10;
+            // 
+            // fd_day
+            // 
+            this.fd_day.CustomFormat = "yyyy-MM-dd";
+            this.fd_day.Location = new System.Drawing.Point(234, 39);
+            this.fd_day.Name = "fd_day";
+            this.fd_day.Size = new System.Drawing.Size(101, 21);
+            this.fd_day.TabIndex = 26;
+            // 
+            // fd_Num5
+            // 
+            this.fd_Num5.Location = new System.Drawing.Point(439, 68);
+            this.fd_Num5.Name = "fd_Num5";
+            this.fd_Num5.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num5.TabIndex = 25;
+            // 
+            // fd_Num4
+            // 
+            this.fd_Num4.Location = new System.Drawing.Point(404, 68);
+            this.fd_Num4.Name = "fd_Num4";
+            this.fd_Num4.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num4.TabIndex = 24;
+            // 
+            // fd_Num3
+            // 
+            this.fd_Num3.Location = new System.Drawing.Point(369, 68);
+            this.fd_Num3.Name = "fd_Num3";
+            this.fd_Num3.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num3.TabIndex = 23;
+            // 
+            // fd_Num2
+            // 
+            this.fd_Num2.Location = new System.Drawing.Point(334, 68);
+            this.fd_Num2.Name = "fd_Num2";
+            this.fd_Num2.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num2.TabIndex = 22;
+            // 
+            // BtnSaveAndDeal
+            // 
+            this.BtnSaveAndDeal.Location = new System.Drawing.Point(508, 39);
+            this.BtnSaveAndDeal.Name = "BtnSaveAndDeal";
+            this.BtnSaveAndDeal.Size = new System.Drawing.Size(76, 44);
+            this.BtnSaveAndDeal.TabIndex = 21;
+            this.BtnSaveAndDeal.Text = "保存并开奖";
+            this.BtnSaveAndDeal.UseVisualStyleBackColor = true;
+            this.BtnSaveAndDeal.Click += new System.EventHandler(this.BtnSaveAndDeal_Click);
+            // 
+            // fd_Num1
+            // 
+            this.fd_Num1.Location = new System.Drawing.Point(299, 68);
+            this.fd_Num1.Name = "fd_Num1";
+            this.fd_Num1.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num1.TabIndex = 20;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(234, 71);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(59, 12);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "开奖结果:";
+            // 
+            // fd_Period
+            // 
+            this.fd_Period.Location = new System.Drawing.Point(402, 39);
+            this.fd_Period.Name = "fd_Period";
+            this.fd_Period.Size = new System.Drawing.Size(33, 21);
+            this.fd_Period.TabIndex = 18;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(342, 42);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "3位期号:";
+            // 
+            // Btn_Resend
+            // 
+            this.Btn_Resend.Location = new System.Drawing.Point(892, 39);
+            this.Btn_Resend.Name = "Btn_Resend";
+            this.Btn_Resend.Size = new System.Drawing.Size(84, 44);
+            this.Btn_Resend.TabIndex = 27;
+            this.Btn_Resend.Text = "重新发图";
+            this.Btn_Resend.UseVisualStyleBackColor = true;
+            this.Btn_Resend.Click += new System.EventHandler(this.Btn_Resend_Click);
             // 
             // ReceiveTime
             // 
@@ -456,6 +562,14 @@
             this.WX_UserName.Name = "WX_UserName";
             this.WX_UserName.ReadOnly = true;
             this.WX_UserName.Visible = false;
+            // 
+            // WX_UserSourceType
+            // 
+            this.WX_UserSourceType.DataPropertyName = "WX_UserSourceType";
+            this.WX_UserSourceType.HeaderText = "WX_UserSourceType";
+            this.WX_UserSourceType.Name = "WX_UserSourceType";
+            this.WX_UserSourceType.ReadOnly = true;
+            this.WX_UserSourceType.Visible = false;
             // 
             // ReceiveContent
             // 
@@ -526,145 +640,74 @@
             this.Result_Point.Name = "Result_Point";
             this.Result_Point.ReadOnly = true;
             // 
-            // fd_day
+            // Reply_Contact
             // 
-            this.fd_day.CustomFormat = "yyyy-MM-dd";
-            this.fd_day.Location = new System.Drawing.Point(214, 39);
-            this.fd_day.Name = "fd_day";
-            this.fd_day.Size = new System.Drawing.Size(101, 21);
-            this.fd_day.TabIndex = 26;
+            this.Reply_Contact.DataPropertyName = "Reply_Contact";
+            this.Reply_Contact.Frozen = true;
+            this.Reply_Contact.HeaderText = "联系人";
+            this.Reply_Contact.Name = "Reply_Contact";
+            this.Reply_Contact.ReadOnly = true;
             // 
-            // fd_Num5
+            // Reply_ContactID
             // 
-            this.fd_Num5.Location = new System.Drawing.Point(419, 68);
-            this.fd_Num5.Name = "fd_Num5";
-            this.fd_Num5.Size = new System.Drawing.Size(26, 21);
-            this.fd_Num5.TabIndex = 25;
+            this.Reply_ContactID.DataPropertyName = "Reply_ContactID";
+            this.Reply_ContactID.HeaderText = "联系人ID";
+            this.Reply_ContactID.Name = "Reply_ContactID";
+            this.Reply_ContactID.ReadOnly = true;
+            this.Reply_ContactID.Visible = false;
             // 
-            // fd_Num4
+            // Reply_SourceType
             // 
-            this.fd_Num4.Location = new System.Drawing.Point(384, 68);
-            this.fd_Num4.Name = "fd_Num4";
-            this.fd_Num4.Size = new System.Drawing.Size(26, 21);
-            this.fd_Num4.TabIndex = 24;
+            this.Reply_SourceType.DataPropertyName = "Reply_SourceType";
+            this.Reply_SourceType.HeaderText = "源";
+            this.Reply_SourceType.Name = "Reply_SourceType";
+            this.Reply_SourceType.ReadOnly = true;
+            this.Reply_SourceType.Visible = false;
             // 
-            // fd_Num3
+            // Reply_ContactTEMPID
             // 
-            this.fd_Num3.Location = new System.Drawing.Point(349, 68);
-            this.fd_Num3.Name = "fd_Num3";
-            this.fd_Num3.Size = new System.Drawing.Size(26, 21);
-            this.fd_Num3.TabIndex = 23;
+            this.Reply_ContactTEMPID.DataPropertyName = "Reply_ContactTEMPID";
+            this.Reply_ContactTEMPID.HeaderText = "联系人临时ID";
+            this.Reply_ContactTEMPID.Name = "Reply_ContactTEMPID";
+            this.Reply_ContactTEMPID.ReadOnly = true;
+            this.Reply_ContactTEMPID.Visible = false;
             // 
-            // fd_Num2
+            // Reply_ReceiveContent
             // 
-            this.fd_Num2.Location = new System.Drawing.Point(314, 68);
-            this.fd_Num2.Name = "fd_Num2";
-            this.fd_Num2.Size = new System.Drawing.Size(26, 21);
-            this.fd_Num2.TabIndex = 22;
+            this.Reply_ReceiveContent.DataPropertyName = "Reply_ReceiveContent";
+            this.Reply_ReceiveContent.HeaderText = "收到";
+            this.Reply_ReceiveContent.Name = "Reply_ReceiveContent";
+            this.Reply_ReceiveContent.ReadOnly = true;
+            this.Reply_ReceiveContent.Width = 300;
             // 
-            // BtnSaveAndDeal
+            // Reply_ReplyContent
             // 
-            this.BtnSaveAndDeal.Location = new System.Drawing.Point(488, 39);
-            this.BtnSaveAndDeal.Name = "BtnSaveAndDeal";
-            this.BtnSaveAndDeal.Size = new System.Drawing.Size(76, 44);
-            this.BtnSaveAndDeal.TabIndex = 21;
-            this.BtnSaveAndDeal.Text = "保存并开奖";
-            this.BtnSaveAndDeal.UseVisualStyleBackColor = true;
-            this.BtnSaveAndDeal.Click += new System.EventHandler(this.BtnSaveAndDeal_Click);
+            this.Reply_ReplyContent.DataPropertyName = "Reply_ReplyContent";
+            this.Reply_ReplyContent.HeaderText = "回复";
+            this.Reply_ReplyContent.Name = "Reply_ReplyContent";
+            this.Reply_ReplyContent.ReadOnly = true;
+            this.Reply_ReplyContent.Width = 300;
             // 
-            // fd_Num1
+            // Reply_ReceiveTime
             // 
-            this.fd_Num1.Location = new System.Drawing.Point(279, 68);
-            this.fd_Num1.Name = "fd_Num1";
-            this.fd_Num1.Size = new System.Drawing.Size(26, 21);
-            this.fd_Num1.TabIndex = 20;
+            this.Reply_ReceiveTime.DataPropertyName = "Reply_ReceiveTime";
+            this.Reply_ReceiveTime.HeaderText = "接收时间";
+            this.Reply_ReceiveTime.Name = "Reply_ReceiveTime";
+            this.Reply_ReceiveTime.ReadOnly = true;
             // 
-            // label5
+            // Reply_ReplyTime
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(214, 71);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 12);
-            this.label5.TabIndex = 19;
-            this.label5.Text = "开奖结果:";
-            // 
-            // fd_Period
-            // 
-            this.fd_Period.Location = new System.Drawing.Point(382, 39);
-            this.fd_Period.Name = "fd_Period";
-            this.fd_Period.Size = new System.Drawing.Size(33, 21);
-            this.fd_Period.TabIndex = 18;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(322, 42);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 17;
-            this.label6.Text = "3位期号:";
-            // 
-            // User_ContactType
-            // 
-            this.User_ContactType.DataPropertyName = "User_ContactType";
-            this.User_ContactType.HeaderText = "类";
-            this.User_ContactType.Name = "User_ContactType";
-            this.User_ContactType.ReadOnly = true;
-            this.User_ContactType.Width = 25;
-            // 
-            // User_Contact
-            // 
-            this.User_Contact.DataPropertyName = "User_Contact";
-            this.User_Contact.HeaderText = "联系人";
-            this.User_Contact.Name = "User_Contact";
-            this.User_Contact.ReadOnly = true;
-            this.User_Contact.Width = 80;
-            // 
-            // User_ContctID
-            // 
-            this.User_ContctID.DataPropertyName = "User_ContctID";
-            this.User_ContctID.HeaderText = "联系人ID";
-            this.User_ContctID.Name = "User_ContctID";
-            this.User_ContctID.ReadOnly = true;
-            this.User_ContctID.Visible = false;
-            // 
-            // User_ContactTMPID
-            // 
-            this.User_ContactTMPID.HeaderText = "联系人临时ID";
-            this.User_ContactTMPID.Name = "User_ContactTMPID";
-            this.User_ContactTMPID.ReadOnly = true;
-            this.User_ContactTMPID.Visible = false;
-            // 
-            // User_IsReply
-            // 
-            this.User_IsReply.DataPropertyName = "User_IsReply";
-            this.User_IsReply.HeaderText = "启";
-            this.User_IsReply.Name = "User_IsReply";
-            this.User_IsReply.ReadOnly = true;
-            this.User_IsReply.Width = 25;
-            // 
-            // User_IsReceiveTransfer
-            // 
-            this.User_IsReceiveTransfer.DataPropertyName = "User_IsReceiveTransfer";
-            this.User_IsReceiveTransfer.HeaderText = "转";
-            this.User_IsReceiveTransfer.Name = "User_IsReceiveTransfer";
-            this.User_IsReceiveTransfer.ReadOnly = true;
-            this.User_IsReceiveTransfer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.User_IsReceiveTransfer.Width = 25;
-            // 
-            // User_IsCaculateFuli
-            // 
-            this.User_IsCaculateFuli.DataPropertyName = "User_IsCaculateFuli";
-            this.User_IsCaculateFuli.HeaderText = "福";
-            this.User_IsCaculateFuli.Name = "User_IsCaculateFuli";
-            this.User_IsCaculateFuli.ReadOnly = true;
-            this.User_IsCaculateFuli.Width = 25;
+            this.Reply_ReplyTime.DataPropertyName = "Reply_ReplyTime";
+            this.Reply_ReplyTime.HeaderText = "回复时间";
+            this.Reply_ReplyTime.Name = "Reply_ReplyTime";
+            this.Reply_ReplyTime.ReadOnly = true;
             // 
             // RunnerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 662);
+            this.Controls.Add(this.Btn_Resend);
             this.Controls.Add(this.fd_day);
             this.Controls.Add(this.fd_Num5);
             this.Controls.Add(this.fd_Num4);
@@ -720,29 +763,10 @@
         private System.Windows.Forms.DateTimePicker dtp_EndDate;
         private System.Windows.Forms.DateTimePicker dtp_StartDate;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_Contact;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ContactID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ContactTEMPID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReceiveContent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReplyContent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReceiveTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReplyTime;
         private System.Windows.Forms.BindingSource BS_GameLog;
         private System.Windows.Forms.ToolStripMenuItem MI_OrderManual;
         private System.Windows.Forms.ToolStripMenuItem MI_CleanUp;
         private System.Windows.Forms.DataGridView GV_GameLog;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ReceiveTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn aspnet_UserID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn WX_UserName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ReceiveContent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GamePeriod;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GameLocalPeriod;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TransTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Buy_Type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Buy_Value;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Buy_Point;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GameResult;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Result_Point;
         private System.Windows.Forms.ToolStripMenuItem MI_IsReply;
         private System.Windows.Forms.ToolStripMenuItem MI_CancelIsReply;
         private System.Windows.Forms.ToolStripMenuItem MI_ReceiveTrans;
@@ -759,6 +783,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStripMenuItem MI_CheckFuli;
         private System.Windows.Forms.ToolStripMenuItem MI_CancelCheckFuli;
+        private System.Windows.Forms.Button Btn_Resend;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_SourceType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_Contact;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_ContctID;
@@ -766,5 +792,26 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReply;
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReceiveTransfer;
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsCaculateFuli;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReceiveTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn aspnet_UserID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn WX_UserName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn WX_UserSourceType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ReceiveContent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GamePeriod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GameLocalPeriod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TransTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Buy_Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Buy_Value;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Buy_Point;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GameResult;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Result_Point;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_Contact;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ContactID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_SourceType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ContactTEMPID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReceiveContent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReplyContent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReceiveTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReplyTime;
     }
 }

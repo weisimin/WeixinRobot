@@ -49,14 +49,15 @@ namespace WeixinRoboot
                     case "Charge":
 
 
-                        string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("上分" + tb_ChargeMoney.Text, _UserRow);
-                        
-                        string WXSend = StartF.SendWXContent(Result
+                        string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("上分" + tb_ChargeMoney.Text, _UserRow, DateTime.Now);
+
+                        string WXSend = StartF.SendRobotContent(Result
                             , UserRow.Field<string>("User_ContactTEMPID")
+                             , UserRow.Field<string>("User_SourceType")
                             );
 
                      //   string Result = "";
-                     //  db.Logic_WX_UserReplyLog_MySendCreate("上分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), GlobalParam.Key, DateTime.Now, ref Result);
+                        //  db.Logic_WX_UserReplyLog_MySendCreate("上分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), _UserRow.Field<string>("User_SourceType"), GlobalParam.Key, DateTime.Now, ref Result);
                        
                      //string WXResult=   StartF.SendWXContent(Result
                      //      , UserRow.Field<string>("User_ContactTEMPID")
@@ -65,15 +66,16 @@ namespace WeixinRoboot
 
                         break;
                     case "CleanUp":
-                        string Result2 = Linq.DataLogic.WX_UserReplyLog_MySendCreate("下分" + tb_ChargeMoney.Text, _UserRow);
+                        string Result2 = Linq.DataLogic.WX_UserReplyLog_MySendCreate("下分" + tb_ChargeMoney.Text, _UserRow, DateTime.Now);
 
-                        decimal? TotalPointClean = Linq.DataLogic.WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactTEMPID"));
+                        decimal? TotalPointClean = Linq.DataLogic.WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactTEMPID"), UserRow.Field<string>("User_SourceType"));
 
-                        string WXSendClean = StartF.SendWXContent(Result2
+                        string WXSendClean = StartF.SendRobotContent(Result2
                             , UserRow.Field<string>("User_ContactTEMPID")
+                            , UserRow.Field<string>("User_SourceType")
                             );
                        //    string Result2 = "";
-                       //db.Logic_WX_UserReplyLog_MySendCreate("下分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), GlobalParam.Key, DateTime.Now, ref Result2);
+                        //db.Logic_WX_UserReplyLog_MySendCreate("下分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), _UserRow.Field<string>("User_SourceType"), GlobalParam.Key, DateTime.Now, ref Result2);
 
                        //string WXResult2 = StartF.SendWXContent(Result2
                        //    , UserRow.Field<string>("User_ContactTEMPID")
@@ -107,10 +109,10 @@ namespace WeixinRoboot
     
             var data = from dsl in db.WX_UserChangeLog
                        join dsu in db.WX_UserReply
-                       on new { dsl.WX_UserName, dsl.aspnet_UserID } equals new { dsu.WX_UserName, dsu.aspnet_UserID }
+                       on new { dsl.WX_UserName, dsl.aspnet_UserID ,dsl.WX_SourceType} equals new { dsu.WX_UserName, dsu.aspnet_UserID ,dsu.WX_SourceType}
                        where dsl.aspnet_UserID == GlobalParam.Key
                         && dsl.WX_UserName == UserRow.Field<string>("User_ContactID")
-
+                        && dsl.WX_SourceType == UserRow.Field<string>("User_SourceType")
                        select new
                        {
                            UserName = dsu.WX_UserName
@@ -122,6 +124,7 @@ namespace WeixinRoboot
                            dsl.ChangePoint
                            ,dsl.ChangeTime
                            ,dsl.GamePeriod
+                           ,SourceType=dsu.WX_SourceType
                        };
             BS_TransLog.DataSource = data;
 

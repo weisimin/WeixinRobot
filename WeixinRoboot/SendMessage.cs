@@ -38,7 +38,9 @@ namespace WeixinRoboot
         private void Btn_Send_Click(object sender, EventArgs e)
         {
            
-            StartF.SendWXContent(  tb_MessageContent.Text, _UserRow.Field<string>("User_ContactTEMPID"));
+            StartF.SendRobotContent(  tb_MessageContent.Text, _UserRow.Field<string>("User_ContactTEMPID"),_UserRow.Field<string>("User_SourceType"));
+
+        
             tb_MessageContent.Text = "";
         }
 
@@ -48,7 +50,7 @@ namespace WeixinRoboot
             DialogResult dr = fd.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                string Result = StartF.SendWXImage(fd.FileName, _UserRow.Field<string>("User_ContactTEMPID"));
+                string Result = StartF.SendRobotImage(fd.FileName, _UserRow.Field<string>("User_ContactTEMPID"), _UserRow.Field<string>("User_SourceType"));
            
             }
         }
