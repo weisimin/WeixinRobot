@@ -59,6 +59,7 @@
             this.PicBarCode_yixin = new System.Windows.Forms.PictureBox();
             this.codeweixin = new System.Windows.Forms.Label();
             this.codeyixin = new System.Windows.Forms.Label();
+            this.btn_refreshyixin = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
@@ -85,7 +86,7 @@
             // 
             // btn_resfresh
             // 
-            this.btn_resfresh.Location = new System.Drawing.Point(798, 292);
+            this.btn_resfresh.Location = new System.Drawing.Point(161, 327);
             this.btn_resfresh.Name = "btn_resfresh";
             this.btn_resfresh.Size = new System.Drawing.Size(75, 23);
             this.btn_resfresh.TabIndex = 2;
@@ -326,11 +327,22 @@
             this.codeyixin.TabIndex = 13;
             this.codeyixin.Text = "易信二维码";
             // 
+            // btn_refreshyixin
+            // 
+            this.btn_refreshyixin.Location = new System.Drawing.Point(524, 327);
+            this.btn_refreshyixin.Name = "btn_refreshyixin";
+            this.btn_refreshyixin.Size = new System.Drawing.Size(75, 23);
+            this.btn_refreshyixin.TabIndex = 14;
+            this.btn_refreshyixin.Text = "重启易信";
+            this.btn_refreshyixin.UseVisualStyleBackColor = true;
+            this.btn_refreshyixin.Click += new System.EventHandler(this.btn_refreshyixin_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 390);
+            this.Controls.Add(this.btn_refreshyixin);
             this.Controls.Add(this.codeyixin);
             this.Controls.Add(this.codeweixin);
             this.Controls.Add(this.PicBarCode_yixin);
@@ -393,6 +405,7 @@
         private System.Windows.Forms.PictureBox PicBarCode_yixin;
         private System.Windows.Forms.Label codeweixin;
         private System.Windows.Forms.Label codeyixin;
+        private System.Windows.Forms.Button btn_refreshyixin;
     }
 }
 

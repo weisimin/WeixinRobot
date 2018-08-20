@@ -60,12 +60,12 @@ namespace WeixinRoboot.Linq
     partial void InsertWX_UserGameLog(WX_UserGameLog instance);
     partial void UpdateWX_UserGameLog(WX_UserGameLog instance);
     partial void DeleteWX_UserGameLog(WX_UserGameLog instance);
-    partial void InsertWX_UserReply(WX_UserReply instance);
-    partial void UpdateWX_UserReply(WX_UserReply instance);
-    partial void DeleteWX_UserReply(WX_UserReply instance);
     partial void InsertWX_UserReplyLog(WX_UserReplyLog instance);
     partial void UpdateWX_UserReplyLog(WX_UserReplyLog instance);
     partial void DeleteWX_UserReplyLog(WX_UserReplyLog instance);
+    partial void InsertWX_UserReply(WX_UserReply instance);
+    partial void UpdateWX_UserReply(WX_UserReply instance);
+    partial void DeleteWX_UserReply(WX_UserReply instance);
     #endregion
 		
 		public dbDataContext() : 
@@ -178,19 +178,19 @@ namespace WeixinRoboot.Linq
 			}
 		}
 		
-		public System.Data.Linq.Table<WX_UserReply> WX_UserReply
-		{
-			get
-			{
-				return this.GetTable<WX_UserReply>();
-			}
-		}
-		
 		public System.Data.Linq.Table<WX_UserReplyLog> WX_UserReplyLog
 		{
 			get
 			{
 				return this.GetTable<WX_UserReplyLog>();
+			}
+		}
+		
+		public System.Data.Linq.Table<WX_UserReply> WX_UserReply
+		{
+			get
+			{
+				return this.GetTable<WX_UserReply>();
 			}
 		}
 	}
@@ -3600,260 +3600,6 @@ namespace WeixinRoboot.Linq
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserReply")]
-	public partial class WX_UserReply : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _WX_UserName;
-		
-		private System.Nullable<bool> _IsReply;
-		
-		private System.Guid _aspnet_UserID;
-		
-		private string _NickName;
-		
-		private string _RemarkName;
-		
-		private System.Nullable<bool> _IsReceiveTransfer;
-		
-		private System.Nullable<bool> _IsCaculateFuli;
-		
-		private string _WeChatID;
-		
-		private string _WX_SourceType;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnWX_UserNameChanging(string value);
-    partial void OnWX_UserNameChanged();
-    partial void OnIsReplyChanging(System.Nullable<bool> value);
-    partial void OnIsReplyChanged();
-    partial void Onaspnet_UserIDChanging(System.Guid value);
-    partial void Onaspnet_UserIDChanged();
-    partial void OnNickNameChanging(string value);
-    partial void OnNickNameChanged();
-    partial void OnRemarkNameChanging(string value);
-    partial void OnRemarkNameChanged();
-    partial void OnIsReceiveTransferChanging(System.Nullable<bool> value);
-    partial void OnIsReceiveTransferChanged();
-    partial void OnIsCaculateFuliChanging(System.Nullable<bool> value);
-    partial void OnIsCaculateFuliChanged();
-    partial void OnWeChatIDChanging(string value);
-    partial void OnWeChatIDChanged();
-    partial void OnWX_SourceTypeChanging(string value);
-    partial void OnWX_SourceTypeChanged();
-    #endregion
-		
-		public WX_UserReply()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string WX_UserName
-		{
-			get
-			{
-				return this._WX_UserName;
-			}
-			set
-			{
-				if ((this._WX_UserName != value))
-				{
-					this.OnWX_UserNameChanging(value);
-					this.SendPropertyChanging();
-					this._WX_UserName = value;
-					this.SendPropertyChanged("WX_UserName");
-					this.OnWX_UserNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReply", DbType="Bit")]
-		public System.Nullable<bool> IsReply
-		{
-			get
-			{
-				return this._IsReply;
-			}
-			set
-			{
-				if ((this._IsReply != value))
-				{
-					this.OnIsReplyChanging(value);
-					this.SendPropertyChanging();
-					this._IsReply = value;
-					this.SendPropertyChanged("IsReply");
-					this.OnIsReplyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid aspnet_UserID
-		{
-			get
-			{
-				return this._aspnet_UserID;
-			}
-			set
-			{
-				if ((this._aspnet_UserID != value))
-				{
-					this.Onaspnet_UserIDChanging(value);
-					this.SendPropertyChanging();
-					this._aspnet_UserID = value;
-					this.SendPropertyChanged("aspnet_UserID");
-					this.Onaspnet_UserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NickName", DbType="NVarChar(512)")]
-		public string NickName
-		{
-			get
-			{
-				return this._NickName;
-			}
-			set
-			{
-				if ((this._NickName != value))
-				{
-					this.OnNickNameChanging(value);
-					this.SendPropertyChanging();
-					this._NickName = value;
-					this.SendPropertyChanged("NickName");
-					this.OnNickNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemarkName", DbType="NVarChar(512)")]
-		public string RemarkName
-		{
-			get
-			{
-				return this._RemarkName;
-			}
-			set
-			{
-				if ((this._RemarkName != value))
-				{
-					this.OnRemarkNameChanging(value);
-					this.SendPropertyChanging();
-					this._RemarkName = value;
-					this.SendPropertyChanged("RemarkName");
-					this.OnRemarkNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReceiveTransfer", DbType="Bit")]
-		public System.Nullable<bool> IsReceiveTransfer
-		{
-			get
-			{
-				return this._IsReceiveTransfer;
-			}
-			set
-			{
-				if ((this._IsReceiveTransfer != value))
-				{
-					this.OnIsReceiveTransferChanging(value);
-					this.SendPropertyChanging();
-					this._IsReceiveTransfer = value;
-					this.SendPropertyChanged("IsReceiveTransfer");
-					this.OnIsReceiveTransferChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCaculateFuli", DbType="Bit")]
-		public System.Nullable<bool> IsCaculateFuli
-		{
-			get
-			{
-				return this._IsCaculateFuli;
-			}
-			set
-			{
-				if ((this._IsCaculateFuli != value))
-				{
-					this.OnIsCaculateFuliChanging(value);
-					this.SendPropertyChanging();
-					this._IsCaculateFuli = value;
-					this.SendPropertyChanged("IsCaculateFuli");
-					this.OnIsCaculateFuliChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WeChatID", DbType="NVarChar(100)")]
-		public string WeChatID
-		{
-			get
-			{
-				return this._WeChatID;
-			}
-			set
-			{
-				if ((this._WeChatID != value))
-				{
-					this.OnWeChatIDChanging(value);
-					this.SendPropertyChanging();
-					this._WeChatID = value;
-					this.SendPropertyChanged("WeChatID");
-					this.OnWeChatIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(50)")]
-		public string WX_SourceType
-		{
-			get
-			{
-				return this._WX_SourceType;
-			}
-			set
-			{
-				if ((this._WX_SourceType != value))
-				{
-					this.OnWX_SourceTypeChanging(value);
-					this.SendPropertyChanging();
-					this._WX_SourceType = value;
-					this.SendPropertyChanged("WX_SourceType");
-					this.OnWX_SourceTypeChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserReplyLog")]
 	public partial class WX_UserReplyLog : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -4092,6 +3838,260 @@ namespace WeixinRoboot.Linq
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(50)")]
+		public string WX_SourceType
+		{
+			get
+			{
+				return this._WX_SourceType;
+			}
+			set
+			{
+				if ((this._WX_SourceType != value))
+				{
+					this.OnWX_SourceTypeChanging(value);
+					this.SendPropertyChanging();
+					this._WX_SourceType = value;
+					this.SendPropertyChanged("WX_SourceType");
+					this.OnWX_SourceTypeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserReply")]
+	public partial class WX_UserReply : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _WX_UserName;
+		
+		private System.Nullable<bool> _IsReply;
+		
+		private System.Guid _aspnet_UserID;
+		
+		private string _NickName;
+		
+		private string _RemarkName;
+		
+		private System.Nullable<bool> _IsReceiveTransfer;
+		
+		private System.Nullable<bool> _IsCaculateFuli;
+		
+		private string _WeChatID;
+		
+		private string _WX_SourceType;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnWX_UserNameChanging(string value);
+    partial void OnWX_UserNameChanged();
+    partial void OnIsReplyChanging(System.Nullable<bool> value);
+    partial void OnIsReplyChanged();
+    partial void Onaspnet_UserIDChanging(System.Guid value);
+    partial void Onaspnet_UserIDChanged();
+    partial void OnNickNameChanging(string value);
+    partial void OnNickNameChanged();
+    partial void OnRemarkNameChanging(string value);
+    partial void OnRemarkNameChanged();
+    partial void OnIsReceiveTransferChanging(System.Nullable<bool> value);
+    partial void OnIsReceiveTransferChanged();
+    partial void OnIsCaculateFuliChanging(System.Nullable<bool> value);
+    partial void OnIsCaculateFuliChanged();
+    partial void OnWeChatIDChanging(string value);
+    partial void OnWeChatIDChanged();
+    partial void OnWX_SourceTypeChanging(string value);
+    partial void OnWX_SourceTypeChanged();
+    #endregion
+		
+		public WX_UserReply()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_UserName
+		{
+			get
+			{
+				return this._WX_UserName;
+			}
+			set
+			{
+				if ((this._WX_UserName != value))
+				{
+					this.OnWX_UserNameChanging(value);
+					this.SendPropertyChanging();
+					this._WX_UserName = value;
+					this.SendPropertyChanged("WX_UserName");
+					this.OnWX_UserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReply", DbType="Bit")]
+		public System.Nullable<bool> IsReply
+		{
+			get
+			{
+				return this._IsReply;
+			}
+			set
+			{
+				if ((this._IsReply != value))
+				{
+					this.OnIsReplyChanging(value);
+					this.SendPropertyChanging();
+					this._IsReply = value;
+					this.SendPropertyChanged("IsReply");
+					this.OnIsReplyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid aspnet_UserID
+		{
+			get
+			{
+				return this._aspnet_UserID;
+			}
+			set
+			{
+				if ((this._aspnet_UserID != value))
+				{
+					this.Onaspnet_UserIDChanging(value);
+					this.SendPropertyChanging();
+					this._aspnet_UserID = value;
+					this.SendPropertyChanged("aspnet_UserID");
+					this.Onaspnet_UserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NickName", DbType="NVarChar(512)")]
+		public string NickName
+		{
+			get
+			{
+				return this._NickName;
+			}
+			set
+			{
+				if ((this._NickName != value))
+				{
+					this.OnNickNameChanging(value);
+					this.SendPropertyChanging();
+					this._NickName = value;
+					this.SendPropertyChanged("NickName");
+					this.OnNickNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemarkName", DbType="NVarChar(512)")]
+		public string RemarkName
+		{
+			get
+			{
+				return this._RemarkName;
+			}
+			set
+			{
+				if ((this._RemarkName != value))
+				{
+					this.OnRemarkNameChanging(value);
+					this.SendPropertyChanging();
+					this._RemarkName = value;
+					this.SendPropertyChanged("RemarkName");
+					this.OnRemarkNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReceiveTransfer", DbType="Bit")]
+		public System.Nullable<bool> IsReceiveTransfer
+		{
+			get
+			{
+				return this._IsReceiveTransfer;
+			}
+			set
+			{
+				if ((this._IsReceiveTransfer != value))
+				{
+					this.OnIsReceiveTransferChanging(value);
+					this.SendPropertyChanging();
+					this._IsReceiveTransfer = value;
+					this.SendPropertyChanged("IsReceiveTransfer");
+					this.OnIsReceiveTransferChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCaculateFuli", DbType="Bit")]
+		public System.Nullable<bool> IsCaculateFuli
+		{
+			get
+			{
+				return this._IsCaculateFuli;
+			}
+			set
+			{
+				if ((this._IsCaculateFuli != value))
+				{
+					this.OnIsCaculateFuliChanging(value);
+					this.SendPropertyChanging();
+					this._IsCaculateFuli = value;
+					this.SendPropertyChanged("IsCaculateFuli");
+					this.OnIsCaculateFuliChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WeChatID", DbType="NVarChar(100)")]
+		public string WeChatID
+		{
+			get
+			{
+				return this._WeChatID;
+			}
+			set
+			{
+				if ((this._WeChatID != value))
+				{
+					this.OnWeChatIDChanging(value);
+					this.SendPropertyChanging();
+					this._WeChatID = value;
+					this.SendPropertyChanged("WeChatID");
+					this.OnWeChatIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
 		public string WX_SourceType
 		{
 			get

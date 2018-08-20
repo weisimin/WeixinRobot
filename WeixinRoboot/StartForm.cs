@@ -179,6 +179,7 @@ namespace WeixinRoboot
                 //window.code=200
                 //window.redirect_uri="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
                 this.Invoke(new Action(() => { lbl_msg.Text = "等待扫码"; }));
+                KillThread.Add(WaitScanTHreadID, true);
                 WaitScanTHreadID = Guid.NewGuid();
                 Thread WaitScan = new Thread(new ParameterizedThreadStart(WaitScanThreadDo));
 
@@ -198,12 +199,14 @@ namespace WeixinRoboot
         {
             try
             {
+                cookieyixin = new CookieCollection();
                 LoadYiXinBarCode();
+
                 this.Invoke(new Action(() => { lbl_msg.Text = "等待易信扫码"; }));
 
+                KillThread.Add(WaitScanTHreadYiXinID, true);
                 WaitScanTHreadYiXinID = Guid.NewGuid();
                 Thread WaitScan = new Thread(new ParameterizedThreadStart(WaitScanThreadYixinDo));
-
                 WaitScan.Start(WaitScanTHreadYiXinID);
 
             }
@@ -225,93 +228,90 @@ namespace WeixinRoboot
 
             try
             {
-            ReCheckURI:
-                Thread.Sleep(500);
-                if (KillThread.ContainsKey((Guid)ThreadID))
+                while (true)
                 {
-                    return;
+
+                    if (KillThread.ContainsKey((Guid)ThreadID))
+                    {
+                        return;
+                    }
+
+                    //使用get方法，查询地址：https://login.weixin.qq.com/cgi-bin/mmwebwx-bin/login?uuid=XXXXXX&tip=1&_=时间戳
+
+                    //这里的XXXXXX是我们刚才获取的uuid，时间戳同上。tip在第一次获取时应为1，这个数是每次查询要变的。
+
+
+                    //如果服务器返回：window.code=201，则说明此时用户在手机端已经完成扫描，但还没有点击确认，继续使用上面的地址查询，但tip要变成0；
+
+                    //如果服务器返回：
+
+                    //window.code=200
+                    //window.redirect_uri="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+                    string CheckUrl = "https://login.weixin.qq.com/cgi-bin/mmwebwx-bin/login?uuid=" + _uuid + "&tip=" + _tip.ToString() + "&_=" + JavaTimeSpan();
+
+                    string Result = NetFramework.Util_WEB.OpenUrl(CheckUrl
+                   , "", "", "GET", cookie);
+                    ScanResult = Result;
+                    if (Result.Contains("window.code=201"))
+                    {
+                        _tip = 0;
+                        this.Invoke(new Action(() => { lbl_msg.Text = "手机已扫码"; }));
+                        this.Invoke(new Action(() => { PicBarCode.Visible = false; }));
+                    }
+                    else if (Result.Contains("window.code=200"))
+                    {
+                        ;
+                        this.Invoke(new Action(() => { lbl_msg.Text = "手机已确认"; }));
+
+
+
+                        // 用get方法，访问在上一步骤获得访问地址，并在参数后面加上：&fun=new，会返回一个xml格式的文本，类似这样：
+
+                        //<error>
+                        //    <ret>0</ret>
+                        //    <message>OK</message>
+                        //    <skey>xxx</skey>
+                        //    <wxsid>xxx</wxsid>
+                        //    <wxuin>xxx</wxuin>
+                        //    <pass_ticket>xxx</pass_ticket>
+                        //    <isgrayscale>1</isgrayscale>
+                        //</error>
+
+                        //把这里的wxuin，wxsid，skey，pass_ticket都记下来，这是重要数据。
+
+                        this.Invoke(new Action(() => { lbl_msg.Text = "获取参数/Cookie"; }));
+
+
+
+                        //                    5、微信初始化
+
+                        //这个是很重要的一步，我在这个步骤折腾了很久。。。
+
+                        //要使用POST方法，访问地址：https://"+webhost+"/cgi-bin/mmwebwx-bin/webwxinit?r=时间戳&lang=ch_ZN&pass_ticket=XXXXXX
+
+                        //其中，时间戳不用解释，pass_ticket是我们在上面获取的一长串字符。
+
+                        //POST的内容是个json串，{"BaseRequest":{"Uin":"XXXXXXXX","Sid":"XXXXXXXX","Skey":XXXXXXXXXXXXX","DeviceID":"e123456789012345"}}
+
+                        //uin、sid、skey分别对应上面步骤4获取的字符串，DeviceID是e后面跟着一个15字节的随机数。
+
+                        //程序里面要注意使用UTF8编码方式。
+                        ReStartWeixin();
+
+                        return;
+
+
+                    }//200 code
+
+                    if (_tip != 0)
+                    {
+                        this.Invoke(new Action(() => { lbl_msg.Text = "等待扫码"; }));
+                        _tip += 1;
+                    }
+                    Thread.Sleep(300);
+
                 }
-
-                //使用get方法，查询地址：https://login.weixin.qq.com/cgi-bin/mmwebwx-bin/login?uuid=XXXXXX&tip=1&_=时间戳
-
-                //这里的XXXXXX是我们刚才获取的uuid，时间戳同上。tip在第一次获取时应为1，这个数是每次查询要变的。
-
-
-                //如果服务器返回：window.code=201，则说明此时用户在手机端已经完成扫描，但还没有点击确认，继续使用上面的地址查询，但tip要变成0；
-
-                //如果服务器返回：
-
-                //window.code=200
-                //window.redirect_uri="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-
-                string CheckUrl = "https://login.weixin.qq.com/cgi-bin/mmwebwx-bin/login?uuid=" + _uuid + "&tip=" + _tip.ToString() + "&_=" + JavaTimeSpan();
-
-                string Result = NetFramework.Util_WEB.OpenUrl(CheckUrl
-               , "", "", "GET", cookie);
-                ScanResult = Result;
-                if (Result.Contains("window.code=201"))
-                {
-                    _tip = 0;
-                    this.Invoke(new Action(() => { lbl_msg.Text = "手机已扫码"; }));
-                    this.Invoke(new Action(() => { PicBarCode.Visible = false; }));
-                }
-                else if (Result.Contains("window.code=200"))
-                {
-                    ;
-                    this.Invoke(new Action(() => { lbl_msg.Text = "手机已确认"; }));
-
-
-
-                    // 用get方法，访问在上一步骤获得访问地址，并在参数后面加上：&fun=new，会返回一个xml格式的文本，类似这样：
-
-                    //<error>
-                    //    <ret>0</ret>
-                    //    <message>OK</message>
-                    //    <skey>xxx</skey>
-                    //    <wxsid>xxx</wxsid>
-                    //    <wxuin>xxx</wxuin>
-                    //    <pass_ticket>xxx</pass_ticket>
-                    //    <isgrayscale>1</isgrayscale>
-                    //</error>
-
-                    //把这里的wxuin，wxsid，skey，pass_ticket都记下来，这是重要数据。
-
-                    this.Invoke(new Action(() => { lbl_msg.Text = "获取参数/Cookie"; }));
-
-
-
-                    //                    5、微信初始化
-
-                    //这个是很重要的一步，我在这个步骤折腾了很久。。。
-
-                    //要使用POST方法，访问地址：https://"+webhost+"/cgi-bin/mmwebwx-bin/webwxinit?r=时间戳&lang=ch_ZN&pass_ticket=XXXXXX
-
-                    //其中，时间戳不用解释，pass_ticket是我们在上面获取的一长串字符。
-
-                    //POST的内容是个json串，{"BaseRequest":{"Uin":"XXXXXXXX","Sid":"XXXXXXXX","Skey":XXXXXXXXXXXXX","DeviceID":"e123456789012345"}}
-
-                    //uin、sid、skey分别对应上面步骤4获取的字符串，DeviceID是e后面跟着一个15字节的随机数。
-
-                    //程序里面要注意使用UTF8编码方式。
-                    ReStartWeixin();
-
-                    return;
-
-
-                }//200 code
-
-                if (_tip != 0)
-                {
-                    this.Invoke(new Action(() => { lbl_msg.Text = "等待扫码"; }));
-                    _tip += 1;
-                }
-
-
-
-
-
-
-                goto ReCheckURI;
             }
             catch (Exception AnyError)
             {
@@ -322,8 +322,18 @@ namespace WeixinRoboot
 
 
         }
+
+        DateTime? RestartTime_WeiXin = null;
         private void ReStartWeixin()
         {
+            if (RestartTime_WeiXin != null && (DateTime.Now - RestartTime_WeiXin.Value).TotalMinutes < 1)
+            {
+                MessageBox.Show("微信频繁重启，可能已掉线");
+                return;
+            }
+            RestartTime_WeiXin = DateTime.Now;
+
+
             JObject Members = WXInit(ScanResult);
 
 
@@ -410,9 +420,11 @@ namespace WeixinRoboot
             {
                 WeiXinOnLine = true;
             }));
+            KillThread.Add(Keepaliveid, true);
+            Keepaliveid = Guid.NewGuid();
 
-            Thread Keepalive = new Thread(new ThreadStart(KeepAlieveDo));
-            Keepalive.Start();
+            Thread Keepalive = new Thread(new ParameterizedThreadStart(KeepAlieveDo));
+            Keepalive.Start(Keepaliveid);
 
 
         }
@@ -435,7 +447,10 @@ namespace WeixinRoboot
             {
                 while (true)
                 {
-
+                    if (KillThread.ContainsKey((Guid)ThreadID))
+                    {
+                        return;
+                    }
 
                     string Result = NetFramework.Util_WEB.OpenUrl("https://web.yixin.im/check?qrcode=" + System.Web.HttpUtility.UrlEncode(yixinQrCodeData) + "&ts=" + JavaTimeSpan()
       , "https://web.yixin.im", "", "GET", cookieyixin, true, true);
@@ -451,7 +466,12 @@ namespace WeixinRoboot
                     }
                     if (qrresult_YiXin["code"].Value<string>() == "200")
                     {
-                        this.Invoke(new Action(() => { lbl_msg.Text = "易信已确认"; }));
+                        this.Invoke(new Action(() =>
+                        {
+                            lbl_msg.Text = "易信已确认";
+                            PicBarCode_yixin.Visible = false;
+                        }));
+
                         //扫码成功
                         RestartYiXin();
                         return;
@@ -473,8 +493,15 @@ namespace WeixinRoboot
 
         }
 
+        DateTime? RestartTime_YiXin = null;
         private void RestartYiXin()
         {
+            if (RestartTime_YiXin != null && (DateTime.Now - RestartTime_YiXin.Value).TotalMinutes < 1)
+            {
+                MessageBox.Show("易信频繁重启，可能已掉线");
+                return;
+            }
+            RestartTime_YiXin = DateTime.Now;
             string WSResult = NetFramework.Util_WEB.OpenUrl("https://web.yixin.im:9092/socket.io/1/?t=" + JavaTimeSpan() + "&jsonp=0"
     , "https://web.yixin.im", "", "GET", cookieyixin, System.Text.Encoding.UTF8, true, true);
 
@@ -575,10 +602,10 @@ namespace WeixinRoboot
         , "https://web.yixin.im", SecondBody, "POST", cookieyixin, System.Text.Encoding.UTF8, true, true);
             // WR_repeat = JObject.Parse(WSResultRepeat);
 
-
-
-            Thread keepaliveyexindo = new Thread(new ThreadStart(KeepAlieveYixinDo));
-            keepaliveyexindo.Start();
+            KillThread.Add(KeepaliveYiXInid, true);
+            KeepaliveYiXInid = Guid.NewGuid();
+            Thread keepaliveyexindo = new Thread(new ParameterizedThreadStart(KeepAlieveYixinDo));
+            keepaliveyexindo.Start(KeepaliveYiXInid);
         }
 
 
@@ -587,11 +614,16 @@ namespace WeixinRoboot
 
         Int32 KeepErrorCount = 0;
 
-        private void KeepAlieveDo()
+        Guid Keepaliveid = Guid.NewGuid();
+        Guid KeepaliveYiXInid = Guid.NewGuid();
+        private void KeepAlieveDo(object ThreadID)
         {
             while (true)
             {
-
+                if (KillThread.ContainsKey((Guid)ThreadID))
+                {
+                    return;
+                }
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -716,7 +748,7 @@ namespace WeixinRoboot
                                 string Content = AddMsgList["Content"].ToString();
                                 string msgTime = AddMsgList["CreateTime"].ToString();
                                 string msgType = AddMsgList["MsgType"].ToString();
-                                MessageRobotDo("微信", db, FromUserNameTEMPID, ToUserNameTEMPID, Content, msgTime, msgType, (FromUserNameTEMPID.StartsWith("@@")));
+                                MessageRobotDo("微", db, FromUserNameTEMPID, ToUserNameTEMPID, Content, msgTime, msgType, (FromUserNameTEMPID.StartsWith("@@")));
 
                             }//JSON消息循环
                         }//新消息数目不为0
@@ -743,8 +775,7 @@ namespace WeixinRoboot
                     NetFramework.Console.Write(AnyError.StackTrace);
 
                 }
-
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
 
             }
 
@@ -755,14 +786,17 @@ namespace WeixinRoboot
 
 
 
-        private void KeepAlieveYixinDo()
+        private void KeepAlieveYixinDo(object ThreadID)
         {
-            while (true)
+
+            try
             {
-                try
+                while (true)
                 {
-
-
+                    if (KillThread.ContainsKey((Guid)ThreadID))
+                    {
+                        return;
+                    }
                     string WSResultRepeat = NetFramework.Util_WEB.OpenUrl("https://web.yixin.im:9092/socket.io/1/" + strprefix + "/" + strfindurid + "?t=" + JavaTimeSpan()
                                   , "https://web.yixin.im", "", "GET", cookieyixin, System.Text.Encoding.UTF8, true, true);
                     // WR_repeat = JObject.Parse(WSResultRepeat);
@@ -795,17 +829,17 @@ namespace WeixinRoboot
                         }
 
                     }//收到多消息
-
-
-                }
-                catch (Exception AnyError)
-                {
-                    NetFramework.Console.WriteLine("易信消息处理错误" + AnyError.Message);
-                    NetFramework.Console.WriteLine("易信消息处理错误" + AnyError.StackTrace);
-                }
-                Thread.Sleep(1000);
-
+                }// while结束
+                Thread.Sleep(500);
             }
+            catch (Exception AnyError)
+            {
+                NetFramework.Console.WriteLine("易信消息处理错误" + AnyError.Message);
+                NetFramework.Console.WriteLine("易信消息处理错误" + AnyError.StackTrace);
+            }
+
+
+
         }//函数结束
 
         Int32 NextSer = 0;
@@ -1108,7 +1142,13 @@ namespace WeixinRoboot
                         JObject AddMsgList = eachMessage["r"][1]["body"][0] as JObject;
                         if (AddMsgList == null)
                         {
+                            AddMsgList = eachMessage["r"][1]["body"][1] as JObject;
+
+                        }
+                        if (AddMsgList == null)
+                        {
                             return;
+
                         }
                         string FromUserNameTEMPID = AddMsgList["2"].ToString();
                         string ToUserNameTEMPID = AddMsgList["1"].ToString();
@@ -1120,7 +1160,7 @@ namespace WeixinRoboot
                         string msgTime = AddMsgList["4"].ToString();
                         string msgType = "未定义";
 
-                        MessageRobotDo("易信", db, FromUserNameTEMPID, ToUserNameTEMPID, Content, msgTime, msgType, (FromUserNameTEMPID.StartsWith("@@")));
+                        MessageRobotDo("易", db, FromUserNameTEMPID, ToUserNameTEMPID, Content, msgTime, msgType, (FromUserNameTEMPID.StartsWith("@@")));
 
                     }
 
@@ -1233,7 +1273,7 @@ namespace WeixinRoboot
                     }
                 }
 
-                if (FromUserNameTEMPID == MyUserName || (MyInfo["1"] != null && FromUserNameTEMPID == MyInfo["1"].ToString()))
+                if (FromUserNameTEMPID == MyUserName || (MyInfo != null && MyInfo["1"] != null && FromUserNameTEMPID == MyInfo["1"].ToString()))
                 {
                     #region "发图"
                     if (Content == ("图1") || (Content == ("图2")))
@@ -2067,7 +2107,7 @@ namespace WeixinRoboot
                 //使用POST方法，访问：https://"+webhost+"/cgi-bin/mmwebwx-bin/webwxgetcontact?r=时间戳
 
                 //POST的内容为空。成功则以JSON格式返回所有联系人的信息。格式类似：
-                string str_memb = NetFramework.Util_WEB.OpenUrl("https://" + webhost + "/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan()+"&seq=0&skey="+Skey
+                string str_memb = NetFramework.Util_WEB.OpenUrl("https://" + webhost + "/cgi-bin/mmwebwx-bin/webwxgetcontact?r=" + JavaTimeSpan() + "&seq=0&skey=" + Skey
             , "https://" + webhost + "/", "", "GET", cookie);
 
                 JObject Members = JObject.Parse(str_memb);
@@ -3130,12 +3170,12 @@ namespace WeixinRoboot
 
             PicBarCode.Visible = true;
             MI_GameLogManulDeal.Enabled = false;
-            KillThread.Add(WaitScanTHreadID, true);
-            KillThread.Add(Download163ThreadID, true);
 
+            KillThread.Add(Keepaliveid, true);
+            Keepaliveid = Guid.NewGuid();
 
-            WaitScanTHreadID = Guid.NewGuid();
-            Download163ThreadID = Guid.NewGuid();
+            WeiXinOnLine = false;
+
 
 
             Thread StartThread = new Thread(new ThreadStart(StartThreadDo));
@@ -3335,6 +3375,19 @@ namespace WeixinRoboot
             }));
 
 
+        }
+
+        private void btn_refreshyixin_Click(object sender, EventArgs e)
+        {
+            PicBarCode_yixin.Visible = true;
+            MI_GameLogManulDeal.Enabled = false;
+            YiXinOnline = false;
+
+            KillThread.Add(KeepaliveYiXInid, true);
+            KeepaliveYiXInid = Guid.NewGuid();
+
+            Thread StartThread = new Thread(new ThreadStart(StartThreadYixinDo));
+            StartThread.Start();
         }
 
 

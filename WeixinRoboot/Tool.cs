@@ -16,7 +16,7 @@ namespace NetFramework
         public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8")
         {
 
-            return OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.ASCII, AllowRedirect, KeepAlive, ContentType);
+            return OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.UTF8, AllowRedirect, KeepAlive, ContentType);
         }
 
         public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8")
@@ -146,7 +146,7 @@ namespace NetFramework
                     using (GZipStream stream = new GZipStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
                     {
 
-                        using (StreamReader reader = new StreamReader(stream))
+                        using (StreamReader reader = new StreamReader(stream,ContactEncoding))
                         {
                             responseBody = reader.ReadToEnd();
                             stream.Close();
@@ -157,7 +157,7 @@ namespace NetFramework
                 {
                     using (DeflateStream stream = new DeflateStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
                     {
-                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        using (StreamReader reader = new StreamReader(stream, ContactEncoding))
                         {
                             responseBody = reader.ReadToEnd();
                             stream.Close();
@@ -168,7 +168,7 @@ namespace NetFramework
                 {
                     using (Stream stream = LoginPage_Return.GetResponseStream())
                     {
-                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        using (StreamReader reader = new StreamReader(stream, ContactEncoding))
                         {
                             responseBody = reader.ReadToEnd();
                             stream.Close();

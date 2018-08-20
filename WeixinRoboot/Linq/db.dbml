@@ -165,19 +165,6 @@
       <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.WX_UserReply" Member="WX_UserReply">
-    <Type Name="WX_UserReply">
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsReply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="NickName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
-      <Column Name="RemarkName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
-      <Column Name="IsReceiveTransfer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsCaculateFuli" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="WeChatID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.WX_UserReplyLog" Member="WX_UserReplyLog">
     <Type Name="WX_UserReplyLog">
       <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -190,6 +177,19 @@
       <Column Name="SourceType" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="WX_msgType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_UserReply" Member="WX_UserReply">
+    <Type Name="WX_UserReply">
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsReply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NickName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="RemarkName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="IsReceiveTransfer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsCaculateFuli" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="WeChatID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
     </Type>
   </Table>
 </Database>
