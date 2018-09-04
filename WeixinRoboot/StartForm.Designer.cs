@@ -60,6 +60,7 @@
             this.codeweixin = new System.Windows.Forms.Label();
             this.codeyixin = new System.Windows.Forms.Label();
             this.btn_refreshyixin = new System.Windows.Forms.Button();
+            this.btn_bossreport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
@@ -337,11 +338,23 @@
             this.btn_refreshyixin.UseVisualStyleBackColor = true;
             this.btn_refreshyixin.Click += new System.EventHandler(this.btn_refreshyixin_Click);
             // 
+            // btn_bossreport
+            // 
+            this.btn_bossreport.Location = new System.Drawing.Point(798, 295);
+            this.btn_bossreport.Name = "btn_bossreport";
+            this.btn_bossreport.Size = new System.Drawing.Size(75, 23);
+            this.btn_bossreport.TabIndex = 15;
+            this.btn_bossreport.Text = "老板报表";
+            this.btn_bossreport.UseVisualStyleBackColor = true;
+            this.btn_bossreport.Visible = false;
+            this.btn_bossreport.Click += new System.EventHandler(this.btn_bossreport_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 390);
+            this.Controls.Add(this.btn_bossreport);
             this.Controls.Add(this.btn_refreshyixin);
             this.Controls.Add(this.codeyixin);
             this.Controls.Add(this.codeweixin);
@@ -406,6 +419,7 @@
         private System.Windows.Forms.Label codeweixin;
         private System.Windows.Forms.Label codeyixin;
         private System.Windows.Forms.Button btn_refreshyixin;
+        private System.Windows.Forms.Button btn_bossreport;
     }
 }
 

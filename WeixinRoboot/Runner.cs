@@ -29,124 +29,125 @@ namespace WeixinRoboot
                 asyncData.Start();
             }//Set结束
         }
-     System.Threading.Thread asyncData =null;
+        System.Threading.Thread asyncData = null;
 
-        private  void SetMembers()
+        private void SetMembers()
         {
             NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"));
             try
             {
 
-          
-            this.Invoke(new Action(() =>
-            {
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
-                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                BS_Contact.DataSource = null;
-                foreach (var item in (_Members["MemberList"]) as JArray)
+
+                this.Invoke(new Action(() =>
                 {
-
-                    string UserNametempID = (item["UserName"] as JValue).Value.ToString();
-                    string NickName = (item["NickName"] as JValue).Value.ToString();
-                    string RemarkName = (item["RemarkName"] as JValue).Value.ToString();
-                    string HeadImgUrl = (item["HeadImgUrl"] as JValue).Value.ToString();
-
-                    //NetFramework.Console.WriteLine("更新联系人" + NickName);
-                    //Application.DoEvents();
-
-                    System.Text.RegularExpressions.Regex FindSeq = new System.Text.RegularExpressions.Regex("seq=([0-9])+");
-
-                    string Seq = FindSeq.Match(HeadImgUrl).Value;
-                    Seq = Seq.Substring(Seq.IndexOf("=") + 1);
-
-                    Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Seq && t.WX_SourceType == "微");
-                    if (usrc == null)
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                    db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                    BS_Contact.DataSource = null;
+                    foreach (var item in (_Members["MemberList"]) as JArray)
                     {
-                        Linq.WX_UserReply newusrc = new Linq.WX_UserReply();
-                        newusrc.aspnet_UserID = GlobalParam.Key;
-                        newusrc.WX_UserName = Seq;
-                        newusrc.WX_SourceType = "微";
-                        newusrc.RemarkName = RemarkName;
-                        newusrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName);
 
-                        newusrc.IsCaculateFuli = true;
-                        if (UserNametempID.StartsWith("@@") == false)
+                        string UserNametempID = (item["UserName"] as JValue).Value.ToString();
+                        string NickName = (item["NickName"] as JValue).Value.ToString();
+                        string RemarkName = (item["RemarkName"] as JValue).Value.ToString();
+                        string HeadImgUrl = (item["HeadImgUrl"] as JValue).Value.ToString();
+
+                        //NetFramework.Console.WriteLine("更新联系人" + NickName);
+                        //Application.DoEvents();
+
+                        System.Text.RegularExpressions.Regex FindSeq = new System.Text.RegularExpressions.Regex("seq=([0-9])+");
+
+                        string Seq = FindSeq.Match(HeadImgUrl).Value;
+                        Seq = Seq.Substring(Seq.IndexOf("=") + 1);
+
+                        Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Seq && t.WX_SourceType == "微");
+                        if (usrc == null)
                         {
-                            newusrc.IsReply = true;
+                            Linq.WX_UserReply newusrc = new Linq.WX_UserReply();
+                            newusrc.aspnet_UserID = GlobalParam.Key;
+                            newusrc.WX_UserName = Seq;
+                            newusrc.WX_SourceType = "微";
+                            newusrc.RemarkName = RemarkName;
+                            newusrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName);
+
+                            newusrc.IsCaculateFuli = true;
+                            if (UserNametempID.StartsWith("@@") == false)
+                            {
+                                newusrc.IsReply = true;
+                            }
+                            else
+                            {
+                                newusrc.IsReply = false;
+                            }
+                            db.WX_UserReply.InsertOnSubmit(newusrc);
+
+
+                        } //初始化，添加到数据库或同步数据库
+                        else
+                        {
+                            if ((usrc.RemarkName != RemarkName) || (usrc.NickName != NetFramework.Util_WEB.CleanHtml(NickName))
+                                )
+                            {
+
+                                usrc.RemarkName = RemarkName;
+                                usrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName);
+
+                            }
+                            if (UserNametempID.StartsWith("@@") == false)
+                            {
+                                usrc.IsReply = true;
+                            }
+
+
+
+                        } //初始化，添加到数据库或同步数据库
+                        db.SubmitChanges();
+                        usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Seq && t.WX_SourceType == "微");
+
+
+
+                        DataRow[] Lists = MemberSource.Select("User_ContactID='" + Seq + "' and User_SourceType='微'");
+                        DataRow newr = null;
+                        if (Lists.Length == 0)
+                        {
+                            newr = MemberSource.NewRow();
+                            MemberSource.Rows.Add(newr);
                         }
                         else
                         {
-                            newusrc.IsReply = false;
+                            newr = Lists[0];
                         }
-                        db.WX_UserReply.InsertOnSubmit(newusrc);
+                        newr.SetField("User_ContactID", Seq);
+                        newr.SetField("User_ContactTEMPID", UserNametempID);
+                        newr.SetField("User_ContactType", UserNametempID.StartsWith("@@") ? "群" : "个人");
+                        newr.SetField("User_SourceType", "微");
+                        newr.SetField("User_Contact", RemarkName == "" ? NickName : RemarkName);
+
+                        newr.SetField("User_IsReply", usrc.IsReply);
 
 
-                    } //初始化，添加到数据库或同步数据库
-                    else
-                    {
-                        if ((usrc.RemarkName != RemarkName) || (usrc.NickName != NetFramework.Util_WEB.CleanHtml(NickName))
-                            )
-                        {
-
-                            usrc.RemarkName = RemarkName;
-                            usrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName);
-
-                        }
                         if (UserNametempID.StartsWith("@@") == false)
                         {
-                            usrc.IsReply = true;
+                            newr.SetField("User_IsReply", usrc == null ? false : usrc.IsReply);
                         }
 
 
+                        newr.SetField("User_IsReceiveTransfer", usrc == null ? false : usrc.IsReceiveTransfer);
+                        newr.SetField("User_IsCaculateFuli", usrc == null ? false : usrc.IsCaculateFuli);
 
-                    } //初始化，添加到数据库或同步数据库
-                    db.SubmitChanges();
-                    usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == Seq&&t.WX_SourceType=="微");
-
-
-
-                    DataRow[] Lists = MemberSource.Select("User_ContactID='" + Seq + "' and User_SourceType='微'");
-                    DataRow newr = null;
-                    if (Lists.Length == 0)
-                    {
-                        newr = MemberSource.NewRow();
-                        MemberSource.Rows.Add(newr);
-                    }
-                    else
-                    {
-                        newr = Lists[0];
-                    }
-                    newr.SetField("User_ContactID", Seq);
-                    newr.SetField("User_ContactTEMPID", UserNametempID);
-                    newr.SetField("User_ContactType", UserNametempID.StartsWith("@@") ? "群" : "个人");
-                    newr.SetField("User_SourceType","微");
-                    newr.SetField("User_Contact", RemarkName == "" ? NickName : RemarkName);
-
-                    newr.SetField("User_IsReply", usrc.IsReply);
-
-                    
-                    if (UserNametempID.StartsWith("@@") == false)
-                    {
-                        newr.SetField("User_IsReply", usrc == null ? false : usrc.IsReply);
-                    }
+                        newr.SetField("User_IsBoss", usrc == null ? false : (usrc.IsBoss == null ? false : usrc.IsBoss));
+                        //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
+                        //foreach (var logitem in UpdateLogs)
+                        //{
+                        //    logitem.SetField("Reply_ContactTEMPID", UserNametempID);
+                        //    logitem.SetField("Reply_Contact", RemarkName == "" ? NickName : RemarkName);
+                        //}
 
 
-                    newr.SetField("User_IsReceiveTransfer", usrc == null ? false : usrc.IsReceiveTransfer);
-                    newr.SetField("User_IsCaculateFuli", usrc == null ? false : usrc.IsCaculateFuli);
+                    }//成员列表循环
 
-                    //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
-                    //foreach (var logitem in UpdateLogs)
-                    //{
-                    //    logitem.SetField("Reply_ContactTEMPID", UserNametempID);
-                    //    logitem.SetField("Reply_Contact", RemarkName == "" ? NickName : RemarkName);
-                    //}
-
-
-                }//成员列表循环
-
-                BS_Contact.DataSource = MemberSource;
-               // BS_Contact.Sort = "User_Contact";
-            }));
+                    BS_Contact.DataSource = MemberSource;
+                    // BS_Contact.Sort = "User_Contact";
+                }));
             }
             catch (Exception AnyError)
             {
@@ -168,7 +169,7 @@ namespace WeixinRoboot
             try
             {
 
-                if (contactinf.Count==0)
+                if (contactinf.Count == 0)
                 {
                     return;
                 }
@@ -180,17 +181,17 @@ namespace WeixinRoboot
                     foreach (var item in contact)
                     {
                         StartForm.YixinContactInfo yf = contactinf.SingleOrDefault(t => t.ContactID == item.ContactID);
-                      
-                        string UserNametempID = item.ContactID;
-                        string NickName="";
-                        if (yf!=null)
-                        {
-                              NickName = yf.ContactName;
-                        }
-                       
 
-                        string RemarkName =item.ContactRemarkName;
-                       
+                        string UserNametempID = item.ContactID;
+                        string NickName = "";
+                        if (yf != null)
+                        {
+                            NickName = yf.ContactName;
+                        }
+
+
+                        string RemarkName = item.ContactRemarkName;
+
 
                         //NetFramework.Console.WriteLine("更新联系人" + NickName);
                         //Application.DoEvents();
@@ -239,7 +240,7 @@ namespace WeixinRoboot
 
                         } //初始化，添加到数据库或同步数据库
                         db.SubmitChanges();
-                        usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == item.ContactID&&t.WX_SourceType=="易");
+                        usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == item.ContactID && t.WX_SourceType == "易");
 
 
 
@@ -256,7 +257,7 @@ namespace WeixinRoboot
                         }
                         newr.SetField("User_ContactID", item.ContactID);
                         newr.SetField("User_ContactTEMPID", UserNametempID);
-                        newr.SetField("User_ContactType", item.ContactType );
+                        newr.SetField("User_ContactType", item.ContactType);
                         newr.SetField("User_SourceType", "易");
                         newr.SetField("User_Contact", RemarkName == "" ? NickName : RemarkName);
 
@@ -270,6 +271,8 @@ namespace WeixinRoboot
 
                         newr.SetField("User_IsReceiveTransfer", usrc == null ? false : usrc.IsReceiveTransfer);
                         newr.SetField("User_IsCaculateFuli", usrc == null ? false : usrc.IsCaculateFuli);
+
+                        newr.SetField("User_IsBoss", usrc == null ? false : (usrc.IsBoss == null ? false : usrc.IsBoss));
 
                         //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
                         //foreach (var logitem in UpdateLogs)
@@ -328,7 +331,7 @@ namespace WeixinRoboot
             MemberSource.Columns.Add("User_IsReceiveTransfer", typeof(Boolean));
             MemberSource.Columns.Add("User_IsCaculateFuli", typeof(Boolean));
             MemberSource.Columns.Add("User_SourceType");
-
+            MemberSource.Columns.Add("User_IsBoss", typeof(Boolean));
 
 
 
@@ -339,12 +342,12 @@ namespace WeixinRoboot
             dtp_EndDate.Value = DateTime.Today.AddMonths(1);
 
 
-            LoadReplyLog("","");
+            LoadReplyLog("", "");
 
             TM_Refresh.Start();
         }
 
-        private void LoadReplyLog(string SelectUser,string SourceType)
+        private void LoadReplyLog(string SelectUser, string SourceType)
         {
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
@@ -371,9 +374,9 @@ namespace WeixinRoboot
                   + " from WX_UserReplyLog RL with (nolock) join WX_UserReply ur with (nolock) on RL.aspnet_UserID=ur.aspnet_UserID and RL.WX_UserName=ur.WX_UserName and   RL.WX_SourceType=ur.WX_SourceType  where RL.aspnet_UserID='" + GlobalParam.Key.ToString() + "' and "
                   + "ReceiveTime >='" + dtp_StartDate.Value.Date.ToString("yyyy-MM-dd") + "' and "
                   + "ReceiveTime <'" + dtp_EndDate.Value.Date.ToString("yyyy-MM-dd") + "'  "
-                  + (SelectUser == "" ? "" : " and RL.WX_UserName='" + SelectUser+"' " )
-                  + (SourceType == "" ? "" : " and RL.WX_SourceType='" + SourceType+"' " )
-                 
+                  + (SelectUser == "" ? "" : " and RL.WX_UserName='" + SelectUser + "' ")
+                  + (SourceType == "" ? "" : " and RL.WX_SourceType='" + SourceType + "' ")
+
                   );
             if (ReplySource == null)
             {
@@ -384,7 +387,7 @@ namespace WeixinRoboot
             {
                 string ContactID = item.Field<string>("Reply_ContactID");
                 //string SourceType = item.Field<string>("Reply_SourceType");
-                DataRow[] memusr = MemberSource.Select("User_ContactID='" + ContactID + "' and User_SourceType='"+SourceType+"'");
+                DataRow[] memusr = MemberSource.Select("User_ContactID='" + ContactID + "' and User_SourceType='" + SourceType + "'");
                 if (memusr.Length != 0)
                 {
                     item.SetField("Reply_ContactTEMPID", memusr[0].Field<string>("User_ContactTEMPID"));
@@ -410,21 +413,22 @@ namespace WeixinRoboot
 
             var datasource = from ds in db.WX_UserReplyLog
                              join dsgame in db.WX_UserGameLog
-                             on new { ds.aspnet_UserID, ds.WX_UserName, ds.ReceiveTime,ds.WX_SourceType } equals new { dsgame.aspnet_UserID, dsgame.WX_UserName, ReceiveTime = dsgame.TransTime,WX_SourceType=dsgame.WX_SourceType }
+                             on new { ds.aspnet_UserID, ds.WX_UserName, ds.ReceiveTime, ds.WX_SourceType } equals new { dsgame.aspnet_UserID, dsgame.WX_UserName, ReceiveTime = dsgame.TransTime, WX_SourceType = dsgame.WX_SourceType }
                              into leftdsggame
                              from dsgame2 in leftdsggame.DefaultIfEmpty()
                              where ds.ReceiveTime >= dtp_StartDate.Value
                              && ds.ReceiveTime < dtp_EndDate.Value
                              && ds.aspnet_UserID == GlobalParam.Key
                              && ds.WX_UserName == SelectUser
-                             &&ds.WX_SourceType==SourceType
+                             && ds.WX_SourceType == SourceType
                              orderby ds.ReceiveTime descending
                              select new
                              {
                                  ds.ReceiveTime,
                                  ds.ReceiveContent,
                                  ds.aspnet_UserID,
-                                 ds.WX_UserName,ds.WX_SourceType,
+                                 ds.WX_UserName,
+                                 ds.WX_SourceType,
                                  TransTime = (DateTime?)dsgame2.TransTime,
                                  dsgame2.GamePeriod
                                  ,
@@ -566,12 +570,12 @@ namespace WeixinRoboot
 
         private void dtp_Start_ValueChanged(object sender, EventArgs e)
         {
-            LoadReplyLog("","");
+            LoadReplyLog("", "");
         }
 
         private void dtp_End_ValueChanged(object sender, EventArgs e)
         {
-            LoadReplyLog("","");
+            LoadReplyLog("", "");
         }
 
         private void gv_contact_Leave(object sender, EventArgs e)
@@ -732,6 +736,32 @@ namespace WeixinRoboot
             catch (Exception AnyError)
             {
                 NetFramework.Console.Write(AnyError.Message);
+
+            }
+        }
+
+        private void 老板查询ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.DataLogic.WX_UserReplyLog_MySendCreate("老板查询", editrow, DateTime.Now);
+
+
+            }
+        }
+
+        private void 取消老板查询ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消老板查询", editrow, DateTime.Now);
+
 
             }
         }

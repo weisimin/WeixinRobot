@@ -92,6 +92,10 @@ namespace WeixinRoboot
 
             }
 
+
+            Thread EndNoticeBoss = new Thread(new ThreadStart(RepeatSendBossReport));
+            EndNoticeBoss.Start();
+
         }
 
         private Int32 _tip = 1;
@@ -329,6 +333,7 @@ namespace WeixinRoboot
             if (RestartTime_WeiXin != null && (DateTime.Now - RestartTime_WeiXin.Value).TotalMinutes < 1)
             {
                 MessageBox.Show("微信频繁重启，可能已掉线");
+                WeiXinOnLine = false;
                 return;
             }
             RestartTime_WeiXin = DateTime.Now;
@@ -499,6 +504,7 @@ namespace WeixinRoboot
             if (RestartTime_YiXin != null && (DateTime.Now - RestartTime_YiXin.Value).TotalMinutes < 1)
             {
                 MessageBox.Show("易信频繁重启，可能已掉线");
+                YiXinOnline = false;
                 return;
             }
             RestartTime_YiXin = DateTime.Now;
@@ -1263,8 +1269,6 @@ namespace WeixinRoboot
                 {
                     if (SourceType == "微")
                     {
-
-
                         RepeatGetMembers(Skey, pass_ticket);
                     }
                     else if (SourceType == "易")
@@ -1475,9 +1479,9 @@ namespace WeixinRoboot
 
         JObject MyInfo = null;
 
-        public string SendRobotContent(string Content, string TempToUserID, string Mode)
+        public string SendRobotContent(string Content, string TempToUserID, string WX_SourceType)
         {
-            switch (Mode)
+            switch (WX_SourceType)
             {
                 case "易":
                     return SendYiXinContent(Content, TempToUserID);
@@ -1492,15 +1496,15 @@ namespace WeixinRoboot
             }
 
         }
-        public string SendRobotImage(string Content, string TempToUserID, string Mode)
+        public string SendRobotImage(string ImageFile, string TempToUserID, string WX_SourceType)
         {
-            switch (Mode)
+            switch (WX_SourceType)
             {
                 case "易":
-                    return SendYiXinImage(Content, TempToUserID);
+                    return SendYiXinImage(ImageFile, TempToUserID);
                     break;
                 case "微":
-                    return SendWXImage(Content, TempToUserID);
+                    return SendWXImage(ImageFile, TempToUserID);
                     break;
 
                 default:
@@ -1921,6 +1925,51 @@ namespace WeixinRoboot
                 db.WX_UserReplyLog.InsertOnSubmit(newlogr);
                 db.SubmitChanges();
 
+                #region "老板查询"
+                if (ReceiveContent.Length == 8 || ReceiveContent.Length == 17)
+                {
+                    try
+                    {
+                        Linq.WX_UserReply testu = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_SourceType == newlogr.WX_SourceType && t.WX_UserName == newlogr.WX_UserName);
+                        if (testu.IsBoss == true)
+                        {
+                            NetFramework.Console.WriteLine("准备老板查询发图");
+                            DataTable Result2 = WeixinRoboot.Linq.DataLogic.GetBossReportSource(newlogr.WX_SourceType, ReceiveContent);
+                            DrawDataTable(Result2);
+                            SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + "老板查询.jpg", userr.Field<string>("User_ContactTEMPID"), userr.Field<string>("User_SourceType"));
+
+                            Linq.PIC_EndSendLog bsl = new Linq.PIC_EndSendLog();
+                            bsl.WX_BossID = newlogr.WX_UserName;
+                            bsl.WX_SourceType = newlogr.WX_SourceType;
+                            bsl.WX_SendDate = DateTime.Now;
+                            bsl.WX_UserName = newlogr.WX_UserName;
+                            bsl.aspnet_UserID = GlobalParam.Key;
+                            db.PIC_EndSendLog.InsertOnSubmit(bsl);
+
+
+                            Linq.PIC_EndSendLog findbsl = db.PIC_EndSendLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key
+                                && t.WX_SourceType == newlogr.WX_SourceType
+                                 && t.WX_BossID == newlogr.WX_UserName
+
+                                );
+                            if (findbsl == null)
+                            {
+                                db.SubmitChanges();
+                            }
+
+
+
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+
+                    }
+
+                }
+                #endregion
+
 
                 string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, userr.Table, adminmode);
 
@@ -2197,11 +2246,11 @@ namespace WeixinRoboot
         {
             try
             {
-
                 try
                 {
                     Boolean SendImage = false;
-                    DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, DateTime.Now, false);
+
+                    DownLoad163CaiPiaoV_13322(ref SendImage, DateTime.Now, false);
                     if (SendImage == true)
                     {
                         DealGameLogAndNotice();
@@ -2212,10 +2261,11 @@ namespace WeixinRoboot
                 catch (Exception AnyError)
                 { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
 
+
                 try
                 {
                     Boolean SendImage = false;
-                    DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, DateTime.Now.AddDays(-1), false);
+                    DownLoad163CaiPiaoV_13322(ref SendImage, DateTime.Now.AddDays(-1), false);
                     if (SendImage == true)
                     {
                         DealGameLogAndNotice();
@@ -2226,10 +2276,12 @@ namespace WeixinRoboot
                 catch (Exception AnyError)
                 { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
 
+
+
                 try
                 {
                     Boolean SendImage = false;
-                    DownLoad163CaiPiaoV_Taohua(ref SendImage, DateTime.Now, false);
+                    DownLoad163CaiPiaoV_cp222789(ref SendImage, DateTime.Now, false);
                     if (SendImage == true)
                     {
                         DealGameLogAndNotice();
@@ -2239,10 +2291,12 @@ namespace WeixinRoboot
                 }
                 catch (Exception AnyError)
                 { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+
                 try
                 {
                     Boolean SendImage = false;
-                    DownLoad163CaiPiaoV_Taohua(ref SendImage, DateTime.Now.AddDays(-1), false);
+                    DownLoad163CaiPiaoV_cp222789(ref SendImage, DateTime.Now.AddDays(-1), false);
                     if (SendImage == true)
                     {
                         DealGameLogAndNotice();
@@ -2250,7 +2304,63 @@ namespace WeixinRoboot
                     }
 
                 }
-                catch (Exception AnyError) { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+                catch (Exception AnyError)
+                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+
+                //try
+                //{
+                //    Boolean SendImage = false;
+                //    DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, DateTime.Now, false);
+                //    if (SendImage == true)
+                //    {
+                //        DealGameLogAndNotice();
+                //        SendChongqingResult();
+                //    }
+
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+                //try
+                //{
+                //    Boolean SendImage = false;
+                //    DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, DateTime.Now.AddDays(-1), false);
+                //    if (SendImage == true)
+                //    {
+                //        DealGameLogAndNotice();
+                //        SendChongqingResult();
+                //    }
+
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+                //try
+                //{
+                //    Boolean SendImage = false;
+                //    DownLoad163CaiPiaoV_Taohua(ref SendImage, DateTime.Now, false);
+                //    if (SendImage == true)
+                //    {
+                //        DealGameLogAndNotice();
+                //        SendChongqingResult();
+                //    }
+
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+                //try
+                //{
+                //    Boolean SendImage = false;
+                //    DownLoad163CaiPiaoV_Taohua(ref SendImage, DateTime.Now.AddDays(-1), false);
+                //    if (SendImage == true)
+                //    {
+                //        DealGameLogAndNotice();
+                //        SendChongqingResult();
+                //    }
+
+                //}
+                //catch (Exception AnyError) { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
 
                 //try
                 //{
@@ -2817,6 +2927,180 @@ namespace WeixinRoboot
         }
 
 
+        //cp222789.com
+        public void DownLoad163CaiPiaoV_cp222789(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        {
+            NetFramework.Console.Write(GlobalParam.UserName + "下载cp222789网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+
+
+
+
+            string URL = "https://www.cp222789.com/data/cqssc/lotteryList/";
+
+
+            URL += SelectDate.ToString("yyyy-MM-dd") + ".json?DPP64KALP77Z8697L9UY";
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
+
+
+            JObject Resultfull = JObject.Parse("{DownData:" + Result + "}");
+
+
+
+
+            foreach (JObject item in (Resultfull["DownData"] as JArray))
+            {
+
+
+
+                string str_dataperiod = (item["issue"] as JValue).Value.ToString();
+                str_dataperiod = str_dataperiod.Substring(2);
+
+
+
+
+                string str_Win = "";
+                foreach (object openitem in item["openNum"] as JArray)
+                {
+                    str_Win += openitem.ToString().Replace("{", "").Replace("}", "");
+                }
+                bool Newdb = false;
+                Linq.DataLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
+                if (Newdb)
+                {
+                    DealGameLogAndNotice();
+                }
+
+
+
+            }//每行处理
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+                LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+                DateTime day = DateTime.Now;
+                if (day.Hour < 10)
+                {
+                    day = day.AddDays(-1);
+                }
+
+                DrawGdi(day);
+                DealGameLogAndNotice();
+            }
+
+
+
+            #endregion
+
+            NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
+
+        //https://kj.13322.com/ssc_cqssc_history_d20180830.html
+        //13322.com
+        public void DownLoad163CaiPiaoV_13322(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi)
+        {
+            NetFramework.Console.Write(GlobalParam.UserName + "下载13322.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+
+
+
+
+            string URL = "https://kj.13322.com/ssc_cqssc_history_d";
+
+
+            URL += SelectDate.ToString("yyyyMMdd") + ".html";
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
+
+            Regex FindTable = new Regex("<table id=\"trend_table\"((?!</table></div>)[\\s\\S])+</table></div>", RegexOptions.IgnoreCase);
+
+            string TableHtml = FindTable.Match(Result.Replace(Environment.NewLine, "")).Value;
+            Regex FinrR = new Regex("td class=\"tdbbs tdbrs\"((?!<td class=\"tdbb\">)[\\S\\s])+ <td class=\"tdbb\">", RegexOptions.IgnoreCase);
+
+
+
+            foreach (Match item in FinrR.Matches(TableHtml))
+            {
+
+                if (item.Value.Contains("ssc.drawDate") || item.Value.Contains("开奖日期"))
+                {
+                    continue;
+                }
+
+
+                Regex FindCols = new Regex("class=\"tdbbs tdbrs\"((?!</td>)[\\S\\s])+</td>", RegexOptions.IgnoreCase);
+                MatchCollection dat_cols = FindCols.Matches(item.Value);
+
+
+                string str_dataperiod = dat_cols[1].Value.Replace("</td>", "");
+                str_dataperiod = str_dataperiod.Substring(str_dataperiod.IndexOf(">") + 1);
+                str_dataperiod = str_dataperiod.Substring(2);
+
+
+
+
+                Regex FindNums = new Regex("class=\"Ballsc_blue\"((?!</td>)[\\s\\S])+</td>", RegexOptions.IgnoreCase);
+
+                string str_Win = "";
+                foreach (Match openitem in FindNums.Matches(item.Value))
+                {
+
+                    string NumIndex = openitem.Value.Replace("</td>", "");
+                    NumIndex = NumIndex.Substring(NumIndex.IndexOf(">") + 1);
+                    str_Win += NumIndex;
+                }
+                bool Newdb = false;
+                Linq.DataLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
+                if (Newdb)
+                {
+                    DealGameLogAndNotice();
+                }
+
+
+
+            }//每行处理
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+                LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
+                DateTime day = DateTime.Now;
+                if (day.Hour < 10)
+                {
+                    day = day.AddDays(-1);
+                }
+
+                DrawGdi(day);
+                DealGameLogAndNotice();
+            }
+
+
+
+            #endregion
+
+            NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
 
 
 
@@ -3128,6 +3412,109 @@ namespace WeixinRoboot
         }
 
 
+        public void DrawDataTable(DataTable datasource)
+        {
+
+
+            #region 画表格
+            Bitmap img = new Bitmap(840, (datasource.Rows.Count + 4) * 30);
+            Graphics g = Graphics.FromImage(img);
+
+
+            for (int i = 0; i <= datasource.Rows.Count + 4; i++)
+            {
+                Int32 DrawHight = (i) * 30;
+                if (i % 2 == 0)
+                {
+                    Rectangle r = new Rectangle(0, DrawHight, img.Width, 30);
+                    Brush BGB = new SolidBrush(Color.FromArgb(236, 236, 236));
+                    g.FillRectangle(BGB, r);
+                }
+                else
+                {
+                    Rectangle r = new Rectangle(0, DrawHight, img.Width, 30);
+                    Brush BGB = new SolidBrush(Color.FromArgb(255, 255, 255));
+                    g.FillRectangle(BGB, r);
+                }
+                Int32 MarginTop = 5;
+                Int32 MarginLeft = 5;
+                if (i == 0)
+                {
+                    Font sf = new Font("微软雅黑", 15);
+                    Brush br = new SolidBrush(Color.Black);
+
+                }
+                else if (i == 1)
+                {
+
+                    Font sf = new Font("微软雅黑", 15);
+                    Brush br = new SolidBrush(Color.Black);
+
+                    Font sfl = new Font("微软雅黑", 12);
+                    Int32 WriteWidth = 0;
+                    for (int ci = 0; ci < datasource.Columns.Count; ci++)
+                    {
+                        if (ci == 1)
+                        {
+                            WriteWidth += 180;
+                        }
+                        else if (ci > 1)
+                        {
+                            WriteWidth += 100;
+                        }
+                        g.DrawString(datasource.Columns[ci].ColumnName, (ci == 0 ? sfl : sf), br, new PointF(MarginLeft + WriteWidth, MarginTop + i * 30));
+
+                    }
+
+
+                }
+                else
+                {
+                    if (i - 2 - datasource.Rows.Count >= 0)
+                    {
+                        continue;
+                    }
+                    DataRow currow = datasource.Rows[i - 2];
+
+
+                    Font sf = new Font("微软雅黑", 15);
+                    Brush br = new SolidBrush(Color.Black);
+                    Font sfl = new Font("微软雅黑", 12);
+                    Int32 WriteWidth = 0;
+                    for (int ci = 0; ci < datasource.Columns.Count; ci++)
+                    {
+                        if (ci == 1)
+                        {
+                            WriteWidth += 180;
+                        }
+                        else if (ci > 1)
+                        {
+                            WriteWidth += 100;
+                        }
+                        g.DrawString(currow.Field<object>(ci).ToString(), (ci == 0 ? sfl : sf), br, new PointF(MarginLeft + WriteWidth, MarginTop + i * 30));
+
+
+
+                    }
+
+
+
+                }//具体数据结束
+            }//每行画图
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data" + GlobalParam.UserName + "老板查询.jpg"))
+            {
+                System.IO.File.Delete(Application.StartupPath + "\\Data" + GlobalParam.UserName + "老板查询.jpg");
+            }
+            img.Save(Application.StartupPath + "\\Data" + GlobalParam.UserName + "老板查询.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            img.Dispose();
+            g.Dispose();
+
+            #endregion
+
+        }
+
+
+
         private System.Net.CookieCollection cookie163 = new CookieCollection();
 
 
@@ -3390,8 +3777,103 @@ namespace WeixinRoboot
             StartThread.Start();
         }
 
+        private void btn_bossreport_Click(object sender, EventArgs e)
+        {
+            DataTable Result1 = WeixinRoboot.Linq.DataLogic.GetBossReportSource("微", "20180612");
+            DataTable Result2 = WeixinRoboot.Linq.DataLogic.GetBossReportSource("微", "20180112.20190630");
+
+            DrawDataTable(Result2);
+        }
 
 
+        private void RepeatSendBossReport()
+        {
+            while (true)
+            {
+
+
+                if ((DateTime.Now.Hour >= 2 && DateTime.Now.Hour < 10) == false)
+                {
+
+
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                    db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+                    var boss = db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.Key && t.IsBoss == true);
+                    foreach (var Bossitem in boss)
+                    {
+                        if (WeiXinOnLine == true)
+                        {
+                            var Rows = RunnerF.MemberSource.Select("User_ContactID='" + Bossitem.WX_UserName + "' and User_SourceType='" + Bossitem.WX_SourceType + "'");
+
+                            if (Rows.Count() > 0)
+                            {
+                                var findsendlog = db.PIC_EndSendLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_BossID == Bossitem.WX_UserName && t.WX_SendDate == DateTime.Today && t.WX_SourceType == "微");
+                                if (findsendlog == null)
+                                {
+                                    NetFramework.Console.WriteLine("准备老板查询发图");
+                                    DataTable Result2 = WeixinRoboot.Linq.DataLogic.GetBossReportSource(Bossitem.WX_SourceType, DateTime.Today.AddDays(-1).ToString("yyyyMMdd"));
+                                    DrawDataTable(Result2);
+                                    SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + "老板查询.jpg", Rows[0].Field<string>("User_ContactTEMPID"), Bossitem.WX_SourceType);
+
+                                    Linq.PIC_EndSendLog bsl = new Linq.PIC_EndSendLog();
+                                    bsl.WX_BossID = Bossitem.WX_UserName;
+                                    bsl.WX_SourceType = Bossitem.WX_SourceType;
+                                    bsl.WX_SendDate = DateTime.Now;
+                                    bsl.WX_UserName = Bossitem.WX_UserName;
+                                    bsl.aspnet_UserID = GlobalParam.Key;
+                                    db.PIC_EndSendLog.InsertOnSubmit(bsl);
+                                    db.SubmitChanges();
+                                }
+
+                            }//BOSS联系人找到
+                            else
+                            {
+                                NetFramework.Console.WriteLine("BOSS联系人找不到，图片发不出");
+                            }
+                        }
+                        if (YiXinOnline == true)
+                        {
+                            var Rows = RunnerF.MemberSource.Select("User_ContactID='" + Bossitem.WX_UserName + "' and User_SourceType='" + Bossitem.WX_SourceType + "'");
+
+                            if (Rows.Count() > 0)
+                            {
+                                var findsendlog = db.PIC_EndSendLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_BossID == Bossitem.WX_UserName && t.WX_SendDate == DateTime.Today && t.WX_SourceType == "易");
+                                if (findsendlog == null)
+                                {
+                                    NetFramework.Console.WriteLine("准备老板查询发图");
+                                    DataTable Result2 = WeixinRoboot.Linq.DataLogic.GetBossReportSource(Bossitem.WX_SourceType, DateTime.Today.AddDays(-1).ToString("yyyyMMdd"));
+                                    DrawDataTable(Result2);
+                                    SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + "老板查询.jpg", Rows[0].Field<string>("User_ContactTEMPID"), Bossitem.WX_SourceType);
+
+                                    Linq.PIC_EndSendLog bsl = new Linq.PIC_EndSendLog();
+                                    bsl.WX_BossID = Bossitem.WX_UserName;
+                                    bsl.WX_SourceType = Bossitem.WX_SourceType;
+                                    bsl.WX_SendDate = DateTime.Now;
+                                    bsl.WX_UserName = Bossitem.WX_UserName;
+                                    bsl.aspnet_UserID = GlobalParam.Key;
+                                    db.PIC_EndSendLog.InsertOnSubmit(bsl);
+                                    db.SubmitChanges();
+                                }
+                            }//BOSS联系人找到
+                            else
+                            {
+                                NetFramework.Console.WriteLine("BOSS联系人找不到，图片发不出");
+                            }
+                        }
+
+
+
+                    }
+                }//封盘时间才发
+                else
+                {
+                    Thread.Sleep(60 * 1000);
+                }
+
+
+            }//检查时间循环
+        }
 
 
 

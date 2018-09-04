@@ -22,7 +22,7 @@ namespace WeixinRoboot.Linq
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="WeixinRoboot")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="Weixinroboot")]
 	public partial class dbDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -66,6 +66,9 @@ namespace WeixinRoboot.Linq
     partial void InsertWX_UserReply(WX_UserReply instance);
     partial void UpdateWX_UserReply(WX_UserReply instance);
     partial void DeleteWX_UserReply(WX_UserReply instance);
+    partial void InsertPIC_EndSendLog(PIC_EndSendLog instance);
+    partial void UpdatePIC_EndSendLog(PIC_EndSendLog instance);
+    partial void DeletePIC_EndSendLog(PIC_EndSendLog instance);
     #endregion
 		
 		public dbDataContext() : 
@@ -191,6 +194,14 @@ namespace WeixinRoboot.Linq
 			get
 			{
 				return this.GetTable<WX_UserReply>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PIC_EndSendLog> PIC_EndSendLog
+		{
+			get
+			{
+				return this.GetTable<PIC_EndSendLog>();
 			}
 		}
 	}
@@ -3902,6 +3913,8 @@ namespace WeixinRoboot.Linq
 		
 		private string _WX_SourceType;
 		
+		private System.Nullable<bool> _IsBoss;
+		
     #region 可扩展性方法定义
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3924,6 +3937,8 @@ namespace WeixinRoboot.Linq
     partial void OnWeChatIDChanged();
     partial void OnWX_SourceTypeChanging(string value);
     partial void OnWX_SourceTypeChanged();
+    partial void OnIsBossChanging(System.Nullable<bool> value);
+    partial void OnIsBossChanged();
     #endregion
 		
 		public WX_UserReply()
@@ -4107,6 +4122,184 @@ namespace WeixinRoboot.Linq
 					this._WX_SourceType = value;
 					this.SendPropertyChanged("WX_SourceType");
 					this.OnWX_SourceTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsBoss", DbType="Bit")]
+		public System.Nullable<bool> IsBoss
+		{
+			get
+			{
+				return this._IsBoss;
+			}
+			set
+			{
+				if ((this._IsBoss != value))
+				{
+					this.OnIsBossChanging(value);
+					this.SendPropertyChanging();
+					this._IsBoss = value;
+					this.SendPropertyChanged("IsBoss");
+					this.OnIsBossChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PIC_EndSendLog")]
+	public partial class PIC_EndSendLog : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _WX_UserName;
+		
+		private System.DateTime _WX_SendDate;
+		
+		private string _WX_SourceType;
+		
+		private string _WX_BossID;
+		
+		private System.Guid _aspnet_UserID;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnWX_UserNameChanging(string value);
+    partial void OnWX_UserNameChanged();
+    partial void OnWX_SendDateChanging(System.DateTime value);
+    partial void OnWX_SendDateChanged();
+    partial void OnWX_SourceTypeChanging(string value);
+    partial void OnWX_SourceTypeChanged();
+    partial void OnWX_BossIDChanging(string value);
+    partial void OnWX_BossIDChanged();
+    partial void Onaspnet_UserIDChanging(System.Guid value);
+    partial void Onaspnet_UserIDChanged();
+    #endregion
+		
+		public PIC_EndSendLog()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_UserName
+		{
+			get
+			{
+				return this._WX_UserName;
+			}
+			set
+			{
+				if ((this._WX_UserName != value))
+				{
+					this.OnWX_UserNameChanging(value);
+					this.SendPropertyChanging();
+					this._WX_UserName = value;
+					this.SendPropertyChanged("WX_UserName");
+					this.OnWX_UserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SendDate", DbType="Date NOT NULL", IsPrimaryKey=true)]
+		public System.DateTime WX_SendDate
+		{
+			get
+			{
+				return this._WX_SendDate;
+			}
+			set
+			{
+				if ((this._WX_SendDate != value))
+				{
+					this.OnWX_SendDateChanging(value);
+					this.SendPropertyChanging();
+					this._WX_SendDate = value;
+					this.SendPropertyChanged("WX_SendDate");
+					this.OnWX_SendDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(10) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_SourceType
+		{
+			get
+			{
+				return this._WX_SourceType;
+			}
+			set
+			{
+				if ((this._WX_SourceType != value))
+				{
+					this.OnWX_SourceTypeChanging(value);
+					this.SendPropertyChanging();
+					this._WX_SourceType = value;
+					this.SendPropertyChanged("WX_SourceType");
+					this.OnWX_SourceTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_BossID", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_BossID
+		{
+			get
+			{
+				return this._WX_BossID;
+			}
+			set
+			{
+				if ((this._WX_BossID != value))
+				{
+					this.OnWX_BossIDChanging(value);
+					this.SendPropertyChanging();
+					this._WX_BossID = value;
+					this.SendPropertyChanged("WX_BossID");
+					this.OnWX_BossIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid aspnet_UserID
+		{
+			get
+			{
+				return this._aspnet_UserID;
+			}
+			set
+			{
+				if ((this._aspnet_UserID != value))
+				{
+					this.Onaspnet_UserIDChanging(value);
+					this.SendPropertyChanging();
+					this._aspnet_UserID = value;
+					this.SendPropertyChanged("aspnet_UserID");
+					this.Onaspnet_UserIDChanged();
 				}
 			}
 		}
