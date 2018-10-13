@@ -52,6 +52,8 @@
             this.MI_Query = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_OpenQuery = new System.Windows.Forms.ToolStripMenuItem();
             this.TopMenu = new System.Windows.Forms.MenuStrip();
+            this.MI_PCWechatSend = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_PCWechatSendSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.Btn_Draw = new System.Windows.Forms.Button();
             this.Btn_StartDownLoad = new System.Windows.Forms.Button();
             this.btn_TestOrder = new System.Windows.Forms.Button();
@@ -61,6 +63,9 @@
             this.codeyixin = new System.Windows.Forms.Label();
             this.btn_refreshyixin = new System.Windows.Forms.Button();
             this.btn_bossreport = new System.Windows.Forms.Button();
+            this.btn_InjectAndDo = new System.Windows.Forms.Button();
+            this.Btn_ManulSend = new System.Windows.Forms.Button();
+            this.btn_runtest = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
@@ -251,12 +256,28 @@
             this.MI_Yonghu,
             this.MI_Ratio,
             this.MI_GameLog,
-            this.MI_Query});
+            this.MI_Query,
+            this.MI_PCWechatSend});
             this.TopMenu.Location = new System.Drawing.Point(0, 0);
             this.TopMenu.Name = "TopMenu";
             this.TopMenu.Size = new System.Drawing.Size(891, 25);
             this.TopMenu.TabIndex = 3;
             this.TopMenu.Text = "menuStrip1";
+            // 
+            // MI_PCWechatSend
+            // 
+            this.MI_PCWechatSend.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MI_PCWechatSendSetting});
+            this.MI_PCWechatSend.Name = "MI_PCWechatSend";
+            this.MI_PCWechatSend.Size = new System.Drawing.Size(68, 21);
+            this.MI_PCWechatSend.Text = "注入发图";
+            // 
+            // MI_PCWechatSendSetting
+            // 
+            this.MI_PCWechatSendSetting.Name = "MI_PCWechatSendSetting";
+            this.MI_PCWechatSendSetting.Size = new System.Drawing.Size(100, 22);
+            this.MI_PCWechatSendSetting.Text = "设置";
+            this.MI_PCWechatSendSetting.Click += new System.EventHandler(this.MI_PCWechatSendSetting_Click);
             // 
             // Btn_Draw
             // 
@@ -349,11 +370,45 @@
             this.btn_bossreport.Visible = false;
             this.btn_bossreport.Click += new System.EventHandler(this.btn_bossreport_Click);
             // 
+            // btn_InjectAndDo
+            // 
+            this.btn_InjectAndDo.Location = new System.Drawing.Point(13, 131);
+            this.btn_InjectAndDo.Name = "btn_InjectAndDo";
+            this.btn_InjectAndDo.Size = new System.Drawing.Size(80, 49);
+            this.btn_InjectAndDo.TabIndex = 16;
+            this.btn_InjectAndDo.Text = "注入发图";
+            this.btn_InjectAndDo.UseVisualStyleBackColor = true;
+            this.btn_InjectAndDo.Click += new System.EventHandler(this.btn_InjectAndDo_Click);
+            // 
+            // Btn_ManulSend
+            // 
+            this.Btn_ManulSend.Location = new System.Drawing.Point(12, 195);
+            this.Btn_ManulSend.Name = "Btn_ManulSend";
+            this.Btn_ManulSend.Size = new System.Drawing.Size(80, 49);
+            this.Btn_ManulSend.TabIndex = 17;
+            this.Btn_ManulSend.Text = "PC手工发图";
+            this.Btn_ManulSend.UseVisualStyleBackColor = true;
+            this.Btn_ManulSend.Click += new System.EventHandler(this.Btn_ManulSend_Click);
+            // 
+            // btn_runtest
+            // 
+            this.btn_runtest.Location = new System.Drawing.Point(798, 156);
+            this.btn_runtest.Name = "btn_runtest";
+            this.btn_runtest.Size = new System.Drawing.Size(75, 23);
+            this.btn_runtest.TabIndex = 18;
+            this.btn_runtest.Text = "执行测试 ";
+            this.btn_runtest.UseVisualStyleBackColor = true;
+            this.btn_runtest.Visible = false;
+            this.btn_runtest.Click += new System.EventHandler(this.btn_runtest_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 390);
+            this.Controls.Add(this.btn_runtest);
+            this.Controls.Add(this.Btn_ManulSend);
+            this.Controls.Add(this.btn_InjectAndDo);
             this.Controls.Add(this.btn_bossreport);
             this.Controls.Add(this.btn_refreshyixin);
             this.Controls.Add(this.codeyixin);
@@ -420,6 +475,11 @@
         private System.Windows.Forms.Label codeyixin;
         private System.Windows.Forms.Button btn_refreshyixin;
         private System.Windows.Forms.Button btn_bossreport;
+        private System.Windows.Forms.Button btn_InjectAndDo;
+        private System.Windows.Forms.ToolStripMenuItem MI_PCWechatSend;
+        private System.Windows.Forms.ToolStripMenuItem MI_PCWechatSendSetting;
+        private System.Windows.Forms.Button Btn_ManulSend;
+        private System.Windows.Forms.Button btn_runtest;
     }
 }
 

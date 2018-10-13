@@ -72,7 +72,8 @@ namespace WeixinRoboot
                     && t.RemarkType == "福利"
                     && t.ChangeLocalDay == Senditem.Field<String>("LocalPeriodDay")
                     );
-                if (fcl.Count() == 0 && usrrow.Length != 0)
+                //取消禁止多次发放
+                //if (fcl.Count() == 0 && usrrow.Length != 0)
                 {
 
                     String Returnstr = Linq.DataLogic.WX_UserReplyLog_MySendCreate(

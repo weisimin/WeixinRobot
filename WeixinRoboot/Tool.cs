@@ -8,6 +8,7 @@ using System.Net;
 using System.IO.Compression;
 using System.Text.RegularExpressions;
 using System.Web.Configuration;
+using System.Runtime.InteropServices;
 namespace NetFramework
 {
     public class Util_WEB
@@ -19,8 +20,18 @@ namespace NetFramework
             return OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.UTF8, AllowRedirect, KeepAlive, ContentType);
         }
 
+        private static bool CheckValidationResult(object sender
+            ,System.Security.Cryptography.X509Certificates.X509Certificate certificate
+            ,System.Security.Cryptography.X509Certificates.X509Chain chain
+            ,System.Net.Security.SslPolicyErrors errors)
+        {
+        return true;
+        }
         public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8")
         {
+
+
+
             System.Net.ServicePointManager.DefaultConnectionLimit = 5000;
             System.Net.ServicePointManager.SetTcpKeepAlive(true, 3000, 3000);
             //HttpWebRequest LoginPage = null;
@@ -29,7 +40,7 @@ namespace NetFramework
             WebRequest LoginPage = HttpWebRequest.Create(TargetURL);
             ((HttpWebRequest)LoginPage).AllowAutoRedirect = AllowRedirect;
             ((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
-            ((HttpWebRequest)LoginPage).Timeout = 30000;
+            ((HttpWebRequest)LoginPage).Timeout = 5000;
             LoginPage.Method = Method;
             if (TargetURL.ToLower().StartsWith("https"))
             {
@@ -45,9 +56,10 @@ namespace NetFramework
                     LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate");
                     ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
                     ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
-                    ((HttpWebRequest)LoginPage).ServicePoint.Expect100Continue = false;
-                    ((HttpWebRequest)LoginPage).Connection = "KeepAlive";
+
+                    //((HttpWebRequest)LoginPage).Connection = "KeepAlive";
                     ((HttpWebRequest)LoginPage).Referer = RefURL;
+
                     break;
                 case "POST":
                     ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
@@ -57,8 +69,8 @@ namespace NetFramework
                     ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
                     ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
                     ((HttpWebRequest)LoginPage).ContentType = ContentType;
-                    ((HttpWebRequest)LoginPage).ServicePoint.Expect100Continue = false;
-                    ((HttpWebRequest)LoginPage).Connection = "KeepAlive";
+
+                    //((HttpWebRequest)LoginPage).Connection = "KeepAlive";
                     LoginPage.Headers.Add("Origin", ((HttpWebRequest)LoginPage).Referer.Substring(0, ((HttpWebRequest)LoginPage).Referer.Length - 1));
                     if (Body != "")
                     {
@@ -79,8 +91,8 @@ namespace NetFramework
                     LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate");
                     ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
                     ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
-                    ((HttpWebRequest)LoginPage).ServicePoint.Expect100Continue = false;
-                    ((HttpWebRequest)LoginPage).Connection = "KeepAlive";
+
+                    //((HttpWebRequest)LoginPage).Connection = "KeepAlive";
                     ((HttpWebRequest)LoginPage).Referer = RefURL;
                     LoginPage.Headers.Add("Origin", RefURL);
 
@@ -89,7 +101,12 @@ namespace NetFramework
                     break;
             }
             ((HttpWebRequest)LoginPage).KeepAlive = false;
-            LoginPage.Timeout = 30000;
+            LoginPage.Timeout = 5000;
+            if (RefURL.ToLower().StartsWith("https"))
+            {
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
+                ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
+            }
             System.GC.Collect();
             System.Threading.Thread.Sleep(100);
             HttpWebResponse LoginPage_Return = null;
@@ -110,9 +127,9 @@ namespace NetFramework
 
                     foreach (Cookie cookieitem in ((HttpWebResponse)LoginPage_Return).Cookies)
                     {
-                        string[] SplitDomain = cookieitem.Domain.Split((".").ToCharArray(),StringSplitOptions.RemoveEmptyEntries);
+                        string[] SplitDomain = cookieitem.Domain.Split((".").ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         Int32 Length = SplitDomain.Length;
-                        cookieitem.Domain = "."+SplitDomain[Length - 2] + "." + SplitDomain[Length - 1];
+                        cookieitem.Domain = "." + SplitDomain[Length - 2] + "." + SplitDomain[Length - 1];
                         BrowCookie.Add(cookieitem);
                     }
 
@@ -128,6 +145,10 @@ namespace NetFramework
             }
             catch (Exception AnyError)
             {
+                if (AnyError.Message=="操作超时")
+                {
+                    return "";
+                }
 
                 //throw AnyError;
                 NetFramework.Console.WriteLine("网址打开失败" + TargetURL);
@@ -146,7 +167,7 @@ namespace NetFramework
                     using (GZipStream stream = new GZipStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
                     {
 
-                        using (StreamReader reader = new StreamReader(stream,ContactEncoding))
+                        using (StreamReader reader = new StreamReader(stream, ContactEncoding))
                         {
                             responseBody = reader.ReadToEnd();
                             stream.Close();
@@ -195,6 +216,7 @@ namespace NetFramework
 
 
             return responseBody;
+
         }
 
         private static DateTime? ImageToday = null;
@@ -204,6 +226,7 @@ namespace NetFramework
         public static string UploadWXImage(string ImgFilePath, string MyUserID, string TOUserID, string JavaTimeSpan, CookieCollection tmpcookie, Newtonsoft.Json.Linq.JObject RequestBase, string webhost)
         {
             #region 上传文件
+
 
             if (ImageToday == null || ImageToday != DateTime.Today || ImageFileid > 9)
             {
@@ -239,8 +262,8 @@ namespace NetFramework
             OptionPage.Headers.Add("Accept-Encoding", "gzip, deflate");
             ((HttpWebRequest)OptionPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)OptionPage).CookieContainer.Add(tmpcookie);
-            ((HttpWebRequest)OptionPage).ServicePoint.Expect100Continue = false;
-            ((HttpWebRequest)OptionPage).Connection = "KeepAlive";
+
+            // ((HttpWebRequest)OptionPage).Connection = "KeepAlive";
             OptionPage.Headers.Add("Origin", ((HttpWebRequest)OptionPage).Referer.Substring(0, ((HttpWebRequest)OptionPage).Referer.Length - 1));
 
             StreamReader OptionReader = new StreamReader(OptionPage.GetResponse().GetResponseStream());
@@ -258,8 +281,8 @@ namespace NetFramework
             ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)LoginPage).CookieContainer.Add(tmpcookie);
             ((HttpWebRequest)LoginPage).ContentType = "multipart/form-data; boundary=----WebKitFormBoundary" + Boundary;
-            ((HttpWebRequest)LoginPage).ServicePoint.Expect100Continue = false;
-            ((HttpWebRequest)LoginPage).Connection = "KeepAlive";
+
+            //((HttpWebRequest)LoginPage).Connection = "KeepAlive";
             LoginPage.Headers.Add("Origin", ((HttpWebRequest)LoginPage).Referer.Substring(0, ((HttpWebRequest)LoginPage).Referer.Length - 1));
             Stream Strem_ToPost = LoginPage.GetRequestStream();
 
@@ -397,8 +420,8 @@ namespace NetFramework
             Strem_ToPost.Flush();
             Strem_ToPost.Close();
 
-            ((HttpWebRequest)LoginPage).KeepAlive = true;
-            ((HttpWebRequest)LoginPage).Timeout = 30000;
+            ((HttpWebRequest)LoginPage).KeepAlive = false;
+            ((HttpWebRequest)LoginPage).Timeout = 5000;
 
             System.GC.Collect();
 
@@ -534,6 +557,7 @@ namespace NetFramework
             #region 上传文件
 
 
+
             FileInfo fi = new FileInfo(ImgFilePath);
             //POST /cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json HTTP/1.1
             //Content-Type: multipart/form-data; boundary=----WebKitFormBoundarywWMqeF7OGA3s1GXQ
@@ -549,8 +573,8 @@ namespace NetFramework
             OptionPage.Headers.Add("Accept-Encoding", "gzip, deflate");
             ((HttpWebRequest)OptionPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)OptionPage).CookieContainer.Add(tmpcookie);
-            ((HttpWebRequest)OptionPage).ServicePoint.Expect100Continue = false;
-            ((HttpWebRequest)OptionPage).Connection = "KeepAlive";
+
+            //((HttpWebRequest)OptionPage).Connection = "KeepAlive";
             OptionPage.Headers.Add("Origin", ((HttpWebRequest)OptionPage).Referer.Substring(0, ((HttpWebRequest)OptionPage).Referer.Length - 1));
 
             StreamReader OptionReader = new StreamReader(OptionPage.GetResponse().GetResponseStream());
@@ -579,8 +603,8 @@ namespace NetFramework
             ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)LoginPage).CookieContainer.Add(tmpcookie);
             ((HttpWebRequest)LoginPage).ContentType = "multipart/form-data; boundary=----WebKitFormBoundary" + Boundary;
-            ((HttpWebRequest)LoginPage).ServicePoint.Expect100Continue = false;
-            ((HttpWebRequest)LoginPage).Connection = "KeepAlive";
+
+            // ((HttpWebRequest)LoginPage).Connection = "KeepAlive";
             LoginPage.Headers.Add("Origin", "https://web.yixin.im");
             Stream Strem_ToPost = LoginPage.GetRequestStream();
 
@@ -613,8 +637,8 @@ namespace NetFramework
             Strem_ToPost.Flush();
             Strem_ToPost.Close();
 
-            ((HttpWebRequest)LoginPage).KeepAlive = true;
-            ((HttpWebRequest)LoginPage).Timeout = 30000;
+            ((HttpWebRequest)LoginPage).KeepAlive = false;
+            ((HttpWebRequest)LoginPage).Timeout = 5000;
 
             System.GC.Collect();
 
@@ -632,7 +656,7 @@ namespace NetFramework
                     string Start = LoginPage.RequestUri.Host.Substring(0, LoginPage.RequestUri.Host.LastIndexOf("."));
                     string Host = LoginPage.RequestUri.Host.Substring(LoginPage.RequestUri.Host.LastIndexOf("."));
 
-                   // tmpcookie.Add(((HttpWebResponse)LoginPage_Return).Cookies);
+                    // tmpcookie.Add(((HttpWebResponse)LoginPage_Return).Cookies);
 
 
                     foreach (Cookie cookieitem in ((HttpWebResponse)LoginPage_Return).Cookies)
@@ -742,7 +766,6 @@ namespace NetFramework
             //    },
             //    "Scene": 0
             //}
-
 
         }
 
@@ -996,4 +1019,221 @@ namespace NetFramework
 
     }
 
+    public class WindowsApi
+    {
+        [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll", EntryPoint = "FindWindowEx", SetLastError = true)]
+        public static extern IntPtr FindWindowEx(IntPtr hwndParent, uint hwndChildAfter, string lpszClass, string lpszWindow);
+
+        [DllImport("user32.dll", EntryPoint = "SendMessage", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern int SendMessage(IntPtr hwnd, uint wMsg, int wParam, int lParam);
+
+        [DllImport("user32.dll", EntryPoint = "SendMessage", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern int SendMessage(IntPtr hwnd, uint wMsg, uint wParam, uint lParam);
+
+
+        [DllImport("user32.dll", EntryPoint = "SetForegroundWindow", SetLastError = true)]
+        public static extern void SetForegroundWindow(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        public static extern int EnumChildWindows(IntPtr hWndParent, CallBack lpfn, int lParam);
+
+        public delegate bool CallBack(IntPtr hwnd, int lParam);
+
+        //获取窗口类名 
+        [DllImport("user32.dll")]
+        public static extern int GetClassNameW(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)]StringBuilder lpString, int nMaxCount);
+
+        //自定义一个类，用来保存句柄信息，在遍历的时候，随便也用空上句柄来获取些信息，呵呵 
+        public struct WindowInfo
+        {
+            public IntPtr hWnd;
+            public string szWindowName;
+            public string szClassName;
+        }
+
+        //用来遍历所有窗口 
+        [DllImport("user32.dll")]
+        public static extern bool EnumWindows(CallBack lpEnumFunc, int lParam);
+
+        [DllImport("User32.dll", CharSet = CharSet.Auto)]
+        public static extern int SetWindowText(IntPtr hWnd, string text);
+
+        [DllImport("User32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int maxCount);
+        [DllImport("user32.dll")]
+        public static extern int GetWindowTextLength(IntPtr hWnd);
+
+        [DllImport("user32.dll", EntryPoint = "ShowWindow", CharSet = CharSet.Auto)]
+
+        public static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
+
+        [DllImport("user32.dll", EntryPoint = "FindWindow")]
+        private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+        public static int MakeLParam(int LoWord, int HiWord)
+        {
+            return ((HiWord << 16) | (LoWord & 0xffff));
+        }
+
+        [DllImport("user32.dll")]
+        public static extern int GetWindowRect(IntPtr hwnd, out  Rect lpRect);
+
+        [DllImport("User32.dll", EntryPoint = "PostMessage")]
+        public static extern int PostMessage(
+            IntPtr hWnd,        // 信息发往的窗口的句柄
+            int Msg,            // 消息ID
+            int wParam,         // 参数1
+            int lParam            // 参数2
+        );
+
+        [DllImport("User32.dll", EntryPoint = "PostMessage")]
+        public static extern int PostMessage(
+            IntPtr hWnd,        // 信息发往的窗口的句柄
+            uint Msg,            // 消息ID
+            uint wParam,         // 参数1
+            uint lParam            // 参数2
+        );
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern void SwitchToThisWindow(IntPtr hWnd, bool fAltTab);
+
+
+        [DllImport("user32.dll", EntryPoint = "keybd_event")]
+        public static extern void keybd_event(
+            byte bVk,
+            byte bScan,
+            int dwFlags,  //这里是整数类型  0 为按下，2为释放
+            int dwExtraInfo  //这里是整数类型 一般情况下设成为 0
+        );
+
+
+
+        public struct Rect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+        public const Int32 WM_PASTE = 0X0302;
+        public const Int32 WM_KEYDOWN = 0x0100;
+        public const Int32 WM_KEYUP = 0x0101;
+        public const Int32 WM_CHAR = 0X0102;
+
+        public const Int32 VK_CONTROL = 0X11;
+        public const Int32 VK_V = 0x56;
+
+
+
+        public const Int32 VK_RETURN = 0X0D;
+
+        public const int WM_CLICK = 0x00F5;
+
+
+        public const int WM_MOUSEMOVE = 0x200;
+        public const int WM_LBUTTONDOWN = 0x201;
+        public const int WM_RBUTTONDOWN = 0x204;
+        public const int WM_MBUTTONDOWN = 0x207;
+        public const int WM_LBUTTONUP = 0x202;
+        public const int WM_RBUTTONUP = 0x205;
+        public const int WM_MBUTTONUP = 0x208;
+        public const int WM_LBUTTONDBLCLK = 0x203;
+        public const int WM_RBUTTONDBLCLK = 0x206;
+        public const int WM_MBUTTONDBLCLK = 0x209;
+
+
+        [DllImport("user32.dll")]
+      public  static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
+
+
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GlobalLock(IntPtr hMem);
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GlobalUnlock(IntPtr hMem);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool OpenClipboard(IntPtr hWndNewOwner);
+        [DllImport("user32.dll")]
+        public static extern bool EmptyClipboard();
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetClipboardData(uint uFormat, IntPtr hData);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool CloseClipboard();
+        [StructLayout(LayoutKind.Sequential)]
+        struct DROPFILES { public uint pFiles; public int x; public int y; public int fNC; public int fWide;        };
+        public static byte[] StructureToByte<T>(T structure)
+        {
+            int size = Marshal.SizeOf(typeof(T));
+            byte[] buffer = new byte[size];
+            IntPtr bufferIntPtr = Marshal.AllocHGlobal(size);
+            try
+            {
+                Marshal.StructureToPtr(structure, bufferIntPtr, true);
+                Marshal.Copy(bufferIntPtr, buffer, 0, size);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(bufferIntPtr);
+            }
+            return buffer;
+        }
+        public static void SetClipboardDataFiles(List<string> pathList)
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < pathList.Count; i++)
+            { builder.Append(pathList[i]); builder.Append('\0'); }
+            builder.Append('\0');
+            string path = builder.ToString();
+            OpenClipboard(IntPtr.Zero);
+            int length = Marshal.SizeOf(typeof(DROPFILES));
+            IntPtr bufferPtr = Marshal.AllocHGlobal(length + path.Length * sizeof(char) + 8);
+            try
+            {
+                GlobalLock(bufferPtr);
+                DROPFILES config = new DROPFILES();
+                config.pFiles = (uint)length;
+                config.fNC = 1;
+                int seek = 0;
+                byte[] configData = StructureToByte(config);
+                for (int i = 0; i < configData.Length; i++)
+                {
+                    Marshal.WriteByte(bufferPtr, seek, configData[i]);
+                    seek++;
+                }
+                for (int i = 0; i < path.Length; i++)
+                {
+                    Marshal.WriteInt16(bufferPtr, seek, path[i]);
+                    seek++;
+                }
+                GlobalUnlock(bufferPtr);
+                EmptyClipboard();
+                SetClipboardData(15, bufferPtr);
+            }
+            catch (Exception e)
+            { throw e; }
+            finally
+            {
+                Marshal.FreeHGlobal(bufferPtr);
+                CloseClipboard();
+            }
+        }
+
+     
+       public  static IntPtr ArrayToIntptr(byte[] source)
+        {
+            if (source == null)
+                return IntPtr.Zero;
+            byte[] da = source;
+            IntPtr ptr = Marshal.AllocHGlobal(da.Length);
+            Marshal.Copy(da, 0, ptr, da.Length);
+            return ptr;
+        }
+
+       [DllImport("user32.dll")]
+       public static extern IntPtr SetFocus(IntPtr hWnd);//设定焦点
+
+
+    }
 }

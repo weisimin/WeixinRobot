@@ -29,11 +29,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gv_contact = new System.Windows.Forms.DataGridView();
+            this.User_SourceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContctID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsCaculateFuli = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.查 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BS_Contact = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.gv_ReceiveReply = new System.Windows.Forms.DataGridView();
@@ -62,6 +71,8 @@
             this.MI_CancelReceiveTrans = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_CheckFuli = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_CancelCheckFuli = new System.Windows.Forms.ToolStripMenuItem();
+            this.老板查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.取消老板查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_ContactFilter = new System.Windows.Forms.TextBox();
             this.dtp_EndDate = new System.Windows.Forms.DateTimePicker();
             this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
@@ -91,17 +102,6 @@
             this.fd_Period = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.Btn_Resend = new System.Windows.Forms.Button();
-            this.User_SourceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContctID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.User_IsCaculateFuli = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.查 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.老板查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.取消老板查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -117,14 +117,14 @@
             this.gv_contact.AllowUserToDeleteRows = false;
             this.gv_contact.AllowUserToOrderColumns = true;
             this.gv_contact.AutoGenerateColumns = false;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_contact.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_contact.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gv_contact.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gv_contact.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.User_SourceType,
@@ -137,21 +137,20 @@
             this.User_IsCaculateFuli,
             this.查});
             this.gv_contact.DataSource = this.BS_Contact;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_contact.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_contact.DefaultCellStyle = dataGridViewCellStyle2;
             this.gv_contact.Location = new System.Drawing.Point(12, 68);
             this.gv_contact.MultiSelect = false;
             this.gv_contact.Name = "gv_contact";
             this.gv_contact.ReadOnly = true;
             this.gv_contact.RowHeadersVisible = false;
             this.gv_contact.RowTemplate.Height = 23;
-            this.gv_contact.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gv_contact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gv_contact.Size = new System.Drawing.Size(230, 582);
             this.gv_contact.TabIndex = 0;
@@ -159,6 +158,79 @@
             this.gv_contact.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_contact_DataError);
             this.gv_contact.SelectionChanged += new System.EventHandler(this.gv_contact_SelectionChanged);
             this.gv_contact.Leave += new System.EventHandler(this.gv_contact_Leave);
+            // 
+            // User_SourceType
+            // 
+            this.User_SourceType.DataPropertyName = "User_SourceType";
+            this.User_SourceType.HeaderText = "源";
+            this.User_SourceType.Name = "User_SourceType";
+            this.User_SourceType.ReadOnly = true;
+            this.User_SourceType.Width = 25;
+            // 
+            // User_ContactType
+            // 
+            this.User_ContactType.DataPropertyName = "User_ContactType";
+            this.User_ContactType.HeaderText = "类";
+            this.User_ContactType.Name = "User_ContactType";
+            this.User_ContactType.ReadOnly = true;
+            this.User_ContactType.Width = 25;
+            // 
+            // User_Contact
+            // 
+            this.User_Contact.DataPropertyName = "User_Contact";
+            this.User_Contact.HeaderText = "联系人";
+            this.User_Contact.Name = "User_Contact";
+            this.User_Contact.ReadOnly = true;
+            this.User_Contact.Width = 80;
+            // 
+            // User_ContctID
+            // 
+            this.User_ContctID.DataPropertyName = "User_ContctID";
+            this.User_ContctID.HeaderText = "联系人ID";
+            this.User_ContctID.Name = "User_ContctID";
+            this.User_ContctID.ReadOnly = true;
+            this.User_ContctID.Visible = false;
+            // 
+            // User_ContactTMPID
+            // 
+            this.User_ContactTMPID.DataPropertyName = "User_ContactTMPID";
+            this.User_ContactTMPID.HeaderText = "联系人临时ID";
+            this.User_ContactTMPID.Name = "User_ContactTMPID";
+            this.User_ContactTMPID.ReadOnly = true;
+            this.User_ContactTMPID.Visible = false;
+            // 
+            // User_IsReply
+            // 
+            this.User_IsReply.DataPropertyName = "User_IsReply";
+            this.User_IsReply.HeaderText = "启";
+            this.User_IsReply.Name = "User_IsReply";
+            this.User_IsReply.ReadOnly = true;
+            this.User_IsReply.Width = 25;
+            // 
+            // User_IsReceiveTransfer
+            // 
+            this.User_IsReceiveTransfer.DataPropertyName = "User_IsReceiveTransfer";
+            this.User_IsReceiveTransfer.HeaderText = "转";
+            this.User_IsReceiveTransfer.Name = "User_IsReceiveTransfer";
+            this.User_IsReceiveTransfer.ReadOnly = true;
+            this.User_IsReceiveTransfer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.User_IsReceiveTransfer.Width = 25;
+            // 
+            // User_IsCaculateFuli
+            // 
+            this.User_IsCaculateFuli.DataPropertyName = "User_IsCaculateFuli";
+            this.User_IsCaculateFuli.HeaderText = "福";
+            this.User_IsCaculateFuli.Name = "User_IsCaculateFuli";
+            this.User_IsCaculateFuli.ReadOnly = true;
+            this.User_IsCaculateFuli.Width = 25;
+            // 
+            // 查
+            // 
+            this.查.DataPropertyName = "User_IsBoss";
+            this.查.HeaderText = "查";
+            this.查.Name = "查";
+            this.查.ReadOnly = true;
+            this.查.Width = 35;
             // 
             // label1
             // 
@@ -174,14 +246,14 @@
             this.gv_ReceiveReply.AllowUserToAddRows = false;
             this.gv_ReceiveReply.AllowUserToDeleteRows = false;
             this.gv_ReceiveReply.AutoGenerateColumns = false;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_ReceiveReply.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_ReceiveReply.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gv_ReceiveReply.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_ReceiveReply.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Reply_Contact,
@@ -193,14 +265,14 @@
             this.Reply_ReceiveTime,
             this.Reply_ReplyTime});
             this.gv_ReceiveReply.DataSource = this.BS_ReceiveReply;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_ReceiveReply.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_ReceiveReply.DefaultCellStyle = dataGridViewCellStyle4;
             this.gv_ReceiveReply.Location = new System.Drawing.Point(250, 166);
             this.gv_ReceiveReply.Name = "gv_ReceiveReply";
             this.gv_ReceiveReply.ReadOnly = true;
@@ -312,7 +384,7 @@
             this.老板查询ToolStripMenuItem,
             this.取消老板查询ToolStripMenuItem});
             this.MouseMenuReply.Name = "MouseMenuReply";
-            this.MouseMenuReply.Size = new System.Drawing.Size(153, 312);
+            this.MouseMenuReply.Size = new System.Drawing.Size(149, 290);
             // 
             // MI_IsReply
             // 
@@ -389,6 +461,20 @@
             this.MI_CancelCheckFuli.Size = new System.Drawing.Size(148, 22);
             this.MI_CancelCheckFuli.Text = "取消计算福利";
             this.MI_CancelCheckFuli.Click += new System.EventHandler(this.MI_CancelFuliCheck_Click);
+            // 
+            // 老板查询ToolStripMenuItem
+            // 
+            this.老板查询ToolStripMenuItem.Name = "老板查询ToolStripMenuItem";
+            this.老板查询ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.老板查询ToolStripMenuItem.Text = "老板查询";
+            this.老板查询ToolStripMenuItem.Click += new System.EventHandler(this.老板查询ToolStripMenuItem_Click);
+            // 
+            // 取消老板查询ToolStripMenuItem
+            // 
+            this.取消老板查询ToolStripMenuItem.Name = "取消老板查询ToolStripMenuItem";
+            this.取消老板查询ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.取消老板查询ToolStripMenuItem.Text = "取消老板查询";
+            this.取消老板查询ToolStripMenuItem.Click += new System.EventHandler(this.取消老板查询ToolStripMenuItem_Click);
             // 
             // tb_ContactFilter
             // 
@@ -642,93 +728,6 @@
             this.Btn_Resend.Text = "重新发图";
             this.Btn_Resend.UseVisualStyleBackColor = true;
             this.Btn_Resend.Click += new System.EventHandler(this.Btn_Resend_Click);
-            // 
-            // User_SourceType
-            // 
-            this.User_SourceType.DataPropertyName = "User_SourceType";
-            this.User_SourceType.HeaderText = "源";
-            this.User_SourceType.Name = "User_SourceType";
-            this.User_SourceType.ReadOnly = true;
-            this.User_SourceType.Width = 25;
-            // 
-            // User_ContactType
-            // 
-            this.User_ContactType.DataPropertyName = "User_ContactType";
-            this.User_ContactType.HeaderText = "类";
-            this.User_ContactType.Name = "User_ContactType";
-            this.User_ContactType.ReadOnly = true;
-            this.User_ContactType.Width = 25;
-            // 
-            // User_Contact
-            // 
-            this.User_Contact.DataPropertyName = "User_Contact";
-            this.User_Contact.HeaderText = "联系人";
-            this.User_Contact.Name = "User_Contact";
-            this.User_Contact.ReadOnly = true;
-            this.User_Contact.Width = 80;
-            // 
-            // User_ContctID
-            // 
-            this.User_ContctID.DataPropertyName = "User_ContctID";
-            this.User_ContctID.HeaderText = "联系人ID";
-            this.User_ContctID.Name = "User_ContctID";
-            this.User_ContctID.ReadOnly = true;
-            this.User_ContctID.Visible = false;
-            // 
-            // User_ContactTMPID
-            // 
-            this.User_ContactTMPID.DataPropertyName = "User_ContactTMPID";
-            this.User_ContactTMPID.HeaderText = "联系人临时ID";
-            this.User_ContactTMPID.Name = "User_ContactTMPID";
-            this.User_ContactTMPID.ReadOnly = true;
-            this.User_ContactTMPID.Visible = false;
-            // 
-            // User_IsReply
-            // 
-            this.User_IsReply.DataPropertyName = "User_IsReply";
-            this.User_IsReply.HeaderText = "启";
-            this.User_IsReply.Name = "User_IsReply";
-            this.User_IsReply.ReadOnly = true;
-            this.User_IsReply.Width = 25;
-            // 
-            // User_IsReceiveTransfer
-            // 
-            this.User_IsReceiveTransfer.DataPropertyName = "User_IsReceiveTransfer";
-            this.User_IsReceiveTransfer.HeaderText = "转";
-            this.User_IsReceiveTransfer.Name = "User_IsReceiveTransfer";
-            this.User_IsReceiveTransfer.ReadOnly = true;
-            this.User_IsReceiveTransfer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.User_IsReceiveTransfer.Width = 25;
-            // 
-            // User_IsCaculateFuli
-            // 
-            this.User_IsCaculateFuli.DataPropertyName = "User_IsCaculateFuli";
-            this.User_IsCaculateFuli.HeaderText = "福";
-            this.User_IsCaculateFuli.Name = "User_IsCaculateFuli";
-            this.User_IsCaculateFuli.ReadOnly = true;
-            this.User_IsCaculateFuli.Width = 25;
-            // 
-            // 查
-            // 
-            this.查.DataPropertyName = "User_IsBoss";
-            this.查.HeaderText = "查";
-            this.查.Name = "查";
-            this.查.ReadOnly = true;
-            this.查.Width = 35;
-            // 
-            // 老板查询ToolStripMenuItem
-            // 
-            this.老板查询ToolStripMenuItem.Name = "老板查询ToolStripMenuItem";
-            this.老板查询ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.老板查询ToolStripMenuItem.Text = "老板查询";
-            this.老板查询ToolStripMenuItem.Click += new System.EventHandler(this.老板查询ToolStripMenuItem_Click);
-            // 
-            // 取消老板查询ToolStripMenuItem
-            // 
-            this.取消老板查询ToolStripMenuItem.Name = "取消老板查询ToolStripMenuItem";
-            this.取消老板查询ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.取消老板查询ToolStripMenuItem.Text = "取消老板查询";
-            this.取消老板查询ToolStripMenuItem.Click += new System.EventHandler(this.取消老板查询ToolStripMenuItem_Click);
             // 
             // RunnerForm
             // 

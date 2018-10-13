@@ -27,8 +27,8 @@
     <InstallUrl>http://172.6.8.143:9123/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>92</ApplicationRevision>
-    <ApplicationVersion>1.0.2.%2a</ApplicationVersion>
+    <ApplicationRevision>59</ApplicationRevision>
+    <ApplicationVersion>1.0.3.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>false</BootstrapperEnabled>
@@ -42,6 +42,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -63,6 +64,14 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -120,6 +129,12 @@
     </Compile>
     <Compile Include="OpenQuery.Designer.cs">
       <DependentUpon>OpenQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PCWeChatSendImageSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PCWeChatSendImageSetting.Designer.cs">
+      <DependentUpon>PCWeChatSendImageSetting.cs</DependentUpon>
     </Compile>
     <Compile Include="RecoverPasswordForm.cs">
       <SubType>Form</SubType>
@@ -192,6 +207,9 @@
     <EmbeddedResource Include="OpenQuery.resx">
       <DependentUpon>OpenQuery.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PCWeChatSendImageSetting.resx">
+      <DependentUpon>PCWeChatSendImageSetting.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RecoverPasswordForm.resx">
       <DependentUpon>RecoverPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -260,6 +278,39 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="OK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\5分钟.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\停止下注.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\加财务.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\封盘.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\开始下注.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\开盘啦.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\最后一期.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\正在结算.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\虎.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\财源滚滚来.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PCGIFS\龙.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="tiger.png">

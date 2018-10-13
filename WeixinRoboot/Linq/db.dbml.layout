@@ -87,5 +87,11 @@
         <elementListCompartment Id="6b8848aa-b5fe-4ee0-80b0-58f69b0b2a7e" absoluteBounds="6.8900000000000006, 3.085, 1.9700000000000002, 1.2025655110677083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="3bd049bb-48be-4acd-afc0-067cf5d80355" isExpanded="false" absoluteBounds="6.875, 4, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/WX_PicErrorLog" />
+      <nestedChildShapes>
+        <elementListCompartment Id="476f6aa2-31c4-443b-9548-045ca68b3641" absoluteBounds="6.89, 4.46, 1.9700000000000002, 1.7756245930989585" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

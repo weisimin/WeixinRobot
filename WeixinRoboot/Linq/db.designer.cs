@@ -22,7 +22,7 @@ namespace WeixinRoboot.Linq
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="Weixinroboot")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="WeixinRoboot")]
 	public partial class dbDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -69,13 +69,10 @@ namespace WeixinRoboot.Linq
     partial void InsertPIC_EndSendLog(PIC_EndSendLog instance);
     partial void UpdatePIC_EndSendLog(PIC_EndSendLog instance);
     partial void DeletePIC_EndSendLog(PIC_EndSendLog instance);
+    partial void InsertWX_PicErrorLog(WX_PicErrorLog instance);
+    partial void UpdateWX_PicErrorLog(WX_PicErrorLog instance);
+    partial void DeleteWX_PicErrorLog(WX_PicErrorLog instance);
     #endregion
-		
-		public dbDataContext() : 
-				base(global::WeixinRoboot.Properties.Settings.Default.WeixinRobootConnectionString, mappingSource)
-		{
-			OnCreated();
-		}
 		
 		public dbDataContext(string connection) : 
 				base(connection, mappingSource)
@@ -202,6 +199,14 @@ namespace WeixinRoboot.Linq
 			get
 			{
 				return this.GetTable<PIC_EndSendLog>();
+			}
+		}
+		
+		public System.Data.Linq.Table<WX_PicErrorLog> WX_PicErrorLog
+		{
+			get
+			{
+				return this.GetTable<WX_PicErrorLog>();
 			}
 		}
 	}
@@ -4300,6 +4305,236 @@ namespace WeixinRoboot.Linq
 					this._aspnet_UserID = value;
 					this.SendPropertyChanged("aspnet_UserID");
 					this.Onaspnet_UserIDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_PicErrorLog")]
+	public partial class WX_PicErrorLog : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _aspnet_Userid;
+		
+		private int _SendId;
+		
+		private System.Nullable<System.DateTime> _UploadTime;
+		
+		private string _UploadResult;
+		
+		private System.Nullable<System.DateTime> _SendTime;
+		
+		private string _SendResult;
+		
+		private string _GamePeriod;
+		
+		private string _WX_SourceType;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onaspnet_UseridChanging(System.Guid value);
+    partial void Onaspnet_UseridChanged();
+    partial void OnSendIdChanging(int value);
+    partial void OnSendIdChanged();
+    partial void OnUploadTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnUploadTimeChanged();
+    partial void OnUploadResultChanging(string value);
+    partial void OnUploadResultChanged();
+    partial void OnSendTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnSendTimeChanged();
+    partial void OnSendResultChanging(string value);
+    partial void OnSendResultChanged();
+    partial void OnGamePeriodChanging(string value);
+    partial void OnGamePeriodChanged();
+    partial void OnWX_SourceTypeChanging(string value);
+    partial void OnWX_SourceTypeChanged();
+    #endregion
+		
+		public WX_PicErrorLog()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_Userid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid aspnet_Userid
+		{
+			get
+			{
+				return this._aspnet_Userid;
+			}
+			set
+			{
+				if ((this._aspnet_Userid != value))
+				{
+					this.Onaspnet_UseridChanging(value);
+					this.SendPropertyChanging();
+					this._aspnet_Userid = value;
+					this.SendPropertyChanged("aspnet_Userid");
+					this.Onaspnet_UseridChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int SendId
+		{
+			get
+			{
+				return this._SendId;
+			}
+			set
+			{
+				if ((this._SendId != value))
+				{
+					this.OnSendIdChanging(value);
+					this.SendPropertyChanging();
+					this._SendId = value;
+					this.SendPropertyChanged("SendId");
+					this.OnSendIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UploadTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> UploadTime
+		{
+			get
+			{
+				return this._UploadTime;
+			}
+			set
+			{
+				if ((this._UploadTime != value))
+				{
+					this.OnUploadTimeChanging(value);
+					this.SendPropertyChanging();
+					this._UploadTime = value;
+					this.SendPropertyChanged("UploadTime");
+					this.OnUploadTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UploadResult", DbType="NVarChar(MAX)")]
+		public string UploadResult
+		{
+			get
+			{
+				return this._UploadResult;
+			}
+			set
+			{
+				if ((this._UploadResult != value))
+				{
+					this.OnUploadResultChanging(value);
+					this.SendPropertyChanging();
+					this._UploadResult = value;
+					this.SendPropertyChanged("UploadResult");
+					this.OnUploadResultChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> SendTime
+		{
+			get
+			{
+				return this._SendTime;
+			}
+			set
+			{
+				if ((this._SendTime != value))
+				{
+					this.OnSendTimeChanging(value);
+					this.SendPropertyChanging();
+					this._SendTime = value;
+					this.SendPropertyChanged("SendTime");
+					this.OnSendTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SendResult", DbType="NVarChar(MAX)")]
+		public string SendResult
+		{
+			get
+			{
+				return this._SendResult;
+			}
+			set
+			{
+				if ((this._SendResult != value))
+				{
+					this.OnSendResultChanging(value);
+					this.SendPropertyChanging();
+					this._SendResult = value;
+					this.SendPropertyChanged("SendResult");
+					this.OnSendResultChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GamePeriod", DbType="NVarChar(50)")]
+		public string GamePeriod
+		{
+			get
+			{
+				return this._GamePeriod;
+			}
+			set
+			{
+				if ((this._GamePeriod != value))
+				{
+					this.OnGamePeriodChanging(value);
+					this.SendPropertyChanging();
+					this._GamePeriod = value;
+					this.SendPropertyChanged("GamePeriod");
+					this.OnGamePeriodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(50)")]
+		public string WX_SourceType
+		{
+			get
+			{
+				return this._WX_SourceType;
+			}
+			set
+			{
+				if ((this._WX_SourceType != value))
+				{
+					this.OnWX_SourceTypeChanging(value);
+					this.SendPropertyChanging();
+					this._WX_SourceType = value;
+					this.SendPropertyChanged("WX_SourceType");
+					this.OnWX_SourceTypeChanged();
 				}
 			}
 		}

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using System.Threading;
 namespace WeixinRoboot
 {
     public partial class SendMessage : Form
@@ -50,8 +50,10 @@ namespace WeixinRoboot
             DialogResult dr = fd.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                string Result = StartF.SendRobotImage(fd.FileName, _UserRow.Field<string>("User_ContactTEMPID"), _UserRow.Field<string>("User_SourceType"));
-           
+                 //StartF.SendRobotImage(fd.FileName, _UserRow.Field<string>("User_ContactTEMPID"), _UserRow.Field<string>("User_SourceType"));
+                Thread st = new Thread(new ParameterizedThreadStart(StartF.ThreadSendRobotImage));
+                st.Start(new object[] { fd.FileName, _UserRow.Field<string>("User_ContactTEMPID"), _UserRow.Field<string>("User_SourceType") });
+
             }
         }
     }

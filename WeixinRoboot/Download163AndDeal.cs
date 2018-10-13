@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using System.Threading;
 namespace WeixinRoboot
 {
     public partial class Download163AndDeal : Form
@@ -24,7 +24,7 @@ namespace WeixinRoboot
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             bool SendImage = false;
-            StartF.DownLoad163CaiPiao_V163(ref SendImage, Dtp_DownloadDate.Value, true);
+            StartF.DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, Dtp_DownloadDate.Value, true);
 
             SendImage = true;
             #region "有新的就通知,以及处理结果"
@@ -46,10 +46,16 @@ namespace WeixinRoboot
                     string WX_SourceType = dr[0].Field<string>("User_SourceType");
                     if (dr[0].Field<string>("User_ContactType")=="群")
                     {
-                        StartF.SendRobotImage(Application.StartupPath + "\\Data.jpg", TEMPUserName, WX_SourceType);
+
+                        //StartF.SendRobotImage(Application.StartupPath + "\\Data"+GlobalParam.UserName+".jpg", TEMPUserName, WX_SourceType);
+
+                        Thread st = new Thread(new ParameterizedThreadStart(StartF.ThreadSendRobotImage));
+                        st.Start(new object[] { Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg", TEMPUserName, WX_SourceType });
+
+                        
                         System.Threading.Thread.Sleep(1000);
                         //SendWXImage(Application.StartupPath + "\\Data2.jpg", TEMPUserName);
-                        if (System.IO.File.Exists(Application.StartupPath + "\\Data3.txt"))
+                        if (System.IO.File.Exists(Application.StartupPath + "\\Data3"+GlobalParam.UserName+".txt"))
                         {
                             System.IO.FileStream fs = new System.IO.FileStream(Application.StartupPath + "\\Data3.txt", System.IO.FileMode.Open);
                             byte[] bs = new byte[fs.Length];

@@ -16,18 +16,15 @@ namespace WeixinRoboot
         public DataTable ReplySource = null;
 
 
-        public JObject Members
+        public void MembersSet(JObject value)
         {
-            get
-            {
-                return _Members;
-            }
-            set
-            {
+           
+           
                 _Members = value;
+               // SetMembers();
                 asyncData = new System.Threading.Thread(new System.Threading.ThreadStart(SetMembers));
                 asyncData.Start();
-            }//Set结束
+            //Set结束
         }
         System.Threading.Thread asyncData = null;
 
@@ -38,14 +35,14 @@ namespace WeixinRoboot
             {
 
 
-                this.Invoke(new Action(() =>
-                {
+                //this.Invoke(new Action(() =>
+                //{
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                    BS_Contact.DataSource = null;
+                   this.Invoke(new Action(() =>{ BS_Contact.DataSource = null;}));
                     foreach (var item in (_Members["MemberList"]) as JArray)
                     {
-
+                        Application.DoEvents();
                         string UserNametempID = (item["UserName"] as JValue).Value.ToString();
                         string NickName = (item["NickName"] as JValue).Value.ToString();
                         string RemarkName = (item["RemarkName"] as JValue).Value.ToString();
@@ -92,7 +89,7 @@ namespace WeixinRoboot
                                 usrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName);
 
                             }
-                            if (UserNametempID.StartsWith("@@") == false)
+                            if (UserNametempID.StartsWith("@@") == false&&Seq!="0")
                             {
                                 usrc.IsReply = true;
                             }
@@ -105,7 +102,7 @@ namespace WeixinRoboot
 
 
 
-                        DataRow[] Lists = MemberSource.Select("User_ContactID='" + Seq + "' and User_SourceType='微'");
+                        DataRow[] Lists = MemberSource.Select("User_ContactTEMPID='" + UserNametempID + "' and User_SourceType='微'");
                         DataRow newr = null;
                         if (Lists.Length == 0)
                         {
@@ -125,7 +122,7 @@ namespace WeixinRoboot
                         newr.SetField("User_IsReply", usrc.IsReply);
 
 
-                        if (UserNametempID.StartsWith("@@") == false)
+                        if (UserNametempID.StartsWith("@@") == false&&Seq!="0")
                         {
                             newr.SetField("User_IsReply", usrc == null ? false : usrc.IsReply);
                         }
@@ -144,10 +141,10 @@ namespace WeixinRoboot
 
 
                     }//成员列表循环
-
-                    BS_Contact.DataSource = MemberSource;
+     
+                   
                     // BS_Contact.Sort = "User_Contact";
-                }));
+               // }));
             }
             catch (Exception AnyError)
             {
@@ -155,6 +152,7 @@ namespace WeixinRoboot
                 NetFramework.Console.WriteLine(AnyError.Message);
                 NetFramework.Console.WriteLine(AnyError.StackTrace);
             }
+            this.Invoke(new Action(() => { BS_Contact.DataSource = MemberSource; }));
             NetFramework.Console.WriteLine("更新联系人完成" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"));
 
         }
@@ -341,6 +339,7 @@ namespace WeixinRoboot
             dtp_StartDate.Value = DateTime.Today.AddDays(-3);
             dtp_EndDate.Value = DateTime.Today.AddMonths(1);
 
+            BS_Contact.DataSource = MemberSource;
 
             LoadReplyLog("", "");
 
@@ -729,7 +728,15 @@ namespace WeixinRoboot
         {
             try
             {
-                StartF.DrawGdi(DateTime.Today);
+                if (DateTime.Now.Hour > 9)
+                {
+                    StartF.DrawGdi(DateTime.Today);
+                }
+                else
+                {
+                    StartF.DrawGdi(DateTime.Today.AddDays(-1));
+                }
+               
                 StartF.DealGameLogAndNotice();
                 StartF.SendChongqingResult();
             }
