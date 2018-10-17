@@ -43,6 +43,12 @@
             this.最后一期 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.最后小时 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.最后分钟 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.文字1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.文字1间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.文字2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.文字2间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.文字3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.文字3间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GV_PicSendSetting)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_GV_PicSendSetting)).BeginInit();
             this.SuspendLayout();
@@ -64,7 +70,13 @@
             this.名片,
             this.最后一期,
             this.最后小时,
-            this.最后分钟});
+            this.最后分钟,
+            this.文字1,
+            this.文字1间隔,
+            this.文字2,
+            this.文字2间隔,
+            this.文字3,
+            this.文字3间隔});
             this.GV_PicSendSetting.DataSource = this.BS_GV_PicSendSetting;
             this.GV_PicSendSetting.Location = new System.Drawing.Point(12, 12);
             this.GV_PicSendSetting.Name = "GV_PicSendSetting";
@@ -173,6 +185,42 @@
             this.最后分钟.HeaderText = "最后分钟";
             this.最后分钟.Name = "最后分钟";
             // 
+            // 文字1
+            // 
+            this.文字1.DataPropertyName = "文字1";
+            this.文字1.HeaderText = "文字1";
+            this.文字1.Name = "文字1";
+            // 
+            // 文字1间隔
+            // 
+            this.文字1间隔.DataPropertyName = "文字1间隔";
+            this.文字1间隔.HeaderText = "文字1间隔分钟";
+            this.文字1间隔.Name = "文字1间隔";
+            // 
+            // 文字2
+            // 
+            this.文字2.DataPropertyName = "文字2";
+            this.文字2.HeaderText = "文字2";
+            this.文字2.Name = "文字2";
+            // 
+            // 文字2间隔
+            // 
+            this.文字2间隔.DataPropertyName = "文字2间隔";
+            this.文字2间隔.HeaderText = "文字2间隔分钟";
+            this.文字2间隔.Name = "文字2间隔";
+            // 
+            // 文字3
+            // 
+            this.文字3.DataPropertyName = "文字3";
+            this.文字3.HeaderText = "文字3";
+            this.文字3.Name = "文字3";
+            // 
+            // 文字3间隔
+            // 
+            this.文字3间隔.DataPropertyName = "文字3间隔";
+            this.文字3间隔.HeaderText = "文字3间隔分钟";
+            this.文字3间隔.Name = "文字3间隔";
+            // 
             // PCWeChatSendImageSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -205,6 +253,12 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn 最后一期;
         private System.Windows.Forms.DataGridViewTextBoxColumn 最后小时;
         private System.Windows.Forms.DataGridViewTextBoxColumn 最后分钟;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 文字1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 文字1间隔;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 文字2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 文字2间隔;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 文字3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 文字3间隔;
 
     }
 }

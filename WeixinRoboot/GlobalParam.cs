@@ -37,7 +37,7 @@ namespace WeixinRoboot
         private bool _最后一期 = false;
 
         private Int32 _最后小时 = 1;
-        private Int32 _最后分钟 = 50;
+        private Int32 _最后分钟 = 52;
 
         public IntPtr hwnd
         {
@@ -64,6 +64,34 @@ namespace WeixinRoboot
 
         public Int32 最后小时 { get { return _最后小时; } set { _最后小时 = value; } }
         public Int32 最后分钟 { get { return _最后分钟; } set { _最后分钟 = value; } }
+
+
+
+        private string _文字1 = "";
+        private string _文字2 = "";
+        private string _文字3 = "";
+
+
+        public string 文字1 { get { return _文字1; } set { _文字1 = value; } }
+        public string 文字2 { get { return _文字2; } set { _文字2 = value; } }
+        public string 文字3 { get { return _文字3; } set { _文字3 = value; } }
+
+
+
+        private Int32 _文字1间隔 = 30;
+        private Int32 _文字2间隔 = 30;
+        private Int32 _文字3间隔 = 30;
+
+
+        public Int32 文字1间隔 { get { return _文字1间隔; } set { _文字1间隔 = value; } }
+        public Int32 文字2间隔 { get { return _文字2间隔; } set { _文字2间隔 = value; } }
+        public Int32 文字3间隔 { get { return _文字3间隔; } set { _文字3间隔 = value; } }
+
+
+        public DateTime 文字1时间 = DateTime.Now;
+        public DateTime 文字2时间 = DateTime.Now;
+        public DateTime 文字3时间 = DateTime.Now;
+
     }
 
 }

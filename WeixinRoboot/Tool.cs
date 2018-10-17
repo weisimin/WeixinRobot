@@ -27,24 +27,40 @@ namespace NetFramework
         {
         return true;
         }
-        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8")
+
+        public static void SetHeaderValue(WebHeaderCollection header, string name, string value)
+        {
+            var property = typeof(WebHeaderCollection).GetProperty("InnerCollection",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            if (property != null)
+            {
+                var collection = property.GetValue(header, null) as System.Collections.Specialized.NameValueCollection;
+                collection[name] = value;
+            }
+        }
+
+        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = false, bool KeepAlive = true, string ContentType = "application/json;charset=UTF-8")
         {
 
 
 
-            System.Net.ServicePointManager.DefaultConnectionLimit = 5000;
-            System.Net.ServicePointManager.SetTcpKeepAlive(true, 3000, 3000);
+            System.Net.ServicePointManager.DefaultConnectionLimit = 500;
+            System.Net.ServicePointManager.SetTcpKeepAlive(true, 5000, 5000);
             //HttpWebRequest LoginPage = null;
             //    GetHttpWebResponseNoRedirect(TargetURL,"","",out LoginPage);
 
             WebRequest LoginPage = HttpWebRequest.Create(TargetURL);
             ((HttpWebRequest)LoginPage).AllowAutoRedirect = AllowRedirect;
             ((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
-            ((HttpWebRequest)LoginPage).Timeout = 5000;
+            SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive,Close");
+            ((HttpWebRequest)LoginPage).Timeout = 30000;
+            ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
+
             LoginPage.Method = Method;
             if (TargetURL.ToLower().StartsWith("https"))
             {
-                ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol = (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
+                ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
             }
 
             switch (Method)
@@ -53,11 +69,12 @@ namespace NetFramework
                     // ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
                     ((HttpWebRequest)LoginPage).Accept = "*/*";
                     ((HttpWebRequest)LoginPage).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36 OPR/52.0.2871.40";
-                    LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate");
+                    LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+                    LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
                     ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
                     ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
 
-                    //((HttpWebRequest)LoginPage).Connection = "KeepAlive";
+                    //((HttpWebRequest)LoginPage).Connection = "KeepAlive,Close";
                     ((HttpWebRequest)LoginPage).Referer = RefURL;
 
                     break;
@@ -65,7 +82,8 @@ namespace NetFramework
                     ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
                     ((HttpWebRequest)LoginPage).Referer = RefURL;
                     ((HttpWebRequest)LoginPage).UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)";
-                    LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate");
+                    LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+                    LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
                     ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
                     ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
                     ((HttpWebRequest)LoginPage).ContentType = ContentType;
@@ -88,7 +106,8 @@ namespace NetFramework
                     // ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
                     ((HttpWebRequest)LoginPage).Accept = "*/*";
                     ((HttpWebRequest)LoginPage).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36 OPR/52.0.2871.40";
-                    LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate");
+                    LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+                    LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
                     ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
                     ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
 
@@ -100,8 +119,9 @@ namespace NetFramework
                 default:
                     break;
             }
-            ((HttpWebRequest)LoginPage).KeepAlive = false;
-            LoginPage.Timeout = 5000;
+            ((HttpWebRequest)LoginPage).KeepAlive = true;
+            SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive,Close");
+            LoginPage.Timeout = 30000;
             if (RefURL.ToLower().StartsWith("https"))
             {
                 System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
@@ -145,12 +165,10 @@ namespace NetFramework
             }
             catch (Exception AnyError)
             {
-                if (AnyError.Message=="操作超时")
-                {
-                    return "";
-                }
 
-                //throw AnyError;
+                LoginPage = null;
+                System.GC.Collect();
+
                 NetFramework.Console.WriteLine("网址打开失败" + TargetURL);
                 NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message);
                 NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace);
@@ -200,6 +218,9 @@ namespace NetFramework
             catch (Exception AnyError)
             {
 
+                LoginPage = null;
+                System.GC.Collect();
+
                 NetFramework.Console.WriteLine("网址打开失败" + TargetURL);
                 NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message);
                 NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace);
@@ -247,11 +268,12 @@ namespace NetFramework
 
 
             string UploadUrl = "https://file." + webhost + "/cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json";
-            System.Net.ServicePointManager.DefaultConnectionLimit = 5000;
-            System.Net.ServicePointManager.SetTcpKeepAlive(true, 3000, 3000);
+            System.Net.ServicePointManager.DefaultConnectionLimit = 500;
+            System.Net.ServicePointManager.SetTcpKeepAlive(true, 5000, 5000);
 
 
-            ServicePointManager.SecurityProtocol = (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+           ServicePointManager.SecurityProtocol = (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+           //ServicePointManager.SecurityProtocol = SecurityProtocolType.;
 
             string optionurl = "https://file." + webhost + "/cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json";
             WebRequest OptionPage = HttpWebRequest.Create(optionurl);
@@ -259,11 +281,15 @@ namespace NetFramework
             ((HttpWebRequest)OptionPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
             ((HttpWebRequest)OptionPage).Referer = "https://" + webhost + "/";
             ((HttpWebRequest)OptionPage).UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)";
-            OptionPage.Headers.Add("Accept-Encoding", "gzip, deflate");
+            OptionPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+            OptionPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
             ((HttpWebRequest)OptionPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)OptionPage).CookieContainer.Add(tmpcookie);
 
-            // ((HttpWebRequest)OptionPage).Connection = "KeepAlive";
+            ((HttpWebRequest)OptionPage).Credentials = CredentialCache.DefaultCredentials;
+
+
+            //((HttpWebRequest)OptionPage).Connection = "KeepAlive,Close";
             OptionPage.Headers.Add("Origin", ((HttpWebRequest)OptionPage).Referer.Substring(0, ((HttpWebRequest)OptionPage).Referer.Length - 1));
 
             StreamReader OptionReader = new StreamReader(OptionPage.GetResponse().GetResponseStream());
@@ -271,18 +297,22 @@ namespace NetFramework
 
 
             WebRequest LoginPage = HttpWebRequest.Create(UploadUrl);
+            ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
+
+
             ((HttpWebRequest)LoginPage).AllowAutoRedirect = false;
 
             ((HttpWebRequest)LoginPage).Method = "POST";
             ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
             ((HttpWebRequest)LoginPage).Referer = "https://" + webhost + "/";
             ((HttpWebRequest)LoginPage).UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)";
-            LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate");
+            LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+            LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
             ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)LoginPage).CookieContainer.Add(tmpcookie);
             ((HttpWebRequest)LoginPage).ContentType = "multipart/form-data; boundary=----WebKitFormBoundary" + Boundary;
 
-            //((HttpWebRequest)LoginPage).Connection = "KeepAlive";
+           // ((HttpWebRequest)LoginPage).Connection = "KeepAlive,Close";
             LoginPage.Headers.Add("Origin", ((HttpWebRequest)LoginPage).Referer.Substring(0, ((HttpWebRequest)LoginPage).Referer.Length - 1));
             Stream Strem_ToPost = LoginPage.GetRequestStream();
 
@@ -420,8 +450,9 @@ namespace NetFramework
             Strem_ToPost.Flush();
             Strem_ToPost.Close();
 
-            ((HttpWebRequest)LoginPage).KeepAlive = false;
-            ((HttpWebRequest)LoginPage).Timeout = 5000;
+            ((HttpWebRequest)LoginPage).KeepAlive = true;
+            SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive,Close");
+            ((HttpWebRequest)LoginPage).Timeout = 30000;
 
             System.GC.Collect();
 
@@ -570,11 +601,12 @@ namespace NetFramework
             ((HttpWebRequest)OptionPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
             ((HttpWebRequest)OptionPage).Referer = "https://" + "web.yixin.im" + "/";
             ((HttpWebRequest)OptionPage).UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)";
-            OptionPage.Headers.Add("Accept-Encoding", "gzip, deflate");
+            OptionPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+            OptionPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
             ((HttpWebRequest)OptionPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)OptionPage).CookieContainer.Add(tmpcookie);
 
-            //((HttpWebRequest)OptionPage).Connection = "KeepAlive";
+           // ((HttpWebRequest)OptionPage).Connection = "KeepAlive,Close";
             OptionPage.Headers.Add("Origin", ((HttpWebRequest)OptionPage).Referer.Substring(0, ((HttpWebRequest)OptionPage).Referer.Length - 1));
 
             StreamReader OptionReader = new StreamReader(OptionPage.GetResponse().GetResponseStream());
@@ -583,12 +615,12 @@ namespace NetFramework
 
 
             string UploadUrl = "https://nos-hz.yixin.im/nos/webbatchupload?uid=" + UserID + "&sid=" + Sessionid + "&size=1&type=0&limit=15";
-            System.Net.ServicePointManager.DefaultConnectionLimit = 5000;
-            System.Net.ServicePointManager.SetTcpKeepAlive(true, 3000, 3000);
+            System.Net.ServicePointManager.DefaultConnectionLimit = 500;
+            System.Net.ServicePointManager.SetTcpKeepAlive(true, 5000, 5000);
 
 
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
-
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
 
 
 
@@ -599,12 +631,13 @@ namespace NetFramework
             ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
             ((HttpWebRequest)LoginPage).Referer = "https://" + "web.yixin.im" + "/";
             ((HttpWebRequest)LoginPage).UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)";
-            LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate");
+            LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+            OptionPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
             ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)LoginPage).CookieContainer.Add(tmpcookie);
             ((HttpWebRequest)LoginPage).ContentType = "multipart/form-data; boundary=----WebKitFormBoundary" + Boundary;
 
-            // ((HttpWebRequest)LoginPage).Connection = "KeepAlive";
+            // ((HttpWebRequest)LoginPage).Connection = "KeepAlive,Close";
             LoginPage.Headers.Add("Origin", "https://web.yixin.im");
             Stream Strem_ToPost = LoginPage.GetRequestStream();
 
@@ -637,8 +670,9 @@ namespace NetFramework
             Strem_ToPost.Flush();
             Strem_ToPost.Close();
 
-            ((HttpWebRequest)LoginPage).KeepAlive = false;
-            ((HttpWebRequest)LoginPage).Timeout = 5000;
+            ((HttpWebRequest)LoginPage).KeepAlive = true;
+            SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive,Close");
+            ((HttpWebRequest)LoginPage).Timeout = 30000;
 
             System.GC.Collect();
 

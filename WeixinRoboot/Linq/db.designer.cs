@@ -22,7 +22,7 @@ namespace WeixinRoboot.Linq
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="WeixinRoboot")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="Weixinroboot")]
 	public partial class dbDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -60,9 +60,6 @@ namespace WeixinRoboot.Linq
     partial void InsertWX_UserGameLog(WX_UserGameLog instance);
     partial void UpdateWX_UserGameLog(WX_UserGameLog instance);
     partial void DeleteWX_UserGameLog(WX_UserGameLog instance);
-    partial void InsertWX_UserReplyLog(WX_UserReplyLog instance);
-    partial void UpdateWX_UserReplyLog(WX_UserReplyLog instance);
-    partial void DeleteWX_UserReplyLog(WX_UserReplyLog instance);
     partial void InsertWX_UserReply(WX_UserReply instance);
     partial void UpdateWX_UserReply(WX_UserReply instance);
     partial void DeleteWX_UserReply(WX_UserReply instance);
@@ -72,7 +69,16 @@ namespace WeixinRoboot.Linq
     partial void InsertWX_PicErrorLog(WX_PicErrorLog instance);
     partial void UpdateWX_PicErrorLog(WX_PicErrorLog instance);
     partial void DeleteWX_PicErrorLog(WX_PicErrorLog instance);
+    partial void InsertWX_UserReplyLog(WX_UserReplyLog instance);
+    partial void UpdateWX_UserReplyLog(WX_UserReplyLog instance);
+    partial void DeleteWX_UserReplyLog(WX_UserReplyLog instance);
     #endregion
+		
+		public dbDataContext() : 
+				base(global::WeixinRoboot.Properties.Settings.Default.WeixinrobootConnectionString1, mappingSource)
+		{
+			OnCreated();
+		}
 		
 		public dbDataContext(string connection) : 
 				base(connection, mappingSource)
@@ -178,14 +184,6 @@ namespace WeixinRoboot.Linq
 			}
 		}
 		
-		public System.Data.Linq.Table<WX_UserReplyLog> WX_UserReplyLog
-		{
-			get
-			{
-				return this.GetTable<WX_UserReplyLog>();
-			}
-		}
-		
 		public System.Data.Linq.Table<WX_UserReply> WX_UserReply
 		{
 			get
@@ -207,6 +205,14 @@ namespace WeixinRoboot.Linq
 			get
 			{
 				return this.GetTable<WX_PicErrorLog>();
+			}
+		}
+		
+		public System.Data.Linq.Table<WX_UserReplyLog> WX_UserReplyLog
+		{
+			get
+			{
+				return this.GetTable<WX_UserReplyLog>();
 			}
 		}
 	}
@@ -3616,284 +3622,6 @@ namespace WeixinRoboot.Linq
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserReplyLog")]
-	public partial class WX_UserReplyLog : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _WX_UserName;
-		
-		private System.Guid _aspnet_UserID;
-		
-		private System.DateTime _ReceiveTime;
-		
-		private string _ReceiveContent;
-		
-		private string _ReplyContent;
-		
-		private System.Nullable<System.DateTime> _ReplyTime;
-		
-		private System.Nullable<bool> _HaveDeal;
-		
-		private string _SourceType;
-		
-		private string _WX_msgType;
-		
-		private string _WX_SourceType;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnWX_UserNameChanging(string value);
-    partial void OnWX_UserNameChanged();
-    partial void Onaspnet_UserIDChanging(System.Guid value);
-    partial void Onaspnet_UserIDChanged();
-    partial void OnReceiveTimeChanging(System.DateTime value);
-    partial void OnReceiveTimeChanged();
-    partial void OnReceiveContentChanging(string value);
-    partial void OnReceiveContentChanged();
-    partial void OnReplyContentChanging(string value);
-    partial void OnReplyContentChanged();
-    partial void OnReplyTimeChanging(System.Nullable<System.DateTime> value);
-    partial void OnReplyTimeChanged();
-    partial void OnHaveDealChanging(System.Nullable<bool> value);
-    partial void OnHaveDealChanged();
-    partial void OnSourceTypeChanging(string value);
-    partial void OnSourceTypeChanged();
-    partial void OnWX_msgTypeChanging(string value);
-    partial void OnWX_msgTypeChanged();
-    partial void OnWX_SourceTypeChanging(string value);
-    partial void OnWX_SourceTypeChanged();
-    #endregion
-		
-		public WX_UserReplyLog()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string WX_UserName
-		{
-			get
-			{
-				return this._WX_UserName;
-			}
-			set
-			{
-				if ((this._WX_UserName != value))
-				{
-					this.OnWX_UserNameChanging(value);
-					this.SendPropertyChanging();
-					this._WX_UserName = value;
-					this.SendPropertyChanged("WX_UserName");
-					this.OnWX_UserNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid aspnet_UserID
-		{
-			get
-			{
-				return this._aspnet_UserID;
-			}
-			set
-			{
-				if ((this._aspnet_UserID != value))
-				{
-					this.Onaspnet_UserIDChanging(value);
-					this.SendPropertyChanging();
-					this._aspnet_UserID = value;
-					this.SendPropertyChanged("aspnet_UserID");
-					this.Onaspnet_UserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceiveTime", DbType="DateTime NOT NULL", IsPrimaryKey=true)]
-		public System.DateTime ReceiveTime
-		{
-			get
-			{
-				return this._ReceiveTime;
-			}
-			set
-			{
-				if ((this._ReceiveTime != value))
-				{
-					this.OnReceiveTimeChanging(value);
-					this.SendPropertyChanging();
-					this._ReceiveTime = value;
-					this.SendPropertyChanged("ReceiveTime");
-					this.OnReceiveTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceiveContent", DbType="NVarChar(MAX)")]
-		public string ReceiveContent
-		{
-			get
-			{
-				return this._ReceiveContent;
-			}
-			set
-			{
-				if ((this._ReceiveContent != value))
-				{
-					this.OnReceiveContentChanging(value);
-					this.SendPropertyChanging();
-					this._ReceiveContent = value;
-					this.SendPropertyChanged("ReceiveContent");
-					this.OnReceiveContentChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReplyContent", DbType="NVarChar(MAX)")]
-		public string ReplyContent
-		{
-			get
-			{
-				return this._ReplyContent;
-			}
-			set
-			{
-				if ((this._ReplyContent != value))
-				{
-					this.OnReplyContentChanging(value);
-					this.SendPropertyChanging();
-					this._ReplyContent = value;
-					this.SendPropertyChanged("ReplyContent");
-					this.OnReplyContentChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReplyTime", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ReplyTime
-		{
-			get
-			{
-				return this._ReplyTime;
-			}
-			set
-			{
-				if ((this._ReplyTime != value))
-				{
-					this.OnReplyTimeChanging(value);
-					this.SendPropertyChanging();
-					this._ReplyTime = value;
-					this.SendPropertyChanged("ReplyTime");
-					this.OnReplyTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HaveDeal", DbType="Bit")]
-		public System.Nullable<bool> HaveDeal
-		{
-			get
-			{
-				return this._HaveDeal;
-			}
-			set
-			{
-				if ((this._HaveDeal != value))
-				{
-					this.OnHaveDealChanging(value);
-					this.SendPropertyChanging();
-					this._HaveDeal = value;
-					this.SendPropertyChanged("HaveDeal");
-					this.OnHaveDealChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SourceType", DbType="NVarChar(5) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string SourceType
-		{
-			get
-			{
-				return this._SourceType;
-			}
-			set
-			{
-				if ((this._SourceType != value))
-				{
-					this.OnSourceTypeChanging(value);
-					this.SendPropertyChanging();
-					this._SourceType = value;
-					this.SendPropertyChanged("SourceType");
-					this.OnSourceTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_msgType", DbType="NVarChar(50)")]
-		public string WX_msgType
-		{
-			get
-			{
-				return this._WX_msgType;
-			}
-			set
-			{
-				if ((this._WX_msgType != value))
-				{
-					this.OnWX_msgTypeChanging(value);
-					this.SendPropertyChanging();
-					this._WX_msgType = value;
-					this.SendPropertyChanged("WX_msgType");
-					this.OnWX_msgTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(50)")]
-		public string WX_SourceType
-		{
-			get
-			{
-				return this._WX_SourceType;
-			}
-			set
-			{
-				if ((this._WX_SourceType != value))
-				{
-					this.OnWX_SourceTypeChanging(value);
-					this.SendPropertyChanging();
-					this._WX_SourceType = value;
-					this.SendPropertyChanged("WX_SourceType");
-					this.OnWX_SourceTypeChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserReply")]
 	public partial class WX_UserReply : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -4520,6 +4248,284 @@ namespace WeixinRoboot.Linq
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(50)")]
+		public string WX_SourceType
+		{
+			get
+			{
+				return this._WX_SourceType;
+			}
+			set
+			{
+				if ((this._WX_SourceType != value))
+				{
+					this.OnWX_SourceTypeChanging(value);
+					this.SendPropertyChanging();
+					this._WX_SourceType = value;
+					this.SendPropertyChanged("WX_SourceType");
+					this.OnWX_SourceTypeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserReplyLog")]
+	public partial class WX_UserReplyLog : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _WX_UserName;
+		
+		private System.Guid _aspnet_UserID;
+		
+		private System.DateTime _ReceiveTime;
+		
+		private string _ReceiveContent;
+		
+		private string _ReplyContent;
+		
+		private System.Nullable<System.DateTime> _ReplyTime;
+		
+		private System.Nullable<bool> _HaveDeal;
+		
+		private string _SourceType;
+		
+		private string _WX_msgType;
+		
+		private string _WX_SourceType;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnWX_UserNameChanging(string value);
+    partial void OnWX_UserNameChanged();
+    partial void Onaspnet_UserIDChanging(System.Guid value);
+    partial void Onaspnet_UserIDChanged();
+    partial void OnReceiveTimeChanging(System.DateTime value);
+    partial void OnReceiveTimeChanged();
+    partial void OnReceiveContentChanging(string value);
+    partial void OnReceiveContentChanged();
+    partial void OnReplyContentChanging(string value);
+    partial void OnReplyContentChanged();
+    partial void OnReplyTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnReplyTimeChanged();
+    partial void OnHaveDealChanging(System.Nullable<bool> value);
+    partial void OnHaveDealChanged();
+    partial void OnSourceTypeChanging(string value);
+    partial void OnSourceTypeChanged();
+    partial void OnWX_msgTypeChanging(string value);
+    partial void OnWX_msgTypeChanged();
+    partial void OnWX_SourceTypeChanging(string value);
+    partial void OnWX_SourceTypeChanged();
+    #endregion
+		
+		public WX_UserReplyLog()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_UserName
+		{
+			get
+			{
+				return this._WX_UserName;
+			}
+			set
+			{
+				if ((this._WX_UserName != value))
+				{
+					this.OnWX_UserNameChanging(value);
+					this.SendPropertyChanging();
+					this._WX_UserName = value;
+					this.SendPropertyChanged("WX_UserName");
+					this.OnWX_UserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid aspnet_UserID
+		{
+			get
+			{
+				return this._aspnet_UserID;
+			}
+			set
+			{
+				if ((this._aspnet_UserID != value))
+				{
+					this.Onaspnet_UserIDChanging(value);
+					this.SendPropertyChanging();
+					this._aspnet_UserID = value;
+					this.SendPropertyChanged("aspnet_UserID");
+					this.Onaspnet_UserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceiveTime", DbType="DateTime NOT NULL", IsPrimaryKey=true)]
+		public System.DateTime ReceiveTime
+		{
+			get
+			{
+				return this._ReceiveTime;
+			}
+			set
+			{
+				if ((this._ReceiveTime != value))
+				{
+					this.OnReceiveTimeChanging(value);
+					this.SendPropertyChanging();
+					this._ReceiveTime = value;
+					this.SendPropertyChanged("ReceiveTime");
+					this.OnReceiveTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceiveContent", DbType="NVarChar(MAX)")]
+		public string ReceiveContent
+		{
+			get
+			{
+				return this._ReceiveContent;
+			}
+			set
+			{
+				if ((this._ReceiveContent != value))
+				{
+					this.OnReceiveContentChanging(value);
+					this.SendPropertyChanging();
+					this._ReceiveContent = value;
+					this.SendPropertyChanged("ReceiveContent");
+					this.OnReceiveContentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReplyContent", DbType="NVarChar(MAX)")]
+		public string ReplyContent
+		{
+			get
+			{
+				return this._ReplyContent;
+			}
+			set
+			{
+				if ((this._ReplyContent != value))
+				{
+					this.OnReplyContentChanging(value);
+					this.SendPropertyChanging();
+					this._ReplyContent = value;
+					this.SendPropertyChanged("ReplyContent");
+					this.OnReplyContentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReplyTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ReplyTime
+		{
+			get
+			{
+				return this._ReplyTime;
+			}
+			set
+			{
+				if ((this._ReplyTime != value))
+				{
+					this.OnReplyTimeChanging(value);
+					this.SendPropertyChanging();
+					this._ReplyTime = value;
+					this.SendPropertyChanged("ReplyTime");
+					this.OnReplyTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HaveDeal", DbType="Bit")]
+		public System.Nullable<bool> HaveDeal
+		{
+			get
+			{
+				return this._HaveDeal;
+			}
+			set
+			{
+				if ((this._HaveDeal != value))
+				{
+					this.OnHaveDealChanging(value);
+					this.SendPropertyChanging();
+					this._HaveDeal = value;
+					this.SendPropertyChanged("HaveDeal");
+					this.OnHaveDealChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SourceType", DbType="NVarChar(5) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string SourceType
+		{
+			get
+			{
+				return this._SourceType;
+			}
+			set
+			{
+				if ((this._SourceType != value))
+				{
+					this.OnSourceTypeChanging(value);
+					this.SendPropertyChanging();
+					this._SourceType = value;
+					this.SendPropertyChanged("SourceType");
+					this.OnSourceTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_msgType", DbType="NVarChar(50)")]
+		public string WX_msgType
+		{
+			get
+			{
+				return this._WX_msgType;
+			}
+			set
+			{
+				if ((this._WX_msgType != value))
+				{
+					this.OnWX_msgTypeChanging(value);
+					this.SendPropertyChanging();
+					this._WX_msgType = value;
+					this.SendPropertyChanged("WX_msgType");
+					this.OnWX_msgTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(5) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
 		public string WX_SourceType
 		{
 			get

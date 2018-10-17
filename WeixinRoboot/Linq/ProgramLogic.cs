@@ -3987,7 +3987,10 @@ namespace WeixinRoboot.Linq
 
         public static string Dragon = Encoding.UTF8.GetString(new byte[] { 240, 159, 144, 178 });
         public static string OK = Encoding.UTF8.GetString(new byte[] { 240, 159, 136, 180 });
-        public static string Tiger = Encoding.UTF8.GetString(new byte[] { 238, 129, 144 });
+        //public static string Tiger = Encoding.UTF8.GetString(new byte[] { 238, 129, 144 });
+
+        public static string Tiger = Encoding.UTF8.GetString(new byte[] { 240, 159, 144, 175 });
+
 
 
         public static string Dragon_yixin = Encoding.UTF8.GetString(new byte[] { 0xF0, 0x9f, 0x90, 0xB2 });
@@ -4292,7 +4295,7 @@ namespace WeixinRoboot.Linq
             }
             catch (Exception)
             {
-                throw new Exception(QueryTime + "日期格式错误");
+                throw new Exception(QueryTime +QueryTime+ "日期格式错误");
 
             }
 
