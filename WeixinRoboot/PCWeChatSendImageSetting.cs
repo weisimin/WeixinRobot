@@ -28,5 +28,10 @@ namespace WeixinRoboot
         {
             BS_GV_PicSendSetting.DataSource = SF.InjectWins;
         }
+
+        private void GV_PicSendSetting_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.Cancel = true;
+        }
     }
 }

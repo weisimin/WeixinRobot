@@ -66,6 +66,7 @@
             this.btn_InjectAndDo = new System.Windows.Forms.Button();
             this.Btn_ManulSend = new System.Windows.Forms.Button();
             this.btn_runtest = new System.Windows.Forms.Button();
+            this.mi_reminderquery = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
@@ -238,7 +239,8 @@
             // MI_Query
             // 
             this.MI_Query.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MI_OpenQuery});
+            this.MI_OpenQuery,
+            this.mi_reminderquery});
             this.MI_Query.Name = "MI_Query";
             this.MI_Query.Size = new System.Drawing.Size(44, 21);
             this.MI_Query.Text = "查询";
@@ -246,7 +248,7 @@
             // MI_OpenQuery
             // 
             this.MI_OpenQuery.Name = "MI_OpenQuery";
-            this.MI_OpenQuery.Size = new System.Drawing.Size(124, 22);
+            this.MI_OpenQuery.Size = new System.Drawing.Size(152, 22);
             this.MI_OpenQuery.Text = "开奖统计";
             this.MI_OpenQuery.Click += new System.EventHandler(this.MI_OpenQuery_Click);
             // 
@@ -275,7 +277,7 @@
             // MI_PCWechatSendSetting
             // 
             this.MI_PCWechatSendSetting.Name = "MI_PCWechatSendSetting";
-            this.MI_PCWechatSendSetting.Size = new System.Drawing.Size(100, 22);
+            this.MI_PCWechatSendSetting.Size = new System.Drawing.Size(152, 22);
             this.MI_PCWechatSendSetting.Text = "设置";
             this.MI_PCWechatSendSetting.Click += new System.EventHandler(this.MI_PCWechatSendSetting_Click);
             // 
@@ -398,8 +400,14 @@
             this.btn_runtest.TabIndex = 18;
             this.btn_runtest.Text = "执行测试 ";
             this.btn_runtest.UseVisualStyleBackColor = true;
-            this.btn_runtest.Visible = false;
             this.btn_runtest.Click += new System.EventHandler(this.btn_runtest_Click);
+            // 
+            // mi_reminderquery
+            // 
+            this.mi_reminderquery.Name = "mi_reminderquery";
+            this.mi_reminderquery.Size = new System.Drawing.Size(152, 22);
+            this.mi_reminderquery.Text = "余分查询";
+            this.mi_reminderquery.Click += new System.EventHandler(this.mi_reminderquery_Click);
             // 
             // StartForm
             // 
@@ -480,6 +488,7 @@
         private System.Windows.Forms.ToolStripMenuItem MI_PCWechatSendSetting;
         private System.Windows.Forms.Button Btn_ManulSend;
         private System.Windows.Forms.Button btn_runtest;
+        private System.Windows.Forms.ToolStripMenuItem mi_reminderquery;
     }
 }
 

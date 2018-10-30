@@ -1029,7 +1029,7 @@ namespace WeixinRoboot.Linq
                       && t.Buy_Point != 0
                       && t.Result_HaveProcess != true
                       ).ToList(), MemberSource);
-                        return "下注不足，" + tr1.ToSlimStringV2() + "余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ;
+                        return "下注不足，" + tr1.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ;
                     }
                     #endregion
 
@@ -1117,7 +1117,7 @@ namespace WeixinRoboot.Linq
                         TotalResult tr = BuildResult(db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == reply.WX_UserName && t.WX_SourceType == reply.WX_SourceType
                             && t.Result_HaveProcess == false
                             && t.Buy_Point != 0).ToList(), MemberSource);
-                        return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                        return tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
 
                     }
                     catch (Exception AnyError)
@@ -1202,7 +1202,7 @@ namespace WeixinRoboot.Linq
                       && t.Buy_Point != 0
                       && t.Result_HaveProcess != true
                       ).ToList(), MemberSource);
-                        return "下注不足，" + tr1.ToSlimStringV2() + "余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ;
+                        return "下注不足，" + tr1.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ;
                     }
                     #endregion
 
@@ -1325,7 +1325,7 @@ namespace WeixinRoboot.Linq
                             && t.WX_SourceType == reply.WX_SourceType
                             && t.Result_HaveProcess == false
                             && t.Buy_Point != 0).ToList(), MemberSource);
-                        return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                        return tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
 
                     }
                     catch (Exception AnyError)
@@ -1393,7 +1393,7 @@ namespace WeixinRoboot.Linq
                                       && t.Buy_Point != 0
                                       && t.Result_HaveProcess != true
                                       ).ToList(), MemberSource);
-                                        return "下注不足，" + tr1.ToSlimStringV2() + "余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ;
+                                        return "下注不足，" + tr1.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ;
                                     }
                                     #endregion
                                     #region 检查赔率
@@ -1480,13 +1480,13 @@ namespace WeixinRoboot.Linq
                                             && t.WX_SourceType == reply.WX_SourceType
                                             && t.Result_HaveProcess == false
                                             && t.Buy_Point != 0).ToList(), MemberSource);
-                                        return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                                        return tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
 
                                     }
                                     catch (Exception AnyError)
                                     {
 
-                                        return AnyError.Message + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                                        return AnyError.Message + ",余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
                                     }
 
                                 }//字典有数字
@@ -1534,7 +1534,7 @@ namespace WeixinRoboot.Linq
                               && t.Buy_Point != 0
                               && t.Result_HaveProcess != true
                               ).ToList(), MemberSource);
-                                return "下注不足，" + tr1.ToSlimStringV2() + "余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ;
+                                return "下注不足，" + tr1.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ;
                             }
                             #endregion
                             #region 检查赔率
@@ -1618,7 +1618,7 @@ namespace WeixinRoboot.Linq
                                     && t.WX_SourceType == reply.WX_SourceType
                                     && t.Result_HaveProcess == false
                                    ).ToList(), MemberSource);
-                                return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                                return tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
 
                             }
                             catch (Exception AnyError)
@@ -1662,7 +1662,7 @@ namespace WeixinRoboot.Linq
                   && t.Buy_Point != 0
                   && t.Result_HaveProcess != true
                   ).ToList(), MemberSource);
-                    return "下注不足，" + tr1.ToSlimStringV2() + "余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ;
+                    return "下注不足，" + tr1.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ;
                 }
                 #endregion
 
@@ -1706,7 +1706,7 @@ namespace WeixinRoboot.Linq
                && t.Buy_Point != 0
                && t.Result_HaveProcess != true
                ).ToList(), MemberSource);
-                    return CheckResult + "," + tr2.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ; ;
+                    return CheckResult + "," + tr2.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0"); ; ;
                 }
 
                 if (ToModify.Result_HaveProcess == true)
@@ -1769,7 +1769,7 @@ namespace WeixinRoboot.Linq
                     && t.Result_HaveProcess != true
                     ).ToList(), MemberSource);
 
-                return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                return tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
 
             }//X+数字
             #endregion
@@ -1952,8 +1952,9 @@ namespace WeixinRoboot.Linq
                     {
                         Result = Result.Substring(0, Result.Length - 1);
                     }
-                }
 
+                }
+                Result += Environment.NewLine + Environment.NewLine;
                 return Result;
 
 
@@ -2046,7 +2047,7 @@ namespace WeixinRoboot.Linq
                     Result += ResultOpen + Environment.NewLine;
                 }
 
-                Result += Environment.NewLine;
+                Result += Environment.NewLine + Environment.NewLine;
 
 
                 return Result;
@@ -2600,7 +2601,7 @@ namespace WeixinRoboot.Linq
                                 TotalResult tr = BuildResult(db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == reply.WX_UserName && t.WX_SourceType == reply.WX_SourceType
                                     && t.Result_HaveProcess == false
                                     && t.Buy_Point != 0).ToList(), MemberSource);
-                                return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                                return tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
 
                             }
                             catch (Exception AnyError)
@@ -2833,7 +2834,7 @@ namespace WeixinRoboot.Linq
                                     && t.WX_SourceType == reply.WX_SourceType
                                     && t.Result_HaveProcess == false
                                     && t.Buy_Point != 0).ToList(), MemberSource);
-                                return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                                return tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
 
                             }
                             catch (Exception AnyError)
@@ -3024,7 +3025,7 @@ namespace WeixinRoboot.Linq
                                                         && t.WX_SourceType == reply.WX_SourceType
                                                         && t.Result_HaveProcess == false
                                                         && t.Buy_Point != 0).ToList(), MemberSource);
-                                                    return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                                                    return tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
 
                                                 }
                                                 catch (Exception AnyError)
@@ -3187,7 +3188,7 @@ namespace WeixinRoboot.Linq
                                                 && t.WX_SourceType == reply.WX_SourceType
                                                 && t.Result_HaveProcess == false
                                                ).ToList(), MemberSource);
-                                            return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                                            return tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
 
                                         }
                                         catch (Exception AnyError)
@@ -3257,7 +3258,7 @@ namespace WeixinRoboot.Linq
                                     && t.Result_HaveProcess == false
                                     ).ToList()
                                 , MemberSource);
-                            return CheckResult + tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                            return CheckResult + tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
                         }
                         else
                         {
@@ -3268,7 +3269,7 @@ namespace WeixinRoboot.Linq
                                 && t.Result_HaveProcess == false
                                 && t.Buy_Point != 0).ToList()
                             , MemberSource);
-                            return tr.ToSlimStringV2() + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
+                            return tr.ToSlimStringV2() + "余:" + ObjectToString(WXUserChangeLog_GetRemainder(reply.WX_UserName, reply.WX_SourceType), "N0");
                         }
 
                     }//下单
@@ -3987,9 +3988,9 @@ namespace WeixinRoboot.Linq
 
         public static string Dragon = Encoding.UTF8.GetString(new byte[] { 240, 159, 144, 178 });
         public static string OK = Encoding.UTF8.GetString(new byte[] { 240, 159, 136, 180 });
-        //public static string Tiger = Encoding.UTF8.GetString(new byte[] { 238, 129, 144 });
+        public static string Tiger = Encoding.UTF8.GetString(new byte[] { 238, 129, 144 });
 
-        public static string Tiger = Encoding.UTF8.GetString(new byte[] { 240, 159, 144, 175 });
+        public static string Tiger_dingding= Encoding.UTF8.GetString(new byte[] { 240, 159, 144, 175 });
 
 
 

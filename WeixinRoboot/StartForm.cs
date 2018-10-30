@@ -717,15 +717,16 @@ namespace WeixinRoboot
                         return;
 
                     }
-                    else
-                        if ((Check["retcode"].ToString() != "1101") && ((Check["retcode"].ToString() != "0")) && ((Check["retcode"].ToString() != "1100")))
-                        {
+                    else if (
+                     ((Result3.Contains("selector:\"7\"")) == true)
+                         )
+                    {
 
 
-                            ReStartWeixin();
-                            return;
+                        ReStartWeixin();
+                        return;
 
-                        }
+                    }
 
                     ////////////////////////////////////////////////
 
@@ -3534,7 +3535,46 @@ namespace WeixinRoboot
             filetowrite_yixin.Dispose();
             #endregion
 
+            #region 画龙虎图表钉钉
+            string Datatextplain_dingding = "";
+            int datapindex_dingding = 1;
+            foreach (DataRow datetextitem in dtCopy.Rows)
+            {
 
+                string tigerordragon = datetextitem.Field<string>("龙虎");
+                switch (tigerordragon)
+                {
+                    case "龙":
+                        Datatextplain_dingding += Linq.DataLogic.Dragon_yixin;
+                        break;
+                    case "虎":
+                        Datatextplain_dingding += Linq.DataLogic.Tiger_yixin;
+                        break;
+                    case "合":
+                        Datatextplain_dingding += Linq.DataLogic.OK_yixin;
+                        break;
+                    default:
+                        break;
+                }
+                datapindex_dingding += 1;
+                //if (datapindex == 11)
+                //{
+                //    Datatextplain += Environment.NewLine;
+                //    datapindex = 1;
+                //}
+
+            }//行循环
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data3_dingding" + GlobalParam.UserName + ".txt"))
+            {
+                System.IO.File.Delete(Application.StartupPath + "\\Data3_dingding" + GlobalParam.UserName + ".txt");
+            }
+            FileStream filetowrite_dingding = new FileStream(Application.StartupPath + "\\Data3_dingding" + GlobalParam.UserName + ".txt", FileMode.OpenOrCreate);
+            byte[] Result_dingding = Encoding.UTF8.GetBytes(Datatextplain_dingding);
+            filetowrite_dingding.Write(Result_dingding, 0, Result_dingding.Length);
+            filetowrite_dingding.Flush();
+            filetowrite_dingding.Close();
+            filetowrite_dingding.Dispose();
+            #endregion
 
 
 
@@ -4321,17 +4361,36 @@ namespace WeixinRoboot
                     StringBuilder RAW = new StringBuilder(512);
                     NetFramework.WindowsApi.GetWindowText(wins.hwnd, RAW, 512);
 
-
                     NetFramework.WindowsApi.SetWindowText(wins.hwnd, "智能发图" + RAW.ToString().Replace("智能发图", ""));
-                    hwndSendImageFile(Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg", wins.hwnd);
-                    Thread.Sleep(200);
-                    hwndSendTextFile(Application.StartupPath + "\\Data3" + GlobalParam.UserName + ".txt", wins.hwnd);
-                    if (wins.开奖后请下注 == true)
+                    if (
+                        (DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour < 3 ? 60 * 24 : 0) > wins.封盘小时 * 60 + wins.封盘分钟
+                              + (wins.封盘小时 < 3 ? 60 * 24 : 0)
+                              )
+
+                        ||
+                        (DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour < 3 ? 60 * 24 : 0) < wins.开盘小时 * 60 + wins.开盘分钟
+                              + (wins.开盘小时 < 3 ? 60 * 24 : 0)
+
+                        )
+                        )
                     {
-                        Thread.Sleep(200);
-                        hwndDragFile(Application.StartupPath + "\\PCGIFS\\开始下注.gif", wins.hwnd);
+
+                        continue;
+
                     }
 
+                    hwndSendImageFile(Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg", wins.hwnd);
+                    Thread.Sleep(200);
+                    if (RAW.ToString().Contains("钉钉"))
+                    {
+                        hwndSendTextFile(Application.StartupPath + "\\Data3_dingding" + GlobalParam.UserName + ".txt", wins.hwnd);
+
+                    }
+                    else
+                    {
+                        hwndSendTextFile(Application.StartupPath + "\\Data3" + GlobalParam.UserName + ".txt", wins.hwnd);
+
+                    }
 
                     Thread.Sleep(200);
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
@@ -4355,6 +4414,14 @@ namespace WeixinRoboot
                     }
 
 
+                    if (wins.开奖后请下注 == true)
+                    {
+                        Thread.Sleep(2000);
+                        hwndDragFile(Application.StartupPath + "\\PCGIFS\\开始下注.gif", wins.hwnd);
+                    }
+
+
+
 
                 }
             }
@@ -4366,7 +4433,10 @@ namespace WeixinRoboot
             return true;
         }
 
-
+        public bool FindChildsCallBack(IntPtr hwnd, int lParam)
+        {
+            return false;
+        }
 
 
         private void hwndSendImageFile(string FileImage, IntPtr hwnd)
@@ -4384,6 +4454,17 @@ namespace WeixinRoboot
             NetFramework.WindowsApi.SetActiveWindow(hwnd);
             NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
             NetFramework.WindowsApi.SetFocus(hwnd);//设定焦点
+            Thread.Sleep(700);
+
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
+
+            //Thread.Sleep(50);
+            //Application.DoEvents();
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 2, 0);
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 2, 0);
+           
+
             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
 
@@ -4421,82 +4502,109 @@ namespace WeixinRoboot
             NetFramework.WindowsApi.SetActiveWindow(hwnd);
             NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
             NetFramework.WindowsApi.SetFocus(hwnd);//设定焦点
+            Thread.Sleep(700);
+            //Thread.Sleep(200);
 
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
 
+            //Thread.Sleep(50);
+            //Application.DoEvents();
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 2, 0);
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 2, 0);
             Clipboard.Clear();
-             Int32 CurIndex = 0;
+            #region
+            //Int32 CurIndex = 0;
 
-            byte[] Dragon = (new byte[] { 240, 159, 144, 178 });
-            byte[] Ok = (new byte[] { 240, 159, 136, 180 });
-            byte[] Tiger = (new byte[] { 240, 159, 144, 175 });
+            //byte[] Dragon = (new byte[] { 240, 159, 144 });
+            //byte[] Ok = (new byte[] { 240, 159, 136 });
+            //byte[] Tiger = (new byte[] { 238, 129, 144 });
 
-            while (CurIndex < ToSend.Length )
-            {
-                byte[] test = (new byte[] { ToSend[CurIndex], ToSend[CurIndex + 1], ToSend[CurIndex + 2], ToSend[CurIndex + 3] });
+            //while (CurIndex < ToSend.Length)
+            //{
+            //    byte[] test = (new byte[] { ToSend[CurIndex], ToSend[CurIndex + 1], ToSend[CurIndex + 2] });
 
-                Application.DoEvents();
+            //    Application.DoEvents();
 
-                if (bytecompare(test, Dragon))
-                {
-                    Clipboard.Clear();
-                    Clipboard.SetText(Linq.DataLogic.Dragon, TextDataFormat.UnicodeText);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                    Thread.Sleep(50);
-                    Application.DoEvents();
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+            //    if (bytecompare(test, Dragon))
+            //    {
+            //        Clipboard.Clear();
+            //        Clipboard.SetText(Linq.DataLogic.Dragon, TextDataFormat.UnicodeText);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+            //        Thread.Sleep(50);
+            //        Application.DoEvents();
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
 
-                    CurIndex += 4;
-                }
-                else if (bytecompare(test, Ok))
-                {
-                    Clipboard.Clear();
-                    Clipboard.SetText(Linq.DataLogic.OK, TextDataFormat.UnicodeText);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                    Thread.Sleep(50);
-                    Application.DoEvents();
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+            //        CurIndex += 4;
+            //    }
+            //    else if (bytecompare(test, Ok))
+            //    {
+            //        Clipboard.Clear();
+            //        Clipboard.SetText(Linq.DataLogic.OK, TextDataFormat.UnicodeText);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+            //        Thread.Sleep(50);
+            //        Application.DoEvents();
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
 
-                    CurIndex += 4;
-                }
-                else if (bytecompare(test, Tiger))
-                {
-                    Clipboard.Clear();
-                    Clipboard.SetText(Linq.DataLogic.Tiger, TextDataFormat.UnicodeText);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                    Thread.Sleep(50);
-                    Application.DoEvents();
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+            //        CurIndex += 4;
+            //    }
+            //    else if (bytecompare(test, Tiger))
+            //    {
+            //        Clipboard.Clear();
 
-                    CurIndex += 4;
-                }
-                else
-                {
-                    Clipboard.Clear();
-                    Clipboard.SetText(Encoding.UTF8.GetString(ToSend, CurIndex, ToSend.Length - CurIndex), TextDataFormat.UnicodeText);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                    Thread.Sleep(100);
-                    Application.DoEvents();
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+            //        StringBuilder RAW = new StringBuilder(512);
+            //        NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
 
-                    CurIndex = ToSend.Length;
-                }
+            //        if (RAW.ToString().Contains("钉钉"))
+            //        {
+            //            Clipboard.SetText(Linq.DataLogic.Tiger_dingding, TextDataFormat.UnicodeText);
+            //        }
+            //        else
+            //        {
+            //            Clipboard.SetText(Linq.DataLogic.Tiger, TextDataFormat.Text);
+            //        }
+
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+            //        Thread.Sleep(50);
+            //        Application.DoEvents();
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+            //        CurIndex += 3;
+            //    }
+            //    else
+            //    {
+            //        Clipboard.Clear();
+            //        Clipboard.SetText(Encoding.UTF8.GetString(ToSend, CurIndex, ToSend.Length - CurIndex), TextDataFormat.UnicodeText);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+            //        Thread.Sleep(100);
+            //        Application.DoEvents();
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+            //        CurIndex = ToSend.Length;
+            //    }
 
 
 
-            }
+            //}
+            #endregion
+            string ToSendt = Encoding.UTF8.GetString(ToSend);
+            Clipboard.SetText((ToSendt.StartsWith(Linq.DataLogic.Tiger) ? " " : "") + ToSendt);
 
-
-
-
-
+            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+            Thread.Sleep(50);
+            Application.DoEvents();
+            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+            Thread.Sleep(50);
 
             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
 
@@ -4521,80 +4629,110 @@ namespace WeixinRoboot
             NetFramework.WindowsApi.SetActiveWindow(hwnd);
             NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
             NetFramework.WindowsApi.SetFocus(hwnd);//设定焦点
+            Thread.Sleep(700);
+            //Thread.Sleep(200);
+
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
+
+            //Thread.Sleep(50);
+            //Application.DoEvents();
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 2, 0);
+            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 2, 0);
+            #region
+
+            //byte[] ToSend = Encoding.UTF8.GetBytes(SendText);
+            //Int32 CurIndex = 0;
+
+            //byte[] Dragon = (new byte[] { 240, 159, 144 });
+            //byte[] Ok = (new byte[] { 240, 159, 136 });
+            //byte[] Tiger = (new byte[] { 238, 129, 144 });
+
+
+            //while (CurIndex < ToSend.Length)
+            //{
+            //    byte[] test = (new byte[] { ToSend[CurIndex], ToSend[CurIndex + 1], ToSend[CurIndex + 2] });
+
+            //    Application.DoEvents();
+
+            //    if (bytecompare(test, Dragon))
+            //    {
+            //        Clipboard.Clear();
+            //        Clipboard.SetText(Linq.DataLogic.Dragon, TextDataFormat.UnicodeText);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+            //        Thread.Sleep(50);
+            //        Application.DoEvents();
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+            //        CurIndex += 4;
+            //    }
+            //    else if (bytecompare(test, Ok))
+            //    {
+            //        Clipboard.Clear();
+            //        Clipboard.SetText(Linq.DataLogic.OK, TextDataFormat.UnicodeText);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+            //        Thread.Sleep(50);
+            //        Application.DoEvents();
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+            //        CurIndex += 4;
+            //    }
+            //    else if (bytecompare(test, Tiger))
+            //    {
+            //        Clipboard.Clear();
+            //        StringBuilder RAW = new StringBuilder(512);
+            //        NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
+
+            //        if (RAW.ToString().Contains("钉钉"))
+            //        {
+            //            Clipboard.SetText(Linq.DataLogic.Tiger_dingding, TextDataFormat.UnicodeText);
+            //        }
+            //        else
+            //        {
+            //            Clipboard.SetText(Linq.DataLogic.Tiger, TextDataFormat.Text);
+            //        }
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+            //        Thread.Sleep(50);
+            //        Application.DoEvents();
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+            //        CurIndex += 3;
+            //    }
+            //    else
+            //    {
+            //        Clipboard.Clear();
+            //        Clipboard.SetText(Encoding.UTF8.GetString(ToSend, CurIndex, ToSend.Length - CurIndex), TextDataFormat.UnicodeText);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+            //        Thread.Sleep(100);
+            //        Application.DoEvents();
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+            //        CurIndex = ToSend.Length;
+            //    }
 
 
 
-
-            byte[] ToSend = Encoding.UTF8.GetBytes(SendText);
-            Int32 CurIndex = 0;
-
-            byte[] Dragon = (new byte[] { 240, 159, 144, 178 });
-            byte[] Ok = (new byte[] { 240, 159, 136, 180 });
-            byte[] Tiger = (new byte[] { 240, 159, 144, 175 });
+            //}
+            #endregion
 
 
-            while (CurIndex < ToSend.Length )
-            {
-                byte[] test = (new byte[] { ToSend[CurIndex], ToSend[CurIndex + 1], ToSend[CurIndex + 2], ToSend[CurIndex + 3] });
+            Clipboard.SetText((SendText.StartsWith(Linq.DataLogic.Tiger) ? " " : "") + SendText);
 
-                Application.DoEvents();
-
-                if (bytecompare(test, Dragon))
-                {
-                    Clipboard.Clear();
-                    Clipboard.SetText(Linq.DataLogic.Dragon, TextDataFormat.UnicodeText);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                    Thread.Sleep(50);
-                    Application.DoEvents();
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                    CurIndex += 4;
-                }
-                else if (bytecompare(test, Ok))
-                {
-                    Clipboard.Clear();
-                    Clipboard.SetText(Linq.DataLogic.OK, TextDataFormat.UnicodeText);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                    Thread.Sleep(50);
-                    Application.DoEvents();
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                    CurIndex += 4;
-                }
-                else if (bytecompare(test, Tiger))
-                {
-                    Clipboard.Clear();
-                    Clipboard.SetText(Linq.DataLogic.Tiger, TextDataFormat.UnicodeText);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                    Thread.Sleep(50);
-                    Application.DoEvents();
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                    CurIndex += 4;
-                }
-                else
-                {
-                    Clipboard.Clear();
-                    Clipboard.SetText(Encoding.UTF8.GetString(ToSend, CurIndex, ToSend.Length - CurIndex), TextDataFormat.UnicodeText);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                    Thread.Sleep(100);
-                    Application.DoEvents();
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                    NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                    CurIndex = ToSend.Length;
-                }
-
-
-
-            }
+            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+            Thread.Sleep(50);
+            Application.DoEvents();
+            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+            Thread.Sleep(50);
 
 
             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
@@ -4649,7 +4787,7 @@ namespace WeixinRoboot
         }
 
 
-        Dictionary<string, Boolean> HaveSend = new Dictionary<string, bool>();
+
         private void CheckTimeSend()
         {
             while (true)
@@ -4658,58 +4796,77 @@ namespace WeixinRoboot
                 {
 
                     //开盘
-                    if (DateTime.Now.Hour == 9 && DateTime.Now.Minute >= 50)
+                    //if (DateTime.Now.Hour == 9 && DateTime.Now.Minute >= 50)
                     {
-                        if (HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + "开盘") == false)
+
+                        foreach (WinSends sendwins in InjectWins)
                         {
-                            foreach (WinSends sendwin in InjectWins)
+                            StringBuilder RAW = new StringBuilder(512);
+                            NetFramework.WindowsApi.GetWindowText(sendwins.hwnd, RAW, 512);
+
+                            if (RAW.ToString() == "" || sendwins.开盘 == false
+                                || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + 10 + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) < sendwins.开盘小时 * 60 + sendwins.开盘分钟 + (sendwins.开盘小时 < 3 ? 24 * 60 : 0)))
+                                || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + 10 + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) > sendwins.开盘小时 * 60 + sendwins.开盘分钟 + (sendwins.开盘小时 < 3 ? 24 * 60 : 0)+5))
+                            )
                             {
-                                StringBuilder RAW = new StringBuilder(512);
-                                NetFramework.WindowsApi.GetWindowText(sendwin.hwnd, RAW, 512);
+                                continue;
 
-                                if (RAW.ToString() == "" || sendwin.开盘 == false)
-                                {
-                                    continue;
-
-                                }
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\开盘啦.png", sendwin.hwnd);
-
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\财源滚滚来.gif", sendwin.hwnd);
-
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\开始下注.gif", sendwin.hwnd);
                             }
-                            HaveSend.Add(DateTime.Today.ToString("yyyyMMdd") + "开盘", true);
+                            if (GlobalParam.HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + sendwins.hwnd.ToString() + "开盘") == false)
+                            {
+                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\开盘啦.png", sendwins.hwnd);
+
+                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\开盘啦.png", sendwins.hwnd);
+
+                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\开盘啦.png", sendwins.hwnd);
+
+                                //hwndDragFile(Application.StartupPath + "\\PCGIFS\\财源滚滚来.gif", sendwins.hwnd);
+
+                                //hwndDragFile(Application.StartupPath + "\\PCGIFS\\开始下注.gif", sendwins.hwnd);
+
+                                GlobalParam.HaveSend.Add(DateTime.Today.ToString("yyyyMMdd") + sendwins.hwnd.ToString() + "开盘", true);
+                            }
+
                         }
                     }
 
                     //封盘
-                    if (DateTime.Now.Hour >= 2 && DateTime.Now.Hour <= 5)
+                    //if (DateTime.Now.Hour >= 0 && DateTime.Now.Hour <= 5)
                     {
-                        if (HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + "封盘") == false)
+
+                        foreach (WinSends sendwins in InjectWins)
                         {
-                            foreach (WinSends sendwins in InjectWins)
+                            StringBuilder RAW = new StringBuilder(512);
+                            NetFramework.WindowsApi.GetWindowText(sendwins.hwnd, RAW, 512);
+
+                            if
+                                ((RAW.ToString() == "" || sendwins.封盘 == false)
+                                || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) < sendwins.封盘小时 * 60 + sendwins.封盘分钟 + 2 + (sendwins.封盘小时 < 3 ? 24 * 60 : 0)))
+                                || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) > sendwins.封盘小时 * 60 + sendwins.封盘分钟 + 2 + (sendwins.封盘小时 < 3 ? 24 * 60 : 0)+5))
+                               
+                                
+                                )
                             {
-                                StringBuilder RAW = new StringBuilder(512);
-                                NetFramework.WindowsApi.GetWindowText(sendwins.hwnd, RAW, 512);
+                                //不勾或没到时间不发
+                                continue;
 
-                                if (RAW.ToString() == "" || sendwins.封盘 == false)
-                                {
-                                    continue;
-
-                                }
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\封盘.png", sendwins.hwnd);
-                                Thread.Sleep(1000);
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\封盘.png", sendwins.hwnd);
-                                Thread.Sleep(1000);
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\封盘.png", sendwins.hwnd);
-                                Thread.Sleep(1000);
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\正在结算.gif", sendwins.hwnd);
-                                Thread.Sleep(1000);
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\正在结算.gif", sendwins.hwnd);
-                                Thread.Sleep(1000);
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\正在结算.gif", sendwins.hwnd);
                             }
-                            HaveSend.Add(DateTime.Today.ToString("yyyyMMdd") + "封盘", true);
+                            if (GlobalParam.HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + sendwins.hwnd.ToString() + "封盘") == false)
+                            {
+                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\封盘.png", sendwins.hwnd);
+                                Thread.Sleep(1000);
+                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\封盘.png", sendwins.hwnd);
+                                Thread.Sleep(1000);
+                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\封盘.png", sendwins.hwnd);
+                                Thread.Sleep(1000);
+                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\正在结算.gif", sendwins.hwnd);
+                                Thread.Sleep(1000);
+                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\正在结算.gif", sendwins.hwnd);
+                                Thread.Sleep(1000);
+                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\正在结算.gif", sendwins.hwnd);
+                                GlobalParam.HaveSend.Add(DateTime.Today.ToString("yyyyMMdd") + sendwins.hwnd.ToString() + "封盘", true);
+                            }
+
                         }
                     }
                     //下注加
@@ -4722,7 +4879,7 @@ namespace WeixinRoboot
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                     Linq.Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == DateTime.Now.ToString("HH:mm"));
-                    if (testmin != null && HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + testmin.PeriodIndex) == false)
+                    if (testmin != null && GlobalParam.HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + testmin.PeriodIndex) == false)
                     {
                         foreach (WinSends sendwins in InjectWins)
                         {
@@ -4736,7 +4893,7 @@ namespace WeixinRoboot
                             }
                             hwndDragFile(Application.StartupPath + "\\PCGIFS\\停止下注.gif", sendwins.hwnd);
                         }
-                        HaveSend.Add(DateTime.Today.ToString("yyyyMMdd") + testmin.PeriodIndex, true);
+                        GlobalParam.HaveSend.Add(DateTime.Today.ToString("yyyyMMdd") + testmin.PeriodIndex, true);
 
                     }
 
@@ -4750,18 +4907,24 @@ namespace WeixinRoboot
                         StringBuilder RAW = new StringBuilder(512);
                         NetFramework.WindowsApi.GetWindowText(sendwins.hwnd, RAW, 512);
 
-                        if (RAW.ToString() == "" || sendwins.最后一期 == false)
+                        if (RAW.ToString() == "" || sendwins.最后一期 == false
+                            || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + (sendwins.封盘小时 * 60 + sendwins.封盘分钟 >= 600 && sendwins.封盘小时 * 60 + sendwins.封盘分钟 < 1320 ? 7 : 2) + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) < sendwins.封盘小时 * 60 + sendwins.封盘分钟 + (sendwins.封盘小时 < 3 ? 24 * 60 : 0)))
+                            )
                         {
                             continue;
 
                         }
-                        if (HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + "最后一期" + RAW.ToString()) == false)
+                        if (GlobalParam.HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + sendwins.hwnd.ToString() + "最后一期") == false)
                         {
-                            if (DateTime.Now.Hour == sendwins.最后小时 && DateTime.Now.Minute == sendwins.最后分钟)
-                            {
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\最后一期.gif", sendwins.hwnd);
-                                HaveSend.Add(DateTime.Today.ToString("yyyyMMdd") + "最后一期" + RAW.ToString(), true);
-                            }
+
+                            hwndDragFile(Application.StartupPath + "\\PCGIFS\\最后一期.gif", sendwins.hwnd);
+                            Thread.Sleep(200);
+                            hwndDragFile(Application.StartupPath + "\\PCGIFS\\最后一期.gif", sendwins.hwnd);
+                            Thread.Sleep(200);
+                            hwndDragFile(Application.StartupPath + "\\PCGIFS\\最后一期.gif", sendwins.hwnd);
+
+                            GlobalParam.HaveSend.Add(DateTime.Today.ToString("yyyyMMdd") + sendwins.hwnd.ToString() + "最后一期", true);
+
                         }
 
                     }
@@ -4775,7 +4938,7 @@ namespace WeixinRoboot
                     //5分钟，10点到2点
                     if (DateTime.Now.Hour <= 1 || DateTime.Now.Hour >= 22)
                     {
-                        if (HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + "5分钟") == false)
+                        if (GlobalParam.HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + "5分钟") == false)
                         {
                             foreach (WinSends sendwins in InjectWins)
                             {
@@ -4787,14 +4950,15 @@ namespace WeixinRoboot
                                     continue;
 
                                 }
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\5分钟.gif", sendwins.hwnd);
-                                Thread.Sleep(500);
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\5分钟.gif", sendwins.hwnd);
-                                Thread.Sleep(500);
-                                hwndDragFile(Application.StartupPath + "\\PCGIFS\\5分钟.gif", sendwins.hwnd);
-                                if (HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + "5分钟") == false)
+                                if (GlobalParam.HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + sendwins.hwnd.ToString() + "5分钟") == false)
                                 {
-                                    HaveSend.Add(DateTime.Today.ToString("yyyyMMdd") + "5分钟", true);
+                                    hwndDragFile(Application.StartupPath + "\\PCGIFS\\5分钟.gif", sendwins.hwnd);
+                                    Thread.Sleep(500);
+                                    hwndDragFile(Application.StartupPath + "\\PCGIFS\\5分钟.gif", sendwins.hwnd);
+                                    Thread.Sleep(500);
+                                    hwndDragFile(Application.StartupPath + "\\PCGIFS\\5分钟.gif", sendwins.hwnd);
+
+                                    GlobalParam.HaveSend.Add(DateTime.Today.ToString("yyyyMMdd") + sendwins.hwnd.ToString() + "5分钟", true);
                                 }
                             }
 
@@ -4863,6 +5027,7 @@ namespace WeixinRoboot
             Setting = true;
             pcs.ShowDialog();
             Setting = false;
+
         }
 
         private void Btn_ManulSend_Click(object sender, EventArgs e)
@@ -4879,6 +5044,12 @@ namespace WeixinRoboot
                 hwndSendText(Linq.DataLogic.Tiger + Linq.DataLogic.Dragon + Linq.DataLogic.OK + Linq.DataLogic.Tiger
                     , item.hwnd);
             }
+        }
+
+        private void mi_reminderquery_Click(object sender, EventArgs e)
+        {
+            RemindQuery rq = new RemindQuery();
+            rq.Show();
         }
 
 

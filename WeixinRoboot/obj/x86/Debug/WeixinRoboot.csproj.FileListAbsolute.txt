@@ -22,6 +22,7 @@ E:\SourceCode\WeixinRoboot\WeixinRoboot\obj\x86\Debug\WeixinRoboot.pdb
 E:\SourceCode\WeixinRoboot\WeixinRoboot\obj\x86\Debug\WeixinRoboot.UpdateActiveCode.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\dragon.png
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\OK.png
+E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\PCGIFS\合.gif
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\PCGIFS\5分钟.gif
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\PCGIFS\停止下注.gif
 E:\WeixinRobotGIT\trunk\WeixinRoboot\bin\Debug\PCGIFS\加财务.gif
@@ -48,6 +49,7 @@ E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.F_WX_BounsRatio.
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.OpenQuery.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.PCWeChatSendImageSetting.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.RecoverPasswordForm.resources
+E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.RemindQuery.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.SendManulOrder.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.SendMessage.resources
 E:\WeixinRobotGIT\trunk\WeixinRoboot\obj\x86\Debug\WeixinRoboot.UpdateActiveCode.resources

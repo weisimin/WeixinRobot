@@ -1159,7 +1159,9 @@ namespace NetFramework
         public const Int32 VK_CONTROL = 0X11;
         public const Int32 VK_V = 0x56;
 
+        public const Int32 VK_MENU = 0x12;
 
+        public const Int32 VK_S= 0x53;
 
         public const Int32 VK_RETURN = 0X0D;
 

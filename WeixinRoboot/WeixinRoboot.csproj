@@ -27,7 +27,7 @@
     <InstallUrl>http://172.6.8.143:9123/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>75</ApplicationRevision>
+    <ApplicationRevision>108</ApplicationRevision>
     <ApplicationVersion>1.0.3.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -143,6 +143,12 @@
     <Compile Include="RecoverPasswordForm.Designer.cs">
       <DependentUpon>RecoverPasswordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RemindQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RemindQuery.Designer.cs">
+      <DependentUpon>RemindQuery.cs</DependentUpon>
+    </Compile>
     <Compile Include="Runner.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -213,6 +219,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RecoverPasswordForm.resx">
       <DependentUpon>RecoverPasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindQuery.resx">
+      <DependentUpon>RemindQuery.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SendManulOrder.resx">
       <DependentUpon>SendManulOrder.cs</DependentUpon>

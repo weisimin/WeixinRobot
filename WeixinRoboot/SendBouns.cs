@@ -73,7 +73,8 @@ namespace WeixinRoboot
                     && t.ChangeLocalDay == Senditem.Field<String>("LocalPeriodDay")
                     );
                 //取消禁止多次发放
-                //if (fcl.Count() == 0 && usrrow.Length != 0)
+               // if (fcl.Count() == 0 && usrrow.Length != 0)
+                if (usrrow.Length != 0)
                 {
 
                     String Returnstr = Linq.DataLogic.WX_UserReplyLog_MySendCreate(
@@ -88,6 +89,11 @@ namespace WeixinRoboot
                     }
 
 
+                }
+                else
+                {
+
+                    NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName")+"福利发不出");
                 }
             }//循环发放
             MessageBox.Show("发放完成");

@@ -19,9 +19,10 @@ namespace WeixinRoboot
         public static bool LogInSuccess = false;
         public static Guid Key = Guid.Empty;
 
-
+        public static Dictionary<string, Boolean> HaveSend = new Dictionary<string, bool>();
 
     }
+
 
     public class WinSends
     {
@@ -36,8 +37,13 @@ namespace WeixinRoboot
         private bool _名片 = false;
         private bool _最后一期 = false;
 
-        private Int32 _最后小时 = 1;
-        private Int32 _最后分钟 = 52;
+
+
+        private Int32 _封盘小时 = 1;
+        private Int32 _封盘分钟 = 55;
+
+        private Int32 _开盘小时 = 10;
+        private Int32 _开盘分钟 = 00;
 
         public IntPtr hwnd
         {
@@ -58,14 +64,88 @@ namespace WeixinRoboot
         public bool 封盘 { get { return _封盘; } set { _封盘 = value; } }
         public bool 高速期 { get { return _高速期; } set { _高速期 = value; } }
         public bool 开奖后请下注 { get { return _开奖后请下注; } set { _开奖后请下注 = value; } }
-        public bool 龙虎单图 { get { return _龙虎单图; } set { _龙虎单图 = value; } }
+        public bool 龙虎单图
+        {
+            get { return _龙虎单图; }
+            set { _龙虎单图 = value; }
+        }
         public bool 名片 { get { return _名片; } set { _名片 = value; } }
         public bool 最后一期 { get { return _最后一期; } set { _最后一期 = value; } }
 
-        public Int32 最后小时 { get { return _最后小时; } set { _最后小时 = value; } }
-        public Int32 最后分钟 { get { return _最后分钟; } set { _最后分钟 = value; } }
 
 
+        public Int32 封盘小时
+        {
+            get { return _封盘小时; }
+            set
+            {
+                _封盘小时 = value;
+                var todel = GlobalParam.HaveSend.Where(t => t.Key.Contains(hwnd.ToString()+"封盘")).ToArray();
+                foreach (var item in todel)
+                {
+                    GlobalParam.HaveSend.Remove(item.Key);
+                }
+
+
+                todel = GlobalParam.HaveSend.Where(t => t.Key.Contains(hwnd.ToString() + "最后一期")).ToArray();
+                foreach (var item in todel)
+                {
+                    GlobalParam.HaveSend.Remove(item.Key);
+                }
+            }
+
+        }
+        public Int32 封盘分钟
+        {
+            get { return _封盘分钟; }
+            set
+            {
+                _封盘分钟 = value;
+                var todel = GlobalParam.HaveSend.Where(t => t.Key.Contains(hwnd.ToString() + "封盘")).ToArray();
+                foreach (var item in todel)
+                {
+                    GlobalParam.HaveSend.Remove(item.Key);
+                }
+                todel = GlobalParam.HaveSend.Where(t => t.Key.Contains(hwnd.ToString() + "最后一期")).ToArray();
+                foreach (var item in todel)
+                {
+                    GlobalParam.HaveSend.Remove(item.Key);
+                }
+
+            }
+        }
+
+        public Int32 开盘小时
+        {
+            get { return _开盘小时; }
+            set
+            {
+                _开盘小时 = value;
+                var todel = GlobalParam.HaveSend.Where(t => t.Key.Contains(hwnd.ToString() + "开盘")).ToArray();
+                foreach (var item in todel)
+                {
+                    GlobalParam.HaveSend.Remove(item.Key);
+                }
+
+
+
+
+            }
+        }
+        public Int32 开盘分钟
+        {
+            get { return _开盘分钟; }
+            set
+            {
+                _开盘分钟 = value;
+
+                var todel = GlobalParam.HaveSend.Where(t => t.Key.Contains(hwnd.ToString() + "开盘")).ToArray();
+                foreach (var item in todel)
+                {
+                    GlobalParam.HaveSend.Remove(item.Key);
+                }
+            }
+        }
 
         private string _文字1 = "";
         private string _文字2 = "";
