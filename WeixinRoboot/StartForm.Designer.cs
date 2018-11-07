@@ -51,6 +51,7 @@
             this.MI_Bouns_Manul = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_Query = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_OpenQuery = new System.Windows.Forms.ToolStripMenuItem();
+            this.mi_reminderquery = new System.Windows.Forms.ToolStripMenuItem();
             this.TopMenu = new System.Windows.Forms.MenuStrip();
             this.MI_PCWechatSend = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_PCWechatSendSetting = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,7 +67,8 @@
             this.btn_InjectAndDo = new System.Windows.Forms.Button();
             this.Btn_ManulSend = new System.Windows.Forms.Button();
             this.btn_runtest = new System.Windows.Forms.Button();
-            this.mi_reminderquery = new System.Windows.Forms.ToolStripMenuItem();
+            this.wb_footbal = new System.Windows.Forms.WebBrowser();
+            this.wb_basketball = new System.Windows.Forms.WebBrowser();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
@@ -103,7 +105,7 @@
             // 
             // tm_refresh
             // 
-            this.tm_refresh.Interval = 500;
+            this.tm_refresh.Interval = 3000;
             this.tm_refresh.Tick += new System.EventHandler(this.tm_refresh_Tick);
             // 
             // Botton_Status
@@ -112,9 +114,9 @@
             this.SI_url,
             this.lbl_ShowError,
             this.SI_ShowError});
-            this.Botton_Status.Location = new System.Drawing.Point(0, 368);
+            this.Botton_Status.Location = new System.Drawing.Point(0, 623);
             this.Botton_Status.Name = "Botton_Status";
-            this.Botton_Status.Size = new System.Drawing.Size(891, 22);
+            this.Botton_Status.Size = new System.Drawing.Size(903, 22);
             this.Botton_Status.TabIndex = 4;
             this.Botton_Status.Text = "statusStrip1";
             // 
@@ -248,9 +250,16 @@
             // MI_OpenQuery
             // 
             this.MI_OpenQuery.Name = "MI_OpenQuery";
-            this.MI_OpenQuery.Size = new System.Drawing.Size(152, 22);
+            this.MI_OpenQuery.Size = new System.Drawing.Size(124, 22);
             this.MI_OpenQuery.Text = "开奖统计";
             this.MI_OpenQuery.Click += new System.EventHandler(this.MI_OpenQuery_Click);
+            // 
+            // mi_reminderquery
+            // 
+            this.mi_reminderquery.Name = "mi_reminderquery";
+            this.mi_reminderquery.Size = new System.Drawing.Size(124, 22);
+            this.mi_reminderquery.Text = "余分查询";
+            this.mi_reminderquery.Click += new System.EventHandler(this.mi_reminderquery_Click);
             // 
             // TopMenu
             // 
@@ -262,7 +271,7 @@
             this.MI_PCWechatSend});
             this.TopMenu.Location = new System.Drawing.Point(0, 0);
             this.TopMenu.Name = "TopMenu";
-            this.TopMenu.Size = new System.Drawing.Size(891, 25);
+            this.TopMenu.Size = new System.Drawing.Size(903, 25);
             this.TopMenu.TabIndex = 3;
             this.TopMenu.Text = "menuStrip1";
             // 
@@ -277,7 +286,7 @@
             // MI_PCWechatSendSetting
             // 
             this.MI_PCWechatSendSetting.Name = "MI_PCWechatSendSetting";
-            this.MI_PCWechatSendSetting.Size = new System.Drawing.Size(152, 22);
+            this.MI_PCWechatSendSetting.Size = new System.Drawing.Size(100, 22);
             this.MI_PCWechatSendSetting.Text = "设置";
             this.MI_PCWechatSendSetting.Click += new System.EventHandler(this.MI_PCWechatSendSetting_Click);
             // 
@@ -402,18 +411,35 @@
             this.btn_runtest.UseVisualStyleBackColor = true;
             this.btn_runtest.Click += new System.EventHandler(this.btn_runtest_Click);
             // 
-            // mi_reminderquery
+            // wb_footbal
             // 
-            this.mi_reminderquery.Name = "mi_reminderquery";
-            this.mi_reminderquery.Size = new System.Drawing.Size(152, 22);
-            this.mi_reminderquery.Text = "余分查询";
-            this.mi_reminderquery.Click += new System.EventHandler(this.mi_reminderquery_Click);
+            this.wb_footbal.Location = new System.Drawing.Point(161, 387);
+            this.wb_footbal.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wb_footbal.Name = "wb_footbal";
+            this.wb_footbal.ScriptErrorsSuppressed = true;
+            this.wb_footbal.Size = new System.Drawing.Size(712, 105);
+            this.wb_footbal.TabIndex = 19;
+            this.wb_footbal.Url = new System.Uri("http://odds.gooooal.com/company.html?type=1001", System.UriKind.Absolute);
+            this.wb_footbal.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WB_DocumentCompleted);
+            // 
+            // wb_basketball
+            // 
+            this.wb_basketball.Location = new System.Drawing.Point(161, 515);
+            this.wb_basketball.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wb_basketball.Name = "wb_basketball";
+            this.wb_basketball.ScriptErrorsSuppressed = true;
+            this.wb_basketball.Size = new System.Drawing.Size(712, 105);
+            this.wb_basketball.TabIndex = 20;
+            this.wb_basketball.Url = new System.Uri("http://odds.gooooal.com/bkscompany.html", System.UriKind.Absolute);
+            this.wb_basketball.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WB_DocumentCompleted);
             // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(891, 390);
+            this.ClientSize = new System.Drawing.Size(903, 645);
+            this.Controls.Add(this.wb_basketball);
+            this.Controls.Add(this.wb_footbal);
             this.Controls.Add(this.btn_runtest);
             this.Controls.Add(this.Btn_ManulSend);
             this.Controls.Add(this.btn_InjectAndDo);
@@ -437,6 +463,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "启动";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StartForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StartForm_FormClosed);
             this.Load += new System.EventHandler(this.Start_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).EndInit();
             this.Botton_Status.ResumeLayout(false);
@@ -489,6 +516,8 @@
         private System.Windows.Forms.Button Btn_ManulSend;
         private System.Windows.Forms.Button btn_runtest;
         private System.Windows.Forms.ToolStripMenuItem mi_reminderquery;
+        private System.Windows.Forms.WebBrowser wb_footbal;
+        private System.Windows.Forms.WebBrowser wb_basketball;
     }
 }
 

@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinRoboot", "WeixinRoboot\WeixinRoboot.csproj", "{9DB21E37-B8E8-45EA-B366-0164F8541AE0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaoHua_Insertor", "TaoHua_Insertor\TaoHua_Insertor.csproj", "{E33AD871-DA93-453B-9EE9-C242572BDF01}"

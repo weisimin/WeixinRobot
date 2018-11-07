@@ -41,6 +41,7 @@ namespace WeixinRoboot
             CheckTimeSendThread.Start();
 
 
+
         }
 
         public string _uuid = "";
@@ -90,6 +91,9 @@ namespace WeixinRoboot
             Thread StartThreadYixin = new Thread(new ThreadStart(StartThreadYixinDo));
             StartThreadYixin.Start();
 
+
+  
+           
 
             try
             {
@@ -2184,7 +2188,7 @@ namespace WeixinRoboot
                     string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, userr.Table, adminmode);
 
                     string[] Splits = newlogr.ReceiveContent.Replace("，", ",").Replace("，", ",")
-                                                            .Replace(".", ",").Replace("。", ",").Replace("。", ",")
+                                                            .Replace(".", ",").Replace("。", ",").Replace("。", ",").Replace(" ","")
                         .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                     if (Splits.Count() != 1 && Linq.DataLogic.IsOrderContent(newlogr.ReceiveContent))
                     {
@@ -3970,6 +3974,9 @@ namespace WeixinRoboot
                 ReloadWX = false;
             }
 
+            Refreshball(wb_footbal);
+            Refreshball(wb_basketball);
+
         }
 
 
@@ -4004,9 +4011,13 @@ namespace WeixinRoboot
         private void StartForm_FormClosing(object sender, FormClosingEventArgs e)
         {
 
+
+            wb_footbal.Dispose();
+            wb_basketball.Dispose();
             GC.Collect();
             Application.Exit();
             Environment.Exit(0);
+
         }
 
         private void MI_GameLogManulDeal_Click(object sender, EventArgs e)
@@ -4363,7 +4374,7 @@ namespace WeixinRoboot
 
                     NetFramework.WindowsApi.SetWindowText(wins.hwnd, "智能发图" + RAW.ToString().Replace("智能发图", ""));
                     if (
-                        (DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour < 3 ? 60 * 24 : 0) > wins.封盘小时 * 60 + wins.封盘分钟
+                        (DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour < 3 ? 60 * 24 : 0) > wins.封盘小时 * 60 + wins.封盘分钟 + 2
                               + (wins.封盘小时 < 3 ? 60 * 24 : 0)
                               )
 
@@ -4463,7 +4474,7 @@ namespace WeixinRoboot
             //Application.DoEvents();
             //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 2, 0);
             //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 2, 0);
-           
+
 
             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
@@ -4806,7 +4817,7 @@ namespace WeixinRoboot
 
                             if (RAW.ToString() == "" || sendwins.开盘 == false
                                 || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + 10 + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) < sendwins.开盘小时 * 60 + sendwins.开盘分钟 + (sendwins.开盘小时 < 3 ? 24 * 60 : 0)))
-                                || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + 10 + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) > sendwins.开盘小时 * 60 + sendwins.开盘分钟 + (sendwins.开盘小时 < 3 ? 24 * 60 : 0)+5))
+                                || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + 10 + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) > sendwins.开盘小时 * 60 + sendwins.开盘分钟 + (sendwins.开盘小时 < 3 ? 24 * 60 : 0) + 5))
                             )
                             {
                                 continue;
@@ -4842,9 +4853,9 @@ namespace WeixinRoboot
                             if
                                 ((RAW.ToString() == "" || sendwins.封盘 == false)
                                 || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) < sendwins.封盘小时 * 60 + sendwins.封盘分钟 + 2 + (sendwins.封盘小时 < 3 ? 24 * 60 : 0)))
-                                || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) > sendwins.封盘小时 * 60 + sendwins.封盘分钟 + 2 + (sendwins.封盘小时 < 3 ? 24 * 60 : 0)+5))
-                               
-                                
+                                || ((DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour < 3 ? 24 * 60 : 0) > sendwins.封盘小时 * 60 + sendwins.封盘分钟 + 2 + (sendwins.封盘小时 < 3 ? 24 * 60 : 0) + 5))
+
+
                                 )
                             {
                                 //不勾或没到时间不发
@@ -5038,19 +5049,183 @@ namespace WeixinRoboot
 
         private void btn_runtest_Click(object sender, EventArgs e)
         {
-            foreach (WinSends item in InjectWins)
-            {
+            //foreach (WinSends item in InjectWins)
+            //{
 
-                hwndSendText(Linq.DataLogic.Tiger + Linq.DataLogic.Dragon + Linq.DataLogic.OK + Linq.DataLogic.Tiger
-                    , item.hwnd);
-            }
+            //    hwndSendText(Linq.DataLogic.Tiger + Linq.DataLogic.Dragon + Linq.DataLogic.OK + Linq.DataLogic.Tiger
+            //        , item.hwnd);
+            //}
+            Refreshball(wb_footbal);
+            Refreshball(wb_basketball);
         }
+
+        private void DownloadDatas()
+        {
+            while (true)
+            {
+                try
+                {
+                    Refreshball(wb_footbal);
+                    Refreshball(wb_basketball);
+                }
+                catch (Exception anyerror)
+                {
+
+                    NetFramework.Console.WriteLine(anyerror.Message);
+                    NetFramework.Console.WriteLine(anyerror.StackTrace);
+
+                }
+                Thread.Sleep(3000);
+            }
+
+
+        }
+
+
 
         private void mi_reminderquery_Click(object sender, EventArgs e)
         {
             RemindQuery rq = new RemindQuery();
             rq.Show();
         }
+
+        private void Refreshball(WebBrowser wb)
+        {
+            string html = wb.Document.Body.InnerHtml;
+            Regex findtable = new Regex("<DIV id=data_main((?!(/div))[\\s\\S])+/div>", RegexOptions.IgnoreCase);
+            Regex findmaintr = new Regex(@"<tr[^>]*>((?<mm><tr[^>]*>)+|(?<-mm></tr>)|[\s\S])*?(?(mm)(?!))</tr>", RegexOptions.IgnoreCase);
+            Regex findtds = new Regex(@"<td[^>]*>((?<mm><td[^>]*>)+|(?<-mm></td>)|[\s\S])*?(?(mm)(?!))</td>", RegexOptions.IgnoreCase);
+
+            string total = findtable.Match(html).Value;
+            MatchCollection rows = findmaintr.Matches(total);
+            foreach (Match item in rows)
+            {
+                Regex findtables = new Regex(@"<table[^>]*>((?<mm><table[^>]*>)+|(?<-mm></table>)|[\s\S])*?(?(mm)(?!))</table>", RegexOptions.IgnoreCase);
+                MatchCollection tabs = findtables.Matches(item.Value);
+                string vs = findtds.Matches(tabs[0].Value)[1].Value;
+                string Key = findtds.Matches(tabs[0].Value)[1].Value;
+                vs = vs.Replace("<BR>", "@#@#");
+                string reg = @"[<].*?[>]";
+                vs = Regex.Replace(vs, reg, "");
+
+
+
+                string rratio = findmaintr.Matches(tabs[1].Value)[0].Value;
+
+                MatchCollection ratios = findtds.Matches(rratio);
+
+                c_vs toupdate = football.SingleOrDefault(t => t.Key == Key && t.GameType == "足球");
+                if (toupdate == null)
+                {
+                    c_vs newr = new c_vs();
+                    newr.Key = Key;
+
+                    newr.A_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
+                    newr.B_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
+                    newr.GameType = "足球";
+
+                    newr.currentr.A_WIN = Convert.ToDecimal(Regex.Replace(ratios[1].Value, reg, ""));
+                    newr.currentr.Winless = Regex.Replace(ratios[2].Value, reg, "");
+                    newr.currentr.B_Win = Convert.ToDecimal(Regex.Replace(ratios[3].Value, reg, ""));
+
+                    newr.currentr.BigWin = Convert.ToDecimal(Regex.Replace(ratios[7].Value, reg, ""));
+                    newr.currentr.Total = Regex.Replace(ratios[8].Value, reg, "");
+                    newr.currentr.SmallWin = Convert.ToDecimal(Regex.Replace(ratios[9].Value, reg, ""));
+
+
+
+                    football.Add(newr);
+                }
+                else
+                {
+                    toupdate.A_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
+                    toupdate.B_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
+
+                    toupdate.currentr.A_WIN = Convert.ToDecimal(Regex.Replace(ratios[1].Value, reg, ""));
+                    toupdate.currentr.Winless = Regex.Replace(ratios[2].Value, reg, "");
+                    toupdate.currentr.B_Win = Convert.ToDecimal(Regex.Replace(ratios[3].Value, reg, ""));
+
+                    toupdate.currentr.BigWin = Convert.ToDecimal(Regex.Replace(ratios[7].Value, reg, ""));
+                    toupdate.currentr.Total = Regex.Replace(ratios[8].Value, reg, "");
+                    toupdate.currentr.SmallWin = Convert.ToDecimal(Regex.Replace(ratios[9].Value, reg, ""));
+                }
+
+
+
+
+            }
+
+
+        }
+
+
+
+
+        public static List<c_vs> football = new List<c_vs>();
+
+        public class c_vs
+        {
+            public string Key = "";
+            public string A_Team = "";
+            public string B_Team = "";
+            public c_rario currentr = new c_rario();
+            public string GameType = "";
+        }
+
+        public class c_rario
+        {
+
+            public decimal A_WIN;
+            public string Winless;
+            public decimal B_Win;
+            public decimal BigWin;
+            public string Total;
+            public decimal SmallWin;
+        }
+
+
+
+        private string FindTag(string Total, string tag, Int32 tagcount, ref string Remainder)
+        {
+            Int32 testcount = 1;
+            Int32 tmpindex = 0;
+            while (testcount <= tagcount)
+            {
+                tmpindex = Total.ToLower().IndexOf("</" + tag + ">", tmpindex + 1);
+                if (tmpindex == -1)
+                {
+                    Remainder = "";
+                    return Total;
+                }
+                testcount += 1;
+            }
+            if (tmpindex + ("</" + tag + ">").Length >= Total.Length)
+            {
+                Remainder = "";
+            }
+            else
+            {
+                Remainder = Remainder.Substring(tmpindex + ("</" + tag + ">").Length);
+            }
+            return Total.Substring(0, tmpindex);
+
+
+
+
+        }
+
+        private void StartForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void WB_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            Refreshball((WebBrowser)sender); 
+           
+        }
+
+
 
 
 

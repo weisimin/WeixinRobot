@@ -2274,7 +2274,7 @@ namespace WeixinRoboot.Linq
                         NextLocalPeriod = "097";
                     }
                     #endregion
-                    if (reply.ReceiveContent == "查")
+                    if (reply.ReceiveContent == "查"&&reply.SourceType.Contains("人工"))
                     {
                         DateTime TestPeriod = DateTime.Now;
                         if (TestPeriod.Hour <= 9)
@@ -2853,6 +2853,32 @@ namespace WeixinRoboot.Linq
 
                     }//定数字或定大小
                     #endregion
+
+                    //足球篮球类回复
+                    else if (reply.ReceiveContent.Contains("对"))
+                    {
+                    
+                      string A_Team = reply.ReceiveContent.Split("对".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
+                      string B_Team = reply.ReceiveContent.Split("对".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
+
+
+                    var machines=  StartForm.football.Where(t =>
+                          (t.A_Team.Contains(A_Team) && t.B_Team.Contains(B_Team))
+                          || (t.A_Team.Contains(B_Team) && t.B_Team.Contains(A_Team))
+                          );
+                    string fsr = "";
+                    foreach (var item in machines)
+                    {
+                        fsr += item.A_Team + "VS" + item.B_Team + Environment.NewLine;
+                        fsr += "亚洲盘:" + item.currentr.A_WIN.ToString() + "      " + item.currentr.Winless + "      " + item.currentr.B_Win+Environment.NewLine;
+                        fsr += "大小球:" + item.currentr.BigWin.ToString() + "      " + item.currentr.Total + "      " + item.currentr.SmallWin + Environment.NewLine;
+                    }
+                    return fsr;
+
+
+
+                    }
+
 
                     else
                     {
