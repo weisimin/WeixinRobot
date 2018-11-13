@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.IO;
 namespace WeixinRoboot
 {
     static class Program
@@ -37,10 +38,25 @@ namespace WeixinRoboot
                 proc.WaitForExit();
                 System.IO.File.Move(TempFileName, ConfigFile);
             }
+            try
+            {
 
 
 
-           
+                if (Directory.Exists(Application.StartupPath + "\\output") == true)
+                {
+                    string[] todels = Directory.GetFiles(Application.StartupPath + "\\output");
+                    foreach (var item in todels)
+                    {
+                        File.Delete(item);
+                    }
+                }
+            }
+            catch (Exception anyerror)
+            {
+                NetFramework.Console.WriteLine("删除临时图片失败");
+            }
+
             //局部线程，不能及时结束会造成没相应
             //全局LINQ数据库，会频繁出现SQLDATAREADER已打开或关闭的问题
 
@@ -50,25 +66,26 @@ namespace WeixinRoboot
             Application.SetCompatibleTextRenderingDefault(false);
             loginf = new LoginForm();
             loginf.OnLoginSuccess += new LoginForm.LoginSuccess(loginf_OnLoginSuccess);
-            try
+            //try
             {
                 Application.Run(loginf);
             }
-            catch (Exception AnyError)
-            {
-                MessageBox.Show(AnyError.Message);
-                if (System.IO.File.Exists(Application.StartupPath + "\\log.txt"))
-                {
-                    System.IO.File.Delete(Application.StartupPath + "\\log.txt");
-                }
-                System.IO.FileStream fs = new System.IO.FileStream(Application.StartupPath + "\\log.txt", System.IO.FileMode.OpenOrCreate);
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(fs);
-                sw.Write(AnyError.Message + Environment.NewLine + AnyError.StackTrace);
-                sw.Flush();
-                sw.Close();
-                Environment.Exit(0);
-              
-            }
+            //catch (Exception AnyError)
+            //{
+            //    MessageBox.Show(AnyError.Message);
+            //    if (System.IO.File.Exists(Application.StartupPath + "\\log.txt"))
+            //    {
+            //        System.IO.File.Delete(Application.StartupPath + "\\log.txt");
+            //    }
+            //    System.IO.FileStream fs = new System.IO.FileStream(Application.StartupPath + "\\log.txt", System.IO.FileMode.OpenOrCreate);
+            //    System.IO.StreamWriter sw = new System.IO.StreamWriter(fs);
+            //    sw.Write(AnyError.Message + Environment.NewLine + AnyError.StackTrace);
+            //    sw.Flush();
+            //    sw.Close();
+            //    //Environment.Exit(0);
+
+            //}
+            CefSharp.Cef.Shutdown();
             FreeConsole();
 
         }

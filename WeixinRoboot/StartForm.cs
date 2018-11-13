@@ -17,10 +17,22 @@ using System.Text.RegularExpressions;
 using System.Drawing.Drawing2D;
 using System.Diagnostics;
 
+
+using System.Configuration;
+
+
+
+
 namespace WeixinRoboot
 {
     public partial class StartForm : Form
     {
+        CefSharp.WinForms.ChromiumWebBrowser wb_football = null;
+        CefSharp.WinForms.ChromiumWebBrowser wb_basketball = null;
+        CefSharp.WinForms.ChromiumWebBrowser wb_other = null;
+        CefSharp.WinForms.ChromiumWebBrowser wb_refresh = null;
+
+
         public StartForm()
         {
             InitializeComponent();
@@ -92,8 +104,7 @@ namespace WeixinRoboot
             StartThreadYixin.Start();
 
 
-  
-           
+
 
             try
             {
@@ -111,7 +122,58 @@ namespace WeixinRoboot
             Thread EndNoticeBoss = new Thread(new ThreadStart(RepeatSendBossReport));
             EndNoticeBoss.Start();
 
+
+            wb_football = new CefSharp.WinForms.ChromiumWebBrowser("http://odds.gooooal.com/company.html?type=1001");
+
+            wb_football.Dock = DockStyle.Fill;
+            wb_football.Name = "wb_football";
+
+            gb_football.Controls.Add(wb_football);
+
+
+
+            wb_basketball = new CefSharp.WinForms.ChromiumWebBrowser("http://odds.gooooal.com/bkscompany.html?type=1001");
+
+            wb_basketball.Dock = DockStyle.Fill;
+            wb_basketball.Name = "wb_basketball";
+
+            gb_basketball.Controls.Add(wb_basketball);
+
+
+
+
+
+
+
+
+
+
+            wb_other = new CefSharp.WinForms.ChromiumWebBrowser("http://odds.gooooal.com/index_new.html");
+
+            wb_other.Dock = DockStyle.Fill;
+            wb_other.Name = "wb_other";
+
+            gb_other.Controls.Add(wb_other);
+
+
+
+            wb_refresh = new CefSharp.WinForms.ChromiumWebBrowser("about:blank");
+
+            wb_refresh.Dock = DockStyle.Fill;
+            wb_refresh.Name = "wb_refresh";
+
+            gb_refresh.Controls.Add(wb_refresh);
+
+
+
+
+
+
+
+
         }
+
+
 
         private Int32 _tip = 1;
 
@@ -1335,7 +1397,7 @@ namespace WeixinRoboot
 
                 if (Content != "")
                 {
-                    #region "如果是自己发出的"
+
                     if (Content == "加")
                     {
                         if (SourceType == "微")
@@ -1347,7 +1409,8 @@ namespace WeixinRoboot
                             RepeatGetMembersYiXin();
                         }
                     }
-                    #region
+                    #region "如果是自己发出的"
+
                     if (FromUserNameTEMPID == MyUserName || (MyInfo != null && MyInfo["1"] != null && FromUserNameTEMPID == MyInfo["1"].ToString()))
                     {
                         #region "发图"
@@ -1362,6 +1425,7 @@ namespace WeixinRoboot
                         var tocontacts = RunnerF.MemberSource.Select("User_ContactTEMPID='" + ToUserNameTEMPID + "'");
                         if (tocontacts.Count() == 0)
                         {
+                            NetFramework.Console.WriteLine("找不到联系人" + ToUserNameTEMPID);
                             return;
                         }
 
@@ -1447,19 +1511,50 @@ namespace WeixinRoboot
 
                         return;
                     }
-                    #endregion "自发自处理部分"
+                    #endregion
 
-                    else
+
+                    #region "发图"
+                    if (Content == ("图1") || (Content == ("图2")))
                     {
-                        #region "发图"
-                        if (Content == ("图1") || (Content == ("图2")))
-                        {
-                            SendChongqingResult(Content, FromUserNameTEMPID);
-                        }
+                        SendChongqingResult(Content, FromUserNameTEMPID);
+                    }
 
-                        #endregion
+                    #endregion
+
+                    #region "对"
+                    try
+                    {
+
+
+                        string A_Team = Content.Split("对".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
+                        string B_Team = Content.Split("对".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
+
+
+                        var machines = StartForm.GameMatches.Where(t =>
+                              (t.A_Team.Contains(A_Team) && t.B_Team.Contains(B_Team))
+                              || (t.A_Team.Contains(B_Team) && t.B_Team.Contains(A_Team))
+                              );
+                        foreach (var matchitem in machines)
+                        {
+                            if (File.Exists(Application.StartupPath + "\\output\\" + matchitem.Key))
+                            {
+                                SendRobotImage(Application.StartupPath + "\\output\\" + matchitem.Key, FromUserNameTEMPID, SourceType);
+                            }
+                        }
+                    }
+                    catch (Exception AnyError)
+                    {
+
+                        NetFramework.Console.WriteLine("解析" + Content+"失败");
+                        
+                        NetFramework.Console.WriteLine(AnyError.Message);
+
+                         NetFramework.Console.WriteLine(AnyError.StackTrace);
                     }
                     #endregion
+
+
 
                     var contacts = RunnerF.MemberSource.Select("User_ContactTEMPID='" + FromUserNameTEMPID + "'");
                     if (contacts.Count() == 0)
@@ -2188,7 +2283,7 @@ namespace WeixinRoboot
                     string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, userr.Table, adminmode);
 
                     string[] Splits = newlogr.ReceiveContent.Replace("，", ",").Replace("，", ",")
-                                                            .Replace(".", ",").Replace("。", ",").Replace("。", ",").Replace(" ","")
+                                                            .Replace(".", ",").Replace("。", ",").Replace("。", ",").Replace(" ", "")
                         .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                     if (Splits.Count() != 1 && Linq.DataLogic.IsOrderContent(newlogr.ReceiveContent))
                     {
@@ -3953,11 +4048,17 @@ namespace WeixinRoboot
 
 
 
+        bool FirstRun = true;
         private void tm_refresh_Tick(object sender, EventArgs e)
         {
 
-
-
+            if (FirstRun == true)
+            {
+                wb_football.Load("http://odds.gooooal.com/company.html?type=1001");
+                wb_basketball.Load("http://odds.gooooal.com/bkscompany.html?type=1001");
+                wb_other.Load("http://odds.gooooal.com/index_new.html");
+                FirstRun = false;
+            }
 
 
             SI_url.Text = NetFramework.Util_WEB.CurrentUrl;
@@ -3973,9 +4074,33 @@ namespace WeixinRoboot
                 PicBarCode.Visible = true;
                 ReloadWX = false;
             }
+            try
+            {
 
-            Refreshball(wb_footbal);
-            Refreshball(wb_basketball);
+
+
+
+
+                //wb_football.GetBrowser().MainFrame.ExecuteJavaScriptAsync("cmp_odds.companyCheck(1001);");
+
+                //wb_basketball.GetBrowser().MainFrame.ExecuteJavaScriptAsync("_run.init(1001);");
+
+                Refreshball(wb_football, "data_main", "足球 ");
+                Refreshball(wb_basketball, "mm_content", "篮球");
+                Refreshother(wb_other);
+
+
+            }
+            catch (Exception AnyError)
+            {
+
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
+            }
+            //foreach (TabPage item in tc_wb.TabPages)
+            //{
+            //    tc_wb.SelectedTab=item;
+            //} 
 
         }
 
@@ -4012,8 +4137,9 @@ namespace WeixinRoboot
         {
 
 
-            wb_footbal.Dispose();
-            wb_basketball.Dispose();
+            //wb_football.Dispose();
+            //wb_basketball.Dispose();
+
             GC.Collect();
             Application.Exit();
             Environment.Exit(0);
@@ -4127,7 +4253,6 @@ namespace WeixinRoboot
 
             this.Invoke(new Action(() =>
             {
-                PicBarCode_yixin.Visible = true;
                 string Result = NetFramework.Util_WEB.OpenUrl("https://web.yixin.im"
        , "", "", "GET", cookieyixin);
 
@@ -5049,37 +5174,30 @@ namespace WeixinRoboot
 
         private void btn_runtest_Click(object sender, EventArgs e)
         {
+
             //foreach (WinSends item in InjectWins)
             //{
 
             //    hwndSendText(Linq.DataLogic.Tiger + Linq.DataLogic.Dragon + Linq.DataLogic.OK + Linq.DataLogic.Tiger
             //        , item.hwnd);
             //}
-            Refreshball(wb_footbal);
-            Refreshball(wb_basketball);
-        }
-
-        private void DownloadDatas()
-        {
-            while (true)
+            try
             {
-                try
-                {
-                    Refreshball(wb_footbal);
-                    Refreshball(wb_basketball);
-                }
-                catch (Exception anyerror)
-                {
-
-                    NetFramework.Console.WriteLine(anyerror.Message);
-                    NetFramework.Console.WriteLine(anyerror.StackTrace);
-
-                }
-                Thread.Sleep(3000);
+                Refreshball(wb_football, "data_main", "足球");
+                Refreshball(wb_basketball, "mm_content", "篮球");
+                Refreshother(wb_other);
+            }
+            catch (Exception AnyError)
+            {
+                NetFramework.Console.WriteLine(AnyError.Message);
             }
 
 
+
+
         }
+
+
 
 
 
@@ -5089,141 +5207,350 @@ namespace WeixinRoboot
             rq.Show();
         }
 
-        private void Refreshball(WebBrowser wb)
+
+        private void Refreshball(CefSharp.WinForms.ChromiumWebBrowser wb, string idname, string balltype)
         {
-            string html = wb.Document.Body.InnerHtml;
-            Regex findtable = new Regex("<DIV id=data_main((?!(/div))[\\s\\S])+/div>", RegexOptions.IgnoreCase);
-            Regex findmaintr = new Regex(@"<tr[^>]*>((?<mm><tr[^>]*>)+|(?<-mm></tr>)|[\s\S])*?(?(mm)(?!))</tr>", RegexOptions.IgnoreCase);
-            Regex findtds = new Regex(@"<td[^>]*>((?<mm><td[^>]*>)+|(?<-mm></td>)|[\s\S])*?(?(mm)(?!))</td>", RegexOptions.IgnoreCase);
 
-            string total = findtable.Match(html).Value;
-            MatchCollection rows = findmaintr.Matches(total);
-            foreach (Match item in rows)
+
+            if (wb.IsBrowserInitialized == false)
             {
-                Regex findtables = new Regex(@"<table[^>]*>((?<mm><table[^>]*>)+|(?<-mm></table>)|[\s\S])*?(?(mm)(?!))</table>", RegexOptions.IgnoreCase);
-                MatchCollection tabs = findtables.Matches(item.Value);
-                string vs = findtds.Matches(tabs[0].Value)[1].Value;
-                string Key = findtds.Matches(tabs[0].Value)[1].Value;
-                vs = vs.Replace("<BR>", "@#@#");
-                string reg = @"[<].*?[>]";
-                vs = Regex.Replace(vs, reg, "");
+                NetFramework.Console.WriteLine("控件" + wb.Name + "尚未初始化");
+                return;
+            }
 
 
+            System.Threading.Tasks.Task<string> task = wb.GetBrowser().MainFrame.GetSourceAsync();
+            task.Wait();
 
-                string rratio = findmaintr.Matches(tabs[1].Value)[0].Value;
+            string html = task.Result;
+            try
+            {
 
-                MatchCollection ratios = findtds.Matches(rratio);
 
-                c_vs toupdate = football.SingleOrDefault(t => t.Key == Key && t.GameType == "足球");
-                if (toupdate == null)
+                Regex findtable = new Regex("<div id=\"" + idname + "((?!(/div))[\\s\\S])+/div>", RegexOptions.IgnoreCase);
+                Regex findmaintr = new Regex(@"<tr[^>]*>((?<mm><tr[^>]*>)+|(?<-mm></tr>)|[\s\S])*?(?(mm)(?!))</tr>", RegexOptions.IgnoreCase);
+                Regex findtds = new Regex(@"<td[^>]*>((?<mm><td[^>]*>)+|(?<-mm></td>)|[\s\S])*?(?(mm)(?!))</td>", RegexOptions.IgnoreCase);
+
+                string total = findtable.Match(html).Value;
+
+
+                Regex findHead = new Regex("<div id=\"data_top\">((?!</div>)[\\s\\S])+</div>", RegexOptions.IgnoreCase);
+
+                string headstr = findHead.Match(html).Value;
+
+                headstr = headstr.Replace("欧洲盘", "");
+
+
+                MatchCollection rows = findmaintr.Matches(total);
+                foreach (Match Rowitem in rows)
                 {
-                    c_vs newr = new c_vs();
-                    newr.Key = Key;
+                    Regex findid = new Regex("id=\"((?!\")[\\s\\S])+\"");
 
-                    newr.A_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
-                    newr.B_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
-                    newr.GameType = "足球";
-
-                    newr.currentr.A_WIN = Convert.ToDecimal(Regex.Replace(ratios[1].Value, reg, ""));
-                    newr.currentr.Winless = Regex.Replace(ratios[2].Value, reg, "");
-                    newr.currentr.B_Win = Convert.ToDecimal(Regex.Replace(ratios[3].Value, reg, ""));
-
-                    newr.currentr.BigWin = Convert.ToDecimal(Regex.Replace(ratios[7].Value, reg, ""));
-                    newr.currentr.Total = Regex.Replace(ratios[8].Value, reg, "");
-                    newr.currentr.SmallWin = Convert.ToDecimal(Regex.Replace(ratios[9].Value, reg, ""));
+                    Regex findtables = new Regex(@"<table[^>]*>((?<mm><table[^>]*>)+|(?<-mm></table>)|[\s\S])*?(?(mm)(?!))</table>", RegexOptions.IgnoreCase);
+                    MatchCollection tabs = findtables.Matches(Rowitem.Value);
+                    if (tabs.Count == 0)
+                    {
+                        continue;
+                    }
 
 
+                    string vs = findtds.Matches(tabs[0].Value)[1].Value;
+                    string Key = findid.Match(Rowitem.Value).Value;
+                    Key = Key.Replace("\"", "").Replace("id=", "");
+                    vs = vs.Replace("<br>", "@#@#");
+                    string reg = @"[<].*?[>]";
+                    vs = Regex.Replace(vs, reg, "");
 
-                    football.Add(newr);
+
+                    c_vs toupdate = GameMatches.SingleOrDefault(t => t.Key == Key && t.GameType == balltype);
+                    if (toupdate == null)
+                    {
+                        c_vs newr = new c_vs();
+                        newr.Key = Key;
+
+                        newr.A_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
+                        newr.B_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
+                        newr.GameType = balltype;
+                        newr.RowData = Rowitem.Value;
+                        newr.HeadDiv = headstr;
+
+                        GameMatches.Add(newr);
+
+                        foreach (Match rratio in findmaintr.Matches(tabs[1].Value))
+                        {
+
+                            MatchCollection ratios = findtds.Matches(rratio.Value);
+
+                            c_rario currentr = new c_rario();
+
+                            newr.ratios.Add(currentr);
+
+                            currentr.RatioType = (Regex.Replace(ratios[0].Value, reg, ""));
+                            currentr.A_WIN = (Regex.Replace(ratios[1].Value, reg, ""));
+                            currentr.Winless = Regex.Replace(ratios[2].Value, reg, "");
+                            currentr.B_Win = (Regex.Replace(ratios[3].Value, reg, ""));
+
+                            if (balltype == "足球")
+                            {
+
+
+
+
+                                currentr.BigWin = (Regex.Replace(ratios[7].Value, reg, ""));
+                                currentr.Total = Regex.Replace(ratios[8].Value, reg, "");
+                                currentr.SmallWin = (Regex.Replace(ratios[9].Value, reg, ""));
+
+
+                            }
+                            else
+                            {
+                                currentr.BigWin = (Regex.Replace(ratios[6].Value, reg, ""));
+                                currentr.Total = Regex.Replace(ratios[7].Value, reg, "");
+                                currentr.SmallWin = (Regex.Replace(ratios[8].Value, reg, ""));
+                            }
+
+
+
+
+
+
+
+                        }//行循环盘类别
+
+                    }//无比赛
+                    else
+                    {
+                        foreach (Match rratio in findmaintr.Matches(tabs[1].Value))
+                        {
+
+
+
+
+                            MatchCollection ratios = findtds.Matches(rratio.Value);
+
+                            c_rario findcr = toupdate.ratios.SingleOrDefault(t => t.RatioType == (Regex.Replace(ratios[0].Value, reg, "")));
+
+                            if (findcr == null)
+                            {
+
+
+
+                                c_rario currentr = new c_rario();
+
+                                toupdate.ratios.Add(currentr);
+
+                                currentr.RatioType = (Regex.Replace(ratios[0].Value, reg, ""));
+                                currentr.A_WIN = (Regex.Replace(ratios[1].Value, reg, ""));
+                                currentr.Winless = Regex.Replace(ratios[2].Value, reg, "");
+                                currentr.B_Win = (Regex.Replace(ratios[3].Value, reg, ""));
+
+                                if (balltype == "足球")
+                                {
+                                    currentr.BigWin = (Regex.Replace(ratios[7].Value, reg, ""));
+                                    currentr.Total = Regex.Replace(ratios[8].Value, reg, "");
+                                    currentr.SmallWin = (Regex.Replace(ratios[9].Value, reg, ""));
+                                }
+                                else
+                                {
+                                    currentr.BigWin = (Regex.Replace(ratios[6].Value, reg, ""));
+                                    currentr.Total = Regex.Replace(ratios[7].Value, reg, "");
+                                    currentr.SmallWin = (Regex.Replace(ratios[8].Value, reg, ""));
+                                }
+                            }//找到当前盘或初始盘
+                            else
+                            {
+                                findcr.RatioType = (Regex.Replace(ratios[0].Value, reg, ""));
+                                findcr.A_WIN = (Regex.Replace(ratios[1].Value, reg, ""));
+                                findcr.Winless = Regex.Replace(ratios[2].Value, reg, "");
+                                findcr.B_Win = (Regex.Replace(ratios[3].Value, reg, ""));
+
+                                if (balltype == "足球")
+                                {
+                                    findcr.BigWin = (Regex.Replace(ratios[7].Value, reg, ""));
+                                    findcr.Total = Regex.Replace(ratios[8].Value, reg, "");
+                                    findcr.SmallWin = (Regex.Replace(ratios[9].Value, reg, ""));
+
+                                }
+                                else
+                                {
+                                    findcr.BigWin = (Regex.Replace(ratios[6].Value, reg, ""));
+                                    findcr.Total = Regex.Replace(ratios[7].Value, reg, "");
+                                    findcr.SmallWin = (Regex.Replace(ratios[8].Value, reg, ""));
+                                }
+
+                            }//盘行数不一样
+                        }//循环
+                    }//有比赛
+                }
+
+            }//try
+            catch (Exception AnyError)
+            {
+
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.Write(html);
+            }
+        }
+
+
+        private void Refreshother(CefSharp.WinForms.ChromiumWebBrowser wb)
+        {
+            if (wb.IsBrowserInitialized == false)
+            {
+                NetFramework.Console.WriteLine("控件" + wb.Name + "尚未初始化");
+                return;
+            }
+
+
+            System.Threading.Tasks.Task<string> task = wb.GetBrowser().MainFrame.GetSourceAsync();
+            task.Wait();
+            string otherhtml = task.Result;
+
+            Regex FindOthers = new Regex("<a href=\"((?!\")[\\s\\S])+\" target=\"_blank\"><span>其他玩法</span></a>", RegexOptions.IgnoreCase);
+            foreach (Match item in FindOthers.Matches(otherhtml))
+            {
+                Application.DoEvents();
+                string NewUrl = "http://odds.gooooal.com/" + item.Value.Replace("<a href=\"", "").Replace("\" target=\"_blank\"><span>其他玩法</span></a>", "").Replace("&amp;", "&");
+
+                wb_refresh.Load(NewUrl);
+                Thread.Sleep(2000);
+                wb_refresh.GetBrowser().StopLoad();
+                System.Threading.Tasks.Task<string> refreshtask = wb_refresh.GetBrowser().MainFrame.GetSourceAsync();
+                refreshtask.Wait();
+                string refreshhtml = refreshtask.Result;
+
+                Regex FindShow = FindShow = new Regex(@"<div\s*id=""data_main5""[^>]*>((?<mm><div[^>]*>)+|(?<-mm></div>)|[\s\S])*?(?(mm)(?!))</div>", RegexOptions.IgnoreCase);
+                string showstr = FindShow.Match(refreshhtml).Value;
+
+                String NewOutput = "";
+                refreshhtml = Regex.Replace(refreshhtml, "<script((?!</script>)[\\s\\S])+</script>", "", RegexOptions.IgnoreCase);
+
+
+
+                c_vs gamem = GameMatches.SingleOrDefault(t => t.Key == "m_" + item.Value.Replace("<a href=\"singlefield.html?mid=", "").Replace("\" target=\"_blank\"><span>其他玩法</span></a>", "").Replace("&amp;type=5", ""));
+                if (gamem != null)
+                {
+                    NewOutput = Regex.Replace(refreshhtml, "<body>((?!</body>)[\\s\\S])+</body>", "<body style=\"width:840px\">"
+                        + gamem.HeadDiv
+                        + "<table>"
+                        + gamem.RowData
+                        + "</table>"
+                       + showstr + "</body>", RegexOptions.IgnoreCase);
+
                 }
                 else
                 {
-                    toupdate.A_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
-                    toupdate.B_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
+                    NewOutput = Regex.Replace(refreshhtml, "<body>((?!</body>)[\\s\\S])+</body>", "<body style=\"width:840px\">" + showstr + "</body>", RegexOptions.IgnoreCase);
 
-                    toupdate.currentr.A_WIN = Convert.ToDecimal(Regex.Replace(ratios[1].Value, reg, ""));
-                    toupdate.currentr.Winless = Regex.Replace(ratios[2].Value, reg, "");
-                    toupdate.currentr.B_Win = Convert.ToDecimal(Regex.Replace(ratios[3].Value, reg, ""));
+                }
+                if (File.Exists(Application.StartupPath + "\\tmp.htm"))
+                {
+                    File.Delete(Application.StartupPath + "\\tmp.htm");
+                }
+                FileStream fs = new FileStream(Application.StartupPath + "\\tmp.htm", FileMode.Create);
+                byte[] bsource = Encoding.UTF8.GetBytes(NewOutput);
+                fs.Write(bsource, 0, bsource.Length);
+                fs.Close();
 
-                    toupdate.currentr.BigWin = Convert.ToDecimal(Regex.Replace(ratios[7].Value, reg, ""));
-                    toupdate.currentr.Total = Regex.Replace(ratios[8].Value, reg, "");
-                    toupdate.currentr.SmallWin = Convert.ToDecimal(Regex.Replace(ratios[9].Value, reg, ""));
+
+                if (Directory.Exists(Application.StartupPath + "\\output") == false)
+                {
+                    Directory.CreateDirectory(Application.StartupPath + "\\output");
+                }
+
+                Bitmap Outputbitmap = WebSnapshotsHelper.GetWebSiteThumbnail("file:///" + Application.StartupPath + "\\tmp.htm", 840, 450, 840, 450); //宽高根据要获取快照的网页决定
+                Outputbitmap.Save(Application.StartupPath + "\\output\\" + "m_" + item.Value.Replace("<a href=\"singlefield.html?mid=", "").Replace("\" target=\"_blank\"><span>其他玩法</span></a>", "").Replace("&amp;type=5", "") + ".jpg"
+                    , System.Drawing.Imaging.ImageFormat.Jpeg
+                    );
+                Outputbitmap.Dispose();
+
+
+
+
+
+            }//循环抓数结束
+
+            #region 无其他玩法图片
+            foreach (var gamem in GameMatches)
+            {
+                string[] picfiles = Directory.GetFiles((Application.StartupPath + "\\output"));
+                if (picfiles.Where(t => t.Contains(gamem.Key)).Count() == 0)
+                {
+                    string NewOutput = "";
+                    NewOutput = Regex.Replace(otherhtml, "<body>((?!</body>)[\\s\\S])+</body>", "<body style=\"width:840px\">"
+                          + gamem.HeadDiv
+                          + "<table>"
+                          + gamem.RowData
+                          + "</table>"
+                          + "</body>", RegexOptions.IgnoreCase);
+
+
+                    FileStream fs = new FileStream(Application.StartupPath + "\\tmp.htm", FileMode.OpenOrCreate);
+                    byte[] bsource = Encoding.UTF8.GetBytes(NewOutput);
+                    fs.Write(bsource, 0, bsource.Length);
+                    fs.Close();
+
+
+                    if (Directory.Exists(Application.StartupPath + "\\output") == false)
+                    {
+                        Directory.CreateDirectory(Application.StartupPath + "\\output");
+                    }
+
+                    Bitmap Outputbitmap = WebSnapshotsHelper.GetWebSiteThumbnail("file:///" + Application.StartupPath + "\\tmp.htm", 840, 450, 840, 450); //宽高根据要获取快照的网页决定
+                    Outputbitmap.Save(Application.StartupPath + "\\output\\" + gamem.Key + ".jpg"
+                        , System.Drawing.Imaging.ImageFormat.Jpeg
+                        );
+                    Outputbitmap.Dispose();
+
                 }
 
 
-
-
             }
+            #endregion
 
 
         }
 
 
-
-
-        public static List<c_vs> football = new List<c_vs>();
+        public static List<c_vs> GameMatches = new List<c_vs>();
 
         public class c_vs
         {
             public string Key = "";
             public string A_Team = "";
             public string B_Team = "";
-            public c_rario currentr = new c_rario();
+            public List<c_rario> ratios = new List<c_rario>();
             public string GameType = "";
+            public string HeadDiv = "";
+
+            public string RowData = "";
+
         }
 
         public class c_rario
         {
 
-            public decimal A_WIN;
+            public string A_WIN;
             public string Winless;
-            public decimal B_Win;
-            public decimal BigWin;
+            public string B_Win;
+            public string BigWin;
             public string Total;
-            public decimal SmallWin;
+            public string SmallWin;
+            public string RatioType = "";
         }
 
 
 
-        private string FindTag(string Total, string tag, Int32 tagcount, ref string Remainder)
-        {
-            Int32 testcount = 1;
-            Int32 tmpindex = 0;
-            while (testcount <= tagcount)
-            {
-                tmpindex = Total.ToLower().IndexOf("</" + tag + ">", tmpindex + 1);
-                if (tmpindex == -1)
-                {
-                    Remainder = "";
-                    return Total;
-                }
-                testcount += 1;
-            }
-            if (tmpindex + ("</" + tag + ">").Length >= Total.Length)
-            {
-                Remainder = "";
-            }
-            else
-            {
-                Remainder = Remainder.Substring(tmpindex + ("</" + tag + ">").Length);
-            }
-            return Total.Substring(0, tmpindex);
 
-
-
-
-        }
 
         private void StartForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            CefSharp.Cef.Shutdown();
             Environment.Exit(0);
         }
 
-        private void WB_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            Refreshball((WebBrowser)sender); 
-           
-        }
+
+
 
 
 

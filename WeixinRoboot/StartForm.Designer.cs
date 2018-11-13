@@ -67,8 +67,10 @@
             this.btn_InjectAndDo = new System.Windows.Forms.Button();
             this.Btn_ManulSend = new System.Windows.Forms.Button();
             this.btn_runtest = new System.Windows.Forms.Button();
-            this.wb_footbal = new System.Windows.Forms.WebBrowser();
-            this.wb_basketball = new System.Windows.Forms.WebBrowser();
+            this.gb_football = new System.Windows.Forms.GroupBox();
+            this.gb_basketball = new System.Windows.Forms.GroupBox();
+            this.gb_other = new System.Windows.Forms.GroupBox();
+            this.gb_refresh = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
@@ -83,6 +85,7 @@
             this.PicBarCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBarCode.TabIndex = 0;
             this.PicBarCode.TabStop = false;
+            this.PicBarCode.Visible = false;
             // 
             // lbl_msg
             // 
@@ -341,6 +344,7 @@
             this.PicBarCode_yixin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBarCode_yixin.TabIndex = 11;
             this.PicBarCode_yixin.TabStop = false;
+            this.PicBarCode_yixin.Visible = false;
             // 
             // codeweixin
             // 
@@ -411,35 +415,51 @@
             this.btn_runtest.UseVisualStyleBackColor = true;
             this.btn_runtest.Click += new System.EventHandler(this.btn_runtest_Click);
             // 
-            // wb_footbal
+            // gb_football
             // 
-            this.wb_footbal.Location = new System.Drawing.Point(161, 387);
-            this.wb_footbal.MinimumSize = new System.Drawing.Size(20, 20);
-            this.wb_footbal.Name = "wb_footbal";
-            this.wb_footbal.ScriptErrorsSuppressed = true;
-            this.wb_footbal.Size = new System.Drawing.Size(712, 105);
-            this.wb_footbal.TabIndex = 19;
-            this.wb_footbal.Url = new System.Uri("http://odds.gooooal.com/company.html?type=1001", System.UriKind.Absolute);
-            this.wb_footbal.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WB_DocumentCompleted);
+            this.gb_football.Location = new System.Drawing.Point(161, 376);
+            this.gb_football.Name = "gb_football";
+            this.gb_football.Size = new System.Drawing.Size(223, 63);
+            this.gb_football.TabIndex = 19;
+            this.gb_football.TabStop = false;
+            this.gb_football.Text = "足球";
             // 
-            // wb_basketball
+            // gb_basketball
             // 
-            this.wb_basketball.Location = new System.Drawing.Point(161, 515);
-            this.wb_basketball.MinimumSize = new System.Drawing.Size(20, 20);
-            this.wb_basketball.Name = "wb_basketball";
-            this.wb_basketball.ScriptErrorsSuppressed = true;
-            this.wb_basketball.Size = new System.Drawing.Size(712, 105);
-            this.wb_basketball.TabIndex = 20;
-            this.wb_basketball.Url = new System.Uri("http://odds.gooooal.com/bkscompany.html", System.UriKind.Absolute);
-            this.wb_basketball.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WB_DocumentCompleted);
+            this.gb_basketball.Location = new System.Drawing.Point(390, 376);
+            this.gb_basketball.Name = "gb_basketball";
+            this.gb_basketball.Size = new System.Drawing.Size(223, 63);
+            this.gb_basketball.TabIndex = 20;
+            this.gb_basketball.TabStop = false;
+            this.gb_basketball.Text = "篮球";
+            // 
+            // gb_other
+            // 
+            this.gb_other.Location = new System.Drawing.Point(619, 376);
+            this.gb_other.Name = "gb_other";
+            this.gb_other.Size = new System.Drawing.Size(223, 63);
+            this.gb_other.TabIndex = 21;
+            this.gb_other.TabStop = false;
+            this.gb_other.Text = "其他玩法";
+            // 
+            // gb_refresh
+            // 
+            this.gb_refresh.Location = new System.Drawing.Point(161, 455);
+            this.gb_refresh.Name = "gb_refresh";
+            this.gb_refresh.Size = new System.Drawing.Size(223, 61);
+            this.gb_refresh.TabIndex = 22;
+            this.gb_refresh.TabStop = false;
+            this.gb_refresh.Text = "刷新";
             // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(903, 645);
-            this.Controls.Add(this.wb_basketball);
-            this.Controls.Add(this.wb_footbal);
+            this.Controls.Add(this.gb_refresh);
+            this.Controls.Add(this.gb_other);
+            this.Controls.Add(this.gb_basketball);
+            this.Controls.Add(this.gb_football);
             this.Controls.Add(this.btn_runtest);
             this.Controls.Add(this.Btn_ManulSend);
             this.Controls.Add(this.btn_InjectAndDo);
@@ -516,8 +536,11 @@
         private System.Windows.Forms.Button Btn_ManulSend;
         private System.Windows.Forms.Button btn_runtest;
         private System.Windows.Forms.ToolStripMenuItem mi_reminderquery;
-        private System.Windows.Forms.WebBrowser wb_footbal;
-        private System.Windows.Forms.WebBrowser wb_basketball;
+        private System.Windows.Forms.GroupBox gb_football;
+        private System.Windows.Forms.GroupBox gb_basketball;
+        private System.Windows.Forms.GroupBox gb_other;
+        private System.Windows.Forms.GroupBox gb_refresh;
+
     }
 }
 
