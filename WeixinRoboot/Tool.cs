@@ -51,8 +51,8 @@ namespace NetFramework
 
             WebRequest LoginPage = HttpWebRequest.Create(TargetURL);
             ((HttpWebRequest)LoginPage).AllowAutoRedirect = AllowRedirect;
-            ((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
-            SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive,Close");
+            //((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
+            //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
             ((HttpWebRequest)LoginPage).Timeout = 30000;
             ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
 
@@ -87,7 +87,7 @@ namespace NetFramework
                     ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
                     ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
                     ((HttpWebRequest)LoginPage).ContentType = ContentType;
-
+                    //((HttpWebRequest)LoginPage).ServicePoint.Expect100Continue = true;
                     //((HttpWebRequest)LoginPage).Connection = "KeepAlive";
                     LoginPage.Headers.Add("Origin", ((HttpWebRequest)LoginPage).Referer.Substring(0, ((HttpWebRequest)LoginPage).Referer.Length - 1));
                     if (Body != "")
@@ -119,8 +119,8 @@ namespace NetFramework
                 default:
                     break;
             }
-            ((HttpWebRequest)LoginPage).KeepAlive = true;
-            SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive,Close");
+            //((HttpWebRequest)LoginPage).KeepAlive = true;
+            SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
             LoginPage.Timeout = 30000;
             if (RefURL.ToLower().StartsWith("https"))
             {
@@ -450,8 +450,8 @@ namespace NetFramework
             Strem_ToPost.Flush();
             Strem_ToPost.Close();
 
-            ((HttpWebRequest)LoginPage).KeepAlive = true;
-            SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive,Close");
+            //((HttpWebRequest)LoginPage).KeepAlive = true;
+            //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
             ((HttpWebRequest)LoginPage).Timeout = 30000;
 
             System.GC.Collect();
@@ -670,8 +670,8 @@ namespace NetFramework
             Strem_ToPost.Flush();
             Strem_ToPost.Close();
 
-            ((HttpWebRequest)LoginPage).KeepAlive = true;
-            SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive,Close");
+            //((HttpWebRequest)LoginPage).KeepAlive = true;
+            //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
             ((HttpWebRequest)LoginPage).Timeout = 30000;
 
             System.GC.Collect();
@@ -830,7 +830,7 @@ namespace NetFramework
         #region 读取某一个 Cookie 字符串到 Cookie 变量中
         private static Cookie GetCookieFromString(string cookieString, string defaultDomain)
         {
-            string[] ary = cookieString.Split(';');
+            string[] ary = cookieString.Split(";".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             System.Collections.Hashtable hs = new System.Collections.Hashtable();
             for (int i = 0; i < ary.Length; i++)
             {

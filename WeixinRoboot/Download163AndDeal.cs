@@ -196,7 +196,7 @@ namespace WeixinRoboot
         private void BtnSaveAndDeal_Click(object sender, EventArgs e)
         {
             bool Newdb = false;
-            Linq.DataLogic.NewGameResult(
+            Linq.ProgramLogic.NewGameResult(
                 fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb);
             StartF.DealGameLogAndNotice();
 

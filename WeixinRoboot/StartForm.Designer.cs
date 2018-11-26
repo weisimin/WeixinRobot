@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.PicBarCode = new System.Windows.Forms.PictureBox();
             this.lbl_msg = new System.Windows.Forms.Label();
             this.btn_resfresh = new System.Windows.Forms.Button();
             this.tm_refresh = new System.Windows.Forms.Timer(this.components);
@@ -55,11 +54,13 @@
             this.TopMenu = new System.Windows.Forms.MenuStrip();
             this.MI_PCWechatSend = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_PCWechatSendSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_BallMatch = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_BallOpenManul = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_BallGames = new System.Windows.Forms.ToolStripMenuItem();
             this.Btn_Draw = new System.Windows.Forms.Button();
             this.Btn_StartDownLoad = new System.Windows.Forms.Button();
             this.btn_TestOrder = new System.Windows.Forms.Button();
             this.OpenBlack = new System.Windows.Forms.Button();
-            this.PicBarCode_yixin = new System.Windows.Forms.PictureBox();
             this.codeweixin = new System.Windows.Forms.Label();
             this.codeyixin = new System.Windows.Forms.Label();
             this.btn_refreshyixin = new System.Windows.Forms.Button();
@@ -71,21 +72,13 @@
             this.gb_basketball = new System.Windows.Forms.GroupBox();
             this.gb_other = new System.Windows.Forms.GroupBox();
             this.gb_refresh = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
+            this.PicBarCode_yixin = new System.Windows.Forms.PictureBox();
+            this.PicBarCode = new System.Windows.Forms.PictureBox();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
             this.SuspendLayout();
-            // 
-            // PicBarCode
-            // 
-            this.PicBarCode.Location = new System.Drawing.Point(161, 131);
-            this.PicBarCode.Name = "PicBarCode";
-            this.PicBarCode.Size = new System.Drawing.Size(223, 190);
-            this.PicBarCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBarCode.TabIndex = 0;
-            this.PicBarCode.TabStop = false;
-            this.PicBarCode.Visible = false;
             // 
             // lbl_msg
             // 
@@ -271,7 +264,8 @@
             this.MI_Ratio,
             this.MI_GameLog,
             this.MI_Query,
-            this.MI_PCWechatSend});
+            this.MI_PCWechatSend,
+            this.MI_BallMatch});
             this.TopMenu.Location = new System.Drawing.Point(0, 0);
             this.TopMenu.Name = "TopMenu";
             this.TopMenu.Size = new System.Drawing.Size(903, 25);
@@ -292,6 +286,29 @@
             this.MI_PCWechatSendSetting.Size = new System.Drawing.Size(100, 22);
             this.MI_PCWechatSendSetting.Text = "设置";
             this.MI_PCWechatSendSetting.Click += new System.EventHandler(this.MI_PCWechatSendSetting_Click);
+            // 
+            // MI_BallMatch
+            // 
+            this.MI_BallMatch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MI_BallOpenManul,
+            this.MI_BallGames});
+            this.MI_BallMatch.Name = "MI_BallMatch";
+            this.MI_BallMatch.Size = new System.Drawing.Size(44, 21);
+            this.MI_BallMatch.Text = "球赛";
+            // 
+            // MI_BallOpenManul
+            // 
+            this.MI_BallOpenManul.Name = "MI_BallOpenManul";
+            this.MI_BallOpenManul.Size = new System.Drawing.Size(124, 22);
+            this.MI_BallOpenManul.Text = "人工开奖";
+            this.MI_BallOpenManul.Click += new System.EventHandler(this.MI_BallOpenManul_Click);
+            // 
+            // MI_BallGames
+            // 
+            this.MI_BallGames.Name = "MI_BallGames";
+            this.MI_BallGames.Size = new System.Drawing.Size(124, 22);
+            this.MI_BallGames.Text = "赛事查看";
+            this.MI_BallGames.Click += new System.EventHandler(this.MI_BallGames_Click);
             // 
             // Btn_Draw
             // 
@@ -335,16 +352,6 @@
             this.OpenBlack.Text = "显示/隐藏黑框";
             this.OpenBlack.UseVisualStyleBackColor = true;
             this.OpenBlack.Click += new System.EventHandler(this.OpenBlack_Click);
-            // 
-            // PicBarCode_yixin
-            // 
-            this.PicBarCode_yixin.Location = new System.Drawing.Point(524, 131);
-            this.PicBarCode_yixin.Name = "PicBarCode_yixin";
-            this.PicBarCode_yixin.Size = new System.Drawing.Size(223, 190);
-            this.PicBarCode_yixin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBarCode_yixin.TabIndex = 11;
-            this.PicBarCode_yixin.TabStop = false;
-            this.PicBarCode_yixin.Visible = false;
             // 
             // codeweixin
             // 
@@ -413,43 +420,62 @@
             this.btn_runtest.TabIndex = 18;
             this.btn_runtest.Text = "执行测试 ";
             this.btn_runtest.UseVisualStyleBackColor = true;
+            this.btn_runtest.Visible = false;
             this.btn_runtest.Click += new System.EventHandler(this.btn_runtest_Click);
             // 
             // gb_football
             // 
             this.gb_football.Location = new System.Drawing.Point(161, 376);
             this.gb_football.Name = "gb_football";
-            this.gb_football.Size = new System.Drawing.Size(223, 63);
+            this.gb_football.Size = new System.Drawing.Size(289, 102);
             this.gb_football.TabIndex = 19;
             this.gb_football.TabStop = false;
             this.gb_football.Text = "足球";
             // 
             // gb_basketball
             // 
-            this.gb_basketball.Location = new System.Drawing.Point(390, 376);
+            this.gb_basketball.Location = new System.Drawing.Point(483, 376);
             this.gb_basketball.Name = "gb_basketball";
-            this.gb_basketball.Size = new System.Drawing.Size(223, 63);
+            this.gb_basketball.Size = new System.Drawing.Size(288, 102);
             this.gb_basketball.TabIndex = 20;
             this.gb_basketball.TabStop = false;
             this.gb_basketball.Text = "篮球";
             // 
             // gb_other
             // 
-            this.gb_other.Location = new System.Drawing.Point(619, 376);
+            this.gb_other.Location = new System.Drawing.Point(161, 493);
             this.gb_other.Name = "gb_other";
-            this.gb_other.Size = new System.Drawing.Size(223, 63);
+            this.gb_other.Size = new System.Drawing.Size(289, 107);
             this.gb_other.TabIndex = 21;
             this.gb_other.TabStop = false;
             this.gb_other.Text = "其他玩法";
             // 
             // gb_refresh
             // 
-            this.gb_refresh.Location = new System.Drawing.Point(161, 455);
+            this.gb_refresh.Location = new System.Drawing.Point(483, 484);
             this.gb_refresh.Name = "gb_refresh";
-            this.gb_refresh.Size = new System.Drawing.Size(223, 61);
+            this.gb_refresh.Size = new System.Drawing.Size(288, 116);
             this.gb_refresh.TabIndex = 22;
             this.gb_refresh.TabStop = false;
             this.gb_refresh.Text = "刷新";
+            // 
+            // PicBarCode_yixin
+            // 
+            this.PicBarCode_yixin.Location = new System.Drawing.Point(524, 131);
+            this.PicBarCode_yixin.Name = "PicBarCode_yixin";
+            this.PicBarCode_yixin.Size = new System.Drawing.Size(223, 190);
+            this.PicBarCode_yixin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBarCode_yixin.TabIndex = 11;
+            this.PicBarCode_yixin.TabStop = false;
+            // 
+            // PicBarCode
+            // 
+            this.PicBarCode.Location = new System.Drawing.Point(161, 131);
+            this.PicBarCode.Name = "PicBarCode";
+            this.PicBarCode.Size = new System.Drawing.Size(223, 190);
+            this.PicBarCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PicBarCode.TabIndex = 0;
+            this.PicBarCode.TabStop = false;
             // 
             // StartForm
             // 
@@ -485,12 +511,12 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StartForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StartForm_FormClosed);
             this.Load += new System.EventHandler(this.Start_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).EndInit();
             this.Botton_Status.ResumeLayout(false);
             this.Botton_Status.PerformLayout();
             this.TopMenu.ResumeLayout(false);
             this.TopMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -540,6 +566,9 @@
         private System.Windows.Forms.GroupBox gb_basketball;
         private System.Windows.Forms.GroupBox gb_other;
         private System.Windows.Forms.GroupBox gb_refresh;
+        private System.Windows.Forms.ToolStripMenuItem MI_BallMatch;
+        private System.Windows.Forms.ToolStripMenuItem MI_BallOpenManul;
+        private System.Windows.Forms.ToolStripMenuItem MI_BallGames;
 
     }
 }

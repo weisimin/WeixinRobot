@@ -37,7 +37,23 @@ namespace WeixinRoboot
         private bool _名片 = false;
         private bool _最后一期 = false;
 
+        private bool _球赛图片 = true;
 
+        public bool 球赛图片 { get { return _球赛图片; } set { _球赛图片 = value; } }
+
+
+        private bool _球赛链接 = true;
+
+        public bool 球赛链接 { get { return _球赛链接; } set { _球赛链接 = value; } }
+
+
+
+        private Int32 _球赛间隔 = 240;
+        public Int32 球赛间隔
+        {
+            get { return _球赛间隔; }
+            set { _球赛间隔 = value; }
+        }
 
         private Int32 _封盘小时 = 1;
         private Int32 _封盘分钟 = 55;
@@ -80,7 +96,7 @@ namespace WeixinRoboot
             set
             {
                 _封盘小时 = value;
-                var todel = GlobalParam.HaveSend.Where(t => t.Key.Contains(hwnd.ToString()+"封盘")).ToArray();
+                var todel = GlobalParam.HaveSend.Where(t => t.Key.Contains(hwnd.ToString() + "封盘")).ToArray();
                 foreach (var item in todel)
                 {
                     GlobalParam.HaveSend.Remove(item.Key);
@@ -172,6 +188,8 @@ namespace WeixinRoboot
         public DateTime 文字2时间 = DateTime.Now;
         public DateTime 文字3时间 = DateTime.Now;
 
+
+        public DateTime 球赛时间 = DateTime.MinValue;
     }
 
 }

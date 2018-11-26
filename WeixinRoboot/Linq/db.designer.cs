@@ -22,7 +22,7 @@ namespace WeixinRoboot.Linq
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="Weixinroboot")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="WeixinRoboot")]
 	public partial class dbDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -72,10 +72,13 @@ namespace WeixinRoboot.Linq
     partial void InsertWX_UserReplyLog(WX_UserReplyLog instance);
     partial void UpdateWX_UserReplyLog(WX_UserReplyLog instance);
     partial void DeleteWX_UserReplyLog(WX_UserReplyLog instance);
+    partial void InsertWX_UserGameLog_Football(WX_UserGameLog_Football instance);
+    partial void UpdateWX_UserGameLog_Football(WX_UserGameLog_Football instance);
+    partial void DeleteWX_UserGameLog_Football(WX_UserGameLog_Football instance);
     #endregion
 		
 		public dbDataContext() : 
-				base(global::WeixinRoboot.Properties.Settings.Default.WeixinrobootConnectionString1, mappingSource)
+				base(global::WeixinRoboot.Properties.Settings.Default.WeixinRobootConnectionString2, mappingSource)
 		{
 			OnCreated();
 		}
@@ -213,6 +216,14 @@ namespace WeixinRoboot.Linq
 			get
 			{
 				return this.GetTable<WX_UserReplyLog>();
+			}
+		}
+		
+		public System.Data.Linq.Table<WX_UserGameLog_Football> WX_UserGameLog_Football
+		{
+			get
+			{
+				return this.GetTable<WX_UserGameLog_Football>();
 			}
 		}
 	}
@@ -4541,6 +4552,1340 @@ namespace WeixinRoboot.Linq
 					this._WX_SourceType = value;
 					this.SendPropertyChanged("WX_SourceType");
 					this.OnWX_SourceTypeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_UserGameLog_Football")]
+	public partial class WX_UserGameLog_Football : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _WX_UserName;
+		
+		private System.Guid _aspnet_UserID;
+		
+		private System.DateTime _transtime;
+		
+		private string _GameID;
+		
+		private string _GameVS;
+		
+		private string _BuyType;
+		
+		private System.Nullable<decimal> _BuyRatio;
+		
+		private System.Nullable<decimal> _BuyMoney;
+		
+		private System.Nullable<bool> _HaveOpen;
+		
+		private System.Nullable<decimal> _ResultMoney;
+		
+		private System.Nullable<decimal> _A_WIN;
+		
+		private string _Winless;
+		
+		private System.Nullable<decimal> _B_Win;
+		
+		private System.Nullable<decimal> _BigWin;
+		
+		private string _Total;
+		
+		private System.Nullable<decimal> _SmallWin;
+		
+		private System.Nullable<decimal> _R_A_A;
+		
+		private System.Nullable<decimal> _R_A_SAME;
+		
+		private System.Nullable<decimal> _R_A_B;
+		
+		private System.Nullable<decimal> _R_SAME_A;
+		
+		private System.Nullable<decimal> _R_SAME_SAME;
+		
+		private System.Nullable<decimal> _R_SAME_B;
+		
+		private System.Nullable<decimal> _R_B_A;
+		
+		private System.Nullable<decimal> _R_B_SAME;
+		
+		private System.Nullable<decimal> _R_B_B;
+		
+		private System.Nullable<decimal> _R1_0_A;
+		
+		private System.Nullable<decimal> _R1_0_B;
+		
+		private System.Nullable<decimal> _R2_0_A;
+		
+		private System.Nullable<decimal> _R2_0_B;
+		
+		private System.Nullable<decimal> _R2_1_A;
+		
+		private System.Nullable<decimal> _R2_1_B;
+		
+		private System.Nullable<decimal> _R3_0_A;
+		
+		private System.Nullable<decimal> _R3_0_B;
+		
+		private System.Nullable<decimal> _R3_1_A;
+		
+		private System.Nullable<decimal> _R3_1_B;
+		
+		private System.Nullable<decimal> _R3_2_A;
+		
+		private System.Nullable<decimal> _R3_2_B;
+		
+		private System.Nullable<decimal> _R4_0_A;
+		
+		private System.Nullable<decimal> _R4_0_B;
+		
+		private System.Nullable<decimal> _R4_1_A;
+		
+		private System.Nullable<decimal> _R4_1_B;
+		
+		private System.Nullable<decimal> _R4_2_A;
+		
+		private System.Nullable<decimal> _R4_2_B;
+		
+		private System.Nullable<decimal> _R4_3_A;
+		
+		private System.Nullable<decimal> _R4_3_B;
+		
+		private System.Nullable<decimal> _R0_0;
+		
+		private System.Nullable<decimal> _R1_1;
+		
+		private System.Nullable<decimal> _R2_2;
+		
+		private System.Nullable<decimal> _R3_3;
+		
+		private System.Nullable<decimal> _R4_4;
+		
+		private System.Nullable<decimal> _Rother;
+		
+		private string _WX_SourceType;
+		
+		private string _A_Team;
+		
+		private string _B_Team;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnWX_UserNameChanging(string value);
+    partial void OnWX_UserNameChanged();
+    partial void Onaspnet_UserIDChanging(System.Guid value);
+    partial void Onaspnet_UserIDChanged();
+    partial void OntranstimeChanging(System.DateTime value);
+    partial void OntranstimeChanged();
+    partial void OnGameIDChanging(string value);
+    partial void OnGameIDChanged();
+    partial void OnGameVSChanging(string value);
+    partial void OnGameVSChanged();
+    partial void OnBuyTypeChanging(string value);
+    partial void OnBuyTypeChanged();
+    partial void OnBuyRatioChanging(System.Nullable<decimal> value);
+    partial void OnBuyRatioChanged();
+    partial void OnBuyMoneyChanging(System.Nullable<decimal> value);
+    partial void OnBuyMoneyChanged();
+    partial void OnHaveOpenChanging(System.Nullable<bool> value);
+    partial void OnHaveOpenChanged();
+    partial void OnResultMoneyChanging(System.Nullable<decimal> value);
+    partial void OnResultMoneyChanged();
+    partial void OnA_WINChanging(System.Nullable<decimal> value);
+    partial void OnA_WINChanged();
+    partial void OnWinlessChanging(string value);
+    partial void OnWinlessChanged();
+    partial void OnB_WinChanging(System.Nullable<decimal> value);
+    partial void OnB_WinChanged();
+    partial void OnBigWinChanging(System.Nullable<decimal> value);
+    partial void OnBigWinChanged();
+    partial void OnTotalChanging(string value);
+    partial void OnTotalChanged();
+    partial void OnSmallWinChanging(System.Nullable<decimal> value);
+    partial void OnSmallWinChanged();
+    partial void OnR_A_AChanging(System.Nullable<decimal> value);
+    partial void OnR_A_AChanged();
+    partial void OnR_A_SAMEChanging(System.Nullable<decimal> value);
+    partial void OnR_A_SAMEChanged();
+    partial void OnR_A_BChanging(System.Nullable<decimal> value);
+    partial void OnR_A_BChanged();
+    partial void OnR_SAME_AChanging(System.Nullable<decimal> value);
+    partial void OnR_SAME_AChanged();
+    partial void OnR_SAME_SAMEChanging(System.Nullable<decimal> value);
+    partial void OnR_SAME_SAMEChanged();
+    partial void OnR_SAME_BChanging(System.Nullable<decimal> value);
+    partial void OnR_SAME_BChanged();
+    partial void OnR_B_AChanging(System.Nullable<decimal> value);
+    partial void OnR_B_AChanged();
+    partial void OnR_B_SAMEChanging(System.Nullable<decimal> value);
+    partial void OnR_B_SAMEChanged();
+    partial void OnR_B_BChanging(System.Nullable<decimal> value);
+    partial void OnR_B_BChanged();
+    partial void OnR1_0_AChanging(System.Nullable<decimal> value);
+    partial void OnR1_0_AChanged();
+    partial void OnR1_0_BChanging(System.Nullable<decimal> value);
+    partial void OnR1_0_BChanged();
+    partial void OnR2_0_AChanging(System.Nullable<decimal> value);
+    partial void OnR2_0_AChanged();
+    partial void OnR2_0_BChanging(System.Nullable<decimal> value);
+    partial void OnR2_0_BChanged();
+    partial void OnR2_1_AChanging(System.Nullable<decimal> value);
+    partial void OnR2_1_AChanged();
+    partial void OnR2_1_BChanging(System.Nullable<decimal> value);
+    partial void OnR2_1_BChanged();
+    partial void OnR3_0_AChanging(System.Nullable<decimal> value);
+    partial void OnR3_0_AChanged();
+    partial void OnR3_0_BChanging(System.Nullable<decimal> value);
+    partial void OnR3_0_BChanged();
+    partial void OnR3_1_AChanging(System.Nullable<decimal> value);
+    partial void OnR3_1_AChanged();
+    partial void OnR3_1_BChanging(System.Nullable<decimal> value);
+    partial void OnR3_1_BChanged();
+    partial void OnR3_2_AChanging(System.Nullable<decimal> value);
+    partial void OnR3_2_AChanged();
+    partial void OnR3_2_BChanging(System.Nullable<decimal> value);
+    partial void OnR3_2_BChanged();
+    partial void OnR4_0_AChanging(System.Nullable<decimal> value);
+    partial void OnR4_0_AChanged();
+    partial void OnR4_0_BChanging(System.Nullable<decimal> value);
+    partial void OnR4_0_BChanged();
+    partial void OnR4_1_AChanging(System.Nullable<decimal> value);
+    partial void OnR4_1_AChanged();
+    partial void OnR4_1_BChanging(System.Nullable<decimal> value);
+    partial void OnR4_1_BChanged();
+    partial void OnR4_2_AChanging(System.Nullable<decimal> value);
+    partial void OnR4_2_AChanged();
+    partial void OnR4_2_BChanging(System.Nullable<decimal> value);
+    partial void OnR4_2_BChanged();
+    partial void OnR4_3_AChanging(System.Nullable<decimal> value);
+    partial void OnR4_3_AChanged();
+    partial void OnR4_3_BChanging(System.Nullable<decimal> value);
+    partial void OnR4_3_BChanged();
+    partial void OnR0_0Changing(System.Nullable<decimal> value);
+    partial void OnR0_0Changed();
+    partial void OnR1_1Changing(System.Nullable<decimal> value);
+    partial void OnR1_1Changed();
+    partial void OnR2_2Changing(System.Nullable<decimal> value);
+    partial void OnR2_2Changed();
+    partial void OnR3_3Changing(System.Nullable<decimal> value);
+    partial void OnR3_3Changed();
+    partial void OnR4_4Changing(System.Nullable<decimal> value);
+    partial void OnR4_4Changed();
+    partial void OnRotherChanging(System.Nullable<decimal> value);
+    partial void OnRotherChanged();
+    partial void OnWX_SourceTypeChanging(string value);
+    partial void OnWX_SourceTypeChanged();
+    partial void OnA_TeamChanging(string value);
+    partial void OnA_TeamChanged();
+    partial void OnB_TeamChanging(string value);
+    partial void OnB_TeamChanged();
+    #endregion
+		
+		public WX_UserGameLog_Football()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_UserName
+		{
+			get
+			{
+				return this._WX_UserName;
+			}
+			set
+			{
+				if ((this._WX_UserName != value))
+				{
+					this.OnWX_UserNameChanging(value);
+					this.SendPropertyChanging();
+					this._WX_UserName = value;
+					this.SendPropertyChanged("WX_UserName");
+					this.OnWX_UserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid aspnet_UserID
+		{
+			get
+			{
+				return this._aspnet_UserID;
+			}
+			set
+			{
+				if ((this._aspnet_UserID != value))
+				{
+					this.Onaspnet_UserIDChanging(value);
+					this.SendPropertyChanging();
+					this._aspnet_UserID = value;
+					this.SendPropertyChanged("aspnet_UserID");
+					this.Onaspnet_UserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_transtime", DbType="DateTime NOT NULL", IsPrimaryKey=true)]
+		public System.DateTime transtime
+		{
+			get
+			{
+				return this._transtime;
+			}
+			set
+			{
+				if ((this._transtime != value))
+				{
+					this.OntranstimeChanging(value);
+					this.SendPropertyChanging();
+					this._transtime = value;
+					this.SendPropertyChanged("transtime");
+					this.OntranstimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameID", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string GameID
+		{
+			get
+			{
+				return this._GameID;
+			}
+			set
+			{
+				if ((this._GameID != value))
+				{
+					this.OnGameIDChanging(value);
+					this.SendPropertyChanging();
+					this._GameID = value;
+					this.SendPropertyChanged("GameID");
+					this.OnGameIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameVS", DbType="NVarChar(150)")]
+		public string GameVS
+		{
+			get
+			{
+				return this._GameVS;
+			}
+			set
+			{
+				if ((this._GameVS != value))
+				{
+					this.OnGameVSChanging(value);
+					this.SendPropertyChanging();
+					this._GameVS = value;
+					this.SendPropertyChanged("GameVS");
+					this.OnGameVSChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyType", DbType="NVarChar(50)")]
+		public string BuyType
+		{
+			get
+			{
+				return this._BuyType;
+			}
+			set
+			{
+				if ((this._BuyType != value))
+				{
+					this.OnBuyTypeChanging(value);
+					this.SendPropertyChanging();
+					this._BuyType = value;
+					this.SendPropertyChanged("BuyType");
+					this.OnBuyTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyRatio", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> BuyRatio
+		{
+			get
+			{
+				return this._BuyRatio;
+			}
+			set
+			{
+				if ((this._BuyRatio != value))
+				{
+					this.OnBuyRatioChanging(value);
+					this.SendPropertyChanging();
+					this._BuyRatio = value;
+					this.SendPropertyChanged("BuyRatio");
+					this.OnBuyRatioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyMoney", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> BuyMoney
+		{
+			get
+			{
+				return this._BuyMoney;
+			}
+			set
+			{
+				if ((this._BuyMoney != value))
+				{
+					this.OnBuyMoneyChanging(value);
+					this.SendPropertyChanging();
+					this._BuyMoney = value;
+					this.SendPropertyChanged("BuyMoney");
+					this.OnBuyMoneyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HaveOpen", DbType="Bit")]
+		public System.Nullable<bool> HaveOpen
+		{
+			get
+			{
+				return this._HaveOpen;
+			}
+			set
+			{
+				if ((this._HaveOpen != value))
+				{
+					this.OnHaveOpenChanging(value);
+					this.SendPropertyChanging();
+					this._HaveOpen = value;
+					this.SendPropertyChanged("HaveOpen");
+					this.OnHaveOpenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ResultMoney", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> ResultMoney
+		{
+			get
+			{
+				return this._ResultMoney;
+			}
+			set
+			{
+				if ((this._ResultMoney != value))
+				{
+					this.OnResultMoneyChanging(value);
+					this.SendPropertyChanging();
+					this._ResultMoney = value;
+					this.SendPropertyChanged("ResultMoney");
+					this.OnResultMoneyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_A_WIN", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> A_WIN
+		{
+			get
+			{
+				return this._A_WIN;
+			}
+			set
+			{
+				if ((this._A_WIN != value))
+				{
+					this.OnA_WINChanging(value);
+					this.SendPropertyChanging();
+					this._A_WIN = value;
+					this.SendPropertyChanged("A_WIN");
+					this.OnA_WINChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Winless", DbType="NVarChar(50)")]
+		public string Winless
+		{
+			get
+			{
+				return this._Winless;
+			}
+			set
+			{
+				if ((this._Winless != value))
+				{
+					this.OnWinlessChanging(value);
+					this.SendPropertyChanging();
+					this._Winless = value;
+					this.SendPropertyChanged("Winless");
+					this.OnWinlessChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_B_Win", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> B_Win
+		{
+			get
+			{
+				return this._B_Win;
+			}
+			set
+			{
+				if ((this._B_Win != value))
+				{
+					this.OnB_WinChanging(value);
+					this.SendPropertyChanging();
+					this._B_Win = value;
+					this.SendPropertyChanged("B_Win");
+					this.OnB_WinChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BigWin", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> BigWin
+		{
+			get
+			{
+				return this._BigWin;
+			}
+			set
+			{
+				if ((this._BigWin != value))
+				{
+					this.OnBigWinChanging(value);
+					this.SendPropertyChanging();
+					this._BigWin = value;
+					this.SendPropertyChanged("BigWin");
+					this.OnBigWinChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Total", DbType="NVarChar(50)")]
+		public string Total
+		{
+			get
+			{
+				return this._Total;
+			}
+			set
+			{
+				if ((this._Total != value))
+				{
+					this.OnTotalChanging(value);
+					this.SendPropertyChanging();
+					this._Total = value;
+					this.SendPropertyChanged("Total");
+					this.OnTotalChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SmallWin", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> SmallWin
+		{
+			get
+			{
+				return this._SmallWin;
+			}
+			set
+			{
+				if ((this._SmallWin != value))
+				{
+					this.OnSmallWinChanging(value);
+					this.SendPropertyChanging();
+					this._SmallWin = value;
+					this.SendPropertyChanged("SmallWin");
+					this.OnSmallWinChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R_A_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R_A_A
+		{
+			get
+			{
+				return this._R_A_A;
+			}
+			set
+			{
+				if ((this._R_A_A != value))
+				{
+					this.OnR_A_AChanging(value);
+					this.SendPropertyChanging();
+					this._R_A_A = value;
+					this.SendPropertyChanged("R_A_A");
+					this.OnR_A_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R_A_SAME", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R_A_SAME
+		{
+			get
+			{
+				return this._R_A_SAME;
+			}
+			set
+			{
+				if ((this._R_A_SAME != value))
+				{
+					this.OnR_A_SAMEChanging(value);
+					this.SendPropertyChanging();
+					this._R_A_SAME = value;
+					this.SendPropertyChanged("R_A_SAME");
+					this.OnR_A_SAMEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R_A_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R_A_B
+		{
+			get
+			{
+				return this._R_A_B;
+			}
+			set
+			{
+				if ((this._R_A_B != value))
+				{
+					this.OnR_A_BChanging(value);
+					this.SendPropertyChanging();
+					this._R_A_B = value;
+					this.SendPropertyChanged("R_A_B");
+					this.OnR_A_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R_SAME_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R_SAME_A
+		{
+			get
+			{
+				return this._R_SAME_A;
+			}
+			set
+			{
+				if ((this._R_SAME_A != value))
+				{
+					this.OnR_SAME_AChanging(value);
+					this.SendPropertyChanging();
+					this._R_SAME_A = value;
+					this.SendPropertyChanged("R_SAME_A");
+					this.OnR_SAME_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R_SAME_SAME", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R_SAME_SAME
+		{
+			get
+			{
+				return this._R_SAME_SAME;
+			}
+			set
+			{
+				if ((this._R_SAME_SAME != value))
+				{
+					this.OnR_SAME_SAMEChanging(value);
+					this.SendPropertyChanging();
+					this._R_SAME_SAME = value;
+					this.SendPropertyChanged("R_SAME_SAME");
+					this.OnR_SAME_SAMEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R_SAME_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R_SAME_B
+		{
+			get
+			{
+				return this._R_SAME_B;
+			}
+			set
+			{
+				if ((this._R_SAME_B != value))
+				{
+					this.OnR_SAME_BChanging(value);
+					this.SendPropertyChanging();
+					this._R_SAME_B = value;
+					this.SendPropertyChanged("R_SAME_B");
+					this.OnR_SAME_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R_B_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R_B_A
+		{
+			get
+			{
+				return this._R_B_A;
+			}
+			set
+			{
+				if ((this._R_B_A != value))
+				{
+					this.OnR_B_AChanging(value);
+					this.SendPropertyChanging();
+					this._R_B_A = value;
+					this.SendPropertyChanged("R_B_A");
+					this.OnR_B_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R_B_SAME", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R_B_SAME
+		{
+			get
+			{
+				return this._R_B_SAME;
+			}
+			set
+			{
+				if ((this._R_B_SAME != value))
+				{
+					this.OnR_B_SAMEChanging(value);
+					this.SendPropertyChanging();
+					this._R_B_SAME = value;
+					this.SendPropertyChanged("R_B_SAME");
+					this.OnR_B_SAMEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R_B_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R_B_B
+		{
+			get
+			{
+				return this._R_B_B;
+			}
+			set
+			{
+				if ((this._R_B_B != value))
+				{
+					this.OnR_B_BChanging(value);
+					this.SendPropertyChanging();
+					this._R_B_B = value;
+					this.SendPropertyChanged("R_B_B");
+					this.OnR_B_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R1_0_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R1_0_A
+		{
+			get
+			{
+				return this._R1_0_A;
+			}
+			set
+			{
+				if ((this._R1_0_A != value))
+				{
+					this.OnR1_0_AChanging(value);
+					this.SendPropertyChanging();
+					this._R1_0_A = value;
+					this.SendPropertyChanged("R1_0_A");
+					this.OnR1_0_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R1_0_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R1_0_B
+		{
+			get
+			{
+				return this._R1_0_B;
+			}
+			set
+			{
+				if ((this._R1_0_B != value))
+				{
+					this.OnR1_0_BChanging(value);
+					this.SendPropertyChanging();
+					this._R1_0_B = value;
+					this.SendPropertyChanged("R1_0_B");
+					this.OnR1_0_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R2_0_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R2_0_A
+		{
+			get
+			{
+				return this._R2_0_A;
+			}
+			set
+			{
+				if ((this._R2_0_A != value))
+				{
+					this.OnR2_0_AChanging(value);
+					this.SendPropertyChanging();
+					this._R2_0_A = value;
+					this.SendPropertyChanged("R2_0_A");
+					this.OnR2_0_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R2_0_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R2_0_B
+		{
+			get
+			{
+				return this._R2_0_B;
+			}
+			set
+			{
+				if ((this._R2_0_B != value))
+				{
+					this.OnR2_0_BChanging(value);
+					this.SendPropertyChanging();
+					this._R2_0_B = value;
+					this.SendPropertyChanged("R2_0_B");
+					this.OnR2_0_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R2_1_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R2_1_A
+		{
+			get
+			{
+				return this._R2_1_A;
+			}
+			set
+			{
+				if ((this._R2_1_A != value))
+				{
+					this.OnR2_1_AChanging(value);
+					this.SendPropertyChanging();
+					this._R2_1_A = value;
+					this.SendPropertyChanged("R2_1_A");
+					this.OnR2_1_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R2_1_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R2_1_B
+		{
+			get
+			{
+				return this._R2_1_B;
+			}
+			set
+			{
+				if ((this._R2_1_B != value))
+				{
+					this.OnR2_1_BChanging(value);
+					this.SendPropertyChanging();
+					this._R2_1_B = value;
+					this.SendPropertyChanged("R2_1_B");
+					this.OnR2_1_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R3_0_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R3_0_A
+		{
+			get
+			{
+				return this._R3_0_A;
+			}
+			set
+			{
+				if ((this._R3_0_A != value))
+				{
+					this.OnR3_0_AChanging(value);
+					this.SendPropertyChanging();
+					this._R3_0_A = value;
+					this.SendPropertyChanged("R3_0_A");
+					this.OnR3_0_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R3_0_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R3_0_B
+		{
+			get
+			{
+				return this._R3_0_B;
+			}
+			set
+			{
+				if ((this._R3_0_B != value))
+				{
+					this.OnR3_0_BChanging(value);
+					this.SendPropertyChanging();
+					this._R3_0_B = value;
+					this.SendPropertyChanged("R3_0_B");
+					this.OnR3_0_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R3_1_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R3_1_A
+		{
+			get
+			{
+				return this._R3_1_A;
+			}
+			set
+			{
+				if ((this._R3_1_A != value))
+				{
+					this.OnR3_1_AChanging(value);
+					this.SendPropertyChanging();
+					this._R3_1_A = value;
+					this.SendPropertyChanged("R3_1_A");
+					this.OnR3_1_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R3_1_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R3_1_B
+		{
+			get
+			{
+				return this._R3_1_B;
+			}
+			set
+			{
+				if ((this._R3_1_B != value))
+				{
+					this.OnR3_1_BChanging(value);
+					this.SendPropertyChanging();
+					this._R3_1_B = value;
+					this.SendPropertyChanged("R3_1_B");
+					this.OnR3_1_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R3_2_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R3_2_A
+		{
+			get
+			{
+				return this._R3_2_A;
+			}
+			set
+			{
+				if ((this._R3_2_A != value))
+				{
+					this.OnR3_2_AChanging(value);
+					this.SendPropertyChanging();
+					this._R3_2_A = value;
+					this.SendPropertyChanged("R3_2_A");
+					this.OnR3_2_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R3_2_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R3_2_B
+		{
+			get
+			{
+				return this._R3_2_B;
+			}
+			set
+			{
+				if ((this._R3_2_B != value))
+				{
+					this.OnR3_2_BChanging(value);
+					this.SendPropertyChanging();
+					this._R3_2_B = value;
+					this.SendPropertyChanged("R3_2_B");
+					this.OnR3_2_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R4_0_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R4_0_A
+		{
+			get
+			{
+				return this._R4_0_A;
+			}
+			set
+			{
+				if ((this._R4_0_A != value))
+				{
+					this.OnR4_0_AChanging(value);
+					this.SendPropertyChanging();
+					this._R4_0_A = value;
+					this.SendPropertyChanged("R4_0_A");
+					this.OnR4_0_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R4_0_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R4_0_B
+		{
+			get
+			{
+				return this._R4_0_B;
+			}
+			set
+			{
+				if ((this._R4_0_B != value))
+				{
+					this.OnR4_0_BChanging(value);
+					this.SendPropertyChanging();
+					this._R4_0_B = value;
+					this.SendPropertyChanged("R4_0_B");
+					this.OnR4_0_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R4_1_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R4_1_A
+		{
+			get
+			{
+				return this._R4_1_A;
+			}
+			set
+			{
+				if ((this._R4_1_A != value))
+				{
+					this.OnR4_1_AChanging(value);
+					this.SendPropertyChanging();
+					this._R4_1_A = value;
+					this.SendPropertyChanged("R4_1_A");
+					this.OnR4_1_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R4_1_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R4_1_B
+		{
+			get
+			{
+				return this._R4_1_B;
+			}
+			set
+			{
+				if ((this._R4_1_B != value))
+				{
+					this.OnR4_1_BChanging(value);
+					this.SendPropertyChanging();
+					this._R4_1_B = value;
+					this.SendPropertyChanged("R4_1_B");
+					this.OnR4_1_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R4_2_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R4_2_A
+		{
+			get
+			{
+				return this._R4_2_A;
+			}
+			set
+			{
+				if ((this._R4_2_A != value))
+				{
+					this.OnR4_2_AChanging(value);
+					this.SendPropertyChanging();
+					this._R4_2_A = value;
+					this.SendPropertyChanged("R4_2_A");
+					this.OnR4_2_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R4_2_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R4_2_B
+		{
+			get
+			{
+				return this._R4_2_B;
+			}
+			set
+			{
+				if ((this._R4_2_B != value))
+				{
+					this.OnR4_2_BChanging(value);
+					this.SendPropertyChanging();
+					this._R4_2_B = value;
+					this.SendPropertyChanged("R4_2_B");
+					this.OnR4_2_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R4_3_A", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R4_3_A
+		{
+			get
+			{
+				return this._R4_3_A;
+			}
+			set
+			{
+				if ((this._R4_3_A != value))
+				{
+					this.OnR4_3_AChanging(value);
+					this.SendPropertyChanging();
+					this._R4_3_A = value;
+					this.SendPropertyChanged("R4_3_A");
+					this.OnR4_3_AChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R4_3_B", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R4_3_B
+		{
+			get
+			{
+				return this._R4_3_B;
+			}
+			set
+			{
+				if ((this._R4_3_B != value))
+				{
+					this.OnR4_3_BChanging(value);
+					this.SendPropertyChanging();
+					this._R4_3_B = value;
+					this.SendPropertyChanged("R4_3_B");
+					this.OnR4_3_BChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R0_0", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R0_0
+		{
+			get
+			{
+				return this._R0_0;
+			}
+			set
+			{
+				if ((this._R0_0 != value))
+				{
+					this.OnR0_0Changing(value);
+					this.SendPropertyChanging();
+					this._R0_0 = value;
+					this.SendPropertyChanged("R0_0");
+					this.OnR0_0Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R1_1", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R1_1
+		{
+			get
+			{
+				return this._R1_1;
+			}
+			set
+			{
+				if ((this._R1_1 != value))
+				{
+					this.OnR1_1Changing(value);
+					this.SendPropertyChanging();
+					this._R1_1 = value;
+					this.SendPropertyChanged("R1_1");
+					this.OnR1_1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R2_2", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R2_2
+		{
+			get
+			{
+				return this._R2_2;
+			}
+			set
+			{
+				if ((this._R2_2 != value))
+				{
+					this.OnR2_2Changing(value);
+					this.SendPropertyChanging();
+					this._R2_2 = value;
+					this.SendPropertyChanged("R2_2");
+					this.OnR2_2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R3_3", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R3_3
+		{
+			get
+			{
+				return this._R3_3;
+			}
+			set
+			{
+				if ((this._R3_3 != value))
+				{
+					this.OnR3_3Changing(value);
+					this.SendPropertyChanging();
+					this._R3_3 = value;
+					this.SendPropertyChanged("R3_3");
+					this.OnR3_3Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_R4_4", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> R4_4
+		{
+			get
+			{
+				return this._R4_4;
+			}
+			set
+			{
+				if ((this._R4_4 != value))
+				{
+					this.OnR4_4Changing(value);
+					this.SendPropertyChanging();
+					this._R4_4 = value;
+					this.SendPropertyChanged("R4_4");
+					this.OnR4_4Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Rother", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> Rother
+		{
+			get
+			{
+				return this._Rother;
+			}
+			set
+			{
+				if ((this._Rother != value))
+				{
+					this.OnRotherChanging(value);
+					this.SendPropertyChanging();
+					this._Rother = value;
+					this.SendPropertyChanged("Rother");
+					this.OnRotherChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_SourceType
+		{
+			get
+			{
+				return this._WX_SourceType;
+			}
+			set
+			{
+				if ((this._WX_SourceType != value))
+				{
+					this.OnWX_SourceTypeChanging(value);
+					this.SendPropertyChanging();
+					this._WX_SourceType = value;
+					this.SendPropertyChanged("WX_SourceType");
+					this.OnWX_SourceTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_A_Team", DbType="NVarChar(50)")]
+		public string A_Team
+		{
+			get
+			{
+				return this._A_Team;
+			}
+			set
+			{
+				if ((this._A_Team != value))
+				{
+					this.OnA_TeamChanging(value);
+					this.SendPropertyChanging();
+					this._A_Team = value;
+					this.SendPropertyChanged("A_Team");
+					this.OnA_TeamChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_B_Team", DbType="NVarChar(50)")]
+		public string B_Team
+		{
+			get
+			{
+				return this._B_Team;
+			}
+			set
+			{
+				if ((this._B_Team != value))
+				{
+					this.OnB_TeamChanging(value);
+					this.SendPropertyChanging();
+					this._B_Team = value;
+					this.SendPropertyChanged("B_Team");
+					this.OnB_TeamChanged();
 				}
 			}
 		}

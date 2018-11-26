@@ -23,7 +23,8 @@ namespace WeixinRoboot
         }
         private void WX_GetReminder()
         {
-            Linq.dbDataContext db = new Linq.dbDataContext();
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+           
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             var datasource = from ds in db.WX_UserChangeLog
@@ -55,7 +56,7 @@ namespace WeixinRoboot
 
         private void gv_data_SelectionChanged(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext();
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             if (gv_data.SelectedRows.Count != 0)

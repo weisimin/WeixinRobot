@@ -93,5 +93,11 @@
         <elementListCompartment Id="8f83f3fb-8266-4cb3-bf13-cd2eb6c08638" absoluteBounds="4.265, 3.96, 1.9700000000000002, 2.1576639811197915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="20964144-425c-4e30-8f7c-026a33b56927" isExpanded="false" absoluteBounds="0.75, 6.125, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/WX_UserGameLog_Football" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e973a8c5-5a8c-4888-907d-0bff8fc45318" absoluteBounds="0.76500000000000012, 6.585, 1.9700000000000002, 10.562530517578125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

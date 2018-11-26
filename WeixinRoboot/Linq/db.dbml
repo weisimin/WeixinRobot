@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Weixinroboot" Class="dbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=172.6.8.143,9125;Initial Catalog=Weixinroboot;Persist Security Info=True;User ID=sa" SettingsObjectName="WeixinRoboot.Properties.Settings" SettingsPropertyName="WeixinrobootConnectionString1" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="WeixinRoboot" Class="dbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost,9125;Initial Catalog=WeixinRoboot;Persist Security Info=True;User ID=sa" SettingsObjectName="WeixinRoboot.Properties.Settings" SettingsPropertyName="WeixinRobootConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.aspnet_Users" Member="aspnet_Users">
     <Type Name="aspnet_Users">
       <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
@@ -212,6 +212,64 @@
       <Column Name="SourceType" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="WX_msgType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_UserGameLog_Football" Member="WX_UserGameLog_Football">
+    <Type Name="WX_UserGameLog_Football">
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="transtime" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GameID" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GameVS" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="BuyType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="BuyRatio" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="BuyMoney" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="HaveOpen" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ResultMoney" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="A_WIN" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Winless" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="B_Win" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="BigWin" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Total" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SmallWin" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R_A_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R_A_SAME" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R_A_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R_SAME_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R_SAME_SAME" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R_SAME_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R_B_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R_B_SAME" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R_B_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R1_0_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R1_0_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R2_0_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R2_0_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R2_1_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R2_1_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R3_0_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R3_0_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R3_1_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R3_1_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R3_2_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R3_2_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R4_0_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R4_0_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R4_1_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R4_1_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R4_2_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R4_2_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R4_3_A" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R4_3_B" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R0_0" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R1_1" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R2_2" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R3_3" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="R4_4" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Rother" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="A_Team" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="B_Team" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

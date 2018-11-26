@@ -33,7 +33,7 @@ namespace WeixinRoboot
 
         private void BTN_QUERY_Click(object sender, EventArgs e)
         {
-            BS_DataSource.DataSource = Linq.DataLogic.GetBounsSource(dtp_querydate.Value,cb_SourceType.SelectedItem.ToString());
+            BS_DataSource.DataSource = Linq.ProgramLogic.GetBounsSource(dtp_querydate.Value,cb_SourceType.SelectedItem.ToString());
 
 
         }
@@ -77,7 +77,7 @@ namespace WeixinRoboot
                 if (usrrow.Length != 0)
                 {
 
-                    String Returnstr = Linq.DataLogic.WX_UserReplyLog_MySendCreate(
+                    String Returnstr = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(
                          "福利" + NetFramework.Util_Math.NullToZero(Senditem.Field<decimal?>("BounsCount"))
                          , usrrow.First(), DateTime.Now);
                     if (Returnstr != "")

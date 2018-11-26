@@ -51,6 +51,9 @@
             this.文字2间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.文字3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.文字3间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.球赛图片 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.球赛链接 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.球赛间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GV_PicSendSetting)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_GV_PicSendSetting)).BeginInit();
             this.SuspendLayout();
@@ -80,7 +83,10 @@
             this.文字2,
             this.文字2间隔,
             this.文字3,
-            this.文字3间隔});
+            this.文字3间隔,
+            this.球赛图片,
+            this.球赛链接,
+            this.球赛间隔});
             this.GV_PicSendSetting.DataSource = this.BS_GV_PicSendSetting;
             this.GV_PicSendSetting.Location = new System.Drawing.Point(12, 12);
             this.GV_PicSendSetting.Name = "GV_PicSendSetting";
@@ -238,6 +244,26 @@
             this.文字3间隔.HeaderText = "文字3间隔分钟";
             this.文字3间隔.Name = "文字3间隔";
             // 
+            // 球赛图片
+            // 
+            this.球赛图片.DataPropertyName = "球赛图片";
+            this.球赛图片.HeaderText = "球赛图片";
+            this.球赛图片.Name = "球赛图片";
+            // 
+            // 球赛链接
+            // 
+            this.球赛链接.DataPropertyName = "球赛链接";
+            this.球赛链接.HeaderText = "球赛链接";
+            this.球赛链接.Name = "球赛链接";
+            this.球赛链接.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.球赛链接.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // 球赛间隔
+            // 
+            this.球赛间隔.DataPropertyName = "球赛间隔";
+            this.球赛间隔.HeaderText = "球赛间隔";
+            this.球赛间隔.Name = "球赛间隔";
+            // 
             // PCWeChatSendImageSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -278,6 +304,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字2间隔;
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字3;
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字3间隔;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 球赛图片;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 球赛链接;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 球赛间隔;
 
     }
 }

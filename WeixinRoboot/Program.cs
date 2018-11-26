@@ -51,6 +51,10 @@ namespace WeixinRoboot
                         File.Delete(item);
                     }
                 }
+                else
+                {
+                    Directory.CreateDirectory(Application.StartupPath + "\\output");
+                }
             }
             catch (Exception anyerror)
             {
@@ -60,7 +64,7 @@ namespace WeixinRoboot
             //局部线程，不能及时结束会造成没相应
             //全局LINQ数据库，会频繁出现SQLDATAREADER已打开或关闭的问题
 
-            Linq.DataLogic.ComboStringInit();
+            Linq.ProgramLogic.ComboStringInit();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

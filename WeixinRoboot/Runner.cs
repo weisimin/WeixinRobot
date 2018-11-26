@@ -619,7 +619,7 @@ namespace WeixinRoboot
 
 
 
-                string Result = Linq.DataLogic.WX_UserReplyLog_MySendCreate("自动", editrow, DateTime.Now);
+                string Result = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("自动", editrow, DateTime.Now);
 
 
                 if (Result != "")
@@ -637,7 +637,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消自动", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("取消自动", editrow, DateTime.Now);
 
 
             }
@@ -650,7 +650,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.DataLogic.WX_UserReplyLog_MySendCreate("转发", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("转发", editrow, DateTime.Now);
 
 
             }
@@ -663,7 +663,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消转发", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("取消转发", editrow, DateTime.Now);
 
 
             }
@@ -674,7 +674,7 @@ namespace WeixinRoboot
             try
             {
                 bool Newdb = false;
-                Linq.DataLogic.NewGameResult(
+                Linq.ProgramLogic.NewGameResult(
                             fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb);
                 DateTime day = DateTime.Now;
                 if (day.Hour < 10)
@@ -704,7 +704,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.DataLogic.WX_UserReplyLog_MySendCreate("福利", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("福利", editrow, DateTime.Now);
 
 
             }
@@ -718,7 +718,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消福利", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("取消福利", editrow, DateTime.Now);
 
 
             }
@@ -754,7 +754,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.DataLogic.WX_UserReplyLog_MySendCreate("老板查询", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("老板查询", editrow, DateTime.Now);
 
 
             }
@@ -767,7 +767,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.DataLogic.WX_UserReplyLog_MySendCreate("取消老板查询", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("取消老板查询", editrow, DateTime.Now);
 
 
             }

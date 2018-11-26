@@ -36,28 +36,6 @@ namespace WeixinRoboot.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=WeinxinRoboot;Persist Security Info=True;Us" +
-            "er ID=sa")]
-        public string WeinxinRobootConnectionString1 {
-            get {
-                return ((string)(this["WeinxinRobootConnectionString1"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=WeinxinRoboot;Persist Security Info=True;Us" +
-            "er ID=sa;Password=123456")]
-        public string WeinxinRobootConnectionString2 {
-            get {
-                return ((string)(this["WeinxinRobootConnectionString2"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=WeixinRoboot;Persist Security Info=True;Use" +
             "r ID=sa;Password=123456")]
         public string WeixinRobootConnectionString {
@@ -70,7 +48,7 @@ namespace WeixinRoboot.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=172.6.8.143,9125;Initial Catalog=Weixinroboot;Persist Security Info=T" +
-            "rue;User ID=sa;Password=liangwguang")]
+            "rue;User ID=sa")]
         public string WeixinrobootConnectionString1 {
             get {
                 return ((string)(this["WeixinrobootConnectionString1"]));
@@ -80,10 +58,11 @@ namespace WeixinRoboot.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=LOCALHOST;Initial Catalog=WeinxinRoboot;User ID=sa;Password=123456")]
-        public string WeinxinRobootConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost,9125;Initial Catalog=WeixinRoboot;Persist Security Info=Tru" +
+            "e;User ID=sa;Password=liangwguang")]
+        public string WeixinRobootConnectionString2 {
             get {
-                return ((string)(this["WeinxinRobootConnectionString"]));
+                return ((string)(this["WeixinRobootConnectionString2"]));
             }
         }
     }

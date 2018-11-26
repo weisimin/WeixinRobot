@@ -148,7 +148,7 @@ namespace WeixinRoboot
 
 
 
-            wb_other = new CefSharp.WinForms.ChromiumWebBrowser("http://odds.gooooal.com/index_new.html");
+            wb_other = new CefSharp.WinForms.ChromiumWebBrowser("about:blank");
 
             wb_other.Dock = DockStyle.Fill;
             wb_other.Name = "wb_other";
@@ -166,11 +166,21 @@ namespace WeixinRoboot
 
 
 
+            wb_football.FrameLoadStart += wb_football_FrameLoadStart;
+            wb_basketball.FrameLoadStart += wb_football_FrameLoadStart;
+            wb_other.FrameLoadStart += wb_football_FrameLoadStart;
+            wb_refresh.FrameLoadStart += wb_football_FrameLoadStart;
 
 
 
+        }
 
-
+        void wb_football_FrameLoadStart(object sender, CefSharp.FrameLoadStartEventArgs e)
+        {
+            //if (e.Url.Contains("google"))
+            //{
+            //    e.Browser.StopLoad();
+            //}
         }
 
 
@@ -1413,13 +1423,6 @@ namespace WeixinRoboot
 
                     if (FromUserNameTEMPID == MyUserName || (MyInfo != null && MyInfo["1"] != null && FromUserNameTEMPID == MyInfo["1"].ToString()))
                     {
-                        #region "发图"
-                        if (Content == ("图1") || (Content == ("图2")))
-                        {
-                            SendChongqingResult(Content, ToUserNameTEMPID);
-                        }
-
-                        #endregion
 
 
                         var tocontacts = RunnerF.MemberSource.Select("User_ContactTEMPID='" + ToUserNameTEMPID + "'");
@@ -1435,17 +1438,17 @@ namespace WeixinRoboot
                         try
                         {
                             //执行会员命令
-                            MyOutResult = Linq.DataLogic.WX_UserReplyLog_MySendCreate(Content, tocontacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Content, tocontacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                             string[] Splits = Content.Replace("，", ",").Replace("，", ",")
                                        .Replace(".", ",").Replace("。", ",").Replace("。", ",")
                                        .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                            if (Splits.Count() != 1 && Linq.DataLogic.IsOrderContent(Content))
+                            if (Splits.Count() != 1 && Linq.ProgramLogic.IsOrderContent(Content))
                             {
                                 DateTime Times = JavaSecondTime(Convert.ToInt64(msgTime));
                                 foreach (var Splititem in Splits)
                                 {
                                     Times.AddMilliseconds(10);
-                                    String TmpMessage = Linq.DataLogic.WX_UserReplyLog_MySendCreate(Splititem, tocontacts[0], Times);
+                                    String TmpMessage = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Splititem, tocontacts[0], Times);
 
                                     if (TmpMessage != "")
                                     {
@@ -1496,17 +1499,48 @@ namespace WeixinRoboot
 
 
 
+                        #region "对"
+                        if (Content.Contains("对") || Content.ToUpper().Contains("VS"))
+                        {
+                            try
+                            {
+
+                                Content = Content.ToUpper().Replace("VS", "对");
+                                string A_Team = Content.Split("对".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
+                                string B_Team = Content.Split("对".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
 
 
+                                var machines = Linq.ProgramLogic.GameMatches.Where(t =>
+                                      (t.A_Team.Contains(A_Team) && t.B_Team.Contains(B_Team))
+                                      || (t.A_Team.Contains(B_Team) && t.B_Team.Contains(A_Team))
+                                      );
+                                foreach (var matchitem in machines)
+                                {
+                                    if (File.Exists(Application.StartupPath + "\\output\\" + matchitem.Key + ".jpg"))
+                                    {
+                                        SendRobotImage(Application.StartupPath + "\\output\\" + matchitem.Key + ".jpg", ToUserNameTEMPID, SourceType);
+                                    }
+                                }
+                            }
+                            catch (Exception AnyError)
+                            {
 
-                        //string MyOutResult = "";
+                                NetFramework.Console.WriteLine("解析" + Content + "失败");
 
-                        //db.Logic_WX_UserReplyLog_MySendCreate(Content, tocontacts[0].Field<string>("User_ContactID"),ocontacts[0].Field<string>("User_SourceType"), GlobalParam.Key, JavaTime(Convert.ToInt64(msgTime)), ref MyOutResult);
-                        //if (MyOutResult != "")
-                        //{
-                        //    SendWXContent(MyOutResult, tocontacts[0].Field<string>("User_ContactTEMPID"));
+                                NetFramework.Console.WriteLine(AnyError.Message);
 
-                        //}
+                                NetFramework.Console.WriteLine(AnyError.StackTrace);
+                            }
+                        }
+                        #endregion
+
+                        #region "发图"
+                        if (Content == ("图1") || (Content == ("图2")))
+                        {
+                            SendChongqingResult(Content, ToUserNameTEMPID);
+                        }
+
+                        #endregion
 
 
                         return;
@@ -1523,34 +1557,37 @@ namespace WeixinRoboot
                     #endregion
 
                     #region "对"
-                    try
+                    if (Content.Contains("对") || Content.ToUpper().Contains("VS"))
                     {
-
-
-                        string A_Team = Content.Split("对".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
-                        string B_Team = Content.Split("对".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
-
-
-                        var machines = StartForm.GameMatches.Where(t =>
-                              (t.A_Team.Contains(A_Team) && t.B_Team.Contains(B_Team))
-                              || (t.A_Team.Contains(B_Team) && t.B_Team.Contains(A_Team))
-                              );
-                        foreach (var matchitem in machines)
+                        try
                         {
-                            if (File.Exists(Application.StartupPath + "\\output\\" + matchitem.Key))
+
+                            Content = Content.ToUpper().Replace("VS", "对");
+                            string A_Team = Content.Split("对".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
+                            string B_Team = Content.Split("对".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
+
+
+                            var machines = Linq.ProgramLogic.GameMatches.Where(t =>
+                                  (t.A_Team.Contains(A_Team) && t.B_Team.Contains(B_Team))
+                                  || (t.A_Team.Contains(B_Team) && t.B_Team.Contains(A_Team))
+                                  );
+                            foreach (var matchitem in machines)
                             {
-                                SendRobotImage(Application.StartupPath + "\\output\\" + matchitem.Key, FromUserNameTEMPID, SourceType);
+                                if (File.Exists(Application.StartupPath + "\\output\\" + matchitem.Key + ".jpg"))
+                                {
+                                    SendRobotImage(Application.StartupPath + "\\output\\" + matchitem.Key + ".jpg", FromUserNameTEMPID, SourceType);
+                                }
                             }
                         }
-                    }
-                    catch (Exception AnyError)
-                    {
+                        catch (Exception AnyError)
+                        {
 
-                        NetFramework.Console.WriteLine("解析" + Content+"失败");
-                        
-                        NetFramework.Console.WriteLine(AnyError.Message);
+                            NetFramework.Console.WriteLine("解析" + Content + "失败");
 
-                         NetFramework.Console.WriteLine(AnyError.StackTrace);
+                            NetFramework.Console.WriteLine(AnyError.Message);
+
+                            NetFramework.Console.WriteLine(AnyError.StackTrace);
+                        }
                     }
                     #endregion
 
@@ -1843,7 +1880,7 @@ namespace WeixinRoboot
                 Msg2.Add("FromUserName", MyUserName);
                 Msg2.Add("ToUserName", TEMPUserName);
 
-                String Time2 = JavaTimeSpan();
+                String Time2 = JavaTimeSpanFFFF();
 
                 Msg2.Add("LocalID", Time2);
                 Msg2.Add("ClientMsgId", Time2);
@@ -1854,7 +1891,7 @@ namespace WeixinRoboot
                 NetFramework.Console.WriteLine("正在发图" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff"));
 
                 string Result2 = NetFramework.Util_WEB.OpenUrl(CheckUrl2
-                  , "https://" + webhost + "/", body2.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.UTF8, false);
+                  , "https://" + webhost + "/", body2.ToString().Replace(Environment.NewLine, "").Replace(" ", ""), "POST", cookie, Encoding.UTF8, false);
 
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
@@ -2152,14 +2189,14 @@ namespace WeixinRoboot
                 foreach (var notice_item in noticeChangelist)
                 {
 
-                    Int32 TotalChanges = Linq.DataLogic.WX_UserGameLog_Deal(this, notice_item.WX_UserName, notice_item.WX_SourceType);
+                    Int32 TotalChanges = Linq.ProgramLogic.WX_UserGameLog_Deal(this, notice_item.WX_UserName, notice_item.WX_SourceType);
                     db.SubmitChanges();
                     if (TotalChanges == 0)
                     {
                         continue;
                     }
 
-                    decimal? ReminderMoney = Linq.DataLogic.WXUserChangeLog_GetRemainder(notice_item.WX_UserName, notice_item.WX_SourceType);
+                    decimal? ReminderMoney = Linq.ProgramLogic.WXUserChangeLog_GetRemainder(notice_item.WX_UserName, notice_item.WX_SourceType);
 
                     var Rows = RunnerF.MemberSource.Select("User_ContactID='" + notice_item.WX_UserName + "' and User_SourceType='" + notice_item.WX_SourceType + "'");
                     if (Rows.Count() < 1)
@@ -2238,7 +2275,7 @@ namespace WeixinRoboot
                             if (testu.IsBoss == true)
                             {
                                 NetFramework.Console.WriteLine("准备老板查询发图");
-                                DataTable Result2 = WeixinRoboot.Linq.DataLogic.GetBossReportSource(newlogr.WX_SourceType, ReceiveContent);
+                                DataTable Result2 = WeixinRoboot.Linq.ProgramLogic.GetBossReportSource(newlogr.WX_SourceType, ReceiveContent);
                                 DrawDataTable(Result2);
 
                                 //SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + "老板查询.jpg", userr.Field<string>("User_ContactTEMPID"), userr.Field<string>("User_SourceType"));
@@ -2280,12 +2317,12 @@ namespace WeixinRoboot
                     #endregion
 
 
-                    string ReturnSend = Linq.DataLogic.WX_UserReplyLog_Create(newlogr, userr.Table, adminmode);
+                    string ReturnSend = Linq.ProgramLogic.WX_UserReplyLog_Create(newlogr, userr.Table, adminmode);
 
                     string[] Splits = newlogr.ReceiveContent.Replace("，", ",").Replace("，", ",")
                                                             .Replace(".", ",").Replace("。", ",").Replace("。", ",").Replace(" ", "")
                         .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                    if (Splits.Count() != 1 && Linq.DataLogic.IsOrderContent(newlogr.ReceiveContent))
+                    if (Splits.Count() != 1 && Linq.ProgramLogic.IsOrderContent(newlogr.ReceiveContent))
                     {
                         DateTime Times = ReceiveTime;
                         Int32 Count = 0;
@@ -2305,7 +2342,7 @@ namespace WeixinRoboot
                             newlogr_split.HaveDeal = false;
                             db.WX_UserReplyLog.InsertOnSubmit(newlogr_split);
                             db.SubmitChanges();
-                            String TmpMessage = Linq.DataLogic.WX_UserReplyLog_Create(newlogr_split, userr.Table, adminmode);
+                            String TmpMessage = Linq.ProgramLogic.WX_UserReplyLog_Create(newlogr_split, userr.Table, adminmode);
 
                             if (TmpMessage != "")
                             {
@@ -2980,7 +3017,7 @@ namespace WeixinRoboot
 
                     bool Newdb = false;
 
-                    Linq.DataLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
+                    Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
 
                     if (Newdb)
                     {
@@ -3048,7 +3085,7 @@ namespace WeixinRoboot
 
                 string str_Win = (item["kjznum"] as JValue).Value.ToString(); ;
                 bool Newdb = false;
-                Linq.DataLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
                 if (Newdb)
                 {
                     DealGameLogAndNotice();
@@ -3130,7 +3167,7 @@ namespace WeixinRoboot
 
                     }
                     bool Newdb = false;
-                    Linq.DataLogic.NewGameResult(str_Win, str_dataperiod.Substring(2), out Newdb);
+                    Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod.Substring(2), out Newdb);
                     if (Newdb)
                     {
                         DealGameLogAndNotice();
@@ -3191,7 +3228,7 @@ namespace WeixinRoboot
                 str_Win = str_Win.Substring(0, 1) + " " + str_Win.Substring(1, 1) + " " + str_Win.Substring(2, 1) + " " + str_Win.Substring(3, 1) + " " + str_Win.Substring(4, 1);
 
                 bool Newdb = false;
-                Linq.DataLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
 
                 if (Newdb)
                 {
@@ -3260,7 +3297,7 @@ namespace WeixinRoboot
                 string str_Win = (item["preDrawCode"] as JValue).Value.ToString();
                 str_Win = str_Win.Replace(",", " ");
                 bool Newdb = false;
-                Linq.DataLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
                 if (Newdb)
                 {
                     DealGameLogAndNotice();
@@ -3340,7 +3377,7 @@ namespace WeixinRoboot
                     str_Win += openitem.ToString().Replace("{", "").Replace("}", "");
                 }
                 bool Newdb = false;
-                Linq.DataLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
                 if (Newdb)
                 {
                     DealGameLogAndNotice();
@@ -3436,7 +3473,7 @@ namespace WeixinRoboot
                     str_Win += NumIndex;
                 }
                 bool Newdb = false;
-                Linq.DataLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
                 if (Newdb)
                 {
                     DealGameLogAndNotice();
@@ -3503,7 +3540,7 @@ namespace WeixinRoboot
             str_dataperiod = str_dataperiod.Replace("-", "");
             str_dataperiod = str_dataperiod.Substring(2);
             bool Newdb = false;
-            Linq.DataLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
+            Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb);
             if (Newdb)
             {
                 DealGameLogAndNotice();
@@ -3519,7 +3556,7 @@ namespace WeixinRoboot
                 NewResult = true;
                 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.Key).Count();
                 DateTime day = DateTime.Now;
-                if (day.Hour < 10)
+                if (day.Hour < 8)
                 {
                     day = day.AddDays(-1);
                 }
@@ -3561,13 +3598,13 @@ namespace WeixinRoboot
                 switch (tigerordragon)
                 {
                     case "龙":
-                        Datatextplain += Linq.DataLogic.Dragon;
+                        Datatextplain += Linq.ProgramLogic.Dragon;
                         break;
                     case "虎":
-                        Datatextplain += Linq.DataLogic.Tiger;
+                        Datatextplain += Linq.ProgramLogic.Tiger;
                         break;
                     case "合":
-                        Datatextplain += Linq.DataLogic.OK;
+                        Datatextplain += Linq.ProgramLogic.OK;
                         break;
                     default:
                         break;
@@ -3603,13 +3640,13 @@ namespace WeixinRoboot
                 switch (tigerordragon)
                 {
                     case "龙":
-                        Datatextplain_yixin += Linq.DataLogic.Dragon_yixin;
+                        Datatextplain_yixin += Linq.ProgramLogic.Dragon_yixin;
                         break;
                     case "虎":
-                        Datatextplain_yixin += Linq.DataLogic.Tiger_yixin;
+                        Datatextplain_yixin += Linq.ProgramLogic.Tiger_yixin;
                         break;
                     case "合":
-                        Datatextplain_yixin += Linq.DataLogic.OK_yixin;
+                        Datatextplain_yixin += Linq.ProgramLogic.OK_yixin;
                         break;
                     default:
                         break;
@@ -3644,13 +3681,13 @@ namespace WeixinRoboot
                 switch (tigerordragon)
                 {
                     case "龙":
-                        Datatextplain_dingding += Linq.DataLogic.Dragon_yixin;
+                        Datatextplain_dingding += Linq.ProgramLogic.Dragon_yixin;
                         break;
                     case "虎":
-                        Datatextplain_dingding += Linq.DataLogic.Tiger_yixin;
+                        Datatextplain_dingding += Linq.ProgramLogic.Tiger_yixin;
                         break;
                     case "合":
-                        Datatextplain_dingding += Linq.DataLogic.OK_yixin;
+                        Datatextplain_dingding += Linq.ProgramLogic.OK_yixin;
                         break;
                     default:
                         break;
@@ -3990,6 +4027,18 @@ namespace WeixinRoboot
         private System.Net.CookieCollection cookie163 = new CookieCollection();
 
 
+        public static string JavaTimeSpanFFFF()
+        {
+
+            double result = 0;
+            DateTime startdate = new DateTime(1970, 1, 1, 8, 0, 0);
+            TimeSpan seconds = DateTime.Now - startdate;
+            result = Math.Round(seconds.TotalMilliseconds, 0);
+            return result.ToString() + DateTime.Now.ToString("ffff");
+
+        }
+
+
         public static string JavaTimeSpan()
         {
 
@@ -4052,12 +4101,21 @@ namespace WeixinRoboot
         private void tm_refresh_Tick(object sender, EventArgs e)
         {
 
+            tm_refresh.Enabled = false;
             if (FirstRun == true)
             {
                 wb_football.Load("http://odds.gooooal.com/company.html?type=1001");
                 wb_basketball.Load("http://odds.gooooal.com/bkscompany.html?type=1001");
-                wb_other.Load("http://odds.gooooal.com/index_new.html");
                 FirstRun = false;
+                DateTime pretime = DateTime.Now;
+                while ((DateTime.Now - pretime).TotalMilliseconds < 3000)
+                {
+                    Application.DoEvents();
+                    Thread.Sleep(100);
+
+                }
+                Thread startdo = new Thread(new ThreadStart(StartGetBallRatioV2));
+                startdo.Start();
             }
 
 
@@ -4074,33 +4132,12 @@ namespace WeixinRoboot
                 PicBarCode.Visible = true;
                 ReloadWX = false;
             }
-            try
-            {
 
-
-
-
-
-                //wb_football.GetBrowser().MainFrame.ExecuteJavaScriptAsync("cmp_odds.companyCheck(1001);");
-
-                //wb_basketball.GetBrowser().MainFrame.ExecuteJavaScriptAsync("_run.init(1001);");
-
-                Refreshball(wb_football, "data_main", "足球 ");
-                Refreshball(wb_basketball, "mm_content", "篮球");
-                Refreshother(wb_other);
-
-
-            }
-            catch (Exception AnyError)
-            {
-
-                NetFramework.Console.WriteLine(AnyError.Message);
-                NetFramework.Console.WriteLine(AnyError.StackTrace);
-            }
             //foreach (TabPage item in tc_wb.TabPages)
             //{
             //    tc_wb.SelectedTab=item;
             //} 
+            tm_refresh.Enabled = true;
 
         }
 
@@ -4198,7 +4235,8 @@ namespace WeixinRoboot
 
         private void btn_TestOrder_Click(object sender, EventArgs e)
         {
-
+            wb_refresh.Load("http://odds.gooooal.com/singlefield.html?mid=1394090&type=5");
+            return;
             DataTable MemberSource = new DataTable();
             MemberSource.Columns.Add("User_Contact");
             MemberSource.Columns.Add("User_ContactType");
@@ -4212,7 +4250,7 @@ namespace WeixinRoboot
             MemberSource.Rows.Add(new object[] { "min", "个人", "669811161", "@12345", true, false, true });
 
 
-            string UpPoint = Linq.DataLogic.WX_UserReplyLog_MySendCreate("上分5000", MemberSource.Rows[0], DateTime.Now.AddSeconds(-1));
+            string UpPoint = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("上分5000", MemberSource.Rows[0], DateTime.Now.AddSeconds(-1));
 
             DateTime ck0 = DateTime.Now;
             string R0 = NewWXContent(ck0, "查", MemberSource.Rows[0], "微", true);
@@ -4288,8 +4326,8 @@ namespace WeixinRoboot
 
         private void btn_bossreport_Click(object sender, EventArgs e)
         {
-            DataTable Result1 = WeixinRoboot.Linq.DataLogic.GetBossReportSource("微", "20180905");
-            DataTable Result2 = WeixinRoboot.Linq.DataLogic.GetBossReportSource("微", "20180112.20190630");
+            DataTable Result1 = WeixinRoboot.Linq.ProgramLogic.GetBossReportSource("微", "20180905");
+            DataTable Result2 = WeixinRoboot.Linq.ProgramLogic.GetBossReportSource("微", "20180112.20190630");
 
             DrawDataTable(Result2);
         }
@@ -4324,7 +4362,7 @@ namespace WeixinRoboot
                                     if (findsendlog == null)
                                     {
                                         NetFramework.Console.WriteLine("准备老板查询发图");
-                                        DataTable Result2 = WeixinRoboot.Linq.DataLogic.GetBossReportSource(Bossitem.WX_SourceType, DateTime.Today.AddDays(-1).ToString("yyyyMMdd"));
+                                        DataTable Result2 = WeixinRoboot.Linq.ProgramLogic.GetBossReportSource(Bossitem.WX_SourceType, DateTime.Today.AddDays(-1).ToString("yyyyMMdd"));
                                         DrawDataTable(Result2);
 
                                         //SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + "老板查询.jpg", Rows[0].Field<string>("User_ContactTEMPID"), Bossitem.WX_SourceType);
@@ -4361,7 +4399,7 @@ namespace WeixinRoboot
                                     if (findsendlog == null)
                                     {
                                         NetFramework.Console.WriteLine("准备老板查询发图");
-                                        DataTable Result2 = WeixinRoboot.Linq.DataLogic.GetBossReportSource(Bossitem.WX_SourceType, DateTime.Today.AddDays(-1).ToString("yyyyMMdd"));
+                                        DataTable Result2 = WeixinRoboot.Linq.ProgramLogic.GetBossReportSource(Bossitem.WX_SourceType, DateTime.Today.AddDays(-1).ToString("yyyyMMdd"));
                                         DrawDataTable(Result2);
                                         //SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + "老板查询.jpg", Rows[0].Field<string>("User_ContactTEMPID"), Bossitem.WX_SourceType);
 
@@ -4732,7 +4770,7 @@ namespace WeixinRoboot
             //}
             #endregion
             string ToSendt = Encoding.UTF8.GetString(ToSend);
-            Clipboard.SetText((ToSendt.StartsWith(Linq.DataLogic.Tiger) ? " " : "") + ToSendt);
+            Clipboard.SetText((ToSendt.StartsWith(Linq.ProgramLogic.Tiger) ? " " : "") + ToSendt);
 
             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
@@ -4860,7 +4898,7 @@ namespace WeixinRoboot
             #endregion
 
 
-            Clipboard.SetText((SendText.StartsWith(Linq.DataLogic.Tiger) ? " " : "") + SendText);
+            Clipboard.SetText((SendText.StartsWith(Linq.ProgramLogic.Tiger) ? " " : "") + SendText);
 
             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
@@ -5139,6 +5177,24 @@ namespace WeixinRoboot
 
 
                     }
+                    //球赛图片
+                    foreach (WinSends sendwins in InjectWins)
+                    {
+                        StringBuilder RAW = new StringBuilder(512);
+                        NetFramework.WindowsApi.GetWindowText(sendwins.hwnd, RAW, 512);
+
+                        if (RAW.ToString() == "")
+                        {
+                            continue;
+
+                        }
+                        if (sendwins.球赛时间.AddMinutes(sendwins.球赛间隔) <= DateTime.Now && sendwins.球赛图片 == true)
+                        {
+                            hwndSendImageFile(Application.StartupPath + "\\output\\" + wb_football.Name + ".jpg", sendwins.hwnd);
+                            hwndSendImageFile(Application.StartupPath + "\\output\\" + wb_basketball.Name + ".jpg", sendwins.hwnd);
+                            sendwins.球赛时间 = DateTime.Now;
+                        }
+                    }
 
                 }
                 catch (Exception AnyError)
@@ -5183,13 +5239,14 @@ namespace WeixinRoboot
             //}
             try
             {
-                Refreshball(wb_football, "data_main", "足球");
-                Refreshball(wb_basketball, "mm_content", "篮球");
-                Refreshother(wb_other);
+                RefreshballV2(wb_football, "data_main", "足球");
+                RefreshballV2(wb_basketball, "mm_content", "篮球");
+
             }
             catch (Exception AnyError)
             {
                 NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
             }
 
 
@@ -5210,21 +5267,21 @@ namespace WeixinRoboot
 
         private void Refreshball(CefSharp.WinForms.ChromiumWebBrowser wb, string idname, string balltype)
         {
-
-
-            if (wb.IsBrowserInitialized == false)
+            this.Invoke(new Action(() =>
             {
-                NetFramework.Console.WriteLine("控件" + wb.Name + "尚未初始化");
-                return;
-            }
+
+                if (wb.IsBrowserInitialized == false)
+                {
+                    NetFramework.Console.WriteLine("控件" + wb.Name + "尚未初始化");
+                    return;
+                }
 
 
-            System.Threading.Tasks.Task<string> task = wb.GetBrowser().MainFrame.GetSourceAsync();
-            task.Wait();
+                System.Threading.Tasks.Task<string> task = wb.GetBrowser().MainFrame.GetSourceAsync();
+                task.Wait();
 
-            string html = task.Result;
-            try
-            {
+                string html = task.Result;
+
 
 
                 Regex findtable = new Regex("<div id=\"" + idname + "((?!(/div))[\\s\\S])+/div>", RegexOptions.IgnoreCase);
@@ -5233,12 +5290,46 @@ namespace WeixinRoboot
 
                 string total = findtable.Match(html).Value;
 
+                #region 全部赛事保存成图片
+
+                string NewHtml = Regex.Replace(html, "<body((?!</body)[\\s\\S]+)</body>", "<body>" + total + "</body>", RegexOptions.IgnoreCase);
+                NewHtml = Regex.Replace(NewHtml, "<script((?!</script>)[\\s\\S])+</script>", "", RegexOptions.IgnoreCase);
+                NewHtml = Regex.Replace(NewHtml, "<iframe((?!</iframe>)[\\s\\S])+</iframe>", "", RegexOptions.IgnoreCase);
+                if (File.Exists(Application.StartupPath + "\\output\\" + wb.Name + ".htm") == false)
+                {
+                    FileStream fc = File.Create(Application.StartupPath + "\\output\\" + wb.Name + ".htm");
+                    fc.Flush();
+                    fc.Close();
+                }
+
+                FileStream fswb = new FileStream(Application.StartupPath + "\\output\\" + wb.Name + ".htm", FileMode.Truncate);
+                byte[] wbs = Encoding.UTF8.GetBytes(NewHtml);
+
+                fswb.Write(wbs, 0, wbs.Length);
+                fswb.Flush();
+                fswb.Close();
+
+                System.Threading.Tasks.Task<CefSharp.JavascriptResponse> gst = wb.GetBrowser().MainFrame.EvaluateScriptAsync("$('#" + idname + "').height()");
+                gst.Wait();
+                string jsheight = gst.Result.Result == null ? "1024" : gst.Result.Result.ToString();
+                Int32 njsheighy = Convert.ToInt32(jsheight);
+
+
+                Bitmap wbOutputbitmap = WebSnapshotsHelper.GetWebSiteThumbnail("file:///" + Application.StartupPath + "\\output\\" + wb.Name + ".htm", 840, njsheighy, 840, njsheighy); //宽高根据要获取快照的网页决定
+                wbOutputbitmap.Save(Application.StartupPath + "\\output\\" + wb.Name + ".jpg"
+                    , System.Drawing.Imaging.ImageFormat.Jpeg
+                    );
+                wbOutputbitmap.Dispose();
+
+                #endregion
 
                 Regex findHead = new Regex("<div id=\"data_top\">((?!</div>)[\\s\\S])+</div>", RegexOptions.IgnoreCase);
 
                 string headstr = findHead.Match(html).Value;
 
                 headstr = headstr.Replace("欧洲盘", "");
+                headstr = Regex.Replace(headstr, "<td", "<td style=\"font-size:16px!important\"", RegexOptions.IgnoreCase);
+                headstr = Regex.Replace(headstr, "width=\"42\"", "wifth=\"60\"", RegexOptions.IgnoreCase);
 
 
                 MatchCollection rows = findmaintr.Matches(total);
@@ -5252,7 +5343,33 @@ namespace WeixinRoboot
                     {
                         continue;
                     }
+                    string NewRowItem = Rowitem.Value;
+                    try
+                    {
 
+                        NewRowItem = Regex.Replace(NewRowItem, "<br>", "", RegexOptions.IgnoreCase);
+                        NewRowItem = Regex.Replace(NewRowItem, "<input((?!>)[\\S\\s])+>", "", RegexOptions.IgnoreCase);
+
+                        XmlDocument doc = new XmlDocument();
+                        doc.LoadXml(NewRowItem);
+
+                        var trs = doc.SelectNodes("tr/td[2]/table/tbody/tr");
+                        foreach (XmlNode tritem in trs)
+                        {
+                            var tds = tritem.SelectNodes("td");
+                            tds[4].InnerXml = "-";
+                            tds[5].InnerXml = "-";
+                            tds[6].InnerXml = "-";
+                        }
+                        NewRowItem = doc.OuterXml;
+                        NewRowItem = Regex.Replace(NewRowItem, "<td", "<td style=\"font-size:16px!important\"", RegexOptions.IgnoreCase);
+                        NewRowItem = Regex.Replace(NewRowItem, "<font", "<font style=\"font-size:16px!important\"", RegexOptions.IgnoreCase);
+                        NewRowItem = Regex.Replace(NewRowItem, "width=\"44\"", "width=\"60\"", RegexOptions.IgnoreCase);
+                    }
+                    catch (Exception AnyError)
+                    {
+                        NetFramework.Console.WriteLine("删除欧洲盘失败");
+                    }
 
                     string vs = findtds.Matches(tabs[0].Value)[1].Value;
                     string Key = findid.Match(Rowitem.Value).Value;
@@ -5262,28 +5379,30 @@ namespace WeixinRoboot
                     vs = Regex.Replace(vs, reg, "");
 
 
-                    c_vs toupdate = GameMatches.SingleOrDefault(t => t.Key == Key && t.GameType == balltype);
+                    Linq.ProgramLogic.c_vs toupdate = Linq.ProgramLogic.GameMatches.SingleOrDefault(t => t.Key == Key && t.GameType == balltype);
                     if (toupdate == null)
                     {
-                        c_vs newr = new c_vs();
+                        Linq.ProgramLogic.c_vs newr = new Linq.ProgramLogic.c_vs();
                         newr.Key = Key;
 
                         newr.A_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
                         newr.B_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
                         newr.GameType = balltype;
-                        newr.RowData = Rowitem.Value;
+                        newr.RowData = NewRowItem;
                         newr.HeadDiv = headstr;
 
-                        GameMatches.Add(newr);
+                        Linq.ProgramLogic.GameMatches.Add(newr);
 
                         foreach (Match rratio in findmaintr.Matches(tabs[1].Value))
                         {
 
                             MatchCollection ratios = findtds.Matches(rratio.Value);
 
-                            c_rario currentr = new c_rario();
+                            Linq.ProgramLogic.c_rario currentr = new Linq.ProgramLogic.c_rario();
 
+                            currentr.rowtypeindex = newr.CurRatioCount;
                             newr.ratios.Add(currentr);
+                            newr.CurRatioCount += 1;
 
                             currentr.RatioType = (Regex.Replace(ratios[0].Value, reg, ""));
                             currentr.A_WIN = (Regex.Replace(ratios[1].Value, reg, ""));
@@ -5328,16 +5447,19 @@ namespace WeixinRoboot
 
                             MatchCollection ratios = findtds.Matches(rratio.Value);
 
-                            c_rario findcr = toupdate.ratios.SingleOrDefault(t => t.RatioType == (Regex.Replace(ratios[0].Value, reg, "")));
+                            Linq.ProgramLogic.c_rario findcr = toupdate.ratios.SingleOrDefault(t => t.RatioType == (Regex.Replace(ratios[0].Value, reg, "")));
 
                             if (findcr == null)
                             {
 
 
 
-                                c_rario currentr = new c_rario();
+                                Linq.ProgramLogic.c_rario currentr = new Linq.ProgramLogic.c_rario();
 
+                                currentr.rowtypeindex = toupdate.CurRatioCount;
                                 toupdate.ratios.Add(currentr);
+                                toupdate.CurRatioCount += 1;
+
 
                                 currentr.RatioType = (Regex.Replace(ratios[0].Value, reg, ""));
                                 currentr.A_WIN = (Regex.Replace(ratios[1].Value, reg, ""));
@@ -5383,51 +5505,589 @@ namespace WeixinRoboot
                     }//有比赛
                 }
 
-            }//try
-            catch (Exception AnyError)
+            }));//ACTION结束
+        }
+        private void Refreshother(CefSharp.WinForms.ChromiumWebBrowser wb)
+        {
+            this.Invoke(new Action(() =>
             {
+                if (wb.IsBrowserInitialized == false)
+                {
+                    NetFramework.Console.WriteLine("控件" + wb.Name + "尚未初始化");
+                    return;
+                }
 
-                NetFramework.Console.WriteLine(AnyError.Message);
-                NetFramework.Console.Write(html);
+
+                System.Threading.Tasks.Task<string> task = wb.GetBrowser().MainFrame.GetSourceAsync();
+                task.Wait();
+                string otherhtml = task.Result;
+                otherhtml = Regex.Replace(otherhtml, "<script((?!</script>)[\\s\\S])+</script>", "", RegexOptions.IgnoreCase);
+                otherhtml = Regex.Replace(otherhtml, "<iframe((?!</iframe>)[\\s\\S])+</iframe>", "", RegexOptions.IgnoreCase);
+                Regex FindOthers = new Regex("<a href=\"((?!\")[\\s\\S])+\" target=\"_blank\"><span>其他玩法</span></a>", RegexOptions.IgnoreCase);
+                //var findothersres= FindOthers.Matches(otherhtml);
+                List<string> findothersres = new List<string>();
+                foreach (Match item in FindOthers.Matches(otherhtml))
+                {
+                    findothersres.Add(item.Value);
+                }
+
+
+                foreach (string item in findothersres)
+                {
+                    Application.DoEvents();
+                    string NewUrl = "http://odds.gooooal.com/" + item.Replace("<a href=\"", "").Replace("\" target=\"_blank\"><span>其他玩法</span></a>", "").Replace("&amp;", "&");
+                    //NewUrl = "http://odds.gooooal.com/singlefield.html?mid=1394090&type=5";
+                    wb_refresh.Load(NewUrl);
+
+                    DateTime pretime = DateTime.Now;
+                    while ((DateTime.Now - pretime).TotalMilliseconds < 3000)
+                    {
+                        Application.DoEvents();
+                        Thread.Sleep(100);
+                        if (ExitKill)
+                        {
+                            return;
+                        }
+                    }
+                    wb_refresh.GetBrowser().StopLoad();
+
+
+                    System.Threading.Tasks.Task<string> refreshtask = wb_refresh.GetBrowser().MainFrame.GetSourceAsync();
+                    refreshtask.Wait();
+                    string refreshhtml = refreshtask.Result;
+
+                    Regex FindShow = FindShow = new Regex(@"<div\s*id=""data_main5""[^>]*>((?<mm><div[^>]*>)+|(?<-mm></div>)|[\s\S])*?(?(mm)(?!))</div>", RegexOptions.IgnoreCase);
+                    string showstr = FindShow.Match(refreshhtml).Value;
+                    showstr = Regex.Replace(showstr, "<td", "<td style=\"font-size:16px!important;\"", RegexOptions.IgnoreCase);
+                    String NewOutput = "";
+                    refreshhtml = Regex.Replace(refreshhtml, "<script((?!</script>)[\\s\\S])+</script>", "", RegexOptions.IgnoreCase);
+                    refreshhtml = Regex.Replace(refreshhtml, "<iframe((?!</iframe>)[\\s\\S])+</iframe>", "", RegexOptions.IgnoreCase);
+
+
+
+                    Linq.ProgramLogic.c_vs gamem = Linq.ProgramLogic.GameMatches.SingleOrDefault(t => t.Key == "m_" + item.Replace("<a href=\"singlefield.html?mid=", "").Replace("\" target=\"_blank\"><span>其他玩法</span></a>", "").Replace("&amp;type=5", ""));
+                    if (gamem != null)
+                    {
+                        NewOutput = Regex.Replace(refreshhtml, "<body>((?!</body>)[\\s\\S])+</body>", "<body style=\"width:840px\">"
+                            + gamem.HeadDiv
+                            + "<table>"
+                            + gamem.RowData
+                            + "</table>"
+                           + showstr + "</body>", RegexOptions.IgnoreCase);
+
+                    }
+                    else
+                    {
+                        NewOutput = Regex.Replace(refreshhtml, "<body>((?!</body>)[\\s\\S])+</body>", "<body style=\"width:840px\">" + showstr + "</body>", RegexOptions.IgnoreCase);
+
+                    }
+                    if (File.Exists(Application.StartupPath + "\\tmp.htm") == false)
+                    {
+                        FileStream fsc = File.Create(Application.StartupPath + "\\tmp.htm");
+                        fsc.Flush();
+                        fsc.Close();
+                        fsc.Dispose();
+                    }
+                    FileStream fs = new FileStream(Application.StartupPath + "\\tmp.htm", FileMode.Truncate);
+                    byte[] bsource = Encoding.UTF8.GetBytes(NewOutput);
+                    fs.Write(bsource, 0, bsource.Length);
+                    fs.Close();
+
+
+                    if (Directory.Exists(Application.StartupPath + "\\output") == false)
+                    {
+                        Directory.CreateDirectory(Application.StartupPath + "\\output");
+                    }
+
+                    Bitmap Outputbitmap = WebSnapshotsHelper.GetWebSiteThumbnail("file:///" + Application.StartupPath + "\\tmp.htm", 840, 450, 840, 450); //宽高根据要获取快照的网页决定
+                    Outputbitmap.Save(Application.StartupPath + "\\output\\" + "m_" + item.Replace("<a href=\"singlefield.html?mid=", "").Replace("\" target=\"_blank\"><span>其他玩法</span></a>", "").Replace("&amp;type=5", "") + ".jpg"
+                        , System.Drawing.Imaging.ImageFormat.Jpeg
+                        );
+                    Outputbitmap.Dispose();
+
+
+                }//循环抓数结束
+
+                #region 无其他玩法图片
+                foreach (var gamem in Linq.ProgramLogic.GameMatches)
+                {
+                    string[] picfiles = Directory.GetFiles((Application.StartupPath + "\\output"));
+                    if (picfiles.Where(t => t.Contains(gamem.Key)).Count() == 0)
+                    {
+                        string NewOutput = "";
+                        NewOutput = Regex.Replace(otherhtml, "<body>((?!</body>)[\\s\\S])+</body>", "<body style=\"width:840px\">"
+                              + gamem.HeadDiv
+                              + "<table>"
+                              + gamem.RowData
+                              + "</table>"
+                              + "</body>", RegexOptions.IgnoreCase);
+
+                        if (File.Exists(Application.StartupPath + "\\tmp.htm") == false)
+                        {
+                            FileStream fsc = File.Create(Application.StartupPath + "\\tmp.htm");
+                            fsc.Flush();
+                            fsc.Close();
+                            fsc.Dispose();
+                        }
+                        FileStream fs = new FileStream(Application.StartupPath + "\\tmp.htm", FileMode.Truncate);
+                        byte[] bsource = Encoding.UTF8.GetBytes(NewOutput);
+                        fs.Write(bsource, 0, bsource.Length);
+                        fs.Close();
+
+
+                        if (Directory.Exists(Application.StartupPath + "\\output") == false)
+                        {
+                            Directory.CreateDirectory(Application.StartupPath + "\\output");
+                        }
+
+                        Bitmap Outputbitmap = WebSnapshotsHelper.GetWebSiteThumbnail("file:///" + Application.StartupPath + "\\tmp.htm", 840, 450, 840, 450); //宽高根据要获取快照的网页决定
+                        Outputbitmap.Save(Application.StartupPath + "\\output\\" + gamem.Key + ".jpg"
+                            , System.Drawing.Imaging.ImageFormat.Jpeg
+                            );
+                        Outputbitmap.Dispose();
+
+                    }
+
+
+                }
+                #endregion
+
+            }));//invode action结束
+        }
+        private void StartGetBallRatio()
+        {
+            while (true)
+            {
+                if (ExitKill)
+                {
+                    return;
+                }
+
+                try
+                {
+                    Refreshball(wb_football, "data_main", "足球 ");
+                    Refreshball(wb_basketball, "mm_content", "篮球");
+                    Refreshother(wb_other);
+
+
+                }
+                catch (Exception AnyError)
+                {
+
+                    NetFramework.Console.WriteLine(AnyError.Message);
+                    NetFramework.Console.WriteLine(AnyError.StackTrace);
+                    return;
+                }
+                Thread.Sleep(5000);
             }
+
         }
 
 
-        private void Refreshother(CefSharp.WinForms.ChromiumWebBrowser wb)
+        private void RefreshballV2(CefSharp.WinForms.ChromiumWebBrowser wb, string idname, string balltype)
         {
-            if (wb.IsBrowserInitialized == false)
+            this.Invoke(new Action(() =>
             {
-                NetFramework.Console.WriteLine("控件" + wb.Name + "尚未初始化");
-                return;
-            }
+
+                if (wb.IsBrowserInitialized == false)
+                {
+                    NetFramework.Console.WriteLine("控件" + wb.Name + "尚未初始化");
+                    return;
+                }
 
 
-            System.Threading.Tasks.Task<string> task = wb.GetBrowser().MainFrame.GetSourceAsync();
-            task.Wait();
-            string otherhtml = task.Result;
+                System.Threading.Tasks.Task<string> task = wb.GetBrowser().MainFrame.GetSourceAsync();
+                task.Wait();
 
-            Regex FindOthers = new Regex("<a href=\"((?!\")[\\s\\S])+\" target=\"_blank\"><span>其他玩法</span></a>", RegexOptions.IgnoreCase);
-            foreach (Match item in FindOthers.Matches(otherhtml))
+                string html = task.Result;
+
+
+
+                Regex findtable = new Regex("<div id=\"" + idname + "((?!(/div))[\\s\\S])+/div>", RegexOptions.IgnoreCase);
+                Regex findmaintr = new Regex(@"<tr[^>]*>((?<mm><tr[^>]*>)+|(?<-mm></tr>)|[\s\S])*?(?(mm)(?!))</tr>", RegexOptions.IgnoreCase);
+                Regex findtds = new Regex(@"<td[^>]*>((?<mm><td[^>]*>)+|(?<-mm></td>)|[\s\S])*?(?(mm)(?!))</td>", RegexOptions.IgnoreCase);
+
+                string total = findtable.Match(html).Value;
+
+                #region 全部赛事保存成图片
+
+                string NewHtml = Regex.Replace(html, "<body((?!</body)[\\s\\S]+)</body>", "<body style=\"font-family:微软雅黑;\">" + total + "</body>", RegexOptions.IgnoreCase);
+                NewHtml = Regex.Replace(NewHtml, "<script((?!</script>)[\\s\\S])+</script>", "", RegexOptions.IgnoreCase);
+                NewHtml = Regex.Replace(NewHtml, "<iframe((?!</iframe>)[\\s\\S])+</iframe>", "", RegexOptions.IgnoreCase);
+                if (File.Exists(Application.StartupPath + "\\output\\" + wb.Name + ".htm") == false)
+                {
+                    FileStream fc = File.Create(Application.StartupPath + "\\output\\" + wb.Name + ".htm");
+                    fc.Flush();
+                    fc.Close();
+                }
+
+                FileStream fswb = new FileStream(Application.StartupPath + "\\output\\" + wb.Name + ".htm", FileMode.Truncate);
+                byte[] wbs = Encoding.UTF8.GetBytes(NewHtml);
+                fswb.Write(new byte[]{0xEF,0XBB,0XBF}, 0,3 );
+                fswb.Write(wbs, 0, wbs.Length);
+                fswb.Flush();
+                fswb.Close();
+
+                System.Threading.Tasks.Task<CefSharp.JavascriptResponse> gst = wb.GetBrowser().MainFrame.EvaluateScriptAsync("$('#" + idname + "').height()");
+                gst.Wait();
+                string jsheight = gst.Result.Result == null ? "1024" : gst.Result.Result.ToString();
+                Int32 njsheighy = Convert.ToInt32(jsheight);
+
+
+                Bitmap wbOutputbitmap = WebSnapshotsHelper.GetWebSiteThumbnail("file:///" + Application.StartupPath + "\\output\\" + wb.Name + ".htm", 840+50, njsheighy+50, 840+50, njsheighy+50); //宽高根据要获取快照的网页决定
+                wbOutputbitmap.Save(Application.StartupPath + "\\output\\" + wb.Name + ".jpg"
+                    , System.Drawing.Imaging.ImageFormat.Jpeg
+                    );
+                wbOutputbitmap.Dispose();
+
+                #endregion
+
+                Regex findHead = new Regex("<div id=\"data_top\">((?!</div>)[\\s\\S])+</div>", RegexOptions.IgnoreCase);
+
+                string headstr = findHead.Match(html).Value;
+
+                headstr = headstr.Replace("欧洲盘", "");
+                headstr = Regex.Replace(headstr, "<td", "<td style=\"font-size:16px!important\"", RegexOptions.IgnoreCase);
+                headstr = Regex.Replace(headstr, "width=\"42\"", "wifth=\"60\"", RegexOptions.IgnoreCase);
+
+
+                MatchCollection rows = findmaintr.Matches(total);
+                foreach (Match Rowitem in rows)
+                {
+                    Regex findid = new Regex("id=\"((?!\")[\\s\\S])+\"");
+
+                    Regex findtables = new Regex(@"<table[^>]*>((?<mm><table[^>]*>)+|(?<-mm></table>)|[\s\S])*?(?(mm)(?!))</table>", RegexOptions.IgnoreCase);
+                    MatchCollection tabs = findtables.Matches(Rowitem.Value);
+                    if (tabs.Count == 0)
+                    {
+                        continue;
+                    }
+
+
+                    string vs = findtds.Matches(tabs[0].Value)[1].Value;
+                    string Key = findid.Match(Rowitem.Value).Value;
+                    Key = Key.Replace("\"", "").Replace("id=", "");
+                    vs = vs.Replace("<br>", "@#@#");
+                    string reg = @"[<].*?[>]";
+                    vs = Regex.Replace(vs, reg, "");
+
+                    string TypeAndTime = findtds.Matches(tabs[0].Value)[0].Value;
+                    TypeAndTime = TypeAndTime.Replace("<br>", "$#$#");
+                    TypeAndTime = NetFramework.Util_WEB.CleanHtml(TypeAndTime);
+
+
+
+
+                    Linq.ProgramLogic.c_vs toupdate = Linq.ProgramLogic.GameMatches.SingleOrDefault(t => t.Key == Key && t.GameType == balltype);
+                    if (toupdate == null)
+                    {
+                        Linq.ProgramLogic.c_vs newr = new Linq.ProgramLogic.c_vs();
+                        newr.Key = Key;
+
+                        newr.A_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
+                        newr.B_Team = vs.Split("@#@#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
+                        newr.GameType = balltype;
+                        newr.RowData = tabs[0].Value;
+                        newr.HeadDiv = headstr;
+
+
+                        newr.MatchTime = TypeAndTime.Split("$#$#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1];
+                        newr.MatchClass = TypeAndTime.Split("$#$#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0];
+                        newr.vscountryname = vs.Replace("@#@#", "VS");
+
+
+                        Linq.ProgramLogic.GameMatches.Add(newr);
+
+                        foreach (Match rratio in findmaintr.Matches(tabs[1].Value))
+                        {
+
+                            MatchCollection ratios = findtds.Matches(rratio.Value);
+
+                            Linq.ProgramLogic.c_rario currentr = new Linq.ProgramLogic.c_rario();
+
+                            currentr.rowtypeindex = newr.CurRatioCount;
+                            newr.ratios.Add(currentr);
+                            newr.CurRatioCount += 1;
+                            currentr.RatioType = (Regex.Replace(ratios[0].Value, reg, ""));
+                            currentr.A_WIN = (Regex.Replace(ratios[1].Value, reg, ""));
+                            currentr.Winless = Regex.Replace(ratios[2].Value, reg, "");
+                            currentr.B_Win = (Regex.Replace(ratios[3].Value, reg, ""));
+
+                            if (balltype == "足球")
+                            {
+
+
+
+
+                                currentr.BigWin = (Regex.Replace(ratios[7].Value, reg, ""));
+                                currentr.Total = Regex.Replace(ratios[8].Value, reg, "");
+                                currentr.SmallWin = (Regex.Replace(ratios[9].Value, reg, ""));
+
+
+                            }
+                            else
+                            {
+                                currentr.BigWin = (Regex.Replace(ratios[6].Value, reg, ""));
+                                currentr.Total = Regex.Replace(ratios[7].Value, reg, "");
+                                currentr.SmallWin = (Regex.Replace(ratios[8].Value, reg, ""));
+                            }
+                        }//行循环盘类别
+                        RefreshotherV2(newr.Key);
+                    }//无比赛
+                    else
+                    {
+                        foreach (Match rratio in findmaintr.Matches(tabs[1].Value))
+                        {
+
+
+
+
+                            MatchCollection ratios = findtds.Matches(rratio.Value);
+
+                            Linq.ProgramLogic.c_rario findcr = toupdate.ratios.SingleOrDefault(t => t.RatioType == (Regex.Replace(ratios[0].Value, reg, "")));
+
+                            if (findcr == null)
+                            {
+
+
+
+                                Linq.ProgramLogic.c_rario currentr = new Linq.ProgramLogic.c_rario();
+
+                                currentr.rowtypeindex = toupdate.CurRatioCount;
+                                toupdate.ratios.Add(currentr);
+                                toupdate.CurRatioCount += 1;
+                                currentr.RatioType = (Regex.Replace(ratios[0].Value, reg, ""));
+                                currentr.A_WIN = (Regex.Replace(ratios[1].Value, reg, ""));
+                                currentr.Winless = Regex.Replace(ratios[2].Value, reg, "");
+                                currentr.B_Win = (Regex.Replace(ratios[3].Value, reg, ""));
+
+                                if (balltype == "足球")
+                                {
+                                    currentr.BigWin = (Regex.Replace(ratios[7].Value, reg, ""));
+                                    currentr.Total = Regex.Replace(ratios[8].Value, reg, "");
+                                    currentr.SmallWin = (Regex.Replace(ratios[9].Value, reg, ""));
+                                }
+                                else
+                                {
+                                    currentr.BigWin = (Regex.Replace(ratios[6].Value, reg, ""));
+                                    currentr.Total = Regex.Replace(ratios[7].Value, reg, "");
+                                    currentr.SmallWin = (Regex.Replace(ratios[8].Value, reg, ""));
+                                }
+                            }//找到当前盘或初始盘
+                            else
+                            {
+                                findcr.RatioType = (Regex.Replace(ratios[0].Value, reg, ""));
+                                findcr.A_WIN = (Regex.Replace(ratios[1].Value, reg, ""));
+                                findcr.Winless = Regex.Replace(ratios[2].Value, reg, "");
+                                findcr.B_Win = (Regex.Replace(ratios[3].Value, reg, ""));
+
+                                if (balltype == "足球")
+                                {
+                                    findcr.BigWin = (Regex.Replace(ratios[7].Value, reg, ""));
+                                    findcr.Total = Regex.Replace(ratios[8].Value, reg, "");
+                                    findcr.SmallWin = (Regex.Replace(ratios[9].Value, reg, ""));
+
+                                }
+                                else
+                                {
+                                    findcr.BigWin = (Regex.Replace(ratios[6].Value, reg, ""));
+                                    findcr.Total = Regex.Replace(ratios[7].Value, reg, "");
+                                    findcr.SmallWin = (Regex.Replace(ratios[8].Value, reg, ""));
+                                }
+
+                            }//盘行数不一样
+                        }//循环
+                       
+                    }//有比赛
+                }
+
+            }));//ACTION结束
+        }
+        private void RefreshotherV2(string GameKey)
+        {
+            this.Invoke(new Action(() =>
             {
+
+
+
+
+
+
+
                 Application.DoEvents();
-                string NewUrl = "http://odds.gooooal.com/" + item.Value.Replace("<a href=\"", "").Replace("\" target=\"_blank\"><span>其他玩法</span></a>", "").Replace("&amp;", "&");
-
+                string NewUrl = "http://odds.gooooal.com/singlefield.html?mid=" + GameKey.Replace("m_", "") + "&Type=5";
+                //NewUrl = "http://odds.gooooal.com/singlefield.html?mid=1394090&type=5";
                 wb_refresh.Load(NewUrl);
-                Thread.Sleep(2000);
+
+                NetFramework.Console.WriteLine("正在处理其他玩法" + GameKey);
+                NetFramework.Console.WriteLine(NewUrl);
+                DateTime pretime = DateTime.Now;
+                while ((DateTime.Now - pretime).TotalMilliseconds < 3000)
+                {
+                    if (ExitKill)
+                    {
+                        return;
+                    }
+                    Application.DoEvents();
+                    Thread.Sleep(100);
+
+                }
                 wb_refresh.GetBrowser().StopLoad();
+
+
                 System.Threading.Tasks.Task<string> refreshtask = wb_refresh.GetBrowser().MainFrame.GetSourceAsync();
                 refreshtask.Wait();
                 string refreshhtml = refreshtask.Result;
 
                 Regex FindShow = FindShow = new Regex(@"<div\s*id=""data_main5""[^>]*>((?<mm><div[^>]*>)+|(?<-mm></div>)|[\s\S])*?(?(mm)(?!))</div>", RegexOptions.IgnoreCase);
                 string showstr = FindShow.Match(refreshhtml).Value;
-
+                showstr = Regex.Replace(showstr, "<td", "<td style=\"font-size:16px!important;\"", RegexOptions.IgnoreCase);
                 String NewOutput = "";
                 refreshhtml = Regex.Replace(refreshhtml, "<script((?!</script>)[\\s\\S])+</script>", "", RegexOptions.IgnoreCase);
+                refreshhtml = Regex.Replace(refreshhtml, "<iframe((?!</iframe>)[\\s\\S])+</iframe>", "", RegexOptions.IgnoreCase);
+
+
+                #region 波胆解析
+                Regex findtbls = new Regex(@"<table[^>]*>((?<mm><table[^>]*>)+|(?<-mm></table>)|[\s\S])*?(?(mm)(?!))</table>", RegexOptions.IgnoreCase);
+                MatchCollection tables = findtbls.Matches(showstr);
+                Regex findmaintr = new Regex(@"<tr[^>]*>((?<mm><tr[^>]*>)+|(?<-mm></tr>)|[\s\S])*?(?(mm)(?!))</tr>", RegexOptions.IgnoreCase);
+                Regex findtds = new Regex(@"<td[^>]*>((?<mm><td[^>]*>)+|(?<-mm></td>)|[\s\S])*?(?(mm)(?!))</td>", RegexOptions.IgnoreCase);
+
+                MatchCollection companys = findmaintr.Matches(tables[1].Value);
+                foreach (Match cmpitem in companys)
+                {
+                    MatchCollection data_td = findtds.Matches(cmpitem.Value);
+                    if (data_td.Count >= 2)
+                    {
+                        if (NetFramework.Util_WEB.CleanHtml(data_td[0].Value).Contains("澳彩"))
+                        {
+                            Linq.ProgramLogic.c_vs gamem_u = Linq.ProgramLogic.GameMatches.SingleOrDefault(t => t.Key == GameKey);
+                            if (gamem_u != null)
+                            {
+                                Linq.ProgramLogic.c_rario ratio_u = gamem_u.ratios.SingleOrDefault(t => t.RatioType.Contains("当前") || t.RatioType.Contains("即时"));
+                                if (ratio_u != null)
+                                {
+                                    ratio_u.R_A_A = NetFramework.Util_WEB.CleanHtml(data_td[1].Value);
+
+                                    ratio_u.R_A_SAME = NetFramework.Util_WEB.CleanHtml(data_td[2].Value);
+
+                                    ratio_u.R_A_B = NetFramework.Util_WEB.CleanHtml(data_td[3].Value);
+
+                                    ratio_u.R_SAME_A = NetFramework.Util_WEB.CleanHtml(data_td[4].Value);
+
+                                    ratio_u.R_SAME_SAME = NetFramework.Util_WEB.CleanHtml(data_td[5].Value);
+
+                                    ratio_u.R_SAME_B = NetFramework.Util_WEB.CleanHtml(data_td[6].Value);
+
+                                    ratio_u.R_B_A = NetFramework.Util_WEB.CleanHtml(data_td[7].Value);
+
+                                    ratio_u.R_B_SAME = NetFramework.Util_WEB.CleanHtml(data_td[8].Value);
+
+                                    ratio_u.R_B_B = NetFramework.Util_WEB.CleanHtml(data_td[8].Value);
+                                }
+
+                            }
+                        }
+
+                    }
 
 
 
-                c_vs gamem = GameMatches.SingleOrDefault(t => t.Key == "m_" + item.Value.Replace("<a href=\"singlefield.html?mid=", "").Replace("\" target=\"_blank\"><span>其他玩法</span></a>", "").Replace("&amp;type=5", ""));
+                }
+                if (tables.Count >= 4)
+                {
+
+
+                    MatchCollection companys_p = findmaintr.Matches(tables[3].Value);
+                    Int32 TRINDEX = 0;
+                    foreach (Match cmpitem in companys_p)
+                    {
+
+                        MatchCollection subtbls = findtbls.Matches(findtds.Matches(cmpitem.Value)[0].Value);
+                        if (subtbls.Count == 0)
+                        {
+                            continue;
+                        }
+                        MatchCollection subtrs = findmaintr.Matches(subtbls[0].Value);
+
+                        MatchCollection data_A_td = findtds.Matches(subtrs[0].Value);
+
+                        if (data_A_td.Count >= 2)
+                        {
+                            if (data_A_td[0].Value.Contains("澳彩"))
+                            {
+                                MatchCollection data_B_td = findtds.Matches(subtrs[1].Value);
+
+                                Linq.ProgramLogic.c_vs gamem_u = Linq.ProgramLogic.GameMatches.SingleOrDefault(t => t.Key == GameKey);
+                                if (gamem_u != null)
+                                {
+                                    Linq.ProgramLogic.c_rario ratio_u = gamem_u.ratios.SingleOrDefault(t => t.RatioType.Contains("当前") || t.RatioType.Contains("即时"));
+                                    if (ratio_u != null)
+                                    {
+                                        ratio_u.R1_0_A = NetFramework.Util_WEB.CleanHtml(data_A_td[2].Value);
+                                        ratio_u.R1_0_B = NetFramework.Util_WEB.CleanHtml(data_B_td[1].Value);
+
+                                        ratio_u.R2_0_A = NetFramework.Util_WEB.CleanHtml(data_A_td[3].Value);
+                                        ratio_u.R2_0_B = NetFramework.Util_WEB.CleanHtml(data_B_td[2].Value);
+
+                                        ratio_u.R2_1_A = NetFramework.Util_WEB.CleanHtml(data_A_td[4].Value);
+                                        ratio_u.R2_1_B = NetFramework.Util_WEB.CleanHtml(data_B_td[3].Value);
+
+                                        ratio_u.R3_0_A = NetFramework.Util_WEB.CleanHtml(data_A_td[5].Value);
+                                        ratio_u.R3_0_B = NetFramework.Util_WEB.CleanHtml(data_B_td[4].Value);
+
+                                        ratio_u.R3_1_A = NetFramework.Util_WEB.CleanHtml(data_A_td[6].Value);
+                                        ratio_u.R3_1_B = NetFramework.Util_WEB.CleanHtml(data_B_td[5].Value);
+
+                                        ratio_u.R3_2_A = NetFramework.Util_WEB.CleanHtml(data_A_td[7].Value);
+                                        ratio_u.R3_2_B = NetFramework.Util_WEB.CleanHtml(data_B_td[6].Value);
+
+
+
+                                        ratio_u.R4_0_A = NetFramework.Util_WEB.CleanHtml(data_A_td[8].Value);
+                                        ratio_u.R4_0_B = NetFramework.Util_WEB.CleanHtml(data_B_td[7].Value);
+
+                                        ratio_u.R4_1_A = NetFramework.Util_WEB.CleanHtml(data_A_td[9].Value);
+                                        ratio_u.R4_1_B = NetFramework.Util_WEB.CleanHtml(data_B_td[8].Value);
+
+                                        ratio_u.R4_2_A = NetFramework.Util_WEB.CleanHtml(data_A_td[10].Value);
+                                        ratio_u.R4_2_B = NetFramework.Util_WEB.CleanHtml(data_B_td[9].Value);
+
+                                        ratio_u.R4_3_A = NetFramework.Util_WEB.CleanHtml(data_A_td[11].Value);
+                                        ratio_u.R4_3_B = NetFramework.Util_WEB.CleanHtml(data_B_td[10].Value);
+
+                                        ratio_u.R0_0 = NetFramework.Util_WEB.CleanHtml(data_A_td[12].Value);
+
+                                        ratio_u.R1_1 = NetFramework.Util_WEB.CleanHtml(data_A_td[13].Value);
+
+                                        ratio_u.R2_2 = NetFramework.Util_WEB.CleanHtml(data_A_td[14].Value);
+
+                                        ratio_u.R3_3 = NetFramework.Util_WEB.CleanHtml(data_A_td[15].Value);
+
+                                        ratio_u.R4_4 = NetFramework.Util_WEB.CleanHtml(data_A_td[16].Value);
+
+                                        ratio_u.Rother = NetFramework.Util_WEB.CleanHtml(data_A_td[17].Value);
+
+                                    }
+                                }
+                            }
+
+
+                        }
+
+                        TRINDEX += 1;
+
+                    }
+
+                }
+
+
+                #endregion
+
+
+
+
+                Linq.ProgramLogic.c_vs gamem = Linq.ProgramLogic.GameMatches.SingleOrDefault(t => t.Key == GameKey);
                 if (gamem != null)
                 {
                     NewOutput = Regex.Replace(refreshhtml, "<body>((?!</body>)[\\s\\S])+</body>", "<body style=\"width:840px\">"
@@ -5443,14 +6103,16 @@ namespace WeixinRoboot
                     NewOutput = Regex.Replace(refreshhtml, "<body>((?!</body>)[\\s\\S])+</body>", "<body style=\"width:840px\">" + showstr + "</body>", RegexOptions.IgnoreCase);
 
                 }
-                if (File.Exists(Application.StartupPath + "\\tmp.htm"))
-                {
-                    File.Delete(Application.StartupPath + "\\tmp.htm");
-                }
-                FileStream fs = new FileStream(Application.StartupPath + "\\tmp.htm", FileMode.Create);
-                byte[] bsource = Encoding.UTF8.GetBytes(NewOutput);
-                fs.Write(bsource, 0, bsource.Length);
-                fs.Close();
+
+
+
+
+
+                NetFramework.Console.WriteLine("正在准备图片" + gamem.vscountryname);
+
+                StreamReader sr = new StreamReader(Application.StartupPath + "\\Template.Htm");
+                string temps = sr.ReadToEnd();
+                sr.Close();
 
 
                 if (Directory.Exists(Application.StartupPath + "\\output") == false)
@@ -5458,86 +6120,158 @@ namespace WeixinRoboot
                     Directory.CreateDirectory(Application.StartupPath + "\\output");
                 }
 
-                Bitmap Outputbitmap = WebSnapshotsHelper.GetWebSiteThumbnail("file:///" + Application.StartupPath + "\\tmp.htm", 840, 450, 840, 450); //宽高根据要获取快照的网页决定
-                Outputbitmap.Save(Application.StartupPath + "\\output\\" + "m_" + item.Value.Replace("<a href=\"singlefield.html?mid=", "").Replace("\" target=\"_blank\"><span>其他玩法</span></a>", "").Replace("&amp;type=5", "") + ".jpg"
+                #region 保存成图片
+
+                string Saves = temps;
+                Saves = Saves.Replace("{A_Team}", gamem.A_Team);
+                Saves = Saves.Replace("{B_Team}", gamem.B_Team);
+                Saves = Saves.Replace("{比赛时间}", gamem.MatchTime);
+                Saves = Saves.Replace("{比赛类型}", gamem.MatchClass);
+
+                for (int i = 0; i < gamem.ratios.Count; i++)
+                {
+                    Saves = Saves.Replace("{盘类型" + i.ToString() + "}", gamem.ratios[i].RatioType);
+                    Saves = Saves.Replace("{A赢" + i.ToString() + "}", gamem.ratios[i].A_WIN);
+                    Saves = Saves.Replace("{让球" + i.ToString() + "}", gamem.ratios[i].Winless);
+                    Saves = Saves.Replace("{B赢" + i.ToString() + "}", gamem.ratios[i].B_Win);
+                    Saves = Saves.Replace("{大球" + i.ToString() + "}", gamem.ratios[i].BigWin);
+                    Saves = Saves.Replace("{总球" + i.ToString() + "}", gamem.ratios[i].Total);
+                    Saves = Saves.Replace("{小球" + i.ToString() + "}", gamem.ratios[i].SmallWin);
+                }
+
+                Saves = Saves.Replace("{IsHide3}", gamem.ratios.Count >= 3 ? "" : "display:none");
+
+                Saves = Saves.Replace("{IsHide2}", gamem.ratios.Count >= 2 ? "" : "display:none");
+
+                Saves = Saves.Replace("{R1_0_A}", gamem.ratios[0].R1_0_A);
+                Saves = Saves.Replace("{R2_0_A}", gamem.ratios[0].R2_0_A);
+                Saves = Saves.Replace("{R2_1_A}", gamem.ratios[0].R2_1_A);
+                Saves = Saves.Replace("{R3_0_A}", gamem.ratios[0].R3_0_A);
+                Saves = Saves.Replace("{R3_1_A}", gamem.ratios[0].R3_1_A);
+                Saves = Saves.Replace("{R3_2_A}", gamem.ratios[0].R3_2_A);
+                Saves = Saves.Replace("{R4_0_A}", gamem.ratios[0].R4_0_A);
+                Saves = Saves.Replace("{R4_1_A}", gamem.ratios[0].R4_1_A);
+                Saves = Saves.Replace("{R4_2_A}", gamem.ratios[0].R4_2_A);
+                Saves = Saves.Replace("{R4_3_A}", gamem.ratios[0].R4_3_A);
+
+                Saves = Saves.Replace("{R1_0_B}", gamem.ratios[0].R1_0_B);
+                Saves = Saves.Replace("{R2_0_B}", gamem.ratios[0].R2_0_B);
+                Saves = Saves.Replace("{R2_1_B}", gamem.ratios[0].R2_1_B);
+                Saves = Saves.Replace("{R3_0_B}", gamem.ratios[0].R3_0_B);
+                Saves = Saves.Replace("{R3_1_B}", gamem.ratios[0].R3_1_B);
+                Saves = Saves.Replace("{R3_2_B}", gamem.ratios[0].R3_2_B);
+                Saves = Saves.Replace("{R4_0_B}", gamem.ratios[0].R4_0_B);
+                Saves = Saves.Replace("{R4_1_B}", gamem.ratios[0].R4_1_B);
+                Saves = Saves.Replace("{R4_2_B}", gamem.ratios[0].R4_2_B);
+                Saves = Saves.Replace("{R4_3_B}", gamem.ratios[0].R4_3_B);
+
+
+                Saves = Saves.Replace("{R0_0}", gamem.ratios[0].R0_0);
+                Saves = Saves.Replace("{R1_1}", gamem.ratios[0].R1_1);
+                Saves = Saves.Replace("{R2_2}", gamem.ratios[0].R2_2);
+                Saves = Saves.Replace("{R3_3}", gamem.ratios[0].R3_3);
+                Saves = Saves.Replace("{R4_4}", gamem.ratios[0].R4_4);
+
+                Saves = Saves.Replace("{Rother}", gamem.ratios[0].Rother);
+
+
+                Saves = Saves.Replace("{R_A_A}", gamem.ratios[0].R_A_A);
+                Saves = Saves.Replace("{R_A_SAME}", gamem.ratios[0].R_A_SAME);
+                Saves = Saves.Replace("{R_A_B}", gamem.ratios[0].R_A_B);
+                Saves = Saves.Replace("{R_SAME_A}", gamem.ratios[0].R_SAME_A);
+                Saves = Saves.Replace("{R_SAME_SAME}", gamem.ratios[0].R_SAME_SAME);
+                Saves = Saves.Replace("{R_SAME_B}", gamem.ratios[0].R_SAME_B);
+                Saves = Saves.Replace("{R_B_A}", gamem.ratios[0].R_B_A);
+                Saves = Saves.Replace("{R_B_SAME}", gamem.ratios[0].R_B_SAME);
+                Saves = Saves.Replace("{R_B_B}", gamem.ratios[0].R_B_B);
+
+                if (File.Exists(Application.StartupPath + "\\tmp.htm") == false)
+                {
+                    FileStream fsc = File.Create(Application.StartupPath + "\\tmp.htm");
+                    fsc.Flush();
+                    fsc.Close();
+                    fsc.Dispose();
+                }
+                FileStream fs = new FileStream(Application.StartupPath + "\\tmp.htm", FileMode.Truncate);
+                byte[] bsource = Encoding.UTF8.GetBytes(Saves);
+                fs.Write(new byte[] { 0xEF, 0XBB, 0XBF }, 0, 3);
+                fs.Write(bsource, 0, bsource.Length);
+                fs.Close();
+
+                wb_other.Load("file:///" + Application.StartupPath + "\\tmp.htm");
+
+                DateTime pretimeV2 = DateTime.Now;
+                while ((DateTime.Now - pretimeV2).TotalMilliseconds < 3000)
+                {
+                    if (ExitKill)
+                    {
+                        return;
+                    }
+                    Application.DoEvents();
+                    Thread.Sleep(100);
+
+                }
+
+                System.Threading.Tasks.Task<CefSharp.JavascriptResponse> gst = wb_other.GetBrowser().MainFrame.EvaluateScriptAsync("$('#datatable').height()");
+                gst.Wait();
+                string jsheight = gst.Result.Result == null ? "1024" : gst.Result.Result.ToString();
+                Int32 njsheight = Convert.ToInt32(jsheight);
+
+                gst = wb_other.GetBrowser().MainFrame.EvaluateScriptAsync("$('#datatable').width()");
+                gst.Wait();
+                string jshwidth= gst.Result.Result == null ? "1024" : gst.Result.Result.ToString();
+                Int32 njswdith = Convert.ToInt32(jshwidth);
+
+
+                if (Directory.Exists(Application.StartupPath + "\\output") == false)
+                {
+                    Directory.CreateDirectory(Application.StartupPath + "\\output");
+                }
+
+                Bitmap Outputbitmap = WebSnapshotsHelper.GetWebSiteThumbnail("file:///" + Application.StartupPath + "\\tmp.htm", 743+50, njsheight+50, 743+50, njsheight+50); //宽高根据要获取快照的网页决定
+                Outputbitmap.Save(Application.StartupPath + "\\output\\" + gamem.Key + ".jpg"
                     , System.Drawing.Imaging.ImageFormat.Jpeg
                     );
                 Outputbitmap.Dispose();
 
 
 
+                #endregion
 
-
-            }//循环抓数结束
-
-            #region 无其他玩法图片
-            foreach (var gamem in GameMatches)
+            }));//invode action结束
+        }
+        private bool ExitKill = false;
+        private void StartGetBallRatioV2()
+        {
+            while (true)
             {
-                string[] picfiles = Directory.GetFiles((Application.StartupPath + "\\output"));
-                if (picfiles.Where(t => t.Contains(gamem.Key)).Count() == 0)
+                if (ExitKill)
                 {
-                    string NewOutput = "";
-                    NewOutput = Regex.Replace(otherhtml, "<body>((?!</body>)[\\s\\S])+</body>", "<body style=\"width:840px\">"
-                          + gamem.HeadDiv
-                          + "<table>"
-                          + gamem.RowData
-                          + "</table>"
-                          + "</body>", RegexOptions.IgnoreCase);
-
-
-                    FileStream fs = new FileStream(Application.StartupPath + "\\tmp.htm", FileMode.OpenOrCreate);
-                    byte[] bsource = Encoding.UTF8.GetBytes(NewOutput);
-                    fs.Write(bsource, 0, bsource.Length);
-                    fs.Close();
-
-
-                    if (Directory.Exists(Application.StartupPath + "\\output") == false)
-                    {
-                        Directory.CreateDirectory(Application.StartupPath + "\\output");
-                    }
-
-                    Bitmap Outputbitmap = WebSnapshotsHelper.GetWebSiteThumbnail("file:///" + Application.StartupPath + "\\tmp.htm", 840, 450, 840, 450); //宽高根据要获取快照的网页决定
-                    Outputbitmap.Save(Application.StartupPath + "\\output\\" + gamem.Key + ".jpg"
-                        , System.Drawing.Imaging.ImageFormat.Jpeg
-                        );
-                    Outputbitmap.Dispose();
-
+                    return;
                 }
 
+                try
+                {
+                    RefreshballV2(wb_football, "data_main", "足球");
+                    RefreshballV2(wb_basketball, "mm_content", "篮球");
+                }
+                catch (Exception AnyError)
+                {
 
+                    NetFramework.Console.WriteLine(AnyError.Message);
+                    NetFramework.Console.WriteLine(AnyError.StackTrace);
+                    return;
+                }
+                Thread.Sleep(5000);
             }
-            #endregion
-
 
         }
 
 
-        public static List<c_vs> GameMatches = new List<c_vs>();
 
-        public class c_vs
-        {
-            public string Key = "";
-            public string A_Team = "";
-            public string B_Team = "";
-            public List<c_rario> ratios = new List<c_rario>();
-            public string GameType = "";
-            public string HeadDiv = "";
 
-            public string RowData = "";
 
-        }
 
-        public class c_rario
-        {
-
-            public string A_WIN;
-            public string Winless;
-            public string B_Win;
-            public string BigWin;
-            public string Total;
-            public string SmallWin;
-            public string RatioType = "";
-        }
 
 
 
@@ -5545,9 +6279,25 @@ namespace WeixinRoboot
 
         private void StartForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            ExitKill = true;
+
             CefSharp.Cef.Shutdown();
             Environment.Exit(0);
         }
+
+        private void MI_BallOpenManul_Click(object sender, EventArgs e)
+        {
+            BallOpen bo = new BallOpen();
+            bo.Show();
+        }
+
+        private void MI_BallGames_Click(object sender, EventArgs e)
+        {
+            BallGames bg = new BallGames();
+            bg.Show();
+        }
+
+
 
 
 
