@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <title></title>
+<head>
+    <style>
+        body {
+         font-size:14px;
+           font-family:微软雅黑;
+        
+        }
+        td {
+         text-align:center;
+          border:1px solid black;
+          border-collapse:collapse;
+        }
+        table {
+         border:1px solid black;
+         min-width:743px;
+         width:100%;
+        }
+        .BigFont {
+        font-size:18px;
+        }
+         .BigFont2 {
+        font-size:16px;
+        font-weight:bold;
+        }
+        .NormalFont {
+         font-size:16px;
+        }
+        .Yellowbg {
+        background-color:#fefcc8;
+        }
+    </style>
+   <script src="jquery-1.2.6.pack.js" type="text/javascript"></script>
+</head>
+<body>
+    <table id="datatable" cellpadding="0" cellspacing="0">
+        <colgroup>
+            <col width="100" />
+            <col width="62" />
+
+            <col width="83" />
+            <col width="83" />
+            <col width="83" />
+            <col width="83" />
+            <col width="83" />
+            <col width="83" />
+            <col width="83" />
+        </colgroup>
+        <tr class="BigFont2">
+            <td colspan="3" rowspan="2">{比赛时间}</td>
+            <td colspan="3" class="Middle">让球指数</td>
+            <td colspan="3" class="Middle">大小指数</td>
+        </tr>
+        <tr class="BigFont2">
+            <td>{A_Team}</td>
+            <td>让球指数</td>
+            <td>{B_Team}</td>
+            <td>{A_Team}</td>
+            <td>大小指数</td>
+            <td>{B_Team}</td>
+        </tr>
+        <tr style="font-weight:bold">
+            <td rowspan="3" colspan="2">{比赛类型}</td>
+            <td>{盘类型0}</td>
+            <td>{A赢0}</td>
+            <td>{让球0}</td>
+            <td>{B赢0}</td>
+            <td>{大球0}</td>
+            <td>{总球0}</td>
+            <td>{小球0}</td>
+        </tr>
+        <tr style="{IsHide2}">
+            <td>{盘类型1}</td>
+            <td>{A赢1}</td>
+            <td>{让球1}</td>
+            <td>{B赢1}</td>
+            <td>{大球1}</td>
+            <td>{总球1}</td>
+            <td>{小球1}</td>
+        </tr>
+        <tr style="{IsHide3}">
+            <td>{盘类型2}</td>
+            <td>{A赢2}</td>
+            <td>{让球2}</td>
+            <td>{B赢2}</td>
+            <td>{大球2}</td>
+            <td>{总球2}</td>
+            <td>{小球2}</td>
+        </tr>
+        <tr>
+            <td colspan="9" class="Middle BigFont" style="font-weight:bold">波胆指数</td>
+
+        </tr>
+        <tr class="BigFont2">
+            <td>比分</td>
+            <td class="Yellowbg">1-0</td>
+            <td class="Yellowbg">2-0</td>
+            <td class="Yellowbg">2-1</td>
+            <td class="Yellowbg">3-0</td>
+            <td class="Yellowbg">3-1</td>
+            <td class="Yellowbg">3-2</td>
+            <td class="Yellowbg">4-0</td>
+            <td class="Yellowbg">4-1</td>
+        </tr>
+        <tr>
+            <td>{A_Team}</td>
+            <td>{R1_0_A}</td>
+            <td>{R2_0_A}</td>
+            <td>{R2_1_A}</td>
+            <td>{R3_0_A}</td>
+            <td>{R3_1_A}</td>
+            <td>{R3_2_A}</td>
+            <td>{R4_0_A}</td>
+            <td>{R4_1_A}</td>
+        </tr>
+        <tr>
+            <td>{B_Team}</td>
+            <td>{R1_0_B}</td>
+            <td>{R2_0_B}</td>
+            <td>{R2_1_B}</td>
+            <td>{R3_0_B}</td>
+            <td>{R3_1_B}</td>
+            <td>{R3_2_B}</td>
+            <td>{R4_0_B}</td>
+            <td>{R4_1_B}</td>
+        </tr>
+
+        <tr>
+            <td>比分</td>
+            <td class="Yellowbg">4-2</td>
+            <td class="Yellowbg">4-3</td>
+            <td class="Yellowbg">0-0</td>
+            <td class="Yellowbg">1-1</td>
+            <td class="Yellowbg">2-2</td>
+            <td class="Yellowbg">3-3</td>
+            <td class="Yellowbg">4-4</td>
+            <td class="Yellowbg">其他</td>
+        </tr>
+        <tr>
+            <td>{A_Team}</td>
+            <td>{R4_2_A}</td>
+            <td>{R4_3_A}</td>
+            <td rowspan="2">{R0_0}</td>
+            <td rowspan="2">{R1_1}</td>
+            <td rowspan="2">{R2_2}</td>
+            <td rowspan="2">{R3_3}</td>
+            <td rowspan="2">{R4_4}</td>
+            <td rowspan="2">{Rother}</td>
+        </tr>
+        <tr>
+            <td>{B_Team}</td>
+            <td>{R4_2_B}</td>
+            <td>{R4_3_B}</td>
+
+            </tr>
+            <tr>
+                <td colspan="9" class="Middle BigFont" style="font-weight:bold">主客和指数</td>
+
+            </tr>
+
+        <tr class="BigFont2">
+            <td>主/主</td>
+            <td>主/和</td>
+            <td>主/客</td>
+            <td>和/主</td>
+            <td>和/和</td>
+            <td>和/客</td>
+            <td>客/主</td>
+            <td>客/和</td>
+            <td>客/客</td>
+
+        </tr>
+        <tr>
+            <td>{R_A_A}</td>
+            <td>{R_A_SAME}</td>
+            <td>{R_A_B}</td>
+            <td>{R_SAME_A}</td>
+            <td>{R_SAME_SAME}</td>
+            <td>{R_SAME_B}</td>
+            <td>{R_B_A}</td>
+            <td>{R_B_SAME}</td>
+            <td>{R_B_B}</td>
+
+        </tr>
+
+
+    </table>
+</body>
+</html>
