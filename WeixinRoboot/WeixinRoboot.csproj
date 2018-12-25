@@ -17,7 +17,7 @@
     <TargetFrameworkProfile />
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <NuGetPackageImportStamp>e152d755</NuGetPackageImportStamp>
-    <PublishUrl>ftp://172.6.8.143:9124/</PublishUrl>
+    <PublishUrl>ftp://LAPTOP-VUQTIAUP:9124/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -30,8 +30,8 @@
     <InstallUrl>http://LAPTOP-VUQTIAUP:9123/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>11</ApplicationRevision>
-    <ApplicationVersion>1.0.4.%2a</ApplicationVersion>
+    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationVersion>1.0.6.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>false</BootstrapperEnabled>
@@ -118,6 +118,12 @@
     </Compile>
     <Compile Include="BallOpen.Designer.cs">
       <DependentUpon>BallOpen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogForm.Designer.cs">
+      <DependentUpon>LogForm.cs</DependentUpon>
     </Compile>
     <Compile Include="WebSnapshotsHelper.cs" />
     <Compile Include="Download163AndDeal.cs">
@@ -219,6 +225,12 @@
     <Compile Include="UserSetting.Designer.cs">
       <DependentUpon>UserSetting.cs</DependentUpon>
     </Compile>
+    <Compile Include="WebWeChatImageSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WebWeChatImageSetting.Designer.cs">
+      <DependentUpon>WebWeChatImageSetting.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinformTools.cs" />
     <Compile Include="SendCharge.cs">
       <SubType>Form</SubType>
@@ -248,6 +260,9 @@
       <DependentUpon>F_WX_BounsRatio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JSPromptForm.resx" />
+    <EmbeddedResource Include="LogForm.resx">
+      <DependentUpon>LogForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OpenQuery.resx">
       <DependentUpon>OpenQuery.cs</DependentUpon>
     </EmbeddedResource>
@@ -293,9 +308,25 @@
     <Content Include="devtools_resources.pak">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="FullSource.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HelloWorld.xml" />
     <Content Include="icudtl.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="WebWeChatImageSetting.resx">
+      <DependentUpon>WebWeChatImageSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Template_bassketball.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Template_Card.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Template_football.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Linq\db.dbml.layout">
       <DependentUpon>db.dbml</DependentUpon>
     </None>
@@ -506,6 +537,9 @@
     <Content Include="snapshot_blob.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Template_shishicai.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="WeixinRoboot_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -578,6 +612,7 @@
     <Content Include="Template.Htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="tools_tmp.xml" />
     <Content Include="type49.xml" />
     <Content Include="widevinecdmadapter.dll" />
     <Content Include="zlib1.dll" />

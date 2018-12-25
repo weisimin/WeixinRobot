@@ -116,7 +116,7 @@ namespace NetFramework
         public static string SplitGetLast(string EMLFolder)
         {
             string Result = "";
-            string[] FullList = EMLFolder.Split("\"\"".ToCharArray(), StringSplitOptions.RemoveEmptyEntries); 
+            string[] FullList = EMLFolder.Split("\"\"".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             for (int i = FullList.Length - 1; i >= 0; i--)
             {
                 if ((FullList[i] != ""))
@@ -146,7 +146,17 @@ namespace NetFramework
                 return false;
             }
         }
-
+        public static string ToString(object param)
+        {
+            if (param == null)
+            {
+                return "";
+            }
+            else
+            {
+                return param.ToString();
+            }
+        }
     }
     #endregion
 
@@ -258,4 +268,6 @@ namespace NetFramework
             return Result;
         }
     }
+
+
 }

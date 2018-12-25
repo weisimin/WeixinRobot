@@ -49,7 +49,7 @@ namespace WeixinRoboot
                              from dsgame2 in leftdsggame.DefaultIfEmpty()
                              where ds.ReceiveTime >= dtp_StartDate.Value
                              && ds.ReceiveTime < dtp_EndDate.Value
-                             && ds.aspnet_UserID == GlobalParam.Key
+                             && ds.aspnet_UserID == GlobalParam.UserKey
                              && ds.WX_UserName == _UserRow.Field<string>("User_ContactID")
                              && ds.WX_SourceType == _UserRow.Field<string>("User_SourceType")
                              select new

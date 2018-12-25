@@ -34,13 +34,6 @@
             this.bs_ratiocurrent = new System.Windows.Forms.BindingSource(this.components);
             this.bs_ratios = new System.Windows.Forms.BindingSource(this.components);
             this.gv_ratios = new System.Windows.Forms.DataGridView();
-            this.RatioType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.A_WIN = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Winless = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.B_Win = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BigWin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SmallWin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gv_ratiocurrent = new System.Windows.Forms.DataGridView();
             this.Team = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.R1_0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,12 +63,19 @@
             this.R_B_SAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.R_B_B = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bs_ratiocurrent2 = new System.Windows.Forms.BindingSource(this.components);
-            this.MatchTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GameTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MatchClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.vscountryname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GameVS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GameKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.球类 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.删除 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.RatioType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RCompanyType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.A_WIN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Winless = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.B_Win = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BigWin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SmallWin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gv_GameList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bs_gamelist)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bs_ratiocurrent)).BeginInit();
@@ -94,12 +94,11 @@
             this.gv_GameList.AutoGenerateColumns = false;
             this.gv_GameList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_GameList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.MatchTime,
+            this.GameTime,
             this.MatchClass,
-            this.vscountryname,
-            this.Key,
-            this.球类,
-            this.删除});
+            this.GameVS,
+            this.GameKey,
+            this.球类});
             this.gv_GameList.DataSource = this.bs_gamelist;
             this.gv_GameList.Location = new System.Drawing.Point(22, 28);
             this.gv_GameList.Name = "gv_GameList";
@@ -120,6 +119,7 @@
             this.gv_ratios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_ratios.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.RatioType,
+            this.RCompanyType,
             this.A_WIN,
             this.Winless,
             this.B_Win,
@@ -133,55 +133,6 @@
             this.gv_ratios.RowTemplate.Height = 23;
             this.gv_ratios.Size = new System.Drawing.Size(960, 106);
             this.gv_ratios.TabIndex = 1;
-            // 
-            // RatioType
-            // 
-            this.RatioType.DataPropertyName = "RatioType";
-            this.RatioType.HeaderText = "盘型";
-            this.RatioType.Name = "RatioType";
-            this.RatioType.ReadOnly = true;
-            // 
-            // A_WIN
-            // 
-            this.A_WIN.DataPropertyName = "A_WIN";
-            this.A_WIN.HeaderText = "主队";
-            this.A_WIN.Name = "A_WIN";
-            this.A_WIN.ReadOnly = true;
-            // 
-            // Winless
-            // 
-            this.Winless.DataPropertyName = "Winless";
-            this.Winless.HeaderText = "让球";
-            this.Winless.Name = "Winless";
-            this.Winless.ReadOnly = true;
-            // 
-            // B_Win
-            // 
-            this.B_Win.DataPropertyName = "B_Win";
-            this.B_Win.HeaderText = "客队";
-            this.B_Win.Name = "B_Win";
-            this.B_Win.ReadOnly = true;
-            // 
-            // BigWin
-            // 
-            this.BigWin.DataPropertyName = "BigWin";
-            this.BigWin.HeaderText = "大球";
-            this.BigWin.Name = "BigWin";
-            this.BigWin.ReadOnly = true;
-            // 
-            // Total
-            // 
-            this.Total.DataPropertyName = "Total";
-            this.Total.HeaderText = "总球";
-            this.Total.Name = "Total";
-            this.Total.ReadOnly = true;
-            // 
-            // SmallWin
-            // 
-            this.SmallWin.DataPropertyName = "SmallWin";
-            this.SmallWin.HeaderText = "小球";
-            this.SmallWin.Name = "SmallWin";
-            this.SmallWin.ReadOnly = true;
             // 
             // gv_ratiocurrent
             // 
@@ -452,13 +403,13 @@
             this.R_B_B.ReadOnly = true;
             this.R_B_B.Width = 50;
             // 
-            // MatchTime
+            // GameTime
             // 
-            this.MatchTime.DataPropertyName = "MatchTime";
-            this.MatchTime.HeaderText = "时间";
-            this.MatchTime.Name = "MatchTime";
-            this.MatchTime.ReadOnly = true;
-            this.MatchTime.Width = 110;
+            this.GameTime.DataPropertyName = "GameTime";
+            this.GameTime.HeaderText = "时间";
+            this.GameTime.Name = "GameTime";
+            this.GameTime.ReadOnly = true;
+            this.GameTime.Width = 110;
             // 
             // MatchClass
             // 
@@ -467,20 +418,20 @@
             this.MatchClass.Name = "MatchClass";
             this.MatchClass.ReadOnly = true;
             // 
-            // vscountryname
+            // GameVS
             // 
-            this.vscountryname.DataPropertyName = "vscountryname";
-            this.vscountryname.HeaderText = "对阵";
-            this.vscountryname.Name = "vscountryname";
-            this.vscountryname.ReadOnly = true;
-            this.vscountryname.Width = 300;
+            this.GameVS.DataPropertyName = "GameVS";
+            this.GameVS.HeaderText = "对阵";
+            this.GameVS.Name = "GameVS";
+            this.GameVS.ReadOnly = true;
+            this.GameVS.Width = 300;
             // 
-            // Key
+            // GameKey
             // 
-            this.Key.DataPropertyName = "Key";
-            this.Key.HeaderText = "唯一ID";
-            this.Key.Name = "Key";
-            this.Key.ReadOnly = true;
+            this.GameKey.DataPropertyName = "GameKey";
+            this.GameKey.HeaderText = "唯一ID";
+            this.GameKey.Name = "GameKey";
+            this.GameKey.ReadOnly = true;
             // 
             // 球类
             // 
@@ -489,14 +440,61 @@
             this.球类.Name = "球类";
             this.球类.ReadOnly = true;
             // 
-            // 删除
+            // RatioType
             // 
-            this.删除.HeaderText = "删除";
-            this.删除.Name = "删除";
-            this.删除.ReadOnly = true;
-            this.删除.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.删除.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.删除.Width = 60;
+            this.RatioType.DataPropertyName = "RatioType";
+            this.RatioType.HeaderText = "盘型";
+            this.RatioType.Name = "RatioType";
+            this.RatioType.ReadOnly = true;
+            // 
+            // RCompanyType
+            // 
+            this.RCompanyType.DataPropertyName = "RCompanyType";
+            this.RCompanyType.HeaderText = "公司";
+            this.RCompanyType.Name = "RCompanyType";
+            this.RCompanyType.ReadOnly = true;
+            // 
+            // A_WIN
+            // 
+            this.A_WIN.DataPropertyName = "A_WIN";
+            this.A_WIN.HeaderText = "主队";
+            this.A_WIN.Name = "A_WIN";
+            this.A_WIN.ReadOnly = true;
+            // 
+            // Winless
+            // 
+            this.Winless.DataPropertyName = "Winless";
+            this.Winless.HeaderText = "让球";
+            this.Winless.Name = "Winless";
+            this.Winless.ReadOnly = true;
+            // 
+            // B_Win
+            // 
+            this.B_Win.DataPropertyName = "B_Win";
+            this.B_Win.HeaderText = "客队";
+            this.B_Win.Name = "B_Win";
+            this.B_Win.ReadOnly = true;
+            // 
+            // BigWin
+            // 
+            this.BigWin.DataPropertyName = "BigWin";
+            this.BigWin.HeaderText = "大球";
+            this.BigWin.Name = "BigWin";
+            this.BigWin.ReadOnly = true;
+            // 
+            // Total
+            // 
+            this.Total.DataPropertyName = "Total";
+            this.Total.HeaderText = "总球";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
+            // 
+            // SmallWin
+            // 
+            this.SmallWin.DataPropertyName = "SmallWin";
+            this.SmallWin.HeaderText = "小球";
+            this.SmallWin.Name = "SmallWin";
+            this.SmallWin.ReadOnly = true;
             // 
             // BallGames
             // 
@@ -530,13 +528,6 @@
         private System.Windows.Forms.BindingSource bs_ratios;
         private System.Windows.Forms.DataGridView gv_ratios;
         private System.Windows.Forms.DataGridView gv_ratiocurrent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RatioType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn A_WIN;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Winless;
-        private System.Windows.Forms.DataGridViewTextBoxColumn B_Win;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BigWin;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SmallWin;
         private System.Windows.Forms.DataGridView gv_ratiocurrent2;
         private System.Windows.Forms.BindingSource bs_ratiocurrent2;
         private System.Windows.Forms.DataGridViewTextBoxColumn R_A_A;
@@ -565,11 +556,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn R3_3;
         private System.Windows.Forms.DataGridViewTextBoxColumn R4_4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rother;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MatchTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GameTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn MatchClass;
-        private System.Windows.Forms.DataGridViewTextBoxColumn vscountryname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Key;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GameVS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GameKey;
         private System.Windows.Forms.DataGridViewTextBoxColumn 球类;
-        private System.Windows.Forms.DataGridViewButtonColumn 删除;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RatioType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RCompanyType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn A_WIN;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Winless;
+        private System.Windows.Forms.DataGridViewTextBoxColumn B_Win;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BigWin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SmallWin;
     }
 }

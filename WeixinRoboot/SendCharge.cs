@@ -42,8 +42,7 @@ namespace WeixinRoboot
             try
             {
                 ep_sql.Clear();
-
-                Boolean? LogicOK = false;
+               
                 switch (_Mode)
                 {
                     case "Charge":
@@ -110,7 +109,7 @@ namespace WeixinRoboot
             var data = from dsl in db.WX_UserChangeLog
                        join dsu in db.WX_UserReply
                        on new { dsl.WX_UserName, dsl.aspnet_UserID ,dsl.WX_SourceType} equals new { dsu.WX_UserName, dsu.aspnet_UserID ,dsu.WX_SourceType}
-                       where dsl.aspnet_UserID == GlobalParam.Key
+                       where dsl.aspnet_UserID == GlobalParam.UserKey
                         && dsl.WX_UserName == UserRow.Field<string>("User_ContactID")
                         && dsl.WX_SourceType == UserRow.Field<string>("User_SourceType")
                        select new

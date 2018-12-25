@@ -31,7 +31,7 @@ namespace WeixinRoboot
                              group ds by new { ds.WX_UserName, ds.WX_SourceType, ds.aspnet_UserID } into g
                              join dm in db.WX_UserReply on new { g.Key.aspnet_UserID, g.Key.WX_UserName, g.Key.WX_SourceType } equals new { dm.aspnet_UserID, dm.WX_UserName, dm.WX_SourceType }
 
-                             where g.Key.aspnet_UserID == GlobalParam.Key
+                             where g.Key.aspnet_UserID == GlobalParam.UserKey
                              && g.Key.WX_SourceType == cb_wxsourcetype.SelectedItem.ToString()
 
 
@@ -67,7 +67,7 @@ namespace WeixinRoboot
                 var ReplyLog = from ds in db.WX_UserReplyLog
                                join user in db.WX_UserReply on new { ds.aspnet_UserID, ds.WX_UserName, ds.WX_SourceType } equals new { user.aspnet_UserID, user.WX_UserName, user.WX_SourceType }
                          
-                               where ds.aspnet_UserID == GlobalParam.Key
+                               where ds.aspnet_UserID == GlobalParam.UserKey
                                && ds.WX_UserName == WX_UserName
                                && ds.WX_SourceType == WX_SourceType
                                orderby ds.ReceiveTime ascending
@@ -85,7 +85,7 @@ namespace WeixinRoboot
                 gv_talk.DataSource = ReplyLog;
                 var changepoint = from ds in db.WX_UserChangeLog
                                   join user in db.WX_UserReply on new { ds.aspnet_UserID, ds.WX_UserName, ds.WX_SourceType } equals new { user.aspnet_UserID, user.WX_UserName, user.WX_SourceType }
-                                  where ds.aspnet_UserID == GlobalParam.Key
+                                  where ds.aspnet_UserID == GlobalParam.UserKey
                                   && ds.WX_UserName == WX_UserName
                                   && ds.WX_SourceType == WX_SourceType
                                   orderby ds.ChangeTime ascending

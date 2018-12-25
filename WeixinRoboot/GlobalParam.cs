@@ -17,15 +17,40 @@ namespace WeixinRoboot
     {
         public static string UserName;
         public static bool LogInSuccess = false;
-        public static Guid Key = Guid.Empty;
+        public static Guid UserKey = Guid.Empty;
 
         public static Dictionary<string, Boolean> HaveSend = new Dictionary<string, bool>();
+
+        private static Guid _JobID = Guid.Empty;
+
+        public static Guid JobID
+        {
+            get {
+                if (_JobID==Guid.Empty)
+                {
+                    _JobID = Guid.NewGuid();
+                }
+
+                return _JobID;
+            
+            }
+        }
+
 
     }
 
 
     public class WinSends
     {
+        public WinSends()
+        {
+            足球时间 = DateTime.MinValue;
+            篮球时间 = DateTime.MinValue;
+            足球图片 = false;
+            篮球图片 = false;
+            开奖结果 = true;
+
+        }
         private IntPtr _hwnd = new IntPtr();
         private string _微信 = "";
         private bool _开盘 = false;
@@ -37,12 +62,12 @@ namespace WeixinRoboot
         private bool _名片 = false;
         private bool _最后一期 = false;
 
-        private bool _球赛图片 = true;
-
-        public bool 球赛图片 { get { return _球赛图片; } set { _球赛图片 = value; } }
 
 
-        private bool _球赛链接 = true;
+        public bool 足球图片 { get; set; }
+        public bool 篮球图片 { get; set; }
+
+        private bool _球赛链接 = false;
 
         public bool 球赛链接 { get { return _球赛链接; } set { _球赛链接 = value; } }
 
@@ -74,7 +99,11 @@ namespace WeixinRoboot
 
             }
         }
-        public string 微信 { get { return _微信; } set { _微信 = value; } }
+
+        public string WinClassName { get; set; }
+
+        public string 窗口名字 { get; set; }
+
         public bool 开盘 { get { return _开盘; } set { _开盘 = value; } }
         public bool 整点停止 { get { return _整点停止; } set { _整点停止 = value; } }
         public bool 封盘 { get { return _封盘; } set { _封盘 = value; } }
@@ -189,7 +218,23 @@ namespace WeixinRoboot
         public DateTime 文字3时间 = DateTime.Now;
 
 
-        public DateTime 球赛时间 = DateTime.MinValue;
+        public DateTime 足球时间 { get; set; }
+
+        public DateTime 篮球时间 { get; set; }
+
+        public bool 开奖结果 { get; set; }
+
+        public bool 龙虎图 { get; set; }
+        public bool 数字图 { get; set; }
+
+        public bool 数字龙虎文字 { get; set; }
+    }
+
+
+    public class MatchTypeHTMLFormat
+    {
+    public string MatchType{get;set;}
+    public string HtmlData { get; set; }
     }
 
 }

@@ -26,7 +26,7 @@ namespace WeixinRoboot
                 
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                 db.SubmitChanges();
-                BS_GV_DATA.DataSource = db.WX_BounsConfig.Where(t => t.aspnet_UserID == GlobalParam.Key).OrderBy(t => t.RowNumber); ;
+                BS_GV_DATA.DataSource = db.WX_BounsConfig.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderBy(t => t.RowNumber); ;
                 MessageBox.Show("保存成功");
             }
             catch (Exception AnyError)
@@ -36,7 +36,7 @@ namespace WeixinRoboot
                 cs.Inserts.Clear();
                 cs.Deletes.Clear();
                 db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, cs.Updates);
-                BS_GV_DATA.DataSource = db.WX_BounsConfig.Where(t => t.aspnet_UserID == GlobalParam.Key);
+                BS_GV_DATA.DataSource = db.WX_BounsConfig.Where(t => t.aspnet_UserID == GlobalParam.UserKey);
 
 
             }
@@ -51,7 +51,7 @@ namespace WeixinRoboot
        
         private void F_WX_BounsRatio_Load(object sender, EventArgs e)
         {
-            BS_GV_DATA.DataSource = db.WX_BounsConfig.Where(t => t.aspnet_UserID == GlobalParam.Key).OrderBy(t=>t.RowNumber);
+            BS_GV_DATA.DataSource = db.WX_BounsConfig.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderBy(t=>t.RowNumber);
         
         }
     }

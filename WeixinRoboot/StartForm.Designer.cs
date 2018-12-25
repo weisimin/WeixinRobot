@@ -69,11 +69,13 @@
             this.Btn_ManulSend = new System.Windows.Forms.Button();
             this.btn_runtest = new System.Windows.Forms.Button();
             this.gb_football = new System.Windows.Forms.GroupBox();
-            this.gb_basketball = new System.Windows.Forms.GroupBox();
             this.gb_other = new System.Windows.Forms.GroupBox();
             this.gb_refresh = new System.Windows.Forms.GroupBox();
             this.PicBarCode_yixin = new System.Windows.Forms.PictureBox();
             this.PicBarCode = new System.Windows.Forms.PictureBox();
+            this.gb_point = new System.Windows.Forms.GroupBox();
+            this.gb_pointlog = new System.Windows.Forms.GroupBox();
+            this.MI_RatioHKSix = new System.Windows.Forms.ToolStripMenuItem();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
@@ -110,9 +112,9 @@
             this.SI_url,
             this.lbl_ShowError,
             this.SI_ShowError});
-            this.Botton_Status.Location = new System.Drawing.Point(0, 623);
+            this.Botton_Status.Location = new System.Drawing.Point(0, 690);
             this.Botton_Status.Name = "Botton_Status";
-            this.Botton_Status.Size = new System.Drawing.Size(903, 22);
+            this.Botton_Status.Size = new System.Drawing.Size(1008, 22);
             this.Botton_Status.TabIndex = 4;
             this.Botton_Status.Text = "statusStrip1";
             // 
@@ -190,7 +192,8 @@
             // 
             this.MI_Ratio.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MI_Ratio_Setting,
-            this.MI_Bouns_Setting});
+            this.MI_Bouns_Setting,
+            this.MI_RatioHKSix});
             this.MI_Ratio.Name = "MI_Ratio";
             this.MI_Ratio.Size = new System.Drawing.Size(44, 21);
             this.MI_Ratio.Text = "赔率";
@@ -198,14 +201,14 @@
             // MI_Ratio_Setting
             // 
             this.MI_Ratio_Setting.Name = "MI_Ratio_Setting";
-            this.MI_Ratio_Setting.Size = new System.Drawing.Size(124, 22);
+            this.MI_Ratio_Setting.Size = new System.Drawing.Size(160, 22);
             this.MI_Ratio_Setting.Text = "赔率设置";
             this.MI_Ratio_Setting.Click += new System.EventHandler(this.MI_Ratio_Setting_Click);
             // 
             // MI_Bouns_Setting
             // 
             this.MI_Bouns_Setting.Name = "MI_Bouns_Setting";
-            this.MI_Bouns_Setting.Size = new System.Drawing.Size(124, 22);
+            this.MI_Bouns_Setting.Size = new System.Drawing.Size(160, 22);
             this.MI_Bouns_Setting.Text = "福利设置";
             this.MI_Bouns_Setting.Click += new System.EventHandler(this.MI_Bouns_Setting_Click);
             // 
@@ -268,7 +271,7 @@
             this.MI_BallMatch});
             this.TopMenu.Location = new System.Drawing.Point(0, 0);
             this.TopMenu.Name = "TopMenu";
-            this.TopMenu.Size = new System.Drawing.Size(903, 25);
+            this.TopMenu.Size = new System.Drawing.Size(1008, 25);
             this.TopMenu.TabIndex = 3;
             this.TopMenu.Text = "menuStrip1";
             // 
@@ -345,7 +348,7 @@
             // 
             // OpenBlack
             // 
-            this.OpenBlack.Location = new System.Drawing.Point(12, 295);
+            this.OpenBlack.Location = new System.Drawing.Point(12, 275);
             this.OpenBlack.Name = "OpenBlack";
             this.OpenBlack.Size = new System.Drawing.Size(91, 26);
             this.OpenBlack.TabIndex = 9;
@@ -420,39 +423,29 @@
             this.btn_runtest.TabIndex = 18;
             this.btn_runtest.Text = "执行测试 ";
             this.btn_runtest.UseVisualStyleBackColor = true;
-            this.btn_runtest.Visible = false;
             this.btn_runtest.Click += new System.EventHandler(this.btn_runtest_Click);
             // 
             // gb_football
             // 
-            this.gb_football.Location = new System.Drawing.Point(161, 376);
+            this.gb_football.Location = new System.Drawing.Point(13, 372);
             this.gb_football.Name = "gb_football";
             this.gb_football.Size = new System.Drawing.Size(289, 102);
             this.gb_football.TabIndex = 19;
             this.gb_football.TabStop = false;
-            this.gb_football.Text = "足球";
-            // 
-            // gb_basketball
-            // 
-            this.gb_basketball.Location = new System.Drawing.Point(483, 376);
-            this.gb_basketball.Name = "gb_basketball";
-            this.gb_basketball.Size = new System.Drawing.Size(288, 102);
-            this.gb_basketball.TabIndex = 20;
-            this.gb_basketball.TabStop = false;
-            this.gb_basketball.Text = "篮球";
+            this.gb_football.Text = "球赛";
             // 
             // gb_other
             // 
-            this.gb_other.Location = new System.Drawing.Point(161, 493);
+            this.gb_other.Location = new System.Drawing.Point(620, 372);
             this.gb_other.Name = "gb_other";
-            this.gb_other.Size = new System.Drawing.Size(289, 107);
+            this.gb_other.Size = new System.Drawing.Size(289, 102);
             this.gb_other.TabIndex = 21;
             this.gb_other.TabStop = false;
             this.gb_other.Text = "其他玩法";
             // 
             // gb_refresh
             // 
-            this.gb_refresh.Location = new System.Drawing.Point(483, 484);
+            this.gb_refresh.Location = new System.Drawing.Point(12, 480);
             this.gb_refresh.Name = "gb_refresh";
             this.gb_refresh.Size = new System.Drawing.Size(288, 116);
             this.gb_refresh.TabIndex = 22;
@@ -477,14 +470,40 @@
             this.PicBarCode.TabIndex = 0;
             this.PicBarCode.TabStop = false;
             // 
+            // gb_point
+            // 
+            this.gb_point.Location = new System.Drawing.Point(308, 372);
+            this.gb_point.Name = "gb_point";
+            this.gb_point.Size = new System.Drawing.Size(306, 102);
+            this.gb_point.TabIndex = 23;
+            this.gb_point.TabStop = false;
+            this.gb_point.Text = "比分";
+            // 
+            // gb_pointlog
+            // 
+            this.gb_pointlog.Location = new System.Drawing.Point(311, 480);
+            this.gb_pointlog.Name = "gb_pointlog";
+            this.gb_pointlog.Size = new System.Drawing.Size(303, 116);
+            this.gb_pointlog.TabIndex = 24;
+            this.gb_pointlog.TabStop = false;
+            this.gb_pointlog.Text = "进球时间";
+            // 
+            // MI_RatioHKSix
+            // 
+            this.MI_RatioHKSix.Name = "MI_RatioHKSix";
+            this.MI_RatioHKSix.Size = new System.Drawing.Size(160, 22);
+            this.MI_RatioHKSix.Text = "六合彩赔率设置";
+            this.MI_RatioHKSix.Click += new System.EventHandler(this.MI_RatioHKSix_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(903, 645);
+            this.ClientSize = new System.Drawing.Size(1008, 712);
+            this.Controls.Add(this.gb_pointlog);
+            this.Controls.Add(this.gb_point);
             this.Controls.Add(this.gb_refresh);
             this.Controls.Add(this.gb_other);
-            this.Controls.Add(this.gb_basketball);
             this.Controls.Add(this.gb_football);
             this.Controls.Add(this.btn_runtest);
             this.Controls.Add(this.Btn_ManulSend);
@@ -563,12 +582,14 @@
         private System.Windows.Forms.Button btn_runtest;
         private System.Windows.Forms.ToolStripMenuItem mi_reminderquery;
         private System.Windows.Forms.GroupBox gb_football;
-        private System.Windows.Forms.GroupBox gb_basketball;
         private System.Windows.Forms.GroupBox gb_other;
         private System.Windows.Forms.GroupBox gb_refresh;
         private System.Windows.Forms.ToolStripMenuItem MI_BallMatch;
         private System.Windows.Forms.ToolStripMenuItem MI_BallOpenManul;
         private System.Windows.Forms.ToolStripMenuItem MI_BallGames;
+        private System.Windows.Forms.GroupBox gb_point;
+        private System.Windows.Forms.GroupBox gb_pointlog;
+        private System.Windows.Forms.ToolStripMenuItem MI_RatioHKSix;
 
     }
 }

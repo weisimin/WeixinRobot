@@ -21,11 +21,11 @@ namespace NetFramework
         }
 
         private static bool CheckValidationResult(object sender
-            ,System.Security.Cryptography.X509Certificates.X509Certificate certificate
-            ,System.Security.Cryptography.X509Certificates.X509Chain chain
-            ,System.Net.Security.SslPolicyErrors errors)
+            , System.Security.Cryptography.X509Certificates.X509Certificate certificate
+            , System.Security.Cryptography.X509Certificates.X509Chain chain
+            , System.Net.Security.SslPolicyErrors errors)
         {
-        return true;
+            return true;
         }
 
         public static void SetHeaderValue(WebHeaderCollection header, string name, string value)
@@ -272,8 +272,8 @@ namespace NetFramework
             System.Net.ServicePointManager.SetTcpKeepAlive(true, 5000, 5000);
 
 
-           ServicePointManager.SecurityProtocol = (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
-           //ServicePointManager.SecurityProtocol = SecurityProtocolType.;
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.;
 
             string optionurl = "https://file." + webhost + "/cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json";
             WebRequest OptionPage = HttpWebRequest.Create(optionurl);
@@ -312,7 +312,7 @@ namespace NetFramework
             ((HttpWebRequest)LoginPage).CookieContainer.Add(tmpcookie);
             ((HttpWebRequest)LoginPage).ContentType = "multipart/form-data; boundary=----WebKitFormBoundary" + Boundary;
 
-           // ((HttpWebRequest)LoginPage).Connection = "KeepAlive,Close";
+            // ((HttpWebRequest)LoginPage).Connection = "KeepAlive,Close";
             LoginPage.Headers.Add("Origin", ((HttpWebRequest)LoginPage).Referer.Substring(0, ((HttpWebRequest)LoginPage).Referer.Length - 1));
             Stream Strem_ToPost = LoginPage.GetRequestStream();
 
@@ -606,7 +606,7 @@ namespace NetFramework
             ((HttpWebRequest)OptionPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)OptionPage).CookieContainer.Add(tmpcookie);
 
-           // ((HttpWebRequest)OptionPage).Connection = "KeepAlive,Close";
+            // ((HttpWebRequest)OptionPage).Connection = "KeepAlive,Close";
             OptionPage.Headers.Add("Origin", ((HttpWebRequest)OptionPage).Referer.Substring(0, ((HttpWebRequest)OptionPage).Referer.Length - 1));
 
             StreamReader OptionReader = new StreamReader(OptionPage.GetResponse().GetResponseStream());
@@ -877,7 +877,7 @@ namespace NetFramework
             {
                 strHtml = strHtml.Replace(m.Groups[0].ToString(), "");
             }
-            return strHtml.Trim();
+            return strHtml.Trim().Replace("&nbsp;", "");
         }
 
         private static char[] constant =
@@ -1027,29 +1027,21 @@ namespace NetFramework
     {
         public static void Write(string Message)
         {
-            try
+            LastLog = Message + LastLog;
+            if (LastLog.Length > 5000)
             {
-                System.Console.Write(Message);
-            }
-            catch (Exception)
-            {
-
-
+                LastLog = LastLog.Substring(0, 5000);
             }
         }
         public static void WriteLine(string Message)
         {
-            try
+            LastLog = Message + Environment.NewLine + LastLog;
+            if (LastLog.Length > 5000)
             {
-                System.Console.WriteLine(Message);
-            }
-            catch (Exception)
-            {
-
-
+                LastLog = LastLog.Substring(0, 5000);
             }
         }
-
+        public static string LastLog = "";
 
     }
 
@@ -1161,7 +1153,7 @@ namespace NetFramework
 
         public const Int32 VK_MENU = 0x12;
 
-        public const Int32 VK_S= 0x53;
+        public const Int32 VK_S = 0x53;
 
         public const Int32 VK_RETURN = 0X0D;
 
@@ -1181,7 +1173,7 @@ namespace NetFramework
 
 
         [DllImport("user32.dll")]
-      public  static extern IntPtr SetActiveWindow(IntPtr hWnd);
+        public static extern IntPtr SetActiveWindow(IntPtr hWnd);
 
 
 
@@ -1256,8 +1248,8 @@ namespace NetFramework
             }
         }
 
-     
-       public  static IntPtr ArrayToIntptr(byte[] source)
+
+        public static IntPtr ArrayToIntptr(byte[] source)
         {
             if (source == null)
                 return IntPtr.Zero;
@@ -1267,9 +1259,41 @@ namespace NetFramework
             return ptr;
         }
 
-       [DllImport("user32.dll")]
-       public static extern IntPtr SetFocus(IntPtr hWnd);//设定焦点
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetFocus(IntPtr hWnd);//设定焦点
 
+
+    }
+
+    /// <summary>
+    /// shis
+    /// </summary>
+    public class Util_CEF
+    {
+
+
+        public static object LockLoad = true;
+        public static string JoinQueueAndWait(string URL,CefSharp.WinForms.ChromiumWebBrowser wb,Int32 milientTime=500)
+        {
+            //lock (LockLoad)
+            {
+                LockLoad = !((bool)LockLoad);
+                wb.Load(URL);
+                NetFramework.Console.WriteLine(wb.Name+"----"+URL );
+                DateTime pretime = DateTime.Now;
+                while ((DateTime.Now-pretime).TotalMilliseconds<milientTime)
+                {
+                    System.Threading.Thread.Sleep(100);
+                    System.Windows.Forms.Application.DoEvents();
+                }
+              System.Threading.Tasks.Task<string> tsk=  wb.GetBrowser().MainFrame.GetSourceAsync();
+              tsk.Wait();
+              return tsk.Result;
+            }
+
+
+        }
+       
 
     }
 }

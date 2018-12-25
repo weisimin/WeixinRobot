@@ -105,6 +105,7 @@ namespace WeixinRoboot
                                 db.SubmitChanges();
                             }
                         }
+                      
 
                         var BounsConfig = db.WX_BounsConfig.Where(t => t.aspnet_UserID == (sysadmin == null ? Guid.Empty : (Guid)sysadmin.ProviderUserKey));
 
@@ -127,7 +128,7 @@ namespace WeixinRoboot
                             }
                         }
 
-
+                        Linq.ProgramLogic.CheckAndCopyHKSixRatio(db, (Guid)usr.ProviderUserKey);
 
 
                         MessageBox.Show("保存成功");

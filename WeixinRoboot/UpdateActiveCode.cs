@@ -21,7 +21,7 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
     
-            Linq.aspnet_UsersNewGameResultSend updatecode = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key);
+            Linq.aspnet_UsersNewGameResultSend updatecode = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
             updatecode.ActiveCode = fd_activecode.Text;
             db.SubmitChanges();
             this.Close ();

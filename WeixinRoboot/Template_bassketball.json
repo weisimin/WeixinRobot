@@ -1,0 +1,50 @@
+﻿ {
+"MsgId": "5624828791040852198",
+"FromUserName": "@ce41673642b59ad496f2f43a02dc02786fd83bb735a8ac14a00616f2464e54b5",
+"ToUserName": "@a8b612c11247d4a640ef94621d1c2882506c124461ef396d0d836a6d0e343eb3",
+"MsgType": 49,
+"Content": "&lt;?xml version=\"1.0\"?&gt;<br/>&lt;msg&gt;<br/>\t&lt;appmsg appid=\"wx020a535dccd46c11\" sdkver=\"0\"&gt;<br/>\t\t&lt;title&gt;雪缘园赔率 --- 赛事指数 ---- 篮球赔率公司&lt;/title&gt;<br/>\t\t&lt;des&gt;我正在看【雪缘园赔率 --- 赛事指数 ---- 篮球赔率公司】，分享给你，一起看吧！&lt;/des&gt;<br/>\t\t&lt;username /&gt;<br/>\t\t&lt;action&gt;view&lt;/action&gt;<br/>\t\t&lt;type&gt;5&lt;/type&gt;<br/>\t\t&lt;showtype&gt;0&lt;/showtype&gt;<br/>\t\t&lt;content /&gt;<br/>\t\t&lt;url&gt;http://odds.gooooal.com/bkscompany.html?type=1001&lt;/url&gt;<br/>\t\t&lt;lowurl /&gt;<br/>\t\t&lt;dataurl /&gt;<br/>\t\t&lt;lowdataurl /&gt;<br/>\t\t&lt;contentattr&gt;0&lt;/contentattr&gt;<br/>\t\t&lt;streamvideo&gt;<br/>\t\t\t&lt;streamvideourl /&gt;<br/>\t\t\t&lt;streamvideototaltime&gt;0&lt;/streamvideototaltime&gt;<br/>\t\t\t&lt;streamvideotitle /&gt;<br/>\t\t\t&lt;streamvideowording /&gt;<br/>\t\t\t&lt;streamvideoweburl /&gt;<br/>\t\t\t&lt;streamvideothumburl /&gt;<br/>\t\t\t&lt;streamvideoaduxinfo /&gt;<br/>\t\t\t&lt;streamvideopublishid /&gt;<br/>\t\t&lt;/streamvideo&gt;<br/>\t\t&lt;canvasPageItem&gt;<br/>\t\t\t&lt;canvasPageXml&gt;&lt;![CDATA[]]&gt;&lt;/canvasPageXml&gt;<br/>\t\t&lt;/canvasPageItem&gt;<br/>\t\t&lt;appattach&gt;<br/>\t\t\t&lt;attachid /&gt;<br/>\t\t\t&lt;cdnthumburl&gt;305c0201000455305302010002048f3a969202033d14b902044de503b702045befafec042e6175706170706d73675f643530623232616330663532633035335f313534323433343739353638355f33333334320204010800030201000400&lt;/cdnthumburl&gt;<br/>\t\t\t&lt;cdnthumbmd5&gt;fb631a851b5062fe42c1f8ba8a0483e1&lt;/cdnthumbmd5&gt;<br/>\t\t\t&lt;cdnthumblength&gt;14714&lt;/cdnthumblength&gt;<br/>\t\t\t&lt;cdnthumbheight&gt;120&lt;/cdnthumbheight&gt;<br/>\t\t\t&lt;cdnthumbwidth&gt;60&lt;/cdnthumbwidth&gt;<br/>\t\t\t&lt;cdnthumbaeskey&gt;ace23b36b3784ab1b4928582eb952064&lt;/cdnthumbaeskey&gt;<br/>\t\t\t&lt;aeskey&gt;ace23b36b3784ab1b4928582eb952064&lt;/aeskey&gt;<br/>\t\t\t&lt;encryver&gt;1&lt;/encryver&gt;<br/>\t\t\t&lt;fileext /&gt;<br/>\t\t\t&lt;islargefilemsg&gt;0&lt;/islargefilemsg&gt;<br/>\t\t&lt;/appattach&gt;<br/>\t\t&lt;extinfo /&gt;<br/>\t\t&lt;androidsource&gt;3&lt;/androidsource&gt;<br/>\t\t&lt;thumburl /&gt;<br/>\t\t&lt;mediatagname /&gt;<br/>\t\t&lt;messageaction&gt;&lt;![CDATA[]]&gt;&lt;/messageaction&gt;<br/>\t\t&lt;messageext&gt;&lt;![CDATA[]]&gt;&lt;/messageext&gt;<br/>\t\t&lt;emoticongift&gt;<br/>\t\t\t&lt;packageflag&gt;0&lt;/packageflag&gt;<br/>\t\t\t&lt;packageid /&gt;<br/>\t\t&lt;/emoticongift&gt;<br/>\t\t&lt;emoticonshared&gt;<br/>\t\t\t&lt;packageflag&gt;0&lt;/packageflag&gt;<br/>\t\t\t&lt;packageid /&gt;<br/>\t\t&lt;/emoticonshared&gt;<br/>\t\t&lt;designershared&gt;<br/>\t\t\t&lt;designeruin&gt;0&lt;/designeruin&gt;<br/>\t\t\t&lt;designername&gt;null&lt;/designername&gt;<br/>\t\t\t&lt;designerrediretcturl&gt;null&lt;/designerrediretcturl&gt;<br/>\t\t&lt;/designershared&gt;<br/>\t\t&lt;emotionpageshared&gt;<br/>\t\t\t&lt;tid&gt;0&lt;/tid&gt;<br/>\t\t\t&lt;title&gt;null&lt;/title&gt;<br/>\t\t\t&lt;desc&gt;null&lt;/desc&gt;<br/>\t\t\t&lt;iconUrl&gt;null&lt;/iconUrl&gt;<br/>\t\t\t&lt;secondUrl&gt;null&lt;/secondUrl&gt;<br/>\t\t\t&lt;pageType&gt;0&lt;/pageType&gt;<br/>\t\t&lt;/emotionpageshared&gt;<br/>\t\t&lt;webviewshared&gt;<br/>\t\t\t&lt;shareUrlOriginal /&gt;<br/>\t\t\t&lt;shareUrlOpen /&gt;<br/>\t\t\t&lt;jsAppId /&gt;<br/>\t\t\t&lt;publisherId /&gt;<br/>\t\t&lt;/webviewshared&gt;<br/>\t\t&lt;template_id /&gt;<br/>\t\t&lt;md5&gt;fb631a851b5062fe42c1f8ba8a0483e1&lt;/md5&gt;<br/>\t\t&lt;weappinfo&gt;<br/>\t\t\t&lt;username /&gt;<br/>\t\t\t&lt;appid /&gt;<br/>\t\t\t&lt;appservicetype&gt;0&lt;/appservicetype&gt;<br/>\t\t&lt;/weappinfo&gt;<br/>\t\t&lt;statextstr&gt;GhQKEnd4MDIwYTUzNWRjY2Q0NmMxMQ==&lt;/statextstr&gt;<br/>\t\t&lt;websearch&gt;<br/>\t\t\t&lt;rec_category&gt;0&lt;/rec_category&gt;<br/>\t\t&lt;/websearch&gt;<br/>\t&lt;/appmsg&gt;<br/>\t&lt;fromusername&gt;&lt;/fromusername&gt;<br/>\t&lt;scene&gt;0&lt;/scene&gt;<br/>\t&lt;appinfo&gt;<br/>\t\t&lt;version&gt;2&lt;/version&gt;<br/>\t\t&lt;appname&gt;UC浏览器&lt;/appname&gt;<br/>\t&lt;/appinfo&gt;<br/>\t&lt;commenturl&gt;&lt;/commenturl&gt;<br/>&lt;/msg&gt;<br/>",
+"Status": 3,
+"ImgStatus": 2,
+"CreateTime": 1542434797,
+"VoiceLength": 0,
+"PlayLength": 0,
+"FileName": "雪缘园赔率 --- 赛事指数 ---- 篮球赔率公司",
+"FileSize": "",
+"MediaId": "",
+"Url": "http://odds.gooooal.com/bkscompany.html?type=1001",
+"AppMsgType": 5,
+"StatusNotifyCode": 0,
+"StatusNotifyUserName": "",
+"RecommendInfo": {
+"UserName": "",
+"NickName": "",
+"QQNum": 0,
+"Province": "",
+"City": "",
+"Content": "",
+"Signature": "",
+"Alias": "",
+"Scene": 0,
+"VerifyFlag": 0,
+"AttrStatus": 0,
+"Sex": 0,
+"Ticket": "",
+"OpCode": 0
+}
+,
+"ForwardFlag": 0,
+"AppInfo": {
+"AppID": "wx020a535dccd46c11",
+"Type": 0
+}
+,
+"HasProductId": 0,
+"Ticket": "",
+"ImgHeight": 0,
+"ImgWidth": 0,
+"SubMsgType": 0,
+"NewMsgId": 5624828791040852198,
+"OriContent": "",
+"EncryFileName": "%E9%9B%AA%E7%BC%98%E5%9B%AD%E8%B5%94%E7%8E%87%20%2D%2D%2D%20%E8%B5%9B%E4%BA%8B%E6%8C%87%E6%95%B0%20%2D%2D%2D%2D%20%E7%AF%AE%E7%90%83%E8%B5%94%E7%8E%87%E5%85%AC%E5%8F%B8"
+}

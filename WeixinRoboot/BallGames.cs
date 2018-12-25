@@ -23,22 +23,35 @@ namespace WeixinRoboot
 
         private void BallGames_Load(object sender, EventArgs e)
         {
-            bs_gamelist.DataSource = Linq.ProgramLogic.GameMatches;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey 
+                //&& (t.LastAliveTime == null || t.LastAliveTime >= DateTime.Today.AddDays(-3))
+                &&t.Jobid==GlobalParam.JobID
+                );
+            // var classsource = (from ds in source
+            //select new { ds.GameType, ds.MatchClass }).Distinct();
+            bs_gamelist.DataSource = source;
         }
 
         private void gv_GameList_SelectionChanged(object sender, EventArgs e)
         {
-            if (gv_GameList.SelectedRows.Count!=0)
+            if (gv_GameList.SelectedRows.Count != 0)
             {
-                bs_ratios.DataSource = ((Linq.ProgramLogic.c_vs)gv_GameList.SelectedRows[0].DataBoundItem).ratios;
-              
-                bs_ratiocurrent.DataSource =   RatioConvertToGridData((Linq.ProgramLogic.c_vs)gv_GameList.SelectedRows[0].DataBoundItem);
-                bs_ratiocurrent2.DataSource = ((Linq.ProgramLogic.c_vs)gv_GameList.SelectedRows[0].DataBoundItem).ratios.SingleOrDefault(t => t.RatioType.Contains("即时") || t.RatioType.Contains("当前")); ;
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+                IQueryable<Linq.Game_FootBall_VSRatios> DbRatios = Linq.ProgramLogic.GameVSGetRatios(db, ((Linq.Game_FootBall_VS)gv_GameList.SelectedRows[0].DataBoundItem));
+                bs_ratios.DataSource = DbRatios;
+
+                bs_ratiocurrent.DataSource = RatioConvertToGridData((Linq.Game_FootBall_VS)gv_GameList.SelectedRows[0].DataBoundItem, db);
+                bs_ratiocurrent2.DataSource = Linq.ProgramLogic.VSGetCurRatio((Linq.Game_FootBall_VS)gv_GameList.SelectedRows[0].DataBoundItem, db);
 
             }
         }
         //public List<TeamRowFormat> RatioConvertToGridDataSource = new List<TeamRowFormat>();
-        public List<TeamRowFormat> RatioConvertToGridData(Linq.ProgramLogic.c_vs toc)
+        public List<TeamRowFormat> RatioConvertToGridData(Linq.Game_FootBall_VS toc, Linq.dbDataContext db)
         {
             List<TeamRowFormat> RatioConvertToGridDataSource = new List<TeamRowFormat>();
 
@@ -46,11 +59,14 @@ namespace WeixinRoboot
 
             TeamRowFormat BTEAM = new TeamRowFormat();
 
-           
-
-            Linq.ProgramLogic.c_rario cr = toc.ratios .SingleOrDefault(t=>t.RatioType.Contains("当前")||t.RatioType.Contains("即时"));
 
 
+            Linq.Game_FootBall_VSRatios cr = Linq.ProgramLogic.VSGetCurRatio(toc, db);
+
+            if (cr==null)
+            {
+                return RatioConvertToGridDataSource; 
+            }
             ATEAM.Team = toc.A_Team;
 
             ATEAM.R1_0 = cr.R1_0_A;
@@ -70,7 +86,7 @@ namespace WeixinRoboot
             ATEAM.R3_3 = cr.R3_3;
             ATEAM.R4_4 = cr.R4_4;
 
-            ATEAM.Rother = cr.Rother;
+            ATEAM.ROTHER = cr.ROTHER;
 
 
 
@@ -92,7 +108,7 @@ namespace WeixinRoboot
             BTEAM.R2_2 = cr.R2_2;
             BTEAM.R3_3 = cr.R3_3;
             BTEAM.R4_4 = cr.R4_4;
-            BTEAM.Rother = cr.Rother;
+            BTEAM.ROTHER = cr.ROTHER;
 
 
             RatioConvertToGridDataSource.Add(ATEAM);
@@ -117,10 +133,10 @@ namespace WeixinRoboot
             private string _R2_2 = "";
             private string _R3_3 = "";
             private string _R4_4 = "";
-            private string _Rother = "";
+            private string _ROTHER = "";
             private string _Team = "";
- 
-            public string R1_0 {get{ return _R1_0;}set{_R1_0=value;}}
+
+            public string R1_0 { get { return _R1_0; } set { _R1_0 = value; } }
             public string R2_0 { get { return _R2_0; } set { _R2_0 = value; } }
             public string R2_1 { get { return _R2_1; } set { _R2_1 = value; } }
             public string R3_0 { get { return _R3_0; } set { _R3_0 = value; } }
@@ -135,10 +151,10 @@ namespace WeixinRoboot
             public string R2_2 { get { return _R2_2; } set { _R2_2 = value; } }
             public string R3_3 { get { return _R3_3; } set { _R3_3 = value; } }
             public string R4_4 { get { return _R4_4; } set { _R4_4 = value; } }
-            public string Rother { get { return _Rother; } set { _Rother = value; } }
+            public string ROTHER { get { return _ROTHER; } set { _ROTHER = value; } }
 
             public string Team { get { return _Team; } set { _Team = value; } }
-            
+
         }
     }
 }

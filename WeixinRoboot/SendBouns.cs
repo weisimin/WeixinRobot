@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data;
+
 namespace WeixinRoboot
 {
     public partial class SendBouns : Form
@@ -66,7 +66,7 @@ namespace WeixinRoboot
                 DataRow[] usrrow = StartF.RunnerF.MemberSource.Select("User_ContactID='" + Senditem.Field<string>("WX_UserName") + "' and User_SourceType='" +cb_SourceType.SelectedItem.ToString() + "'");
 
                 var fcl = db.WX_UserChangeLog.Where(t =>
-                    t.aspnet_UserID == GlobalParam.Key
+                    t.aspnet_UserID == GlobalParam.UserKey
                     && t.WX_UserName == Senditem.Field<string>("WX_UserName")
                     && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
                     && t.RemarkType == "福利"

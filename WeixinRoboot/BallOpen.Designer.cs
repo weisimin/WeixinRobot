@@ -29,17 +29,10 @@
         private void InitializeComponent()
         {
             this.gv_balls = new System.Windows.Forms.DataGridView();
-            this.gv_result = new System.Windows.Forms.DataGridView();
-            this.TimeType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TeamA = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TeamB = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gv_playersbuys = new System.Windows.Forms.DataGridView();
-            this.btn_open = new System.Windows.Forms.Button();
-            this.lbl_gamematch = new System.Windows.Forms.Label();
-            this.lbl_result = new System.Windows.Forms.Label();
-            this.cb_wxsourcetype = new System.Windows.Forms.ComboBox();
             this.GameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GameVS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gv_result = new System.Windows.Forms.DataGridView();
+            this.gv_playersbuys = new System.Windows.Forms.DataGridView();
             this.WX_GameIDUnOpen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WX_UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.transtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -87,6 +80,14 @@
             this.R4_1_B = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.R4_2_B = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.R4_3_B = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_open = new System.Windows.Forms.Button();
+            this.lbl_gamematch = new System.Windows.Forms.Label();
+            this.lbl_result = new System.Windows.Forms.Label();
+            this.cb_wxsourcetype = new System.Windows.Forms.ComboBox();
+            this.OpenGameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TimeType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TeamA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TeamB = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gv_balls)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_result)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_playersbuys)).BeginInit();
@@ -111,44 +112,39 @@
             this.gv_balls.TabIndex = 0;
             this.gv_balls.SelectionChanged += new System.EventHandler(this.GV_BallUnOpen_SelectionChanged);
             // 
+            // GameID
+            // 
+            this.GameID.DataPropertyName = "GameID";
+            this.GameID.HeaderText = "GameID";
+            this.GameID.Name = "GameID";
+            this.GameID.ReadOnly = true;
+            this.GameID.Visible = false;
+            // 
+            // GameVS
+            // 
+            this.GameVS.DataPropertyName = "GameVS";
+            this.GameVS.HeaderText = "比赛";
+            this.GameVS.Name = "GameVS";
+            this.GameVS.ReadOnly = true;
+            this.GameVS.Width = 200;
+            // 
             // gv_result
             // 
             this.gv_result.AllowUserToAddRows = false;
             this.gv_result.AllowUserToDeleteRows = false;
             this.gv_result.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_result.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.OpenGameID,
             this.TimeType,
             this.TeamA,
             this.TeamB});
-            this.gv_result.Location = new System.Drawing.Point(643, 49);
+            this.gv_result.Location = new System.Drawing.Point(617, 49);
             this.gv_result.Name = "gv_result";
             this.gv_result.RowHeadersWidth = 10;
             this.gv_result.RowTemplate.Height = 23;
             this.gv_result.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.gv_result.Size = new System.Drawing.Size(257, 132);
+            this.gv_result.Size = new System.Drawing.Size(283, 132);
             this.gv_result.TabIndex = 1;
-            // 
-            // TimeType
-            // 
-            this.TimeType.DataPropertyName = "TimeType";
-            this.TimeType.HeaderText = "类别";
-            this.TimeType.Name = "TimeType";
-            this.TimeType.ReadOnly = true;
-            this.TimeType.Width = 80;
-            // 
-            // TeamA
-            // 
-            this.TeamA.DataPropertyName = "TeamA";
-            this.TeamA.HeaderText = "主";
-            this.TeamA.Name = "TeamA";
-            this.TeamA.Width = 70;
-            // 
-            // TeamB
-            // 
-            this.TeamB.DataPropertyName = "TeamB";
-            this.TeamB.HeaderText = "客";
-            this.TeamB.Name = "TeamB";
-            this.TeamB.Width = 70;
             // 
             // gv_playersbuys
             // 
@@ -210,64 +206,6 @@
             this.gv_playersbuys.RowTemplate.Height = 23;
             this.gv_playersbuys.Size = new System.Drawing.Size(887, 216);
             this.gv_playersbuys.TabIndex = 2;
-            // 
-            // btn_open
-            // 
-            this.btn_open.Location = new System.Drawing.Point(906, 140);
-            this.btn_open.Name = "btn_open";
-            this.btn_open.Size = new System.Drawing.Size(75, 40);
-            this.btn_open.TabIndex = 3;
-            this.btn_open.Text = "开奖";
-            this.btn_open.UseVisualStyleBackColor = true;
-            this.btn_open.Click += new System.EventHandler(this.btn_open_Click);
-            // 
-            // lbl_gamematch
-            // 
-            this.lbl_gamematch.AutoSize = true;
-            this.lbl_gamematch.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_gamematch.Location = new System.Drawing.Point(12, 26);
-            this.lbl_gamematch.Name = "lbl_gamematch";
-            this.lbl_gamematch.Size = new System.Drawing.Size(39, 20);
-            this.lbl_gamematch.TabIndex = 4;
-            this.lbl_gamematch.Text = "球赛";
-            // 
-            // lbl_result
-            // 
-            this.lbl_result.AutoSize = true;
-            this.lbl_result.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_result.Location = new System.Drawing.Point(639, 26);
-            this.lbl_result.Name = "lbl_result";
-            this.lbl_result.Size = new System.Drawing.Size(39, 20);
-            this.lbl_result.TabIndex = 5;
-            this.lbl_result.Text = "结果";
-            // 
-            // cb_wxsourcetype
-            // 
-            this.cb_wxsourcetype.FormattingEnabled = true;
-            this.cb_wxsourcetype.Items.AddRange(new object[] {
-            "微",
-            "易"});
-            this.cb_wxsourcetype.Location = new System.Drawing.Point(490, 26);
-            this.cb_wxsourcetype.Name = "cb_wxsourcetype";
-            this.cb_wxsourcetype.Size = new System.Drawing.Size(121, 20);
-            this.cb_wxsourcetype.TabIndex = 6;
-            this.cb_wxsourcetype.SelectedIndexChanged += new System.EventHandler(this.cb_wxsourcetype_SelectedIndexChanged);
-            // 
-            // GameID
-            // 
-            this.GameID.DataPropertyName = "GameID";
-            this.GameID.HeaderText = "GameID";
-            this.GameID.Name = "GameID";
-            this.GameID.ReadOnly = true;
-            this.GameID.Visible = false;
-            // 
-            // GameVS
-            // 
-            this.GameVS.DataPropertyName = "GameVS";
-            this.GameVS.HeaderText = "比赛";
-            this.GameVS.Name = "GameVS";
-            this.GameVS.ReadOnly = true;
-            this.GameVS.Width = 200;
             // 
             // WX_GameIDUnOpen
             // 
@@ -601,6 +539,77 @@
             this.R4_3_B.Name = "R4_3_B";
             this.R4_3_B.ReadOnly = true;
             // 
+            // btn_open
+            // 
+            this.btn_open.Location = new System.Drawing.Point(906, 140);
+            this.btn_open.Name = "btn_open";
+            this.btn_open.Size = new System.Drawing.Size(75, 40);
+            this.btn_open.TabIndex = 3;
+            this.btn_open.Text = "开奖";
+            this.btn_open.UseVisualStyleBackColor = true;
+            this.btn_open.Click += new System.EventHandler(this.btn_open_Click);
+            // 
+            // lbl_gamematch
+            // 
+            this.lbl_gamematch.AutoSize = true;
+            this.lbl_gamematch.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_gamematch.Location = new System.Drawing.Point(12, 26);
+            this.lbl_gamematch.Name = "lbl_gamematch";
+            this.lbl_gamematch.Size = new System.Drawing.Size(39, 20);
+            this.lbl_gamematch.TabIndex = 4;
+            this.lbl_gamematch.Text = "球赛";
+            // 
+            // lbl_result
+            // 
+            this.lbl_result.AutoSize = true;
+            this.lbl_result.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_result.Location = new System.Drawing.Point(617, 26);
+            this.lbl_result.Name = "lbl_result";
+            this.lbl_result.Size = new System.Drawing.Size(39, 20);
+            this.lbl_result.TabIndex = 5;
+            this.lbl_result.Text = "结果";
+            // 
+            // cb_wxsourcetype
+            // 
+            this.cb_wxsourcetype.FormattingEnabled = true;
+            this.cb_wxsourcetype.Items.AddRange(new object[] {
+            "微",
+            "易"});
+            this.cb_wxsourcetype.Location = new System.Drawing.Point(490, 26);
+            this.cb_wxsourcetype.Name = "cb_wxsourcetype";
+            this.cb_wxsourcetype.Size = new System.Drawing.Size(121, 20);
+            this.cb_wxsourcetype.TabIndex = 6;
+            this.cb_wxsourcetype.SelectedIndexChanged += new System.EventHandler(this.cb_wxsourcetype_SelectedIndexChanged);
+            // 
+            // OpenGameID
+            // 
+            this.OpenGameID.DataPropertyName = "OpenGameID";
+            this.OpenGameID.HeaderText = "OpenGameID";
+            this.OpenGameID.Name = "OpenGameID";
+            this.OpenGameID.Visible = false;
+            // 
+            // TimeType
+            // 
+            this.TimeType.DataPropertyName = "TimeType";
+            this.TimeType.HeaderText = "类别";
+            this.TimeType.Name = "TimeType";
+            this.TimeType.ReadOnly = true;
+            this.TimeType.Width = 80;
+            // 
+            // TeamA
+            // 
+            this.TeamA.DataPropertyName = "TeamA";
+            this.TeamA.HeaderText = "主";
+            this.TeamA.Name = "TeamA";
+            this.TeamA.Width = 70;
+            // 
+            // TeamB
+            // 
+            this.TeamB.DataPropertyName = "TeamB";
+            this.TeamB.HeaderText = "客";
+            this.TeamB.Name = "TeamB";
+            this.TeamB.Width = 70;
+            // 
             // BallOpen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -631,9 +640,6 @@
         private System.Windows.Forms.DataGridView gv_playersbuys;
         private System.Windows.Forms.Button btn_open;
         private System.Windows.Forms.Label lbl_gamematch;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TimeType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TeamA;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TeamB;
         private System.Windows.Forms.Label lbl_result;
         private System.Windows.Forms.ComboBox cb_wxsourcetype;
         private System.Windows.Forms.DataGridViewTextBoxColumn GameID;
@@ -685,6 +691,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn R4_1_B;
         private System.Windows.Forms.DataGridViewTextBoxColumn R4_2_B;
         private System.Windows.Forms.DataGridViewTextBoxColumn R4_3_B;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OpenGameID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TimeType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TeamA;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TeamB;
 
     }
 }

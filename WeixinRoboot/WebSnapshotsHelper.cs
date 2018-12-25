@@ -33,6 +33,7 @@ namespace WeixinRoboot
             m_thread.SetApartmentState(ApartmentState.STA);
             m_thread.Start();
             m_thread.Join();
+            // _GenerateWebSiteThumbnailImage();
             return m_Bitmap;
         }
         private void _GenerateWebSiteThumbnailImage()
@@ -42,8 +43,19 @@ namespace WeixinRoboot
             m_WebBrowser.ScrollBarsEnabled = false;
             m_WebBrowser.Navigate(m_Url);
             m_WebBrowser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(WebBrowser_DocumentCompleted);
-            while (m_WebBrowser.ReadyState != WebBrowserReadyState.Complete)
-                Application.DoEvents();
+            try
+            {
+                while (m_WebBrowser.ReadyState != WebBrowserReadyState.Complete)
+                {
+                    Application.DoEvents();
+                }
+            }
+            catch (Exception)
+            {
+                m_WebBrowser.Stop();
+            }
+
+
             m_WebBrowser.Dispose();
         }
         private void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -54,7 +66,7 @@ namespace WeixinRoboot
             m_Bitmap = new Bitmap(m_ThumbnailWidth, m_ThumbnailHeight);
             m_WebBrowser.BringToFront();
             m_WebBrowser.DrawToBitmap(m_Bitmap, m_WebBrowser.Bounds);
-           // m_Bitmap = (Bitmap)m_Bitmap.GetThumbnailImage(m_ThumbnailWidth, m_ThumbnailHeight, null, IntPtr.Zero);
+            // m_Bitmap = (Bitmap)m_Bitmap.GetThumbnailImage(m_ThumbnailWidth, m_ThumbnailHeight, null, IntPtr.Zero);
         }
 
     }

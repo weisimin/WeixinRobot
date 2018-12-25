@@ -50,9 +50,10 @@ namespace WeixinRoboot
             DialogResult dr = fd.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                 //StartF.SendRobotImage(fd.FileName, _UserRow.Field<string>("User_ContactTEMPID"), _UserRow.Field<string>("User_SourceType"));
-                Thread st = new Thread(new ParameterizedThreadStart(StartF.ThreadSendRobotImage));
-                st.Start(new object[] { fd.FileName, _UserRow.Field<string>("User_ContactTEMPID"), _UserRow.Field<string>("User_SourceType") });
+
+                StartF.SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg", _UserRow.Field<string>("User_ContactTEMPID"), _UserRow.Field<string>("User_SourceType"));
+
+                          
 
             }
         }

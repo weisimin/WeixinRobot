@@ -1,0 +1,96 @@
+﻿<?xml version="1.0"?>
+
+<msg>
+  <appmsg appid="" sdkver="0">
+    <title>雪缘园赔率 --- 赛事指数 ---- 足球赔率公司</title>
+    <des>http://odds.gooooal.com/company.html</des>
+    <username />
+    <action>view</action>
+    <type>5</type>
+    <showtype>0</showtype>
+    <content />
+    <url>http://odds.gooooal.com/company.html</url>
+    <lowurl />
+    <dataurl />
+    <lowdataurl />
+    <contentattr>0</contentattr>
+    <streamvideo>
+      <streamvideourl />
+      <streamvideototaltime>0</streamvideototaltime>
+      <streamvideotitle />
+      <streamvideowording />
+      <streamvideoweburl />
+      <streamvideothumburl />
+      <streamvideoaduxinfo />
+      <streamvideopublishid />
+    </streamvideo>
+    <canvasPageItem>
+      <canvasPageXml><![CDATA[]]></canvasPageXml>
+    </canvasPageItem>
+    <appattach>
+      <totallen>0</totallen>
+      <attachid />
+      <cdnattachurl />
+      <emoticonmd5 />
+      <aeskey />
+      <fileext />
+      <islargefilemsg>0</islargefilemsg>
+    </appattach>
+    <extinfo />
+    <androidsource>3</androidsource>
+    <sourceusername></sourceusername>
+    <sourcedisplayname />
+    <commenturl />
+    <thumburl />
+    <mediatagname />
+    <messageaction><![CDATA[]]></messageaction>
+    <messageext><![CDATA[]]></messageext>
+    <emoticongift>
+      <packageflag>0</packageflag>
+      <packageid />
+    </emoticongift>
+    <emoticonshared>
+      <packageflag>0</packageflag>
+      <packageid />
+    </emoticonshared>
+    <designershared>
+      <designeruin>0</designeruin>
+      <designername>null</designername>
+      <designerrediretcturl>null</designerrediretcturl>
+    </designershared>
+    <emotionpageshared>
+      <tid>0</tid>
+      <title>null</title>
+      <desc>null</desc>
+      <iconUrl>null</iconUrl>
+      <secondUrl>null</secondUrl>
+      <pageType>0</pageType>
+    </emotionpageshared>
+    <webviewshared>
+      <shareUrlOriginal>http://odds.gooooal.com/bkscompany.html?type=1001&amp;amp;from=singlemessage</shareUrlOriginal>
+      <shareUrlOpen>http://odds.gooooal.com/company.html</shareUrlOpen>
+      <jsAppId />
+      <publisherId>msg_7118588012642305137</publisherId>
+    </webviewshared>
+    <template_id />
+    <md5 />
+    <weappinfo>
+      <username />
+      <appid />
+      <appservicetype>0</appservicetype>
+    </weappinfo>
+    <statextstr>GhQKEnd4MDIwYTUzNWRjY2Q0NmMxMQ==</statextstr>
+    <websearch>
+      <rec_category>0</rec_category>
+    </websearch>
+  </appmsg>
+  <fromusername></fromusername>
+  <scene>0</scene>
+  <appinfo>
+    <version>1</version>
+    <appname></appname>
+  </appinfo>
+  <commenturl></commenturl>
+</msg>
+
+

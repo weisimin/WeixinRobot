@@ -42,7 +42,9 @@
             this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.User_IsCaculateFuli = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.查 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.会 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsBoss = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsBallPIC = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BS_Contact = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.gv_ReceiveReply = new System.Windows.Forms.DataGridView();
@@ -73,6 +75,11 @@
             this.MI_CancelCheckFuli = new System.Windows.Forms.ToolStripMenuItem();
             this.老板查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.取消老板查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_BALLPIC = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_CancelBALLPIC = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_WebSendSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_HUIYAN = new System.Windows.Forms.ToolStripMenuItem();
+            this.mi_cancelhuiyan = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_ContactFilter = new System.Windows.Forms.TextBox();
             this.dtp_EndDate = new System.Windows.Forms.DateTimePicker();
             this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
@@ -102,6 +109,8 @@
             this.fd_Period = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.Btn_Resend = new System.Windows.Forms.Button();
+            this.btn_resendballl = new System.Windows.Forms.Button();
+            this.非好友会员设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -135,7 +144,9 @@
             this.User_IsReply,
             this.User_IsReceiveTransfer,
             this.User_IsCaculateFuli,
-            this.查});
+            this.会,
+            this.User_IsBoss,
+            this.User_IsBallPIC});
             this.gv_contact.DataSource = this.BS_Contact;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -152,7 +163,7 @@
             this.gv_contact.RowHeadersVisible = false;
             this.gv_contact.RowTemplate.Height = 23;
             this.gv_contact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gv_contact.Size = new System.Drawing.Size(230, 582);
+            this.gv_contact.Size = new System.Drawing.Size(288, 582);
             this.gv_contact.TabIndex = 0;
             this.gv_contact.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gv_contact_CellClick);
             this.gv_contact.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_contact_DataError);
@@ -181,7 +192,7 @@
             this.User_Contact.HeaderText = "联系人";
             this.User_Contact.Name = "User_Contact";
             this.User_Contact.ReadOnly = true;
-            this.User_Contact.Width = 80;
+            this.User_Contact.Width = 75;
             // 
             // User_ContctID
             // 
@@ -202,7 +213,7 @@
             // User_IsReply
             // 
             this.User_IsReply.DataPropertyName = "User_IsReply";
-            this.User_IsReply.HeaderText = "启";
+            this.User_IsReply.HeaderText = "跟";
             this.User_IsReply.Name = "User_IsReply";
             this.User_IsReply.ReadOnly = true;
             this.User_IsReply.Width = 25;
@@ -224,13 +235,31 @@
             this.User_IsCaculateFuli.ReadOnly = true;
             this.User_IsCaculateFuli.Width = 25;
             // 
-            // 查
+            // 会
             // 
-            this.查.DataPropertyName = "User_IsBoss";
-            this.查.HeaderText = "查";
-            this.查.Name = "查";
-            this.查.ReadOnly = true;
-            this.查.Width = 35;
+            this.会.DataPropertyName = "User_IsAdmin";
+            this.会.HeaderText = "会";
+            this.会.Name = "会";
+            this.会.ReadOnly = true;
+            this.会.Width = 25;
+            // 
+            // User_IsBoss
+            // 
+            this.User_IsBoss.DataPropertyName = "User_IsBoss";
+            this.User_IsBoss.HeaderText = "查";
+            this.User_IsBoss.Name = "User_IsBoss";
+            this.User_IsBoss.ReadOnly = true;
+            this.User_IsBoss.Width = 25;
+            // 
+            // User_IsBallPIC
+            // 
+            this.User_IsBallPIC.DataPropertyName = "User_IsBallPIC";
+            this.User_IsBallPIC.HeaderText = "球";
+            this.User_IsBallPIC.Name = "User_IsBallPIC";
+            this.User_IsBallPIC.ReadOnly = true;
+            this.User_IsBallPIC.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.User_IsBallPIC.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.User_IsBallPIC.Width = 25;
             // 
             // label1
             // 
@@ -273,7 +302,7 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gv_ReceiveReply.DefaultCellStyle = dataGridViewCellStyle4;
-            this.gv_ReceiveReply.Location = new System.Drawing.Point(250, 166);
+            this.gv_ReceiveReply.Location = new System.Drawing.Point(308, 166);
             this.gv_ReceiveReply.Name = "gv_ReceiveReply";
             this.gv_ReceiveReply.ReadOnly = true;
             this.gv_ReceiveReply.RowHeadersVisible = false;
@@ -320,7 +349,7 @@
             this.Reply_ReceiveContent.HeaderText = "收到";
             this.Reply_ReceiveContent.Name = "Reply_ReceiveContent";
             this.Reply_ReceiveContent.ReadOnly = true;
-            this.Reply_ReceiveContent.Width = 300;
+            this.Reply_ReceiveContent.Width = 250;
             // 
             // Reply_ReplyContent
             // 
@@ -328,7 +357,7 @@
             this.Reply_ReplyContent.HeaderText = "回复";
             this.Reply_ReplyContent.Name = "Reply_ReplyContent";
             this.Reply_ReplyContent.ReadOnly = true;
-            this.Reply_ReplyContent.Width = 300;
+            this.Reply_ReplyContent.Width = 250;
             // 
             // Reply_ReceiveTime
             // 
@@ -347,7 +376,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(253, 141);
+            this.label2.Location = new System.Drawing.Point(311, 141);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 12);
             this.label2.TabIndex = 3;
@@ -356,7 +385,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(248, 417);
+            this.label3.Location = new System.Drawing.Point(306, 417);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 4;
@@ -382,99 +411,140 @@
             this.MI_CheckFuli,
             this.MI_CancelCheckFuli,
             this.老板查询ToolStripMenuItem,
-            this.取消老板查询ToolStripMenuItem});
+            this.取消老板查询ToolStripMenuItem,
+            this.MI_BALLPIC,
+            this.MI_CancelBALLPIC,
+            this.MI_WebSendSetting,
+            this.MI_HUIYAN,
+            this.mi_cancelhuiyan,
+            this.非好友会员设置ToolStripMenuItem});
             this.MouseMenuReply.Name = "MouseMenuReply";
-            this.MouseMenuReply.Size = new System.Drawing.Size(149, 290);
+            this.MouseMenuReply.Size = new System.Drawing.Size(161, 444);
             // 
             // MI_IsReply
             // 
             this.MI_IsReply.Name = "MI_IsReply";
-            this.MI_IsReply.Size = new System.Drawing.Size(148, 22);
+            this.MI_IsReply.Size = new System.Drawing.Size(160, 22);
             this.MI_IsReply.Text = "自动跟踪";
             this.MI_IsReply.Click += new System.EventHandler(this.MI_IsReply_Click);
             // 
             // MI_FasongXinxi
             // 
             this.MI_FasongXinxi.Name = "MI_FasongXinxi";
-            this.MI_FasongXinxi.Size = new System.Drawing.Size(148, 22);
+            this.MI_FasongXinxi.Size = new System.Drawing.Size(160, 22);
             this.MI_FasongXinxi.Text = "发送消息";
             this.MI_FasongXinxi.Click += new System.EventHandler(this.MI_FasongXinxi_Click);
             // 
             // MI_ChongZhi
             // 
             this.MI_ChongZhi.Name = "MI_ChongZhi";
-            this.MI_ChongZhi.Size = new System.Drawing.Size(148, 22);
+            this.MI_ChongZhi.Size = new System.Drawing.Size(160, 22);
             this.MI_ChongZhi.Text = "充值";
             this.MI_ChongZhi.Click += new System.EventHandler(this.MI_ChongZhi_Click);
             // 
             // MI_FanXian
             // 
             this.MI_FanXian.Name = "MI_FanXian";
-            this.MI_FanXian.Size = new System.Drawing.Size(148, 22);
+            this.MI_FanXian.Size = new System.Drawing.Size(160, 22);
             this.MI_FanXian.Text = "返现";
             // 
             // MI_OrderManual
             // 
             this.MI_OrderManual.Name = "MI_OrderManual";
-            this.MI_OrderManual.Size = new System.Drawing.Size(148, 22);
+            this.MI_OrderManual.Size = new System.Drawing.Size(160, 22);
             this.MI_OrderManual.Text = "人工下单";
             this.MI_OrderManual.Click += new System.EventHandler(this.MI_OrderManual_Click);
             // 
             // MI_CleanUp
             // 
             this.MI_CleanUp.Name = "MI_CleanUp";
-            this.MI_CleanUp.Size = new System.Drawing.Size(148, 22);
+            this.MI_CleanUp.Size = new System.Drawing.Size(160, 22);
             this.MI_CleanUp.Text = "清算";
             this.MI_CleanUp.Click += new System.EventHandler(this.MI_CleanUp_Click);
             // 
             // MI_CancelIsReply
             // 
             this.MI_CancelIsReply.Name = "MI_CancelIsReply";
-            this.MI_CancelIsReply.Size = new System.Drawing.Size(148, 22);
+            this.MI_CancelIsReply.Size = new System.Drawing.Size(160, 22);
             this.MI_CancelIsReply.Text = "取消自动跟踪";
             this.MI_CancelIsReply.Click += new System.EventHandler(this.MI_CancelIsReply_Click);
             // 
             // MI_ReceiveTrans
             // 
             this.MI_ReceiveTrans.Name = "MI_ReceiveTrans";
-            this.MI_ReceiveTrans.Size = new System.Drawing.Size(148, 22);
+            this.MI_ReceiveTrans.Size = new System.Drawing.Size(160, 22);
             this.MI_ReceiveTrans.Text = "转发";
             this.MI_ReceiveTrans.Click += new System.EventHandler(this.MI_ReceiveTrans_Click);
             // 
             // MI_CancelReceiveTrans
             // 
             this.MI_CancelReceiveTrans.Name = "MI_CancelReceiveTrans";
-            this.MI_CancelReceiveTrans.Size = new System.Drawing.Size(148, 22);
+            this.MI_CancelReceiveTrans.Size = new System.Drawing.Size(160, 22);
             this.MI_CancelReceiveTrans.Text = "取消转发";
             this.MI_CancelReceiveTrans.Click += new System.EventHandler(this.MI_CancelReceiveTrans_Click);
             // 
             // MI_CheckFuli
             // 
             this.MI_CheckFuli.Name = "MI_CheckFuli";
-            this.MI_CheckFuli.Size = new System.Drawing.Size(148, 22);
+            this.MI_CheckFuli.Size = new System.Drawing.Size(160, 22);
             this.MI_CheckFuli.Text = "计算福利";
             this.MI_CheckFuli.Click += new System.EventHandler(this.MI_FuliCheck_Click);
             // 
             // MI_CancelCheckFuli
             // 
             this.MI_CancelCheckFuli.Name = "MI_CancelCheckFuli";
-            this.MI_CancelCheckFuli.Size = new System.Drawing.Size(148, 22);
+            this.MI_CancelCheckFuli.Size = new System.Drawing.Size(160, 22);
             this.MI_CancelCheckFuli.Text = "取消计算福利";
             this.MI_CancelCheckFuli.Click += new System.EventHandler(this.MI_CancelFuliCheck_Click);
             // 
             // 老板查询ToolStripMenuItem
             // 
             this.老板查询ToolStripMenuItem.Name = "老板查询ToolStripMenuItem";
-            this.老板查询ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.老板查询ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.老板查询ToolStripMenuItem.Text = "老板查询";
             this.老板查询ToolStripMenuItem.Click += new System.EventHandler(this.老板查询ToolStripMenuItem_Click);
             // 
             // 取消老板查询ToolStripMenuItem
             // 
             this.取消老板查询ToolStripMenuItem.Name = "取消老板查询ToolStripMenuItem";
-            this.取消老板查询ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.取消老板查询ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.取消老板查询ToolStripMenuItem.Text = "取消老板查询";
             this.取消老板查询ToolStripMenuItem.Click += new System.EventHandler(this.取消老板查询ToolStripMenuItem_Click);
+            // 
+            // MI_BALLPIC
+            // 
+            this.MI_BALLPIC.Name = "MI_BALLPIC";
+            this.MI_BALLPIC.Size = new System.Drawing.Size(160, 22);
+            this.MI_BALLPIC.Text = "球赛图片";
+            this.MI_BALLPIC.Click += new System.EventHandler(this.MI_BALLPIC_Click);
+            // 
+            // MI_CancelBALLPIC
+            // 
+            this.MI_CancelBALLPIC.Name = "MI_CancelBALLPIC";
+            this.MI_CancelBALLPIC.Size = new System.Drawing.Size(160, 22);
+            this.MI_CancelBALLPIC.Text = "取消球赛图片";
+            this.MI_CancelBALLPIC.Click += new System.EventHandler(this.MI_CancelBALLPIC_Click);
+            // 
+            // MI_WebSendSetting
+            // 
+            this.MI_WebSendSetting.Name = "MI_WebSendSetting";
+            this.MI_WebSendSetting.Size = new System.Drawing.Size(160, 22);
+            this.MI_WebSendSetting.Text = "WEB发图设置";
+            this.MI_WebSendSetting.Click += new System.EventHandler(this.MI_WebSendSetting_Click);
+            // 
+            // MI_HUIYAN
+            // 
+            this.MI_HUIYAN.Name = "MI_HUIYAN";
+            this.MI_HUIYAN.Size = new System.Drawing.Size(160, 22);
+            this.MI_HUIYAN.Text = "会员";
+            this.MI_HUIYAN.Click += new System.EventHandler(this.MI_HUIYAN_Click);
+            // 
+            // mi_cancelhuiyan
+            // 
+            this.mi_cancelhuiyan.Name = "mi_cancelhuiyan";
+            this.mi_cancelhuiyan.Size = new System.Drawing.Size(160, 22);
+            this.mi_cancelhuiyan.Text = "取消会员";
+            this.mi_cancelhuiyan.Click += new System.EventHandler(this.mi_cancelhuiyan_Click);
             // 
             // tb_ContactFilter
             // 
@@ -486,7 +556,7 @@
             // 
             // dtp_EndDate
             // 
-            this.dtp_EndDate.Location = new System.Drawing.Point(884, 121);
+            this.dtp_EndDate.Location = new System.Drawing.Point(942, 121);
             this.dtp_EndDate.Name = "dtp_EndDate";
             this.dtp_EndDate.Size = new System.Drawing.Size(113, 21);
             this.dtp_EndDate.TabIndex = 7;
@@ -494,7 +564,7 @@
             // 
             // dtp_StartDate
             // 
-            this.dtp_StartDate.Location = new System.Drawing.Point(747, 121);
+            this.dtp_StartDate.Location = new System.Drawing.Point(805, 121);
             this.dtp_StartDate.Name = "dtp_StartDate";
             this.dtp_StartDate.Size = new System.Drawing.Size(113, 21);
             this.dtp_StartDate.TabIndex = 8;
@@ -503,7 +573,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(866, 125);
+            this.label4.Location = new System.Drawing.Point(924, 125);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(11, 12);
             this.label4.TabIndex = 9;
@@ -531,7 +601,7 @@
             this.GameResult,
             this.Result_Point});
             this.GV_GameLog.DataSource = this.BS_GameLog;
-            this.GV_GameLog.Location = new System.Drawing.Point(248, 442);
+            this.GV_GameLog.Location = new System.Drawing.Point(306, 442);
             this.GV_GameLog.MultiSelect = false;
             this.GV_GameLog.Name = "GV_GameLog";
             this.GV_GameLog.ReadOnly = true;
@@ -644,42 +714,42 @@
             // fd_day
             // 
             this.fd_day.CustomFormat = "yyyy-MM-dd";
-            this.fd_day.Location = new System.Drawing.Point(261, 72);
+            this.fd_day.Location = new System.Drawing.Point(319, 72);
             this.fd_day.Name = "fd_day";
             this.fd_day.Size = new System.Drawing.Size(101, 21);
             this.fd_day.TabIndex = 26;
             // 
             // fd_Num5
             // 
-            this.fd_Num5.Location = new System.Drawing.Point(466, 101);
+            this.fd_Num5.Location = new System.Drawing.Point(524, 101);
             this.fd_Num5.Name = "fd_Num5";
             this.fd_Num5.Size = new System.Drawing.Size(26, 21);
             this.fd_Num5.TabIndex = 25;
             // 
             // fd_Num4
             // 
-            this.fd_Num4.Location = new System.Drawing.Point(431, 101);
+            this.fd_Num4.Location = new System.Drawing.Point(489, 101);
             this.fd_Num4.Name = "fd_Num4";
             this.fd_Num4.Size = new System.Drawing.Size(26, 21);
             this.fd_Num4.TabIndex = 24;
             // 
             // fd_Num3
             // 
-            this.fd_Num3.Location = new System.Drawing.Point(396, 101);
+            this.fd_Num3.Location = new System.Drawing.Point(454, 101);
             this.fd_Num3.Name = "fd_Num3";
             this.fd_Num3.Size = new System.Drawing.Size(26, 21);
             this.fd_Num3.TabIndex = 23;
             // 
             // fd_Num2
             // 
-            this.fd_Num2.Location = new System.Drawing.Point(361, 101);
+            this.fd_Num2.Location = new System.Drawing.Point(419, 101);
             this.fd_Num2.Name = "fd_Num2";
             this.fd_Num2.Size = new System.Drawing.Size(26, 21);
             this.fd_Num2.TabIndex = 22;
             // 
             // BtnSaveAndDeal
             // 
-            this.BtnSaveAndDeal.Location = new System.Drawing.Point(535, 72);
+            this.BtnSaveAndDeal.Location = new System.Drawing.Point(593, 72);
             this.BtnSaveAndDeal.Name = "BtnSaveAndDeal";
             this.BtnSaveAndDeal.Size = new System.Drawing.Size(76, 44);
             this.BtnSaveAndDeal.TabIndex = 21;
@@ -689,7 +759,7 @@
             // 
             // fd_Num1
             // 
-            this.fd_Num1.Location = new System.Drawing.Point(326, 101);
+            this.fd_Num1.Location = new System.Drawing.Point(384, 101);
             this.fd_Num1.Name = "fd_Num1";
             this.fd_Num1.Size = new System.Drawing.Size(26, 21);
             this.fd_Num1.TabIndex = 20;
@@ -697,7 +767,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(261, 104);
+            this.label5.Location = new System.Drawing.Point(319, 104);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(59, 12);
             this.label5.TabIndex = 19;
@@ -705,7 +775,7 @@
             // 
             // fd_Period
             // 
-            this.fd_Period.Location = new System.Drawing.Point(429, 72);
+            this.fd_Period.Location = new System.Drawing.Point(487, 72);
             this.fd_Period.Name = "fd_Period";
             this.fd_Period.Size = new System.Drawing.Size(33, 21);
             this.fd_Period.TabIndex = 18;
@@ -713,7 +783,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(369, 75);
+            this.label6.Location = new System.Drawing.Point(427, 75);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 12);
             this.label6.TabIndex = 17;
@@ -721,7 +791,7 @@
             // 
             // Btn_Resend
             // 
-            this.Btn_Resend.Location = new System.Drawing.Point(913, 39);
+            this.Btn_Resend.Location = new System.Drawing.Point(971, 39);
             this.Btn_Resend.Name = "Btn_Resend";
             this.Btn_Resend.Size = new System.Drawing.Size(84, 44);
             this.Btn_Resend.TabIndex = 27;
@@ -729,11 +799,28 @@
             this.Btn_Resend.UseVisualStyleBackColor = true;
             this.Btn_Resend.Click += new System.EventHandler(this.Btn_Resend_Click);
             // 
+            // btn_resendballl
+            // 
+            this.btn_resendballl.Location = new System.Drawing.Point(216, 33);
+            this.btn_resendballl.Name = "btn_resendballl";
+            this.btn_resendballl.Size = new System.Drawing.Size(75, 31);
+            this.btn_resendballl.TabIndex = 28;
+            this.btn_resendballl.Text = "重新发联赛";
+            this.btn_resendballl.UseVisualStyleBackColor = true;
+            this.btn_resendballl.Click += new System.EventHandler(this.btn_resendballl_Click);
+            // 
+            // 非好友会员设置ToolStripMenuItem
+            // 
+            this.非好友会员设置ToolStripMenuItem.Name = "非好友会员设置ToolStripMenuItem";
+            this.非好友会员设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.非好友会员设置ToolStripMenuItem.Text = "非好友会员设置";
+            // 
             // RunnerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 662);
+            this.ClientSize = new System.Drawing.Size(1067, 662);
+            this.Controls.Add(this.btn_resendballl);
             this.Controls.Add(this.Btn_Resend);
             this.Controls.Add(this.fd_day);
             this.Controls.Add(this.fd_Num5);
@@ -824,6 +911,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Buy_Point;
         private System.Windows.Forms.DataGridViewTextBoxColumn GameResult;
         private System.Windows.Forms.DataGridViewTextBoxColumn Result_Point;
+        private System.Windows.Forms.ToolStripMenuItem 老板查询ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 取消老板查询ToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Reply_Contact;
         private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ContactID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Reply_SourceType;
@@ -832,6 +921,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReplyContent;
         private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReceiveTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn Reply_ReplyTime;
+        private System.Windows.Forms.Button btn_resendballl;
+        private System.Windows.Forms.ToolStripMenuItem MI_BALLPIC;
+        private System.Windows.Forms.ToolStripMenuItem MI_CancelBALLPIC;
+        private System.Windows.Forms.ToolStripMenuItem MI_WebSendSetting;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_SourceType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_Contact;
@@ -840,8 +933,11 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReply;
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReceiveTransfer;
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsCaculateFuli;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn 查;
-        private System.Windows.Forms.ToolStripMenuItem 老板查询ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 取消老板查询ToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 会;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsBoss;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsBallPIC;
+        private System.Windows.Forms.ToolStripMenuItem MI_HUIYAN;
+        private System.Windows.Forms.ToolStripMenuItem mi_cancelhuiyan;
+        private System.Windows.Forms.ToolStripMenuItem 非好友会员设置ToolStripMenuItem;
     }
 }

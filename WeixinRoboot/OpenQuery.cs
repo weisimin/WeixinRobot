@@ -58,7 +58,7 @@ namespace WeixinRoboot
 
             var buys = (from ds in db.WX_UserGameLog
                         where
-                        ds.aspnet_UserID == GlobalParam.Key
+                        ds.aspnet_UserID == GlobalParam.UserKey
         && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_startdate.Value.ToString("yyyyMMdd")) >= 0
         && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_enddate.Value.ToString("yyyyMMdd")) <= 0
         &&ds.WX_SourceType==cb_SourceType.SelectedItem.ToString()
@@ -89,7 +89,7 @@ namespace WeixinRoboot
                 }
                 else
                 {
-                    var FidnUser = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key && t.WX_UserName == item && t.WX_SourceType == cb_SourceType.SelectedItem.ToString());
+                    var FidnUser = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == item && t.WX_SourceType == cb_SourceType.SelectedItem.ToString());
 
                     uc.Caption = (FidnUser == null ? item : (FidnUser.RemarkName != "" && FidnUser.RemarkName != null ? FidnUser.RemarkName + "@#" + FidnUser.NickName : FidnUser.NickName));
 
@@ -123,12 +123,12 @@ namespace WeixinRoboot
                     newr.SetField(usritem, NetFramework.Util_Math.NullToZero(buys.Where(t =>
                         t.WX_UserName == usritem
                         && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                        && t.aspnet_UserID == GlobalParam.Key
+                        && t.aspnet_UserID == GlobalParam.UserKey
                         && t.GameLocalPeriod.StartsWith(item)).Sum(t => t.Buy_Point)));
                 }
                 newr.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
                          t.GameLocalPeriod.StartsWith(item)
-                            && t.aspnet_UserID == GlobalParam.Key
+                            && t.aspnet_UserID == GlobalParam.UserKey
                          ).Sum(t => t.Buy_Point)));
 
 
@@ -141,13 +141,13 @@ namespace WeixinRoboot
                     newr2.SetField(usritem, NetFramework.Util_Math.NullToZero(buys.Where(t =>
                         t.WX_UserName == usritem
                         && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                           && t.aspnet_UserID == GlobalParam.Key
+                           && t.aspnet_UserID == GlobalParam.UserKey
                          && t.GameLocalPeriod.StartsWith(item)
                         ).Sum(t => t.Result_Point)));
                 }
                 newr2.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
                         t.GameLocalPeriod.StartsWith(item)
-                         && t.aspnet_UserID == GlobalParam.Key
+                         && t.aspnet_UserID == GlobalParam.UserKey
                         ).Sum(t => t.Result_Point)));
                 Application.DoEvents();
 
@@ -160,13 +160,13 @@ namespace WeixinRoboot
                         t.WX_UserName == usritem
                           && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
                          && t.RemarkType == "福利"
-                            && t.aspnet_UserID == GlobalParam.Key
+                            && t.aspnet_UserID == GlobalParam.UserKey
                          && t.ChangeLocalDay.StartsWith(item)
                         ).Sum(t => t.ChangePoint)));
                 }
                 newr6.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
                                      t.RemarkType == "福利"
-                                        && t.aspnet_UserID == GlobalParam.Key
+                                        && t.aspnet_UserID == GlobalParam.UserKey
                          && t.ChangeLocalDay.StartsWith(item)
                         ).Sum(t => t.ChangePoint)));
                 Application.DoEvents();
@@ -181,14 +181,14 @@ namespace WeixinRoboot
                         NetFramework.Util_Math.NullToZero(buys.Where(t =>
                         t.WX_UserName == usritem
                           && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                           && t.aspnet_UserID == GlobalParam.Key
+                           && t.aspnet_UserID == GlobalParam.UserKey
                          && t.GameLocalPeriod.StartsWith(item)
                         ).Sum(t => t.Buy_Point))
 
                                             - NetFramework.Util_Math.NullToZero(buys.Where(t =>
                         t.WX_UserName == usritem
                           && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                           && t.aspnet_UserID == GlobalParam.Key
+                           && t.aspnet_UserID == GlobalParam.UserKey
                          && t.GameLocalPeriod.StartsWith(item)
                         ).Sum(t => t.Result_Point))
 
@@ -197,7 +197,7 @@ namespace WeixinRoboot
                                      t.RemarkType == "福利"
                                      && t.WX_UserName == usritem
                                        && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                                        && t.aspnet_UserID == GlobalParam.Key
+                                        && t.aspnet_UserID == GlobalParam.UserKey
                          && t.ChangeLocalDay.StartsWith(item)
                         ).Sum(t => t.ChangePoint))
 
@@ -209,18 +209,18 @@ namespace WeixinRoboot
                         NetFramework.Util_Math.NullToZero(buys.Where(t =>
 
                          t.GameLocalPeriod.StartsWith(item)
-                            && t.aspnet_UserID == GlobalParam.Key
+                            && t.aspnet_UserID == GlobalParam.UserKey
                         ).Sum(t => t.Buy_Point))
 
                                             - NetFramework.Util_Math.NullToZero(buys.Where(t =>
 
                          t.GameLocalPeriod.StartsWith(item)
-                            && t.aspnet_UserID == GlobalParam.Key
+                            && t.aspnet_UserID == GlobalParam.UserKey
                         ).Sum(t => t.Result_Point))
 
                         - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
                                      t.RemarkType == "福利"
-                                        && t.aspnet_UserID == GlobalParam.Key
+                                        && t.aspnet_UserID == GlobalParam.UserKey
                          && t.ChangeLocalDay.StartsWith(item)
                         ).Sum(t => t.ChangePoint))
 
@@ -238,12 +238,12 @@ namespace WeixinRoboot
                     newr8.SetField(usritem, NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
                         t.WX_UserName == usritem
                           && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                            && t.aspnet_UserID == GlobalParam.Key
+                            && t.aspnet_UserID == GlobalParam.UserKey
                          && t.GameLocalPeriod.StartsWith(item)
                         ).Select(t => t.GamePeriod).Distinct().Count()));
                 }
                 newr8.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
-                              t.aspnet_UserID == GlobalParam.Key
+                              t.aspnet_UserID == GlobalParam.UserKey
                          && t.GameLocalPeriod.StartsWith(item)
                         ).Select(t => new { t.GamePeriod,t.WX_UserName,t.WX_SourceType }).Distinct().Count()));
                 Application.DoEvents();
@@ -260,13 +260,13 @@ namespace WeixinRoboot
                          t.WX_UserName == usritem
                             && t.GameLocalPeriod.StartsWith(item)
                               && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                               && t.aspnet_UserID == GlobalParam.Key
+                               && t.aspnet_UserID == GlobalParam.UserKey
                            ).Sum(t => t.Buy_Point));
 
                     decimal e_TotalPeriod = NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
                         t.WX_UserName == usritem
                           && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                            && t.aspnet_UserID == GlobalParam.Key
+                            && t.aspnet_UserID == GlobalParam.UserKey
                          && t.GameLocalPeriod.StartsWith(item)
                         ).Select(t => t.GamePeriod).Distinct().Count());
 
@@ -277,12 +277,12 @@ namespace WeixinRoboot
                 decimal TotalBuy = NetFramework.Util_Math.NullToZero(buys.Where(t =>
 
                         t.GameLocalPeriod.StartsWith(item)
-                           && t.aspnet_UserID == GlobalParam.Key
+                           && t.aspnet_UserID == GlobalParam.UserKey
                        ).Sum(t => t.Buy_Point));
 
                 decimal TotalPeriod = NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
 
-                         t.aspnet_UserID == GlobalParam.Key
+                         t.aspnet_UserID == GlobalParam.UserKey
                      && t.GameLocalPeriod.StartsWith(item)
                     ).Select(t => t.GamePeriod).Distinct().Count());
 
@@ -310,12 +310,12 @@ namespace WeixinRoboot
                 newr_alldays.SetField(usritem, NetFramework.Util_Math.NullToZero(buys.Where(t =>
                     t.WX_UserName == usritem
                       && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                    && t.aspnet_UserID == GlobalParam.Key
+                    && t.aspnet_UserID == GlobalParam.UserKey
 
                     ).Sum(t => t.Buy_Point)));
             }
             newr_alldays.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
-                         t.aspnet_UserID == GlobalParam.Key
+                         t.aspnet_UserID == GlobalParam.UserKey
                      ).Sum(t => t.Buy_Point)));
 
 
@@ -328,13 +328,13 @@ namespace WeixinRoboot
                 newr2_alldays.SetField(usritem, NetFramework.Util_Math.NullToZero(buys.Where(t =>
                     t.WX_UserName == usritem
                       && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                       && t.aspnet_UserID == GlobalParam.Key
+                       && t.aspnet_UserID == GlobalParam.UserKey
 
                     ).Sum(t => t.Result_Point)));
             }
             newr2_alldays.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
 
-                      t.aspnet_UserID == GlobalParam.Key
+                      t.aspnet_UserID == GlobalParam.UserKey
                     ).Sum(t => t.Result_Point)));
             Application.DoEvents();
 
@@ -347,14 +347,14 @@ namespace WeixinRoboot
                     t.WX_UserName == usritem
                       && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
                      && t.RemarkType == "福利"
-                        && t.aspnet_UserID == GlobalParam.Key
+                        && t.aspnet_UserID == GlobalParam.UserKey
                          && (string.Compare(t.ChangeLocalDay, dtp_startdate.Value.ToString("yyyyMMdd")) >= 0)
                                     && (string.Compare(dtp_enddate.Value.ToString("yyyyMMdd"), t.ChangeLocalDay) >= 0)
           ).Sum(t => t.ChangePoint)));
             }
             newr6_alldays.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
                                  t.RemarkType == "福利"
-                                    && t.aspnet_UserID == GlobalParam.Key
+                                    && t.aspnet_UserID == GlobalParam.UserKey
 
                                     && (string.Compare(t.ChangeLocalDay, dtp_startdate.Value.ToString("yyyyMMdd")) >= 0)
                                     && (string.Compare(dtp_enddate.Value.ToString("yyyyMMdd"), t.ChangeLocalDay) >= 0)
@@ -372,14 +372,14 @@ namespace WeixinRoboot
                     NetFramework.Util_Math.NullToZero(buys.Where(t =>
                     t.WX_UserName == usritem
                       && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                       && t.aspnet_UserID == GlobalParam.Key
+                       && t.aspnet_UserID == GlobalParam.UserKey
 
                     ).Sum(t => t.Buy_Point))
 
                                         - NetFramework.Util_Math.NullToZero(buys.Where(t =>
                     t.WX_UserName == usritem
                       && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                       && t.aspnet_UserID == GlobalParam.Key
+                       && t.aspnet_UserID == GlobalParam.UserKey
 
                     ).Sum(t => t.Result_Point))
 
@@ -389,7 +389,7 @@ namespace WeixinRoboot
 
                                  && t.WX_UserName == usritem
                                    && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                                    && t.aspnet_UserID == GlobalParam.Key
+                                    && t.aspnet_UserID == GlobalParam.UserKey
                                      && (string.Compare(t.ChangeLocalDay, dtp_startdate.Value.ToString("yyyyMMdd")) >= 0)
                                     && (string.Compare(dtp_enddate.Value.ToString("yyyyMMdd"), t.ChangeLocalDay) >= 0)
     ).Sum(t => t.ChangePoint))
@@ -402,18 +402,18 @@ namespace WeixinRoboot
                     NetFramework.Util_Math.NullToZero(buys.Where(t =>
 
 
-                         t.aspnet_UserID == GlobalParam.Key
+                         t.aspnet_UserID == GlobalParam.UserKey
                     ).Sum(t => t.Buy_Point))
 
                                         - NetFramework.Util_Math.NullToZero(buys.Where(t =>
 
 
-                         t.aspnet_UserID == GlobalParam.Key
+                         t.aspnet_UserID == GlobalParam.UserKey
                     ).Sum(t => t.Result_Point))
 
                     - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
                                  t.RemarkType == "福利"
-                                    && t.aspnet_UserID == GlobalParam.Key
+                                    && t.aspnet_UserID == GlobalParam.UserKey
      && (string.Compare(t.ChangeLocalDay, dtp_startdate.Value.ToString("yyyyMMdd")) >= 0)
                                     && (string.Compare(dtp_enddate.Value.ToString("yyyyMMdd"), t.ChangeLocalDay) >= 0)
                     ).Sum(t => t.ChangePoint))
@@ -432,13 +432,13 @@ namespace WeixinRoboot
                 newr8_alldays.SetField(usritem, NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
                     t.WX_UserName == usritem
                       && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                        && t.aspnet_UserID == GlobalParam.Key
+                        && t.aspnet_UserID == GlobalParam.UserKey
                         && (string.Compare(t.GameLocalPeriod, dtp_startdate.Value.ToString("yyyyMMdd")) >= 1)
                           && (string.Compare(t.GameLocalPeriod, dtp_enddate.Value.ToString("yyyyMMdd")) <= 1)
                     ).Select(t => t.GamePeriod).Distinct().Count()));
             }
             newr8_alldays.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
-                         t.aspnet_UserID == GlobalParam.Key
+                         t.aspnet_UserID == GlobalParam.UserKey
                           && (string.Compare(t.GameLocalPeriod, dtp_startdate.Value.ToString("yyyyMMdd")) >= 1)
                           && (string.Compare(t.GameLocalPeriod, dtp_enddate.Value.ToString("yyyyMMdd")) <= 1)
                     ).Select(t => t.GamePeriod).Distinct().Count()));
@@ -455,13 +455,13 @@ namespace WeixinRoboot
                 decimal e_TotalBuy = NetFramework.Util_Math.NullToZero(buys.Where(t =>
                      t.WX_UserName == usritem
                        && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                           && t.aspnet_UserID == GlobalParam.Key
+                           && t.aspnet_UserID == GlobalParam.UserKey
                        ).Sum(t => t.Buy_Point));
 
                 decimal e_TotalPeriod = NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
                     t.WX_UserName == usritem
                       && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                        && t.aspnet_UserID == GlobalParam.Key
+                        && t.aspnet_UserID == GlobalParam.UserKey
                          && (string.Compare(t.GameLocalPeriod, dtp_startdate.Value.ToString("yyyyMMdd")) >= 1)
                           && (string.Compare(t.GameLocalPeriod, dtp_enddate.Value.ToString("yyyyMMdd")) <= 1)
                     ).Select(t => t.GamePeriod).Distinct().Count());
@@ -473,12 +473,12 @@ namespace WeixinRoboot
             decimal TotalBuy_alldays = NetFramework.Util_Math.NullToZero(buys.Where(t =>
 
 
-                        t.aspnet_UserID == GlobalParam.Key
+                        t.aspnet_UserID == GlobalParam.UserKey
                    ).Sum(t => t.Buy_Point));
 
             decimal TotalPeriod_alldays = NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
 
-                     t.aspnet_UserID == GlobalParam.Key
+                     t.aspnet_UserID == GlobalParam.UserKey
 
                 ).Select(t => t.GamePeriod).Distinct().Count());
 

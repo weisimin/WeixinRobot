@@ -19,10 +19,11 @@ namespace WeixinRoboot
         static void Main()
         {
 
+              
 
 
 
-            AllocConsole();
+            //AllocConsole();
             string ConfigFile = Application.StartupPath + "\\WeixinRoboot.exe.config";
             string TempFileName = Application.StartupPath + "\\web.config";
             if (System.IO.File.Exists(TempFileName))
@@ -55,10 +56,33 @@ namespace WeixinRoboot
                 {
                     Directory.CreateDirectory(Application.StartupPath + "\\output");
                 }
+
+                //Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                //var todel = db.Game_FootBall_VS.Where(t => t.LastAliveTime < DateTime.Now.AddDays(-3)
+                    
+                //    );
+                //foreach (var item in todel)
+                //{
+                //    var todeldetail = db.Game_FootBall_VSRatios.Where(t => t.aspnet_UserID == item.aspnet_UserID && t.GameKey == item.GameKey);
+                //    db.Game_FootBall_VSRatios.DeleteAllOnSubmit(todeldetail);
+
+                //    var todellast = db.Game_Football_LastRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey && t.GameKey == item.GameKey);
+                //    db.Game_Football_LastRatio.DeleteAllOnSubmit(todellast);
+
+                //}
+
+
+                //db.Game_FootBall_VS.DeleteAllOnSubmit(todel);
+
+
+                //db.SubmitChanges();
             }
-            catch (Exception anyerror)
+            catch (Exception AnyError)
             {
                 NetFramework.Console.WriteLine("删除临时图片失败");
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
             }
 
             //局部线程，不能及时结束会造成没相应
@@ -71,9 +95,9 @@ namespace WeixinRoboot
             loginf = new LoginForm();
             loginf.OnLoginSuccess += new LoginForm.LoginSuccess(loginf_OnLoginSuccess);
             //try
-            {
+            //{
                 Application.Run(loginf);
-            }
+            //}
             //catch (Exception AnyError)
             //{
             //    MessageBox.Show(AnyError.Message);
@@ -90,7 +114,7 @@ namespace WeixinRoboot
 
             //}
             CefSharp.Cef.Shutdown();
-            FreeConsole();
+            //FreeConsole();
 
         }
         static LoginForm loginf = null;
@@ -102,7 +126,7 @@ namespace WeixinRoboot
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
-            string ActiveCode = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.Key).ActiveCode;
+            string ActiveCode = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey).ActiveCode;
 
             DateTime? EndDate = null;
             bool Success = NetFramework.Util_MD5.MD5Success(ActiveCode, out EndDate, (Guid)System.Web.Security.Membership.GetUser(UserName).ProviderUserKey);

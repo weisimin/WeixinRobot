@@ -32,7 +32,9 @@ namespace WeixinRoboot
             {
 
 
-                var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
+                var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.UserKey);
+                
+               
                 foreach (var item in users)
                 {
                     #region  多人同号不到ID跳过
@@ -47,22 +49,15 @@ namespace WeixinRoboot
                     if (dr[0].Field<string>("User_ContactType")=="群")
                     {
 
-                        //StartF.SendRobotImage(Application.StartupPath + "\\Data"+GlobalParam.UserName+".jpg", TEMPUserName, WX_SourceType);
+                      
+                        StartF.SendRobotImage(Application.StartupPath + "\\Data"+GlobalParam.UserName+".jpg", TEMPUserName, WX_SourceType);
 
-                        Thread st = new Thread(new ParameterizedThreadStart(StartF.ThreadSendRobotImage));
-                        st.Start(new object[] { Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg", TEMPUserName, WX_SourceType });
-
-                        
+                      
                         System.Threading.Thread.Sleep(1000);
                         //SendWXImage(Application.StartupPath + "\\Data2.jpg", TEMPUserName);
                         if (System.IO.File.Exists(Application.StartupPath + "\\Data3"+GlobalParam.UserName+".txt"))
                         {
-                            System.IO.FileStream fs = new System.IO.FileStream(Application.StartupPath + "\\Data3.txt", System.IO.FileMode.Open);
-                            byte[] bs = new byte[fs.Length];
-                            fs.Read(bs, 0, bs.Length);
-                            fs.Close();
-                            fs.Dispose();
-                            StartF.SendRobotContent(Encoding.UTF8.GetString(bs), TEMPUserName, WX_SourceType);
+                            StartF.SendRobotTxtFile(Application.StartupPath + "\\Data3"+GlobalParam.UserName+".txt", TEMPUserName, WX_SourceType);
                         }
                     }//向监听的群发送图片
 
@@ -99,7 +94,7 @@ namespace WeixinRoboot
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             BS_GameResult.DataSource = db.Game_Result
-                .Where(t => t.aspnet_UserID == GlobalParam.Key
+                .Where(t => t.aspnet_UserID == GlobalParam.UserKey
                     && t.GameTime.Value.Date == Dtp_DownloadDate.Value.Date)
 
                 .Select(t => new
@@ -117,7 +112,7 @@ namespace WeixinRoboot
 
             var GameLog = (from ds in db.WX_UserGameLog
                            where
-                           (ds.aspnet_UserID == GlobalParam.Key)
+                           (ds.aspnet_UserID == GlobalParam.UserKey)
 
                            && (
                  (ds.Result_HaveProcess == false || ds.Result_HaveProcess == null)
@@ -207,7 +202,7 @@ namespace WeixinRoboot
                 day = day.AddDays(-1);
             }
 
-            StartF.DrawGdi(day);
+            StartF.DrawChongqingshishicai(day);
             StartF.DealGameLogAndNotice();
             StartF.SendChongqingResult();
 

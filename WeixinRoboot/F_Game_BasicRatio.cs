@@ -55,7 +55,7 @@ namespace WeixinRoboot
 
         private void gv_Game_BasicRatio_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            gv_Game_BasicRatio.Rows[e.RowIndex].Cells["aspnet_UserID"].Value = GlobalParam.Key;
+            gv_Game_BasicRatio.Rows[e.RowIndex].Cells["aspnet_UserID"].Value = GlobalParam.UserKey;
         }
 
         private void gv_Game_BasicRatio_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -71,7 +71,7 @@ namespace WeixinRoboot
         private void F_Game_BasicRatio_Load(object sender, EventArgs e)
         {
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            BS_Game_BasicRatio.DataSource = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.Key);
+            BS_Game_BasicRatio.DataSource = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey);
 
         }
 

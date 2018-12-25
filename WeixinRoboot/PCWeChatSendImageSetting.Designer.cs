@@ -32,7 +32,7 @@
             this.GV_PicSendSetting = new System.Windows.Forms.DataGridView();
             this.BS_GV_PicSendSetting = new System.Windows.Forms.BindingSource(this.components);
             this.btn_refresh = new System.Windows.Forms.Button();
-            this.微信 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.窗口名字 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.开盘 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.开盘小时 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.开盘分钟 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,7 +51,12 @@
             this.文字2间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.文字3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.文字3间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.球赛图片 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.开奖结果 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.数字图 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.龙虎图 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.数字龙虎文字 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.足球图片 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.篮球图片 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.球赛链接 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.球赛间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GV_PicSendSetting)).BeginInit();
@@ -65,7 +70,7 @@
             this.GV_PicSendSetting.AutoGenerateColumns = false;
             this.GV_PicSendSetting.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.GV_PicSendSetting.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.微信,
+            this.窗口名字,
             this.开盘,
             this.开盘小时,
             this.开盘分钟,
@@ -84,7 +89,12 @@
             this.文字2间隔,
             this.文字3,
             this.文字3间隔,
-            this.球赛图片,
+            this.开奖结果,
+            this.数字图,
+            this.龙虎图,
+            this.数字龙虎文字,
+            this.足球图片,
+            this.篮球图片,
             this.球赛链接,
             this.球赛间隔});
             this.GV_PicSendSetting.DataSource = this.BS_GV_PicSendSetting;
@@ -106,13 +116,13 @@
             this.btn_refresh.UseVisualStyleBackColor = true;
             this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
             // 
-            // 微信
+            // 窗口名字
             // 
-            this.微信.DataPropertyName = "微信";
-            this.微信.HeaderText = "微信";
-            this.微信.Name = "微信";
-            this.微信.ReadOnly = true;
-            this.微信.Width = 150;
+            this.窗口名字.DataPropertyName = "窗口名字";
+            this.窗口名字.HeaderText = "窗口名字";
+            this.窗口名字.Name = "窗口名字";
+            this.窗口名字.ReadOnly = true;
+            this.窗口名字.Width = 150;
             // 
             // 开盘
             // 
@@ -244,11 +254,51 @@
             this.文字3间隔.HeaderText = "文字3间隔分钟";
             this.文字3间隔.Name = "文字3间隔";
             // 
-            // 球赛图片
+            // 开奖结果
             // 
-            this.球赛图片.DataPropertyName = "球赛图片";
-            this.球赛图片.HeaderText = "球赛图片";
-            this.球赛图片.Name = "球赛图片";
+            this.开奖结果.DataPropertyName = "开奖结果";
+            this.开奖结果.HeaderText = "开奖结果";
+            this.开奖结果.Name = "开奖结果";
+            this.开奖结果.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.开奖结果.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // 数字图
+            // 
+            this.数字图.DataPropertyName = "数字图";
+            this.数字图.HeaderText = "数字图";
+            this.数字图.Name = "数字图";
+            this.数字图.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.数字图.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // 龙虎图
+            // 
+            this.龙虎图.DataPropertyName = "龙虎图";
+            this.龙虎图.HeaderText = "龙虎图";
+            this.龙虎图.Name = "龙虎图";
+            this.龙虎图.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.龙虎图.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // 数字龙虎文字
+            // 
+            this.数字龙虎文字.DataPropertyName = "数字龙虎文字";
+            this.数字龙虎文字.HeaderText = "数字龙虎文字";
+            this.数字龙虎文字.Name = "数字龙虎文字";
+            this.数字龙虎文字.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.数字龙虎文字.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // 足球图片
+            // 
+            this.足球图片.DataPropertyName = "足球图片";
+            this.足球图片.HeaderText = "足球图片";
+            this.足球图片.Name = "足球图片";
+            // 
+            // 篮球图片
+            // 
+            this.篮球图片.DataPropertyName = "篮球图片";
+            this.篮球图片.HeaderText = "篮球图片";
+            this.篮球图片.Name = "篮球图片";
+            this.篮球图片.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.篮球图片.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // 球赛链接
             // 
@@ -285,7 +335,7 @@
         private System.Windows.Forms.DataGridView GV_PicSendSetting;
         private System.Windows.Forms.BindingSource BS_GV_PicSendSetting;
         private System.Windows.Forms.Button btn_refresh;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 微信;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 窗口名字;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 开盘;
         private System.Windows.Forms.DataGridViewTextBoxColumn 开盘小时;
         private System.Windows.Forms.DataGridViewTextBoxColumn 开盘分钟;
@@ -304,7 +354,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字2间隔;
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字3;
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字3间隔;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn 球赛图片;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 开奖结果;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 数字图;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 龙虎图;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 数字龙虎文字;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 足球图片;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 篮球图片;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 球赛链接;
         private System.Windows.Forms.DataGridViewTextBoxColumn 球赛间隔;
 

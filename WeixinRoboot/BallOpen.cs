@@ -10,6 +10,8 @@ using System.Windows.Forms;
 
 namespace WeixinRoboot
 {
+
+
     public partial class BallOpen : Form
     {
         public BallOpen()
@@ -23,16 +25,18 @@ namespace WeixinRoboot
             cb_wxsourcetype.SelectedIndex = 0;
         }
 
+        public StartForm sf { get; set; }
+
 
         public class GameHalfResult
         {
             public string TimeType { get; set; }
 
-            public Int32 TeamA { get; set; }
+            public Int32? TeamA { get; set; }
 
-            public Int32 TeamB { get; set; }
+            public Int32? TeamB { get; set; }
 
-
+            public string OpenGameID { get; set; }
 
         }
         public class GameFormat
@@ -54,11 +58,12 @@ namespace WeixinRoboot
         private void Reload()
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
-            db_oa.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             var source = (from ds in db.WX_UserGameLog_Football
                           where ds.HaveOpen == false
                           && ds.WX_SourceType == cb_wxsourcetype.SelectedItem.ToString()
-                          select new GameFormat(ds.GameID, ds.GameVS)).Distinct();
+                          &&ds.aspnet_UserID==GlobalParam.UserKey
+                          select new GameFormat(ds.GameKey, ds.GameVS)).Distinct();
             gv_balls.DataSource = source;
         }
         private void GV_BallUnOpen_SelectionChanged(object sender, EventArgs e)
@@ -71,19 +76,54 @@ namespace WeixinRoboot
             }
             else if (gv_balls.SelectedRows.Count == 1)
             {
-                List<GameHalfResult> gr = new List<GameHalfResult>();
-                GameHalfResult newr = new GameHalfResult();
-                newr.TimeType = "上半场";
-                gr.Add(newr);
-
-                GameHalfResult newr2 = new GameHalfResult();
-                newr2.TimeType = "下半场";
-                gr.Add(newr2);
-
-                gv_result.DataSource = gr;
 
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+                Linq.Game_ResultFootBall gr_fb = db.Game_ResultFootBall.SingleOrDefault(t => t.GameID == ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID);
+
+                if (gr_fb == null)
+                {
+
+
+                    List<GameHalfResult> gr = new List<GameHalfResult>();
+                    GameHalfResult newr = new GameHalfResult();
+                    newr.TimeType = "上半场";
+                    newr.OpenGameID = ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID;
+                    gr.Add(newr);
+
+                    GameHalfResult newr2 = new GameHalfResult();
+                    newr2.TimeType = "下半场";
+                    newr2.OpenGameID = ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID;
+                    gr.Add(newr2);
+
+                    gv_result.DataSource = gr;
+
+                }
+                else
+                {
+
+                    List<GameHalfResult> gr = new List<GameHalfResult>();
+                    GameHalfResult newr = new GameHalfResult();
+                    newr.TimeType = "上半场";
+                    newr.OpenGameID = ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID;
+                    newr.TeamA = gr_fb.A_FrontHalf;
+                    newr.TeamB = gr_fb.B_FrontHalf;
+                    gr.Add(newr);
+
+                    GameHalfResult newr2 = new GameHalfResult();
+                    newr2.TimeType = "下半场";
+                    newr2.OpenGameID = ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID;
+                    newr2.TeamA = gr_fb.A_EndHalf;
+                    newr2.TeamB = gr_fb.B_EndHalf;
+                    gr.Add(newr2);
+
+                    gv_result.DataSource = gr;
+                }
+
+
 
 
                 var unplaysource = (from ds in db.WX_UserGameLog_Football
@@ -91,8 +131,9 @@ namespace WeixinRoboot
                                     from urnamr_emp_d in urnamr_emp.DefaultIfEmpty()
 
                                     where ds.HaveOpen == false
-                                    && ds.GameID == ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID
+                                    && ds.GameKey == ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID
                                      && ds.WX_SourceType == cb_wxsourcetype.SelectedItem.ToString()
+                                     &&ds.aspnet_UserID==GlobalParam.UserKey
                                     select new
                                     {
                                         WX_UserNameOrRemark = urnamr_emp_d.NickName + "(" + urnamr_emp_d.RemarkName + ")"
@@ -101,7 +142,7 @@ namespace WeixinRoboot
                                         ,
                                         transtime = ds.transtime
                                         ,
-                                        GameID = ds.GameID
+                                        GameID = ds.GameKey
                                         ,
                                         GameVS = ds.GameVS
                                         ,
@@ -119,13 +160,13 @@ namespace WeixinRoboot
                                         ,
                                         Winless = ds.Winless
                                         ,
-                                        B_Win = ds.B_Win
+                                        B_Win = ds.B_WIN
                                         ,
-                                        BigWin = ds.BigWin
+                                        BigWin = ds.BIGWIN
                                         ,
                                         Total = ds.Total
                                         ,
-                                        SmallWin = ds.SmallWin
+                                        SmallWin = ds.SMALLWIN
                                         ,
                                         R_A_A = ds.R_A_A
                                         ,
@@ -195,7 +236,7 @@ namespace WeixinRoboot
                                         ,
                                         R4_4 = ds.R4_4
                                         ,
-                                        Rother = ds.Rother
+                                        Rother = ds.ROTHER
                                         ,
                                         WX_SourceType = ds.WX_SourceType
                                         ,
@@ -220,6 +261,112 @@ namespace WeixinRoboot
         private void btn_open_Click(object sender, EventArgs e)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            Linq.Game_ResultFootBall newgr = new Linq.Game_ResultFootBall();
+
+            Linq.Game_ResultFootBall findgr = db.Game_ResultFootBall.SingleOrDefault(t => t.GameID == ((List<GameHalfResult>)gv_result.DataSource).First().OpenGameID);
+
+            if (findgr == null)
+            {
+
+                foreach (GameHalfResult item in ((List<GameHalfResult>)gv_result.DataSource))
+                {
+                    newgr.GameID = item.OpenGameID;
+                    newgr.aspnet_UserID  = GlobalParam.UserKey;
+                    newgr.GameVS = ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameVS;
+                    if (item.TimeType == "上半场")
+                    {
+                        newgr.A_FrontHalf = item.TeamA;
+                        newgr.B_FrontHalf = item.TeamB;
+                    }
+                    if (item.TimeType == "下半场")
+                    {
+                        newgr.A_EndHalf = item.TeamA;
+                        newgr.B_EndHalf = item.TeamB;
+                    }
+
+                }
+
+
+                db.Game_ResultFootBall.InsertOnSubmit(newgr);
+                db.SubmitChanges();
+            }
+
+            else
+            {
+                foreach (GameHalfResult item in ((List<GameHalfResult>)gv_result.DataSource))
+                {
+                    findgr.GameID = item.OpenGameID;
+                    findgr.aspnet_UserID = GlobalParam.UserKey;
+                    findgr.GameVS = ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameVS;
+                    if (item.TimeType == "上半场")
+                    {
+                        findgr.A_FrontHalf = item.TeamA;
+                        findgr.B_FrontHalf = item.TeamB;
+                    }
+                    if (item.TimeType == "下半场")
+                    {
+                        findgr.A_EndHalf = item.TeamA;
+                        findgr.B_EndHalf = item.TeamB;
+                    }
+
+                }
+                db.SubmitChanges();
+
+            }
+            var ToOpenList = db.WX_UserGameLog_Football.Where(t => t.GameKey == (findgr == null ? newgr.GameID : findgr.GameID)
+                &&(t.HaveOpen==false||t.HaveOpen==null)
+                &&t.aspnet_UserID==GlobalParam.UserKey
+                );
+
+            foreach (Linq.WX_UserGameLog_Football item in ToOpenList)
+            {
+                string ToSend = "";
+                if (findgr == null)
+                {
+                    ToSend=Linq.ProgramLogic.OpenBallGameLog(item, db, newgr.A_FrontHalf.Value, newgr.B_FrontHalf.Value, newgr.A_EndHalf.Value, newgr.B_EndHalf.Value);
+         
+                }
+                else
+                {
+                   ToSend= Linq.ProgramLogic.OpenBallGameLog(item, db, findgr.A_FrontHalf.Value, findgr.B_FrontHalf.Value, findgr.A_EndHalf.Value, findgr.B_EndHalf.Value);
+                }
+                DataRow findcontact = sf.RunnerF.MemberSource.AsEnumerable().SingleOrDefault(t => NetFramework.Util_Convert.ToString(t.Field<object>("User_SourceType")) == item.WX_SourceType
+                      && NetFramework.Util_Convert.ToString(t.Field<object>("User_ContactID")) == item.WX_UserName
+                      );
+                if (findcontact == null)
+                {
+                    NetFramework.Console.WriteLine("找不到玩家，开奖结果发不出");
+                }
+                else
+                {
+                    if (findgr == null)
+                    {
+
+
+                        sf.SendRobotContent(newgr.GameVS + Environment.NewLine + "上半场:" + newgr.A_FrontHalf + "-" + newgr.B_FrontHalf + "下半场" + newgr.A_EndHalf + "-" + newgr.B_EndHalf
+                            + Environment.NewLine + Linq.ProgramLogic.BallBuyTypeToChinseFrontShow(item.BuyType) + ",赔率" + item.BuyRatio.ToString() 
+                            + ((item.BuyType == "A_WIN" || item.BuyType == "B_Win") ?("让球"+item.Winless):"")
+                            + ((item.BuyType == "BigWin" || item.BuyType == "SmallWin") ? ("总球"+item.Total) : "")
+                            + ToSend, findcontact.Field<object>("User_ContactTEMPID").ToString(), item.WX_SourceType);
+                    }
+                    else  {
+                        sf.SendRobotContent(findgr.GameVS + Environment.NewLine + "上半场:" + findgr.A_FrontHalf + "-" + findgr.B_FrontHalf + "下半场" + findgr.A_EndHalf + "-" + findgr.B_EndHalf
+                    + Environment.NewLine + Linq.ProgramLogic.BallBuyTypeToChinseFrontShow(item.BuyType) + ",赔率" + item.BuyRatio.ToString() 
+                    + ((item.BuyType == "A_WIN" || item.BuyType == "B_Win") ? ("让球" + item.Winless) : "")
+                    + ((item.BuyType == "BigWin" || item.BuyType == "SmallWin") ? ("总球" + item.Total) : "")
+                    + ToSend, findcontact.Field<object>("User_ContactTEMPID").ToString(), item.WX_SourceType);
+                 
+                    }
+                }
+            }
+
+
+
+
+
+
         }
 
         private void cb_wxsourcetype_SelectedIndexChanged(object sender, EventArgs e)
