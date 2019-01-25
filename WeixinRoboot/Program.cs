@@ -23,7 +23,7 @@ namespace WeixinRoboot
 
 
 
-            //AllocConsole();
+           // AllocConsole();
             string ConfigFile = Application.StartupPath + "\\WeixinRoboot.exe.config";
             string TempFileName = Application.StartupPath + "\\web.config";
             if (System.IO.File.Exists(TempFileName))

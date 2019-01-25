@@ -82,7 +82,7 @@ namespace WeixinRoboot
 
 
 
-                DataRow[] ur = RunnerF.MemberSource.Select("User_ContactID='" + item + "' and User_SourceType='" + cb_SourceType.SelectedItem.ToString() + "'");
+                DataRow[] ur = RunnerF.MemberSource.Select("User_ContactID='" + item.Replace("'", "''") + "' and User_SourceType='" + cb_SourceType.SelectedItem.ToString() + "'");
                 if (ur.Count() != 0)
                 {
                     uc.Caption = ur[0].Field<string>("user_Contact");

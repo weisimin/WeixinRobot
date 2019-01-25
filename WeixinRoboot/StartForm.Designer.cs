@@ -75,7 +75,9 @@
             this.PicBarCode = new System.Windows.Forms.PictureBox();
             this.gb_point = new System.Windows.Forms.GroupBox();
             this.gb_pointlog = new System.Windows.Forms.GroupBox();
-            this.MI_RatioHKSix = new System.Windows.Forms.ToolStripMenuItem();
+            this.cb_refreshball = new System.Windows.Forms.CheckBox();
+            this.lbl_six = new System.Windows.Forms.Label();
+            this.lbl_qqthread = new System.Windows.Forms.Label();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
@@ -112,7 +114,7 @@
             this.SI_url,
             this.lbl_ShowError,
             this.SI_ShowError});
-            this.Botton_Status.Location = new System.Drawing.Point(0, 690);
+            this.Botton_Status.Location = new System.Drawing.Point(0, 672);
             this.Botton_Status.Name = "Botton_Status";
             this.Botton_Status.Size = new System.Drawing.Size(1008, 22);
             this.Botton_Status.TabIndex = 4;
@@ -192,8 +194,7 @@
             // 
             this.MI_Ratio.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MI_Ratio_Setting,
-            this.MI_Bouns_Setting,
-            this.MI_RatioHKSix});
+            this.MI_Bouns_Setting});
             this.MI_Ratio.Name = "MI_Ratio";
             this.MI_Ratio.Size = new System.Drawing.Size(44, 21);
             this.MI_Ratio.Text = "赔率";
@@ -201,14 +202,14 @@
             // MI_Ratio_Setting
             // 
             this.MI_Ratio_Setting.Name = "MI_Ratio_Setting";
-            this.MI_Ratio_Setting.Size = new System.Drawing.Size(160, 22);
+            this.MI_Ratio_Setting.Size = new System.Drawing.Size(124, 22);
             this.MI_Ratio_Setting.Text = "赔率设置";
             this.MI_Ratio_Setting.Click += new System.EventHandler(this.MI_Ratio_Setting_Click);
             // 
             // MI_Bouns_Setting
             // 
             this.MI_Bouns_Setting.Name = "MI_Bouns_Setting";
-            this.MI_Bouns_Setting.Size = new System.Drawing.Size(160, 22);
+            this.MI_Bouns_Setting.Size = new System.Drawing.Size(124, 22);
             this.MI_Bouns_Setting.Text = "福利设置";
             this.MI_Bouns_Setting.Click += new System.EventHandler(this.MI_Bouns_Setting_Click);
             // 
@@ -274,6 +275,7 @@
             this.TopMenu.Size = new System.Drawing.Size(1008, 25);
             this.TopMenu.TabIndex = 3;
             this.TopMenu.Text = "menuStrip1";
+            this.TopMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.TopMenu_ItemClicked);
             // 
             // MI_PCWechatSend
             // 
@@ -348,7 +350,7 @@
             // 
             // OpenBlack
             // 
-            this.OpenBlack.Location = new System.Drawing.Point(12, 275);
+            this.OpenBlack.Location = new System.Drawing.Point(5, 221);
             this.OpenBlack.Name = "OpenBlack";
             this.OpenBlack.Size = new System.Drawing.Size(91, 26);
             this.OpenBlack.TabIndex = 9;
@@ -397,7 +399,7 @@
             // 
             // btn_InjectAndDo
             // 
-            this.btn_InjectAndDo.Location = new System.Drawing.Point(13, 131);
+            this.btn_InjectAndDo.Location = new System.Drawing.Point(5, 99);
             this.btn_InjectAndDo.Name = "btn_InjectAndDo";
             this.btn_InjectAndDo.Size = new System.Drawing.Size(80, 49);
             this.btn_InjectAndDo.TabIndex = 16;
@@ -407,7 +409,7 @@
             // 
             // Btn_ManulSend
             // 
-            this.Btn_ManulSend.Location = new System.Drawing.Point(12, 195);
+            this.Btn_ManulSend.Location = new System.Drawing.Point(4, 163);
             this.Btn_ManulSend.Name = "Btn_ManulSend";
             this.Btn_ManulSend.Size = new System.Drawing.Size(80, 49);
             this.Btn_ManulSend.TabIndex = 17;
@@ -488,18 +490,42 @@
             this.gb_pointlog.TabStop = false;
             this.gb_pointlog.Text = "进球时间";
             // 
-            // MI_RatioHKSix
+            // cb_refreshball
             // 
-            this.MI_RatioHKSix.Name = "MI_RatioHKSix";
-            this.MI_RatioHKSix.Size = new System.Drawing.Size(160, 22);
-            this.MI_RatioHKSix.Text = "六合彩赔率设置";
-            this.MI_RatioHKSix.Click += new System.EventHandler(this.MI_RatioHKSix_Click);
+            this.cb_refreshball.AutoSize = true;
+            this.cb_refreshball.Location = new System.Drawing.Point(12, 261);
+            this.cb_refreshball.Name = "cb_refreshball";
+            this.cb_refreshball.Size = new System.Drawing.Size(72, 16);
+            this.cb_refreshball.TabIndex = 25;
+            this.cb_refreshball.Text = "采集球赛";
+            this.cb_refreshball.UseVisualStyleBackColor = true;
+            // 
+            // lbl_six
+            // 
+            this.lbl_six.AutoSize = true;
+            this.lbl_six.Location = new System.Drawing.Point(12, 295);
+            this.lbl_six.Name = "lbl_six";
+            this.lbl_six.Size = new System.Drawing.Size(53, 12);
+            this.lbl_six.TabIndex = 26;
+            this.lbl_six.Text = "六下期：";
+            // 
+            // lbl_qqthread
+            // 
+            this.lbl_qqthread.AutoSize = true;
+            this.lbl_qqthread.Location = new System.Drawing.Point(12, 327);
+            this.lbl_qqthread.Name = "lbl_qqthread";
+            this.lbl_qqthread.Size = new System.Drawing.Size(113, 12);
+            this.lbl_qqthread.TabIndex = 27;
+            this.lbl_qqthread.Text = "(ALT+O)采集:运行中";
             // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 712);
+            this.ClientSize = new System.Drawing.Size(1008, 694);
+            this.Controls.Add(this.lbl_qqthread);
+            this.Controls.Add(this.lbl_six);
+            this.Controls.Add(this.cb_refreshball);
             this.Controls.Add(this.gb_pointlog);
             this.Controls.Add(this.gb_point);
             this.Controls.Add(this.gb_refresh);
@@ -589,7 +615,9 @@
         private System.Windows.Forms.ToolStripMenuItem MI_BallGames;
         private System.Windows.Forms.GroupBox gb_point;
         private System.Windows.Forms.GroupBox gb_pointlog;
-        private System.Windows.Forms.ToolStripMenuItem MI_RatioHKSix;
+        private System.Windows.Forms.CheckBox cb_refreshball;
+        private System.Windows.Forms.Label lbl_six;
+        private System.Windows.Forms.Label lbl_qqthread;
 
     }
 }

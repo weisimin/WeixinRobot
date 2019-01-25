@@ -33,7 +33,7 @@ namespace WeixinRoboot
 
         private void BTN_QUERY_Click(object sender, EventArgs e)
         {
-            BS_DataSource.DataSource = Linq.ProgramLogic.GetBounsSource(dtp_querydate.Value,cb_SourceType.SelectedItem.ToString());
+            BS_DataSource.DataSource = Linq.ProgramLogic.GetBounsSource(dtp_querydate.Value, cb_SourceType.SelectedItem.ToString());
 
 
         }
@@ -61,9 +61,10 @@ namespace WeixinRoboot
 
             DataTable ToSend = (DataTable)BS_DataSource.DataSource;
             var SendList = ToSend.AsEnumerable().Where(t => t.Field<decimal?>("BounsCount") > 10);
+            MessageBox.Show("福利少于10的不发");
             foreach (var Senditem in SendList)
             {
-                DataRow[] usrrow = StartF.RunnerF.MemberSource.Select("User_ContactID='" + Senditem.Field<string>("WX_UserName") + "' and User_SourceType='" +cb_SourceType.SelectedItem.ToString() + "'");
+                DataRow[] usrrow = StartF.RunnerF.MemberSource.Select("User_ContactID='" + Senditem.Field<string>("WX_UserName").Replace("'", "''") + "' and User_SourceType='" + cb_SourceType.SelectedItem.ToString() + "'");
 
                 var fcl = db.WX_UserChangeLog.Where(t =>
                     t.aspnet_UserID == GlobalParam.UserKey
@@ -73,28 +74,52 @@ namespace WeixinRoboot
                     && t.ChangeLocalDay == Senditem.Field<String>("LocalPeriodDay")
                     );
                 //取消禁止多次发放
-               // if (fcl.Count() == 0 && usrrow.Length != 0)
-                if (usrrow.Length != 0)
+                // if (fcl.Count() == 0 && usrrow.Length != 0)
+                if (Senditem.Field<decimal?>("BounsCount").HasValue==false)
                 {
+                    NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName")+"无福利跳过");
+                    continue;
+                }
+                if (Senditem.Field<decimal?>("BounsCount").Value == 0)
+                {
+                    NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName") + "0福利跳过");
+                    continue;
+                }
 
-                    String Returnstr = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(
-                         "福利" + NetFramework.Util_Math.NullToZero(Senditem.Field<decimal?>("BounsCount"))
-                         , usrrow.First(), DateTime.Now);
-                    if (Returnstr != "")
+                String Returnstr = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(
+                     "福利" + NetFramework.Util_Math.NullToZero(Senditem.Field<decimal?>("BounsCount"))
+                     , null, DateTime.Now, Senditem.Field<string>("WX_UserName"), cb_SourceType.SelectedItem.ToString());
+                if (Returnstr != "")
+                {
+                    if (usrrow.Length != 0)
                     {
-                        StartF.SendRobotContent("福利" + NetFramework.Util_Math.NullToZero(Senditem.Field<decimal?>("BounsCount")) + "," + Returnstr
-                         , usrrow.First().Field<string>("User_ContactTEMPID")
-                          , usrrow.First().Field<string>("User_SourceType")
-                         );
+                        try
+                        {
+                            StartF.SendRobotContent(
+                                                       (cb_SourceType.SelectedItem.ToString() != "微" && cb_SourceType.SelectedItem.ToString() != "易" ?
+                                                       ("@"+usrrow.First().Field<string>("User_Contact") + "##") : "")
+                                                       + "发放福利" + NetFramework.Util_Math.NullToZero(Senditem.Field<decimal?>("BounsCount")) + "," + Returnstr
+                                                    , usrrow.First().Field<string>("User_ContactTEMPID")
+                                                     , usrrow.First().Field<string>("User_SourceType")
+                                                    );
+                        }
+                        catch (Exception AnyError)
+                        {
+
+                            NetFramework.Console.WriteLine(AnyError.Message);
+                            NetFramework.Console.WriteLine(AnyError.StackTrace);
+                        }
+
                     }
+                    else
+                    {
 
-
+                        NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName") + "福利不能通知");
+                    }
                 }
-                else
-                {
 
-                    NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName")+"福利发不出");
-                }
+
+
             }//循环发放
             MessageBox.Show("发放完成");
 
@@ -113,6 +138,8 @@ namespace WeixinRoboot
             "易"});
             }
 
+            this.cb_SourceType.Items.AddRange(new object[] {
+            "PCQ"});
 
             cb_SourceType.SelectedIndex = 0;
             dtp_querydate.Value = DateTime.Today.AddDays(-1);

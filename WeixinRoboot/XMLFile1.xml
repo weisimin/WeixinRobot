@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<NewDataSet>
+  <TESTA>
+    <root>
+      <NewTable>
+        <ep_id>100</ep_id>
+        <sh_id>STEEL01</sh_id>
+        <audit_id>ZS-X304-20181200007</audit_id>
+        <mtrl_seq>1</mtrl_seq>
+        <cust_id>3415001</cust_id>
+        <mtrl_id>SC0414</mtrl_id>
+        <h_date>2018-12-07+00:00</h_date>
+        <quantity>200.000000</quantity>
+        <so_id>ZS-X204-20181200004</so_id>
+        <so_seq>1</so_seq>
+        <xx_seq>1</xx_seq>
+        <po_line_location_id>2</po_line_location_id>
+        <pi_id>ZS-X104-20181200003</pi_id>
+        <audit_stat>S</audit_stat>
+        <so_type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+        <remark xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+        <store_id xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+      </NewTable>
+      <NewTable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+    </root>
+  </TESTA>
+</NewDataSet>

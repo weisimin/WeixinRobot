@@ -80,6 +80,7 @@
             this.MI_WebSendSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_HUIYAN = new System.Windows.Forms.ToolStripMenuItem();
             this.mi_cancelhuiyan = new System.Windows.Forms.ToolStripMenuItem();
+            this.非好友会员设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_ContactFilter = new System.Windows.Forms.TextBox();
             this.dtp_EndDate = new System.Windows.Forms.DateTimePicker();
             this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
@@ -110,7 +111,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.Btn_Resend = new System.Windows.Forms.Button();
             this.btn_resendballl = new System.Windows.Forms.Button();
-            this.非好友会员设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -419,7 +419,7 @@
             this.mi_cancelhuiyan,
             this.非好友会员设置ToolStripMenuItem});
             this.MouseMenuReply.Name = "MouseMenuReply";
-            this.MouseMenuReply.Size = new System.Drawing.Size(161, 444);
+            this.MouseMenuReply.Size = new System.Drawing.Size(161, 422);
             // 
             // MI_IsReply
             // 
@@ -545,6 +545,12 @@
             this.mi_cancelhuiyan.Size = new System.Drawing.Size(160, 22);
             this.mi_cancelhuiyan.Text = "取消会员";
             this.mi_cancelhuiyan.Click += new System.EventHandler(this.mi_cancelhuiyan_Click);
+            // 
+            // 非好友会员设置ToolStripMenuItem
+            // 
+            this.非好友会员设置ToolStripMenuItem.Name = "非好友会员设置ToolStripMenuItem";
+            this.非好友会员设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.非好友会员设置ToolStripMenuItem.Text = "非好友会员设置";
             // 
             // tb_ContactFilter
             // 
@@ -808,12 +814,6 @@
             this.btn_resendballl.Text = "重新发联赛";
             this.btn_resendballl.UseVisualStyleBackColor = true;
             this.btn_resendballl.Click += new System.EventHandler(this.btn_resendballl_Click);
-            // 
-            // 非好友会员设置ToolStripMenuItem
-            // 
-            this.非好友会员设置ToolStripMenuItem.Name = "非好友会员设置ToolStripMenuItem";
-            this.非好友会员设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.非好友会员设置ToolStripMenuItem.Text = "非好友会员设置";
             // 
             // RunnerForm
             // 

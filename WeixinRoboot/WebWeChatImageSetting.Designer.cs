@@ -59,13 +59,15 @@
             this.cb_ballend = new System.Windows.Forms.CheckBox();
             this.lbl_ballend = new System.Windows.Forms.Label();
             this.gv_matchclass = new System.Windows.Forms.DataGridView();
+            this.选择 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.球类 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.联赛 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bs_matchclass = new System.Windows.Forms.BindingSource(this.components);
             this.btn_reflect = new System.Windows.Forms.Button();
             this.cb_balllivepoint = new System.Windows.Forms.CheckBox();
             this.lbl_balllivepoint = new System.Windows.Forms.Label();
-            this.选择 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.球类 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.联赛 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cb_SixResult = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gv_matchclass)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bs_matchclass)).BeginInit();
             this.SuspendLayout();
@@ -347,6 +349,31 @@
             this.gv_matchclass.Size = new System.Drawing.Size(234, 238);
             this.gv_matchclass.TabIndex = 32;
             // 
+            // 选择
+            // 
+            this.选择.DataPropertyName = "SendAny";
+            this.选择.HeaderText = "选择";
+            this.选择.Name = "选择";
+            this.选择.Width = 40;
+            // 
+            // 球类
+            // 
+            this.球类.DataPropertyName = "MatchBallType";
+            this.球类.HeaderText = "球类";
+            this.球类.Name = "球类";
+            this.球类.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.球类.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.球类.Width = 40;
+            // 
+            // 联赛
+            // 
+            this.联赛.DataPropertyName = "MatchClassName";
+            this.联赛.HeaderText = "联赛";
+            this.联赛.Name = "联赛";
+            this.联赛.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.联赛.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.联赛.Width = 120;
+            // 
             // btn_reflect
             // 
             this.btn_reflect.Font = new System.Drawing.Font("微软雅黑", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -376,36 +403,31 @@
             this.lbl_balllivepoint.TabIndex = 34;
             this.lbl_balllivepoint.Text = "即时比分";
             // 
-            // 选择
+            // cb_SixResult
             // 
-            this.选择.DataPropertyName = "SendAny";
-            this.选择.HeaderText = "选择";
-            this.选择.Name = "选择";
-            this.选择.Width = 40;
+            this.cb_SixResult.AutoSize = true;
+            this.cb_SixResult.Location = new System.Drawing.Point(335, 178);
+            this.cb_SixResult.Name = "cb_SixResult";
+            this.cb_SixResult.Size = new System.Drawing.Size(15, 14);
+            this.cb_SixResult.TabIndex = 37;
+            this.cb_SixResult.UseVisualStyleBackColor = true;
             // 
-            // 球类
+            // label1
             // 
-            this.球类.DataPropertyName = "MatchBallType";
-            this.球类.HeaderText = "球类";
-            this.球类.Name = "球类";
-            this.球类.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.球类.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.球类.Width = 40;
-            // 
-            // 联赛
-            // 
-            this.联赛.DataPropertyName = "MatchClassName";
-            this.联赛.HeaderText = "联赛";
-            this.联赛.Name = "联赛";
-            this.联赛.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.联赛.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.联赛.Width = 120;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(247, 177);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 17);
+            this.label1.TabIndex = 36;
+            this.label1.Text = "六结果";
             // 
             // WebWeChatImageSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 502);
+            this.Controls.Add(this.cb_SixResult);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.cb_balllivepoint);
             this.Controls.Add(this.lbl_balllivepoint);
             this.Controls.Add(this.btn_reflect);
@@ -490,5 +512,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn 选择;
         private System.Windows.Forms.DataGridViewTextBoxColumn 球类;
         private System.Windows.Forms.DataGridViewTextBoxColumn 联赛;
+        private System.Windows.Forms.CheckBox cb_SixResult;
+        private System.Windows.Forms.Label label1;
     }
 }

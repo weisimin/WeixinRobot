@@ -128,8 +128,7 @@ namespace WeixinRoboot
                             }
                         }
 
-                        Linq.ProgramLogic.CheckAndCopyHKSixRatio(db, (Guid)usr.ProviderUserKey);
-
+                      
 
                         MessageBox.Show("保存成功");
                     }

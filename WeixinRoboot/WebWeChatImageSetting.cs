@@ -51,7 +51,7 @@ namespace WeixinRoboot
                     data.ballend = cb_ballend.Checked;
 
                     data.balllivepoint = cb_balllivepoint.Checked;
-
+                    data.HKSixResult = cb_SixResult.Checked;
                     db.SubmitChanges();
                 }
                 else
@@ -81,7 +81,7 @@ namespace WeixinRoboot
 
                     newd.ballstart = cb_ballstart.Checked;
                     newd.ballend = cb_ballend.Checked;
-
+                    newd.HKSixResult = cb_SixResult.Checked;
                     db.WX_WebSendPICSetting.InsertOnSubmit(newd);
                     db.SubmitChanges();
                 }
@@ -173,7 +173,7 @@ namespace WeixinRoboot
 
                     cb_balllivepoint.Checked = data.balllivepoint.HasValue ? data.balllivepoint.Value : false; ;
 
-
+                    cb_SixResult.Checked = data.HKSixResult.HasValue ? data.HKSixResult.Value : false;
                     cb_numericanddragon.Checked = data.NumberAndDragonPIC.HasValue ?  data.NumberAndDragonPIC.Value:false;
                 }
                 else

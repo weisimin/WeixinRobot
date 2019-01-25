@@ -180,7 +180,7 @@ namespace NetFramework
             {
 
 
-                if (LoginPage_Return.ContentEncoding.ToLower().Contains("gzip"))
+                if (LoginPage_Return.ContentEncoding.ToLower().Contains("gzip") )
                 {
                     using (GZipStream stream = new GZipStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
                     {
@@ -203,6 +203,17 @@ namespace NetFramework
                         }
                     }
                 }
+                else if (LoginPage_Return.ContentEncoding.ToLower().Contains("br"))
+                {
+                    using (Brotli.BrotliStream stream = new Brotli.BrotliStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
+                    {
+                        using (StreamReader reader = new StreamReader(stream, ContactEncoding))
+                        {
+                            responseBody = reader.ReadToEnd();
+                            stream.Close();
+                        }
+                    }
+                }
                 else
                 {
                     using (Stream stream = LoginPage_Return.GetResponseStream())
@@ -217,13 +228,14 @@ namespace NetFramework
             }
             catch (Exception AnyError)
             {
-
+                LoginPage.Abort();
                 LoginPage = null;
                 System.GC.Collect();
 
                 NetFramework.Console.WriteLine("网址打开失败" + TargetURL);
                 NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message);
                 NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace);
+                return "";
             }
             LoginPage.Abort();
 
@@ -1027,19 +1039,21 @@ namespace NetFramework
     {
         public static void Write(string Message)
         {
-            LastLog = Message + LastLog;
-            if (LastLog.Length > 5000)
-            {
-                LastLog = LastLog.Substring(0, 5000);
-            }
+            //LastLog = Message + LastLog;
+            //if (LastLog.Length > 5000)
+            //{
+            //    LastLog = LastLog.Substring(0, 5000);
+            //}
+           System.Console.WriteLine(Message);
         }
         public static void WriteLine(string Message)
         {
-            LastLog = Message + Environment.NewLine + LastLog;
-            if (LastLog.Length > 5000)
-            {
-                LastLog = LastLog.Substring(0, 5000);
-            }
+            //LastLog = Message + Environment.NewLine + LastLog;
+            //if (LastLog.Length > 5000)
+            //{
+            //    LastLog = LastLog.Substring(0, 5000);
+            //}
+            System.Console.WriteLine(Message);
         }
         public static string LastLog = "";
 
@@ -1150,6 +1164,11 @@ namespace NetFramework
 
         public const Int32 VK_CONTROL = 0X11;
         public const Int32 VK_V = 0x56;
+
+        public const Int32 VK_A = 65;
+        public const Int32 VK_C = 67;
+        public const Int32 VK_F = 70;
+        public const Int32 VK_ALT = 18;
 
         public const Int32 VK_MENU = 0x12;
 

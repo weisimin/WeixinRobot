@@ -261,7 +261,7 @@ namespace WeixinRoboot
 
 
 
-                        DataRow[] Lists = MemberSource.Select("User_ContactID='" + item.ContactID + "' and User_SourceType='易'");
+                        DataRow[] Lists = MemberSource.Select("User_ContactID='" + item.ContactID.Replace("'", "''") + "' and User_SourceType='易'");
                         DataRow newr = null;
                         if (Lists.Length == 0)
                         {
@@ -394,7 +394,7 @@ namespace WeixinRoboot
                   + " from WX_UserReplyLog RL with (nolock) join WX_UserReply ur with (nolock) on RL.aspnet_UserID=ur.aspnet_UserID and RL.WX_UserName=ur.WX_UserName and   RL.WX_SourceType=ur.WX_SourceType  where RL.aspnet_UserID='" + GlobalParam.UserKey.ToString() + "' and "
                   + "ReceiveTime >='" + dtp_StartDate.Value.Date.ToString("yyyy-MM-dd") + "' and "
                   + "ReceiveTime <'" + dtp_EndDate.Value.Date.ToString("yyyy-MM-dd") + "'  "
-                  + (SelectUser == "" ? "" : " and RL.WX_UserName='" + SelectUser + "' ")
+                  + (SelectUser == "" ? "" : " and RL.WX_UserName='" + SelectUser.Replace("'","''") + "' ")
                   + (SourceType == "" ? "" : " and RL.WX_SourceType='" + SourceType + "' ")
 
                   );
@@ -407,7 +407,7 @@ namespace WeixinRoboot
             {
                 string ContactID = item.Field<string>("Reply_ContactID");
                 //string SourceType = item.Field<string>("Reply_SourceType");
-                DataRow[] memusr = MemberSource.Select("User_ContactID='" + ContactID + "' and User_SourceType='" + SourceType + "'");
+                DataRow[] memusr = MemberSource.Select("User_ContactID='" + ContactID.Replace("'", "''") + "' and User_SourceType='" + SourceType + "'");
                 if (memusr.Length != 0)
                 {
                     item.SetField("Reply_ContactTEMPID", memusr[0].Field<string>("User_ContactTEMPID"));
@@ -702,8 +702,10 @@ namespace WeixinRoboot
                 {
                     day = day.AddDays(-1);
                 }
-                StartF.DealGameLogAndNotice();
-
+                if (Newdb)
+                {
+                    StartF.ShiShiCaiDealGameLogAndNotice();
+                }
                 StartF.DrawChongqingshishicai(day);
                 StartF.SendChongqingResult();
             }
@@ -758,7 +760,7 @@ namespace WeixinRoboot
                     StartF.DrawChongqingshishicai(DateTime.Today.AddDays(-1));
                 }
 
-                StartF.DealGameLogAndNotice();
+                StartF.ShiShiCaiDealGameLogAndNotice();
                 StartF.SendChongqingResult();
             }
             catch (Exception AnyError)

@@ -24,7 +24,11 @@ namespace WeixinRoboot
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             bool SendImage = false;
-            StartF.DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, Dtp_DownloadDate.Value, true);
+            StartF.DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, Dtp_DownloadDate.Value, true,true);
+
+            string LastPeriod = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderByDescending(t=>t.GamePeriod).First().GamePeriod;
+            StartF.ShiShiCaiDealGameLogAndNotice(true);
+            db.SubmitChanges();
 
             SendImage = true;
             #region "有新的就通知,以及处理结果"
@@ -32,34 +36,65 @@ namespace WeixinRoboot
             {
 
 
-                var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.UserKey);
-                
-               
-                foreach (var item in users)
+
+                DataRow[] dr = RunnerF.MemberSource.Select("User_IsReply='true'");
+
+                foreach (var Rowitem in dr)
                 {
                     #region  多人同号不到ID跳过
                     #endregion
-                    DataRow[] dr = RunnerF.MemberSource.Select("User_ContactID='" + item.WX_UserName + "' and User_SourceType='"+item.WX_SourceType+"'");
-                    if (dr.Length == 0)
+
+                    string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
+                    string WXUserName = dr[0].Field<string>("User_ContactID");
+                    string WX_SourceType = dr[0].Field<string>("User_SourceType");
+
+                    Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                      && t.WX_SourceType == WX_SourceType
+                       && t.WX_UserName == WXUserName
+                      );
+                    if (webpcset == null)
                     {
                         continue;
                     }
-                    string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
-                    string WX_SourceType = dr[0].Field<string>("User_SourceType");
-                    if (dr[0].Field<string>("User_ContactType")=="群")
+
+                    if (dr[0].Field<string>("User_SourceType") == "微")
                     {
-
-                      
-                        StartF.SendRobotImage(Application.StartupPath + "\\Data"+GlobalParam.UserName+".jpg", TEMPUserName, WX_SourceType);
-
-                      
-                        System.Threading.Thread.Sleep(1000);
-                        //SendWXImage(Application.StartupPath + "\\Data2.jpg", TEMPUserName);
-                        if (System.IO.File.Exists(Application.StartupPath + "\\Data3"+GlobalParam.UserName+".txt"))
+                        if ((webpcset.dragonpic == true))
                         {
-                            StartF.SendRobotTxtFile(Application.StartupPath + "\\Data3"+GlobalParam.UserName+".txt", TEMPUserName, WX_SourceType);
+                            StartF.SendRobotTxtFile(Application.StartupPath + "\\Data3" + GlobalParam.UserName + ".txt", TEMPUserName, WX_SourceType);
                         }
-                    }//向监听的群发送图片
+                    }
+
+                    if (dr[0].Field<string>("User_SourceType") == "易")
+                    {
+                        if ((webpcset.dragonpic == true))
+                        {
+                            StartF.SendRobotTxtFile(Application.StartupPath + "\\Data3_yixin" + GlobalParam.UserName + ".txt", TEMPUserName, WX_SourceType);
+                        }
+                    }
+                    Thread.Sleep(1000);
+
+                    if ((webpcset.NumberPIC == true))
+                    {
+                        StartF.SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg", TEMPUserName, WX_SourceType);
+
+                    }
+
+                    //if ((Mode == "All" && webpcset.NumberAndDragonPIC == true) || (Mode == "图3"))
+                    //{
+                    //    SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_v3.jpg", TEMPUserName, SourceType);
+                    //}
+
+                    if ((webpcset.NumberAndDragonPIC == true))
+                    {
+                        StartF.SendRobotTxtFile(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + ".txt", TEMPUserName, WX_SourceType);
+                    }
+
+                    if (webpcset.shishicailink == true)
+                    {
+                        StartF.SendRobotLink("查询开奖网地址", "https://h5.13322.com/kaijiang/ssc_cqssc_history_dtoday.html", TEMPUserName, WX_SourceType);
+                    }
+
 
                 }//设置为自动监听的用户
 
@@ -67,8 +102,6 @@ namespace WeixinRoboot
 
             #endregion
 
-            StartF.DealGameLogAndNotice(true);
-            db.SubmitChanges();
 
             Download163AndDeal_Load(null, null);
 
@@ -120,27 +153,17 @@ namespace WeixinRoboot
 
                            select new GameLogClass
                (
-                     "",
+                     ds.WX_UserName,
                      ds.WX_UserName,
                     (DateTime?)ds.TransTime,
                      ds.GamePeriod,
                      ds.Buy_Value,
                      ds.Buy_Point
                      , ds.GameLocalPeriod
-                     ,ds.WX_SourceType
+                     , ds.WX_SourceType
                )
                 ).ToList();
-            #region
-            foreach (var GameLogitem in GameLog)
-            {
-                DataRow[] usrrow = RunnerF.MemberSource.Select("User_ContactID='" + GameLogitem.Wgl_ContantID + "' and User_SourceType='"+GameLogitem.WX_UerSourceType+"'");
-                if (usrrow.Length == 0)
-                {
-                    continue;
-                }
-                GameLogitem.Wgl_Contact = usrrow[0].Field<string>("User_Contact");
-            }
-            #endregion
+          
 
             BS_GameLogNotDeal.DataSource = GameLog;
 
@@ -193,9 +216,11 @@ namespace WeixinRoboot
             bool Newdb = false;
             Linq.ProgramLogic.NewGameResult(
                 fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb);
-            StartF.DealGameLogAndNotice();
+            if (Newdb)
+            {
+                StartF.ShiShiCaiDealGameLogAndNotice();
+            }
 
-            
             DateTime day = DateTime.Now;
             if (day.Hour < 10)
             {
@@ -203,7 +228,10 @@ namespace WeixinRoboot
             }
 
             StartF.DrawChongqingshishicai(day);
-            StartF.DealGameLogAndNotice();
+            if (Newdb)
+            {
+                StartF.ShiShiCaiDealGameLogAndNotice();
+            }
             StartF.SendChongqingResult();
 
             Dtp_DownloadDate_ValueChanged(null, null); ;
