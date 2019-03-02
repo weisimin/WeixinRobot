@@ -55,6 +55,11 @@ namespace WeixinRoboot
                         }
                         newGameResultSend.ActiveCode = fd_activecode.Text;
 
+                        newGameResultSend.BlockStartHour = 3;
+                        newGameResultSend.BlockStartMinute = 11;
+                        newGameResultSend.BlockEndHour = 7;
+                        newGameResultSend.BlockEndMinute = 9;
+
                         MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
                         newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
@@ -99,7 +104,11 @@ namespace WeixinRoboot
                                 newr.IncludeMin = item.IncludeMin;
                                 newr.MaxBuy = item.MaxBuy;
                                 newr.MinBuy = item.MinBuy;
+                                newr.BonusBuyValueCondition = item.BonusBuyValueCondition;
+                                newr.WX_SourceType = item.WX_SourceType;
+                                newr.Enable = item.Enable;
 
+                              
                                 newr.OrderIndex = item.OrderIndex;
                                 db.Game_BasicRatio.InsertOnSubmit(newr);
                                 db.SubmitChanges();
@@ -123,6 +132,7 @@ namespace WeixinRoboot
                                 newr.FixNumber = item.FixNumber;
                                 newr.FlowPercent = item.FlowPercent;
                                 newr.IfDivousPercent = item.IfDivousPercent;
+                              
                                 db.WX_BounsConfig.InsertOnSubmit(newr);
                                 db.SubmitChanges();
                             }
@@ -190,7 +200,12 @@ namespace WeixinRoboot
                             newGameResultSend.SendImageEnd4 = Convert.ToInt32(fd_SendTimeEnd4.Text);
 
                             newGameResultSend.ImageTopText = fd_ImageTopText.Text;
-                            newGameResultSend.ImageEndText = fd_ImageEndText.Text; ;
+                            newGameResultSend.ImageEndText = fd_ImageEndText.Text;
+
+                            newGameResultSend.BlockStartHour = 3;
+                            newGameResultSend.BlockStartMinute = 11;
+                            newGameResultSend.BlockEndHour = 7;
+                            newGameResultSend.BlockEndMinute = 9;
 
                             db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
 
@@ -289,6 +304,11 @@ namespace WeixinRoboot
 
                         newGameResultSend.ImageTopText = fd_ImageTopText.Text;
                         newGameResultSend.ImageEndText = fd_ImageEndText.Text; ;
+
+                        newGameResultSend.BlockStartHour = 3;
+                        newGameResultSend.BlockStartMinute = 11;
+                        newGameResultSend.BlockEndHour = 7;
+                        newGameResultSend.BlockEndMinute = 9;
 
                         db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
 

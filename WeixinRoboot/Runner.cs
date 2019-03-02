@@ -147,6 +147,16 @@ namespace WeixinRoboot
                     newr.SetField("User_IsCaculateFuli", usrc == null ? false : usrc.IsCaculateFuli);
 
                     newr.SetField("User_IsBoss", usrc == null ? false : (usrc.IsBoss == null ? false : usrc.IsBoss));
+
+                    newr.SetField("User_FiveMinuteMode", usrc == null ? false : (usrc.FiveMinuteMode == null ? false : usrc.FiveMinuteMode));
+
+                    newr.SetField("User_HkMode", usrc == null ? false : (usrc.HkMode == null ? false : usrc.HkMode));
+
+                    newr.SetField("User_AozcMode", usrc == null ? false : (usrc.AozcMode == null ? false : usrc.AozcMode));
+
+                    newr.SetField("User_ChongqingMode", usrc == null ? false : (usrc.ChongqingMode == null ? false : usrc.ChongqingMode));
+                  
+                    
                     //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
                     //foreach (var logitem in UpdateLogs)
                     //{
@@ -234,6 +244,9 @@ namespace WeixinRoboot
                             {
                                 newusrc.IsReply = false;
                             }
+                            newusrc.FiveMinuteMode = false;
+                            newusrc.HkMode = false;
+                            newusrc.AozcMode = false;
                             db.WX_UserReply.InsertOnSubmit(newusrc);
 
 
@@ -291,6 +304,13 @@ namespace WeixinRoboot
 
                         newr.SetField("User_IsBoss", usrc == null ? false : (usrc.IsBoss == null ? false : usrc.IsBoss));
 
+
+                        newr.SetField("User_FiveMinuteMode", usrc == null ? false : (usrc.FiveMinuteMode == null ? false : usrc.FiveMinuteMode));
+                        newr.SetField("User_HkMode", usrc == null ? false : (usrc.HkMode == null ? false : usrc.HkMode));
+
+                        newr.SetField("User_AozcMode", usrc == null ? false : (usrc.AozcMode == null ? false : usrc.AozcMode));
+
+                        newr.SetField("User_ChongqingMode", usrc == null ? false : (usrc.ChongqingMode == null ? false : usrc.ChongqingMode));
                         //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
                         //foreach (var logitem in UpdateLogs)
                         //{
@@ -353,6 +373,12 @@ namespace WeixinRoboot
             MemberSource.Columns.Add("User_IsBallPIC", typeof(Boolean));
             MemberSource.Columns.Add("User_ISSendCard", typeof(Boolean));
             MemberSource.Columns.Add("User_IsAdmin", typeof(Boolean));
+
+            MemberSource.Columns.Add("User_FiveMinuteMode", typeof(Boolean));
+            MemberSource.Columns.Add("User_HkMode", typeof(Boolean));
+              MemberSource.Columns.Add("User_AozcMode", typeof(Boolean));
+
+              MemberSource.Columns.Add("User_ChongqingMode", typeof(Boolean));
 
             BS_ReceiveReply.DataSource = ReplySource;
 
@@ -695,10 +721,27 @@ namespace WeixinRoboot
             try
             {
                 bool Newdb = false;
+                Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
+                if (cb_gamemode.SelectedItem!=null&&cb_gamemode.SelectedItem.ToString()=="重庆时时彩")
+                {
+                    subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩; 
+                }
+                else if (cb_gamemode.SelectedItem != null && cb_gamemode.SelectedItem.ToString() == "五分彩")
+                {
+                    subm = Linq.ProgramLogic.ShiShiCaiMode.五分彩;
+                }
+                else if (cb_gamemode.SelectedItem != null && cb_gamemode.SelectedItem.ToString() == "香港时时彩")
+                {
+                    subm = Linq.ProgramLogic.ShiShiCaiMode.香港时时彩;
+                }
+                else if (cb_gamemode.SelectedItem != null && cb_gamemode.SelectedItem.ToString() == "澳洲幸运5")
+                {
+                    subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
+                }
                 Linq.ProgramLogic.NewGameResult(
-                            fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb);
+                            fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb,subm);
                 DateTime day = DateTime.Now;
-                if (day.Hour < 10)
+                if (day.Hour <= 8)
                 {
                     day = day.AddDays(-1);
                 }
@@ -706,8 +749,8 @@ namespace WeixinRoboot
                 {
                     StartF.ShiShiCaiDealGameLogAndNotice();
                 }
-                StartF.DrawChongqingshishicai(day);
-                StartF.SendChongqingResult();
+                StartF.DrawChongqingshishicai(day,subm);
+                StartF.SendChongqingResult(subm);
             }
             catch (Exception AnyError)
             {
@@ -751,17 +794,28 @@ namespace WeixinRoboot
         {
             try
             {
-                if (DateTime.Now.Hour > 9)
+                if (DateTime.Now.Hour <=8 )
                 {
-                    StartF.DrawChongqingshishicai(DateTime.Today);
+                    StartF.DrawChongqingshishicai(DateTime.Today.AddDays(-1), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                    StartF.DrawChongqingshishicai(DateTime.Today.AddDays(-1), Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+                    StartF.DrawChongqingshishicai(DateTime.Today.AddDays(-1), Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+                    StartF.DrawChongqingshishicai(DateTime.Today.AddDays(-1), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+             
                 }
                 else
                 {
-                    StartF.DrawChongqingshishicai(DateTime.Today.AddDays(-1));
+                    StartF.DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                    StartF.DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+                    StartF.DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+                    StartF.DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+
                 }
 
                 StartF.ShiShiCaiDealGameLogAndNotice();
-                StartF.SendChongqingResult();
+                StartF.SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                StartF.SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+                StartF.SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+                StartF.SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
             }
             catch (Exception AnyError)
             {
@@ -874,6 +928,58 @@ namespace WeixinRoboot
 
 
                 Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("取消会员", editrow, DateTime.Now);
+
+
+            }
+        }
+
+        private void MI_ChongQingMode_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("重庆时时彩模式", editrow, DateTime.Now);
+
+
+            }
+        }
+
+        private void MI_FiveMinuteMode_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("五分彩模式", editrow, DateTime.Now);
+
+
+            }
+        }
+
+        private void MI_HkMode_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("香港时时彩模式", editrow, DateTime.Now);
+
+
+            }
+        }
+
+        private void 澳洲幸运5模式ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("澳洲幸运5模式", editrow, DateTime.Now);
 
 
             }

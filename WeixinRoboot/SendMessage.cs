@@ -51,7 +51,7 @@ namespace WeixinRoboot
             if (dr == DialogResult.OK)
             {
 
-                StartF.SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg", _UserRow.Field<string>("User_ContactTEMPID"), _UserRow.Field<string>("User_SourceType"));
+                StartF.SendRobotImage(fd.FileName, _UserRow.Field<string>("User_ContactTEMPID"), _UserRow.Field<string>("User_SourceType"));
 
                           
 

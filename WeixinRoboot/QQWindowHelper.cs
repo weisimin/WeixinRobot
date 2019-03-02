@@ -313,6 +313,7 @@ namespace WeixinRoboot
 
             object[] CHILDS = GetAccessibleChildren(FindOwnerParent);
 
+            Linq.WX_PCSendPicSetting pcset = db.WX_PCSendPicSetting.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
 
             foreach (var CHILDITEM in CHILDS)
             {
@@ -358,6 +359,13 @@ namespace WeixinRoboot
                         newset.SetField("User_SourceType", WX_SourceType);
                         newset.SetField("User_Contact", NewName);
 
+                        newset.SetField("User_ChongqingMode", pcset.ChongqingMode);
+                        newset.SetField("User_FiveMinuteMode", pcset.FiveMinuteMode);
+                        newset.SetField("User_HkMode", pcset.HkMode);
+                        newset.SetField("User_AozcMode", pcset.AozcMode);
+
+
+
                         ToJoinIn.Rows.Add(newset);
                         usr = newset;
                     }
@@ -371,6 +379,11 @@ namespace WeixinRoboot
 
                         newset.SetField("User_IsAdmin", userreply.IsAdmin);
                         newset.SetField("User_IsCaculateFuli", userreply.IsCaculateFuli);
+
+                        newset.SetField("User_ChongqingMode", pcset.ChongqingMode);
+                        newset.SetField("User_FiveMinuteMode", pcset.FiveMinuteMode);
+                        newset.SetField("User_HkMode", pcset.HkMode);
+                        newset.SetField("User_AozcMode", pcset.AozcMode);
 
 
                         ToJoinIn.Rows.Add(newset);

@@ -24,11 +24,14 @@ namespace WeixinRoboot
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             bool SendImage = false;
-            StartF.DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, Dtp_DownloadDate.Value, true,true);
+            //StartF.DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, Dtp_DownloadDate.Value, true,true);
+            //StartF.DownLoad163CaiPiaoV_aozc(ref SendImage, Dtp_DownloadDate.Value, true, true);
 
-            string LastPeriod = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderByDescending(t=>t.GamePeriod).First().GamePeriod;
+
+            string LastPeriod = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderByDescending(t => t.GamePeriod).First().GamePeriod;
             StartF.ShiShiCaiDealGameLogAndNotice(true);
             db.SubmitChanges();
+            Download163AndDeal_Load(null, null);
 
             SendImage = true;
             #region "有新的就通知,以及处理结果"
@@ -61,7 +64,9 @@ namespace WeixinRoboot
                     {
                         if ((webpcset.dragonpic == true))
                         {
-                            StartF.SendRobotTxtFile(Application.StartupPath + "\\Data3" + GlobalParam.UserName + ".txt", TEMPUserName, WX_SourceType);
+
+                            StartF.SendRobotTxtFile(Application.StartupPath + "\\Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), StartF.GetMode(dr))) + ".txt", TEMPUserName, WX_SourceType);
+                           
                         }
                     }
 
@@ -69,15 +74,15 @@ namespace WeixinRoboot
                     {
                         if ((webpcset.dragonpic == true))
                         {
-                            StartF.SendRobotTxtFile(Application.StartupPath + "\\Data3_yixin" + GlobalParam.UserName + ".txt", TEMPUserName, WX_SourceType);
+
+                            StartF.SendRobotTxtFile(Application.StartupPath + "\\Data3_yixin" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), StartF.GetMode(dr))) + ".txt", TEMPUserName, WX_SourceType);
                         }
                     }
-                    Thread.Sleep(1000);
 
                     if ((webpcset.NumberPIC == true))
                     {
                         StartF.SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + ".jpg", TEMPUserName, WX_SourceType);
-
+                        Thread.Sleep(500);
                     }
 
                     //if ((Mode == "All" && webpcset.NumberAndDragonPIC == true) || (Mode == "图3"))
@@ -87,7 +92,7 @@ namespace WeixinRoboot
 
                     if ((webpcset.NumberAndDragonPIC == true))
                     {
-                        StartF.SendRobotTxtFile(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + ".txt", TEMPUserName, WX_SourceType);
+                        StartF.SendRobotTxtFile(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), StartF.GetMode(dr))) + ".txt", TEMPUserName, WX_SourceType);
                     }
 
                     if (webpcset.shishicailink == true)
@@ -103,7 +108,7 @@ namespace WeixinRoboot
             #endregion
 
 
-            Download163AndDeal_Load(null, null);
+
 
 
 
@@ -140,7 +145,8 @@ namespace WeixinRoboot
                     Gr_BigSmall = t.BigSmall,
                     Gr_SingleDouble = t.SingleDouble,
                     Gr_DragonTiger = t.DragonTiger,
-                    Gr_GamePrivatePeriod = t.GamePrivatePeriod
+                    Gr_GamePrivatePeriod = t.GamePrivatePeriod,
+                    Gr_Mode = t.GameName
                 }).ToList();
 
             var GameLog = (from ds in db.WX_UserGameLog
@@ -161,9 +167,10 @@ namespace WeixinRoboot
                      ds.Buy_Point
                      , ds.GameLocalPeriod
                      , ds.WX_SourceType
+                     , ds.OpenMode
                )
                 ).ToList();
-          
+
 
             BS_GameLogNotDeal.DataSource = GameLog;
 
@@ -179,7 +186,7 @@ namespace WeixinRoboot
         {
             public GameLogClass(string P_Wgl_Contant, string P_Wgl_ContantID
                 , DateTime? P_Wgl_TransTime, string P_Wgl_GamePeriod
-                , string P_Wgl_Buy_Value, decimal? P_Wgl_Buy_Point, string P_Wgl_GamePrivatePeriod, string P_WX_UerSourceType)
+                , string P_Wgl_Buy_Value, decimal? P_Wgl_Buy_Point, string P_Wgl_GamePrivatePeriod, string P_WX_UerSourceType, string P_WglMode)
             {
                 _Wgl_Contact = P_Wgl_Contant;
                 _Wgl_ContactID = P_Wgl_ContantID;
@@ -189,6 +196,7 @@ namespace WeixinRoboot
                 _Wgl_Buy_Point = P_Wgl_Buy_Point;
                 _Wgl_GamePrivatePeriod = P_Wgl_GamePrivatePeriod;
                 _WX_UerSourceType = P_WX_UerSourceType;
+                Wgl_Mode = P_WglMode;
             }
             private string _Wgl_Contact = "";
             private string _Wgl_ContactID = "";
@@ -209,30 +217,48 @@ namespace WeixinRoboot
 
             public string WX_UerSourceType { get { return _WX_UerSourceType; } set { _WX_UerSourceType = value; } }
 
+            public string Wgl_Mode { get; set; }
         }
 
         private void BtnSaveAndDeal_Click(object sender, EventArgs e)
         {
             bool Newdb = false;
+            Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
+            if (cb_gamemode.SelectedItem != null && cb_gamemode.SelectedItem.ToString() == "重庆时时彩")
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
+            }
+            else if (cb_gamemode.SelectedItem != null && cb_gamemode.SelectedItem.ToString() == "五分彩")
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.五分彩;
+            }
+            else if (cb_gamemode.SelectedItem != null && cb_gamemode.SelectedItem.ToString() == "香港时时彩")
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.香港时时彩;
+            }
+            else if (cb_gamemode.SelectedItem != null && cb_gamemode.SelectedItem.ToString() == "澳洲幸运5")
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
+            }
             Linq.ProgramLogic.NewGameResult(
-                fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb);
+                fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb, subm);
             if (Newdb)
             {
                 StartF.ShiShiCaiDealGameLogAndNotice();
             }
 
             DateTime day = DateTime.Now;
-            if (day.Hour < 10)
+            if (day.Hour <= 8)
             {
                 day = day.AddDays(-1);
             }
 
-            StartF.DrawChongqingshishicai(day);
+            StartF.DrawChongqingshishicai(day, subm);
             if (Newdb)
             {
                 StartF.ShiShiCaiDealGameLogAndNotice();
             }
-            StartF.SendChongqingResult();
+            StartF.SendChongqingResult(subm);
 
             Dtp_DownloadDate_ValueChanged(null, null); ;
         }

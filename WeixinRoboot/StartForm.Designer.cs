@@ -78,6 +78,15 @@
             this.cb_refreshball = new System.Windows.Forms.CheckBox();
             this.lbl_six = new System.Windows.Forms.Label();
             this.lbl_qqthread = new System.Windows.Forms.Label();
+            this.lbl_during = new System.Windows.Forms.Label();
+            this.tb_StartHour = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tb_StartMinute = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tb_EndMinute = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tb_EndHour = new System.Windows.Forms.TextBox();
+            this.btn_Save = new System.Windows.Forms.Button();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
@@ -226,15 +235,14 @@
             // 
             this.MI_GameLogManulDeal.Enabled = false;
             this.MI_GameLogManulDeal.Name = "MI_GameLogManulDeal";
-            this.MI_GameLogManulDeal.Size = new System.Drawing.Size(124, 22);
+            this.MI_GameLogManulDeal.Size = new System.Drawing.Size(152, 22);
             this.MI_GameLogManulDeal.Text = "人工开奖";
             this.MI_GameLogManulDeal.Click += new System.EventHandler(this.MI_GameLogManulDeal_Click);
             // 
             // MI_Bouns_Manul
             // 
-            this.MI_Bouns_Manul.Enabled = false;
             this.MI_Bouns_Manul.Name = "MI_Bouns_Manul";
-            this.MI_Bouns_Manul.Size = new System.Drawing.Size(124, 22);
+            this.MI_Bouns_Manul.Size = new System.Drawing.Size(152, 22);
             this.MI_Bouns_Manul.Text = "人工福利";
             this.MI_Bouns_Manul.Click += new System.EventHandler(this.MI_Bouns_Manul_Click);
             // 
@@ -323,7 +331,6 @@
             this.Btn_Draw.TabIndex = 6;
             this.Btn_Draw.Text = "画图";
             this.Btn_Draw.UseVisualStyleBackColor = true;
-            this.Btn_Draw.Visible = false;
             this.Btn_Draw.Click += new System.EventHandler(this.BtnDrawGdi_Click);
             // 
             // Btn_StartDownLoad
@@ -361,7 +368,7 @@
             // codeweixin
             // 
             this.codeweixin.AutoSize = true;
-            this.codeweixin.Location = new System.Drawing.Point(218, 101);
+            this.codeweixin.Location = new System.Drawing.Point(216, 80);
             this.codeweixin.Name = "codeweixin";
             this.codeweixin.Size = new System.Drawing.Size(65, 12);
             this.codeweixin.TabIndex = 12;
@@ -370,7 +377,7 @@
             // codeyixin
             // 
             this.codeyixin.AutoSize = true;
-            this.codeyixin.Location = new System.Drawing.Point(580, 99);
+            this.codeyixin.Location = new System.Drawing.Point(580, 80);
             this.codeyixin.Name = "codeyixin";
             this.codeyixin.Size = new System.Drawing.Size(65, 12);
             this.codeyixin.TabIndex = 13;
@@ -456,18 +463,18 @@
             // 
             // PicBarCode_yixin
             // 
-            this.PicBarCode_yixin.Location = new System.Drawing.Point(524, 131);
+            this.PicBarCode_yixin.Location = new System.Drawing.Point(524, 99);
             this.PicBarCode_yixin.Name = "PicBarCode_yixin";
-            this.PicBarCode_yixin.Size = new System.Drawing.Size(223, 190);
+            this.PicBarCode_yixin.Size = new System.Drawing.Size(160, 160);
             this.PicBarCode_yixin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBarCode_yixin.TabIndex = 11;
             this.PicBarCode_yixin.TabStop = false;
             // 
             // PicBarCode
             // 
-            this.PicBarCode.Location = new System.Drawing.Point(161, 131);
+            this.PicBarCode.Location = new System.Drawing.Point(178, 99);
             this.PicBarCode.Name = "PicBarCode";
-            this.PicBarCode.Size = new System.Drawing.Size(223, 190);
+            this.PicBarCode.Size = new System.Drawing.Size(160, 160);
             this.PicBarCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBarCode.TabIndex = 0;
             this.PicBarCode.TabStop = false;
@@ -518,11 +525,98 @@
             this.lbl_qqthread.TabIndex = 27;
             this.lbl_qqthread.Text = "(ALT+O)采集:运行中";
             // 
+            // lbl_during
+            // 
+            this.lbl_during.AutoSize = true;
+            this.lbl_during.Location = new System.Drawing.Point(161, 281);
+            this.lbl_during.Name = "lbl_during";
+            this.lbl_during.Size = new System.Drawing.Size(59, 12);
+            this.lbl_during.TabIndex = 28;
+            this.lbl_during.Text = "封盘时段:";
+            // 
+            // tb_StartHour
+            // 
+            this.tb_StartHour.Location = new System.Drawing.Point(227, 276);
+            this.tb_StartHour.Name = "tb_StartHour";
+            this.tb_StartHour.Size = new System.Drawing.Size(23, 21);
+            this.tb_StartHour.TabIndex = 29;
+            this.tb_StartHour.Text = "3";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(249, 279);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(11, 12);
+            this.label1.TabIndex = 30;
+            this.label1.Text = ":";
+            // 
+            // tb_StartMinute
+            // 
+            this.tb_StartMinute.Location = new System.Drawing.Point(264, 276);
+            this.tb_StartMinute.Name = "tb_StartMinute";
+            this.tb_StartMinute.Size = new System.Drawing.Size(27, 21);
+            this.tb_StartMinute.TabIndex = 31;
+            this.tb_StartMinute.Text = "10";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(297, 280);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(11, 12);
+            this.label2.TabIndex = 32;
+            this.label2.Text = "~";
+            // 
+            // tb_EndMinute
+            // 
+            this.tb_EndMinute.Location = new System.Drawing.Point(351, 276);
+            this.tb_EndMinute.Name = "tb_EndMinute";
+            this.tb_EndMinute.Size = new System.Drawing.Size(27, 21);
+            this.tb_EndMinute.TabIndex = 35;
+            this.tb_EndMinute.Text = "10";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(336, 279);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(11, 12);
+            this.label3.TabIndex = 34;
+            this.label3.Text = ":";
+            // 
+            // tb_EndHour
+            // 
+            this.tb_EndHour.Location = new System.Drawing.Point(314, 276);
+            this.tb_EndHour.Name = "tb_EndHour";
+            this.tb_EndHour.Size = new System.Drawing.Size(23, 21);
+            this.tb_EndHour.TabIndex = 33;
+            this.tb_EndHour.Text = "7";
+            // 
+            // btn_Save
+            // 
+            this.btn_Save.Location = new System.Drawing.Point(385, 275);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(75, 23);
+            this.btn_Save.TabIndex = 36;
+            this.btn_Save.Text = "保存";
+            this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 694);
+            this.Controls.Add(this.btn_Save);
+            this.Controls.Add(this.tb_EndMinute);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.tb_EndHour);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.tb_StartMinute);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.tb_StartHour);
+            this.Controls.Add(this.lbl_during);
             this.Controls.Add(this.lbl_qqthread);
             this.Controls.Add(this.lbl_six);
             this.Controls.Add(this.cb_refreshball);
@@ -618,6 +712,15 @@
         private System.Windows.Forms.CheckBox cb_refreshball;
         private System.Windows.Forms.Label lbl_six;
         private System.Windows.Forms.Label lbl_qqthread;
+        private System.Windows.Forms.Label lbl_during;
+        private System.Windows.Forms.TextBox tb_StartHour;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tb_StartMinute;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tb_EndMinute;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tb_EndHour;
+        private System.Windows.Forms.Button btn_Save;
 
     }
 }

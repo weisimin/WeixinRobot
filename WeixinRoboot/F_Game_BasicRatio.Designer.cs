@@ -49,6 +49,7 @@
             this.MaxBuy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BuyValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.赔率 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.启用 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gv_Game_BasicRatio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Game_BasicRatio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ep_gridview)).BeginInit();
@@ -70,7 +71,8 @@
             this.MinBuy,
             this.MaxBuy,
             this.BuyValue,
-            this.赔率});
+            this.赔率,
+            this.启用});
             this.gv_Game_BasicRatio.DataSource = this.BS_Game_BasicRatio;
             this.gv_Game_BasicRatio.Location = new System.Drawing.Point(12, 33);
             this.gv_Game_BasicRatio.MultiSelect = false;
@@ -200,6 +202,13 @@
             this.赔率.HeaderText = "赔率";
             this.赔率.Name = "赔率";
             // 
+            // 启用
+            // 
+            this.启用.DataPropertyName = "Enable";
+            this.启用.HeaderText = "启用";
+            this.启用.Name = "启用";
+            this.启用.Width = 50;
+            // 
             // F_Game_BasicRatio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -236,5 +245,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn MaxBuy;
         private System.Windows.Forms.DataGridViewTextBoxColumn BuyValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn 赔率;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 启用;
     }
 }

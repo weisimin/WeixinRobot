@@ -13,6 +13,52 @@ namespace WeixinRoboot.Linq
     /// </summary>
     public class ProgramLogic
     {
+        public static bool TimeCanUse(Int32? StartHour, Int32? StartMinute, Int32? EndHour, Int32? EndMinute)
+        {
+            if (StartHour.HasValue == false || EndHour.HasValue == false || StartMinute.HasValue == false || EndMinute.HasValue == false)
+            {
+                return false;
+            }
+            bool CrossDay = false;
+            if (StartHour * 60 + StartMinute > EndHour * 60 + EndMinute)
+            {
+                CrossDay = true;
+            }
+            Int32 MinMinute = 0;
+            Int32 MaxMinute = 0;
+            Int32 NowMinute = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
+            if (CrossDay)
+            {
+                MinMinute = EndHour.Value * 60 + EndMinute.Value;
+                MaxMinute = StartHour.Value * 60 + StartMinute.Value;
+                if (NowMinute <= MinMinute || NowMinute >= MaxMinute)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+
+            }
+            else
+            {
+                MaxMinute = EndHour.Value * 60 + EndMinute.Value;
+                MinMinute = StartHour.Value * 60 + StartMinute.Value;
+                if (NowMinute <= MaxMinute && NowMinute >= MinMinute)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+
+            }
+
+        }
 
         /// <summary>
         /// 修改未兑奖记录以及记录变更
@@ -76,8 +122,9 @@ namespace WeixinRoboot.Linq
                 }
                 Game_Result gr = db.Game_Result.SingleOrDefault(t =>
                     t.aspnet_UserID == GlobalParam.UserKey
-                    && t.GameName == gamelogitem.GameName
-                    && t.GamePeriod == gamelogitem.GamePeriod.Substring(2)
+                    && t.GamePeriod == (gamelogitem.OpenMode == "澳洲幸运5" ? gamelogitem.GamePeriod : gamelogitem.GamePeriod.Substring(2))
+                    && (t.GameName == gamelogitem.OpenMode || (gamelogitem.OpenMode == null && t.GameName == "重庆时时彩"))
+
                     );
                 if (gr == null)
                 {
@@ -1034,7 +1081,7 @@ namespace WeixinRoboot.Linq
 
 
 
-        public static string WX_UserGameLog_Cancel(dbDataContext db, DateTime RequestTime, string RequestPeriod, string GameContent, string WX_UserName, string WX_SourceType, DataTable MemberSource, bool adminmode, GameMode gm)
+        public static string WX_UserGameLog_Cancel(dbDataContext db, DateTime RequestTime, string RequestPeriod, string GameContent, string WX_UserName, string WX_SourceType, DataTable MemberSource, bool adminmode, GameMode gm, ShiShiCaiMode subm)
         {
 
 
@@ -1220,7 +1267,7 @@ namespace WeixinRoboot.Linq
                 string GameFullLocalPeriod = "";
                 bool ShiShiCaiSuccess = false;
                 string ShiShiCaiErrorMessage = "";
-                ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out GameFullPeriod, out GameFullLocalPeriod, adminmode, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage);
+                ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out GameFullPeriod, out GameFullLocalPeriod, adminmode, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm);
 
 
                 string ToCalcel = GameContent;
@@ -1303,19 +1350,22 @@ namespace WeixinRoboot.Linq
 
                         var ratios = db.Game_BasicRatio.Where(t =>
                             t.BuyType == "全X"
+                             && t.GameType == "重庆时时彩"
                           && t.aspnet_UserID == GlobalParam.UserKey
-                           && t.MinBuy <= CheckBuy
+                           && (t.MinBuy <= CheckBuy || CheckBuy == 0)
                           && t.MaxBuy >= CheckBuy
                           && t.WX_SourceType == WX_SourceType
                           );
-                        if (ratios.Count() == 0 && CheckBuy != 0)
+                        if (ratios.Count() == 0)
                         {
                             Decimal? MaxLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                                 && t.GameType == "重庆时时彩"
                    && t.BuyType == "全X"
                     && t.WX_SourceType == WX_SourceType
                    ).Max(t => t.MaxBuy);
 
                             Decimal? MinLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                                && t.GameType == "重庆时时彩"
                                 && t.BuyType == "全X"
                                  && t.WX_SourceType == WX_SourceType
                                     ).Min(t => t.MinBuy);
@@ -1325,6 +1375,14 @@ namespace WeixinRoboot.Linq
                         if (ratios.Count() != 5 && ratios.Count() != 0)
                         {
                             return "全X限额范围不一致" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0"); ;
+                        }
+                        if (ratios.Count() == 0)
+                        {
+                            return "找不到赔率";
+                        }
+                        if (ratios.First().Enable != true)
+                        {
+                            return "玩法不启用";
                         }
                         #endregion
 
@@ -1520,9 +1578,10 @@ namespace WeixinRoboot.Linq
                         Decimal CheckBuy = (findupdate == null ? 0 : findupdate.Buy_Point.Value) - Convert.ToDecimal(Str_BuyPointpos);
 
                         var ratios = db.Game_BasicRatio.SingleOrDefault(t => t.BuyType == "定X" && t.aspnet_UserID == GlobalParam.UserKey
-                           && (t.BuyValue == (BuyXnUMBERIsNumber == true ? "数字" : BuyXnUMBER))
+                           && t.GameType == "重庆时时彩"
+                            && (t.BuyValue == (BuyXnUMBERIsNumber == true ? "数字" : BuyXnUMBER))
 
-                            && t.MinBuy <= CheckBuy
+                            && (t.MinBuy <= CheckBuy || CheckBuy == 0)
                             && t.MaxBuy >= CheckBuy
                              && t.WX_SourceType == WX_SourceType
                             );
@@ -1530,18 +1589,28 @@ namespace WeixinRoboot.Linq
                         {
                             Decimal? MaxLimit = db.Game_BasicRatio.Where(t =>
                                 t.aspnet_UserID == GlobalParam.UserKey
+                                 && t.GameType == "重庆时时彩"
                    && t.BuyType == "定X"
                       && (t.BuyValue == (BuyXnUMBERIsNumber == true ? "数字" : BuyXnUMBER))
                        && t.WX_SourceType == WX_SourceType
                    ).Max(t => t.MaxBuy);
                             Decimal? MinLimit = db.Game_BasicRatio.Where(t =>
                                 t.aspnet_UserID == GlobalParam.UserKey
+                                 && t.GameType == "重庆时时彩"
                                 && t.BuyType == "定X"
                                    && (t.BuyValue == (BuyXnUMBERIsNumber == true ? "数字" : BuyXnUMBER))
                                     && t.WX_SourceType == WX_SourceType
                                 ).Min(t => t.MinBuy);
                             return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
 
+                        }
+                        if (ratios == null)
+                        {
+                            return "赔率找不到";
+                        }
+                        if (ratios.Enable != true)
+                        {
+                            return "玩法不启用";
                         }
                         #endregion
 
@@ -1679,27 +1748,38 @@ namespace WeixinRoboot.Linq
                                         var ratios = db.Game_BasicRatio.SingleOrDefault(t =>
                                             t.BuyType == "组合"
                                             && t.aspnet_UserID == GlobalParam.UserKey
+                                             && t.GameType == "重庆时时彩"
                                            && (t.BuyValue == KeyValue3)
                                             && t.WX_SourceType == WX_SourceType
-                                            && t.MinBuy <= CheckBuy
+                                            && (t.MinBuy <= CheckBuy || CheckBuy == 0)
                                             && t.MaxBuy >= CheckBuy
                                             );
                                         if (ratios == null && (findupdate3 == null ? 0 : findupdate3.Buy_Point) - Convert.ToDecimal(StrBuyPoint3) != 0)
                                         {
                                             Decimal? MaxLimit = db.Game_BasicRatio.Where(t =>
                                                 t.aspnet_UserID == GlobalParam.UserKey
+                                                 && t.GameType == "重庆时时彩"
                                    && t.BuyType == "组合"
                                       && (t.BuyValue == KeyValue3)
                                        && t.WX_SourceType == WX_SourceType
                                    ).Max(t => t.MaxBuy);
                                             Decimal? MinLimit = db.Game_BasicRatio.Where(t =>
                                                 t.aspnet_UserID == GlobalParam.UserKey
+                                                 && t.GameType == "重庆时时彩"
                                                && t.BuyType == "组合"
                                       && (t.BuyValue == KeyValue3)
                                        && t.WX_SourceType == WX_SourceType
                                                 ).Min(t => t.MinBuy);
                                             return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
 
+                                        }
+                                        if (ratios == null)
+                                        {
+                                            return "赔率找不到";
+                                        }
+                                        if (ratios.Enable != true)
+                                        {
+                                            return "玩法不启用";
                                         }
                                         #endregion
 
@@ -1824,27 +1904,38 @@ namespace WeixinRoboot.Linq
                                 var ratios = db.Game_BasicRatio.SingleOrDefault(t =>
                                     t.BuyType == "组合"
                                     && t.aspnet_UserID == GlobalParam.UserKey
+                                     && t.GameType == "重庆时时彩"
                                    && (t.BuyValue == KeyValue2)
                                     && t.WX_SourceType == WX_SourceType
-                                    && t.MinBuy <= CheckBuy
+                                    && (t.MinBuy <= CheckBuy || CheckBuy == 0)
                                     && t.MaxBuy >= CheckBuy
                                     );
                                 if (ratios == null && (findupdate2 == null ? 0 : findupdate2.Buy_Point) - Convert.ToDecimal(StrBuyPoint2) != 0)
                                 {
                                     Decimal? MaxLimit = db.Game_BasicRatio.Where(t =>
                                         t.aspnet_UserID == GlobalParam.UserKey
+                                         && t.GameType == "重庆时时彩"
                            && t.BuyType == "组合"
                               && (t.BuyValue == KeyValue2)
                                && t.WX_SourceType == WX_SourceType
                            ).Max(t => t.MaxBuy);
                                     Decimal? MinLimit = db.Game_BasicRatio.Where(t =>
                                         t.aspnet_UserID == GlobalParam.UserKey
+                                         && t.GameType == "重庆时时彩"
                                        && t.BuyType == "组合"
                               && (t.BuyValue == KeyValue2)
                                && t.WX_SourceType == WX_SourceType
                                         ).Min(t => t.MinBuy);
                                     return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
 
+                                }
+                                if (ratios == null)
+                                {
+                                    return "赔率找不到";
+                                }
+                                if (ratios.Enable != true)
+                                {
+                                    return "玩法不启用";
                                 }
                                 #endregion
 
@@ -1956,7 +2047,7 @@ namespace WeixinRoboot.Linq
                     Decimal CheckBuy = (ToModify == null ? 0 : ToModify.Buy_Point.Value) - Convert.ToDecimal(Str_BuyPoint);
 
                     #region "转化赔率"
-                    var CheckRatioConfig = db.Game_BasicRatio.SingleOrDefault(t => t.GameType == "重庆时时彩"
+                    var CheckRatioConfig = db.Game_BasicRatio.Where(t => t.GameType == "重庆时时彩"
 
                         && t.aspnet_UserID == GlobalParam.UserKey
                         && t.BuyType == ToModify.Buy_Type
@@ -1964,6 +2055,7 @@ namespace WeixinRoboot.Linq
                         && t.MaxBuy >= CheckBuy
                         && ((t.MinBuy <= CheckBuy && t.IncludeMin == true)
                         || (t.MinBuy < CheckBuy && t.IncludeMin == false)
+                        || CheckBuy == 0
                         )
                          && t.WX_SourceType == WX_SourceType
                         );
@@ -1981,6 +2073,14 @@ namespace WeixinRoboot.Linq
                             ).Min(t => t.MinBuy);
                         CheckResult = "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围";
 
+                    }
+                    if (CheckRatioConfig.Count() == 0)
+                    {
+                        return "赔率找不到";
+                    }
+                    if (CheckRatioConfig.First().Enable != true)
+                    {
+                        return "玩法不启用";
                     }
                     #endregion
 
@@ -2015,7 +2115,7 @@ namespace WeixinRoboot.Linq
                         ToModify.Result_HaveProcess = false;
                     }
                     ToModify.Buy_Point -= Convert.ToDecimal(Str_BuyPoint);
-                    ToModify.Buy_Ratio = CheckRatioConfig == null ? 0 : CheckRatioConfig.BasicRatio;
+                    ToModify.Buy_Ratio = CheckRatioConfig == null ? 0 : CheckRatioConfig.First().BasicRatio;
 
                     Linq.WX_UserChangeLog cl = null;
                     cl = new WX_UserChangeLog();
@@ -2137,6 +2237,12 @@ namespace WeixinRoboot.Linq
 
 
             NewContent = NewContent.Replace(" ", "");
+
+            NewContent = NewContent.Replace("查", "");
+
+            NewContent = NewContent.Replace("流水", "");
+
+            NewContent = NewContent.Replace("开", "");
 
             if (NewContent == "")
             {
@@ -2445,7 +2551,7 @@ namespace WeixinRoboot.Linq
                 decimal? Remainder = WXUserChangeLog_GetRemainder(item.WX_UserName, item.WX_SourceType);
                 r.Remainder = Remainder;
                 string SubPeriod = "";
-                SubPeriod = item.GamePeriod.Length <= 3 ? item.GamePeriod : item.GamePeriod.Substring(8, 3);
+                SubPeriod = item.GamePeriod.Length <= 3 ? item.GamePeriod : item.GamePeriod.Substring(item.GamePeriod.Length - 3, 3);
 
                 // string SubPeriod = item.GamePeriod;
 
@@ -2637,9 +2743,9 @@ namespace WeixinRoboot.Linq
         //        return r;
         //} }
 
-        public enum GameMode { 时时彩, 球赛, 六合彩 }
+        public enum GameMode { 时时彩, 球赛, 六合彩, 非玩法 }
 
-        public static string WX_UserReplyLog_Create(DataTable MemberSource, GameMode gm, string RequestPeriod, DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, bool adminmode = false, string MemberGroupName = "")
+        public static string WX_UserReplyLog_Create(DataTable MemberSource, GameMode gm, ShiShiCaiMode subm, string RequestPeriod, DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, bool adminmode = false, string MemberGroupName = "")
         {
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
@@ -2659,7 +2765,7 @@ namespace WeixinRoboot.Linq
                 string GameFullLocalPeriod = "";
                 bool ShiShiCaiSuccess = false;
                 string ShiShiCaiErrorMessage = "";
-                ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out GameFullPeriod, out GameFullLocalPeriod, adminmode, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage);
+                ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out GameFullPeriod, out GameFullLocalPeriod, adminmode, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm);
 
 
                 #region 寻找队伍
@@ -2676,7 +2782,7 @@ namespace WeixinRoboot.Linq
                 if (GameContent == "查" && (WX_SourceType != "微" && WX_SourceType != "易" || adminmode == true) && gm == GameMode.时时彩)
                 {
                     DateTime TestPeriod = DateTime.Now;
-                    if (TestPeriod.Hour <= 9)
+                    if (TestPeriod.Hour <= 8)
                     {
                         TestPeriod = TestPeriod.AddDays(-1);
                     }
@@ -2701,7 +2807,7 @@ namespace WeixinRoboot.Linq
                     return Result;
                 }
                 //全取消
-                else if (GameContent == "取消" && gm == GameMode.时时彩)
+                else if (GameContent == "取消" && gm == GameMode.时时彩 && RequestPeriod == "")
                 {
                     var ToCalcel = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                         && t.WX_UserName == WX_UserName
@@ -2711,9 +2817,10 @@ namespace WeixinRoboot.Linq
                         //&& string.Compare(t.GamePeriod, GameFullPeriod) >= 0
 
                         );
+                    Int32 ChangeIndex = 0;
                     foreach (var cancelitem in ToCalcel)
                     {
-
+                        ChangeIndex += 1;
 
                         WX_UserChangeLog cl = new WX_UserChangeLog();
                         cl.aspnet_UserID = GlobalParam.UserKey;
@@ -2730,7 +2837,9 @@ namespace WeixinRoboot.Linq
                         cl.BuyValue = cancelitem.Buy_Value;
                         cl.GamePeriod = cancelitem.GamePeriod;
                         WX_UserChangeLogRefreshIndex(cl, db);
+                        cl.ChangeIndex = ChangeIndex;
                         db.WX_UserChangeLog.InsertOnSubmit(cl);
+                        //db.SubmitChanges();
 
                         cancelitem.Buy_Point = 0;
                         cancelitem.Result_HaveProcess = true;
@@ -2831,7 +2940,7 @@ namespace WeixinRoboot.Linq
                     string Result = "";
                     string QueryDate = GameContent.Substring(1);
                     DateTime TestPeriod = DateTime.Now;
-                    if (TestPeriod.Hour <= 9)
+                    if (TestPeriod.Hour <= 8)
                     {
                         TestPeriod = TestPeriod.AddDays(-1);
                     }
@@ -2874,20 +2983,234 @@ namespace WeixinRoboot.Linq
                     return Result;
                 }
                 //取消一项或一期
-                else if (GameContent.StartsWith("取消") && gm == GameMode.时时彩)
+                else if (GameContent.StartsWith("取消") && gm == GameMode.时时彩 && RequestPeriod != "")
                 {
                     if (ShiShiCaiSuccess == false)
                     {
                         return ShiShiCaiErrorMessage;
                     }
-                    return WX_UserGameLog_Cancel(db, RequestTime, RequestPeriod, GameContent, WX_UserName, WX_SourceType, MemberSource, adminmode, gm);
+                    if (GameContent == "取消")
+                    {
+                        var ToCalcel = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                       && t.WX_UserName == WX_UserName
+                       && t.WX_SourceType == WX_SourceType
+                       && t.Buy_Point != 0
+                       && t.GamePeriod == GameFullPeriod);
+                        string Res = "";
+                        foreach (var cancelitem in ToCalcel)
+                        {
+                            Res = WX_UserGameLog_Cancel(db, RequestTime, RequestPeriod, "取消" + cancelitem.Buy_Value + cancelitem.Buy_Point.ToString(), WX_UserName, WX_SourceType, MemberSource, adminmode, gm, subm);
+                        }
+                        return Res;
+                    }
+                    else
+                    {
+                        return WX_UserGameLog_Cancel(db, RequestTime, RequestPeriod, GameContent, WX_UserName, WX_SourceType, MemberSource, adminmode, gm, subm);
+                    }
                 }//取消的单
 
                 else if (GameContent.StartsWith("取消") && (gm == GameMode.球赛 || gm == GameMode.六合彩))
                 {
-                    return WX_UserGameLog_Cancel(db, RequestTime, RequestPeriod, GameContent, WX_UserName, WX_SourceType, MemberSource, adminmode, gm);
+                    return WX_UserGameLog_Cancel(db, RequestTime, RequestPeriod, GameContent, WX_UserName, WX_SourceType, MemberSource, adminmode, gm, subm);
                 }
 
+
+                //足球篮球类下单
+                else if (BallType == FormatResultType.OrderModify && BallState == FormatResultState.SingleSuccess && gm == GameMode.时时彩)
+                {
+                    Int32 success = -1;
+
+
+                    WX_UserGameLog_Football[] fb = ContentToGameLogBall(RequestTime, GameContent, WX_UserName, WX_SourceType, AllTeams, BallBuyType, BallBuyMoney, out success, FormatResultDirection.MemoryMatchList, db);
+                    if (success == 1 && fb.Count() == 1)
+                    {
+                        #region 检查开赛
+                        Linq.Game_ResultFootBall_Last lst = db.Game_ResultFootBall_Last.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                            && t.GameKey == fb[0].GameKey
+                            );
+                        if (lst != null && lst.EndState.ToUpper() == "完")
+                        {
+                            return fb[0].GameVS + "已完赛";
+                        }
+
+                        #endregion
+
+
+                        #region 检查余额
+                        decimal Remainder = WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType);
+                        if (Remainder < Convert.ToDecimal(fb[0].BuyMoney))
+                        {
+                            return "余分不足，余" + ObjectToString(Remainder, "N0");
+                        }
+                        #endregion
+
+                        WX_UserChangeLog cl = new WX_UserChangeLog();
+                        cl.aspnet_UserID = GlobalParam.UserKey;
+                        cl.WX_SourceType = WX_SourceType;
+                        cl.WX_UserName = WX_UserName;
+                        cl.Remark = GameContent;
+                        cl.HaveNotice = true;
+                        cl.NeedNotice = false;
+                        cl.FinalStatus = true;
+                        cl.ChangePoint = -fb[0].BuyMoney;
+                        cl.BuyValue = fb[0].BuyType;
+                        cl.ChangeTime = DateTime.Now;
+                        cl.GamePeriod = fb[0].GameKey;
+                        cl.GameLocalPeriod = fb[0].GameVS;
+                        cl.RemarkType = "球赛下单";
+                        cl.GameMode = "球赛";
+
+
+                        WX_UserGameLog_Football findexists = db.WX_UserGameLog_Football.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                            && t.WX_UserName == WX_UserName
+                            && t.WX_SourceType == WX_SourceType
+                            && t.GameKey == fb[0].GameKey
+                            && t.BuyType == fb[0].BuyType
+                            );
+
+                        WX_UserChangeLogRefreshIndex(cl, db);
+                        db.WX_UserChangeLog.InsertOnSubmit(cl);
+
+                        if (findexists == null)
+                        {
+                            db.WX_UserGameLog_Football.InsertOnSubmit(fb[0]);
+                        }
+                        else
+                        {
+                            findexists.BuyMoney += fb[0].BuyMoney;
+                            fb[0].HaveOpen = false;
+                        }
+
+                        db.SubmitChanges();
+
+                        Remainder = WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType);
+
+
+                        string rtsfb = GetUserUpOpenBallGame(db, WX_UserName, WX_SourceType);
+
+                        return rtsfb + ",余" + Remainder.ToString("N0");
+
+                    }
+                    else if (success == 0 && fb.Count() == 1)
+                    {
+                        return "赛事没波胆";
+                    }
+                    else if (fb.Count() > 0)
+                    {
+
+                        string returnstr = "";
+                        foreach (var fbitem in fb)
+                        {
+                            returnstr += fbitem.A_Team + "VS" + fbitem.B_Team;
+                        }
+                        return "赛事有多个" + returnstr;
+                    }
+                    else
+                    {
+                        return "";
+                    }
+
+
+
+                }
+                else if (gm == GameMode.六合彩 && GameContent == "结果")
+                {
+
+
+                    return GetHKSixLast16();
+                }
+                else if (gm == GameMode.六合彩 && GameContent == "开")
+                {
+
+
+                    string ProcessPeriod = "";
+
+                    if (RequestPeriod == "" || RequestPeriod == null)
+                    {
+                        Linq.Game_TimeHKSix hkf = StartForm.GetNextPreriodHKSix(db);
+                        if (hkf == null)
+                        {
+                            return "下一期号采集失败";
+                        }
+                        ProcessPeriod = hkf.GamePeriod;
+                    }
+                    else
+                    {
+                        if (RequestPeriod.Length == 3)
+                        {
+                            ProcessPeriod = DateTime.Today.Year.ToString() + RequestPeriod;
+                        }
+                        else if (RequestPeriod.Length == 7)
+                        {
+                            ProcessPeriod = RequestPeriod;
+
+                        }
+                        else
+                        {
+
+
+                            return "期号" + RequestPeriod + "异常";
+
+
+                        }
+
+                    }
+
+                    return GetOpenLogs(WX_UserName, WX_SourceType, ProcessPeriod, db);
+                }
+                else if (gm == GameMode.六合彩 && GameContent != "结果")
+                {
+                    string Result = "";
+                    bool IsSucccess = false;
+                    bool insert = false;
+                    decimal ModiMoney = 0;
+                    WX_UserGameLog_HKSix newhk = ContentToHKSix(RequestTime, GameContent, WX_UserName, WX_SourceType, db, out IsSucccess, out Result, adminmode, RequestPeriod, out  insert, out ModiMoney);
+
+                    if (IsSucccess == true)
+                    {
+                        decimal reminder = WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType);
+                        if (reminder < newhk.BuyMoney)
+                        {
+                            return "余不足，余" + reminder.ToString();
+
+                        }
+                        else
+                        {
+                            if (insert == true)
+                            {
+                                db.WX_UserGameLog_HKSix.InsertOnSubmit(newhk);
+                            }
+
+
+                            WX_UserChangeLog cl = new WX_UserChangeLog();
+                            cl.aspnet_UserID = GlobalParam.UserKey;
+                            cl.WX_UserName = WX_UserName;
+                            cl.WX_SourceType = WX_SourceType;
+                            cl.NeedNotice = false;
+                            cl.HaveNotice = true;
+                            cl.GamePeriod = newhk.GamePeriod;
+                            cl.FinalStatus = true;
+                            cl.ChangePoint = -ModiMoney;
+                            cl.ChangeTime = RequestTime;
+                            cl.BuyValue = newhk.BuyValue;
+                            cl.RemarkType = "六下单";
+                            cl.GameMode = "六合彩";
+                            cl.Remark = newhk.BuyType + " " + newhk.BuyValue + " " + newhk.BuyMoney.ToString();
+                            WX_UserChangeLogRefreshIndex(cl, db);
+                            db.WX_UserChangeLog.InsertOnSubmit(cl);
+                            db.SubmitChanges();
+                            decimal remind = WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType);
+                            Result = GetUpOpenHKSix(WX_UserName, WX_SourceType, db) + "，余" + remind.ToString("N0");
+                            return Result;
+                        }
+                    }
+                    else
+                    {
+                        db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, db.GetChangeSet().Updates);
+                        return Result;
+                    }
+
+                }
                 #region 全
                 else if (GameContent.StartsWith("全") && gm == GameMode.时时彩)
                 {
@@ -2938,19 +3261,22 @@ namespace WeixinRoboot.Linq
 
                         var ratios = db.Game_BasicRatio.Where(t =>
                             t.BuyType == "全X"
+                             && t.GameType == "重庆时时彩"
                           && t.aspnet_UserID == GlobalParam.UserKey
-                           && t.MinBuy <= CheckBuy
+                           && (t.MinBuy <= CheckBuy)
                           && t.MaxBuy >= CheckBuy
                            && t.WX_SourceType == WX_SourceType
                           );
                         if (ratios.Count() == 0)
                         {
                             Decimal? MaxLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                   && t.BuyType == "全X"
+                   && t.GameType == "重庆时时彩"
+                                && t.BuyType == "全X"
                     && t.WX_SourceType == WX_SourceType
                    ).Max(t => t.MaxBuy);
 
                             Decimal? MinLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                                 && t.GameType == "重庆时时彩"
                                 && t.BuyType == "全X"
                                  && t.WX_SourceType == WX_SourceType
                                     ).Min(t => t.MinBuy);
@@ -2960,6 +3286,14 @@ namespace WeixinRoboot.Linq
                         if (ratios.Count() != 5)
                         {
                             return "全X限额范围不一致" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0"); ;
+                        }
+                        if (ratios.Count() == 0)
+                        {
+                            return "赔率找不到";
+                        }
+                        if (ratios.First().Enable != true)
+                        {
+                            return "玩法不启用";
                         }
                         #endregion
 
@@ -2995,6 +3329,8 @@ namespace WeixinRoboot.Linq
                             newgl.Result_HaveProcess = false;
                             newgl.GamePeriod = GameFullPeriod;
                             newgl.MemberGroupName = MemberGroupName;
+
+                            newgl.OpenMode = Enum.GetName(typeof(ShiShiCaiMode), subm);
 
                             newgl.GameLocalPeriod = GameFullLocalPeriod;
                             db.WX_UserGameLog.InsertOnSubmit(newgl);
@@ -3173,7 +3509,8 @@ namespace WeixinRoboot.Linq
 
                         var ratios = db.Game_BasicRatio.SingleOrDefault(t => t.BuyType == "定X" && t.aspnet_UserID == GlobalParam.UserKey
                            && (t.BuyValue == (BuyXnUMBERIsNumber == true ? "数字" : BuyXnUMBER))
-                            && t.WX_SourceType == WX_SourceType
+                            && t.GameType == "重庆时时彩"
+                           && t.WX_SourceType == WX_SourceType
                             && t.MinBuy <= CheckBuy
                             && t.MaxBuy >= CheckBuy
                              && t.WX_SourceType == WX_SourceType
@@ -3182,18 +3519,28 @@ namespace WeixinRoboot.Linq
                         {
                             Decimal? MaxLimit = db.Game_BasicRatio.Where(t =>
                                 t.aspnet_UserID == GlobalParam.UserKey
+                                 && t.GameType == "重庆时时彩"
                    && t.BuyType == "定X"
                       && (t.BuyValue == (BuyXnUMBERIsNumber == true ? "数字" : BuyXnUMBER))
                        && t.WX_SourceType == WX_SourceType
                    ).Max(t => t.MaxBuy);
                             Decimal? MinLimit = db.Game_BasicRatio.Where(t =>
                                 t.aspnet_UserID == GlobalParam.UserKey
+                                 && t.GameType == "重庆时时彩"
                                 && t.BuyType == "定X"
                                    && (t.BuyValue == (BuyXnUMBERIsNumber == true ? "数字" : BuyXnUMBER))
                                     && t.WX_SourceType == WX_SourceType
                                 ).Min(t => t.MinBuy);
                             return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
 
+                        }
+                        if (ratios == null)
+                        {
+                            return "赔率找不到";
+                        }
+                        if (ratios.Enable != true)
+                        {
+                            return "玩法不启用";
                         }
                         #endregion
 
@@ -3228,6 +3575,7 @@ namespace WeixinRoboot.Linq
                             newgl.GamePeriod = GameFullPeriod;
 
                             newgl.MemberGroupName = MemberGroupName;
+                            newgl.OpenMode = Enum.GetName(typeof(ShiShiCaiMode), subm);
                             newgl.GameLocalPeriod = GameFullLocalPeriod;
                             db.WX_UserGameLog.InsertOnSubmit(newgl);
                         }
@@ -3306,167 +3654,48 @@ namespace WeixinRoboot.Linq
 
                 }//定数字或定大小
                 #endregion
-
-                //足球篮球类下单
-                else if (BallType == FormatResultType.OrderModify && BallState == FormatResultState.SingleSuccess && gm == GameMode.时时彩)
-                {
-                    Int32 success = -1;
-
-
-                    WX_UserGameLog_Football[] fb = ContentToGameLogBall(RequestTime, GameContent, WX_UserName, WX_SourceType, AllTeams, BallBuyType, BallBuyMoney, out success, FormatResultDirection.MemoryMatchList, db);
-                    if (success == 1 && fb.Count() == 1)
-                    {
-                        #region 检查开赛
-                        Linq.Game_ResultFootBall_Last lst = db.Game_ResultFootBall_Last.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
-                            && t.GameKey == fb[0].GameKey
-                            );
-                        if (lst != null && lst.EndState.ToUpper() == "完")
-                        {
-                            return fb[0].GameVS + "已完赛";
-                        }
-
-                        #endregion
-
-
-                        #region 检查余额
-                        decimal Remainder = WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType);
-                        if (Remainder < Convert.ToDecimal(fb[0].BuyMoney))
-                        {
-                            return "余分不足，余" + ObjectToString(Remainder, "N0");
-                        }
-                        #endregion
-
-                        WX_UserChangeLog cl = new WX_UserChangeLog();
-                        cl.aspnet_UserID = GlobalParam.UserKey;
-                        cl.WX_SourceType = WX_SourceType;
-                        cl.WX_UserName = WX_UserName;
-                        cl.Remark = GameContent;
-                        cl.HaveNotice = true;
-                        cl.NeedNotice = false;
-                        cl.FinalStatus = true;
-                        cl.ChangePoint = -fb[0].BuyMoney;
-                        cl.BuyValue = fb[0].BuyType;
-                        cl.ChangeTime = DateTime.Now;
-                        cl.GamePeriod = fb[0].GameKey;
-                        cl.GameLocalPeriod = fb[0].GameVS;
-                        cl.RemarkType = "球赛下单";
-                        cl.GameMode = "球赛";
-
-
-                        WX_UserGameLog_Football findexists = db.WX_UserGameLog_Football.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
-                            && t.WX_UserName == WX_UserName
-                            && t.WX_SourceType == WX_SourceType
-                            && t.GameKey == fb[0].GameKey
-                            && t.BuyType == fb[0].BuyType
-                            );
-
-                        WX_UserChangeLogRefreshIndex(cl, db);
-                        db.WX_UserChangeLog.InsertOnSubmit(cl);
-
-                        if (findexists == null)
-                        {
-                            db.WX_UserGameLog_Football.InsertOnSubmit(fb[0]);
-                        }
-                        else
-                        {
-                            findexists.BuyMoney += fb[0].BuyMoney;
-                            fb[0].HaveOpen = false;
-                        }
-
-                        db.SubmitChanges();
-
-                        Remainder = WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType);
-
-
-                        string rtsfb = GetUserUpOpenBallGame(db, WX_UserName, WX_SourceType);
-
-                        return rtsfb + ",余" + Remainder.ToString("N0");
-
-                    }
-                    else if (success == 0 && fb.Count() == 1)
-                    {
-                        return "赛事没波胆";
-                    }
-                    else if (fb.Count() > 0)
-                    {
-
-                        string returnstr = "";
-                        foreach (var fbitem in fb)
-                        {
-                            returnstr += fbitem.A_Team + "VS" + fbitem.B_Team;
-                        }
-                        return "赛事有多个" + returnstr;
-                    }
-                    else
-                    {
-                        return "";
-                    }
-
-
-
-                }
-                else if (gm == GameMode.六合彩 && GameContent == "结果")
+                else if ((GameContent.StartsWith("流水")
+                                    ) && gm == GameMode.时时彩)
                 {
 
+                    string Period = GameContent.Substring(2);
+                    if (Period == "")
+                    {
+                        Period = DateTime.Today.AddDays(-1).ToString("yyyyMMdd");
+                    }
+                    decimal? buys = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                          && t.WX_SourceType == WX_SourceType
+                          && t.WX_UserName == WX_UserName
+                          && t.GameLocalPeriod.StartsWith(Period)
+                          && t.GameName == "重庆时时彩"
+                          ).Sum(t => t.Buy_Point);
 
-                    return GetHKSixLast16();
+                    return Period + "流水:" + (buys.HasValue ? (buys.Value).ToString("N0") : "");
                 }
-                else if (gm == GameMode.六合彩 && GameContent != "结果")
+                else if ((GameContent.StartsWith("查流水")
+                                ) && gm == GameMode.时时彩)
                 {
-                    string Result = "";
-                    bool IsSucccess = false;
-                    bool insert = false;
-                    decimal ModiMoney = 0;
-                    WX_UserGameLog_HKSix newhk = ContentToHKSix(RequestTime, GameContent, WX_UserName, WX_SourceType, db, out IsSucccess, out Result, adminmode, RequestPeriod, out  insert, out ModiMoney);
 
-                    if (IsSucccess == true)
+                    string Period = GameContent.Substring(3);
+                    if (Period == "")
                     {
-                        decimal reminder = WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType);
-                        if (reminder < newhk.BuyMoney)
-                        {
-                            return "余不足，余" + reminder.ToString();
-
-                        }
-                        else
-                        {
-                            if (insert == true)
-                            {
-                                db.WX_UserGameLog_HKSix.InsertOnSubmit(newhk);
-                            }
-
-
-                            WX_UserChangeLog cl = new WX_UserChangeLog();
-                            cl.aspnet_UserID = GlobalParam.UserKey;
-                            cl.WX_UserName = WX_UserName;
-                            cl.WX_SourceType = WX_SourceType;
-                            cl.NeedNotice = false;
-                            cl.HaveNotice = true;
-                            cl.GamePeriod = newhk.GamePeriod;
-                            cl.FinalStatus = true;
-                            cl.ChangePoint = -ModiMoney;
-                            cl.ChangeTime = RequestTime;
-                            cl.BuyValue = newhk.BuyValue;
-                            cl.RemarkType = "六下单";
-                            cl.GameMode = "六合彩";
-                            cl.Remark = newhk.BuyType + " " + newhk.BuyValue + " " + newhk.BuyMoney.ToString();
-                            WX_UserChangeLogRefreshIndex(cl, db);
-                            db.WX_UserChangeLog.InsertOnSubmit(cl);
-                            db.SubmitChanges();
-                            decimal remind = WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType);
-                            Result = GetUpOpenHKSix(WX_UserName, WX_SourceType, db) + "，余" + remind.ToString("N0");
-                            return Result;
-                        }
+                        Period = DateTime.Today.AddDays(-1).ToString("yyyyMMdd");
                     }
-                    else
-                    {
-                        db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, db.GetChangeSet().Updates);
-                        return Result;
-                    }
+                    decimal? buys = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                          && t.WX_SourceType == WX_SourceType
+                          && t.WX_UserName == WX_UserName
+                          && t.GameLocalPeriod.StartsWith(Period)
+                          && t.GameName == "重庆时时彩"
+                          ).Sum(t => t.Buy_Point);
 
+                    return Period + "查流水:"
+                        + (buys.HasValue ? (buys.Value).ToString("N0") : "")
+                        + "*0.024="
+                        + (buys.HasValue ? (buys.Value * 0.024M).ToString("N0") : "");
                 }
-
                 else if (gm == GameMode.时时彩)
                 {
+
 
 
                     string FirstIndex = GameContent.Substring(0, 1);
@@ -3527,6 +3756,7 @@ namespace WeixinRoboot.Linq
 
                                             var ratios = db.Game_BasicRatio.SingleOrDefault(t =>
                                                 t.BuyType == "组合"
+                                                 && t.GameType == "重庆时时彩"
                                                 && t.aspnet_UserID == GlobalParam.UserKey
                                                && (t.BuyValue == KeyValue3)
                                                 && t.WX_SourceType == WX_SourceType
@@ -3538,17 +3768,27 @@ namespace WeixinRoboot.Linq
                                                 Decimal? MaxLimit = db.Game_BasicRatio.Where(t =>
                                                     t.aspnet_UserID == GlobalParam.UserKey
                                        && t.BuyType == "组合"
+                                        && t.GameType == "重庆时时彩"
                                           && (t.BuyValue == KeyValue3)
                                            && t.WX_SourceType == WX_SourceType
                                        ).Max(t => t.MaxBuy);
                                                 Decimal? MinLimit = db.Game_BasicRatio.Where(t =>
                                                     t.aspnet_UserID == GlobalParam.UserKey
                                                    && t.BuyType == "组合"
+                                                    && t.GameType == "重庆时时彩"
                                           && (t.BuyValue == KeyValue3)
                                             && t.WX_SourceType == WX_SourceType
                                                     ).Min(t => t.MinBuy);
                                                 return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
 
+                                            }
+                                            if (ratios == null)
+                                            {
+                                                return "赔率找不到";
+                                            }
+                                            if (ratios.Enable != true)
+                                            {
+                                                return "玩法不启用";
                                             }
                                             #endregion
 
@@ -3581,6 +3821,7 @@ namespace WeixinRoboot.Linq
                                                 newgl.Result_HaveProcess = false;
                                                 newgl.GamePeriod = GameFullPeriod;
                                                 newgl.MemberGroupName = MemberGroupName;
+                                                newgl.OpenMode = Enum.GetName(typeof(ShiShiCaiMode), subm);
 
                                                 newgl.GameLocalPeriod = GameFullLocalPeriod;
                                                 db.WX_UserGameLog.InsertOnSubmit(newgl);
@@ -3691,6 +3932,7 @@ namespace WeixinRoboot.Linq
 
                                     var ratios = db.Game_BasicRatio.SingleOrDefault(t =>
                                         t.BuyType == "组合"
+                                         && t.GameType == "重庆时时彩"
                                         && t.aspnet_UserID == GlobalParam.UserKey
                                        && (t.BuyValue == KeyValue2)
 
@@ -3703,17 +3945,27 @@ namespace WeixinRoboot.Linq
                                         Decimal? MaxLimit = db.Game_BasicRatio.Where(t =>
                                             t.aspnet_UserID == GlobalParam.UserKey
                                && t.BuyType == "组合"
+                                && t.GameType == "重庆时时彩"
                                   && (t.BuyValue == KeyValue2)
                                    && t.WX_SourceType == WX_SourceType
                                ).Max(t => t.MaxBuy);
                                         Decimal? MinLimit = db.Game_BasicRatio.Where(t =>
                                             t.aspnet_UserID == GlobalParam.UserKey
                                            && t.BuyType == "组合"
+                                            && t.GameType == "重庆时时彩"
                                   && (t.BuyValue == KeyValue2)
                                    && t.WX_SourceType == WX_SourceType
                                             ).Min(t => t.MinBuy);
                                         return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
 
+                                    }
+                                    if (ratios == null)
+                                    {
+                                        return "赔率找不到";
+                                    }
+                                    if (ratios.Enable != true)
+                                    {
+                                        return "玩法不启用";
                                     }
                                     #endregion
 
@@ -3745,6 +3997,7 @@ namespace WeixinRoboot.Linq
                                         newgl.GamePeriod = GameFullPeriod;
 
                                         newgl.MemberGroupName = MemberGroupName;
+                                        newgl.OpenMode = Enum.GetName(typeof(ShiShiCaiMode), subm);
                                         newgl.GameLocalPeriod = GameFullLocalPeriod;
                                         db.WX_UserGameLog.InsertOnSubmit(newgl);
                                     }
@@ -3838,28 +4091,28 @@ namespace WeixinRoboot.Linq
                     switch (FirstIndex)
                     {
                         case "龙":
-                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "龙虎合", FirstIndex, BuyPoint, db, adminmode, MemberGroupName);
+                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "龙虎合", FirstIndex, BuyPoint, db, adminmode, MemberGroupName, subm);
                             break;
                         case "虎":
-                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "龙虎合", FirstIndex, BuyPoint, db, adminmode, MemberGroupName);
+                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "龙虎合", FirstIndex, BuyPoint, db, adminmode, MemberGroupName, subm);
                             break;
                         case "合":
-                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "龙虎合", FirstIndex, BuyPoint, db, adminmode, MemberGroupName);
+                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "龙虎合", FirstIndex, BuyPoint, db, adminmode, MemberGroupName, subm);
                             break;
                         case "大":
-                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "大小和", FirstIndex, BuyPoint, db, adminmode, MemberGroupName);
+                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "大小和", FirstIndex, BuyPoint, db, adminmode, MemberGroupName, subm);
                             break;
                         case "小":
-                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "大小和", FirstIndex, BuyPoint, db, adminmode, MemberGroupName);
+                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "大小和", FirstIndex, BuyPoint, db, adminmode, MemberGroupName, subm);
                             break;
                         case "和":
-                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "大小和", FirstIndex, BuyPoint, db, adminmode, MemberGroupName);
+                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "大小和", FirstIndex, BuyPoint, db, adminmode, MemberGroupName, subm);
                             break;
                         case "单":
-                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "单双", FirstIndex, BuyPoint, db, adminmode, MemberGroupName);
+                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "单双", FirstIndex, BuyPoint, db, adminmode, MemberGroupName, subm);
                             break;
                         case "双":
-                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "单双", FirstIndex, BuyPoint, db, adminmode, MemberGroupName);
+                            CheckResult = NewGameLogAndChangeLog(RequestTime, GameContent, WX_UserName, WX_SourceType, GameFullPeriod, GameFullLocalPeriod, "单双", FirstIndex, BuyPoint, db, adminmode, MemberGroupName, subm);
                             break;
                         default:
                             return "";
@@ -4386,6 +4639,90 @@ namespace WeixinRoboot.Linq
             }
 
 
+            else if (Content == "重庆时时彩模式")
+            {
+
+                if (WX_SourceType=="PCQ")
+                {
+                    return "QQ模式，在注入设置设定模式";
+                }
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Row_WX_UserName && t.WX_SourceType == Row_WX_SourceType);
+
+
+                toupdate.ChongqingMode = true;
+                toupdate.FiveMinuteMode = false;
+                toupdate.HkMode = false;
+                toupdate.AozcMode = false;
+                db.SubmitChanges();
+                UserRow.SetField("User_ChongqingMode", true);
+                UserRow.SetField("User_FiveMinuteMode", false);
+                UserRow.SetField("User_HkMode", false);
+                UserRow.SetField("User_AozcMode", false);
+
+                return "";
+            }
+
+            else if (Content == "五分彩模式")
+            {
+
+                if (WX_SourceType == "PCQ")
+                {
+                    return "QQ模式，在注入设置设定模式";
+                }
+
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Row_WX_UserName && t.WX_SourceType == Row_WX_SourceType);
+                toupdate.ChongqingMode = false;
+                toupdate.FiveMinuteMode = true;
+                toupdate.HkMode = false;
+                toupdate.AozcMode = false;
+                db.SubmitChanges();
+                UserRow.SetField("User_ChongqingMode", false);
+                UserRow.SetField("User_FiveMinuteMode", true);
+                UserRow.SetField("User_HkMode", false);
+                UserRow.SetField("User_AozcMode", false);
+                return "";
+            }
+
+            else if (Content == "香港时时彩模式")
+            {
+
+
+                if (WX_SourceType == "PCQ")
+                {
+                    return "QQ模式，在注入设置设定模式";
+                }
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Row_WX_UserName && t.WX_SourceType == Row_WX_SourceType);
+                toupdate.ChongqingMode = false;
+                toupdate.FiveMinuteMode = false;
+                toupdate.HkMode = true;
+                toupdate.AozcMode = false;
+                db.SubmitChanges();
+                UserRow.SetField("User_ChongqingMode", false);
+                UserRow.SetField("User_FiveMinuteMode", false);
+                UserRow.SetField("User_HkMode", true);
+                UserRow.SetField("User_AozcMode", false);
+                return "";
+            }
+            else if (Content == "澳洲幸运5模式")
+            {
+
+                if (WX_SourceType == "PCQ")
+                {
+                    return "QQ模式，在注入设置设定模式";
+                }
+
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Row_WX_UserName && t.WX_SourceType == Row_WX_SourceType);
+                toupdate.ChongqingMode = false;
+                toupdate.FiveMinuteMode = false;
+                toupdate.HkMode = false;
+                toupdate.AozcMode = true;
+                db.SubmitChanges();
+                UserRow.SetField("User_ChongqingMode", false);
+                UserRow.SetField("User_FiveMinuteMode", false);
+                UserRow.SetField("User_HkMode", false);
+                UserRow.SetField("User_AozcMode", true);
+                return "";
+            }
 
 
             else if (Content.Length >= 2)
@@ -4417,7 +4754,7 @@ namespace WeixinRoboot.Linq
                 }
 
 
-                string LocalDay = (ReceiveTime.Hour <= 2 ? ReceiveTime.AddDays(-1).ToString("yyyyMMdd") : ReceiveTime.ToString("yyyyMMdd"));
+                string LocalDay = (ReceiveTime.Hour <= 8 ? ReceiveTime.AddDays(-1).ToString("yyyyMMdd") : ReceiveTime.ToString("yyyyMMdd"));
 
 
 
@@ -4509,7 +4846,7 @@ namespace WeixinRoboot.Linq
                         ful_change.GamePeriod = "";
 
                         DateTime testtime = DateTime.Now;
-                        if (testtime.Hour <= 10)
+                        if (testtime.Hour <= 8)
                         {
                             testtime = testtime.AddDays(-1);
                         }
@@ -4551,7 +4888,7 @@ namespace WeixinRoboot.Linq
         /// <param name="CheckResult"></param>
         /// <param name="db"></param>
         /// <returns></returns>
-        private static string NewGameLogAndChangeLog(DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, string GameFullPeriod, string GameFullLocalPeriod, string BuyType, string BuyValue, decimal AddBuyPoint, dbDataContext db, bool adminmode, string MemberGroupName)
+        private static string NewGameLogAndChangeLog(DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, string GameFullPeriod, string GameFullLocalPeriod, string BuyType, string BuyValue, decimal AddBuyPoint, dbDataContext db, bool adminmode, string MemberGroupName, ShiShiCaiMode subm)
         {
             //判断余分
             //如果已开奖就反开奖,
@@ -4605,7 +4942,8 @@ namespace WeixinRoboot.Linq
                 #region "转化赔率"
                 Decimal CheckBuyPoint = (CheckExistsGameLog == null ? 0 : CheckExistsGameLog.Buy_Point.Value) + AddBuyPoint;
 
-                var CheckRatioConfig = db.Game_BasicRatio.Where(t => t.GameType == "重庆时时彩"
+                var CheckRatioConfig = db.Game_BasicRatio.Where(t =>
+                    t.GameType == "重庆时时彩"
                     && t.aspnet_UserID == GlobalParam.UserKey
                     && t.BuyType == CheckExistsGameLog.Buy_Type
                     && t.BuyValue == CheckExistsGameLog.Buy_Value
@@ -4618,11 +4956,13 @@ namespace WeixinRoboot.Linq
                 if (CheckRatioConfig.Count() == 0)
                 {
                     Decimal? MaxLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                         && t.GameType == "重庆时时彩"
                         && t.BuyValue == CheckExistsGameLog.Buy_Value
                         && t.BuyType == CheckExistsGameLog.Buy_Type
                          && t.WX_SourceType == WX_SourceType
                         ).Max(t => t.MaxBuy);
                     Decimal? MinLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                        && t.GameType == "重庆时时彩"
                         && t.BuyValue == CheckExistsGameLog.Buy_Value
                          && t.BuyType == CheckExistsGameLog.Buy_Type
                           && t.WX_SourceType == WX_SourceType
@@ -4633,6 +4973,7 @@ namespace WeixinRoboot.Linq
                     return "超出" + ObjectToString(MinLimit, "N0") + "-" + ObjectToString(MaxLimit, "N0") + "范围";
 
                 }
+
                 if (CheckRatioConfig.Select(t => t.BasicRatio).Distinct().Count() > 1)
                 {
                     db.GetChangeSet().Deletes.Clear();
@@ -4641,7 +4982,14 @@ namespace WeixinRoboot.Linq
                     return "符合购买范围的赔率有多个";
 
                 }
-
+                if (CheckRatioConfig.Count() == 0)
+                {
+                    return "赔率找不到";
+                }
+                if (CheckRatioConfig.First().Enable != true)
+                {
+                    return "玩法不启用";
+                }
                 #endregion
 
 
@@ -4707,11 +5055,13 @@ namespace WeixinRoboot.Linq
                 if (CheckRatioConfig.Count() == 0)
                 {
                     Decimal? MaxLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                         && t.GameType == "重庆时时彩"
                         && t.BuyValue == BuyValue
                         && t.BuyType == BuyType
                          && t.WX_SourceType == WX_SourceType
                         ).Max(t => t.MaxBuy);
                     Decimal? MinLimit = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                         && t.GameType == "重庆时时彩"
                         && t.BuyValue == BuyValue
                          && t.BuyType == BuyType
                           && t.WX_SourceType == WX_SourceType
@@ -4724,6 +5074,14 @@ namespace WeixinRoboot.Linq
                 {
                     return "符合购买范围的赔率有多个";
 
+                }
+                if (CheckRatioConfig.Count() == 0)
+                {
+                    return "赔率找不到";
+                }
+                if (CheckRatioConfig.First().Enable != true)
+                {
+                    return "玩法不启用";
                 }
                 #endregion
 
@@ -4742,6 +5100,8 @@ namespace WeixinRoboot.Linq
                 newgl.GamePeriod = GameFullPeriod;
 
                 newgl.MemberGroupName = MemberGroupName;
+                newgl.OpenMode = Enum.GetName(typeof(ShiShiCaiMode), subm);
+
                 newgl.GameLocalPeriod = GameFullLocalPeriod;
 
                 var bonusratios = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -4835,11 +5195,24 @@ namespace WeixinRoboot.Linq
 
 
         }
-        public static void ChongQingShiShiCaiCaculatePeriod(DateTime RequestTime, string RequestPeriod, dbDataContext db, string WX_UserName, string WX_SourceType, out string GameFullPeriod, out string GameFullLocalPeriod, Boolean adminmode, out Boolean Success, out string ErrorMessage)
+        public enum ShiShiCaiMode { 重庆时时彩, 五分彩, 香港时时彩, 澳洲幸运5 }
+
+        private static bool TimeIsYesterday(DateTime testtime)
+        {
+            if (testtime.Hour * 60 + testtime.Minute < 7 * 60 + 57)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static void ChongQingShiShiCaiCaculatePeriod(DateTime RequestTime, string RequestPeriod, dbDataContext db, string WX_UserName, string WX_SourceType, out string GameFullPeriod, out string GameFullLocalPeriod, Boolean adminmode, out Boolean Success, out string ErrorMessage, ShiShiCaiMode SpecMode, Boolean NoBlock = false)
         {
 
             Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
-            if (myset.IsBlock == true && adminmode == false)
+            if (myset.IsBlock == true && adminmode == false && NoBlock == false)
             {
                 Success = false;
                 ErrorMessage = "会员封盘";
@@ -4850,7 +5223,9 @@ namespace WeixinRoboot.Linq
             string Minutes = RequestTime.ToString("HH:mm");
 
 
-            if (string.Compare(RequestTime.ToString("HH:mm"), "01:55") >= 0 && string.Compare(RequestTime.ToString("HH:mm"), "09:00") <= 0 && adminmode == false)
+            if (
+                TimeCanUse(myset.BlockStartHour, myset.BlockStartMinute, myset.BlockEndHour, myset.BlockEndMinute) && NoBlock == false
+                )
             {
                 Success = false;
                 ErrorMessage = "封盘时间";
@@ -4858,71 +5233,377 @@ namespace WeixinRoboot.Linq
                 GameFullLocalPeriod = "错误";
                 return;
             }
-            Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == RequestTime.ToString("HH:mm"));
-            if (testmin != null && adminmode == false)
+            if (SpecMode == ShiShiCaiMode.重庆时时彩)
             {
-                Success = false;
-                ErrorMessage = "整点" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
-                GameFullPeriod = "错误";
-                GameFullLocalPeriod = "错误";
-                return;
+                Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == RequestTime.ToString("HH:mm"));
+                if (testmin != null && adminmode == false && NoBlock == false)
+                {
+                    Success = false;
+                    ErrorMessage = "开奖中，下注无效" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
+                    GameFullPeriod = "错误";
+                    GameFullLocalPeriod = "错误";
+                    return;
+                }
             }
+            else if (SpecMode == ShiShiCaiMode.香港时时彩)
+            {
+                Game_WuFenPeriodMinute testmin = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == RequestTime.ToString("HH:mm")
+                    && t.GameType == "香港时时彩");
+                if (testmin != null && adminmode == false && NoBlock == false)
+                {
+                    Success = false;
+                    ErrorMessage = "开奖中，下注无效" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
+                    GameFullPeriod = "错误";
+                    GameFullLocalPeriod = "错误";
+                    return;
+                }
+            }
+            else if (SpecMode == ShiShiCaiMode.澳洲幸运5)
+            {
+                Game_WuFenPeriodMinute testmin = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == RequestTime.ToString("HH:mm")
+                    && t.GameType == "澳洲幸运5");
+                if (testmin != null && adminmode == false && NoBlock == false)
+                {
+                    Success = false;
+                    ErrorMessage = "开奖中，下注无效" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
+                    GameFullPeriod = "错误";
+                    GameFullLocalPeriod = "错误";
+                    return;
+                }
+            }
+            else if (SpecMode == ShiShiCaiMode.五分彩)
+            {
+                Game_WuFenPeriodMinute testmin = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == RequestTime.ToString("HH:mm")
+                     && t.GameType == "五分彩");
+                if (testmin != null && adminmode == false && NoBlock == false)
+                {
+                    Success = false;
+                    ErrorMessage = "开奖中，下注无效" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
+                    GameFullPeriod = "错误";
+                    GameFullLocalPeriod = "错误";
+                    return;
+                }
+            }
+
             string NextSubPeriod = "";
             string NextSubLocalPeriod = "";
 
 
+
             if (RequestPeriod == "" || adminmode == false || RequestPeriod == null)
             {
+                Boolean NextDay = false;
                 //非指定模式，管理员整点下当期，管理员非整点下下期
-                //非指定模式，玩家整点不可下，玩家非整点下下期
+                //非指定模式，玩家整点不可下[前面已处理]，玩家非整点下下期
+                if (SpecMode == ShiShiCaiMode.重庆时时彩)
+                {
 
-                var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0).OrderBy(t => t.PeriodIndex);
-                if (NextMonutes.Count() != 0)
-                {
-                    NextSubPeriod = NextMonutes.First().PeriodIndex;
-                    NextSubLocalPeriod = NextMonutes.First().Private_Period;
-                }
-                else
-                {
-                    NextSubPeriod = "120";
-                    NextSubLocalPeriod = "097";
-                }
-                GameFullPeriod = RequestTime.ToString("yyyyMMdd") + NextSubPeriod;
-                GameFullLocalPeriod = (RequestTime.Hour <= 3 ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
-                Success = true;
-                ErrorMessage = "";
-                return;
-            }
-            else
-            {
-                //指定模式且管理员才走这块
 
-                GameFullPeriod = (RequestPeriod.Length == 3 ? RequestTime.ToString("yyyyMMdd") + RequestPeriod : RequestPeriod);
-                if (GameFullPeriod.Trim() == "")
-                {
-                    var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0).OrderBy(t => t.PeriodIndex);
-                    if (NextMonutes.Count() != 0)
+                    var NextMinutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0).OrderBy(t => t.PeriodIndex);
+
+                    if (NextMinutes.Count() != 0)
                     {
-                        NextSubPeriod = NextMonutes.First().PeriodIndex;
-                        NextSubLocalPeriod = NextMonutes.First().Private_Period;
+                        NextSubPeriod = NextMinutes.First().PeriodIndex;
+                        NextSubLocalPeriod = NextMinutes.First().Private_Period;
                     }
                     else
                     {
-                        NextSubPeriod = "120";
-                        NextSubLocalPeriod = "097";
+                        NextSubPeriod = "001";
+                        NextSubLocalPeriod = "051";
+                        NextDay = true;
                     }
-                    GameFullPeriod = DateTime.Today.ToString("yyyyMMdd") + NextSubPeriod;
-                    GameFullLocalPeriod = (DateTime.Now.Hour <= 3 ? DateTime.Today.AddDays(-1).ToString("yyyyMMdd") : DateTime.Today.ToString("yyyyMMdd")) + NextSubLocalPeriod;
 
                 }
-                NextSubPeriod = GameFullPeriod.Substring(8, 3);
-                NextSubLocalPeriod = (Convert.ToInt32(NextSubPeriod) - 23).ToString();
-                GameFullLocalPeriod = DateTime.Today.ToString("yyyyMMdd") + NextSubLocalPeriod;
-                if (Convert.ToInt32(NextSubPeriod) - 23 <= 0)
+
+                else if (SpecMode == ShiShiCaiMode.香港时时彩)
                 {
-                    NextSubLocalPeriod = (Convert.ToInt32(NextSubPeriod) - 23 + 120).ToString();
-                    GameFullLocalPeriod = DateTime.Today.AddDays(-1).ToString("yyyyMMdd") + NextSubLocalPeriod;
+
+
+                    var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                         && t.GameType == "香港时时彩"
+                        ).OrderBy(t => t.PeriodIndex);
+
+                    if (NextMinutes.Count() != 0)
+                    {
+                        NextSubPeriod = NextMinutes.First().PeriodIndex;
+                        NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                    }
+                    else
+                    {
+                        NextSubPeriod = "001";
+                        NextSubLocalPeriod = "193";
+                        NextDay = true;
+                    }
+
                 }
+                else if (SpecMode == ShiShiCaiMode.澳洲幸运5)
+                {
+
+
+                    if (StartForm.MaxAozcPeriod == "")
+                    {
+                        Success = false;
+                        ErrorMessage = "澳洲幸运5期号采集失败，稍后再试";
+                        GameFullPeriod = "错误";
+                        GameFullLocalPeriod = "错误";
+                        return;
+                    }
+
+                    Int32 AddPeriods = Convert.ToInt32((RequestTime.AddMinutes(-1) - Convert.ToDateTime(StartForm.MaxAozcTime).AddMinutes(-150)).TotalMinutes) / 5;
+
+                    NextSubPeriod = (Convert.ToInt32(StartForm.MaxAozcPeriod) + (AddPeriods < 0 ? 0 : AddPeriods) + 1).ToString();
+
+                    var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                        && t.GameType == "澳洲幸运5"
+                       ).OrderBy(t => t.PeriodIndex);
+
+                    if (NextMinutes.Count() != 0)
+                    {
+                        NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                    }
+                    else
+                    {
+                        NextSubLocalPeriod = "193";
+
+                    }
+
+                }
+                else if (SpecMode == ShiShiCaiMode.五分彩)
+                {
+
+
+                    var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                         && t.GameType == "五分彩"
+                        ).OrderBy(t => t.PeriodIndex);
+
+                    if (NextMinutes.Count() != 0)
+                    {
+                        NextSubPeriod = NextMinutes.First().PeriodIndex;
+                        NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                    }
+                    else
+                    {
+                        NextSubPeriod = "001";
+                        NextSubLocalPeriod = "194";
+                        NextDay = true;
+                    }
+
+                }
+                if (SpecMode != ShiShiCaiMode.澳洲幸运5)
+                {
+                    GameFullPeriod = RequestTime.AddDays(NextDay == true ? 1 : 0).ToString("yyyyMMdd") + NextSubPeriod;
+                    GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
+                }
+                else
+                {
+                    GameFullPeriod = NextSubPeriod;
+                    GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
+                }
+                Success = true;
+                ErrorMessage = "";
+                return;
+
+
+            }
+            else
+            {
+
+                //指定模式且管理员才走这块
+                if (SpecMode == ShiShiCaiMode.澳洲幸运5)
+                {
+                    GameFullPeriod = RequestPeriod;
+                    if (RequestPeriod.Length == 3)
+                    {
+
+
+                        try
+                        {
+
+                            Int32 Delta = Convert.ToInt32("1" + StartForm.MaxAozcPeriod.Substring(StartForm.MaxAozcPeriod.Length - 3, 3)) - Convert.ToInt32("1" + RequestPeriod);
+                            GameFullPeriod = (Convert.ToInt32(StartForm.MaxAozcPeriod) - Delta).ToString();
+
+                            Minutes = Convert.ToDateTime(StartForm.MaxAozcTime).AddMinutes(-150).AddMinutes(Delta * 5).ToString("HH:mm");
+
+                            var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                       && t.GameType == "澳洲幸运5"
+                      ).OrderBy(t => t.PeriodIndex);
+
+                            if (NextMinutes.Count() != 0)
+                            {
+                                NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                            }
+                            else
+                            {
+                                NextSubLocalPeriod = "194";
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            Success = false;
+                            ErrorMessage = "指定的期号不符合格式" + GameFullPeriod;
+                            GameFullPeriod = "错误";
+                            GameFullLocalPeriod = "错误";
+                            return;
+                        }
+                    }//长度为3的才进行计算
+
+                }
+                else
+                {
+                    GameFullPeriod = (RequestPeriod.Length == 3 ? RequestTime.ToString("yyyyMMdd") + RequestPeriod : RequestPeriod);
+
+                }
+                #region 重新计算本地期号
+                if (GameFullPeriod.Trim().Length >= 3)
+                {
+                    NextSubPeriod = GameFullPeriod.Substring(GameFullPeriod.Length - 3, 3);
+                    if (SpecMode == ShiShiCaiMode.重庆时时彩)
+                    {
+                        var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.PeriodIndex == NextSubPeriod);
+                        GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextMonutes.Private_Period;
+                    }
+                    else if (SpecMode == ShiShiCaiMode.澳洲幸运5)
+                    {
+                        var NextMonutes = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.Private_Peirod == NextSubLocalPeriod && t.GameType == Enum.GetName(typeof(ShiShiCaiMode), SpecMode));
+                        GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextMonutes.Private_Peirod;
+
+                    }
+                    else
+                    {
+                        var NextMonutes = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == NextSubPeriod && t.GameType == Enum.GetName(typeof(ShiShiCaiMode), SpecMode));
+                        GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextMonutes.Private_Peirod;
+
+                    }
+
+                }
+                else
+                {
+                    Success = false;
+                    ErrorMessage = "指定的期号不符合格式" + GameFullPeriod;
+                    GameFullPeriod = "错误";
+                    GameFullLocalPeriod = "错误";
+                    return;
+                }
+                #endregion
+
+
+
+                if (GameFullPeriod.Trim() == "")
+                {
+                    Boolean NextDay = false;
+                    if (SpecMode == ShiShiCaiMode.重庆时时彩)
+                    {
+
+
+                        var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0).OrderBy(t => t.PeriodIndex);
+                        if (NextMonutes.Count() != 0)
+                        {
+                            NextSubPeriod = NextMonutes.First().PeriodIndex;
+                            NextSubLocalPeriod = NextMonutes.First().Private_Period;
+                        }
+                        else
+                        {
+                            NextSubPeriod = "001";
+                            NextSubLocalPeriod = "051";
+                            NextDay = true;
+                        }
+
+                    }
+
+                    else if (SpecMode == ShiShiCaiMode.香港时时彩)
+                    {
+                        var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                       && t.GameType == "香港时时彩"
+                      ).OrderBy(t => t.PeriodIndex);
+
+                        if (NextMinutes.Count() != 0)
+                        {
+                            NextSubPeriod = NextMinutes.First().PeriodIndex;
+                            NextSubLocalPeriod = NextMinutes.First().PeriodIndex;
+                        }
+                        else
+                        {
+                            NextSubPeriod = "001";
+                            NextSubLocalPeriod = "193";
+                            NextDay = true;
+                        }
+                    }
+                    else if (SpecMode == ShiShiCaiMode.澳洲幸运5)
+                    {
+
+
+                        if (StartForm.MaxAozcPeriod == "")
+                        {
+                            Success = false;
+                            ErrorMessage = "澳洲幸运5期号采集失败，稍后再试";
+                            GameFullPeriod = "错误";
+                            GameFullLocalPeriod = "错误";
+                            return;
+                        }
+
+                        Int32 AddPeriods = Convert.ToInt32((RequestTime.AddMinutes(-1) - Convert.ToDateTime(StartForm.MaxAozcTime).AddMinutes(-150)).TotalMinutes) / 5;
+
+                        NextSubPeriod = (Convert.ToInt32(StartForm.MaxAozcPeriod) + (AddPeriods < 0 ? 0 : AddPeriods) + 1).ToString();
+
+
+                        var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                            && t.GameType == "澳洲幸运5"
+                           ).OrderBy(t => t.PeriodIndex);
+
+                        if (NextMinutes.Count() != 0)
+                        {
+                            NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                        }
+                        else
+                        {
+                            NextSubLocalPeriod = "193";
+                        }
+
+                    }
+                    else if (SpecMode == ShiShiCaiMode.五分彩)
+                    {
+                        var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                        && t.GameType == "五分彩"
+                       ).OrderBy(t => t.PeriodIndex);
+
+                        if (NextMinutes.Count() != 0)
+                        {
+                            NextSubPeriod = NextMinutes.First().PeriodIndex;
+                            NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                        }
+                        else
+                        {
+                            NextSubPeriod = "001";
+                            NextSubLocalPeriod = "194";
+                            NextDay = true;
+                        }
+                    }
+
+
+                    if (SpecMode != ShiShiCaiMode.澳洲幸运5)
+                    {
+                        GameFullPeriod = RequestTime.AddDays(NextDay == true ? 1 : 0).ToString("yyyyMMdd") + NextSubPeriod;
+                        GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
+                    }
+                    else
+                    {
+                        GameFullPeriod = NextSubPeriod;
+                        GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
+                    }
+
+                }//自动计算下期
+
+
+                //NextSubPeriod = GameFullPeriod.Substring(8, 3);
+                //if (Convert.ToInt32(NextSubPeriod) - 23 <= 0)
+                //{
+                //    NextSubLocalPeriod = (Convert.ToInt32(NextSubPeriod) - 23).ToString();
+                //    GameFullLocalPeriod = DateTime.Today.ToString("yyyyMMdd") + NextSubLocalPeriod;
+                //    NextSubLocalPeriod = (Convert.ToInt32(NextSubPeriod) - 23 + 120).ToString();
+                //    GameFullLocalPeriod = DateTime.Today.AddDays(-1).ToString("yyyyMMdd") + NextSubLocalPeriod;
+                //}
+                ////公网转本地
                 Success = true;
                 ErrorMessage = "";
                 return;
@@ -5407,7 +6088,7 @@ namespace WeixinRoboot.Linq
 
         }
 
-        public static Game_Result NewGameResult(string str_Win, string str_dataperiod, out bool NewDbResult)
+        public static Game_Result NewGameResult(string str_Win, string str_dataperiod, out bool NewDbResult, ShiShiCaiMode subm, string GameTime = "2019-01-01")
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -5472,28 +6153,86 @@ namespace WeixinRoboot.Linq
                     TigerDragon = "虎";
                 }
 
-                Linq.Game_ChongqingshishicaiPeriodMinute FindMinute = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(6, 3) && t.GameType == "重庆时时彩");
+                Linq.Game_ChongqingshishicaiPeriodMinute FindMinute = null;
+                if (subm == ShiShiCaiMode.重庆时时彩)
+                {
+                    FindMinute = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(6, 3) && t.GameType == "重庆时时彩");
 
+                }
 
-                var findGameResult = db.Game_Result.SingleOrDefault(t => t.GameName == "重庆时时彩" && t.GamePeriod == str_dataperiod && t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.Game_WuFenPeriodMinute FindMinute_wufen = null;
+                if (subm == ShiShiCaiMode.五分彩)
+                {
+                    FindMinute_wufen = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(6, 3) && t.GameType == "五分彩");
+                }
+                Linq.Game_WuFenPeriodMinute FindMinute_xianggang = null;
+                if (subm == ShiShiCaiMode.香港时时彩)
+                {
+                    FindMinute_xianggang = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(6, 3) && t.GameType == "香港时时彩");
+                }
+                Linq.Game_WuFenPeriodMinute FindMinute_aozc = null;
+                if (subm == ShiShiCaiMode.澳洲幸运5)
+                {
+                    FindMinute_aozc = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == Convert.ToDateTime(GameTime).ToString("HH:mm") && t.GameType == "澳洲幸运5");
+                }
+                var findGameResult = db.Game_Result.SingleOrDefault(t =>
+                    t.GameName == Enum.GetName(typeof(ShiShiCaiMode), subm)
+                    && t.GamePeriod == str_dataperiod
+                    && t.aspnet_UserID == GlobalParam.UserKey);
                 if (findGameResult == null)
                 {
                     Linq.Game_Result gr = new Linq.Game_Result();
                     gr.aspnet_UserID = GlobalParam.UserKey;
                     gr.GamePeriod = str_dataperiod;
-                    gr.GameName = "重庆时时彩";
+                    gr.GameName = Enum.GetName(typeof(ShiShiCaiMode), subm);
                     gr.GameResult = str_win2;
                     gr.NumTotal = NumTotal;
                     gr.BigSmall = BigSmall;
                     gr.SingleDouble = SingleDouble;
                     gr.DragonTiger = TigerDragon;
-                    gr.GameTime = Convert.ToDateTime(
-                       "20" + str_dataperiod.Substring(0, 2) + "-" + str_dataperiod.Substring(2, 2) + "-" + str_dataperiod.Substring(4, 2) + " "
-                        + FindMinute.TimeMinute);
+
                     gr.aspnet_UserID = GlobalParam.UserKey;
-                    gr.GamePrivatePeriod = Convert.ToDateTime(
-                       "20" + str_dataperiod.Substring(0, 2) + "-" + str_dataperiod.Substring(2, 2) + "-" + str_dataperiod.Substring(4, 2) + " "
-                       ).AddDays(Convert.ToDouble(FindMinute.Private_day)).ToString("yyyyMMdd") + FindMinute.Private_Period;
+                    if (subm == ShiShiCaiMode.重庆时时彩)
+                    {
+                        gr.GameTime = Convert.ToDateTime(
+                      "20" + str_dataperiod.Substring(0, 2) + "-" + str_dataperiod.Substring(2, 2) + "-" + str_dataperiod.Substring(4, 2) + " "
+                       + FindMinute.TimeMinute);
+
+                        gr.GamePrivatePeriod = Convert.ToDateTime(
+                                             "20" + str_dataperiod.Substring(0, 2) + "-" + str_dataperiod.Substring(2, 2) + "-" + str_dataperiod.Substring(4, 2) + " "
+                                             ).AddDays(Convert.ToDouble(FindMinute.Private_day)).ToString("yyyyMMdd") + FindMinute.Private_Period;
+
+                    }
+                    else if (subm == ShiShiCaiMode.五分彩)
+                    {
+                        gr.GameTime = Convert.ToDateTime(
+                      "20" + str_dataperiod.Substring(0, 2) + "-" + str_dataperiod.Substring(2, 2) + "-" + str_dataperiod.Substring(4, 2) + " "
+                       + FindMinute_wufen.TimeMinute);
+
+                        gr.GameTime = gr.GameTime.Value.AddDays(FindMinute_wufen.PeriodIndex == "288" ? 1 : 0);
+
+                        gr.GamePrivatePeriod = Convert.ToDateTime(
+                                             "20" + str_dataperiod.Substring(0, 2) + "-" + str_dataperiod.Substring(2, 2) + "-" + str_dataperiod.Substring(4, 2) + " "
+                                             ).AddDays(Convert.ToDouble(FindMinute_wufen.Private_Day)).ToString("yyyyMMdd") + FindMinute_wufen.Private_Peirod;
+
+                    }
+                    else if (subm == ShiShiCaiMode.香港时时彩)
+                    {
+                        gr.GameTime = Convert.ToDateTime(
+                      "20" + str_dataperiod.Substring(0, 2) + "-" + str_dataperiod.Substring(2, 2) + "-" + str_dataperiod.Substring(4, 2) + " "
+                       + FindMinute_xianggang.TimeMinute);
+
+                        gr.GamePrivatePeriod = Convert.ToDateTime(
+                                             "20" + str_dataperiod.Substring(0, 2) + "-" + str_dataperiod.Substring(2, 2) + "-" + str_dataperiod.Substring(4, 2) + " "
+                                             ).AddDays(Convert.ToDouble(FindMinute_xianggang.Private_Day)).ToString("yyyyMMdd") + FindMinute_xianggang.Private_Peirod;
+
+                    }
+                    else if (subm == ShiShiCaiMode.澳洲幸运5)
+                    {
+                        gr.GameTime = Convert.ToDateTime(GameTime);
+                        gr.GamePrivatePeriod = gr.GameTime.Value.AddDays(Convert.ToDouble(FindMinute_aozc.Private_Day)).ToString("yyyyMMdd") + FindMinute_aozc.Private_Peirod;
+
+                    }
                     gr.InsertDate = DateTime.Now;
                     db.Game_Result.InsertOnSubmit(gr);
                     db.SubmitChanges();
@@ -7270,13 +8009,13 @@ namespace WeixinRoboot.Linq
             {
                 RatioBuyValue = result_BuyValue;
             }
-            else if (result_BuyValue.Contains( "狗"))
+            else if (result_BuyValue.Contains("猪"))
             {
-                RatioBuyValue = "狗";
+                RatioBuyValue = "猪";
             }
-            else if (result_BuyValue.Contains("狗")==false)
+            else if (result_BuyValue.Contains("猪") == false)
             {
-                RatioBuyValue = "非狗";
+                RatioBuyValue = "非猪";
             }
 
 
@@ -7317,7 +8056,7 @@ namespace WeixinRoboot.Linq
                 NewModiMoney = 0;
                 return null;
             }
-         
+
             #region
             #endregion
             if (checkresult == null)
@@ -7335,7 +8074,7 @@ namespace WeixinRoboot.Linq
                 result.BuyMoney = BuyMoney;
                 result.BuyRatio = specr.BasicRatio;
 
-             
+
 
 
                 FailString = "";
@@ -7348,7 +8087,7 @@ namespace WeixinRoboot.Linq
             {
                 checkresult.BuyMoney += BuyMoney;
                 checkresult.BuyRatio = specr.BasicRatio;
-               
+
                 FailString = "";
                 Success = true;
                 IsInsert = false;
@@ -7376,7 +8115,7 @@ namespace WeixinRoboot.Linq
             {
                 Result += peritem + "期";
 
-                foreach (var logitem in UnOpenLogs.Where(t => t.GamePeriod == peritem))
+                foreach (var logitem in UnOpenLogs.Where(t => t.GamePeriod == peritem).OrderBy(t => t.BuyValue))
                 {
                     HKSixBuyType nt = (HKSixBuyType)Enum.Parse(typeof(HKSixBuyType), logitem.BuyType);
                     Result += logitem.BuyValue + (nt == HKSixBuyType.特码 ? "#" : "") + logitem.BuyMoney.Value.ToString("N0") + "，";
@@ -7390,6 +8129,29 @@ namespace WeixinRoboot.Linq
             return Result;
         }
 
+        public static string GetOpenLogs(string WX_UserName, string WX_SourceType, string GamePeriod, dbDataContext db)
+        {
+            string Result = "";
+
+
+            var playlogs = db.WX_UserGameLog_HKSix.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                && t.WX_SourceType == WX_SourceType
+                && t.WX_UserName == WX_UserName
+                && t.GamePeriod == GamePeriod
+                );
+
+            foreach (var logitem in playlogs.OrderBy(t => t.BuyValue))
+            {
+                HKSixBuyType nt = (HKSixBuyType)Enum.Parse(typeof(HKSixBuyType), logitem.BuyType);
+                Result += logitem.BuyValue + (nt == HKSixBuyType.特码 ? "#" : "")
+                    + logitem.BuyMoney.Value.ToString("N0") + "  赔：" + (logitem.ResultMoney != null ? logitem.ResultMoney.ToString() : "未赔") + Environment.NewLine;
+            }
+            if (Result == "")
+            {
+                Result = GamePeriod + "期无下注";
+            }
+            return Result;
+        }
 
         public static IQueryable<Game_FootBall_VSRatios> GameVSGetRatios(dbDataContext db, Game_FootBall_VS VS)
         {
@@ -7442,7 +8204,7 @@ namespace WeixinRoboot.Linq
         }
 
 
-        public enum HKSixBuyType { 大小, 单双, 特码, 生肖,生肖平码,生肖平特 }
+        public enum HKSixBuyType { 大小, 单双, 特码, 生肖, 生肖平码, 生肖平特 }
         public static string OpenHKSix(WX_UserGameLog_HKSix toopen, dbDataContext db, Game_ResultHKSix hksixresult)
         {
             string Result = "";
@@ -7564,21 +8326,21 @@ namespace WeixinRoboot.Linq
             else if (optype == HKSixBuyType.生肖)
             {
                 decimal ResultMoney = 0;
-                 //多码累加，结果写入
+                //多码累加，结果写入
                 if (toopen.BuyValue == hksixresult.AnmialSpec)
                 {
                     ResultMoney += toopen.BuyMoney.Value * toopen.BuyRatio.Value;
                 }
 
-                if (ResultMoney!=0)
+                if (ResultMoney != 0)
                 {
-                      WX_UserChangeLog cl = new WX_UserChangeLog();
+                    WX_UserChangeLog cl = new WX_UserChangeLog();
                     cl.aspnet_UserID = GlobalParam.UserKey;
                     cl.BuyValue = toopen.BuyValue;
                     cl.WX_UserName = toopen.WX_UserName;
                     cl.WX_SourceType = toopen.WX_SourceType;
 
-                    cl.ChangePoint =ResultMoney;
+                    cl.ChangePoint = ResultMoney;
                     cl.ChangeTime = DateTime.Now;
                     cl.FinalStatus = true;
                     cl.GamePeriod = toopen.GamePeriod;
@@ -7603,7 +8365,7 @@ namespace WeixinRoboot.Linq
             {
                 decimal ResultMoney = 0;
                 //多码累加，结果写入
-                if (toopen.BuyValue == "平"+hksixresult.Anmial1)
+                if (toopen.BuyValue == "平" + hksixresult.Anmial1)
                 {
                     ResultMoney += toopen.BuyMoney.Value * toopen.BuyRatio.Value;
                 }
@@ -7659,31 +8421,31 @@ namespace WeixinRoboot.Linq
             {
                 decimal ResultMoney = 0;
                 //多码累加，结果写入
-                if (toopen.BuyValue == "平特" + hksixresult.Anmial1)
+                if (toopen.BuyValue == "平特" + hksixresult.Anmial1 && ResultMoney == 0)
                 {
                     ResultMoney += toopen.BuyMoney.Value * toopen.BuyRatio.Value;
                 }
-                if (toopen.BuyValue == "平特" + hksixresult.Anmial2)
+                if (toopen.BuyValue == "平特" + hksixresult.Anmial2 && ResultMoney == 0)
                 {
                     ResultMoney += toopen.BuyMoney.Value * toopen.BuyRatio.Value;
                 }
-                if (toopen.BuyValue == "平特" + hksixresult.Anmial3)
+                if (toopen.BuyValue == "平特" + hksixresult.Anmial3 && ResultMoney == 0)
                 {
                     ResultMoney += toopen.BuyMoney.Value * toopen.BuyRatio.Value;
                 }
-                if (toopen.BuyValue == "平特" + hksixresult.Anmial4)
+                if (toopen.BuyValue == "平特" + hksixresult.Anmial4 && ResultMoney == 0)
                 {
                     ResultMoney += toopen.BuyMoney.Value * toopen.BuyRatio.Value;
                 }
-                if (toopen.BuyValue == "平特" + hksixresult.Anmial5)
+                if (toopen.BuyValue == "平特" + hksixresult.Anmial5 && ResultMoney == 0)
                 {
                     ResultMoney += toopen.BuyMoney.Value * toopen.BuyRatio.Value;
                 }
-                if (toopen.BuyValue == "平特" + hksixresult.Anmial6)
+                if (toopen.BuyValue == "平特" + hksixresult.Anmial6 && ResultMoney == 0)
                 {
                     ResultMoney += toopen.BuyMoney.Value * toopen.BuyRatio.Value;
                 }
-                if (toopen.BuyValue == "平特" + hksixresult.AnmialSpec)
+                if (toopen.BuyValue == "平特" + hksixresult.AnmialSpec && ResultMoney == 0)
                 {
                     ResultMoney += toopen.BuyMoney.Value * toopen.BuyRatio.Value;
                 }
@@ -7812,51 +8574,51 @@ namespace WeixinRoboot.Linq
         {
             if (spec == 11 || spec == 23 || spec == 35 || spec == 47)
             {
-                return "鼠";
+                return "牛";
             }
             if (spec == 10 || spec == 22 || spec == 34 || spec == 46)
             {
-                return "牛";
+                return "虎";
             }
             if (spec == 9 || spec == 21 || spec == 33 || spec == 45)
             {
-                return "虎";
+                return "兔";
             }
             if (spec == 8 || spec == 20 || spec == 32 || spec == 44)
             {
-                return "兔";
+                return "龙";
             }
             if (spec == 7 || spec == 19 || spec == 31 || spec == 43)
             {
-                return "龙";
+                return "蛇";
             }
             if (spec == 6 || spec == 18 || spec == 30 || spec == 42)
             {
-                return "蛇";
+                return "马";
             }
             if (spec == 5 || spec == 17 || spec == 29 || spec == 41)
             {
-                return "马";
+                return "羊";
             }
             if (spec == 4 || spec == 16 || spec == 28 || spec == 40)
             {
-                return "羊";
+                return "猴";
             }
             if (spec == 3 || spec == 15 || spec == 27 || spec == 39)
             {
-                return "猴";
+                return "鸡";
             }
             if (spec == 2 || spec == 14 || spec == 26 || spec == 38)
             {
-                return "鸡";
+                return "狗";
             }
             if (spec == 1 || spec == 13 || spec == 25 || spec == 37 || spec == 49)
             {
-                return "狗";
+                return "猪";
             }
             if (spec == 12 || spec == 24 || spec == 36 || spec == 48)
             {
-                return "猪";
+                return "鼠";
             }
             return "？";
         }

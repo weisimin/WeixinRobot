@@ -30,14 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gv_GameResult = new System.Windows.Forms.DataGridView();
+            this.Gr_Mode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Gr_GamePeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Gr_GameTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Gr_GameResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Gr_NumTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Gr_BigSmall = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Gr_SingleDouble = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Gr_DragonTiger = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Gr_GamePrivatePeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Gr_GameTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BS_GameResult = new System.Windows.Forms.BindingSource(this.components);
             this.Dtp_DownloadDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
@@ -48,6 +49,7 @@
             this.Wgl_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Wgl_ContactID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Wgl_TransTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Wgl_Mode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Wgl_GamePeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GameLocalPeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Wgl_Buy_Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,6 +65,7 @@
             this.fd_Num4 = new System.Windows.Forms.TextBox();
             this.fd_Num5 = new System.Windows.Forms.TextBox();
             this.fd_day = new System.Windows.Forms.DateTimePicker();
+            this.cb_gamemode = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.gv_GameResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_GameResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_GameLogNotDeal)).BeginInit();
@@ -78,14 +81,15 @@
             this.gv_GameResult.ColumnHeadersHeight = 25;
             this.gv_GameResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gv_GameResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Gr_Mode,
             this.Gr_GamePeriod,
-            this.Gr_GameTime,
             this.Gr_GameResult,
             this.Gr_NumTotal,
             this.Gr_BigSmall,
             this.Gr_SingleDouble,
             this.Gr_DragonTiger,
-            this.Gr_GamePrivatePeriod});
+            this.Gr_GamePrivatePeriod,
+            this.Gr_GameTime});
             this.gv_GameResult.DataSource = this.BS_GameResult;
             this.gv_GameResult.Location = new System.Drawing.Point(13, 21);
             this.gv_GameResult.MultiSelect = false;
@@ -97,6 +101,14 @@
             this.gv_GameResult.Size = new System.Drawing.Size(536, 216);
             this.gv_GameResult.TabIndex = 0;
             // 
+            // Gr_Mode
+            // 
+            this.Gr_Mode.DataPropertyName = "Gr_Mode";
+            this.Gr_Mode.HeaderText = "模式";
+            this.Gr_Mode.Name = "Gr_Mode";
+            this.Gr_Mode.ReadOnly = true;
+            this.Gr_Mode.Width = 80;
+            // 
             // Gr_GamePeriod
             // 
             this.Gr_GamePeriod.DataPropertyName = "Gr_GamePeriod";
@@ -104,14 +116,6 @@
             this.Gr_GamePeriod.Name = "Gr_GamePeriod";
             this.Gr_GamePeriod.ReadOnly = true;
             this.Gr_GamePeriod.Width = 80;
-            // 
-            // Gr_GameTime
-            // 
-            this.Gr_GameTime.DataPropertyName = "Gr_GameTime";
-            this.Gr_GameTime.HeaderText = "时间";
-            this.Gr_GameTime.Name = "Gr_GameTime";
-            this.Gr_GameTime.ReadOnly = true;
-            this.Gr_GameTime.Width = 80;
             // 
             // Gr_GameResult
             // 
@@ -160,6 +164,14 @@
             this.Gr_GamePrivatePeriod.Name = "Gr_GamePrivatePeriod";
             this.Gr_GamePrivatePeriod.ReadOnly = true;
             this.Gr_GamePrivatePeriod.Width = 80;
+            // 
+            // Gr_GameTime
+            // 
+            this.Gr_GameTime.DataPropertyName = "Gr_GameTime";
+            this.Gr_GameTime.HeaderText = "时间";
+            this.Gr_GameTime.Name = "Gr_GameTime";
+            this.Gr_GameTime.ReadOnly = true;
+            this.Gr_GameTime.Width = 80;
             // 
             // Dtp_DownloadDate
             // 
@@ -217,6 +229,7 @@
             this.Wgl_Contact,
             this.Wgl_ContactID,
             this.Wgl_TransTime,
+            this.Wgl_Mode,
             this.Wgl_GamePeriod,
             this.GameLocalPeriod,
             this.Wgl_Buy_Value,
@@ -254,6 +267,14 @@
             this.Wgl_TransTime.Name = "Wgl_TransTime";
             this.Wgl_TransTime.ReadOnly = true;
             this.Wgl_TransTime.Width = 80;
+            // 
+            // Wgl_Mode
+            // 
+            this.Wgl_Mode.DataPropertyName = "Wgl_Mode";
+            this.Wgl_Mode.HeaderText = "模式";
+            this.Wgl_Mode.Name = "Wgl_Mode";
+            this.Wgl_Mode.ReadOnly = true;
+            this.Wgl_Mode.Width = 80;
             // 
             // Wgl_GamePeriod
             // 
@@ -321,7 +342,7 @@
             // 
             // BtnSaveAndDeal
             // 
-            this.BtnSaveAndDeal.Location = new System.Drawing.Point(308, 424);
+            this.BtnSaveAndDeal.Location = new System.Drawing.Point(337, 427);
             this.BtnSaveAndDeal.Name = "BtnSaveAndDeal";
             this.BtnSaveAndDeal.Size = new System.Drawing.Size(76, 44);
             this.BtnSaveAndDeal.TabIndex = 11;
@@ -365,11 +386,25 @@
             this.fd_day.Size = new System.Drawing.Size(101, 21);
             this.fd_day.TabIndex = 16;
             // 
+            // cb_gamemode
+            // 
+            this.cb_gamemode.FormattingEnabled = true;
+            this.cb_gamemode.Items.AddRange(new object[] {
+            "重庆时时彩",
+            "五分彩",
+            "香港时时彩",
+            "澳洲幸运5"});
+            this.cb_gamemode.Location = new System.Drawing.Point(219, 424);
+            this.cb_gamemode.Name = "cb_gamemode";
+            this.cb_gamemode.Size = new System.Drawing.Size(81, 20);
+            this.cb_gamemode.TabIndex = 30;
+            // 
             // Download163AndDeal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(578, 480);
+            this.Controls.Add(this.cb_gamemode);
             this.Controls.Add(this.fd_day);
             this.Controls.Add(this.fd_Num5);
             this.Controls.Add(this.fd_Num4);
@@ -410,21 +445,6 @@
         private System.Windows.Forms.DataGridView gv_GameLogNotDeal;
         private System.Windows.Forms.BindingSource BS_GameResult;
         private System.Windows.Forms.BindingSource BS_GameLogNotDeal;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_GamePeriod;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_GameTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_GameResult;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_NumTotal;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_BigSmall;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_SingleDouble;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_DragonTiger;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_GamePrivatePeriod;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_Contact;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_ContactID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_TransTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_GamePeriod;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GameLocalPeriod;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_Buy_Value;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_Buy_Point;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox fd_Period;
         private System.Windows.Forms.Label label4;
@@ -435,5 +455,23 @@
         private System.Windows.Forms.TextBox fd_Num4;
         private System.Windows.Forms.TextBox fd_Num5;
         private System.Windows.Forms.DateTimePicker fd_day;
+        private System.Windows.Forms.ComboBox cb_gamemode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_Mode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_GamePeriod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_GameResult;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_NumTotal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_BigSmall;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_SingleDouble;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_DragonTiger;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_GamePrivatePeriod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Gr_GameTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_Contact;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_ContactID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_TransTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_Mode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_GamePeriod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GameLocalPeriod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_Buy_Value;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Wgl_Buy_Point;
     }
 }

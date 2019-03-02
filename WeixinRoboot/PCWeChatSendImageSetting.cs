@@ -69,9 +69,30 @@ namespace WeixinRoboot
                         SF.winsdb.WX_PCSendPicSettingRandomTalk.InsertOnSubmit(contactitem);
 
                     }//数据库不存在的
+
+                 
+
+
                 }//数据循环
             }//有选择才执行新加
 
+            foreach (var Injectitem in SF.InjectWins)
+            {
+               #region 同步采集模式勾
+
+
+
+                DataRow[] rs = SF.RunnerF.MemberSource.Select("User_ContactTEMPID='" + Injectitem.WX_UserTMPID + "'");
+                   foreach (var rowitem in rs)
+                   {
+                       rowitem.SetField("User_ChongqingMode", Injectitem.ChongqingMode);
+                       rowitem.SetField("User_FiveMinuteMode", Injectitem.FiveMinuteMode);
+                       rowitem.SetField("User_HkMode", Injectitem.HkMode);
+                       rowitem.SetField("User_AozcMode", Injectitem.AozcMode);
+                   }
+                    #endregion 
+            }
+   
             SF.winsdb.SubmitChanges();
 
 
@@ -120,6 +141,11 @@ namespace WeixinRoboot
                 }
             }
 
+        }
+
+        private void gv_subcontants_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            
         }
 
      

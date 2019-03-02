@@ -32,10 +32,23 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.GV_PicSendSetting = new System.Windows.Forms.DataGridView();
+            this.BS_GV_PicSendSetting = new System.Windows.Forms.BindingSource(this.components);
+            this.btn_refresh = new System.Windows.Forms.Button();
+            this.btn_save = new System.Windows.Forms.Button();
+            this.gv_subcontants = new System.Windows.Forms.DataGridView();
+            this.序号 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.内容 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.启用 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.lbl_auto = new System.Windows.Forms.Label();
             this.窗口名字 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.类型 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.开奖结果 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.数字龙虎文字 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.重庆时时彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.五分彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.香港时时彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.澳洲幸运5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.NumberText = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Is_Reply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.群主 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,15 +76,6 @@
             this.篮球图片 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.球赛链接 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.球赛间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BS_GV_PicSendSetting = new System.Windows.Forms.BindingSource(this.components);
-            this.btn_refresh = new System.Windows.Forms.Button();
-            this.btn_save = new System.Windows.Forms.Button();
-            this.gv_subcontants = new System.Windows.Forms.DataGridView();
-            this.序号 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.内容 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.启用 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.lbl_auto = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GV_PicSendSetting)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_GV_PicSendSetting)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_subcontants)).BeginInit();
@@ -96,6 +100,10 @@
             this.类型,
             this.开奖结果,
             this.数字龙虎文字,
+            this.重庆时时彩,
+            this.五分彩,
+            this.香港时时彩,
+            this.澳洲幸运5,
             this.NumberText,
             this.Is_Reply,
             this.群主,
@@ -142,6 +150,84 @@
             this.GV_PicSendSetting.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.GV_PicSendSetting_DataError);
             this.GV_PicSendSetting.SelectionChanged += new System.EventHandler(this.GV_PicSendSetting_SelectionChanged);
             // 
+            // btn_refresh
+            // 
+            this.btn_refresh.Location = new System.Drawing.Point(12, 528);
+            this.btn_refresh.Name = "btn_refresh";
+            this.btn_refresh.Size = new System.Drawing.Size(81, 36);
+            this.btn_refresh.TabIndex = 1;
+            this.btn_refresh.Text = "刷新";
+            this.btn_refresh.UseVisualStyleBackColor = true;
+            this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
+            // 
+            // btn_save
+            // 
+            this.btn_save.Location = new System.Drawing.Point(121, 529);
+            this.btn_save.Name = "btn_save";
+            this.btn_save.Size = new System.Drawing.Size(74, 35);
+            this.btn_save.TabIndex = 2;
+            this.btn_save.Text = "保存";
+            this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            // 
+            // gv_subcontants
+            // 
+            this.gv_subcontants.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gv_subcontants.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.序号,
+            this.内容,
+            this.间隔,
+            this.启用});
+            this.gv_subcontants.Location = new System.Drawing.Point(657, 40);
+            this.gv_subcontants.Name = "gv_subcontants";
+            this.gv_subcontants.RowHeadersWidth = 10;
+            this.gv_subcontants.RowTemplate.Height = 23;
+            this.gv_subcontants.Size = new System.Drawing.Size(351, 482);
+            this.gv_subcontants.TabIndex = 3;
+            this.gv_subcontants.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.gv_subcontants_DataBindingComplete);
+            this.gv_subcontants.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.gv_subcontants_RowsAdded);
+            this.gv_subcontants.Leave += new System.EventHandler(this.gv_subcontants_Leave);
+            // 
+            // 序号
+            // 
+            this.序号.DataPropertyName = "MessageIndex";
+            this.序号.HeaderText = "序号";
+            this.序号.Name = "序号";
+            this.序号.ReadOnly = true;
+            this.序号.Width = 35;
+            // 
+            // 内容
+            // 
+            this.内容.DataPropertyName = "MessageContent";
+            this.内容.HeaderText = "内容";
+            this.内容.Name = "内容";
+            this.内容.Width = 200;
+            // 
+            // 间隔
+            // 
+            this.间隔.DataPropertyName = "RandomMinute";
+            this.间隔.HeaderText = "间隔";
+            this.间隔.Name = "间隔";
+            this.间隔.Width = 35;
+            // 
+            // 启用
+            // 
+            this.启用.DataPropertyName = "Enable";
+            this.启用.HeaderText = "启用";
+            this.启用.Name = "启用";
+            this.启用.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.启用.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.启用.Width = 35;
+            // 
+            // lbl_auto
+            // 
+            this.lbl_auto.AutoSize = true;
+            this.lbl_auto.Location = new System.Drawing.Point(657, 22);
+            this.lbl_auto.Name = "lbl_auto";
+            this.lbl_auto.Size = new System.Drawing.Size(53, 12);
+            this.lbl_auto.TabIndex = 4;
+            this.lbl_auto.Text = "自动聊天";
+            // 
             // 窗口名字
             // 
             this.窗口名字.DataPropertyName = "WX_UserName";
@@ -171,6 +257,30 @@
             this.数字龙虎文字.Name = "数字龙虎文字";
             this.数字龙虎文字.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.数字龙虎文字.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // 重庆时时彩
+            // 
+            this.重庆时时彩.DataPropertyName = "ChongqingMode";
+            this.重庆时时彩.HeaderText = "重庆时时彩";
+            this.重庆时时彩.Name = "重庆时时彩";
+            // 
+            // 五分彩
+            // 
+            this.五分彩.DataPropertyName = "FiveMinuteMode";
+            this.五分彩.HeaderText = "五分彩";
+            this.五分彩.Name = "五分彩";
+            // 
+            // 香港时时彩
+            // 
+            this.香港时时彩.DataPropertyName = "HkMode";
+            this.香港时时彩.HeaderText = "香港时时彩";
+            this.香港时时彩.Name = "香港时时彩";
+            // 
+            // 澳洲幸运5
+            // 
+            this.澳洲幸运5.DataPropertyName = "AozcMode";
+            this.澳洲幸运5.HeaderText = "澳洲幸运5";
+            this.澳洲幸运5.Name = "澳洲幸运5";
             // 
             // NumberText
             // 
@@ -368,83 +478,6 @@
             this.球赛间隔.HeaderText = "球赛间隔";
             this.球赛间隔.Name = "球赛间隔";
             // 
-            // btn_refresh
-            // 
-            this.btn_refresh.Location = new System.Drawing.Point(12, 528);
-            this.btn_refresh.Name = "btn_refresh";
-            this.btn_refresh.Size = new System.Drawing.Size(81, 36);
-            this.btn_refresh.TabIndex = 1;
-            this.btn_refresh.Text = "刷新";
-            this.btn_refresh.UseVisualStyleBackColor = true;
-            this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
-            // 
-            // btn_save
-            // 
-            this.btn_save.Location = new System.Drawing.Point(121, 529);
-            this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(74, 35);
-            this.btn_save.TabIndex = 2;
-            this.btn_save.Text = "保存";
-            this.btn_save.UseVisualStyleBackColor = true;
-            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
-            // 
-            // gv_subcontants
-            // 
-            this.gv_subcontants.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gv_subcontants.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.序号,
-            this.内容,
-            this.间隔,
-            this.启用});
-            this.gv_subcontants.Location = new System.Drawing.Point(657, 40);
-            this.gv_subcontants.Name = "gv_subcontants";
-            this.gv_subcontants.RowHeadersWidth = 10;
-            this.gv_subcontants.RowTemplate.Height = 23;
-            this.gv_subcontants.Size = new System.Drawing.Size(351, 482);
-            this.gv_subcontants.TabIndex = 3;
-            this.gv_subcontants.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.gv_subcontants_RowsAdded);
-            this.gv_subcontants.Leave += new System.EventHandler(this.gv_subcontants_Leave);
-            // 
-            // 序号
-            // 
-            this.序号.DataPropertyName = "MessageIndex";
-            this.序号.HeaderText = "序号";
-            this.序号.Name = "序号";
-            this.序号.ReadOnly = true;
-            this.序号.Width = 35;
-            // 
-            // 内容
-            // 
-            this.内容.DataPropertyName = "MessageContent";
-            this.内容.HeaderText = "内容";
-            this.内容.Name = "内容";
-            this.内容.Width = 200;
-            // 
-            // 间隔
-            // 
-            this.间隔.DataPropertyName = "RandomMinute";
-            this.间隔.HeaderText = "间隔";
-            this.间隔.Name = "间隔";
-            this.间隔.Width = 35;
-            // 
-            // 启用
-            // 
-            this.启用.DataPropertyName = "Enable";
-            this.启用.HeaderText = "启用";
-            this.启用.Name = "启用";
-            this.启用.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.启用.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.启用.Width = 35;
-            // 
-            // lbl_auto
-            // 
-            this.lbl_auto.AutoSize = true;
-            this.lbl_auto.Location = new System.Drawing.Point(657, 22);
-            this.lbl_auto.Name = "lbl_auto";
-            this.lbl_auto.Size = new System.Drawing.Size(53, 12);
-            this.lbl_auto.TabIndex = 4;
-            this.lbl_auto.Text = "自动聊天";
-            // 
             // PCWeChatSendImageSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -472,10 +505,20 @@
         private System.Windows.Forms.BindingSource BS_GV_PicSendSetting;
         private System.Windows.Forms.Button btn_refresh;
         private System.Windows.Forms.Button btn_save;
+        private System.Windows.Forms.DataGridView gv_subcontants;
+        private System.Windows.Forms.Label lbl_auto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 序号;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 内容;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 间隔;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 启用;
         private System.Windows.Forms.DataGridViewTextBoxColumn 窗口名字;
         private System.Windows.Forms.DataGridViewTextBoxColumn 类型;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 开奖结果;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 数字龙虎文字;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 重庆时时彩;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 五分彩;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 香港时时彩;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 澳洲幸运5;
         private System.Windows.Forms.DataGridViewCheckBoxColumn NumberText;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Is_Reply;
         private System.Windows.Forms.DataGridViewTextBoxColumn 群主;
@@ -503,12 +546,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn 篮球图片;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 球赛链接;
         private System.Windows.Forms.DataGridViewTextBoxColumn 球赛间隔;
-        private System.Windows.Forms.DataGridView gv_subcontants;
-        private System.Windows.Forms.Label lbl_auto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 序号;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 内容;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 间隔;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn 启用;
 
     }
 }

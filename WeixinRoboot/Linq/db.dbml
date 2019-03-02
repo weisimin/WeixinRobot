@@ -59,28 +59,6 @@
       <Column Name="GameResult" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.aspnet_UsersNewGameResultSend" Member="aspnet_UsersNewGameResultSend">
-    <Type Name="aspnet_UsersNewGameResultSend">
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsNewSend" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ActiveCode" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
-      <Column Name="IsBlock" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsSendPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsReceiveOrder" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="MaxPlayerCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="bossaspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="SendImageEnd" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SendImageStart" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SendImageEnd2" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SendImageEnd3" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SendImageEnd4" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SendImageStart2" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SendImageStart3" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SendImageStart4" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ImageEndText" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="ImageTopText" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Game_ChongqingshishicaiPeriodMinute" Member="Game_ChongqingshishicaiPeriodMinute">
     <Type Name="Game_ChongqingshishicaiPeriodMinute">
       <Column Name="GameType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -111,22 +89,6 @@
       <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.WX_UserReply" Member="WX_UserReply">
-    <Type Name="WX_UserReply">
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsReply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="NickName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
-      <Column Name="RemarkName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
-      <Column Name="IsReceiveTransfer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsCaculateFuli" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="WeChatID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsBoss" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsBallPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsAdmin" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.WX_BounsConfig" Member="WX_BounsConfig">
     <Type Name="WX_BounsConfig">
       <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -138,16 +100,6 @@
       <Column Name="FixNumber" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
       <Column Name="FlowPercent" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
       <Column Name="IfDivousPercent" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.WX_WebSendPICSettingMatchClass" Member="WX_WebSendPICSettingMatchClass">
-    <Type Name="WX_WebSendPICSettingMatchClass">
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="MatchBallType" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="MatchClassName" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="SendAny" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Game_ResultFootBall_Last" Member="Game_ResultFootBall_Last">
@@ -362,30 +314,6 @@
       <Column Name="Jobid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.WX_WebSendPICSetting" Member="WX_WebSendPICSetting">
-    <Type Name="WX_WebSendPICSetting">
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="footballPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="bassketballpic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="balluclink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ballinterval" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="card" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="cardname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="shishicailink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="NumberPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="dragonpic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="numericlink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="dragonlink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="LastBallSendTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="NumberAndDragonPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ballstart" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ballend" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="balllivepoint" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="HKSixResult" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.WX_UserReplyLog" Member="WX_UserReplyLog">
     <Type Name="WX_UserReplyLog">
       <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -399,50 +327,6 @@
       <Column Name="WX_msgType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="ReceiveIndex" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Game_BasicRatio" Member="Game_BasicRatio">
-    <Type Name="Game_BasicRatio">
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="GameType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="BuyType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="BuyValue" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="MinBuy" Type="System.Decimal" DbType="Decimal(18,3) NOT NULL" CanBeNull="false" />
-      <Column Name="MaxBuy" Type="System.Decimal" DbType="Decimal(18,3) NOT NULL" CanBeNull="false" />
-      <Column Name="BasicRatio" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
-      <Column Name="OrderIndex" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="IncludeMin" Type="System.Boolean" DbType="Bit NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="BonusBuyValueCondition" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.WX_UserGameLog" Member="WX_UserGameLog">
-    <Type Name="WX_UserGameLog">
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="TransTime" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="GameName" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="GamePeriod" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="GameResult" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Gr_NumTotal" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Gr_BigSmall" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="Gr_SingleDouble" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="Gr_DragonTiger" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="Buy_Type" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Column Name="Buy_Value" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Buy_Ratio" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-      <Column Name="Buy_Point" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="Result_Point" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-      <Column Name="Result_HaveProcess" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="GameLocalPeriod" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="GP_LastModify" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Buy_Ratio_Full1" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-      <Column Name="Buy_Ratio_Full2" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-      <Column Name="Buy_Ratio_Full3" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-      <Column Name="Buy_Ratio_Full4" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-      <Column Name="Buy_Ratio_Full5" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
-      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="MemberGroupName" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.WX_UserGameLog_Bonus" Member="WX_UserGameLog_Bonus">
@@ -521,6 +405,45 @@
       <Column Name="BuyRatio" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Game_WuFenPeriodMinute" Member="Game_WuFenPeriodMinute">
+    <Type Name="Game_WuFenPeriodMinute">
+      <Column Name="GameType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PeriodIndex" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TimeMinute" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Private_Peirod" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Private_Day" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_UserGameLog" Member="WX_UserGameLog">
+    <Type Name="WX_UserGameLog">
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TransTime" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GameName" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GamePeriod" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GameResult" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Gr_NumTotal" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Gr_BigSmall" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="Gr_SingleDouble" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="Gr_DragonTiger" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="Buy_Type" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="Buy_Value" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Buy_Ratio" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Buy_Point" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Result_Point" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Result_HaveProcess" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="GameLocalPeriod" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="GP_LastModify" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Buy_Ratio_Full1" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Buy_Ratio_Full2" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Buy_Ratio_Full3" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Buy_Ratio_Full4" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="Buy_Ratio_Full5" Type="System.Decimal" DbType="Decimal(18,6)" CanBeNull="true" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MemberGroupName" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="OpenMode" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.WX_PCSendPicSettingRandomTalk" Member="WX_PCSendPicSettingRandomTalk">
     <Type Name="WX_PCSendPicSettingRandomTalk">
       <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -531,6 +454,60 @@
       <Column Name="Enable" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="RandomMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="PreSendTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_WebSendPICSettingMatchClass" Member="WX_WebSendPICSettingMatchClass">
+    <Type Name="WX_WebSendPICSettingMatchClass">
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MatchBallType" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MatchClassName" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SendAny" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_WebSendPICSetting" Member="WX_WebSendPICSetting">
+    <Type Name="WX_WebSendPICSetting">
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="footballPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="bassketballpic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="balluclink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ballinterval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="card" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="cardname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="shishicailink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NumberPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="dragonpic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="numericlink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="dragonlink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LastBallSendTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NumberAndDragonPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ballstart" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ballend" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="balllivepoint" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HKSixResult" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_UserReply" Member="WX_UserReply">
+    <Type Name="WX_UserReply">
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsReply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NickName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="RemarkName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="IsReceiveTransfer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsCaculateFuli" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="WeChatID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsBoss" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsBallPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsAdmin" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FiveMinuteMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HkMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="AozcMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ChongqingMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.WX_PCSendPicSetting" Member="WX_PCSendPicSetting">
@@ -576,6 +553,52 @@
       <Column Name="PreSendPeriod" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="NextSendString" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
       <Column Name="NumberText" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FiveMinuteMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HkMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="AozcMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ChongqingMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Game_BasicRatio" Member="Game_BasicRatio">
+    <Type Name="Game_BasicRatio">
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GameType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BuyType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BuyValue" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MinBuy" Type="System.Decimal" DbType="Decimal(18,3) NOT NULL" CanBeNull="false" />
+      <Column Name="MaxBuy" Type="System.Decimal" DbType="Decimal(18,3) NOT NULL" CanBeNull="false" />
+      <Column Name="BasicRatio" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="OrderIndex" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="IncludeMin" Type="System.Boolean" DbType="Bit NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BonusBuyValueCondition" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Enable" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_UsersNewGameResultSend" Member="aspnet_UsersNewGameResultSend">
+    <Type Name="aspnet_UsersNewGameResultSend">
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsNewSend" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ActiveCode" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="IsBlock" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsSendPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsReceiveOrder" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MaxPlayerCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="bossaspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="SendImageEnd" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageStart" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageEnd2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageEnd3" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageEnd4" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageStart2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageStart3" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SendImageStart4" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImageEndText" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ImageTopText" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="BlockEndHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BlockEndMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BlockStartHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BlockStartMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
 </Database>
