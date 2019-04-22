@@ -33,6 +33,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.GV_PicSendSetting = new System.Windows.Forms.DataGridView();
             this.BS_GV_PicSendSetting = new System.Windows.Forms.BindingSource(this.components);
+            this.MI_GridMouse = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MI_SelectFile = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_refresh = new System.Windows.Forms.Button();
             this.btn_save = new System.Windows.Forms.Button();
             this.gv_subcontants = new System.Windows.Forms.DataGridView();
@@ -40,16 +42,28 @@
             this.内容 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.启用 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.BS_GVRandomTalk = new System.Windows.Forms.BindingSource(this.components);
             this.lbl_auto = new System.Windows.Forms.Label();
             this.窗口名字 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.类型 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.开奖结果 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.数字龙虎文字 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.数字图 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.龙虎图 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Vr牛牛图 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Vr牛牛大单图 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.五分龙虎图 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.重庆时时彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.五分彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.香港时时彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.澳洲幸运5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.腾讯十分 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.腾讯五分 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.北京赛车PK10 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.VR重庆彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.新疆时时彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.NumberText = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.刷新账单 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Is_Reply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.群主 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.开盘 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -66,19 +80,20 @@
             this.最后一期 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.文字1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.文字1间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Text1PicPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.文字2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.文字2间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.文字3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.文字3间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.数字图 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.龙虎图 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.足球图片 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.篮球图片 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.球赛链接 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.球赛间隔 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GV_PicSendSetting)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_GV_PicSendSetting)).BeginInit();
+            this.MI_GridMouse.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gv_subcontants)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BS_GVRandomTalk)).BeginInit();
             this.SuspendLayout();
             // 
             // GV_PicSendSetting
@@ -100,11 +115,22 @@
             this.类型,
             this.开奖结果,
             this.数字龙虎文字,
+            this.数字图,
+            this.龙虎图,
+            this.Vr牛牛图,
+            this.Vr牛牛大单图,
+            this.五分龙虎图,
             this.重庆时时彩,
             this.五分彩,
             this.香港时时彩,
             this.澳洲幸运5,
+            this.腾讯十分,
+            this.腾讯五分,
+            this.北京赛车PK10,
+            this.VR重庆彩,
+            this.新疆时时彩,
             this.NumberText,
+            this.刷新账单,
             this.Is_Reply,
             this.群主,
             this.开盘,
@@ -121,12 +147,11 @@
             this.最后一期,
             this.文字1,
             this.文字1间隔,
+            this.Text1PicPath,
             this.文字2,
             this.文字2间隔,
             this.文字3,
             this.文字3间隔,
-            this.数字图,
-            this.龙虎图,
             this.足球图片,
             this.篮球图片,
             this.球赛链接,
@@ -145,10 +170,25 @@
             this.GV_PicSendSetting.RowHeadersWidth = 20;
             this.GV_PicSendSetting.RowTemplate.Height = 23;
             this.GV_PicSendSetting.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.GV_PicSendSetting.Size = new System.Drawing.Size(638, 510);
+            this.GV_PicSendSetting.Size = new System.Drawing.Size(778, 510);
             this.GV_PicSendSetting.TabIndex = 0;
+            this.GV_PicSendSetting.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.GV_PicSendSetting_CellEnter);
             this.GV_PicSendSetting.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.GV_PicSendSetting_DataError);
             this.GV_PicSendSetting.SelectionChanged += new System.EventHandler(this.GV_PicSendSetting_SelectionChanged);
+            // 
+            // MI_GridMouse
+            // 
+            this.MI_GridMouse.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MI_SelectFile});
+            this.MI_GridMouse.Name = "MI_GridMouse";
+            this.MI_GridMouse.Size = new System.Drawing.Size(125, 26);
+            // 
+            // MI_SelectFile
+            // 
+            this.MI_SelectFile.Name = "MI_SelectFile";
+            this.MI_SelectFile.Size = new System.Drawing.Size(124, 22);
+            this.MI_SelectFile.Text = "选择文件";
+            this.MI_SelectFile.Click += new System.EventHandler(this.MI_SelectFile_Click);
             // 
             // btn_refresh
             // 
@@ -172,13 +212,15 @@
             // 
             // gv_subcontants
             // 
+            this.gv_subcontants.AutoGenerateColumns = false;
             this.gv_subcontants.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_subcontants.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.序号,
             this.内容,
             this.间隔,
             this.启用});
-            this.gv_subcontants.Location = new System.Drawing.Point(657, 40);
+            this.gv_subcontants.DataSource = this.BS_GVRandomTalk;
+            this.gv_subcontants.Location = new System.Drawing.Point(821, 27);
             this.gv_subcontants.Name = "gv_subcontants";
             this.gv_subcontants.RowHeadersWidth = 10;
             this.gv_subcontants.RowTemplate.Height = 23;
@@ -222,7 +264,7 @@
             // lbl_auto
             // 
             this.lbl_auto.AutoSize = true;
-            this.lbl_auto.Location = new System.Drawing.Point(657, 22);
+            this.lbl_auto.Location = new System.Drawing.Point(821, 9);
             this.lbl_auto.Name = "lbl_auto";
             this.lbl_auto.Size = new System.Drawing.Size(53, 12);
             this.lbl_auto.TabIndex = 4;
@@ -231,6 +273,7 @@
             // 窗口名字
             // 
             this.窗口名字.DataPropertyName = "WX_UserName";
+            this.窗口名字.Frozen = true;
             this.窗口名字.HeaderText = "窗口名字";
             this.窗口名字.Name = "窗口名字";
             this.窗口名字.ReadOnly = true;
@@ -246,6 +289,7 @@
             // 
             this.开奖结果.DataPropertyName = "OpenResult";
             this.开奖结果.HeaderText = "开奖结果";
+            this.开奖结果.IndeterminateValue = "False";
             this.开奖结果.Name = "开奖结果";
             this.开奖结果.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.开奖结果.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
@@ -254,33 +298,115 @@
             // 
             this.数字龙虎文字.DataPropertyName = "NumberDragonTxt";
             this.数字龙虎文字.HeaderText = "数字龙虎文字";
+            this.数字龙虎文字.IndeterminateValue = "False";
             this.数字龙虎文字.Name = "数字龙虎文字";
             this.数字龙虎文字.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.数字龙虎文字.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // 数字图
+            // 
+            this.数字图.DataPropertyName = "NumberPIC";
+            this.数字图.HeaderText = "数字图";
+            this.数字图.Name = "数字图";
+            this.数字图.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.数字图.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // 龙虎图
+            // 
+            this.龙虎图.DataPropertyName = "DragonPIC";
+            this.龙虎图.HeaderText = "龙虎图";
+            this.龙虎图.Name = "龙虎图";
+            this.龙虎图.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.龙虎图.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // Vr牛牛图
+            // 
+            this.Vr牛牛图.DataPropertyName = "NiuNiuPic";
+            this.Vr牛牛图.HeaderText = "Vr牛牛图";
+            this.Vr牛牛图.Name = "Vr牛牛图";
+            this.Vr牛牛图.Width = 80;
+            // 
+            // Vr牛牛大单图
+            // 
+            this.Vr牛牛大单图.DataPropertyName = "NiuNiuBigSmallPic";
+            this.Vr牛牛大单图.HeaderText = "Vr牛牛大单图";
+            this.Vr牛牛大单图.Name = "Vr牛牛大单图";
+            this.Vr牛牛大单图.Visible = false;
+            // 
+            // 五分龙虎图
+            // 
+            this.五分龙虎图.DataPropertyName = "NoBigSmallSingleDoublePIC";
+            this.五分龙虎图.HeaderText = "五分龙虎图";
+            this.五分龙虎图.Name = "五分龙虎图";
+            this.五分龙虎图.Width = 80;
             // 
             // 重庆时时彩
             // 
             this.重庆时时彩.DataPropertyName = "ChongqingMode";
             this.重庆时时彩.HeaderText = "重庆时时彩";
+            this.重庆时时彩.IndeterminateValue = "False";
             this.重庆时时彩.Name = "重庆时时彩";
             // 
             // 五分彩
             // 
             this.五分彩.DataPropertyName = "FiveMinuteMode";
             this.五分彩.HeaderText = "五分彩";
+            this.五分彩.IndeterminateValue = "False";
             this.五分彩.Name = "五分彩";
             // 
             // 香港时时彩
             // 
             this.香港时时彩.DataPropertyName = "HkMode";
             this.香港时时彩.HeaderText = "香港时时彩";
+            this.香港时时彩.IndeterminateValue = "False";
             this.香港时时彩.Name = "香港时时彩";
+            this.香港时时彩.Visible = false;
+            this.香港时时彩.Width = 80;
             // 
             // 澳洲幸运5
             // 
             this.澳洲幸运5.DataPropertyName = "AozcMode";
             this.澳洲幸运5.HeaderText = "澳洲幸运5";
+            this.澳洲幸运5.IndeterminateValue = "False";
             this.澳洲幸运5.Name = "澳洲幸运5";
+            this.澳洲幸运5.Width = 80;
+            // 
+            // 腾讯十分
+            // 
+            this.腾讯十分.DataPropertyName = "Tengxunshifen";
+            this.腾讯十分.HeaderText = "腾讯十分";
+            this.腾讯十分.IndeterminateValue = "False";
+            this.腾讯十分.Name = "腾讯十分";
+            this.腾讯十分.Width = 80;
+            // 
+            // 腾讯五分
+            // 
+            this.腾讯五分.DataPropertyName = "Tengxunwufen";
+            this.腾讯五分.HeaderText = "腾讯五分";
+            this.腾讯五分.IndeterminateValue = "False";
+            this.腾讯五分.Name = "腾讯五分";
+            this.腾讯五分.Width = 80;
+            // 
+            // 北京赛车PK10
+            // 
+            this.北京赛车PK10.DataPropertyName = "BeijingsaichePK10";
+            this.北京赛车PK10.HeaderText = "北京赛车PK10";
+            this.北京赛车PK10.IndeterminateValue = "False";
+            this.北京赛车PK10.Name = "北京赛车PK10";
+            // 
+            // VR重庆彩
+            // 
+            this.VR重庆彩.DataPropertyName = "VRChongqing";
+            this.VR重庆彩.HeaderText = "VR重庆彩";
+            this.VR重庆彩.IndeterminateValue = "False";
+            this.VR重庆彩.Name = "VR重庆彩";
+            this.VR重庆彩.Width = 80;
+            // 
+            // 新疆时时彩
+            // 
+            this.新疆时时彩.DataPropertyName = "XinJiangMode";
+            this.新疆时时彩.HeaderText = "新疆时时彩";
+            this.新疆时时彩.Name = "新疆时时彩";
             // 
             // NumberText
             // 
@@ -290,6 +416,12 @@
             this.NumberText.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.NumberText.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
+            // 刷新账单
+            // 
+            this.刷新账单.DataPropertyName = "RefreshBill";
+            this.刷新账单.HeaderText = "刷新账单";
+            this.刷新账单.Name = "刷新账单";
+            // 
             // Is_Reply
             // 
             this.Is_Reply.DataPropertyName = "Is_Reply";
@@ -297,6 +429,7 @@
             this.Is_Reply.Name = "Is_Reply";
             this.Is_Reply.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Is_Reply.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Is_Reply.Width = 50;
             // 
             // 群主
             // 
@@ -410,6 +543,13 @@
             this.文字1间隔.HeaderText = "文字1间隔分钟";
             this.文字1间隔.Name = "文字1间隔";
             // 
+            // Text1PicPath
+            // 
+            this.Text1PicPath.DataPropertyName = "Text1PicPath";
+            this.Text1PicPath.HeaderText = "文字1图片";
+            this.Text1PicPath.Name = "Text1PicPath";
+            this.Text1PicPath.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
             // 文字2
             // 
             this.文字2.DataPropertyName = "Text2";
@@ -433,22 +573,6 @@
             this.文字3间隔.DataPropertyName = "Text3Minute";
             this.文字3间隔.HeaderText = "文字3间隔分钟";
             this.文字3间隔.Name = "文字3间隔";
-            // 
-            // 数字图
-            // 
-            this.数字图.DataPropertyName = "NumberPIC";
-            this.数字图.HeaderText = "数字图";
-            this.数字图.Name = "数字图";
-            this.数字图.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.数字图.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // 龙虎图
-            // 
-            this.龙虎图.DataPropertyName = "DragonPIC";
-            this.龙虎图.HeaderText = "龙虎图";
-            this.龙虎图.Name = "龙虎图";
-            this.龙虎图.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.龙虎图.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // 足球图片
             // 
@@ -482,7 +606,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1020, 576);
+            this.ClientSize = new System.Drawing.Size(1184, 576);
             this.Controls.Add(this.lbl_auto);
             this.Controls.Add(this.gv_subcontants);
             this.Controls.Add(this.btn_save);
@@ -493,7 +617,9 @@
             this.Load += new System.EventHandler(this.PCWeChatSendImageSetting_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GV_PicSendSetting)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_GV_PicSendSetting)).EndInit();
+            this.MI_GridMouse.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gv_subcontants)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BS_GVRandomTalk)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -511,15 +637,29 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn 内容;
         private System.Windows.Forms.DataGridViewTextBoxColumn 间隔;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 启用;
+        private System.Windows.Forms.BindingSource BS_GVRandomTalk;
+        private System.Windows.Forms.ContextMenuStrip MI_GridMouse;
+        private System.Windows.Forms.ToolStripMenuItem MI_SelectFile;
         private System.Windows.Forms.DataGridViewTextBoxColumn 窗口名字;
         private System.Windows.Forms.DataGridViewTextBoxColumn 类型;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 开奖结果;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 数字龙虎文字;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 数字图;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 龙虎图;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Vr牛牛图;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Vr牛牛大单图;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 五分龙虎图;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 重庆时时彩;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 五分彩;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 香港时时彩;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 澳洲幸运5;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 腾讯十分;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 腾讯五分;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 北京赛车PK10;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn VR重庆彩;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 新疆时时彩;
         private System.Windows.Forms.DataGridViewCheckBoxColumn NumberText;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 刷新账单;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Is_Reply;
         private System.Windows.Forms.DataGridViewTextBoxColumn 群主;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 开盘;
@@ -536,12 +676,11 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn 最后一期;
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字1;
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字1间隔;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Text1PicPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字2;
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字2间隔;
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字3;
         private System.Windows.Forms.DataGridViewTextBoxColumn 文字3间隔;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn 数字图;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn 龙虎图;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 足球图片;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 篮球图片;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 球赛链接;

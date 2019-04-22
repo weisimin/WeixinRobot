@@ -23,7 +23,7 @@ namespace WeixinRoboot
 
         private void BallGames_Load(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey 
@@ -39,7 +39,7 @@ namespace WeixinRoboot
         {
             if (gv_GameList.SelectedRows.Count != 0)
             {
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 IQueryable<Linq.Game_FootBall_VSRatios> DbRatios = Linq.ProgramLogic.GameVSGetRatios(db, ((Linq.Game_FootBall_VS)gv_GameList.SelectedRows[0].DataBoundItem));

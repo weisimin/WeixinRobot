@@ -147,12 +147,6 @@
         <elementListCompartment Id="67351330-05a0-4584-8438-4fbd3e533315" absoluteBounds="0.51500000000000012, 2.71, 1.9700000000000002, 5.213979085286458" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="8e34fb94-eb74-4fde-9b14-1bcbee769afa" isExpanded="false" absoluteBounds="6.625, 8.375, 2, 0.45">
-      <DataClassMoniker Name="/dbDataContext/WX_PCSendPicSettingRandomTalk" />
-      <nestedChildShapes>
-        <elementListCompartment Id="3032a621-f96d-4caf-8223-1dcbf68f0ecc" absoluteBounds="6.64, 8.835, 1.9700000000000002, 1.7756245930989585" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="022e0739-f89f-4669-b689-6983db7230ce" isExpanded="false" absoluteBounds="4.25, 9.625, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_WebSendPICSettingMatchClass" />
       <nestedChildShapes>
@@ -165,29 +159,48 @@
         <elementListCompartment Id="dcd3ce8f-758a-4b5f-8b2d-57921bfba580" absoluteBounds="4.265, 9.335, 1.9700000000000002, 4.067860921223958" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="e98da67d-3a48-4f8e-82a6-1206905365aa" isExpanded="false" absoluteBounds="0.875, 3.75, 2, 0.45">
-      <DataClassMoniker Name="/dbDataContext/WX_UserReply" />
-      <nestedChildShapes>
-        <elementListCompartment Id="5a86a35b-fd5d-4d56-bccd-2518c87691cd" absoluteBounds="0.89000000000000012, 4.21, 1.9700000000000002, 3.3037821451822915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="8003994a-6c39-4736-b018-d88d047c332c" isExpanded="false" absoluteBounds="6.375, 7.375, 2, 0.45">
-      <DataClassMoniker Name="/dbDataContext/WX_PCSendPicSetting" />
-      <nestedChildShapes>
-        <elementListCompartment Id="a4841c1f-3762-4abc-b313-bf94832b2afd" absoluteBounds="6.39, 7.8350000000000009, 1.9700000000000002, 8.843353271484375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="3ab26f68-0755-43f8-a13d-3a60c4e8547b" isExpanded="false" absoluteBounds="3.875, 4.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_BasicRatio" />
       <nestedChildShapes>
         <elementListCompartment Id="547c4fd6-9058-42f5-9dad-502e99ec7692" absoluteBounds="3.8899999999999997, 4.96, 1.9700000000000002, 2.539703369140625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="d619472e-2811-4aad-9a1e-72e5ddd6a353" isExpanded="false" absoluteBounds="3.75, 2.5, 2, 0.45">
-      <DataClassMoniker Name="/dbDataContext/aspnet_UsersNewGameResultSend" />
+    <classShape Id="e5113788-8ac6-4bbf-a136-b45497316142" isExpanded="false" absoluteBounds="7.375, 9.375, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/WX_PCTransMoneyLog" />
       <nestedChildShapes>
-        <elementListCompartment Id="dd30594c-a8d2-4f23-83be-8528d4860343" absoluteBounds="3.7649999999999997, 2.96, 1.9700000000000002, 4.4499003092447911" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="4511df1c-a2aa-4d0d-b8dc-753e7a1bdc73" absoluteBounds="7.39, 9.835, 1.9700000000000002, 1.5846048990885415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="a289782a-1aa0-4136-8606-6306fc2e0338" isExpanded="false" absoluteBounds="7.5, 8.75, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/WX_PCSendPicSettingRandomTalk" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0cdb949f-cdd5-44ad-882b-f02e76e97161" absoluteBounds="7.515, 9.21, 1.9700000000000002, 1.7756245930989585" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3c2b3d08-e3af-4aba-8334-9e9e649458ed" isExpanded="false" absoluteBounds="3.75, 2.5, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/aspnet_UsersNewGameResultSend" />
+      <nestedChildShapes>
+        <elementListCompartment Id="85deef46-1a58-4342-b74f-ae888f66267c" absoluteBounds="3.7649999999999997, 2.96, 1.9700000000000002, 7.888254801432292" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1790fe47-24a3-46c0-9c2e-5112940b52a7" isExpanded="false" absoluteBounds="0.875, 3.875, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/WX_UserReply" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b6921d22-d617-416d-b4b1-dd9dca817eef" absoluteBounds="0.89000000000000012, 4.335, 1.9700000000000002, 3.876841227213542" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8ba4b6db-b87d-425c-aa02-95ecf8e7490e" isExpanded="false" absoluteBounds="7.5, 7.625, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/WX_PCSendPicSetting" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5cf81df8-8c6c-4edf-9aea-e5b07f111aa9" absoluteBounds="7.515, 8.085, 1.9700000000000002, 10.753550211588541" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(8.5 : 8.075); (8.5 : 8.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/dbDataContext/WX_PCSendPicSetting/WX_PCSendPicSetting_WX_PCSendPicSettingRandomTalk" />
+      <nodes>
+        <classShapeMoniker Id="8ba4b6db-b87d-425c-aa02-95ecf8e7490e" />
+        <classShapeMoniker Id="a289782a-1aa0-4136-8606-6306fc2e0338" />
+      </nodes>
+    </associationConnector>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

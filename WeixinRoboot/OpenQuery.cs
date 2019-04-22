@@ -38,7 +38,7 @@ namespace WeixinRoboot
 
 
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -63,6 +63,11 @@ namespace WeixinRoboot
         && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_enddate.Value.ToString("yyyyMMdd")) <= 0
         &&ds.WX_SourceType==cb_SourceType.SelectedItem.ToString()
                         select ds).ToList();
+
+            NetFramework.Console.WriteLine("########################################################################");
+            NetFramework.Console.WriteLine("查询日期" + dtp_startdate.Value.ToString("yyyyMMdd"));
+            NetFramework.Console.WriteLine("查询日期" + dtp_enddate.Value.ToString("yyyyMMdd"));
+            NetFramework.Console.WriteLine("########################################################################");
 
             var myWXUSERS = buys.Select(t => t.WX_UserName).Distinct();
 
@@ -112,6 +117,11 @@ namespace WeixinRoboot
             gv_result.Columns.Add(dccful);
 
             var BuyDays = buys.Select(t => t.GameLocalPeriod.Substring(0, 8)).Distinct().OrderBy(t => t);
+            NetFramework.Console.WriteLine("########################################################################");
+            NetFramework.Console.WriteLine("获得天数" + BuyDays.Count());
+
+            NetFramework.Console.WriteLine("########################################################################");
+
             #region "天数"
             foreach (var item in BuyDays)
             {
@@ -501,8 +511,7 @@ namespace WeixinRoboot
 
 
 
-
-
+            this.Refresh();
 
 
 
@@ -511,6 +520,11 @@ namespace WeixinRoboot
         private void OpenQuery_Load(object sender, EventArgs e)
         {
             cb_SourceType.SelectedIndex = 0;
+        }
+
+        private void btn_ExportToExcel_Click(object sender, EventArgs e)
+        {
+            this.Refresh();
         }
 
 

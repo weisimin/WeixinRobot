@@ -66,7 +66,7 @@ namespace WeixinRoboot.Linq
         /// <param name="db"></param>
         public static Int32 WX_UserGameLog_Deal(StartForm StartF, string ContactID, string SourceType)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             var toupdate = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -122,7 +122,7 @@ namespace WeixinRoboot.Linq
                 }
                 Game_Result gr = db.Game_Result.SingleOrDefault(t =>
                     t.aspnet_UserID == GlobalParam.UserKey
-                    && t.GamePeriod == (gamelogitem.OpenMode == "澳洲幸运5" ? gamelogitem.GamePeriod : gamelogitem.GamePeriod.Substring(2))
+                    && t.GamePeriod == ((gamelogitem.OpenMode == "澳洲幸运5") ? gamelogitem.GamePeriod : (gamelogitem.OpenMode == "腾讯十分" ? (gamelogitem.GamePeriod.Substring(0, 8) + "-0" + gamelogitem.GamePeriod.Substring(8, 3)) : gamelogitem.GamePeriod.Substring(2)))
                     && (t.GameName == gamelogitem.OpenMode || (gamelogitem.OpenMode == null && t.GameName == "重庆时时彩"))
 
                     );
@@ -1056,6 +1056,75 @@ namespace WeixinRoboot.Linq
 
         }
 
+        public static string CaculateNiuNiu(string str_win2)
+        { 
+        //string[] numbuerstocheck =numbers.to
+            char[] numbs = str_win2.ToCharArray();
+            int NUM1 = Convert.ToInt32(numbs[0].ToString());
+            int NUM2 = Convert.ToInt32(numbs[1].ToString());
+            int NUM3 = Convert.ToInt32(numbs[2].ToString());
+            int NUM4 = Convert.ToInt32(numbs[3].ToString());
+            int NUM5 = Convert.ToInt32(numbs[4].ToString());
+
+            string Result = "";
+            for (int i = 0; i < numbs.Length; i++)
+            {
+                for (int j = 0; j < numbs.Length; j++)
+                {
+                    for (int k = 0; k < numbs.Length; k++)
+                    {
+                        if (i!=j&i!=k&j!=k)
+                        {
+                            if ( 
+                                (Convert.ToInt32(numbs[i].ToString())
+                                +Convert.ToInt32(numbs[j].ToString())
+                                  +Convert.ToInt32(numbs[k].ToString()))%10==0
+                                      )
+                            {
+                                Int32 Reminder = (NUM1 + NUM2 + NUM3 + NUM4 + NUM5) % 10;
+                                switch (Reminder)
+                                {
+                                    case 0:
+                                        return "牛牛 大双";
+                                        break;
+                                    case 1:
+                                        return "牛一 小单";
+                                        break;
+                                    case 2:
+                                        return "牛二 小双";
+                                        break;
+                                    case 3:
+                                        return "牛三 小单";
+                                        break;
+                                    case 4:
+                                        return "牛四 小双";
+                                        break;
+                                    case 5:
+                                        return "牛五 小单";
+                                        break;
+                                    case 6:
+                                        return "牛六 大双";
+                                        break;
+                                    case 7:
+                                        return "牛七 大单";
+                                        break;
+                                    case 8:
+                                        return "牛八 大双";
+                                        break;
+                                    case 9:
+                                        return "牛九 大单";
+                                        break;
+                                    default:
+                                        break;
+                                }//根据结果出牛
+
+                            }
+                        }//有牛的
+                    }//任意取数3
+                }//任意取数2
+            }//任意取数1
+            return "无牛";
+        }
 
         public static void WX_UserChangeLogRefreshIndex(WX_UserChangeLog cl, dbDataContext db)
         {
@@ -2244,6 +2313,13 @@ namespace WeixinRoboot.Linq
 
             NewContent = NewContent.Replace("开", "");
 
+            NewContent = NewContent.Replace("加", "");
+
+            NewContent = NewContent.Replace("/", "");
+
+            NewContent = NewContent.Replace("\\", "");
+
+            NewContent = NewContent.Replace("-", "");
             if (NewContent == "")
             {
                 return true;
@@ -2533,7 +2609,7 @@ namespace WeixinRoboot.Linq
         /// <returns></returns>
         public static TotalResult BuildResult(List<WX_UserGameLog> logs, System.Data.DataTable MemberSource)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             TotalResult r = new TotalResult();
@@ -2719,7 +2795,7 @@ namespace WeixinRoboot.Linq
         //{
         //    get {
         //        BindingList<Linq.Game_FootBall_VS> result = new BindingList<Game_FootBall_VS>();
-        //        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+        //        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
         //        db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
         //        var source= db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.Key && t.TmpJobid == GlobalParam.JobID);
@@ -2748,7 +2824,7 @@ namespace WeixinRoboot.Linq
         public static string WX_UserReplyLog_Create(DataTable MemberSource, GameMode gm, ShiShiCaiMode subm, string RequestPeriod, DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, bool adminmode = false, string MemberGroupName = "")
         {
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -2809,12 +2885,16 @@ namespace WeixinRoboot.Linq
                 //全取消
                 else if (GameContent == "取消" && gm == GameMode.时时彩 && RequestPeriod == "")
                 {
+                    if (ShiShiCaiErrorMessage != "" && adminmode == false)
+                    {
+                        return ShiShiCaiErrorMessage;
+                    }
                     var ToCalcel = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                         && t.WX_UserName == WX_UserName
                         && t.WX_SourceType == WX_SourceType
                         && t.Result_HaveProcess == false
                         // && t.Buy_Point != 0
-                        //&& string.Compare(t.GamePeriod, GameFullPeriod) >= 0
+                        && (string.Compare(t.GamePeriod, GameFullPeriod) >= 0 || adminmode == true)
 
                         );
                     Int32 ChangeIndex = 0;
@@ -3672,10 +3752,57 @@ namespace WeixinRoboot.Linq
 
                     return Period + "流水:" + (buys.HasValue ? (buys.Value).ToString("N0") : "");
                 }
+                else if ((GameContent.StartsWith("加流水")
+                                                  ) && gm == GameMode.时时彩 && adminmode == true)
+                {
+
+                    //string GameFullPeriod = "";
+                    //string GameFullLocalPeriod = "";
+                    //Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod((DateTime.Now.AddMinutes(-2)), "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, true, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm, true);
+                    decimal BuyPoint = 0;
+                    try
+                    {
+                        BuyPoint = Convert.ToDecimal(GameContent.Replace("加流水", ""));
+                    }
+                    catch (Exception)
+                    {
+                        return "";
+                    }
+
+                    WX_UserGameLog cp = new WX_UserGameLog();
+                    cp.aspnet_UserID = GlobalParam.UserKey;
+                    cp.Buy_Point = BuyPoint;
+                    cp.Buy_Type = "流水";
+                    cp.Buy_Value = "流水";
+                    cp.GameName = "重庆时时彩";
+                    cp.TransTime = RequestTime;
+                    cp.WX_UserName = WX_UserName;
+                    cp.WX_SourceType = WX_SourceType;
+                    cp.Buy_Ratio = 0;
+
+                    cp.Result_HaveProcess = true;
+                    cp.GamePeriod = GameFullPeriod;
+                    cp.MemberGroupName = MemberGroupName;
+                    cp.OpenMode = Enum.GetName(typeof(ShiShiCaiMode), subm);
+                    cp.GameLocalPeriod = GameFullLocalPeriod;
+                    db.WX_UserGameLog.InsertOnSubmit(cp);
+                    db.SubmitChanges();
+
+                    string Period = DateTime.Today.ToString("yyyyMMdd");
+
+                    decimal? buys = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                          && t.WX_SourceType == WX_SourceType
+                          && t.WX_UserName == WX_UserName
+                          && t.GameLocalPeriod.StartsWith(Period)
+                          && t.GameName == "重庆时时彩"
+                          ).Sum(t => t.Buy_Point);
+
+                    return Period + "流水:" + (buys.HasValue ? (buys.Value).ToString("N0") : "");
+                }
                 else if ((GameContent.StartsWith("查流水")
                                 ) && gm == GameMode.时时彩)
                 {
-
+                    Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
                     string Period = GameContent.Substring(3);
                     if (Period == "")
                     {
@@ -3690,9 +3817,10 @@ namespace WeixinRoboot.Linq
 
                     return Period + "查流水:"
                         + (buys.HasValue ? (buys.Value).ToString("N0") : "")
-                        + "*0.024="
-                        + (buys.HasValue ? (buys.Value * 0.024M).ToString("N0") : "");
+                        + "*" + loadset.LiuShuiRatio.Value.ToString("0.000") + "="
+                        + (buys.HasValue ? (buys.Value * loadset.LiuShuiRatio.Value).ToString("N0") : "");
                 }
+
                 else if (gm == GameMode.时时彩)
                 {
 
@@ -4170,7 +4298,7 @@ namespace WeixinRoboot.Linq
         public static object[] ReceiveContentFormat(string ReceiveContent, out FormatResultState State, out FormatResultType ModeType, FormatResultDirection direct, out string BuyType, out string BuyMoney, out string[] ContextTeams)
         {
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -4394,7 +4522,7 @@ namespace WeixinRoboot.Linq
 
         public static string WX_UserReplyLog_MySendCreate(string Content, DataRow UserRow, DateTime ReceiveTime, string WX_UserName = "", string WX_SourceType = "")
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             string Row_WX_UserName = (UserRow == null ? WX_UserName : UserRow.Field<string>("User_ContactID"));
             string Row_WX_SourceType = (UserRow == null ? WX_SourceType : UserRow.Field<string>("User_SourceType"));
@@ -4544,6 +4672,26 @@ namespace WeixinRoboot.Linq
 
                 return "";
             }
+            else if (Content.StartsWith("查福利"))
+            {
+                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                string Period = Content.Substring(3);
+                if (Period == "")
+                {
+                    Period = DateTime.Today.AddDays(-1).ToString("yyyyMMdd");
+                }
+                decimal? buys = db.WX_UserGameLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                      && t.WX_SourceType == WX_SourceType
+                      && t.WX_UserName == WX_UserName
+                      && t.GameLocalPeriod.StartsWith(Period)
+                      && t.GameName == "重庆时时彩"
+                      ).Sum(t => t.Buy_Point);
+
+                return Period + "查福利:"
+                    + (buys.HasValue ? (buys.Value).ToString("N0") : "")
+                    + "*" + loadset.FuliRatio.Value.ToString("0.000") + "="
+                    + (buys.HasValue ? (buys.Value * loadset.FuliRatio.Value).ToString("N0") : "");
+            }
             else if (Content == "取消福利")
             {
 
@@ -4620,7 +4768,7 @@ namespace WeixinRoboot.Linq
 
                 db.SubmitChanges();
                 UserRow.SetField("User_IsAdmin", true);
-
+                AsyncAllUserRow(UserRow);
                 return "";
             }
 
@@ -4634,7 +4782,7 @@ namespace WeixinRoboot.Linq
 
                 db.SubmitChanges();
                 UserRow.SetField("User_IsAdmin", false);
-
+                AsyncAllUserRow(UserRow);
                 return "";
             }
 
@@ -4642,7 +4790,7 @@ namespace WeixinRoboot.Linq
             else if (Content == "重庆时时彩模式")
             {
 
-                if (WX_SourceType=="PCQ")
+                if (WX_SourceType == "PCQ")
                 {
                     return "QQ模式，在注入设置设定模式";
                 }
@@ -4653,12 +4801,24 @@ namespace WeixinRoboot.Linq
                 toupdate.FiveMinuteMode = false;
                 toupdate.HkMode = false;
                 toupdate.AozcMode = false;
+                toupdate.TengXunShiFenMode = false;
+                toupdate.TengXunWuFenMode = false;
+
+                toupdate.XinJiangMode = false;
+
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", true);
                 UserRow.SetField("User_FiveMinuteMode", false);
                 UserRow.SetField("User_HkMode", false);
                 UserRow.SetField("User_AozcMode", false);
 
+
+                UserRow.SetField("User_TengXunShiFen", false);
+                UserRow.SetField("User_TengXunWuFen", false);
+                UserRow.SetField("User_XinJiangShiShiCai", false);
+
+
+                AsyncAllUserRow(UserRow);
                 return "";
             }
 
@@ -4675,11 +4835,19 @@ namespace WeixinRoboot.Linq
                 toupdate.FiveMinuteMode = true;
                 toupdate.HkMode = false;
                 toupdate.AozcMode = false;
+                toupdate.TengXunShiFenMode = false;
+                toupdate.TengXunWuFenMode = false;
+                toupdate.XinJiangMode = false;
+
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", true);
                 UserRow.SetField("User_HkMode", false);
                 UserRow.SetField("User_AozcMode", false);
+                UserRow.SetField("User_TengXunShiFen", false);
+                UserRow.SetField("User_TengXunWuFen", false);
+                UserRow.SetField("User_XinJiangShiShiCai", false);
+                AsyncAllUserRow(UserRow);
                 return "";
             }
 
@@ -4696,11 +4864,104 @@ namespace WeixinRoboot.Linq
                 toupdate.FiveMinuteMode = false;
                 toupdate.HkMode = true;
                 toupdate.AozcMode = false;
+                toupdate.TengXunShiFenMode = false;
+                toupdate.TengXunWuFenMode = false;
+                toupdate.XinJiangMode = false;
+
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", false);
                 UserRow.SetField("User_HkMode", true);
                 UserRow.SetField("User_AozcMode", false);
+                UserRow.SetField("User_TengXunShiFen", false);
+                UserRow.SetField("User_TengXunWuFen", false);
+                UserRow.SetField("User_XinJiangShiShiCai", false);
+
+                AsyncAllUserRow(UserRow);
+                return "";
+            }
+
+            else if (Content == "新疆时时彩模式")
+            {
+
+
+                if (WX_SourceType == "PCQ")
+                {
+                    return "QQ模式，在注入设置设定模式";
+                }
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Row_WX_UserName && t.WX_SourceType == Row_WX_SourceType);
+                toupdate.ChongqingMode = false;
+                toupdate.FiveMinuteMode = false;
+                toupdate.HkMode = false;
+                toupdate.AozcMode = false;
+                toupdate.TengXunShiFenMode = false;
+                toupdate.TengXunWuFenMode = false;
+                toupdate.XinJiangMode = true;
+                db.SubmitChanges();
+                UserRow.SetField("User_ChongqingMode", false);
+                UserRow.SetField("User_FiveMinuteMode", false);
+                UserRow.SetField("User_HkMode", false);
+                UserRow.SetField("User_AozcMode", false);
+                UserRow.SetField("User_TengXunShiFen", false);
+                UserRow.SetField("User_TengXunWuFen", false);
+                UserRow.SetField("User_XinJiangShiShiCai", true);
+                AsyncAllUserRow(UserRow);
+                return "";
+            }
+            else if (Content == "腾讯十分模式")
+            {
+
+
+                if (WX_SourceType == "PCQ")
+                {
+                    return "QQ模式，在注入设置设定模式";
+                }
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Row_WX_UserName && t.WX_SourceType == Row_WX_SourceType);
+                toupdate.ChongqingMode = false;
+                toupdate.FiveMinuteMode = false;
+                toupdate.HkMode = false;
+                toupdate.AozcMode = false;
+                toupdate.TengXunShiFenMode = true;
+                toupdate.TengXunWuFenMode = false;
+                toupdate.XinJiangMode = false;
+
+                db.SubmitChanges();
+                UserRow.SetField("User_ChongqingMode", false);
+                UserRow.SetField("User_FiveMinuteMode", false);
+                UserRow.SetField("User_HkMode", false);
+                UserRow.SetField("User_AozcMode", false);
+                UserRow.SetField("User_TengXunShiFen", true);
+                UserRow.SetField("User_TengXunWuFen", false);
+                UserRow.SetField("User_XinJiangShiShiCai", false);
+                AsyncAllUserRow(UserRow);
+                return "";
+            }
+            else if (Content == "腾讯五分模式")
+            {
+
+
+                if (WX_SourceType == "PCQ")
+                {
+                    return "QQ模式，在注入设置设定模式";
+                }
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Row_WX_UserName && t.WX_SourceType == Row_WX_SourceType);
+                toupdate.ChongqingMode = false;
+                toupdate.FiveMinuteMode = false;
+                toupdate.HkMode = false;
+                toupdate.AozcMode = false;
+                toupdate.TengXunShiFenMode = false;
+                toupdate.TengXunWuFenMode = true;
+                toupdate.XinJiangMode = false;
+
+                db.SubmitChanges();
+                UserRow.SetField("User_ChongqingMode", false);
+                UserRow.SetField("User_FiveMinuteMode", false);
+                UserRow.SetField("User_HkMode", false);
+                UserRow.SetField("User_AozcMode", false);
+                UserRow.SetField("User_TengXunShiFen", false);
+                UserRow.SetField("User_TengXunWuFen", true);
+                UserRow.SetField("User_XinJiangShiShiCai", false);
+                AsyncAllUserRow(UserRow);
                 return "";
             }
             else if (Content == "澳洲幸运5模式")
@@ -4721,6 +4982,7 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_FiveMinuteMode", false);
                 UserRow.SetField("User_HkMode", false);
                 UserRow.SetField("User_AozcMode", true);
+                AsyncAllUserRow(UserRow);
                 return "";
             }
 
@@ -4757,8 +5019,15 @@ namespace WeixinRoboot.Linq
                 string LocalDay = (ReceiveTime.Hour <= 8 ? ReceiveTime.AddDays(-1).ToString("yyyyMMdd") : ReceiveTime.ToString("yyyyMMdd"));
 
 
-
-
+                var testcl = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                                            && t.WX_UserName == UserRow.Field<string>("User_ContactID")
+                                             && t.WX_SourceType == UserRow.Field<string>("User_SourceType")
+                                             && t.ChangeTime == ReceiveTime
+                     );
+                if (testcl.Count() > 0)
+                {
+                    return "";
+                }
 
                 switch (Mode)
                 {
@@ -4777,9 +5046,11 @@ namespace WeixinRoboot.Linq
                         change.BuyValue = "";
                         change.GamePeriod = "";
                         WX_UserChangeLogRefreshIndex(change, db);
-                        db.WX_UserChangeLog.InsertOnSubmit(change);
 
+                        db.WX_UserChangeLog.InsertOnSubmit(change);
                         db.SubmitChanges();
+
+
 
                         decimal? TotalPoint = WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactID"), UserRow.Field<string>("User_SourceType"));
 
@@ -4807,8 +5078,8 @@ namespace WeixinRoboot.Linq
                         cleanup.BuyValue = "";
                         cleanup.GamePeriod = "";
                         WX_UserChangeLogRefreshIndex(cleanup, db);
-                        db.WX_UserChangeLog.InsertOnSubmit(cleanup);
 
+                        db.WX_UserChangeLog.InsertOnSubmit(cleanup);
                         db.SubmitChanges();
 
 
@@ -4854,7 +5125,6 @@ namespace WeixinRoboot.Linq
                         ful_change.ChangeLocalDay = testtime.ToString("yyyyMMdd");
                         WX_UserChangeLogRefreshIndex(ful_change, db);
                         db.WX_UserChangeLog.InsertOnSubmit(ful_change);
-
                         db.SubmitChanges();
 
                         decimal? fyl_TotalPoint = WXUserChangeLog_GetRemainder((UserRow == null ? WX_UserName : Row_WX_UserName)
@@ -4877,6 +5147,13 @@ namespace WeixinRoboot.Linq
             }
 
         }
+
+        //同步显示相同会员的行
+        public static void AsyncAllUserRow(DataRow news)
+        {
+
+        }
+
 
         /// <summary>
         /// 下单记录数据补充（比率等）和验证
@@ -5195,19 +5472,20 @@ namespace WeixinRoboot.Linq
 
 
         }
-        public enum ShiShiCaiMode { 重庆时时彩, 五分彩, 香港时时彩, 澳洲幸运5 }
+        public enum ShiShiCaiMode { 重庆时时彩, 五分彩, 香港时时彩, 澳洲幸运5, 腾讯十分, 腾讯五分, 北京赛车PK10, VR重庆时时彩, 新疆时时彩 }
 
-        private static bool TimeIsYesterday(DateTime testtime)
-        {
-            if (testtime.Hour * 60 + testtime.Minute < 7 * 60 + 57)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //https://1680380.com/view/PK10/pk10kai.html
+
+        //        腾讯五分彩官方开奖地址
+        //http://www.188kaijiang.wang/mobile/ssc_tx5fc.html---http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCai.do?issue=&lotCode=tx5fc
+        //北京赛车开奖地址
+        //http://www.188kaijiang.wang/mobile/pk10.html------https://api.api68.com/pks/getLotteryPksInfo.do?issue=731241&lotCode=10001
+        //澳洲5开奖地址
+        //http://www.188kaijiang.wang/mobile/aozxy5.html
+        //  腾讯十分彩走势图http://pay4.hbcchy.com/lotterytrend/chart/19   
+        //VR重庆时时彩
+        //https://numbers.videoracing.com/open_13_2.aspx
+
         public static void ChongQingShiShiCaiCaculatePeriod(DateTime RequestTime, string RequestPeriod, dbDataContext db, string WX_UserName, string WX_SourceType, out string GameFullPeriod, out string GameFullLocalPeriod, Boolean adminmode, out Boolean Success, out string ErrorMessage, ShiShiCaiMode SpecMode, Boolean NoBlock = false)
         {
 
@@ -5285,14 +5563,42 @@ namespace WeixinRoboot.Linq
                 }
             }
 
+            else if (SpecMode == ShiShiCaiMode.新疆时时彩)
+            {
+                Game_WuFenPeriodMinute testmin = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == RequestTime.ToString("HH:mm")
+                     && t.GameType == "新疆时时彩");
+                if (testmin != null && adminmode == false && NoBlock == false)
+                {
+                    Success = false;
+                    ErrorMessage = "开奖中，下注无效" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
+                    GameFullPeriod = "错误";
+                    GameFullLocalPeriod = "错误";
+                    return;
+                }
+            }
+            else if (SpecMode == ShiShiCaiMode.腾讯十分)
+            {
+                Game_WuFenPeriodMinute testmin = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == RequestTime.ToString("HH:mm")
+                     && t.GameType == "腾讯十分");
+                if (testmin != null && adminmode == false && NoBlock == false)
+                {
+                    Success = false;
+                    ErrorMessage = "开奖中，下注无效" + ",余" + ObjectToString(WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType), "N0");
+                    GameFullPeriod = "错误";
+                    GameFullLocalPeriod = "错误";
+                    return;
+                }
+            }
             string NextSubPeriod = "";
             string NextSubLocalPeriod = "";
 
 
 
+
             if (RequestPeriod == "" || adminmode == false || RequestPeriod == null)
             {
-                Boolean NextDay = false;
+                Boolean RealIsNextDay = false;
+                Boolean LocalIsYesterday = false;
                 //非指定模式，管理员整点下当期，管理员非整点下下期
                 //非指定模式，玩家整点不可下[前面已处理]，玩家非整点下下期
                 if (SpecMode == ShiShiCaiMode.重庆时时彩)
@@ -5305,12 +5611,15 @@ namespace WeixinRoboot.Linq
                     {
                         NextSubPeriod = NextMinutes.First().PeriodIndex;
                         NextSubLocalPeriod = NextMinutes.First().Private_Period;
+
+                        LocalIsYesterday = (NextMinutes.First().Private_day < 0) ? true : false;
                     }
                     else
                     {
                         NextSubPeriod = "001";
                         NextSubLocalPeriod = "051";
-                        NextDay = true;
+                        RealIsNextDay = true;
+                        LocalIsYesterday = true;
                     }
 
                 }
@@ -5327,15 +5636,18 @@ namespace WeixinRoboot.Linq
                     {
                         NextSubPeriod = NextMinutes.First().PeriodIndex;
                         NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                        LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
                     }
                     else
                     {
                         NextSubPeriod = "001";
                         NextSubLocalPeriod = "193";
-                        NextDay = true;
+                        RealIsNextDay = true;
+                        LocalIsYesterday = true;
                     }
 
                 }
+
                 else if (SpecMode == ShiShiCaiMode.澳洲幸运5)
                 {
 
@@ -5349,7 +5661,7 @@ namespace WeixinRoboot.Linq
                         return;
                     }
 
-                    Int32 AddPeriods = Convert.ToInt32((RequestTime.AddMinutes(-1) - Convert.ToDateTime(StartForm.MaxAozcTime).AddMinutes(-150)).TotalMinutes) / 5;
+                    Int32 AddPeriods = Convert.ToInt32((RequestTime - Convert.ToDateTime(StartForm.MaxAozcTime).AddMinutes(-0)).TotalMinutes) / 5;
 
                     NextSubPeriod = (Convert.ToInt32(StartForm.MaxAozcPeriod) + (AddPeriods < 0 ? 0 : AddPeriods) + 1).ToString();
 
@@ -5360,10 +5672,12 @@ namespace WeixinRoboot.Linq
                     if (NextMinutes.Count() != 0)
                     {
                         NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                        LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
                     }
                     else
                     {
                         NextSubLocalPeriod = "193";
+                        LocalIsYesterday = true;
 
                     }
 
@@ -5380,24 +5694,73 @@ namespace WeixinRoboot.Linq
                     {
                         NextSubPeriod = NextMinutes.First().PeriodIndex;
                         NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                        LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
                     }
                     else
                     {
                         NextSubPeriod = "001";
                         NextSubLocalPeriod = "194";
-                        NextDay = true;
+                        RealIsNextDay = true;
+                        LocalIsYesterday = true;
                     }
 
                 }
+                else if (SpecMode == ShiShiCaiMode.新疆时时彩)
+                {
+
+
+                    var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                         && t.GameType == "新疆时时彩"
+                        ).OrderBy(t => t.PeriodIndex);
+
+                    if (NextMinutes.Count() != 0)
+                    {
+                        NextSubPeriod = NextMinutes.First().PeriodIndex.Substring(1, 2);
+                        NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                        LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
+                    }
+                    else
+                    {
+                        NextSubPeriod = "042".Substring(1, 2);
+                        NextSubLocalPeriod = "042";
+                        RealIsNextDay = true;
+                        LocalIsYesterday = true;
+                    }
+
+                }
+                else if (SpecMode == ShiShiCaiMode.腾讯十分)
+                {
+
+
+                    var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                         && t.GameType == "腾讯十分"
+                        ).OrderBy(t => t.PeriodIndex);
+
+                    if (NextMinutes.Count() != 0)
+                    {
+                        NextSubPeriod = NextMinutes.First().PeriodIndex;
+                        NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                        LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
+                    }
+                    else
+                    {
+                        NextSubPeriod = "144";
+                        NextSubLocalPeriod = "097";
+                        RealIsNextDay = false;
+                        LocalIsYesterday = true;
+                    }
+
+                }
+                //////////////////////////////////////////////////////////////////////////////////
                 if (SpecMode != ShiShiCaiMode.澳洲幸运5)
                 {
-                    GameFullPeriod = RequestTime.AddDays(NextDay == true ? 1 : 0).ToString("yyyyMMdd") + NextSubPeriod;
-                    GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
+                    GameFullPeriod = RequestTime.AddDays(RealIsNextDay == true ? 1 : 0).ToString("yyyyMMdd") + NextSubPeriod;
+                    GameFullLocalPeriod = (LocalIsYesterday ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
                 }
                 else
                 {
                     GameFullPeriod = NextSubPeriod;
-                    GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
+                    GameFullLocalPeriod = (LocalIsYesterday ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
                 }
                 Success = true;
                 ErrorMessage = "";
@@ -5412,6 +5775,7 @@ namespace WeixinRoboot.Linq
                 if (SpecMode == ShiShiCaiMode.澳洲幸运5)
                 {
                     GameFullPeriod = RequestPeriod;
+                    bool LocalIsYesterday = false;
                     if (RequestPeriod.Length == 3)
                     {
 
@@ -5422,7 +5786,7 @@ namespace WeixinRoboot.Linq
                             Int32 Delta = Convert.ToInt32("1" + StartForm.MaxAozcPeriod.Substring(StartForm.MaxAozcPeriod.Length - 3, 3)) - Convert.ToInt32("1" + RequestPeriod);
                             GameFullPeriod = (Convert.ToInt32(StartForm.MaxAozcPeriod) - Delta).ToString();
 
-                            Minutes = Convert.ToDateTime(StartForm.MaxAozcTime).AddMinutes(-150).AddMinutes(Delta * 5).ToString("HH:mm");
+                            Minutes = Convert.ToDateTime(StartForm.MaxAozcTime).AddMinutes(0).AddMinutes(Delta * 5).ToString("HH:mm");
 
                             var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
                        && t.GameType == "澳洲幸运5"
@@ -5431,10 +5795,12 @@ namespace WeixinRoboot.Linq
                             if (NextMinutes.Count() != 0)
                             {
                                 NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                                LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
                             }
                             else
                             {
                                 NextSubLocalPeriod = "194";
+                                LocalIsYesterday = true;
                             }
                         }
                         catch (Exception)
@@ -5458,21 +5824,25 @@ namespace WeixinRoboot.Linq
                 if (GameFullPeriod.Trim().Length >= 3)
                 {
                     NextSubPeriod = GameFullPeriod.Substring(GameFullPeriod.Length - 3, 3);
+                    Boolean LocalIsYesterday = false;
                     if (SpecMode == ShiShiCaiMode.重庆时时彩)
                     {
                         var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.PeriodIndex == NextSubPeriod);
-                        GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextMonutes.Private_Period;
+                        LocalIsYesterday = (NextMonutes.Private_day < 0) ? true : false;
+                        GameFullLocalPeriod = (LocalIsYesterday ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextMonutes.Private_Period;
                     }
                     else if (SpecMode == ShiShiCaiMode.澳洲幸运5)
                     {
                         var NextMonutes = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.Private_Peirod == NextSubLocalPeriod && t.GameType == Enum.GetName(typeof(ShiShiCaiMode), SpecMode));
-                        GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextMonutes.Private_Peirod;
+                        LocalIsYesterday = (NextMonutes.Private_Day < 0) ? true : false;
+                        GameFullLocalPeriod = (LocalIsYesterday ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextMonutes.Private_Peirod;
 
                     }
                     else
                     {
                         var NextMonutes = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == NextSubPeriod && t.GameType == Enum.GetName(typeof(ShiShiCaiMode), SpecMode));
-                        GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextMonutes.Private_Peirod;
+                        LocalIsYesterday = (NextMonutes.Private_Day < 0) ? true : false;
+                        GameFullLocalPeriod = (LocalIsYesterday ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextMonutes.Private_Peirod;
 
                     }
 
@@ -5491,22 +5861,26 @@ namespace WeixinRoboot.Linq
 
                 if (GameFullPeriod.Trim() == "")
                 {
-                    Boolean NextDay = false;
+                    Boolean RealIsNextDay = false;
+                    Boolean LocalIsYesterday = false;
                     if (SpecMode == ShiShiCaiMode.重庆时时彩)
                     {
 
 
-                        var NextMonutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0).OrderBy(t => t.PeriodIndex);
-                        if (NextMonutes.Count() != 0)
+                        var NextMinutes = db.Game_ChongqingshishicaiPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0).OrderBy(t => t.PeriodIndex);
+                        if (NextMinutes.Count() != 0)
                         {
-                            NextSubPeriod = NextMonutes.First().PeriodIndex;
-                            NextSubLocalPeriod = NextMonutes.First().Private_Period;
+                            NextSubPeriod = NextMinutes.First().PeriodIndex;
+                            NextSubLocalPeriod = NextMinutes.First().Private_Period;
+                            LocalIsYesterday = (NextMinutes.First().Private_day < 0) ? true : false;
                         }
                         else
                         {
                             NextSubPeriod = "001";
                             NextSubLocalPeriod = "051";
-                            NextDay = true;
+                            RealIsNextDay = true;
+                            LocalIsYesterday = true;
+
                         }
 
                     }
@@ -5521,12 +5895,14 @@ namespace WeixinRoboot.Linq
                         {
                             NextSubPeriod = NextMinutes.First().PeriodIndex;
                             NextSubLocalPeriod = NextMinutes.First().PeriodIndex;
+                            LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
                         }
                         else
                         {
                             NextSubPeriod = "001";
                             NextSubLocalPeriod = "193";
-                            NextDay = true;
+                            RealIsNextDay = true;
+                            LocalIsYesterday = true;
                         }
                     }
                     else if (SpecMode == ShiShiCaiMode.澳洲幸运5)
@@ -5542,7 +5918,7 @@ namespace WeixinRoboot.Linq
                             return;
                         }
 
-                        Int32 AddPeriods = Convert.ToInt32((RequestTime.AddMinutes(-1) - Convert.ToDateTime(StartForm.MaxAozcTime).AddMinutes(-150)).TotalMinutes) / 5;
+                        Int32 AddPeriods = Convert.ToInt32((RequestTime - Convert.ToDateTime(StartForm.MaxAozcTime).AddMinutes(-0)).TotalMinutes) / 5;
 
                         NextSubPeriod = (Convert.ToInt32(StartForm.MaxAozcPeriod) + (AddPeriods < 0 ? 0 : AddPeriods) + 1).ToString();
 
@@ -5554,10 +5930,12 @@ namespace WeixinRoboot.Linq
                         if (NextMinutes.Count() != 0)
                         {
                             NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                            LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
                         }
                         else
                         {
                             NextSubLocalPeriod = "193";
+                            LocalIsYesterday = true;
                         }
 
                     }
@@ -5571,25 +5949,29 @@ namespace WeixinRoboot.Linq
                         {
                             NextSubPeriod = NextMinutes.First().PeriodIndex;
                             NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                            LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
                         }
                         else
                         {
                             NextSubPeriod = "001";
                             NextSubLocalPeriod = "194";
-                            NextDay = true;
+                            RealIsNextDay = true;
+                            LocalIsYesterday = true;
                         }
                     }
 
 
+
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     if (SpecMode != ShiShiCaiMode.澳洲幸运5)
                     {
-                        GameFullPeriod = RequestTime.AddDays(NextDay == true ? 1 : 0).ToString("yyyyMMdd") + NextSubPeriod;
-                        GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
+                        GameFullPeriod = RequestTime.AddDays(RealIsNextDay == true ? 1 : 0).ToString("yyyyMMdd") + NextSubPeriod;
+                        GameFullLocalPeriod = (LocalIsYesterday ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
                     }
                     else
                     {
                         GameFullPeriod = NextSubPeriod;
-                        GameFullLocalPeriod = (TimeIsYesterday(RequestTime) ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
+                        GameFullLocalPeriod = (LocalIsYesterday ? RequestTime.AddDays(-1).ToString("yyyyMMdd") : RequestTime.ToString("yyyyMMdd")) + NextSubLocalPeriod;
                     }
 
                 }//自动计算下期
@@ -5623,7 +6005,7 @@ namespace WeixinRoboot.Linq
         /// <returns></returns>
         public static decimal WXUserChangeLog_GetRemainder(string UserContactID, string SourceType)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             var RemindList = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -5675,7 +6057,7 @@ namespace WeixinRoboot.Linq
         public static DataTable BuildOpenQueryTable(DateTime StartDate, DateTime EndDate, Guid UserGuid)
         {
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -5831,7 +6213,7 @@ namespace WeixinRoboot.Linq
 
         public static DataTable GetBounsSource(DateTime QueryDate, string SourceType)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             var buys = from ds in db.WX_UserGameLog
@@ -5982,7 +6364,7 @@ namespace WeixinRoboot.Linq
             Result.Columns.Add("期数", typeof(Int32));
 
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -6090,7 +6472,7 @@ namespace WeixinRoboot.Linq
 
         public static Game_Result NewGameResult(string str_Win, string str_dataperiod, out bool NewDbResult, ShiShiCaiMode subm, string GameTime = "2019-01-01")
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             if (str_Win != "")
@@ -6170,10 +6552,39 @@ namespace WeixinRoboot.Linq
                 {
                     FindMinute_xianggang = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(6, 3) && t.GameType == "香港时时彩");
                 }
+                Linq.Game_WuFenPeriodMinute FindMinute_tengxunshifen = null;
+                if (subm == ShiShiCaiMode.腾讯十分)
+                {
+                    FindMinute_tengxunshifen = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(10, 3) && t.GameType == "腾讯十分");
+                }
+
+                Linq.Game_WuFenPeriodMinute FindMinute_tengxunwufen = null;
+                if (subm == ShiShiCaiMode.腾讯五分)
+                {
+                    FindMinute_tengxunwufen = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(8, 3) && t.GameType == "腾讯五分");
+                }
+
+                Linq.Game_WuFenPeriodMinute FindMinute_beijingsaichepk10 = null;
+                if (subm == ShiShiCaiMode.北京赛车PK10)
+                {
+                    FindMinute_beijingsaichepk10 = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(10, 3) && t.GameType == "北京赛车PK10");
+                }
+
+                Linq.Game_WuFenPeriodMinute FindMinute_vrchongqingshishicai = null;
+                if (subm == ShiShiCaiMode.VR重庆时时彩)
+                {
+                    FindMinute_vrchongqingshishicai = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(8, 3) && t.GameType == "VR重庆时时彩");
+                }
+
+
                 Linq.Game_WuFenPeriodMinute FindMinute_aozc = null;
                 if (subm == ShiShiCaiMode.澳洲幸运5)
                 {
-                    FindMinute_aozc = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == Convert.ToDateTime(GameTime).ToString("HH:mm") && t.GameType == "澳洲幸运5");
+                    DateTime LocalTime = Convert.ToDateTime(GameTime);
+                    //LocalTime = LocalTime.AddMinutes(-150);
+
+
+                    FindMinute_aozc = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == LocalTime.ToString("HH:mm") && t.GameType == "澳洲幸运5");
                 }
                 var findGameResult = db.Game_Result.SingleOrDefault(t =>
                     t.GameName == Enum.GetName(typeof(ShiShiCaiMode), subm)
@@ -6227,10 +6638,75 @@ namespace WeixinRoboot.Linq
                                              ).AddDays(Convert.ToDouble(FindMinute_xianggang.Private_Day)).ToString("yyyyMMdd") + FindMinute_xianggang.Private_Peirod;
 
                     }
+                    else if (subm == ShiShiCaiMode.腾讯十分)
+                    {
+                        gr.GameTime = Convert.ToDateTime(
+                       str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                       + FindMinute_tengxunshifen.TimeMinute);
+
+                        gr.GamePrivatePeriod = Convert.ToDateTime(
+                                              str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                                             ).AddDays(Convert.ToDouble(FindMinute_tengxunshifen.Private_Day)).ToString("yyyyMMdd") + FindMinute_tengxunshifen.Private_Peirod;
+
+                    }
+
+                    else if (subm == ShiShiCaiMode.腾讯五分)
+                    {
+                        gr.GameTime = Convert.ToDateTime(
+                       GameTime);
+
+                        gr.GamePrivatePeriod = Convert.ToDateTime(
+                                              str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                                             ).AddDays(Convert.ToDouble(FindMinute_tengxunwufen.Private_Day)).ToString("yyyyMMdd") + FindMinute_tengxunwufen.Private_Peirod;
+
+                    }
+                    else if (subm == ShiShiCaiMode.新疆时时彩)
+                    {
+                        gr.GameTime = Convert.ToDateTime(
+                       GameTime);
+
+                        gr.GamePrivatePeriod = "20" + gr.GamePeriod.Substring(6) + "0" + gr.GamePeriod.Substring(6, 2);
+
+
+                    }
+                    else if (subm == ShiShiCaiMode.北京赛车PK10)
+                    {
+                        gr.GameTime = Convert.ToDateTime(
+                       str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                       + FindMinute_beijingsaichepk10.TimeMinute);
+
+                        gr.GamePrivatePeriod = Convert.ToDateTime(
+                                              str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                                             ).AddDays(Convert.ToDouble(FindMinute_beijingsaichepk10.Private_Day)).ToString("yyyyMMdd") + FindMinute_beijingsaichepk10.Private_Peirod;
+
+                    }
+                    else if (subm == ShiShiCaiMode.VR重庆时时彩)
+                    {
+                        gr.GameTime = Convert.ToDateTime(
+                       str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                       + FindMinute_vrchongqingshishicai.TimeMinute);
+                        if (Convert.ToInt32(gr.GamePeriod.Substring(8, 3)) >= 180)
+                        {
+                            gr.GameTime = gr.GameTime.Value.AddDays(1);
+                        }
+                        gr.GamePrivatePeriod = gr.GamePeriod;
+
+                        // gr.GamePrivatePeriod = Convert.ToDateTime(
+                        //                       str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                        //                     ).AddDays(Convert.ToDouble(FindMinute_vrchongqingshishicai.Private_Day)).ToString("yyyyMMdd") + FindMinute_vrchongqingshishicai.Private_Peirod;
+
+                    }
+
+
+
                     else if (subm == ShiShiCaiMode.澳洲幸运5)
                     {
+
+
                         gr.GameTime = Convert.ToDateTime(GameTime);
-                        gr.GamePrivatePeriod = gr.GameTime.Value.AddDays(Convert.ToDouble(FindMinute_aozc.Private_Day)).ToString("yyyyMMdd") + FindMinute_aozc.Private_Peirod;
+                        DateTime LocalTime = Convert.ToDateTime(GameTime);
+                        //LocalTime = LocalTime.AddMinutes(-150);
+                        gr.GamePrivatePeriod = LocalTime.AddDays(Convert.ToDouble(FindMinute_aozc.Private_Day)).ToString("yyyyMMdd") + FindMinute_aozc.Private_Peirod;
 
                     }
                     gr.InsertDate = DateTime.Now;
@@ -8538,7 +9014,7 @@ namespace WeixinRoboot.Linq
         public static string GetHKSixLast16()
         {
             string Result = "";
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             var logs = db.Game_ResultHKSix.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderByDescending(t => t.GamePeriod);

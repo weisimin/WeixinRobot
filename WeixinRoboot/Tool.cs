@@ -14,13 +14,15 @@ namespace NetFramework
     public class Util_WEB
     {
         public static string CurrentUrl = "";
-        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8")
+        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8", string authorization="")
         {
-
-            return OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.UTF8, AllowRedirect, KeepAlive, ContentType);
+            DateTime Pre = DateTime.Now;
+            string Result= OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.UTF8, AllowRedirect, KeepAlive, ContentType,authorization);
+            NetFramework.Console.WriteLine("--------------网站下载总时间：" + (DateTime.Now - Pre).TotalSeconds.ToString());
+             return Result;
         }
 
-        private static bool CheckValidationResult(object sender
+        public static bool CheckValidationResult(object sender
             , System.Security.Cryptography.X509Certificates.X509Certificate certificate
             , System.Security.Cryptography.X509Certificates.X509Chain chain
             , System.Net.Security.SslPolicyErrors errors)
@@ -39,13 +41,14 @@ namespace NetFramework
             }
         }
 
-        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = false, bool KeepAlive = true, string ContentType = "application/json;charset=UTF-8")
+        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = false, bool KeepAlive = true, string ContentType = "application/json;charset=UTF-8", string authorization="")
         {
 
-
+            //System.Net.ServicePointManager.MaxServicePoints=20;
 
             System.Net.ServicePointManager.DefaultConnectionLimit = 500;
-            System.Net.ServicePointManager.SetTcpKeepAlive(true, 5000, 5000);
+ 
+            System.Net.ServicePointManager.SetTcpKeepAlive(true, 15000, 15000);
             //HttpWebRequest LoginPage = null;
             //    GetHttpWebResponseNoRedirect(TargetURL,"","",out LoginPage);
 
@@ -53,9 +56,16 @@ namespace NetFramework
             ((HttpWebRequest)LoginPage).AllowAutoRedirect = AllowRedirect;
             //((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
             //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
-            ((HttpWebRequest)LoginPage).Timeout = 30000;
+            ((HttpWebRequest)LoginPage).Timeout = 15000;
             ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
+            if (authorization!="")
+            {
+                LoginPage.Headers.Add("authorization", authorization);
+ 
+            }
+           
             LoginPage.Method = Method;
             if (TargetURL.ToLower().StartsWith("https"))
             {
@@ -89,7 +99,12 @@ namespace NetFramework
                     ((HttpWebRequest)LoginPage).ContentType = ContentType;
                     //((HttpWebRequest)LoginPage).ServicePoint.Expect100Continue = true;
                     //((HttpWebRequest)LoginPage).Connection = "KeepAlive";
-                    LoginPage.Headers.Add("Origin", ((HttpWebRequest)LoginPage).Referer.Substring(0, ((HttpWebRequest)LoginPage).Referer.Length - 1));
+                    if (((HttpWebRequest)LoginPage).Referer != null)
+                    {
+                        LoginPage.Headers.Add("Origin", ((HttpWebRequest)LoginPage).Referer.Substring(0, ((HttpWebRequest)LoginPage).Referer.Length - 1));
+
+                    }
+
                     if (Body != "")
                     {
                         Stream bodys = LoginPage.GetRequestStream();
@@ -121,7 +136,7 @@ namespace NetFramework
             }
             //((HttpWebRequest)LoginPage).KeepAlive = true;
             SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
-            LoginPage.Timeout = 30000;
+            LoginPage.Timeout = 15000;
             if (RefURL.ToLower().StartsWith("https"))
             {
                 System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
@@ -180,7 +195,7 @@ namespace NetFramework
             {
 
 
-                if (LoginPage_Return.ContentEncoding.ToLower().Contains("gzip") )
+                if (LoginPage_Return.ContentEncoding.ToLower().Contains("gzip"))
                 {
                     using (GZipStream stream = new GZipStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
                     {
@@ -464,7 +479,7 @@ namespace NetFramework
 
             //((HttpWebRequest)LoginPage).KeepAlive = true;
             //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
-            ((HttpWebRequest)LoginPage).Timeout = 30000;
+            ((HttpWebRequest)LoginPage).Timeout = 15000;
 
             System.GC.Collect();
 
@@ -628,7 +643,7 @@ namespace NetFramework
 
             string UploadUrl = "https://nos-hz.yixin.im/nos/webbatchupload?uid=" + UserID + "&sid=" + Sessionid + "&size=1&type=0&limit=15";
             System.Net.ServicePointManager.DefaultConnectionLimit = 500;
-            System.Net.ServicePointManager.SetTcpKeepAlive(true, 5000, 5000);
+            System.Net.ServicePointManager.SetTcpKeepAlive(true, 15000, 15000);
 
 
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
@@ -684,7 +699,7 @@ namespace NetFramework
 
             //((HttpWebRequest)LoginPage).KeepAlive = true;
             //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
-            ((HttpWebRequest)LoginPage).Timeout = 30000;
+            ((HttpWebRequest)LoginPage).Timeout = 15000;
 
             System.GC.Collect();
 
@@ -914,7 +929,7 @@ namespace NetFramework
         {
             try
             {
-                FileStream file = new FileStream(fileName, System.IO.FileMode.Open);
+                FileStream file = new FileStream(fileName, System.IO.FileMode.OpenOrCreate);
                 System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
                 byte[] retVal = md5.ComputeHash(file);
                 file.Close();
@@ -1044,7 +1059,7 @@ namespace NetFramework
             //{
             //    LastLog = LastLog.Substring(0, 5000);
             //}
-           System.Console.WriteLine(Message);
+            System.Console.WriteLine(Message);
         }
         public static void WriteLine(string Message)
         {
@@ -1148,7 +1163,19 @@ namespace NetFramework
             int dwExtraInfo  //这里是整数类型 一般情况下设成为 0
         );
 
-
+        //鼠标事件 因为我用的不多，所以其他参数没有写
+        public static readonly int MOUSEEVENTF_LEFTDOWN = 0x0002;//模拟鼠标移动
+        public static readonly int MOUSEEVENTF_MOVE = 0x0001;//模拟鼠标左键按下
+        public static readonly int MOUSEEVENTF_LEFTUP = 0x0004;//模拟鼠标左键抬起
+        public static readonly int MOUSEEVENTF_ABSOLUTE = 0x8000;//鼠标绝对位置
+        public static readonly int MOUSEEVENTF_RIGHTDOWN = 0x0008;//模拟鼠标右键按下 
+        public static readonly int MOUSEEVENTF_RIGHTUP = 0x0010; //模拟鼠标右键抬起 
+        public static readonly int MOUSEEVENTF_MIDDLEDOWN = 0x0020; //模拟鼠标中键按下 
+        public static readonly int MOUSEEVENTF_MIDDLEUP = 0x0040;// 模拟鼠标中键抬起 
+        [DllImport("user32")]
+        public static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
+        [DllImport("user32.dll", EntryPoint = "SetCursorPos")]
+        public static extern int SetCursorPos(int x, int y);
 
         public struct Rect
         {
@@ -1292,27 +1319,29 @@ namespace NetFramework
 
 
         public static object LockLoad = true;
-        public static string JoinQueueAndWait(string URL,CefSharp.WinForms.ChromiumWebBrowser wb,Int32 milientTime=500)
+        public static string JoinQueueAndWait(string URL, CefSharp.WinForms.ChromiumWebBrowser wb, Int32 milientTime = 500)
         {
-            //lock (LockLoad)
+            NetFramework.Console.WriteLine("网页组件正在锁定");
+            lock (LockLoad)
             {
                 LockLoad = !((bool)LockLoad);
                 wb.Load(URL);
-                NetFramework.Console.WriteLine(wb.Name+"----"+URL );
+                NetFramework.Console.WriteLine(wb.Name + "----" + URL);
                 DateTime pretime = DateTime.Now;
-                while ((DateTime.Now-pretime).TotalMilliseconds<milientTime)
+                while ((DateTime.Now - pretime).TotalMilliseconds < milientTime)
                 {
                     System.Threading.Thread.Sleep(100);
                     System.Windows.Forms.Application.DoEvents();
                 }
-              System.Threading.Tasks.Task<string> tsk=  wb.GetBrowser().MainFrame.GetSourceAsync();
-              tsk.Wait();
-              return tsk.Result;
-            }
-
+               
+            } 
+            System.Threading.Tasks.Task<string> tsk = wb.GetBrowser().MainFrame.GetSourceAsync();
+                tsk.Wait();
+                return tsk.Result;
+            NetFramework.Console.WriteLine("网页组件已解锁");
 
         }
-       
+
 
     }
 }

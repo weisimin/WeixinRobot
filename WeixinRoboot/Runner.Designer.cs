@@ -70,10 +70,13 @@
             this.MI_HUIYAN = new System.Windows.Forms.ToolStripMenuItem();
             this.mi_cancelhuiyan = new System.Windows.Forms.ToolStripMenuItem();
             this.非好友会员设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MI_ChongQingMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_赔付模式 = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_FiveMinuteMode = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_HkMode = new System.Windows.Forms.ToolStripMenuItem();
             this.澳洲幸运5模式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_XinJiangShiShiCai = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_TengXunShiFen = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_ChongQingMode = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_ContactFilter = new System.Windows.Forms.TextBox();
             this.dtp_EndDate = new System.Windows.Forms.DateTimePicker();
             this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
@@ -105,6 +108,7 @@
             this.Btn_Resend = new System.Windows.Forms.Button();
             this.btn_resendballl = new System.Windows.Forms.Button();
             this.cb_gamemode = new System.Windows.Forms.ComboBox();
+            this.MI_腾讯五分模式 = new System.Windows.Forms.ToolStripMenuItem();
             this.User_SourceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -120,6 +124,9 @@
             this.五 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.港 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.澳 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.腾十 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.腾五 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.疆 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -159,7 +166,10 @@
             this.重,
             this.五,
             this.港,
-            this.澳});
+            this.澳,
+            this.腾十,
+            this.腾五,
+            this.疆});
             this.gv_contact.DataSource = this.BS_Contact;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -340,12 +350,9 @@
             this.MI_HUIYAN,
             this.mi_cancelhuiyan,
             this.非好友会员设置ToolStripMenuItem,
-            this.MI_ChongQingMode,
-            this.MI_FiveMinuteMode,
-            this.MI_HkMode,
-            this.澳洲幸运5模式ToolStripMenuItem});
+            this.MI_赔付模式});
             this.MouseMenuReply.Name = "MouseMenuReply";
-            this.MouseMenuReply.Size = new System.Drawing.Size(161, 510);
+            this.MouseMenuReply.Size = new System.Drawing.Size(161, 444);
             // 
             // MI_IsReply
             // 
@@ -478,12 +485,19 @@
             this.非好友会员设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.非好友会员设置ToolStripMenuItem.Text = "非好友会员设置";
             // 
-            // MI_ChongQingMode
+            // MI_赔付模式
             // 
-            this.MI_ChongQingMode.Name = "MI_ChongQingMode";
-            this.MI_ChongQingMode.Size = new System.Drawing.Size(160, 22);
-            this.MI_ChongQingMode.Text = "重庆时时彩模式";
-            this.MI_ChongQingMode.Click += new System.EventHandler(this.MI_ChongQingMode_Click);
+            this.MI_赔付模式.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MI_ChongQingMode,
+            this.MI_FiveMinuteMode,
+            this.MI_HkMode,
+            this.澳洲幸运5模式ToolStripMenuItem,
+            this.MI_XinJiangShiShiCai,
+            this.MI_TengXunShiFen,
+            this.MI_腾讯五分模式});
+            this.MI_赔付模式.Name = "MI_赔付模式";
+            this.MI_赔付模式.Size = new System.Drawing.Size(160, 22);
+            this.MI_赔付模式.Text = "赔付模式";
             // 
             // MI_FiveMinuteMode
             // 
@@ -505,6 +519,27 @@
             this.澳洲幸运5模式ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.澳洲幸运5模式ToolStripMenuItem.Text = "澳洲幸运5模式";
             this.澳洲幸运5模式ToolStripMenuItem.Click += new System.EventHandler(this.澳洲幸运5模式ToolStripMenuItem_Click);
+            // 
+            // MI_XinJiangShiShiCai
+            // 
+            this.MI_XinJiangShiShiCai.Name = "MI_XinJiangShiShiCai";
+            this.MI_XinJiangShiShiCai.Size = new System.Drawing.Size(160, 22);
+            this.MI_XinJiangShiShiCai.Text = "新疆时时彩模式";
+            this.MI_XinJiangShiShiCai.Click += new System.EventHandler(this.MI_XinJiangShiShiCai_Click);
+            // 
+            // MI_TengXunShiFen
+            // 
+            this.MI_TengXunShiFen.Name = "MI_TengXunShiFen";
+            this.MI_TengXunShiFen.Size = new System.Drawing.Size(160, 22);
+            this.MI_TengXunShiFen.Text = "腾讯十分模式";
+            this.MI_TengXunShiFen.Click += new System.EventHandler(this.MI_TengXunShiFen_Click);
+            // 
+            // MI_ChongQingMode
+            // 
+            this.MI_ChongQingMode.Name = "MI_ChongQingMode";
+            this.MI_ChongQingMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_ChongQingMode.Text = "重庆时时彩模式";
+            this.MI_ChongQingMode.Click += new System.EventHandler(this.MI_ChongQingMode_Click);
             // 
             // tb_ContactFilter
             // 
@@ -782,6 +817,13 @@
             this.cb_gamemode.Size = new System.Drawing.Size(81, 20);
             this.cb_gamemode.TabIndex = 29;
             // 
+            // MI_腾讯五分模式
+            // 
+            this.MI_腾讯五分模式.Name = "MI_腾讯五分模式";
+            this.MI_腾讯五分模式.Size = new System.Drawing.Size(160, 22);
+            this.MI_腾讯五分模式.Text = "腾讯五分模式";
+            this.MI_腾讯五分模式.Click += new System.EventHandler(this.MI_腾讯五分模式_Click);
+            // 
             // User_SourceType
             // 
             this.User_SourceType.DataPropertyName = "User_SourceType";
@@ -809,10 +851,10 @@
             // User_ContctID
             // 
             this.User_ContctID.DataPropertyName = "User_ContctID";
-            this.User_ContctID.HeaderText = "联系人ID";
+            this.User_ContctID.HeaderText = "玩家";
             this.User_ContctID.Name = "User_ContctID";
             this.User_ContctID.ReadOnly = true;
-            this.User_ContctID.Visible = false;
+            this.User_ContctID.Width = 80;
             // 
             // User_ContactTMPID
             // 
@@ -906,6 +948,34 @@
             this.澳.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.澳.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.澳.Width = 25;
+            // 
+            // 腾十
+            // 
+            this.腾十.DataPropertyName = "User_TengXunShiFen";
+            this.腾十.HeaderText = "腾十";
+            this.腾十.Name = "腾十";
+            this.腾十.ReadOnly = true;
+            this.腾十.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.腾十.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.腾十.Width = 50;
+            // 
+            // 腾五
+            // 
+            this.腾五.DataPropertyName = "User_TengXunWuFen";
+            this.腾五.HeaderText = "腾五";
+            this.腾五.Name = "腾五";
+            this.腾五.ReadOnly = true;
+            this.腾五.Width = 50;
+            // 
+            // 疆
+            // 
+            this.疆.DataPropertyName = "User_XinJiangShiShiCai";
+            this.疆.HeaderText = "疆";
+            this.疆.Name = "疆";
+            this.疆.ReadOnly = true;
+            this.疆.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.疆.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.疆.Width = 25;
             // 
             // RunnerForm
             // 
@@ -1026,6 +1096,10 @@
         private System.Windows.Forms.ToolStripMenuItem MI_HkMode;
         private System.Windows.Forms.ComboBox cb_gamemode;
         private System.Windows.Forms.ToolStripMenuItem 澳洲幸运5模式ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MI_XinJiangShiShiCai;
+        private System.Windows.Forms.ToolStripMenuItem MI_TengXunShiFen;
+        private System.Windows.Forms.ToolStripMenuItem MI_赔付模式;
+        private System.Windows.Forms.ToolStripMenuItem MI_腾讯五分模式;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_SourceType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_Contact;
@@ -1041,5 +1115,8 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn 五;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 港;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 澳;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 腾十;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 腾五;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 疆;
     }
 }

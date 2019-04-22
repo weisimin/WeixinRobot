@@ -23,17 +23,19 @@ namespace WeixinRoboot
 
 
             BS_GV_PicSendSetting.DataSource = SF.InjectWins;
+            BS_GVRandomTalk.DataMember = null;
+           
         }
 
         private void btn_refresh_Click(object sender, EventArgs e)
         {
             BS_GV_PicSendSetting.DataSource = SF.InjectWins;
-
+           
             foreach (Linq.WX_PCSendPicSetting loadset in SF.InjectWins.Where(t => t.Is_Reply == true))
             {
                 if (loadset.GroupOwner != null && loadset.GroupOwner != "")
                 {
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                     QqWindowHelper qh = new QqWindowHelper(new IntPtr(Convert.ToInt32(loadset.WX_UserTMPID)), "", false);
@@ -41,7 +43,7 @@ namespace WeixinRoboot
                 }
 
             }
-
+            BS_GVRandomTalk.DataMember = null;
         }
 
         private void GV_PicSendSetting_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -55,25 +57,7 @@ namespace WeixinRoboot
             {
                 Linq.WX_PCSendPicSetting data = ((Linq.WX_PCSendPicSetting)GV_PicSendSetting.SelectedRows[0].DataBoundItem);
 
-                foreach (var contactitem in bs)
-                {
-                    if (SF.winsdb.WX_PCSendPicSettingRandomTalk.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
-                        && t.WX_UserName == contactitem.WX_UserName
-                        && t.WX_SourceType == contactitem.WX_SourceType
-                        && t.MessageIndex == contactitem.MessageIndex
-                        ) == null)
-                    {
-                        contactitem.aspnet_UserID = data.aspnet_UserID;
-                        contactitem.WX_UserName = data.WX_UserName;
-                        contactitem.WX_SourceType = data.WX_SourceType;
-                        SF.winsdb.WX_PCSendPicSettingRandomTalk.InsertOnSubmit(contactitem);
-
-                    }//数据库不存在的
-
-                 
-
-
-                }//数据循环
+               
             }//有选择才执行新加
 
             foreach (var Injectitem in SF.InjectWins)
@@ -89,6 +73,19 @@ namespace WeixinRoboot
                        rowitem.SetField("User_FiveMinuteMode", Injectitem.FiveMinuteMode);
                        rowitem.SetField("User_HkMode", Injectitem.HkMode);
                        rowitem.SetField("User_AozcMode", Injectitem.AozcMode);
+
+                       rowitem.SetField("User_TengXunShiFen", Injectitem.Tengxunshifen);
+                       rowitem.SetField("User_TengXunWuFen", Injectitem.Tengxunwufen);
+                       rowitem.SetField("User_XinJiangShiShiCai", Injectitem.XinJiangMode);
+
+                       //UserRow.SetField("User_ChongqingMode", false);
+                       //UserRow.SetField("User_FiveMinuteMode", false);
+                       //UserRow.SetField("User_HkMode", false);
+                       //UserRow.SetField("User_AozcMode", false);
+                       //UserRow.SetField("User_TengXunShiFen", false);
+                       //UserRow.SetField("User_TengXunWuFen", true);
+                       //UserRow.SetField("User_XinJiangShiShiCai", false);
+
                    }
                     #endregion 
             }
@@ -102,26 +99,11 @@ namespace WeixinRoboot
         private void GV_PicSendSetting_SelectionChanged(object sender, EventArgs e)
         {
 
-            bs.Clear();
+         
 
-            if (GV_PicSendSetting.SelectedRows.Count > 0)
-            {
-                Linq.WX_PCSendPicSetting data = ((Linq.WX_PCSendPicSetting)GV_PicSendSetting.SelectedRows[0].DataBoundItem);
-                var contancts = SF.winsdb.WX_PCSendPicSettingRandomTalk.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                                 && t.WX_SourceType == data.WX_SourceType
-                                 && t.WX_UserName == data.WX_UserName
-                                 );
-                foreach (var conitem in contancts)
-                {
-
-                  
-                    bs.Add(conitem);
-                }
-            }
-            gv_subcontants.DataSource = bs;
 
         }
-        BindingList<Linq.WX_PCSendPicSettingRandomTalk> bs = new BindingList<Linq.WX_PCSendPicSettingRandomTalk>();
+      
 
         private void gv_subcontants_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
@@ -130,22 +112,38 @@ namespace WeixinRoboot
 
         private void gv_subcontants_Leave(object sender, EventArgs e)
         {
-            if (bs.Count > 0)
-            {
-
+            
 
                 DialogResult dr = MessageBox.Show("数据已更改，保存吗?", "警告", MessageBoxButtons.OKCancel);
                 if (dr == System.Windows.Forms.DialogResult.OK)
                 {
                     btn_save_Click(null, null);
                 }
-            }
+            
 
         }
 
         private void gv_subcontants_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            
+
+        }
+
+        private void MI_SelectFile_Click(object sender, EventArgs e)
+        {
+            FileDialog fd = new OpenFileDialog();
+            DialogResult dr = fd.ShowDialog();
+                if (dr == System.Windows.Forms.DialogResult.OK)
+	{
+        GV_PicSendSetting.CurrentCell.Value = fd.FileName;
+	}
+        }
+
+        private void GV_PicSendSetting_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if  (GV_PicSendSetting.Columns[e.ColumnIndex].Name=="Text1PicPath")
+            {
+                MI_GridMouse.Show(Control.MousePosition.X,Control.MousePosition.Y);
+            }
         }
 
      

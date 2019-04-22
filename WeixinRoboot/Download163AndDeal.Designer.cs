@@ -175,6 +175,8 @@
             // 
             // Dtp_DownloadDate
             // 
+            this.Dtp_DownloadDate.CustomFormat = "yyyy-MM-dd";
+            this.Dtp_DownloadDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.Dtp_DownloadDate.Location = new System.Drawing.Point(52, 246);
             this.Dtp_DownloadDate.Name = "Dtp_DownloadDate";
             this.Dtp_DownloadDate.Size = new System.Drawing.Size(109, 21);
@@ -381,6 +383,7 @@
             // fd_day
             // 
             this.fd_day.CustomFormat = "yyyy-MM-dd";
+            this.fd_day.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.fd_day.Location = new System.Drawing.Point(12, 424);
             this.fd_day.Name = "fd_day";
             this.fd_day.Size = new System.Drawing.Size(101, 21);

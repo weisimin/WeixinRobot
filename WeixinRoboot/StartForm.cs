@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
 
 using System.Drawing.Drawing2D;
 using System.Diagnostics;
-
+using System.IO.Compression;
 
 using System.Configuration;
 
@@ -37,13 +37,14 @@ namespace WeixinRoboot
 
         CefSharp.WinForms.ChromiumWebBrowser wb_pointlog = null;
 
-
+        CefSharp.WinForms.ChromiumWebBrowser wb_vrchongqing = null;
 
         public StartForm()
         {
             InitializeComponent();
 
-
+            //DownLoadTest();
+            //DownLoadTest2();
             RunnerF.StartF = this;
             RunnerF.Show();
 
@@ -61,7 +62,7 @@ namespace WeixinRoboot
             CheckTimeSendThread.SetApartmentState(ApartmentState.STA);
             CheckTimeSendThread.Start();
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -69,9 +70,127 @@ namespace WeixinRoboot
             tb_StartMinute.Text = loadset.BlockStartMinute.HasValue ? loadset.BlockStartMinute.Value.ToString() : "";
             tb_EndHour.Text = loadset.BlockEndHour.HasValue ? loadset.BlockEndHour.Value.ToString() : "";
             tb_EndMinute.Text = loadset.BlockEndMinute.HasValue ? loadset.BlockEndMinute.Value.ToString() : "";
+            tb_NoxPath.Text = loadset.NoxPath;
+            tb_LeidianPath.Text = loadset.LeiDianPath;
+            tb_leidiansharepath.Text = loadset.LeiDianSharePath;
+            tb_noxsharepath.Text = loadset.NoxSharePath;
+            cb_adbnoxmode.Checked = loadset.AdbNoxMode.HasValue ? loadset.AdbNoxMode.Value : false;
+            cb_adbleidianmode.Checked = loadset.AdbLeidianMode.HasValue ? loadset.AdbLeidianMode.Value : false;
+            cb_TwoTreeNotSingle.Checked = loadset.TwoTreeNotSingle.HasValue ? loadset.TwoTreeNotSingle.Value : false;
+
+            tb_liushuiratio.Text = loadset.LiuShuiRatio.HasValue ? loadset.LiuShuiRatio.Value.ToString("0.000") : "0.024";
+            tb_fuliratio.Text = loadset.FuliRatio.HasValue ? loadset.FuliRatio.Value.ToString("0.000") : "0.02";
+
+
+            T_AoZhouCai.Checked = loadset.Thread_AoZhouCai.HasValue ? loadset.Thread_AoZhouCai.Value : true;
+            T_VRChongQingShiShiCai.Checked = loadset.Thread_VRChongqing.HasValue ? loadset.Thread_VRChongqing.Value : true;
+            T_TengXunShiFen.Checked = loadset.Thread_TengXunShiFen.HasValue ? loadset.Thread_TengXunShiFen.Value : true;
+            T_TengXunWuFen.Checked = loadset.Thread_TengXunWuFen.HasValue ? loadset.Thread_TengXunWuFen.Value : true;
+            T_WuFenCai.Checked = loadset.Thread_WuFen.HasValue ? loadset.Thread_WuFen.Value : true;
+            T_XinJiangShiShiCai.Checked = loadset.Thread_XinJiangShiShiCai.HasValue ? loadset.Thread_XinJiangShiShiCai.Value : true;
+            T_chongqingshishicai.Checked = loadset.Thread_ChongQingShiShiCai.HasValue ? loadset.Thread_ChongQingShiShiCai.Value : true;
+
+
+            if (loadset.LeiDianPath == null)
+            {
+                loadset.LeiDianPath = "";
+            }
+            if (loadset.LeiDianSharePath == null)
+            {
+                loadset.LeiDianSharePath = "";
+            } if (loadset.NoxPath == null)
+            {
+                loadset.NoxPath = "";
+            } if (loadset.NoxSharePath == null)
+            {
+                loadset.NoxSharePath = "";
+            }
+            if (loadset.AdbNoxMode == null)
+            {
+                loadset.AdbNoxMode = false; ;
+            }
+            if (loadset.AdbLeidianMode == null)
+            {
+                loadset.AdbLeidianMode = false; ;
+            }
+            if (loadset.TwoTreeNotSingle == null)
+            {
+                loadset.TwoTreeNotSingle = false;
+            }
+            if (loadset.LiuShuiRatio == null)
+            {
+                loadset.LiuShuiRatio = 0.024M;
+            }
+            if (loadset.FuliRatio == null)
+            {
+                loadset.FuliRatio = 0.02M; ;
+            }
+
+            if (loadset.Thread_AoZhouCai == null)
+            {
+                loadset.Thread_AoZhouCai = true; ;
+            }
+
+            if (loadset.Thread_VRChongqing == null)
+            {
+                loadset.Thread_VRChongqing = true; ;
+            }
+            if (loadset.Thread_TengXunShiFen == null)
+            {
+                loadset.Thread_TengXunShiFen = true; ;
+            }
+            if (loadset.Thread_TengXunWuFen == null)
+            {
+                loadset.Thread_TengXunWuFen = true; ;
+            }
+            if (loadset.Thread_WuFen == null)
+            {
+                loadset.Thread_WuFen = true; ;
+            }
+            if (loadset.Thread_XinJiangShiShiCai == null)
+            {
+                loadset.Thread_XinJiangShiShiCai = true; ;
+            }
+            if (loadset.Thread_ChongQingShiShiCai == null)
+            {
+                loadset.Thread_ChongQingShiShiCai = true; ;
+            }
 
 
 
+
+            db.SubmitChanges();
+
+            gv_NoxEnums.DataSource = SourceNoxList;
+            gv_LeidianEnums.DataSource = SourceLeidianList;
+
+            #region 任务管理器
+            Process[] FindNoxList = Process.GetProcessesByName("nox");
+            if (FindNoxList.Length > 0)
+            {
+                tb_NoxPath.Text = FindNoxList[0].MainModule.FileName;
+                tb_NoxPath.Text = tb_NoxPath.Text.Substring(0, tb_NoxPath.Text.LastIndexOf("\\"));
+            }
+
+            Process[] FindLeiDianList = Process.GetProcessesByName("dnplayer");
+            if (FindLeiDianList.Length > 0)
+            {
+                tb_LeidianPath.Text = FindLeiDianList[0].MainModule.FileName;
+                tb_LeidianPath.Text = tb_LeidianPath.Text.Substring(0, tb_LeidianPath.Text.LastIndexOf("\\"));
+            }
+            #endregion
+
+
+
+
+            //if (loadset.AdbNoxMode == true && loadset.NoxPath != "")
+            //{
+            //    CmdRun(loadset.NoxPath, "adb.exe devices");
+            //}
+            //if (loadset.AdbLeidianMode == true && loadset.LeiDianPath != "")
+            //{
+            //    CmdRun(loadset.LeiDianPath, "adb.exe devices");
+            //}
         }
 
         public string _uuid = "";
@@ -237,6 +356,13 @@ namespace WeixinRoboot
 
             gb_pointlog.Controls.Add(wb_pointlog);
 
+
+            wb_vrchongqing = new CefSharp.WinForms.ChromiumWebBrowser("about:blank");
+
+            wb_vrchongqing.Dock = DockStyle.Fill;
+            wb_vrchongqing.Name = "wb_vrchongqing";
+
+            gb_vrchongqingshishicai.Controls.Add(wb_vrchongqing);
 
         }
 
@@ -630,7 +756,9 @@ namespace WeixinRoboot
       , "https://web.yixin.im", "", "GET", cookieyixin, true, true);
                     if (Result == "")
                     {
+                        Thread.Sleep(2000);
                         continue;
+
                     }
                     qrresult_YiXin = JObject.Parse(Result);
 
@@ -657,7 +785,7 @@ namespace WeixinRoboot
 
 
                     }
-                    Thread.Sleep(200);
+                    Thread.Sleep(2000);
                 }
 
             }
@@ -1318,7 +1446,7 @@ namespace WeixinRoboot
                     //}
                     if (eachMessage["cid"].Value<string>() == "1")
                     {
-                        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                         db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                         JObject AddMsgList = eachMessage["r"][1]["body"][0] as JObject;
@@ -1436,7 +1564,7 @@ namespace WeixinRoboot
 
                 Content = Regex.Replace(Content, "@((?!<br/>)[\\s\\S])+<br/>", "", RegexOptions.IgnoreCase);
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -1464,6 +1592,7 @@ namespace WeixinRoboot
                     if (FromContacts.Length != 0)
                     {
                         string FromContactName = FromContacts[0].Field<string>("User_Contact");
+
 
                         var ReceiveTrans = db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                             && t.IsAdmin == true);
@@ -1508,6 +1637,9 @@ namespace WeixinRoboot
                         }
                     }
 
+
+                    //自己发的，对方发的，自己在群发的，对方在群发的
+
                     var contacts = RunnerF.MemberSource.Select("User_ContactTEMPID='" + (FromUserNameTEMPID == MyUserName(SourceType) ? ToUserNameTEMPID : FromUserNameTEMPID) + "'");
                     if (contacts.Count() == 0)
                     {
@@ -1517,22 +1649,23 @@ namespace WeixinRoboot
                     DataRow userr = contacts.First();
                     Linq.WX_UserReply checkreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == userr.Field<string>("User_ContactID") && t.WX_SourceType == userr.Field<string>("User_SourceType"));
 
+
+
+                    DataRow[] FindGroupIsMember = RunnerF.MemberSource.Select("User_ContactTEMPID='" + str_groupwhosay.Replace(":<br/>", "") + "' and User_IsAdmin='True'");
+
+
+
                     #region "如果是自己发出的或会员发出的"
 
-                    DataRow[] findismember = RunnerF.MemberSource.Select("User_ContactTEMPID='" + str_groupwhosay.Replace(":<br/>", "") + "' and User_IsAdmin='True'");
+
 
                     if (FromUserNameTEMPID == MyUserName(SourceType)
-                        || findismember.Count() > 0
+                        || FindGroupIsMember.Count() > 0
                         )
                     {
 
 
-                        var tocontacts = RunnerF.MemberSource.Select("User_ContactTEMPID='" + (findismember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID) + "'");
-                        if (tocontacts.Count() == 0)
-                        {
-                            NetFramework.Console.WriteLine("找不到联系人" + (findismember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
-                            return;
-                        }
+
 
 
 
@@ -1540,7 +1673,7 @@ namespace WeixinRoboot
                         try
                         {
                             //执行会员命令
-                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Content, tocontacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Content, contacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                             string[] Splits = Content.Replace("，", ",").Replace("，", ",")
                                        .Replace(".", ",").Replace("。", ",").Replace("。", ",")
                                        .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -1550,7 +1683,7 @@ namespace WeixinRoboot
                                 foreach (var Splititem in Splits)
                                 {
                                     Times.AddMilliseconds(10);
-                                    String TmpMessage = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Splititem, tocontacts[0], Times);
+                                    String TmpMessage = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Splititem, contacts[0], Times);
 
                                     if (TmpMessage != "")
                                     {
@@ -1563,10 +1696,10 @@ namespace WeixinRoboot
 
 
                             //执行模拟下单,模拟下单内部切分
-                            if (tocontacts[0].Field<Boolean?>("User_IsReply") == true)
+                            if (contacts[0].Field<Boolean?>("User_IsReply") == true)
                             {
 
-                                String TmpMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, tocontacts[0], "人工", true);
+                                String TmpMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, contacts[0], "人工", true);
                                 if (TmpMessage != "")
                                 {
                                     MyOutResult = TmpMessage;
@@ -1576,8 +1709,12 @@ namespace WeixinRoboot
                             //全部执行玩才输出
                             if (MyOutResult != "")
                             {
-                                SendRobotContent(MyOutResult, tocontacts[0].Field<string>("User_ContactTEMPID")
-                                    , tocontacts[0].Field<string>("User_SourceType")
+                                string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                                var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
+
+                                var NoticeContacts =
+                                SendRobotContent(MyOutResult, NoticeList
+                                    , contacts[0].Field<string>("User_SourceType")
                                     );
 
                             }
@@ -1669,7 +1806,7 @@ namespace WeixinRoboot
                         #region "发图"
                         if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4")
                         {
-                            SendChongqingResult(GetMode(tocontacts.ToArray()), Content, (findismember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
+                            SendChongqingResult(GetMode(contacts.ToArray()), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
                         }
 
                         #endregion
@@ -1848,7 +1985,7 @@ namespace WeixinRoboot
 
 
 
-                    #region "检查是否启用自动跟踪"
+                    #region "玩家回复检查是否启用自动跟踪"
 
                     if (checkreply.IsReply == true)
                     {
@@ -1875,8 +2012,10 @@ namespace WeixinRoboot
                         }
                         if (OutMessage != "")
                         {
+                            string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                            var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
 
-                            SendRobotContent(OutMessage, userr.Field<string>("User_ContactTEMPID")
+                            SendRobotContent(OutMessage, NoticeList
                                  , userr.Field<string>("User_SourceType")
 
                                 );
@@ -1970,6 +2109,75 @@ namespace WeixinRoboot
 
         JObject YiXin_MyInfo = null;
 
+        private string CmdRun(string Path, string ExeAndParam)
+        {
+
+
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            p.StartInfo.FileName = "cmd.exe";
+            p.StartInfo.UseShellExecute = false;    //是false否使用操作系统shell启动
+            p.StartInfo.RedirectStandardInput = true;//接受来自调用程序的输入信息
+            p.StartInfo.RedirectStandardOutput = true;//由调用程序获取输出信息
+            p.StartInfo.RedirectStandardError = false;//重定向标准错误输出
+            p.StartInfo.CreateNoWindow = true;//不显示程序窗口
+            p.StartInfo.Verb = "RunAs";
+            p.Start();//启动程序
+
+
+
+
+
+            //StreamWrite(p.StandardInput.BaseStream,"chcp 65001"+Environment.NewLine,Encoding.UTF8);
+            StreamWrite(p.StandardInput.BaseStream, "cd " + Path + Environment.NewLine, Encoding.GetEncoding("GB2312"));
+            if (Path.Length > 2)
+            {
+                StreamWrite(p.StandardInput.BaseStream, Path.Substring(0, 2) + Environment.NewLine, Encoding.GetEncoding("GB2312"));
+            }
+
+
+            StreamWrite(p.StandardInput.BaseStream, ExeAndParam + Environment.NewLine, Encoding.GetEncoding("GB2312"));
+            //向cmd窗口发送输入信息
+            //string str = Console.ReadLine();
+            StreamWrite(p.StandardInput.BaseStream, "exit" + Environment.NewLine, Encoding.GetEncoding("GB2312"));
+
+
+
+            //p.StandardInput.WriteLine("exit");
+            //向标准输入写入要执行的命令。这里使用&是批处理命令的符号，表示前面一个命令不管是否执行成功都执行后面(exit)命令，如果不执行exit命令，后面调用ReadToEnd()方法会假死
+            //同类的符号还有&&和||前者表示必须前一个命令执行成功才会执行后面的命令，后者表示必须前一个命令执行失败才会执行后面的命令
+
+
+
+            //获取cmd窗口的输出信息
+
+
+            StreamReader reader = new StreamReader(p.StandardOutput.BaseStream, Encoding.GetEncoding("GB2312"));
+
+            String Outputs = reader.ReadToEnd();
+
+            p.WaitForExit();//等待程序执行完退出进程
+            p.Close();
+            NetFramework.Console.WriteLine(Outputs);
+            return Outputs;
+        }
+
+        private void StreamWrite(Stream BaseStream, string Data, Encoding codee)
+        {
+            byte[] bytes = codee.GetBytes(Data);
+            BaseStream.Write(bytes, 0, bytes.Length);
+            BaseStream.Flush();
+        }
+
+        public string SendRobotContent(string Content, DataRow[] ToUsers, string WX_SourceType)
+        {
+            string Result = "";
+            foreach (DataRow item in ToUsers)
+            {
+                Result = SendRobotContent(Content, item.Field<string>("User_ContactTEMPID"), WX_SourceType);
+            }
+            return Result;
+        }
+
         public string SendRobotContent(string Content, string TempToUserID, string WX_SourceType)
         {
 
@@ -1981,7 +2189,19 @@ namespace WeixinRoboot
                 case "微":
                     return SendWXContent(Content, TempToUserID);
                 default:
-                    if (WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.PCQ))
+                    //dnconsole.exe action --name *** --key call.input --value ***
+                    //NoxConsole.exe action –name *** –key call.input –value ***
+                    Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == TempToUserID);
+
+                    //if (findenum != null && cb_adbnoxmode.Checked == true && WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                    //{
+                    //    CmdRun(tb_Leidian.Text, " dnconsole.exe " + "–name " + findenum.WX_UserName + " –key call.input –value " + Content);
+                    //}
+                    //if (findenum != null && cb_adbnoxmode.Checked == true && WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
+                    //{
+                    //    CmdRun(tb_NoxPath.Text, " NoxConsole.exe " + "–name " + findenum.WX_UserName + " –key call.input –value " + Content);
+                    //}
+                    //else if (WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.PCQ))
                     {
                         try
                         {
@@ -2004,7 +2224,7 @@ namespace WeixinRoboot
 
         public string SendRobotTxtFile(string TXTFile, string TempToUserID, string WX_SourceType)
         {
-            FileStream fs = new FileStream(TXTFile, FileMode.Open);
+            FileStream fs = new FileStream(TXTFile, FileMode.OpenOrCreate);
             byte[] bytes = new byte[fs.Length];
             fs.Read(bytes, 0, Convert.ToInt32(fs.Length));
             string Content = Encoding.UTF8.GetString(bytes);
@@ -2126,7 +2346,7 @@ namespace WeixinRoboot
                 string Result4 = NetFramework.Util_WEB.OpenUrl(CheckUrl4
                          , "https://" + webhost + "/", body4.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.GetEncoding("UTF-8"), true);
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
@@ -2194,7 +2414,7 @@ namespace WeixinRoboot
                 string Result4 = NetFramework.Util_WEB.OpenUrl(CheckUrl4
                          , "https://" + webhost + "/", body4.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.GetEncoding("UTF-8"), true);
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
@@ -2304,7 +2524,7 @@ namespace WeixinRoboot
                   , "https://" + webhost + "/", body2.ToString().Replace(Environment.NewLine, "").Replace(" ", ""), "POST", cookie, Encoding.UTF8, false);
 
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
@@ -2551,7 +2771,7 @@ namespace WeixinRoboot
 
                 // }
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
@@ -2620,7 +2840,7 @@ namespace WeixinRoboot
 
 
             NetFramework.Console.WriteLine("正在开奖" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             Linq.aspnet_UsersNewGameResultSend checkus = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -2695,7 +2915,13 @@ namespace WeixinRoboot
                         }
                         else if (notice_item.WX_SourceType == "微" || notice_item.WX_SourceType == "易")
                         {
-                            String ContentResult = SendRobotContent("已开奖，可继续下注，余" + (ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : ""), TEMPUserName, notice_item.WX_SourceType);
+                            foreach (var noticeitem in Rows)
+                            {
+                                string noticeTEMPUserName = noticeitem.Field<string>("User_ContactTEMPID");
+                                String ContentResult = SendRobotContent("已开奖，可继续下注，余" + (ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : ""), noticeTEMPUserName, notice_item.WX_SourceType);
+
+                            }
+
                         }
                     }
                     #endregion
@@ -2828,7 +3054,7 @@ namespace WeixinRoboot
                 Proccesing = true;
                 string NewContent = ReceiveContent;
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.WX_UserReplyLog log = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -2932,6 +3158,16 @@ namespace WeixinRoboot
                     {
                         subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
                     }
+                    else if (userr.Field<Boolean>("User_XinJiangShiShiCai") == true)
+                    {
+                        subm = Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩;
+                    }
+                    else if (userr.Field<Boolean>("User_TengXunShiFen") == true)
+                    {
+                        subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
+                    }
+
+
                     if (NewContent.StartsWith("六"))
                     {
                         gm = Linq.ProgramLogic.GameMode.六合彩;
@@ -3315,7 +3551,7 @@ namespace WeixinRoboot
                 }
             }//lock代码
             //string Message = "";
-            //Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            //Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             //db.Logic_WX_UserReplyLog_Create(ReceiveContent, userr.Field<string>("User_ContactID"), userr.Field<string>("User_SourceType"), GlobalParam.Key, ReceiveTime, ref Message, SourceType);
@@ -3359,7 +3595,7 @@ namespace WeixinRoboot
                 //CheckUrl2 = CheckUrl2.Replace(webhost, "wechat.qq.com");
                 //webhost = "wechat.qq.com";
 
-                string Result2 = NetFramework.Util_WEB.OpenUrl(CheckUrl2 + "&fun=new&version=v2"
+                string Result2 = NetFramework.Util_WEB.OpenUrl(CheckUrl2
                , "", "", "GET", cookie, false);
 
                 newridata.LoadXml(Result2);
@@ -3542,132 +3778,43 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult(false);
-                    System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(500);
                 }
-                catch (Exception)
+                catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(500);
                 }
 
 
             }
         }
-        private void DownloadResult(bool IsOpwnNow)
+        private void DownloadResult(bool IsOpwnNow, Boolean FullDowbload = true)
         {
-            Boolean Result = false;
-            Boolean TmpCheck = false;
+
+
+
             try
             {
+
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
                 try
                 {
-                    DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today, false, IsOpwnNow, true);
-                    Result = Result || TmpCheck;
-                    if (TmpCheck == true)
+                    if (loadset.Thread_AoZhouCai == true)
                     {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-                    }
-                }
-                catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+                        Boolean TmpCheck = false;
+                        //DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today, false, IsOpwnNow, true, FullDowbload);
 
+                        DownLoad163CaiPiaoV_aozc888888(ref TmpCheck, DateTime.Today, false, IsOpwnNow, true, FullDowbload);
 
-                try
-                {
-
-
-                    DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
-                    Result = Result || TmpCheck;
-                    if (TmpCheck == true)
-                    {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-                    }
+                        DownLoad163CaiPiaoV_aozcAPI168(ref TmpCheck, DateTime.Today, false, IsOpwnNow, true, FullDowbload);
 
 
 
-
-                }
-                catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-                try
-                {
-                    DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today.AddDays(-1), false, IsOpwnNow);
-                    Result = Result || TmpCheck;
-                    if (TmpCheck == true)
-                    {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-                    }
-                }
-                catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-                try
-                {
-                    DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
-                    Result = Result || TmpCheck;
-                    if (TmpCheck == true)
-                    {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-                    }
-                }
-                catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-
-                try
-                {
-
-
-
-
-                    DownLoad163CaiPiaoV_xianggangshishicai(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
-                    Result = Result || TmpCheck;
-                    if (TmpCheck == true)
-                    {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-                    }
-                    DownLoad163CaiPiaoV_xianggangshishicai(ref TmpCheck, DateTime.Today.AddDays(-1), false, IsOpwnNow);
-                    Result = Result || TmpCheck;
-                    if (TmpCheck == true)
-                    {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-                    }
-                }
-                catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-                try
-                {
-
-
-                    DownLoad163CaiPiaoV_wufencai(ref TmpCheck, DateTime.Now, false, IsOpwnNow);
-                    Result = Result || TmpCheck;
-                    if (TmpCheck == true)
-                    {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-                    }
-                    DownLoad163CaiPiaoV_wufencai(ref TmpCheck, DateTime.Now.AddDays(-1), false, IsOpwnNow);
-                    Result = Result || TmpCheck;
-                    if (TmpCheck == true)
-                    {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-                    }
-                }
-                catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-
-                try
-                {
-
-
-                    DownLoad163CaiPiaoV_1395p(ref TmpCheck, DateTime.Now, false, IsOpwnNow);
-                    Result = Result || TmpCheck;
-                    if (TmpCheck == true)
-                    {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
                     }
                 }
                 catch (Exception AnyError)
@@ -3676,18 +3823,196 @@ namespace WeixinRoboot
 
                 //try
                 //{
-                //    Boolean SendImage = false;
 
-                //    DownLoad163CaiPiaoV_13322(ref SendImage, DateTime.Now, false);
-                //    if (SendImage == true)
+
+                //    DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+                //    Result = Result || TmpCheck;
+                //    if (TmpCheck == true)
                 //    {
-                //        DealGameLogAndNotice();
-                //        SendChongqingResult();
+                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
                 //    }
+
+
+
 
                 //}
                 //catch (Exception AnyError)
                 //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+                //try
+                //{
+                //    DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today.AddDays(-1), false, IsOpwnNow);
+                //    Result = Result || TmpCheck;
+                //    if (TmpCheck == true)
+                //    {
+                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+                //    }
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+                //try
+                //{
+                //    DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
+                //    Result = Result || TmpCheck;
+                //    if (TmpCheck == true)
+                //    {
+                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+                //    }
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+                try
+                {
+                    if (loadset.Thread_VRChongqing == true)
+                    {
+                        Boolean TmpCheck = false;
+
+                        {
+                            try
+                            {
+                                DownLoad163CaiPiaoV_vrchongqingcai(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow, FullDowbload);
+
+                                DownLoad163CaiPiaoV_vrchongqingcaislimWeb(ref TmpCheck, false);
+
+                            }
+                            catch (Exception AnyError)
+                            {
+                                NetFramework.Console.WriteLine(AnyError.Message);
+                                DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow, FullDowbload);
+                            }
+                        }
+
+
+
+                        //DownLoadTest();
+                    }
+
+                }
+                catch (Exception AnyError)
+                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+
+
+                try
+                {
+                    if (loadset.Thread_TengXunShiFen == true)
+                    {
+                        Boolean TmpCheck = false;
+                        DownLoad163CaiPiaoV_tengxunshifen(ref TmpCheck, DateTime.Today, false, IsOpwnNow, FullDowbload);
+
+                    }
+                }
+                catch (Exception AnyError)
+                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+                try
+                {
+                    if (loadset.Thread_TengXunWuFen == true)
+                    {
+                        Boolean TmpCheck = false;
+                        try
+                        {
+                        DownLoad163CaiPiaoV_tengxunwufenbyhuayu(ref TmpCheck, DateTime.Today, false, IsOpwnNow, FullDowbload);
+
+                        }
+                        catch (Exception)
+                        {
+                            
+                          
+                        }
+
+
+                        DownLoad163CaiPiaoV_tengxunwufen(ref TmpCheck, DateTime.Today, false, IsOpwnNow, FullDowbload);
+
+                                           }
+                }
+                catch (Exception AnyError)
+                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+
+                //try
+                //{
+
+
+
+
+                //    DownLoad163CaiPiaoV_xianggangshishicai(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+                //    Result = Result || TmpCheck;
+                //    if (TmpCheck == true)
+                //    {
+                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+                //    }
+                //    DownLoad163CaiPiaoV_xianggangshishicai(ref TmpCheck, DateTime.Today.AddDays(-1), false, IsOpwnNow);
+                //    Result = Result || TmpCheck;
+                //    if (TmpCheck == true)
+                //    {
+                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+                //    }
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+                try
+                {
+
+                    if (loadset.Thread_WuFen == true)
+                    {
+                        bool TmpCheck = false;
+
+                        DownLoad163CaiPiaoV_wufencai(ref TmpCheck, DateTime.Now, false, IsOpwnNow, FullDowbload);
+
+
+                        DownLoad163CaiPiaoV_wufencai(ref TmpCheck, DateTime.Now.AddDays(-1), false, IsOpwnNow, FullDowbload);
+
+
+                    }
+                }
+                catch (Exception AnyError)
+                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+
+                //try
+                //{
+
+
+                //    DownLoad163CaiPiaoV_1395p(ref TmpCheck, DateTime.Now, false, IsOpwnNow);
+                //    Result = Result || TmpCheck;
+                //    if (TmpCheck == true)
+                //    {
+                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                //    }
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+
+                try
+                {
+
+                    if (loadset.Thread_ChongQingShiShiCai == true)
+                    {
+                        Boolean TmpCheck = false;
+
+                        DownLoad163CaiPiaoV_13322(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+
+
+
+
+                        DownLoad163CaiPiaoV_13322(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+                        //DownLoad163CaiPiaoV_kaijiangwang1332Fast(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+
+
+
+
+
+
+                    }
+
+                }
+                catch (Exception AnyError)
+                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
 
 
                 //try
@@ -3735,35 +4060,59 @@ namespace WeixinRoboot
                 //catch (Exception AnyError)
                 //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
 
-
                 try
                 {
-
-                    DownLoad163CaiPiaoV_kaijiangwang(ref TmpCheck, DateTime.Now, false, IsOpwnNow);
-                    Result = Result || TmpCheck;
-
-                    if (TmpCheck == true)
+                    if (loadset.Thread_ChongQingShiShiCai == true)
                     {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                    }
+                        Boolean TmpCheck = false;
+                        DownLoad163CaiPiaoV_kaijiangwang(ref TmpCheck, DateTime.Now.AddDays(-1), false, IsOpwnNow, true, FullDowbload);
 
+
+                    }
+                }
+                catch (Exception AnyError)
+                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+                try
+                {
+                    Boolean TmpCheck = false;
+                    if (loadset.Thread_XinJiangShiShiCai == true)
+                    {
+                        DownLoad163CaiPiaoV_xinjiangshishicai(ref TmpCheck, DateTime.Now.AddDays(-1), false, IsOpwnNow, true, FullDowbload);
+
+
+                    }
                 }
                 catch (Exception AnyError)
                 { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
 
-                try
-                {
+                //try
+                //{
 
-                    DownLoad163CaiPiaoV_kaijiangwang(ref TmpCheck, DateTime.Now.AddDays(-1), false, IsOpwnNow);
-                    Result = Result || TmpCheck;
-                    if (TmpCheck == true)
-                    {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                    }
+                //    DownLoad163CaiPiaoV_kaijiangwang(ref TmpCheck, DateTime.Now, false, IsOpwnNow);
+                //    Result = Result || TmpCheck;
 
-                }
-                catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+                //    if (TmpCheck == true)
+                //    {
+                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                //    }
+
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+                //try
+                //{
+
+                //    DownLoad163CaiPiaoV_kaijiangwang(ref TmpCheck, DateTime.Now.AddDays(-1), false, IsOpwnNow);
+                //    Result = Result || TmpCheck;
+                //    if (TmpCheck == true)
+                //    {
+                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                //    }
+
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
 
                 //try
                 //{
@@ -3946,7 +4295,7 @@ namespace WeixinRoboot
 
             #region "有新的就通知,以及处理结果"
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             Linq.aspnet_UsersNewGameResultSend myconfig = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -4130,7 +4479,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiao_V163(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4157,7 +4506,7 @@ namespace WeixinRoboot
             //<td class="award-winNum">
             Regex FindPeriod = new Regex("<td class=\"start\"((?!</td>)[\\S\\s])+</td>", RegexOptions.IgnoreCase);
 
-
+            DateTime PreTime = DateTime.Now;
             foreach (Match item in FindPeriod.Matches(str_json))
             {
                 Regex FindWin = new Regex("data-win-number='((?!')[\\S\\s])+'", RegexOptions.IgnoreCase);
@@ -4188,7 +4537,7 @@ namespace WeixinRoboot
 
                 }//已开奖励
             }//每行处理
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("163下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
 
@@ -4198,15 +4547,13 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             }
-
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
 
 
             #endregion
@@ -4219,7 +4566,7 @@ namespace WeixinRoboot
             NewResult = false;
             //http://m.zhcw.com/kaijiang/place_info.jsp?id=572
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4239,7 +4586,7 @@ namespace WeixinRoboot
 
 
 
-
+            DateTime PreTime = DateTime.Now;
 
             JArray Periods = JObject.Parse(Result)["dataList"] as JArray;
 
@@ -4261,7 +4608,7 @@ namespace WeixinRoboot
                 //}
 
             }//每行处理
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("中彩网下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -4270,13 +4617,13 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             }
             #endregion
 
@@ -4285,7 +4632,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_500(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4311,7 +4658,7 @@ namespace WeixinRoboot
             //<td class="start" data-win-number="5 3 9 7 3" data-period="180404002">
             //<td class="award-winNum">
             Regex FindPeriod = new Regex("<ul class=\"l-flex-row\">((?!</ul>)[\\S\\s])+</ul>", RegexOptions.IgnoreCase);
-
+            DateTime PreTime = DateTime.Now;
 
             foreach (Match item in FindPeriod.Matches(str_json))
             {
@@ -4350,7 +4697,7 @@ namespace WeixinRoboot
 
                 }//已开奖励
             }//每行处理
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("500彩票网下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -4359,27 +4706,1031 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             }
-
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
 
 
             #endregion
 
         }
+        //http://pay4.hbcchy.com/lotterytrend/getsscchart
+        public void DownLoad163CaiPiaoV_tengxunshifen(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, bool FullDowbload)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
+            #region 下载彩票结果
+            //http://pay4.hbcchy.com/lotterytrend/getsscchart
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+).Count();
+
+
+
+
+            string URL = "http://pay4.hbcchy.com/lotterytrend/getsscchart";
+
+            NetFramework.Console.WriteLine("正在刷新腾讯十分网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "http://pay4.hbcchy.com/lotterytrend/chart/19/", "id=19&pnum=30", "POST", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8");
+            DateTime PreTime = DateTime.Now;
+            JObject jresult = JObject.Parse(Result);
+
+
+
+            JArray periods = (JArray)jresult["data"];
+            Int32 FullCount = 0;
+            foreach (JToken trdata in periods.Reverse())
+            {
+
+                string Oldstr_Win = NetFramework.Util_WEB.CleanHtml(
+                    ((JArray)trdata)[1].ToString()
+                    );
+
+                string str_dataperiod = NetFramework.Util_WEB.CleanHtml(
+                     ((JArray)trdata)[0].ToString()
+
+                    );
+                Oldstr_Win = Oldstr_Win.Replace(Environment.NewLine, ",");
+                string str_Win = "";
+                if (Oldstr_Win.Length >= 5)
+                {
+                    str_Win = Oldstr_Win.Substring(0, 1) + ","
+                        + Oldstr_Win.Substring(1, 1) + ","
+                         + Oldstr_Win.Substring(2, 1) + ","
+                          + Oldstr_Win.Substring(3, 1) + ","
+                           + Oldstr_Win.Substring(4, 1) + ",";
+                }
+                str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
+                str_Win = str_Win.Substring(0, 9);
+                //str_dataperiod = str_dataperiod.Substring(2, 9);
+                bool Newdb = false;
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+                if (Newdb == false && !FullDowbload)
+                {
+                    FullCount += 1;
+                    if (FullCount > 30)
+                    {
+                        break;
+                    }
+                    break;
+                }
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("腾讯十分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+
+            }
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+            }
+
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+        //https://api.honze88.com/api/v1/lotteries/17/issuos
+        public void DownLoad163CaiPiaoV_tengxunwufenbyhuayu(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean FullDowbload)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //https://api.honze88.com/api/v1/lotteries/17/issuos
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+).Count();
+
+
+
+            string URL = "https://api.honze88.com/api/v1/lotteries/17/issuos";
+            //string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=tx5fc";
+
+            NetFramework.Console.WriteLine("正在刷新腾讯五分网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
+                   , "JWT " + HuaYuToken);
+            //JObject jr = JObject.Parse(Result);
+            DateTime PreTime = DateTime.Now;
+            //JObject jresult = JObject.Parse(Result);
+
+
+            Int32 FullCount = 0;
+            JArray periods = JArray.Parse(Result);
+            foreach (JToken trdata in periods)
+            {
+
+                string str_Win = trdata["opencode"].ToString();
+                if (str_Win=="")
+                {
+                    continue;
+                }
+                string str_dataperiod = trdata["issuo"].ToString();
+
+                str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
+                //str_Win = str_Win.Substring(0, 9);
+
+                string GameTime = trdata["openedAt"].ToString();
+                str_dataperiod = str_dataperiod.Replace("-","");
+                //20190328286
+                str_dataperiod = str_dataperiod.Substring(0, 8) + str_dataperiod.Substring(9, 3);
+                bool Newdb = false;
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.腾讯五分, GameTime);
+                if (Newdb == false && !FullDowbload)
+                {
+
+                    FullCount += 1;
+                    if (FullCount > 30)
+                    {
+                        break;
+                    }
+                    break;
+                }
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("腾讯五分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+
+            }
+
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+            }
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+       
+        public void DownLoad163CaiPiaoV_tengxunwufen(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean FullDowbload)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://pay4.hbcchy.com/lotterytrend/getsscchart
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+).Count();
+
+
+
+            string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCai.do?issue=&lotCode=tx5fc";
+            //string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=tx5fc";
+
+            NetFramework.Console.WriteLine("正在刷新腾讯五分网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8");
+            DateTime PreTime = DateTime.Now;
+            JObject jresult = JObject.Parse(Result);
+
+
+            Int32 FullCount = 0;
+            JArray periods = (JArray)jresult["result"]["data"];
+            foreach (JToken trdata in periods)
+            {
+
+                string str_Win = trdata["preDrawCode"].ToString();
+
+                string str_dataperiod = trdata["preDrawIssue"].ToString();
+
+                str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
+                str_Win = str_Win.Substring(0, 9);
+
+                string GameTime = trdata["preDrawTime"].ToString();
+                //str_dataperiod = str_dataperiod.Substring(2, 9);
+                bool Newdb = false;
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.腾讯五分, GameTime);
+                if (Newdb == false && !FullDowbload)
+                {
+
+                    FullCount += 1;
+                    if (FullCount > 30)
+                    {
+                        break;
+                    }
+                    break;
+                }
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("腾讯五分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+
+            }
+
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+            }
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+        //http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCai.do?issue=&lotCode=tx5fc
+        public void DownLoad163CaiPiaoV_beijingsaichepk10(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://pay4.hbcchy.com/lotterytrend/getsscchart
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+).Count();
+
+
+
+
+            string URL = "http://pay4.hbcchy.com/lotterytrend/getsscchart";
+
+            NetFramework.Console.WriteLine("正在刷新腾讯十分网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "http://pay4.hbcchy.com/lotterytrend/chart/19/", "id=19&pnum=30", "POST", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8");
+            DateTime PreTime = DateTime.Now;
+            JObject jresult = JObject.Parse(Result);
+
+
+
+            JArray periods = (JArray)jresult["data"];
+            foreach (JToken trdata in periods)
+            {
+
+                string Oldstr_Win = NetFramework.Util_WEB.CleanHtml(
+                    ((JArray)trdata)[1].ToString()
+                    );
+
+                string str_dataperiod = NetFramework.Util_WEB.CleanHtml(
+                     ((JArray)trdata)[0].ToString()
+
+                    );
+                Oldstr_Win = Oldstr_Win.Replace(Environment.NewLine, ",");
+                string str_Win = "";
+                if (Oldstr_Win.Length >= 5)
+                {
+                    str_Win = Oldstr_Win.Substring(0, 1) + ","
+                        + Oldstr_Win.Substring(1, 1) + ","
+                         + Oldstr_Win.Substring(2, 1) + ","
+                          + Oldstr_Win.Substring(3, 1) + ","
+                           + Oldstr_Win.Substring(4, 1) + ",";
+                }
+                str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
+                str_Win = str_Win.Substring(0, 9);
+                //str_dataperiod = str_dataperiod.Substring(2, 9);
+                bool Newdb = false;
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+                //if (Newdb || IsOpenNow)
+                //{
+
+                //}
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("腾讯十分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+
+            }
+
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+            }
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
+
+        CookieCollection cc_vrchongqing = new CookieCollection();
+        public void DownLoad163CaiPiaoV_vrchongqingcai(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean FullDowbload)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://pay4.hbcchy.com/lotterytrend/getsscchart
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t =>
+                t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+).Count();
+
+
+
+
+            string URL = "http://numbers.videoracing.com/open_13_2.aspx";
+
+            NetFramework.Console.WriteLine("正在刷新VR重庆时时彩网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8");
+
+            // "<div class="css_table">"
+
+            DateTime PreTime = DateTime.Now;
+
+            Regex Finddiv = new Regex("<div class=\"css_table\"[^>]*>((?<mm><div[^>]*>)+|(?<-mm></div>)|[\\s\\S])*?(?(mm)(?!))</div>", RegexOptions.IgnoreCase);
+
+            Regex FindRow = new Regex("<div class=\"css_tr[^>]*>((?<mm><div[^>]*>)+|(?<-mm></div>)|[\\s\\S])*?(?(mm)(?!))</div>", RegexOptions.IgnoreCase);
+
+            Regex Findcell = new Regex("<div class=\"css_td[^>]*>((?<mm><div[^>]*>)+|(?<-mm></div>)|[\\s\\S])*?(?(mm)(?!))</div>", RegexOptions.IgnoreCase);
+            bool Newdb = false;
+            Int32 FullCount = 0;
+            MatchCollection Divs = Finddiv.Matches(Result);
+            foreach (Match divdata in Divs)
+            {
+                MatchCollection trs = FindRow.Matches(divdata.Value.Replace("'", "\""));
+                foreach (Match tritem in trs)
+                #region 每期处理
+                {
+                    MatchCollection tds = Findcell.Matches(tritem.Value);
+                    if (NetFramework.Util_WEB.CleanHtml(
+                         tds[0].Value
+
+                        ) == "开奖日期")
+                    {
+                        continue;
+                    }
+                    string Oldstr_Win =
+                         NetFramework.Util_WEB.CleanHtml(
+                         tds[2].Value
+                        )// + ","
+                        +
+                         NetFramework.Util_WEB.CleanHtml(
+                         tds[3].Value
+
+                        ) //+ ","
+                         +
+                         NetFramework.Util_WEB.CleanHtml(
+                         tds[4].Value
+
+                        ) //+ ","
+                         +
+                         NetFramework.Util_WEB.CleanHtml(
+                         tds[5].Value
+
+                        ) //+ ","
+                         +
+                         NetFramework.Util_WEB.CleanHtml(
+                         tds[6].Value
+
+                        );
+
+
+                    string str_dataperiod =
+                         NetFramework.Util_WEB.CleanHtml(
+                         tds[0].Value
+
+                        ).Replace("/", "") +
+                        NetFramework.Util_WEB.CleanHtml(
+                         tds[1].Value
+
+                        );
+                    Oldstr_Win = Oldstr_Win.Replace(Environment.NewLine, ",");
+                    string str_Win = Oldstr_Win;
+                    //if (Oldstr_Win.Length >= 5)
+                    //{
+                    //    str_Win = Oldstr_Win.Substring(0, 1) + ","
+                    //        + Oldstr_Win.Substring(1, 1) + ","
+                    //         + Oldstr_Win.Substring(2, 1) + ","
+                    //          + Oldstr_Win.Substring(3, 1) + ","
+                    //           + Oldstr_Win.Substring(4, 1) + ",";
+                    //}
+                    //str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
+                    ////str_Win = str_Win.Substring(0, 9);
+                    //str_dataperiod = str_dataperiod.Substring(2, 9);
+
+                    Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+                    if (Newdb == false && !FullDowbload)
+                    {
+
+                        FullCount += 1;
+                        if (FullCount > 30)
+                        {
+                            break;
+                        }
+                        break;
+                    }
+                }
+                #endregion
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+            }
+
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+            }
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+        public void DownLoad163CaiPiaoV_vrchongqingcaislim(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean FullDowbload)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://pay4.hbcchy.com/lotterytrend/getsscchart
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+).Count();
+
+
+
+
+            string URL = "http://numbers.videoracing.com/open_13_1.aspx";
+
+            NetFramework.Console.WriteLine("正在刷新VR重庆时时彩网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8");
+
+            // "<div class="css_table">"
+
+            DateTime PreTime = DateTime.Now;
+
+            Regex FindPeriod = new Regex("<div class=\"lottimenum\"[^>]*>((?<mm><div[^>]*>)+|(?<-mm></div>)|[\\s\\S])*?(?(mm)(?!))</div>", RegexOptions.IgnoreCase);
+
+            Regex FindRow = new Regex("<div class=\"mainnums\"((?<mm><div[^>]*>)+|(?<-mm></div>)|[\\s\\S])*?(?(mm)(?!))</div>", RegexOptions.IgnoreCase);
+
+            Regex Findli = new Regex("<li((?<mm><li[^>]*>)+|(?<-mm></li>)|[\\s\\S])*?(?(mm)(?!))</li>", RegexOptions.IgnoreCase);
+
+
+            Match Divs = FindPeriod.Match(Result);
+            Int32 FullCount = 0;
+            {
+                Match trs = FindRow.Match(Result);
+                Match lidata = Findli.Match(trs.Value);
+                #region 每期处理
+                {
+
+
+                    string Oldstr_Win =
+                         NetFramework.Util_WEB.CleanHtml(
+                        trs.Value
+                        );
+                    Oldstr_Win = Oldstr_Win.Replace("当期奖号", "").Replace(Environment.NewLine, "").Replace("\t", "").Replace(" ", "");
+
+                    string str_dataperiod =
+                         NetFramework.Util_WEB.CleanHtml(
+                        Divs.Value
+
+                        );
+                    str_dataperiod = str_dataperiod.Replace("第", "").Replace("期号码", "");
+                    Oldstr_Win = Oldstr_Win.Replace(Environment.NewLine, ",");
+                    string str_Win = Oldstr_Win;
+                    //if (Oldstr_Win.Length >= 5)
+                    //{
+                    //    str_Win = Oldstr_Win.Substring(0, 1) + ","
+                    //        + Oldstr_Win.Substring(1, 1) + ","
+                    //         + Oldstr_Win.Substring(2, 1) + ","
+                    //          + Oldstr_Win.Substring(3, 1) + ","
+                    //           + Oldstr_Win.Substring(4, 1) + ",";
+                    //}
+                    //str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
+                    ////str_Win = str_Win.Substring(0, 9);
+                    //str_dataperiod = str_dataperiod.Substring(2, 9);
+                    bool Newdb = false;
+                    Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+                    if (Newdb == false && !FullDowbload)
+                    {
+
+                        FullCount += 1;
+                        if (FullCount > 30)
+                        {
+                            //break;
+                        }
+                        //break;
+                    }
+                }
+                #endregion
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+            }
+
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+            }
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
+
+        //      //WebRequest LoginPage = HttpWebRequest.Create("https://api.honze88.com/api/v1/lotteries/4/issuos");
+        //    "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQxMjA4LCJuYW1lIjoieGwxMjM0NTYiLCJpYXQiOjE1NTM5MTkyODYsImV4cCI6MTU1NTEyODg4Nn0.hM6rvGXgkIPZjqef18hvld550zYLzSWX0nyTX6f9AII"
+        CookieCollection appcc = new CookieCollection();
+        public void DownLoad163CaiPiaoV_vrchongqingcaislimapp(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean FullDowbload)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://pay4.hbcchy.com/lotterytrend/getsscchart
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+).Count();
+
+            // http://huy.vrbetapi.com//Account/LoginValidate?id=HUY&version=1.0&data=lVrOheZew4NAFwFkJmkk6HTItGzRs4S1jzGjGJy%2BSlwUkFsZeDyb%2BtJQGJrYcktDAcsWPtsUvFj2q4JVMzlOmh4IB7Buvhxjty1JuwpgUW1GGh1ug2a9RHK84d1upuA%2F 
+
+
+            string URL = "https://api.honze88.com/api/v1/lotteries/42/issuos";
+
+
+
+            NetFramework.Console.WriteLine("正在刷新VR重庆时时彩网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
+                , "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQxMjA4LCJuYW1lIjoieGwxMjM0NTYiLCJpYXQiOjE1NTM5MTkyODYsImV4cCI6MTU1NTEyODg4Nn0.hM6rvGXgkIPZjqef18hvld550zYLzSWX0nyTX6f9AII");
+
+            // "<div class="css_table">"
+
+            DateTime PreTime = DateTime.Now;
+
+            Regex FindPeriod = new Regex("<div class=\"lottimenum\"[^>]*>((?<mm><div[^>]*>)+|(?<-mm></div>)|[\\s\\S])*?(?(mm)(?!))</div>", RegexOptions.IgnoreCase);
+
+            Regex FindRow = new Regex("<div class=\"mainnums\"((?<mm><div[^>]*>)+|(?<-mm></div>)|[\\s\\S])*?(?(mm)(?!))</div>", RegexOptions.IgnoreCase);
+
+            Regex Findli = new Regex("<li((?<mm><li[^>]*>)+|(?<-mm></li>)|[\\s\\S])*?(?(mm)(?!))</li>", RegexOptions.IgnoreCase);
+
+
+            Match Divs = FindPeriod.Match(Result);
+            Int32 FullCount = 0;
+            {
+                Match trs = FindRow.Match(Result);
+                Match lidata = Findli.Match(trs.Value);
+                #region 每期处理
+                {
+
+
+                    string Oldstr_Win =
+                         NetFramework.Util_WEB.CleanHtml(
+                        trs.Value
+                        );
+                    Oldstr_Win = Oldstr_Win.Replace("当期奖号", "").Replace(Environment.NewLine, "").Replace("\t", "").Replace(" ", "");
+
+                    string str_dataperiod =
+                         NetFramework.Util_WEB.CleanHtml(
+                        Divs.Value
+
+                        );
+                    str_dataperiod = str_dataperiod.Replace("第", "").Replace("期号码", "");
+                    Oldstr_Win = Oldstr_Win.Replace(Environment.NewLine, ",");
+                    string str_Win = Oldstr_Win;
+                    //if (Oldstr_Win.Length >= 5)
+                    //{
+                    //    str_Win = Oldstr_Win.Substring(0, 1) + ","
+                    //        + Oldstr_Win.Substring(1, 1) + ","
+                    //         + Oldstr_Win.Substring(2, 1) + ","
+                    //          + Oldstr_Win.Substring(3, 1) + ","
+                    //           + Oldstr_Win.Substring(4, 1) + ",";
+                    //}
+                    //str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
+                    ////str_Win = str_Win.Substring(0, 9);
+                    //str_dataperiod = str_dataperiod.Substring(2, 9);
+                    bool Newdb = false;
+                    Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+                    if (Newdb == false && !FullDowbload)
+                    {
+
+                        FullCount += 1;
+                        if (FullCount > 30)
+                        {
+                            //break;
+                        }
+                        //break;
+                    }
+                }
+                #endregion
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+            }
+
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+            }
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
+
+        public void DownLoadTest()
+        {
+
+            //authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQxMjA4LCJuYW1lIjoieGwxMjM0NTYiLCJpYXQiOjE1NTM5MTkyODYsImV4cCI6MTU1NTEyODg4Nn0.hM6rvGXgkIPZjqef18hvld550zYLzSWX0nyTX6f9AII
+            //https://api.honze88.com/api/v1/lotteries/12/issuos
+            //http://huy.vrbetapi.com//Account/LoginValidate?id=HUY&version=1.0&data=lVrOheZew4NAFwFkJmkk6HTItGzRs4S1jzGjGJy%2BSlwUkFsZeDyb%2BtJQGJrYcktDNDPHLEJzr2UhYt27PQDoQwSZNsSvsfyen5EhhV%2F4QqnDJHjHvshxLWpiZdHdVzgK
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            ServicePointManager.DefaultConnectionLimit = 512;
+            ServicePointManager.Expect100Continue = true;
+            //1
+            //12
+            //801
+            //102
+            // WebRequest LoginPage = HttpWebRequest.Create("https://api.honze88.com/api/v1/lotteries/601/issuos");
+            //WebRequest LoginPage = HttpWebRequest.Create("https://hb15jh7.60ap1facai.in/rest/member/lastResult?lottery=AULUCKY5");
+            WebRequest LoginPage = HttpWebRequest.Create("https://hb15jal.60ap1facai.in/rest/configs");
+            //WebRequest LoginPage = HttpWebRequest.Create("https://hb15jal.60ap1facai.in/rest/member/promoIn");
+            ((HttpWebRequest)LoginPage).AllowAutoRedirect = true;
+            //((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
+            //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
+            ((HttpWebRequest)LoginPage).Timeout = 10000;
+            ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
+
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = NetFramework.Util_WEB.CheckValidationResult;
+            ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
+
+
+            CookieCollection BrowCookie = new CookieCollection();
+            // ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
+            ((HttpWebRequest)LoginPage).Accept = "*/*";
+            ((HttpWebRequest)LoginPage).UserAgent = "Dalvik/2.1.0 (Linux; U; Android 5.1.1; xiaomi 6 Build/LMY49I)";
+            LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+            LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
+            LoginPage.Headers.Add("x-user-agent", "AndroidOS");
+            //LoginPage.Headers.Add("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQxMjA4LCJuYW1lIjoieGwxMjM0NTYiLCJpYXQiOjE1NTM5MTkyODYsImV4cCI6MTU1NTEyODg4Nn0.hM6rvGXgkIPZjqef18hvld550zYLzSWX0nyTX6f9AII");
+
+            LoginPage.Headers.Add("token", "57cb79675c28180872ebc0dd4b3e8d0093e077e0");
+            //LoginPage.Headers.Add("User-Agent", "Dalvik/2.1.0 (Linux; U; Android 5.1.1; xiaomi 6 Build/LMY49I)");
+            // LoginPage.hos("Host", "hb15jal.60ap1facai.in");
+            LoginPage.Method = "POST";
+            ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
+            ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
+            System.GC.Collect();
+            System.Threading.Thread.Sleep(100);
+            HttpWebResponse LoginPage_Return = null;
+            LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
+            //((HttpWebRequest)LoginPage).Connection = "KeepAlive,Close";
+            string responseBody = string.Empty;
+            try
+            {
+
+
+                if (LoginPage_Return.ContentEncoding.ToLower().Contains("gzip"))
+                {
+                    using (GZipStream stream = new GZipStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
+                    {
+
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            responseBody = reader.ReadToEnd();
+                            stream.Close();
+                        }
+                    }
+                }
+                else if (LoginPage_Return.ContentEncoding.ToLower().Contains("deflate"))
+                {
+                    using (DeflateStream stream = new DeflateStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
+                    {
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            responseBody = reader.ReadToEnd();
+                            stream.Close();
+                        }
+                    }
+                }
+                else if (LoginPage_Return.ContentEncoding.ToLower().Contains("br"))
+                {
+                    using (Brotli.BrotliStream stream = new Brotli.BrotliStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
+                    {
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            responseBody = reader.ReadToEnd();
+                            stream.Close();
+                        }
+                    }
+                }
+                else
+                {
+                    using (Stream stream = LoginPage_Return.GetResponseStream())
+                    {
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            responseBody = reader.ReadToEnd();
+                            stream.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception AnyError)
+            {
+                LoginPage.Abort();
+                LoginPage = null;
+                System.GC.Collect();
+
+
+            }
+            LoginPage.Abort();
+
+        }
+        public void DownLoadTest2()
+        {
+
+            //authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQxMjA4LCJuYW1lIjoieGwxMjM0NTYiLCJpYXQiOjE1NTM5MTkyODYsImV4cCI6MTU1NTEyODg4Nn0.hM6rvGXgkIPZjqef18hvld550zYLzSWX0nyTX6f9AII
+            //https://api.honze88.com/api/v1/lotteries/12/issuos
+            //http://huy.vrbetapi.com//Account/LoginValidate?id=HUY&version=1.0&data=lVrOheZew4NAFwFkJmkk6HTItGzRs4S1jzGjGJy%2BSlwUkFsZeDyb%2BtJQGJrYcktDNDPHLEJzr2UhYt27PQDoQwSZNsSvsfyen5EhhV%2F4QqnDJHjHvshxLWpiZdHdVzgK
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            ServicePointManager.DefaultConnectionLimit = 512;
+            ServicePointManager.Expect100Continue = true;
+            //1
+            //12
+            //801
+            //102
+            // WebRequest LoginPage = HttpWebRequest.Create("https://api.honze88.com/api/v1/lotteries/601/issuos");
+            //WebRequest LoginPage = HttpWebRequest.Create("https://hb15jh7.60ap1facai.in/rest/member/lastResult?lottery=AULUCKY5");
+            WebRequest LoginPage = HttpWebRequest.Create("https://hb15jal.60ap1facai.in/rest/publicConfigs");
+            ((HttpWebRequest)LoginPage).AllowAutoRedirect = true;
+            //((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
+            //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
+            ((HttpWebRequest)LoginPage).Timeout = 15000;
+            ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
+
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = NetFramework.Util_WEB.CheckValidationResult;
+            ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
+
+
+            CookieCollection BrowCookie = new CookieCollection();
+            // ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
+            ((HttpWebRequest)LoginPage).Accept = "*/*";
+            ((HttpWebRequest)LoginPage).UserAgent = "Dalvik/2.1.0 (Linux; U; Android 5.1.1; xiaomi 6 Build/LMY49I)";
+            LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+            LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
+            LoginPage.Headers.Add("x-user-agent", "AndroidOS");
+            //LoginPage.Headers.Add("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQxMjA4LCJuYW1lIjoieGwxMjM0NTYiLCJpYXQiOjE1NTM5MTkyODYsImV4cCI6MTU1NTEyODg4Nn0.hM6rvGXgkIPZjqef18hvld550zYLzSWX0nyTX6f9AII");
+
+            LoginPage.Headers.Add("token", "57cb79675c28180872ebc0dd4b3e8d0093e077e0");
+            //LoginPage.Headers.Add("User-Agent", "Dalvik/2.1.0 (Linux; U; Android 5.1.1; xiaomi 6 Build/LMY49I)");
+            // LoginPage.hos("Host", "hb15jal.60ap1facai.in");
+            LoginPage.Method = "POST";
+            ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
+            ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
+            System.GC.Collect();
+            System.Threading.Thread.Sleep(100);
+            HttpWebResponse LoginPage_Return = null;
+            LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
+            //((HttpWebRequest)LoginPage).Connection = "KeepAlive,Close";
+            string responseBody = string.Empty;
+            try
+            {
+
+
+                if (LoginPage_Return.ContentEncoding.ToLower().Contains("gzip"))
+                {
+                    using (GZipStream stream = new GZipStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
+                    {
+
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            responseBody = reader.ReadToEnd();
+                            stream.Close();
+                        }
+                    }
+                }
+                else if (LoginPage_Return.ContentEncoding.ToLower().Contains("deflate"))
+                {
+                    using (DeflateStream stream = new DeflateStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
+                    {
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            responseBody = reader.ReadToEnd();
+                            stream.Close();
+                        }
+                    }
+                }
+                else if (LoginPage_Return.ContentEncoding.ToLower().Contains("br"))
+                {
+                    using (Brotli.BrotliStream stream = new Brotli.BrotliStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
+                    {
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            responseBody = reader.ReadToEnd();
+                            stream.Close();
+                        }
+                    }
+                }
+                else
+                {
+                    using (Stream stream = LoginPage_Return.GetResponseStream())
+                    {
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            responseBody = reader.ReadToEnd();
+                            stream.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception AnyError)
+            {
+                LoginPage.Abort();
+                LoginPage = null;
+                System.GC.Collect();
+
+
+            }
+            LoginPage.Abort();
+
+        }
+        public void DownLoad163CaiPiaoV_vrchongqingcaislimWeb(ref Boolean NewResult, bool ReDrawGdi)
+        {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+               && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+).Count();
+            DateTime PreTime = DateTime.Now;
+            string Source = "";
+            this.Invoke(new Action(() =>
+            {
+                if (wb_vrchongqing.GetBrowser().MainFrame.Url.Contains("Bet/Index/42") == false)
+                {
+                    throw new Exception("未登陆不能使用WEB采集");
+                }
+                System.Threading.Tasks.Task<string> tsk = wb_vrchongqing.GetBrowser().MainFrame.GetSourceAsync();
+                tsk.Wait();
+                Source = tsk.Result;
+            }));
+            Regex FindPeriod = new Regex("<span id=\"lastissue\" class=\"font-lightpink\">[0-9]+</span>", RegexOptions.IgnoreCase);
+            Regex FindWin = new Regex("<ul class=\"win_numbers font-white\"[^>]*>((?<mm><ul[^>]*>)+|(?<-mm></ul>)|[\\s\\S])*?(?(mm)(?!))</ul>", RegexOptions.IgnoreCase);
+
+            string str_dataperiod = NetFramework.Util_WEB.CleanHtml(FindPeriod.Match(Source).Value);
+            if (str_dataperiod == "")
+            {
+                throw new Exception("网页模拟登陆APP失败");
+            }
+            string str_Win = NetFramework.Util_WEB.CleanHtml(FindWin.Match(Source).Value);
+            str_Win = str_Win.Replace(Environment.NewLine, "").Replace(" ", "").Replace("\n", "");
+            if (str_Win.Contains("?") == false && str_Win != "")
+            {
+                bool Newdb = false;
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+                //if (Newdb == false && !FullDowbload)
+                //{
+
+                //}
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+            }
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+            }
+        }
 
         public void DownLoad163CaiPiaoV_Taohua(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             NetFramework.Console.WriteLine("开始下载桃花中间表" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4394,7 +5745,7 @@ namespace WeixinRoboot
 
             var taohuaresult = db.TaoHua_GameResult.OrderByDescending(t => t.GamePeriod).Take(120);
 
-
+            DateTime PreTime = DateTime.Now;
 
             foreach (Linq.TaoHua_GameResult item in taohuaresult)
             {
@@ -4417,7 +5768,7 @@ namespace WeixinRoboot
 
 
             }//每行处理
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("桃花下载器下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -4426,28 +5777,26 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             }
 
 
-
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
             #endregion
 
             NetFramework.Console.WriteLine("下载桃花中间表完成" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
         }
 
 
-        public void DownLoad163CaiPiaoV_kaijiangwang(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
+        public void DownLoad163CaiPiaoV_kaijiangwang(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean Lasturl = false, Boolean FullDowbload = false)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4460,15 +5809,26 @@ namespace WeixinRoboot
 
 
 
-
             string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
 
+            if (Lasturl == true)
+            {
+                URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10002";
+            }
+            else
+            {
+                URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10002";
+            }
 
-            URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10002";
+            //string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
+
+
+            //URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10002";
+
             NetFramework.Console.WriteLine("正在刷新开奖网页" + DateTime.Now.ToString("HH:mm:ss fff"));
             string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
 
-
+            DateTime PreTime = DateTime.Now;
             JObject Resultfull = JObject.Parse(Result);
 
 
@@ -4484,15 +5844,15 @@ namespace WeixinRoboot
                 str_Win = str_Win.Replace(",", " ");
                 bool Newdb = false;
                 Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                //if (Newdb || IsOpenNow)
-                //{
+                if (Newdb == false && !FullDowbload)
+                {
 
-
-                //}
+                    break;
+                }
 
 
             }//每行处理
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("开奖网下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -4501,17 +5861,100 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
 
             }
 
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
 
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+        //https://kj.13322.com/trend/lottery.findLotteryIssue.do //lottery=cqssc
+        //https://kj.13322.com/ssc_cqssc_history_dtoday.html
+        public void DownLoad163CaiPiaoV_kaijiangwang1332Fast(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean Lasturl = false, Boolean FullDowbload = false)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
+).Count();
+
+
+
+            string URL = "http://kj.13322.com/trend/lottery.findLotteryIssue.do";
+
+
+
+            //string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
+
+
+            //URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10002";
+
+            NetFramework.Console.WriteLine("正在刷新开奖网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "http://kj.13322.com/ssc_cqssc_history_dtoday.html", "lottery=cqssc", "POST", cookie163);
+
+            DateTime PreTime = DateTime.Now;
+            JObject Resultfull = JObject.Parse(Result);
+
+
+            //foreach (JObject item in Resultfull["result"]["data"])
+            {
+
+
+
+                string str_dataperiod = (Resultfull["preDrawIssue"] as JValue).Value.ToString();
+                str_dataperiod = str_dataperiod.Substring(2);
+
+                string str_Win = (Resultfull["preDrawCode"] as JValue).Value.ToString();
+                str_Win = str_Win.Replace(",", " ");
+
+                string Str_Time = (Resultfull["preDrawTime"] as JValue).Value.ToString();
+
+
+                bool Newdb = false;
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩, Str_Time);
+                if (Newdb == false && !FullDowbload)
+                {
+
+
+                }
+
+
+            }//每行处理
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("13322下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+
+            }
+
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
 
             #endregion
 
@@ -4519,14 +5962,107 @@ namespace WeixinRoboot
 
         }
 
+
+
+
+        public void DownLoad163CaiPiaoV_xinjiangshishicai(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean Lasturl = false, Boolean FullDowbload = false)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10004
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩)
+).Count();
+
+
+
+            string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
+
+            if (Lasturl == true)
+            {
+                URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10004";
+            }
+            else
+            {
+                URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10004";
+            }
+
+            //string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
+
+
+            //URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10002";
+
+            NetFramework.Console.WriteLine("正在刷新新疆时时彩网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
+
+            DateTime PreTime = DateTime.Now;
+            JObject Resultfull = JObject.Parse(Result);
+
+
+            foreach (JObject item in Resultfull["result"]["data"])
+            {
+
+
+
+                string str_dataperiod = (item["preDrawIssue"] as JValue).Value.ToString();
+                str_dataperiod = str_dataperiod.Substring(2);
+
+                string str_Win = (item["preDrawCode"] as JValue).Value.ToString();
+                str_Win = str_Win.Replace(",", " ");
+
+                string preDrawTime = (item["preDrawTime"] as JValue).Value.ToString();
+
+                bool Newdb = false;
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩, preDrawTime);
+                if (Newdb == false && !FullDowbload)
+                {
+
+                    break;
+                }
+
+
+            }//每行处理
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("新疆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
+
+            }
+
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
+            }
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
+
         public static string MaxAozcPeriod = "";
         public static string MaxAozcTime = "";
-
-        public void DownLoad163CaiPiaoV_aozc(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, bool Lasturl = false)
+        //https://88888kai.com/History/HisList.aspx?id=10076&date=2019-04-05&_=0.5912288907898384
+        public void DownLoad163CaiPiaoV_aozcAPI168(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, bool Lasturl = false, bool FullDowbload = false)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4537,27 +6073,135 @@ namespace WeixinRoboot
                   && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
 ).Count();
 
+            DateTime PreTime = DateTime.Now;
 
 
-
-            string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
-
-            if (Lasturl == true)
+            // string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
+            string URL = "https://www.cp8200.com/CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=lucky5ball";
+            bool Newdb = false;
+            if (Lasturl == true || FullDowbload == false)
             {
-                URL = "https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10010";
+                URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10010";
+                //https://cp8200.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=lucky5ball
+                //https://cp8200.com/CQShiCai/getBaseCQShiCai.do?issue=50567194&lotCode=lucky5ball
+
+                //URL = "https://www.cp8200.com/CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=lucky5ball";
+                // URL = "https://cp8200.com/CQShiCai/getBaseCQShiCai.do?lotCode=lucky5ball" + (MaxAozcPeriod == "" ? "" : ("&issuse=" + (Convert.ToInt32(MaxAozcPeriod) + 1).ToString()));
+                NetFramework.Console.WriteLine("正在刷澳洲幸运5彩网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+                string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
+                if (Result == "")
+                {
+                    return;
+                }
+
+                JObject Resultfull = JObject.Parse(Result);
+                // JToken item = Resultfull["result"]["data"];
+                foreach (JToken item in Resultfull["result"]["data"])
+                {
+
+
+                    string str_dataperiod = (item["preDrawIssue"] as JValue).Value.ToString();
+                    string StrTime = (item["preDrawTime"] as JValue).Value.ToString();
+                    StrTime = Convert.ToDateTime(StrTime).AddMinutes(-150).ToString("yyyy-MM-dd HH:mm:ss");
+
+                    if (MaxAozcPeriod == "")
+                    {
+                        MaxAozcPeriod = str_dataperiod;
+                        MaxAozcTime = StrTime;
+                    }
+                    try
+                    {
+                        if (Convert.ToInt32(str_dataperiod) > Convert.ToInt32(MaxAozcPeriod))
+                        {
+                            MaxAozcPeriod = str_dataperiod;
+                            MaxAozcTime = StrTime;
+
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+
+                    }
+                    string str_Win = (item["preDrawCode"] as JValue).Value.ToString();
+                    str_Win = str_Win.Replace(",", " ");
+
+
+
+                    Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5, StrTime);
+                    if (Newdb == false && !FullDowbload)
+                    {
+                        break;
+                    }
+                }
             }
-            else
+
+
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("澳洲幸运5下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
-                URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10010";
+                NewResult = true;
+
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+
             }
-            NetFramework.Console.WriteLine("正在刷澳洲幸运5彩网页" + DateTime.Now.ToString("HH:mm:ss fff"));
-            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
-
-            JObject Resultfull = JObject.Parse(Result);
 
 
-            foreach (JObject item in Resultfull["result"]["data"])
+
+            if (LocalGameResultCount != AfterCheckCount)
             {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+            }
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
+        public void DownLoad163CaiPiaoV_aozc(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, bool Lasturl = false, bool FullDowbload = false)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://ssc.zzk3.cn/index.php?s=/home/record/index/yes/1.html
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+).Count();
+
+            DateTime PreTime = DateTime.Now;
+
+
+            // string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
+            string URL = "https://www.cp8200.com/CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=lucky5ball";
+            if (Lasturl == true || FullDowbload == false)
+            {
+                // URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10010";
+                //https://cp8200.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=lucky5ball
+                //https://cp8200.com/CQShiCai/getBaseCQShiCai.do?issue=50567194&lotCode=lucky5ball
+
+                //URL = "https://www.cp8200.com/CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=lucky5ball";
+                URL = "https://cp8200.com/CQShiCai/getBaseCQShiCai.do?lotCode=lucky5ball" + (MaxAozcPeriod == "" ? "" : ("&issuse=" + (Convert.ToInt32(MaxAozcPeriod) + 1).ToString()));
+                NetFramework.Console.WriteLine("正在刷澳洲幸运5彩网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+                string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
+                if (Result == "")
+                {
+                    return;
+                }
+                JObject Resultfull = JObject.Parse(Result);
+                JToken item = Resultfull["result"]["data"];
                 string str_dataperiod = (item["preDrawIssue"] as JValue).Value.ToString();
 
                 if (MaxAozcPeriod == "")
@@ -4578,7 +6222,6 @@ namespace WeixinRoboot
 
 
                 }
-
                 string str_Win = (item["preDrawCode"] as JValue).Value.ToString();
                 str_Win = str_Win.Replace(",", " ");
 
@@ -4586,12 +6229,63 @@ namespace WeixinRoboot
 
                 string StrTime = (item["preDrawTime"] as JValue).Value.ToString();
                 Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5, StrTime);
-                //if (Newdb || IsOpenNow)
-                //{
+                if (Newdb == false && !FullDowbload)
+                {
 
-                //}
+                }
             }
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            else
+            {
+                URL = "https://www.cp8200.com/CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=lucky5ball";
+
+                // URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10010";
+                NetFramework.Console.WriteLine("正在刷澳洲幸运5彩网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+                string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
+                if (Result == "")
+                {
+                    return;
+                }
+                JObject Resultfull = JObject.Parse(Result);
+
+
+                foreach (JObject item in Resultfull["result"]["data"])
+                {
+                    string str_dataperiod = (item["preDrawIssue"] as JValue).Value.ToString();
+
+                    if (MaxAozcPeriod == "")
+                    {
+                        MaxAozcPeriod = str_dataperiod;
+                        MaxAozcTime = (item["preDrawTime"] as JValue).Value.ToString();
+                    }
+                    try
+                    {
+                        if (Convert.ToInt32(str_dataperiod) > Convert.ToInt32(MaxAozcPeriod))
+                        {
+                            MaxAozcPeriod = str_dataperiod;
+                            MaxAozcTime = (item["preDrawTime"] as JValue).Value.ToString();
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+
+                    }
+
+                    string str_Win = (item["preDrawCode"] as JValue).Value.ToString();
+                    str_Win = str_Win.Replace(",", " ");
+
+                    bool Newdb = false;
+
+                    string StrTime = (item["preDrawTime"] as JValue).Value.ToString();
+                    Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5, StrTime);
+                    if (Newdb == false && !FullDowbload)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("澳洲幸运5下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
 
@@ -4602,17 +6296,118 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
 
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+
+            }
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
             }
 
 
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+        public void DownLoad163CaiPiaoV_aozc888888(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, bool Lasturl = false, bool FullDowbload = false)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NewResult = false;
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://ssc.zzk3.cn/index.php?s=/home/record/index/yes/1.html
+
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+).Count();
+
+            DateTime PreTime = DateTime.Now;
+
+
+            // string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
+            //string URL = "https://www.cp8200.com/CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=lucky5ball";
+            string URL = "https://88888kai.com/History/HisList.aspx?id=10076&date=" + SelectDate.ToString("yyyy-MM-dd") + "&_=" + (new Random().Next().ToString());
+            bool Newdb = false;
+            {
+
+                // URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10010";
+                NetFramework.Console.WriteLine("正在刷澳洲幸运5彩网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+                string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
+                if (Result == "")
+                {
+                    return;
+                }
+                JObject Resultfull = JObject.Parse(Result);
+
+
+                foreach (JObject item in Resultfull["list"])
+                {
+                    string str_dataperiod = (item["c_t"] as JValue).Value.ToString();
+
+                    string StrTime = (item["c_d"] as JValue).Value.ToString();
+                    string[] Times = StrTime.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    StrTime = DateTime.Today.Year + "-" + Times[0].Replace("/", "-") + " " + Times[2];
+                    StrTime = Convert.ToDateTime(StrTime).AddMinutes(-150).ToString("yyyy-MM-dd HH:mm:ss");
+
+                    if (MaxAozcPeriod == "")
+                    {
+                        MaxAozcPeriod = str_dataperiod;
+                        MaxAozcTime = StrTime;
+                    }
+                    try
+                    {
+                        if (Convert.ToInt32(str_dataperiod) > Convert.ToInt32(MaxAozcPeriod))
+                        {
+                            MaxAozcPeriod = str_dataperiod;
+                            MaxAozcTime = StrTime;
+
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+
+                    }
+
+                    string str_Win = (item["c_r"] as JValue).Value.ToString();
+                    str_Win = str_Win.Replace(",", " ");
+
+
+
+
+
+                    Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5, StrTime);
+                    if (Newdb == false && !FullDowbload)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            NetFramework.Console.WriteLine("澳洲幸运5下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+).Count();
+            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            {
+                NewResult = true;
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+            }
+
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+            }
 
             #endregion
 
@@ -4621,12 +6416,13 @@ namespace WeixinRoboot
         }
 
 
+
         //cp222789.com
         public void DownLoad163CaiPiaoV_cp222789(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载cp222789网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4646,7 +6442,7 @@ namespace WeixinRoboot
             URL += SelectDate.ToString("yyyy-MM-dd") + ".json?DPP64KALP77Z8697L9UY";
             NetFramework.Console.WriteLine("正在刷新彩票22798网页" + DateTime.Now.ToString("HH:mm:ss fff"));
             string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
-
+            DateTime PreTime = DateTime.Now;
 
             JObject Resultfull = JObject.Parse("{DownData:" + Result + "}");
 
@@ -4680,7 +6476,7 @@ namespace WeixinRoboot
 
 
             }//每行处理
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("cp22789下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -4689,17 +6485,16 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
 
             }
 
-
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
 
             #endregion
 
@@ -4714,7 +6509,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载13322.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4734,7 +6529,7 @@ namespace WeixinRoboot
             URL += SelectDate.ToString("yyyyMMdd") + ".html";
             NetFramework.Console.WriteLine("正在刷新13322网页" + DateTime.Now.ToString("HH:mm:ss fff"));
             string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
-
+            DateTime PreTime = DateTime.Now;
             Regex FindTable = new Regex("<table id=\"trend_table\"((?!</table></div>)[\\s\\S])+</table></div>", RegexOptions.IgnoreCase);
 
             string TableHtml = FindTable.Match(Result.Replace(Environment.NewLine, "")).Value;
@@ -4783,7 +6578,7 @@ namespace WeixinRoboot
 
 
             }//每行处理
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("1322下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -4792,17 +6587,16 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
 
             }
 
-
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
 
             #endregion
 
@@ -4816,7 +6610,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4836,6 +6630,7 @@ namespace WeixinRoboot
 
             string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cc1395);
             NetFramework.Console.WriteLine("正在刷新1395p网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+            DateTime PreTime = DateTime.Now;
             JObject newr = JObject.Parse(Result);
 
             string str_Win = newr["current"]["award"].Value<string>();
@@ -4851,7 +6646,7 @@ namespace WeixinRoboot
             //{
 
             //}
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("1395p下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
 
@@ -4863,17 +6658,16 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
 
             }
 
-
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
 
             #endregion
 
@@ -4886,7 +6680,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4905,7 +6699,7 @@ namespace WeixinRoboot
 
             NetFramework.Console.WriteLine("正在刷新香港时时彩网页" + DateTime.Now.ToString("HH:mm:ss fff"));
             string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", xianggshishic);
-
+            DateTime PreTime = DateTime.Now;
             Regex findhead = new Regex("<tbody id=\"reslist\"((?!</table>)[\\S\\s])+</table>", RegexOptions.IgnoreCase); ;
 
             Regex findtr = new Regex("<tr((?!</tr>)[\\S\\s])+</tr>", RegexOptions.IgnoreCase); ;
@@ -4930,7 +6724,7 @@ namespace WeixinRoboot
 
                 //}
             }
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("香港时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
 
@@ -4941,16 +6735,15 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
 
             }
-
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+            }
 
 
             #endregion
@@ -4961,11 +6754,11 @@ namespace WeixinRoboot
 
 
         CookieCollection wufencai = new CookieCollection();
-        public void DownLoad163CaiPiaoV_wufencai(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
+        public void DownLoad163CaiPiaoV_wufencai(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, bool FullDowbload)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4990,7 +6783,7 @@ namespace WeixinRoboot
             Regex findtr = new Regex("<tr((?!</tr>)[\\S\\s])+</tr>", RegexOptions.IgnoreCase); ;
 
             Regex findtd = new Regex("<td((?!</td>)[\\S\\s])+</td>", RegexOptions.IgnoreCase); ;
-
+            DateTime PreTime = DateTime.Now;
             string strFindTable = findhead.Match(Result).Value;
 
             MatchCollection trs = findtr.Matches(strFindTable);
@@ -5010,12 +6803,12 @@ namespace WeixinRoboot
                 str_dataperiod = str_dataperiod.Substring(2, 9);
                 bool Newdb = false;
                 Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-                //if (Newdb || IsOpenNow)
-                //{
-
-                //}
+                if (Newdb == false && !FullDowbload)
+                {
+                    break;
+                }
             }
-            NetFramework.Console.WriteLine("-----------------------------------------------");
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             NetFramework.Console.WriteLine("五分彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
 
@@ -5026,16 +6819,15 @@ namespace WeixinRoboot
             if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             {
                 NewResult = true;
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
 
-                DrawChongqingshishicai(day, Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
 
             }
-
+            if (LocalGameResultCount != AfterCheckCount)
+            {
+                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+            }
 
 
             #endregion
@@ -5045,14 +6837,59 @@ namespace WeixinRoboot
         }
 
 
-        public void DrawChongqingshishicai(DateTime Localday, Linq.ProgramLogic.ShiShiCaiMode subm)
+        public void DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode subm)
         {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            DateTime Localday = DateTime.Now;
+
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩 == false)
+            {
+                if (Localday.Hour < 8)
+                {
+                    Localday = Localday.AddDays(-1);
+                }
+            }
+            else
+            {
+                if (Localday.Hour < 7)
+                {
+                    Localday = Localday.AddDays(-1);
+                }
+
+            }
+
+
+            //string GameFullPeriod = "";
+            //string GameFullLocalPeriod = "";
+            //bool ShiShiCaiSuccess = false;
+            //string ShiShiCaiErrorMessage = "";
+
+            //DateTime TestTime = DateTime.Now.AddMinutes(-2);
+            //Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(TestTime, "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, true, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm, true);
+
+            //Localday = Convert.ToDateTime(GameFullLocalPeriod.Substring(0, 4) + "-" + GameFullLocalPeriod.Substring(4, 2) + "-" + GameFullLocalPeriod.Substring(6, 2));
+
+
             NetFramework.Console.Write(GlobalParam.UserName + "准备发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
-            DataTable PrivatePerios = NetFramework.Util_Sql.RunSqlDataTable("LocalSqlServer"
-                , @"select GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where GamePrivatePeriod like '" + Localday.ToString("yyyyMMdd")
-                + "%' and aspnet_Userid='" + GlobalParam.UserKey.ToString()
-                + "' and GameName='" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + "'");
+            string Sql = @"select top 288 GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where "
+               ;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩 || subm == Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯十分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+            {
+
+                Sql += "   GamePrivatePeriod like '" + Localday.ToString("yyyyMMdd")
+                 + "%' and ";
+            }
+
+            Sql += " aspnet_Userid='" + GlobalParam.UserKey.ToString()
+            + "' and GameName='" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + "' order by GamePeriod desc");
+
+
+
+            DataTable PrivatePerios = NetFramework.Util_Sql.RunSqlDataTable( GlobalParam.DataSourceName
+                , Sql);
             DataView dv = PrivatePerios.AsDataView();
 
             ;
@@ -5063,26 +6900,42 @@ namespace WeixinRoboot
 
             #region 画龙虎图表
             string Datatextplain = "";
-            int datapindex = 1;
+            //Datatextplain += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            ////DataRow fir_currow = dtCopy.Rows[dtCopy.Rows.Count - 1];
+            //if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            //{
+            //    Datatextplain += "本地时间与官网时差150分钟" + Environment.NewLine;
+            //}
+            Int32 TigerindexV1 = 0;
+            Int32 TotalIndexV1 = 288;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            {
+                TotalIndexV1 = 60;
+            }
+
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
-
+                TigerindexV1 += 1;
+                if (TigerindexV1 < dtCopy.Rows.Count - TotalIndexV1)
+                {
+                    continue;
+                }
                 string tigerordragon = datetextitem.Field<string>("龙虎");
                 switch (tigerordragon)
                 {
                     case "龙":
-                        Datatextplain += Linq.ProgramLogic.Dragon;
+                        Datatextplain = Linq.ProgramLogic.Dragon + Datatextplain;
                         break;
                     case "虎":
-                        Datatextplain += Linq.ProgramLogic.Tiger;
+                        Datatextplain = Linq.ProgramLogic.Tiger + Datatextplain;
                         break;
                     case "合":
-                        Datatextplain += Linq.ProgramLogic.OK;
+                        Datatextplain = Linq.ProgramLogic.OK + Datatextplain;
                         break;
                     default:
                         break;
                 }
-                datapindex += 1;
+
                 //if (datapindex == 11)
                 //{
                 //    Datatextplain += Environment.NewLine;
@@ -5105,9 +6958,25 @@ namespace WeixinRoboot
 
             #region 画龙虎图表 易信
             string Datatextplain_yixin = "";
-            int datapindex_yixin = 1;
+            //Datatextplain_yixin += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            ////DataRow fir_currow = dtCopy.Rows[dtCopy.Rows.Count - 1];
+            //if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            //{
+            //    Datatextplain_yixin += "本地时间与官网时差150分钟" + Environment.NewLine;
+            //}
+            Int32 TigerindexV2 = 0;
+            Int32 TotalIndexV2 = 288;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            {
+                TotalIndexV2 = 60;
+            }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
+                TigerindexV2 += 1;
+                if (TigerindexV2 < dtCopy.Rows.Count - TotalIndexV2)
+                {
+                    continue;
+                }
 
                 string tigerordragon = datetextitem.Field<string>("龙虎");
                 switch (tigerordragon)
@@ -5124,7 +6993,6 @@ namespace WeixinRoboot
                     default:
                         break;
                 }
-                datapindex_yixin += 1;
                 //if (datapindex == 11)
                 //{
                 //    Datatextplain += Environment.NewLine;
@@ -5144,11 +7012,84 @@ namespace WeixinRoboot
             filetowrite_yixin.Dispose();
             #endregion
 
-            #region 画龙虎图表钉钉
-            string Datatextplain_dingding = "";
-            int datapindex_dingding = 1;
+            #region 画龙虎图表QQ
+            string Datatextplain_QQ = "";
+            //Datatextplain_dingding += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            ////DataRow fir_currow = dtCopy.Rows[dtCopy.Rows.Count - 1];
+            //if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            //{
+            //    Datatextplain_dingding += "本地时间与官网时差150分钟" + Environment.NewLine;
+            //}
+            Int32 TigerindexVQQ = 0;
+            Int32 TotalIndexVQQ = 30;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            {
+                TotalIndexVQQ = 30;
+            }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
+                TigerindexVQQ += 1;
+                if (TigerindexVQQ < dtCopy.Rows.Count - TotalIndexVQQ)
+                {
+                    continue;
+                }
+
+                string tigerordragon = datetextitem.Field<string>("龙虎");
+                switch (tigerordragon)
+                {
+                    case "龙":
+                        Datatextplain_QQ += Linq.ProgramLogic.Dragon_yixin;
+                        break;
+                    case "虎":
+                        Datatextplain_QQ += Linq.ProgramLogic.Tiger_yixin;
+                        break;
+                    case "合":
+                        Datatextplain_QQ += Linq.ProgramLogic.OK_yixin;
+                        break;
+                    default:
+                        break;
+                }
+
+                //if (datapindex == 11)
+                //{
+                //    Datatextplain += Environment.NewLine;
+                //    datapindex = 1;
+                //}
+
+            }//行循环
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data3_QQ" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
+            {
+                System.IO.File.Delete(Application.StartupPath + "\\Data3_QQ" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
+            }
+            FileStream filetowrite_QQ = new FileStream(Application.StartupPath + "\\Data3_QQ" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
+            byte[] Result_QQ = Encoding.UTF8.GetBytes(Datatextplain_QQ);
+            filetowrite_QQ.Write(Result_QQ, 0, Result_QQ.Length);
+            filetowrite_QQ.Flush();
+            filetowrite_QQ.Close();
+            filetowrite_QQ.Dispose();
+            #endregion
+
+            #region 画龙虎图表钉钉
+            string Datatextplain_dingding = "";
+            //Datatextplain_dingding += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            ////DataRow fir_currow = dtCopy.Rows[dtCopy.Rows.Count - 1];
+            //if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            //{
+            //    Datatextplain_dingding += "本地时间与官网时差150分钟" + Environment.NewLine;
+            //}
+            Int32 TigerindexV3 = 0;
+            Int32 TotalIndexV3 = 288;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            {
+                TotalIndexV3 = 60;
+            }
+            foreach (DataRow datetextitem in dtCopy.Rows)
+            {
+                TigerindexV3 += 1;
+                if (TigerindexV3 < dtCopy.Rows.Count - TotalIndexV3)
+                {
+                    continue;
+                }
 
                 string tigerordragon = datetextitem.Field<string>("龙虎");
                 switch (tigerordragon)
@@ -5165,7 +7106,7 @@ namespace WeixinRoboot
                     default:
                         break;
                 }
-                datapindex_dingding += 1;
+
                 //if (datapindex == 11)
                 //{
                 //    Datatextplain += Environment.NewLine;
@@ -5242,8 +7183,7 @@ namespace WeixinRoboot
             Bitmap img = new Bitmap(472, 780);
             Graphics g = Graphics.FromImage(img);
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
 
 
             Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -5270,6 +7210,7 @@ namespace WeixinRoboot
                     Font sf = new Font("微软雅黑", 15);
                     Brush br = new SolidBrush(Color.Black);
                     g.DrawString(myset.ImageTopText, sf, br, new PointF(MarginLeft, MarginTop + i * 30));
+                    g.DrawString(subm.ToString(), sf, br, new PointF(MarginLeft+300, MarginTop + i * 30));
 
                 }
                 else if (i == 1)
@@ -5308,7 +7249,7 @@ namespace WeixinRoboot
                     DateTime? GameTime = currow.Field<DateTime?>("时间");
                     if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 && GameTime != null)
                     {
-                        GameTime = GameTime.Value.AddMinutes(-150);
+                        GameTime = GameTime.Value.AddMinutes(0);
                     }
                     g.DrawString((GameTime.HasValue ? GameTime.Value.ToString("HH:mm") : "")
                     , sf, br_g, new PointF(MarginLeft + 50, MarginTop + i * 30));//时间
@@ -5601,9 +7542,14 @@ namespace WeixinRoboot
             #region 数字文本
             string DatatextplainV7 = "";
 
-
-
-            for (int rev_index = 0; rev_index <= 16; rev_index++)
+            DatatextplainV7 += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            //DataRow fir_currow = dtCopy.Rows[dtCopy.Rows.Count - 1];
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            {
+                DatatextplainV7 += "本地时间与官网时差150分钟" + Environment.NewLine;
+            }
+            DatatextplainV7 += "期数  时间     号码     结果" + Environment.NewLine;
+            for (int rev_index = 0; rev_index <= 10; rev_index++)
             {
                 if ((dtCopy.Rows.Count - rev_index - 1) < 0
                     )
@@ -5628,6 +7574,475 @@ namespace WeixinRoboot
             filetowriteV7.Close();
             filetowriteV7.Dispose();
             #endregion
+
+            #region 龙虎加数字文本有大小单双有牛牛
+            #region 龙虎加数字文本
+            string DatatextplainV22 = "";
+            DatatextplainV22 += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            //DataRow fir_currow = dtCopy.Rows[dtCopy.Rows.Count - 1];
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            {
+                DatatextplainV22 += "本地时间与官网时差150分钟" + Environment.NewLine;
+            }
+            DatatextplainV22 += "期数  时间     号码     结果" + Environment.NewLine;
+
+            //DatatextplainV5 += CaculateNumberAndDragon(fir_currow) + Environment.NewLine;
+            Int32 NumIndexV22 = 10;
+
+
+            for (int rev_index = 0; rev_index < NumIndexV22; rev_index++)
+            {
+                //if ((dtCopy.Rows.Count - 16 + rev_index - 1) < 0
+                //    )
+                //{
+                //    continue;
+                //}
+                //DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 16 + rev_index - 1];
+                if (dtCopy.Rows.Count - 1 - rev_index < 0)
+                {
+                    continue;
+                }
+                DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
+                DatatextplainV22 += CaculateNumberAndDragon(subm, currow, false, true, true);
+            }
+            DatatextplainV22 += Environment.NewLine;
+            Int32 TigerindexV22 = 0;
+            Int32 TotalIndexV22 = 288;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
+            {
+                TotalIndexV22 = 30;
+            }
+            foreach (DataRow datetextitem in dtCopy.Rows)
+            {
+                TigerindexV22 += 1;
+                if (TigerindexV22 < dtCopy.Rows.Count - TotalIndexV22)
+                {
+                    continue;
+                }
+
+                string tigerordragon = datetextitem.Field<string>("龙虎");
+                switch (tigerordragon)
+                {
+                    case "龙":
+                        DatatextplainV22 += Linq.ProgramLogic.Dragon;
+                        break;
+                    case "虎":
+                        DatatextplainV22 += Linq.ProgramLogic.Tiger;
+                        break;
+                    case "合":
+                        DatatextplainV22 += Linq.ProgramLogic.OK;
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }//行循环
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
+            {
+                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
+            }
+            FileStream filetowriteV22 = new FileStream(Application.StartupPath + "\\Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
+            byte[] ResultV22 = Encoding.UTF8.GetBytes(DatatextplainV22);
+            filetowriteV22.Write(ResultV22, 0, ResultV22.Length);
+            filetowriteV22.Flush();
+            filetowriteV22.Close();
+            filetowriteV22.Dispose();
+            #endregion
+
+
+            #region 龙虎加数字文本QQ
+            string DatatextplainV23 = "";
+
+            //DataRow fir_currow6 = dtCopy.Rows[dtCopy.Rows.Count - 1];
+
+
+            //DatatextplainV6 += CaculateNumberAndDragon(fir_currow6) + Environment.NewLine;
+            DatatextplainV23 += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            {
+                DatatextplainV23 += "本地时间与官网时差150分钟" + Environment.NewLine;
+            }
+            Int32 NumIndexV23 = 10;
+            DatatextplainV23 += "期数  时间     号码     结果" + Environment.NewLine;
+
+            for (int rev_index = 0; rev_index < NumIndexV23; rev_index++)
+            {
+                //if ((dtCopy.Rows.Count - 16 + rev_index - 1) < 0
+                //    )
+                //{
+                //    continue;
+                //}
+                //DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 16 + rev_index - 1];
+
+                if (dtCopy.Rows.Count - 1 - rev_index < 0)
+                {
+                    continue;
+                }
+                DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
+                DatatextplainV23 += CaculateNumberAndDragon(subm, currow, false, true, true);
+            }
+            DatatextplainV23 += Environment.NewLine;
+            Int32 TigerIndexV23 = 0;
+            Int32 TotalIndexV23 = 30;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
+            {
+                TotalIndexV23 = 30;
+            }
+            //最新在前
+            foreach (DataRow datetextitem in dtCopy.Rows)
+            {
+                TigerIndexV23 += 1;
+                if (TigerIndexV23 < dtCopy.Rows.Count - TotalIndexV23)
+                {
+                    continue;
+                }
+
+
+                string tigerordragon = datetextitem.Field<string>("龙虎");
+                switch (tigerordragon)
+                {
+                    case "龙":
+                        DatatextplainV23 = Linq.ProgramLogic.Dragon_yixin + DatatextplainV23;
+                        break;
+                    case "虎":
+                        DatatextplainV23 = Linq.ProgramLogic.Tiger_yixin + DatatextplainV23;
+                        break;
+                    case "合":
+                        DatatextplainV23 = Linq.ProgramLogic.OK_yixin + DatatextplainV23;
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }//行循环
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
+            {
+                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
+            }
+            FileStream filetowriteV23 = new FileStream(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
+            byte[] ResultV23 = Encoding.UTF8.GetBytes(DatatextplainV23);
+            filetowriteV23.Write(ResultV23, 0, ResultV23.Length);
+            filetowriteV23.Flush();
+            filetowriteV23.Close();
+            filetowriteV23.Dispose();
+            #endregion
+
+
+
+            #region 龙虎加数字文本钉钉
+            string DatatextplainV24 = "";
+            DatatextplainV24 += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            //DataRow fir_currow6 = dtCopy.Rows[dtCopy.Rows.Count - 1];
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            {
+                DatatextplainV24 += "本地时间与官网时差150分钟" + Environment.NewLine;
+            }
+            DatatextplainV24 += "期数  时间     号码     结果" + Environment.NewLine;
+
+            //DatatextplainV6 += CaculateNumberAndDragon(fir_currow6) + Environment.NewLine;
+
+            Int32 NumIndexV24 = 12;
+
+            for (int rev_index = 0; rev_index < NumIndexV24; rev_index++)
+            {
+                //if ((dtCopy.Rows.Count - 16 + rev_index - 1) < 0
+                //    )
+                //{
+                //    continue;
+                //}
+                //DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 16 + rev_index - 1];
+
+                if (dtCopy.Rows.Count - 1 - rev_index < 0)
+                {
+                    continue;
+                }
+                DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
+                DatatextplainV24 += CaculateNumberAndDragon(subm, currow, false, true,true);
+            }
+            DatatextplainV24 += Environment.NewLine;
+            Int32 TigerIndexV24 = 0;
+            Int32 TotalIndexV24 = 288;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
+            {
+                TotalIndexV24 = 60;
+            }
+            foreach (DataRow datetextitem in dtCopy.Rows)
+            {
+                TigerIndexV24 += 1;
+
+                if (TigerIndexV24 < dtCopy.Rows.Count - TotalIndexV24)
+                {
+                    continue;
+                }
+                string tigerordragon = datetextitem.Field<string>("龙虎");
+                switch (tigerordragon)
+                {
+                    case "龙":
+                        DatatextplainV24 = DatatextplainV24 + Linq.ProgramLogic.Dragon_yixin;
+                        break;
+                    case "虎":
+                        DatatextplainV24 = DatatextplainV24 + Linq.ProgramLogic.Tiger_yixin;
+                        break;
+                    case "合":
+                        DatatextplainV24 = DatatextplainV24 + Linq.ProgramLogic.OK_yixin;
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }//行循环
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
+            {
+                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
+            }
+            FileStream filetowriteV24 = new FileStream(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
+            byte[] ResultV24 = Encoding.UTF8.GetBytes(DatatextplainV24);
+            filetowriteV24.Write(ResultV24, 0, ResultV24.Length);
+            filetowriteV24.Flush();
+            filetowriteV24.Close();
+            filetowriteV24.Dispose();
+            #endregion
+            #endregion
+
+
+            #region 龙虎加数字文本无大小单双
+            #region 龙虎加数字文本
+            string DatatextplainV10 = "";
+            DatatextplainV10 += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            //DataRow fir_currow = dtCopy.Rows[dtCopy.Rows.Count - 1];
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            {
+                DatatextplainV10 += "本地时间与官网时差150分钟" + Environment.NewLine;
+            }
+            DatatextplainV10 += "期数  时间     号码     结果" + Environment.NewLine;
+
+            //DatatextplainV5 += CaculateNumberAndDragon(fir_currow) + Environment.NewLine;
+            Int32 NumIndexV10 = 10;
+
+
+            for (int rev_index = 0; rev_index < NumIndexV10; rev_index++)
+            {
+                //if ((dtCopy.Rows.Count - 16 + rev_index - 1) < 0
+                //    )
+                //{
+                //    continue;
+                //}
+                //DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 16 + rev_index - 1];
+                if (dtCopy.Rows.Count - 1 - rev_index < 0)
+                {
+                    continue;
+                }
+                DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
+                DatatextplainV10 += CaculateNumberAndDragon(subm, currow,false,true);
+            }
+            DatatextplainV10 += Environment.NewLine;
+            Int32 TigerindexV10 = 0;
+            Int32 TotalIndexV10 = 288;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
+            {
+                TotalIndexV10 = 30;
+            }
+            foreach (DataRow datetextitem in dtCopy.Rows)
+            {
+                TigerindexV10 += 1;
+                if (TigerindexV10 < dtCopy.Rows.Count - TotalIndexV10)
+                {
+                    continue;
+                }
+
+                string tigerordragon = datetextitem.Field<string>("龙虎");
+                switch (tigerordragon)
+                {
+                    case "龙":
+                        DatatextplainV10 += Linq.ProgramLogic.Dragon;
+                        break;
+                    case "虎":
+                        DatatextplainV10 += Linq.ProgramLogic.Tiger;
+                        break;
+                    case "合":
+                        DatatextplainV10 += Linq.ProgramLogic.OK;
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }//行循环
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
+            {
+                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
+            }
+            FileStream filetowriteV10 = new FileStream(Application.StartupPath + "\\Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
+            byte[] ResultV10 = Encoding.UTF8.GetBytes(DatatextplainV10);
+            filetowriteV10.Write(ResultV10, 0, ResultV10.Length);
+            filetowriteV10.Flush();
+            filetowriteV10.Close();
+            filetowriteV10.Dispose();
+            #endregion
+
+
+            #region 龙虎加数字文本QQ
+            string DatatextplainV11 = "";
+
+            //DataRow fir_currow6 = dtCopy.Rows[dtCopy.Rows.Count - 1];
+
+
+            //DatatextplainV6 += CaculateNumberAndDragon(fir_currow6) + Environment.NewLine;
+            DatatextplainV11 += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            {
+                DatatextplainV11 += "本地时间与官网时差150分钟" + Environment.NewLine;
+            }
+            Int32 NumIndexV11 = 10;
+            DatatextplainV11 += "期数  时间     号码     结果" + Environment.NewLine;
+
+            for (int rev_index = 0; rev_index < NumIndexV11; rev_index++)
+            {
+                //if ((dtCopy.Rows.Count - 16 + rev_index - 1) < 0
+                //    )
+                //{
+                //    continue;
+                //}
+                //DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 16 + rev_index - 1];
+
+                if (dtCopy.Rows.Count - 1 - rev_index < 0)
+                {
+                    continue;
+                }
+                DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
+                DatatextplainV11 += CaculateNumberAndDragon(subm, currow,false,true);
+            }
+            DatatextplainV11 += Environment.NewLine;
+            Int32 TigerIndexV11 = 0;
+            Int32 TotalIndexV11 = 30;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
+            {
+                TotalIndexV11 = 30;
+            }
+            //最新在前
+            foreach (DataRow datetextitem in dtCopy.Rows)
+            {
+                TigerIndexV11 += 1;
+                if (TigerIndexV11 < dtCopy.Rows.Count - TotalIndexV11)
+                {
+                    continue;
+                }
+
+
+                string tigerordragon = datetextitem.Field<string>("龙虎");
+                switch (tigerordragon)
+                {
+                    case "龙":
+                        DatatextplainV11 = Linq.ProgramLogic.Dragon_yixin + DatatextplainV11;
+                        break;
+                    case "虎":
+                        DatatextplainV11 = Linq.ProgramLogic.Tiger_yixin + DatatextplainV11;
+                        break;
+                    case "合":
+                        DatatextplainV11 = Linq.ProgramLogic.OK_yixin + DatatextplainV11;
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }//行循环
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
+            {
+                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
+            }
+            FileStream filetowriteV11 = new FileStream(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
+            byte[] ResultV11 = Encoding.UTF8.GetBytes(DatatextplainV11);
+            filetowriteV11.Write(ResultV11, 0, ResultV11.Length);
+            filetowriteV11.Flush();
+            filetowriteV11.Close();
+            filetowriteV11.Dispose();
+            #endregion
+
+
+
+            #region 龙虎加数字文本钉钉
+            string DatatextplainV12 = "";
+            DatatextplainV12 += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
+            //DataRow fir_currow6 = dtCopy.Rows[dtCopy.Rows.Count - 1];
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+            {
+                DatatextplainV12 += "本地时间与官网时差150分钟" + Environment.NewLine;
+            }
+            DatatextplainV12 += "期数  时间     号码     结果" + Environment.NewLine;
+
+            //DatatextplainV6 += CaculateNumberAndDragon(fir_currow6) + Environment.NewLine;
+
+            Int32 NumIndexV12 = 12;
+
+            for (int rev_index = 0; rev_index < NumIndexV12; rev_index++)
+            {
+                //if ((dtCopy.Rows.Count - 16 + rev_index - 1) < 0
+                //    )
+                //{
+                //    continue;
+                //}
+                //DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 16 + rev_index - 1];
+
+                if (dtCopy.Rows.Count - 1 - rev_index < 0)
+                {
+                    continue;
+                }
+                DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
+                DatatextplainV12 += CaculateNumberAndDragon(subm, currow,false,true);
+            }
+            DatatextplainV12 += Environment.NewLine;
+            Int32 TigerIndexV12 = 0;
+            Int32 TotalIndexV12 = 288;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
+            {
+                TotalIndexV12 = 60;
+            }
+            foreach (DataRow datetextitem in dtCopy.Rows)
+            {
+                TigerIndexV12 += 1;
+
+                if (TigerIndexV12 < dtCopy.Rows.Count - TotalIndexV12)
+                {
+                    continue;
+                }
+                string tigerordragon = datetextitem.Field<string>("龙虎");
+                switch (tigerordragon)
+                {
+                    case "龙":
+                        DatatextplainV12 = DatatextplainV12 + Linq.ProgramLogic.Dragon_yixin;
+                        break;
+                    case "虎":
+                        DatatextplainV12 = DatatextplainV12 + Linq.ProgramLogic.Tiger_yixin;
+                        break;
+                    case "合":
+                        DatatextplainV12 = DatatextplainV12 + Linq.ProgramLogic.OK_yixin;
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }//行循环
+            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
+            {
+                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
+            }
+            FileStream filetowriteV12 = new FileStream(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
+            byte[] ResultV12 = Encoding.UTF8.GetBytes(DatatextplainV12);
+            filetowriteV12.Write(ResultV12, 0, ResultV12.Length);
+            filetowriteV12.Flush();
+            filetowriteV12.Close();
+            filetowriteV12.Dispose();
+            #endregion
+            #endregion
+
+
+            #region 龙虎加数字文本
+
             #region 龙虎加数字文本
             string DatatextplainV5 = "";
             DatatextplainV5 += Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + Environment.NewLine;
@@ -5636,6 +8051,7 @@ namespace WeixinRoboot
             {
                 DatatextplainV5 += "本地时间与官网时差150分钟" + Environment.NewLine;
             }
+            DatatextplainV5 += "期数  时间     号码     结果" + Environment.NewLine;
 
             //DatatextplainV5 += CaculateNumberAndDragon(fir_currow) + Environment.NewLine;
             Int32 NumIndexV5 = 10;
@@ -5658,13 +8074,19 @@ namespace WeixinRoboot
             }
             DatatextplainV5 += Environment.NewLine;
             Int32 TigerindexV5 = 0;
+            Int32 TotalIndexV5 = 288;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            {
+                TotalIndexV5 = 30;
+            }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
                 TigerindexV5 += 1;
-                if (TigerindexV5 + 60 <= dtCopy.Rows.Count)
+                if (TigerindexV5 < dtCopy.Rows.Count - TotalIndexV5)
                 {
                     continue;
                 }
+
                 string tigerordragon = datetextitem.Field<string>("龙虎");
                 switch (tigerordragon)
                 {
@@ -5680,6 +8102,7 @@ namespace WeixinRoboot
                     default:
                         break;
                 }
+
 
             }//行循环
             if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
@@ -5708,6 +8131,7 @@ namespace WeixinRoboot
                 DatatextplainV8 += "本地时间与官网时差150分钟" + Environment.NewLine;
             }
             Int32 NumIndexV8 = 10;
+            DatatextplainV8 += "期数  时间     号码     结果" + Environment.NewLine;
 
             for (int rev_index = 0; rev_index < NumIndexV8; rev_index++)
             {
@@ -5727,28 +8151,37 @@ namespace WeixinRoboot
             }
             DatatextplainV8 += Environment.NewLine;
             Int32 TigerIndexV8 = 0;
+            Int32 TotalIndexV8 = 30;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            {
+                TotalIndexV8 = 30;
+            }
+            //最新在前
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
                 TigerIndexV8 += 1;
-                if (TigerIndexV8 + 30 <= dtCopy.Rows.Count)
+                if (TigerIndexV8 < dtCopy.Rows.Count - TotalIndexV8)
                 {
                     continue;
                 }
+
+
                 string tigerordragon = datetextitem.Field<string>("龙虎");
                 switch (tigerordragon)
                 {
                     case "龙":
-                        DatatextplainV8 += Linq.ProgramLogic.Dragon_yixin;
+                        DatatextplainV8 = Linq.ProgramLogic.Dragon_yixin + DatatextplainV8;
                         break;
                     case "虎":
-                        DatatextplainV8 += Linq.ProgramLogic.Tiger_yixin;
+                        DatatextplainV8 = Linq.ProgramLogic.Tiger_yixin + DatatextplainV8;
                         break;
                     case "合":
-                        DatatextplainV8 += Linq.ProgramLogic.OK_yixin;
+                        DatatextplainV8 = Linq.ProgramLogic.OK_yixin + DatatextplainV8;
                         break;
                     default:
                         break;
                 }
+
 
             }//行循环
             if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎qq" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
@@ -5773,6 +8206,7 @@ namespace WeixinRoboot
             {
                 DatatextplainV6 += "本地时间与官网时差150分钟" + Environment.NewLine;
             }
+            DatatextplainV6 += "期数  时间     号码     结果" + Environment.NewLine;
 
             //DatatextplainV6 += CaculateNumberAndDragon(fir_currow6) + Environment.NewLine;
 
@@ -5796,10 +8230,16 @@ namespace WeixinRoboot
             }
             DatatextplainV6 += Environment.NewLine;
             Int32 TigerIndexV6 = 0;
+            Int32 TotalIndexV6 = 288;
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            {
+                TotalIndexV6 = 60;
+            }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
                 TigerIndexV6 += 1;
-                if (TigerIndexV6 + 60 <= dtCopy.Rows.Count)
+
+                if (TigerIndexV6 < dtCopy.Rows.Count - TotalIndexV6)
                 {
                     continue;
                 }
@@ -5807,17 +8247,18 @@ namespace WeixinRoboot
                 switch (tigerordragon)
                 {
                     case "龙":
-                        DatatextplainV6 += Linq.ProgramLogic.Dragon_yixin;
+                        DatatextplainV6 = DatatextplainV6 + Linq.ProgramLogic.Dragon_yixin;
                         break;
                     case "虎":
-                        DatatextplainV6 += Linq.ProgramLogic.Tiger_yixin;
+                        DatatextplainV6 = DatatextplainV6 + Linq.ProgramLogic.Tiger_yixin;
                         break;
                     case "合":
-                        DatatextplainV6 += Linq.ProgramLogic.OK_yixin;
+                        DatatextplainV6 = DatatextplainV6 + Linq.ProgramLogic.OK_yixin;
                         break;
                     default:
                         break;
                 }
+
 
             }//行循环
             if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
@@ -5833,26 +8274,46 @@ namespace WeixinRoboot
             #endregion
 
 
-
+            #endregion
 
             NetFramework.Console.Write(GlobalParam.UserName + "准备完毕发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
         }
-        private string CaculateNumberAndDragon(Linq.ProgramLogic.ShiShiCaiMode subm, DataRow currow, bool AddTotal = true)
+
+        private string CaculateNumberAndDragon(Linq.ProgramLogic.ShiShiCaiMode subm, DataRow currow, bool AddTotal = true,bool NoBigSmallSingleDouble=false,bool CaculateNiuNiu=false)
         {
             string DatatextplainV5 = "";
             string ShortPeriod = currow.Field<string>("期号");
-            ShortPeriod = ShortPeriod.Substring(ShortPeriod.Length - 3, 3);
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩)
+            {
+                ShortPeriod = "0" + ShortPeriod.Substring(ShortPeriod.Length - 2, 2);
+            }
+            else
+            {
+                ShortPeriod = ShortPeriod.Substring(ShortPeriod.Length - 3, 3);
+            }
             string 期号 = ShortPeriod;//期号
             DateTime? gametime = currow.Field<DateTime?>("时间");
 
             string 时间 = (currow.Field<DateTime?>("时间").HasValue ? currow.Field<DateTime?>("时间").Value.ToString("HH:mm") : "");//时间
-            string 实时 = (currow.Field<DateTime?>("时间").HasValue ? currow.Field<DateTime?>("时间").Value.AddMinutes(-150).ToString("HH:mm") : "");//时间
+            string 实时 = (currow.Field<DateTime?>("时间").HasValue ? currow.Field<DateTime?>("时间").Value.AddMinutes(-0).ToString("HH:mm") : "");//时间
 
             string OpenResult = currow.Field<string>("开奖号码");
             string 合数 = currow.Field<Int32>("和数").ToString();//和数
             string 大小 = currow.Field<string>("大小");
             string 单双 = currow.Field<string>("单双");
+            this.Invoke(new Action(() =>
+            {
+                bool TwoTreeNotSingle = cb_TwoTreeNotSingle.Checked;
+                if (TwoTreeNotSingle == true && currow.Field<Int32>("和数") == 23)
+                {
+                    单双 = "和";
+                }
+
+
+            }));
             string 龙虎 = currow.Field<string>("龙虎");
+
+            string 牛牛 = Linq.ProgramLogic.CaculateNiuNiu(OpenResult);
 
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
             {
@@ -5871,7 +8332,7 @@ namespace WeixinRoboot
                 DatatextplainV5 += 期号 + "  "
                     + 实时 + "  "
                     + OpenResult + "  "
-                    + 大小 + 单双 + 龙虎
+                    + (NoBigSmallSingleDouble == true ? "" : (大小 + 单双)) + 龙虎 + (CaculateNiuNiu == false ? "" : " "+牛牛)
 
                     + (AddTotal == false ? "" : ("" + 合数))
                     + Environment.NewLine;
@@ -5883,7 +8344,7 @@ namespace WeixinRoboot
                 DatatextplainV5 += 期号 + "  "
                     + 时间 + "  "
                     + OpenResult + "  "
-                    + 大小 + 单双 + 龙虎
+                     + (NoBigSmallSingleDouble == true ? "" : (大小 + 单双)) + 龙虎 + (CaculateNiuNiu == false ? "" : " "+牛牛)
 
                     + (AddTotal == false ? "" : ("" + 合数))
                     + Environment.NewLine;
@@ -6073,6 +8534,10 @@ namespace WeixinRoboot
             lbl_six.Text = "六下期：" + (GetNextPreriodHKSix(winsdb) == null ? "" : GetNextPreriodHKSix(winsdb).GamePeriod);
             lbl_qqthread.Text = "(ALT+O)采集:" + (StopQQ == true ? "停止" : "运行");
             tm_refresh.Enabled = false;
+            try
+            {
+
+          
             if (FirstRun == true)
             {
                 Thread startdo = new Thread(new ThreadStart(ThreadStartGetBallRatioV2));
@@ -6090,10 +8555,30 @@ namespace WeixinRoboot
                 checkqq.SetApartmentState(ApartmentState.STA);
                 checkqq.Start();
 
+                ReloadWebApp();
 
                 FirstRun = false;
             }
+            System.Threading.Tasks.Task<string> tsk = wb_vrchongqing.GetBrowser().MainFrame.GetSourceAsync();
+            tsk.Wait();
+            //string Source = NetFramework.Util_CEF.JoinQueueAndWait(NewUrl, wb_vrchongqing);
+            string Source = tsk.Result;
+            if (wb_vrchongqing.GetBrowser().MainFrame.Url.Contains("/Bet/Index/42") == false && wb_vrchongqing.GetBrowser().MainFrame.Url.Contains("/Bet/Index") == true)
+            {
+                // wb_vrchongqing.Load("http://huy.vrbetapi.com/Bet/Index/42");
+                NetFramework.Util_CEF.JoinQueueAndWait("http://huy.vrbetapi.com/Bet/Index/42", wb_vrchongqing);
+            }
+            if (wb_vrchongqing.GetBrowser().MainFrame.Url.Contains("ErrorHandle/Timeout")
+                )
+            {
+                ReloadWebApp();
+            }
+            if (Source.Contains("时间逾期"))
+            {
 
+                ReloadWebApp();
+
+            }
 
             SI_url.Text = NetFramework.Util_WEB.CurrentUrl;
             SI_url.ToolTipText = SI_url.Text;
@@ -6108,21 +8593,112 @@ namespace WeixinRoboot
                 PicBarCode.Visible = true;
                 ReloadWX = false;
             }
-
+            }
+            catch (Exception AnyError)
+            {
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
+            }
             //foreach (TabPage item in tc_wb.TabPages)
             //{
             //    tc_wb.SelectedTab=item;
             //} 
 
 
+            #region 显示模拟器
+            //this.Invoke(new Action(() =>
+            //{
 
+            if (cb_adbnoxmode.Checked == true && tb_NoxPath.Text != "")
+            {
+                CmdRun(tb_LeidianPath.Text, "adb devices");
+                string cmdr = CmdRun(tb_NoxPath.Text, "noxconsole.exe list");
+                ShowEnumtors(cmdr, SourceNoxList, "noxconsole.exe list");
+            }
+            if (cb_adbleidianmode.Checked == true && tb_LeidianPath.Text != "")
+            {
+                CmdRun(tb_LeidianPath.Text, "adb devices");
+                string cmdr = CmdRun(tb_LeidianPath.Text, "dnconsole.exe list2");
+                ShowEnumtors(cmdr, SourceLeidianList, "dnconsole.exe list2");
+            }
+            //}));
+
+            #endregion
 
 
             tm_refresh.Enabled = true;
 
+
         }
 
 
+        private string HuaYuToken = "";
+        private void ReloadWebApp()
+        {
+            try
+            {
+                string LoginUrl = "https://api.honze88.com/api/v1/login";
+                string loginResult = NetFramework.Util_WEB.OpenUrl(LoginUrl, "", "{\"memberName\":\"xl1234567\",\"loginPasswd\":\"123456\"}", "POST", wufencai, true, true, "application/json; charset=utf-8"
+                   ,"");
+
+                string tOKEN = JObject.Parse(loginResult)["token"].ToString();
+                HuaYuToken = tOKEN;
+                string URL = "https://api.honze88.com/api/v1/yules/vr/lobbies/601/landing";
+
+                string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
+                    , "JWT "+tOKEN);
+                JObject jr = JObject.Parse(Result);
+                     //JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ0MzYxLCJuYW1lIjoieGwxMjM0NTY3IiwiaWF0IjoxNTU1MjEwNzMzLCJleHAiOjE1NTY0MjAzMzN9.6c9VVDQZkiCAd9Up_6MoqhooDGL_uL3ZSSAYE9j8YVc
+                string NewuRL = jr["url"].ToString();
+                NetFramework.Util_CEF.JoinQueueAndWait(NewuRL, wb_vrchongqing);
+            }
+            catch (Exception anyerror)
+            {
+
+                NetFramework.Console.WriteLine("---------------------------------自动登录失败--------------------------");
+                NetFramework.Console.WriteLine(anyerror.Message);
+                NetFramework.Console.WriteLine(anyerror.StackTrace);
+            }
+
+
+
+        }
+        private void ShowEnumtors(string Output, BindingList<EnumListRow> sourcebuf, string Command)
+        {
+            string[] Lines = Output.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            sourcebuf.Clear();
+            bool NextLineIsCommand = false;
+            foreach (var item in Lines)
+            {
+                if (item.EndsWith(Command))
+                {
+                    NextLineIsCommand = true;
+                    continue;
+                }
+                if (NextLineIsCommand == false)
+                {
+                    continue;
+                }
+                if (item.Contains(","))
+                {
+                    string[] cells = item.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    EnumListRow newr = new EnumListRow();
+                    newr.EnumName = cells[1];
+                    newr.EnumState = cells[2] == "0" ? "未启动" : "启动";
+                    sourcebuf.Add(newr);
+                }
+            }
+
+        }
+
+
+        private BindingList<EnumListRow> SourceNoxList = new BindingList<EnumListRow>();
+        private BindingList<EnumListRow> SourceLeidianList = new BindingList<EnumListRow>();
+        private class EnumListRow
+        {
+            public string EnumName { get; set; }
+            public string EnumState { get; set; }
+        }
         private void MI_MyData_Click(object sender, EventArgs e)
         {
             UserSetting us = new UserSetting();
@@ -6222,11 +8798,17 @@ namespace WeixinRoboot
 
         private void BtnDrawGdi_Click(object sender, EventArgs e)
         {
-            DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-            DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-            DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-            DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+            //Linq.dbDataContext db = new Linq.dbDataContext();
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
 
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.北京赛车PK10);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
         }
 
         private void Btn_StartDownLoad_Click(object sender, EventArgs e)
@@ -6328,7 +8910,7 @@ namespace WeixinRoboot
                     {
 
 
-                        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                         db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                         var Rows = RunnerF.MemberSource.Select("User_IsBoss='true'");
@@ -6424,12 +9006,12 @@ namespace WeixinRoboot
                 return PCSourceType.未知;
             }
         }
-        public Linq.dbDataContext winsdb = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+        public Linq.dbDataContext winsdb = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
 
         public bool EnumWinsCallBack(IntPtr hwnd, int lParam)
         {
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -6470,7 +9052,7 @@ namespace WeixinRoboot
                         newws.WX_SourceType = Enum.GetName(typeof(PCSourceType), WindowclassToSourceType(sb.ToString()));
                         newws.WX_UserName = NewTitle.Replace("智能发图", "");
 
-                        newws.OpenResult = true;
+                        newws.OpenResult = false;
                         newws.NumberDragonTxt = false;
                         newws.Is_Reply = false;
                         newws.OpenPIC = false;
@@ -6507,6 +9089,8 @@ namespace WeixinRoboot
                         newws.FiveMinuteMode = false;
                         newws.HkMode = false;
                         newws.AozcMode = false;
+                        newws.Tengxunshifen = false;
+                        newws.RefreshBill = false;
 
 
                         db.WX_PCSendPicSetting.InsertOnSubmit(newws);
@@ -6517,7 +9101,10 @@ namespace WeixinRoboot
 
 
                     }//数据库不存在
-                    if (InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString()) == null)
+                    if (InjectWins.SingleOrDefault(t =>
+                        t.WX_UserName == NewTitle.Replace("智能发图", "")
+               && t.WX_SourceType == Enum.GetName(typeof(PCSourceType), WindowclassToSourceType(sb.ToString()))
+                        ) == null)
                     {
                         Linq.WX_PCSendPicSetting loadset = winsdb.WX_PCSendPicSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                           && t.WX_UserName == NewTitle.Replace("智能发图", "")
@@ -6529,12 +9116,12 @@ namespace WeixinRoboot
                             loadset.WX_UserTMPID = hwnd.ToString();
                             loadset.Can_Use = true;
 
-                            loadset.TMP_Text1Time = DateTime.Now;
-                            loadset.TMP_Text2Time = DateTime.Now;
-                            loadset.TMP_Text3Time = DateTime.Now;
+                            loadset.TMP_Text1Time = DateTime.Today;
+                            loadset.TMP_Text2Time = DateTime.Today;
+                            loadset.TMP_Text3Time = DateTime.Today;
 
-                            loadset.TMP_Football = DateTime.Now;
-                            loadset.TMP_Basketball = DateTime.Now;
+                            loadset.TMP_Football = DateTime.Today;
+                            loadset.TMP_Basketball = DateTime.Today;
 
 
                             winsdb.SubmitChanges();
@@ -6620,6 +9207,7 @@ namespace WeixinRoboot
 
                         //)
                         Linq.ProgramLogic.TimeCanUse(wins.OpenHour, wins.OpenMinue, wins.EndHour, wins.EndMinute) == false
+                        // Linq.ProgramLogic.TimeCanUse(7, 0, 3, 15) == false
                         )
                     {
 
@@ -6656,34 +9244,45 @@ namespace WeixinRoboot
                                 continue;
                             }
                             break;
+                        case WeixinRoboot.Linq.ProgramLogic.ShiShiCaiMode.腾讯十分:
+                            if (wins.Tengxunshifen == false || wins.Tengxunshifen == null)
+                            {
+                                continue;
+                            }
+                            break;
+
+                        case WeixinRoboot.Linq.ProgramLogic.ShiShiCaiMode.腾讯五分:
+                            if (wins.Tengxunwufen == false || wins.Tengxunwufen == null)
+                            {
+                                continue;
+                            }
+                            break;
+
+                        case WeixinRoboot.Linq.ProgramLogic.ShiShiCaiMode.北京赛车PK10:
+                            if (wins.BeijingsaichePK10 == false || wins.BeijingsaichePK10 == null)
+                            {
+                                continue;
+                            }
+                            break;
+
+                        case WeixinRoboot.Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩:
+                            if (wins.VRChongqing == false || wins.VRChongqing == null)
+                            {
+                                continue;
+                            }
+                            break;
+                        case WeixinRoboot.Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩:
+                            if (wins.XinJiangMode == false || wins.XinJiangMode == null)
+                            {
+                                continue;
+                            }
+                            break;
+
                         default:
-                            throw new Exception("未定义的模式" + csubm.ToString());
+                            continue;
                             break;
                     }
-                    if (wins.NumberPIC == true)
-                    {
 
-                        hwndSendImageFile(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".jpg", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
-                    }
-
-
-
-                    Thread.Sleep(200);
-
-
-                    if (wins.DragonPIC == true)
-                    {
-                        if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PC微)
-                        {
-                            hwndSendTextFile(Application.StartupPath + "\\Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
-                        }
-                        else //if ((wins.WinClassName == "ChatWnd" || wins.WinClassName == "LDPlayerMainFrame") )
-                        {
-                            hwndSendTextFile(Application.StartupPath + "\\Data3_dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
-
-                        }
-                    }
-                    Thread.Sleep(200);
 
                     if (wins.NumberDragonTxt == true)
                     {
@@ -6706,6 +9305,46 @@ namespace WeixinRoboot
                     }
 
 
+                    if (wins.NiuNiuPic == true)
+                    {
+                        if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PC微)
+                        {
+                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+
+
+                        }
+                        else if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PCQ)
+                        {
+                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+
+
+                        }
+                        else
+                        {
+                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                        }
+                    }
+                    if (wins.NoBigSmallSingleDoublePIC == true)
+                    {
+                        if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PC微)
+                        {
+                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+
+
+                        }
+                        else if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PCQ)
+                        {
+                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+
+
+                        }
+                        else
+                        {
+                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                        }
+                    }
+
+
                     if (wins.NumberText == true)
                     {
                         hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + "V7.txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
@@ -6714,7 +9353,7 @@ namespace WeixinRoboot
 
 
                     Thread.Sleep(200);
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                     if (wins.DragonTigerOne == true)
@@ -6736,6 +9375,22 @@ namespace WeixinRoboot
                         {
                             subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
                         }
+
+                        else if (wins.Tengxunshifen == true)
+                        {
+                            subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
+                        }
+                        else if (wins.Tengxunwufen == true)
+                        {
+                            subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
+                        }
+                        else if (wins.VRChongqing == true)
+                        {
+                            subm = Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩;
+                        }
+
+
+
                         Linq.Game_Result gr = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                             && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)
                             )
@@ -6762,7 +9417,35 @@ namespace WeixinRoboot
                         hwndSendImageFile(Application.StartupPath + "\\PCGIFS\\开始下注.gif", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
 
                     }
+                    if (wins.NumberPIC == true)
+                    {
 
+                        hwndSendImageFile(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".jpg", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                    }
+
+
+
+                    Thread.Sleep(200);
+
+
+                    if (wins.DragonPIC == true)
+                    {
+                        if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PC微)
+                        {
+                            hwndSendTextFile(Application.StartupPath + "\\Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                        }
+                        else if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PCQ)
+                        {
+                            hwndSendTextFile(Application.StartupPath + "\\Data3_qq" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+
+                        }
+                        else //if ((wins.WinClassName == "ChatWnd" || wins.WinClassName == "LDPlayerMainFrame") )
+                        {
+                            hwndSendTextFile(Application.StartupPath + "\\Data3_dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+
+                        }
+                    }
+                    Thread.Sleep(200);
 
 
 
@@ -6784,7 +9467,7 @@ namespace WeixinRoboot
 
         private void hwndDragFile(string FileImage, IntPtr hwnd)
         {
-            lock (GlobalParam.KeyBoardLocking)
+            // lock (GlobalParam.KeyBoardLocking)
             {
                 try
                 {
@@ -6815,7 +9498,7 @@ namespace WeixinRoboot
 
 
 
-                    Thread.Sleep(10);
+                    Thread.Sleep(500);
 
                     NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
                     NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
@@ -6834,7 +9517,7 @@ namespace WeixinRoboot
                     NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
                     NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
 
-
+                    Thread.Sleep(500);
 
                     NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
 
@@ -6856,145 +9539,188 @@ namespace WeixinRoboot
         }
         private void hwndSendTextFile(string FileText, IntPtr hwnd)
         {
-            lock (GlobalParam.KeyBoardLocking)
+            // lock (GlobalParam.KeyBoardLocking)
             {
                 try
                 {
+                    FileStream fs = new FileStream(FileText, System.IO.FileMode.OpenOrCreate);
+                    byte[] ToSend = new byte[fs.Length];
+                    fs.Read(ToSend, 0, ToSend.Length);
+                    fs.Close();
+                    fs.Dispose();
+                    string SendText = Encoding.UTF8.GetString(ToSend);
+                    Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
 
-
-                    this.Invoke(new Action(() =>
+                    if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
                     {
+                        AdbSendText(findenum.WX_UserName, PCSourceType.雷电, FileText);
+                        return;
 
-                        Clipboard.Clear();
-                        StringBuilder RAW = new StringBuilder(512);
-                        Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
-                        if (winstate == 0)
+                    }
+                    if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
+                    {
+                        AdbSendText(findenum.WX_UserName, PCSourceType.夜神, FileText);
+                        return;
+                    }
+                    #region "复制发图"
+
+                    {
+                        this.Invoke(new Action(() =>
                         {
-                            return;
-                        }
-                        FileStream fs = new FileStream(FileText, System.IO.FileMode.Open);
-                        byte[] ToSend = new byte[fs.Length];
-                        fs.Read(ToSend, 0, ToSend.Length);
-                        fs.Close();
-                        fs.Dispose();
 
-                        NetFramework.WindowsApi.ShowWindow(hwnd, 1);
-                        NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
-                        NetFramework.WindowsApi.SetForegroundWindow(hwnd);
+                            Clipboard.Clear();
+                            StringBuilder RAW = new StringBuilder(512);
+                            Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
+                            if (winstate == 0)
+                            {
+                                return;
+                            }
 
-
-                        Thread.Sleep(100);
-                        //Thread.Sleep(200);
-
-                        //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
-                        //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
-
-                        //Thread.Sleep(50);
-                        //Application.DoEvents();
-                        //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 2, 0);
-                        //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 2, 0);
-                        Clipboard.Clear();
-                        #region
-                        //Int32 CurIndex = 0;
-
-                        //byte[] Dragon = (new byte[] { 240, 159, 144 });
-                        //byte[] Ok = (new byte[] { 240, 159, 136 });
-                        //byte[] Tiger = (new byte[] { 238, 129, 144 });
-
-                        //while (CurIndex < ToSend.Length)
-                        //{
-                        //    byte[] test = (new byte[] { ToSend[CurIndex], ToSend[CurIndex + 1], ToSend[CurIndex + 2] });
-
-                        //    Application.DoEvents();
-
-                        //    if (bytecompare(test, Dragon))
-                        //    {
-                        //        Clipboard.Clear();
-                        //        Clipboard.SetText(Linq.DataLogic.Dragon, TextDataFormat.UnicodeText);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                        //        Thread.Sleep(50);
-                        //        Application.DoEvents();
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                        //        CurIndex += 4;
-                        //    }
-                        //    else if (bytecompare(test, Ok))
-                        //    {
-                        //        Clipboard.Clear();
-                        //        Clipboard.SetText(Linq.DataLogic.OK, TextDataFormat.UnicodeText);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                        //        Thread.Sleep(50);
-                        //        Application.DoEvents();
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                        //        CurIndex += 4;
-                        //    }
-                        //    else if (bytecompare(test, Tiger))
-                        //    {
-                        //        Clipboard.Clear();
-
-                        //        StringBuilder RAW = new StringBuilder(512);
-                        //        NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
-
-                        //        if (RAW.ToString().Contains("钉钉"))
-                        //        {
-                        //            Clipboard.SetText(Linq.DataLogic.Tiger_dingding, TextDataFormat.UnicodeText);
-                        //        }
-                        //        else
-                        //        {
-                        //            Clipboard.SetText(Linq.DataLogic.Tiger, TextDataFormat.Text);
-                        //        }
-
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                        //        Thread.Sleep(50);
-                        //        Application.DoEvents();
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                        //        CurIndex += 3;
-                        //    }
-                        //    else
-                        //    {
-                        //        Clipboard.Clear();
-                        //        Clipboard.SetText(Encoding.UTF8.GetString(ToSend, CurIndex, ToSend.Length - CurIndex), TextDataFormat.UnicodeText);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                        //        Thread.Sleep(100);
-                        //        Application.DoEvents();
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                        //        CurIndex = ToSend.Length;
-                        //    }
+                            NetFramework.WindowsApi.ShowWindow(hwnd, 1);
+                            NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
+                            NetFramework.WindowsApi.SetForegroundWindow(hwnd);
 
 
+                            Thread.Sleep(1000);
+                            //Thread.Sleep(200);
 
-                        //}
-                        #endregion
+                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
+                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
 
-                        string SendText = Encoding.UTF8.GetString(ToSend);
-                        Clipboard.SetText((SendText.StartsWith(Linq.ProgramLogic.Tiger) ? " " : "") + SendText);
+                            //Thread.Sleep(50);
+                            //Application.DoEvents();
+                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 2, 0);
+                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 2, 0);
+
+                            #region
+                            //Int32 CurIndex = 0;
+
+                            //byte[] Dragon = (new byte[] { 240, 159, 144 });
+                            //byte[] Ok = (new byte[] { 240, 159, 136 });
+                            //byte[] Tiger = (new byte[] { 238, 129, 144 });
+
+                            //while (CurIndex < ToSend.Length)
+                            //{
+                            //    byte[] test = (new byte[] { ToSend[CurIndex], ToSend[CurIndex + 1], ToSend[CurIndex + 2] });
+
+                            //    Application.DoEvents();
+
+                            //    if (bytecompare(test, Dragon))
+                            //    {
+                            //        Clipboard.Clear();
+                            //        Clipboard.SetText(Linq.DataLogic.Dragon, TextDataFormat.UnicodeText);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                            //        Thread.Sleep(50);
+                            //        Application.DoEvents();
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                            //        CurIndex += 4;
+                            //    }
+                            //    else if (bytecompare(test, Ok))
+                            //    {
+                            //        Clipboard.Clear();
+                            //        Clipboard.SetText(Linq.DataLogic.OK, TextDataFormat.UnicodeText);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                            //        Thread.Sleep(50);
+                            //        Application.DoEvents();
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                            //        CurIndex += 4;
+                            //    }
+                            //    else if (bytecompare(test, Tiger))
+                            //    {
+                            //        Clipboard.Clear();
+
+                            //        StringBuilder RAW = new StringBuilder(512);
+                            //        NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
+
+                            //        if (RAW.ToString().Contains("钉钉"))
+                            //        {
+                            //            Clipboard.SetText(Linq.DataLogic.Tiger_dingding, TextDataFormat.UnicodeText);
+                            //        }
+                            //        else
+                            //        {
+                            //            Clipboard.SetText(Linq.DataLogic.Tiger, TextDataFormat.Text);
+                            //        }
+
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                            //        Thread.Sleep(50);
+                            //        Application.DoEvents();
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                            //        CurIndex += 3;
+                            //    }
+                            //    else
+                            //    {
+                            //        Clipboard.Clear();
+                            //        Clipboard.SetText(Encoding.UTF8.GetString(ToSend, CurIndex, ToSend.Length - CurIndex), TextDataFormat.UnicodeText);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                            //        Thread.Sleep(100);
+                            //        Application.DoEvents();
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                            //        CurIndex = ToSend.Length;
+                            //    }
 
 
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                        Thread.Sleep(10);
 
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-                        Thread.Sleep(10);
+                            //}
+                            #endregion
 
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
 
-                        Thread.Sleep(10);
+                            Clipboard.SetText((SendText.StartsWith(Linq.ProgramLogic.Tiger) ? " " : "") + SendText);
+                            Thread.Sleep(500);
+                            #region 模拟点击
+                            //NetFramework.WindowsApi.Rect pos = new NetFramework.WindowsApi.Rect();
+                            //NetFramework.WindowsApi.GetWindowRect(hwnd, out pos);
 
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
-                    }));// invoke 结束
+                            //NetFramework.WindowsApi.SetCursorPos(
+                            //     pos.Right - 150
+                            //    , pos.Bottom - 20
+                            //    );//移动到需要点击的位置
+                            //Thread.Sleep(10);
+                            //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTDOWN | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
+                            //    , 0
+                            //    , 0
+                            //    , 0, 0);//点击
+                            //Thread.Sleep(10);
+                            //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTUP | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
+                            //     , 0
+                            //    , 0
+                            //    , 0, 0);//抬起
+
+                            //Thread.Sleep(100);
+
+                            #endregion
+
+
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                            Thread.Sleep(10);
+
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+                            Thread.Sleep(200);
+
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
+
+                            Thread.Sleep(10);
+
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
+                        }));// invoke 结束
+                    }
+                    #endregion
+
+
+
                 }
                 catch (Exception AnyError)
                 {
@@ -7005,7 +9731,11 @@ namespace WeixinRoboot
         }
         private void hwndSendText(string SendText, IntPtr hwnd)
         {
-            lock (GlobalParam.KeyBoardLocking)
+            if (SendText==""||SendText==null)
+            {
+                return;
+            }
+            // lock (GlobalParam.KeyBoardLocking)
             {
                 try
                 {
@@ -7034,7 +9764,7 @@ namespace WeixinRoboot
                         NetFramework.WindowsApi.SetForegroundWindow(hwnd);
 
 
-                        //Thread.Sleep(200);
+                        Thread.Sleep(1000);
 
                         //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
                         //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
@@ -7127,16 +9857,73 @@ namespace WeixinRoboot
                         //}
                         #endregion
 
+                        #region 保存成文件
+                        if (Directory.Exists(Application.StartupPath + "\\EmuFile") == false)
+                        {
+                            Directory.CreateDirectory(Application.StartupPath + "\\EmuFile");
+                        }
+
+                        if (File.Exists(Application.StartupPath + "\\EmuFile" + "\\0.txt"))
+                        {
+                            File.Delete(Application.StartupPath + "\\EmuFile" + "\\0.txt");
+
+                        }
+                        FileStream fs = new FileStream(Application.StartupPath + "\\EmuFile" + "\\0.txt", FileMode.OpenOrCreate);
+                        StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+                        sw.Write(SendText);
+                        sw.Flush();
+                        fs.Flush();
+                        sw.Close();
+                        fs.Close();
+                        #endregion
+
+                        #region adb发送
+                        Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
+                        if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                        {
+                            AdbSendText(findenum.WX_UserName, PCSourceType.雷电, Application.StartupPath + "\\EmuFile" + "\\0.txt");
+                            return;
+
+                        }
+                        if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
+                        {
+                            AdbSendText(findenum.WX_UserName, PCSourceType.夜神, Application.StartupPath + "\\EmuFile" + "\\0.txt");
+                            return;
+                        }
+                        #endregion
+
 
                         Clipboard.SetText((SendText.StartsWith(Linq.ProgramLogic.Tiger) ? " " : "") + SendText);
+                        Thread.Sleep(500);
+                        #region 模拟点击
+                        //NetFramework.WindowsApi.Rect pos = new NetFramework.WindowsApi.Rect();
+                        //NetFramework.WindowsApi.GetWindowRect(hwnd, out pos);
 
+                        //NetFramework.WindowsApi.SetCursorPos(
+                        //     pos.Right - 150
+                        //    , pos.Bottom - 20
+                        //    );//移动到需要点击的位置
+                        //Thread.Sleep(10);
+                        //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTDOWN | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
+                        //    , 0
+                        //    , 0
+                        //    , 0, 0);//点击
+                        //Thread.Sleep(10);
+                        //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTUP | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
+                        //     , 0
+                        //    , 0
+                        //    , 0, 0);//抬起
+
+                        //Thread.Sleep(100);
+
+                        #endregion
                         NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
                         NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
                         Thread.Sleep(10);
 
                         NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
                         NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-                        Thread.Sleep(10);
+                        Thread.Sleep(200);
 
 
                         NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
@@ -7153,64 +9940,178 @@ namespace WeixinRoboot
             }
         }
 
+        private void AdbSendText(string EnumName, PCSourceType EnumType, string PCFilePath)
+        {
+            System.IO.FileStream FS = new FileStream(PCFilePath, FileMode.OpenOrCreate);
+            if (FS.Length==0)
+            {
+                return;
+            }
 
+            if (EnumType == PCSourceType.雷电)
+            {
+                //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
+                //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
+                //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
+
+                // adb shell rm /sdcard/0.txt
+                //adb push D:\file.txt system/
+                // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
+
+                CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + EnumName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
+
+
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"  shell rm /sdcard/0.txt  \"");
+
+
+
+
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"  push " + PCFilePath + " /sdcard/0.txt  \"");
+
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 90 452 \"");
+
+              
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \" shell am broadcast -a ADB_INPUT_SF --es msg  0.txt \"");
+                //CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 163 425 \"");
+
+
+
+            }
+            if (EnumType == PCSourceType.夜神)
+            {
+                //NoxConsole.exe action -name:夜神模拟器 -key:call.input -value:"中国123"
+                //NoxConsole.exe adb -name:夜神模拟器 -command:" shell input tap 332 616"
+                //NoxConsole.exe adb -name:夜神模拟器 -command:" shell uiautomator dump /sdcard/1.xml"
+
+                //CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb -name:" + EnumName + " --command: \" shell am broadcast -a ADB_INPUT_CHARS --eia chars '" + ToAdb + "'\"");
+
+            }
+
+
+        }
+
+        private void AdbSendImage(string EnumName, PCSourceType EnumType, string PCFilePath)
+        {
+            System.IO.FileStream FS = new FileStream(PCFilePath, FileMode.OpenOrCreate);
+            if (FS.Length == 0)
+            {
+                return;
+            }
+            if (EnumType == PCSourceType.雷电)
+            {
+                //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
+                //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
+                //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
+
+                // adb shell rm /sdcard/0.txt
+                //adb push D:\file.txt system/
+                // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
+
+                CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + EnumName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
+
+
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"  shell rm /sdcard/0.jpg  \"");
+
+
+
+
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"  push " + PCFilePath + " /sdcard/0.jpg  \"");
+
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"   shell am broadcast -a android.intent.action.MEDIA_MOUNTED -d file:///sdcard/  \"");
+
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 90 452 \"");
+                Thread.Sleep(2000);
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 163 429 \"");
+                Thread.Sleep(2000);
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 37 368 \"");
+                Thread.Sleep(2000);
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 27 71 \"");
+                Thread.Sleep(2000);
+                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 155 30 \"");
+            }
+            if (EnumType == PCSourceType.夜神)
+            {
+                //NoxConsole.exe action -name:夜神模拟器 -key:call.input -value:"中国123"
+                //NoxConsole.exe adb -name:夜神模拟器 -command:" shell input tap 332 616"
+                //NoxConsole.exe adb -name:夜神模拟器 -command:" shell uiautomator dump /sdcard/1.xml"
+
+                //CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb -name:" + EnumName + " --command: \" shell am broadcast -a ADB_INPUT_CHARS --eia chars '" + ToAdb + "'\"");
+
+            }
+
+
+        }
         private void hwndSendImageFile(string FileImage, IntPtr hwnd)
         {
-            lock (GlobalParam.KeyBoardLocking)
+            // lock (GlobalParam.KeyBoardLocking)
             {
                 try
                 {
+                    Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
 
-
-                    this.Invoke(new Action(() =>
+                    if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                    {
+                        AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, FileImage);
+                    }
+                    if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
+                    {
+                        AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, FileImage);
+               
+                    }
+                    if (findenum.WX_SourceType != "雷电" && findenum.WX_SourceType != "夜神")
                     {
 
-                        Clipboard.Clear();
-                        StringBuilder RAW = new StringBuilder(512);
-                        Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
-                        if (winstate == 0)
+                        this.Invoke(new Action(() =>
                         {
-                            return;
-                        }
 
-                        //System.Collections.Specialized.StringCollection sc = new System.Collections.Specialized.StringCollection();
-                        //sc.Add(FileImage);
-                        //Clipboard.SetFileDropList(sc);
-                        Image tocpyimage = Image.FromFile(FileImage);
-                        System.Drawing.Bitmap bp = new Bitmap(tocpyimage);
-                        Clipboard.SetData("System.Drawing.Bitmap", bp);
+                            Clipboard.Clear();
+                            StringBuilder RAW = new StringBuilder(512);
+                            Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
+                            if (winstate == 0)
+                            {
+                                return;
+                            }
 
-
-                        NetFramework.WindowsApi.ShowWindow(hwnd, 1);
-                        NetFramework.WindowsApi.SetForegroundWindow(hwnd);
-                        NetFramework.WindowsApi.SetActiveWindow(hwnd);
-                        NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
-
-
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-
-                        Thread.Sleep(10);
-
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                        bp.Dispose();
-
-                        tocpyimage.Dispose();
-                        bp = null;
-                        tocpyimage = null;
+                            //System.Collections.Specialized.StringCollection sc = new System.Collections.Specialized.StringCollection();
+                            //sc.Add(FileImage);
+                            //Clipboard.SetFileDropList(sc);
+                            Image tocpyimage = Image.FromFile(FileImage);
+                            System.Drawing.Bitmap bp = new Bitmap(tocpyimage);
+                            Clipboard.SetData("System.Drawing.Bitmap", bp);
 
 
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
+                            NetFramework.WindowsApi.ShowWindow(hwnd, 1);
+                            NetFramework.WindowsApi.SetForegroundWindow(hwnd);
+                            NetFramework.WindowsApi.SetActiveWindow(hwnd);
+                            NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
 
-                        Thread.Sleep(10);
+                            Thread.Sleep(500);
 
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+
+                            Thread.Sleep(10);
+
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                            bp.Dispose();
+
+                            tocpyimage.Dispose();
+                            bp = null;
+                            tocpyimage = null;
+
+
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
+
+                            Thread.Sleep(10);
+
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
 
 
 
-                    }));// invoke 结束
+                        }));// invoke 结束
+                    }
                 }
                 catch (Exception AnyError)
                 {
@@ -7306,7 +10207,7 @@ namespace WeixinRoboot
 
                     //}
                     //整点停止下注
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                     Linq.Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == DateTime.Now.ToString("HH:mm"));
@@ -7400,36 +10301,39 @@ namespace WeixinRoboot
 
                     //}
                     //文字1，2，3
-                    foreach (Linq.WX_PCSendPicSetting sendwins in InjectWins)
+                    foreach (Linq.WX_PCSendPicSetting CheckSendWin in InjectWins.Where(t=>t.aspnet_UserID==GlobalParam.UserKey))
                     {
                         StringBuilder RAW = new StringBuilder(512);
-                        NetFramework.WindowsApi.GetWindowText(new IntPtr(Convert.ToInt32(sendwins.WX_UserTMPID)), RAW, 512);
+                        NetFramework.WindowsApi.GetWindowText(new IntPtr(Convert.ToInt32(CheckSendWin.WX_UserTMPID)), RAW, 512);
 
                         if (RAW.ToString() == "")
                         {
                             continue;
 
                         }
-                        if (sendwins.TMP_Text1Time.Value.AddMinutes(sendwins.Text1Minute.Value) <= DateTime.Now && sendwins.Text1 != "")
+                        if (CheckSendWin.TMP_Text1Time.Value.AddMinutes(CheckSendWin.Text1Minute.Value) <= DateTime.Now && CheckSendWin.Text1 != "" && CheckSendWin.Text1 != null)
                         {
-
-                            hwndSendText(sendwins.Text1, new IntPtr(Convert.ToInt32(sendwins.WX_UserTMPID)));
-                            sendwins.TMP_Text1Time = DateTime.Now;
+                            if (CheckSendWin.Text1PicPath!=""&&CheckSendWin.Text1PicPath!=null)
+                            {
+                                hwndSendImageFile(CheckSendWin.Text1PicPath, new IntPtr(Convert.ToInt32(CheckSendWin.WX_UserTMPID)));
+                            }
+                            hwndSendText(CheckSendWin.Text1, new IntPtr(Convert.ToInt32(CheckSendWin.WX_UserTMPID)));
+                            CheckSendWin.TMP_Text1Time = DateTime.Now;
                         }
 
 
-                        if (sendwins.TMP_Text2Time.Value.AddMinutes(sendwins.Text2Minute.Value) <= DateTime.Now && sendwins.Text2 != "")
+                        if (CheckSendWin.TMP_Text2Time.Value.AddMinutes(CheckSendWin.Text2Minute.Value) <= DateTime.Now && CheckSendWin.Text2 != "" && CheckSendWin.Text2 != null)
                         {
 
-                            hwndSendText(sendwins.Text2, new IntPtr(Convert.ToInt32(sendwins.WX_UserTMPID)));
-                            sendwins.TMP_Text2Time = DateTime.Now;
+                            hwndSendText(CheckSendWin.Text2, new IntPtr(Convert.ToInt32(CheckSendWin.WX_UserTMPID)));
+                            CheckSendWin.TMP_Text2Time = DateTime.Now;
                         }
 
-                        if (sendwins.TMP_Text3Time.Value.AddMinutes(sendwins.Text3Minute.Value) <= DateTime.Now && sendwins.Text3 != "")
+                        if (CheckSendWin.TMP_Text3Time.Value.AddMinutes(CheckSendWin.Text3Minute.Value) <= DateTime.Now && CheckSendWin.Text3 != "" && CheckSendWin.Text3 != null)
                         {
 
-                            hwndSendText(sendwins.Text3, new IntPtr(Convert.ToInt32(sendwins.WX_UserTMPID)));
-                            sendwins.TMP_Text3Time = DateTime.Now;
+                            hwndSendText(CheckSendWin.Text3, new IntPtr(Convert.ToInt32(CheckSendWin.WX_UserTMPID)));
+                            CheckSendWin.TMP_Text3Time = DateTime.Now;
                         }
 
 
@@ -7494,10 +10398,62 @@ namespace WeixinRoboot
 
         private void Btn_ManulSend_Click(object sender, EventArgs e)
         {
-            SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-            SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-            SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-            SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.北京赛车PK10);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+
+
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+
+            if (loadset.Thread_ChongQingShiShiCai == true)
+            {
+                SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
+
+
+            if (loadset.Thread_WuFen == true)
+            {
+                SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+            }
+
+
+
+            if (loadset.Thread_AoZhouCai == true)
+            {
+                SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+            }
+
+            if (loadset.Thread_TengXunShiFen == true)
+            {
+                SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+            }
+
+            if (loadset.Thread_TengXunWuFen == true)
+            {
+                SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+            }
+
+
+
+            if (loadset.Thread_VRChongqing == true)
+            {
+                SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+            }
+
+            if (loadset.Thread_XinJiangShiShiCai == true)
+            {
+                SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
+            }
         }
         private static bool StopQQ = false;
         private static int SleepTime = 2000;
@@ -7569,7 +10525,7 @@ namespace WeixinRoboot
             NetFramework.Console.WriteLine("测试跑完");
 
             return;
-            DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+
 
 
             string TEMPUserName = "";
@@ -7587,7 +10543,7 @@ namespace WeixinRoboot
 
 
 
-            FileStream fs = new FileStream(Application.StartupPath + "\\Template_shishicai.json", System.IO.FileMode.Open);
+            FileStream fs = new FileStream(Application.StartupPath + "\\Template_shishicai.json", System.IO.FileMode.OpenOrCreate);
             byte[] bs = new byte[fs.Length];
             fs.Read(bs, 0, bs.Length);
             fs.Close();
@@ -7660,7 +10616,7 @@ namespace WeixinRoboot
 
 
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             #region 整点发送下单情况和余下分数
 
@@ -7673,7 +10629,7 @@ namespace WeixinRoboot
             string ShiShiCaiErrorMessage = "";
             Linq.ProgramLogic.ShiShiCaiMode subm = GetMode(pcset);
 
-            Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod((DateTime.Now.AddMinutes(1)), "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, true, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm, true);
+            Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod((DateTime.Now.AddSeconds(-30)), "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, false, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm, true);
 
             if (ShiShiCaiSuccess == false)
             {
@@ -8013,7 +10969,7 @@ namespace WeixinRoboot
                                 continue;
                             }
 
-                          
+
                             var rows = RunnerF.MemberSource.AsEnumerable().Where
                                    (t => t.Field<string>("User_ContactID") == ReplaceWhoSay
                                    && t.Field<string>("User_SourceType") == pcset.WX_SourceType
@@ -8518,7 +11474,7 @@ namespace WeixinRoboot
         private object LockLoad = false;
         private void RefreshballV2(CefSharp.WinForms.ChromiumWebBrowser ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -8981,7 +11937,7 @@ namespace WeixinRoboot
                 }
                 try
                 {
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                     var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                         // && (t.LastAliveTime == null || t.LastAliveTime >= DateTime.Today.AddDays(-3))
@@ -9021,7 +11977,7 @@ namespace WeixinRoboot
             {
 
                 #region 分联赛发图
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -9060,7 +12016,7 @@ namespace WeixinRoboot
                                 fsc.Flush();
                                 fsc.Close();
                             }
-                            FileStream fstxt_sub = new FileStream(Application.StartupPath + "\\Output\\联赛_" + matchclassicitem.GameType + matchclassicitem.MatchClass + "_" + (GroupIndexCount.ToString()) + ".txt", FileMode.Truncate);
+                            FileStream fstxt_sub = new FileStream(Application.StartupPath + "\\Output\\联赛_" + matchclassicitem.GameType + matchclassicitem.MatchClass + "_" + (GroupIndexCount.ToString()) + ".txt", FileMode.OpenOrCreate);
                             byte[] writeintxt_sub = Encoding.UTF8.GetBytes(outputtxt);
                             fstxt_sub.Write(writeintxt_sub, 0, writeintxt_sub.Length);
                             fstxt_sub.Flush();
@@ -9078,7 +12034,7 @@ namespace WeixinRoboot
                         fsc.Flush();
                         fsc.Close();
                     }
-                    FileStream fstxt = new FileStream(Application.StartupPath + "\\Output\\联赛_" + matchclassicitem.GameType + matchclassicitem.MatchClass + "_" + (GroupIndexCount.ToString()) + ".txt", FileMode.Truncate);
+                    FileStream fstxt = new FileStream(Application.StartupPath + "\\Output\\联赛_" + matchclassicitem.GameType + matchclassicitem.MatchClass + "_" + (GroupIndexCount.ToString()) + ".txt", FileMode.OpenOrCreate);
                     byte[] writeintxt = Encoding.UTF8.GetBytes(outputtxt);
                     fstxt.Write(writeintxt, 0, writeintxt.Length);
                     fstxt.Flush();
@@ -9110,7 +12066,7 @@ namespace WeixinRoboot
                         fc.Close();
                     }
 
-                    FileStream Newfswb = new FileStream(Application.StartupPath + "\\output\\" + matchclassicitem.GameType + matchclassicitem.MatchClass + ".htm", FileMode.Truncate);
+                    FileStream Newfswb = new FileStream(Application.StartupPath + "\\output\\" + matchclassicitem.GameType + matchclassicitem.MatchClass + ".htm", FileMode.OpenOrCreate);
                     byte[] Newwbs = Encoding.UTF8.GetBytes(NewTotalHtml);
                     Newfswb.Write(new byte[] { 0xEF, 0XBB, 0XBF }, 0, 3);
                     Newfswb.Write(Newwbs, 0, Newwbs.Length);
@@ -9221,7 +12177,7 @@ namespace WeixinRoboot
             }
             MatchCollection companys = findmaintr.Matches(tables[1].Value);
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             foreach (Match cmpitem in companys)
@@ -9471,7 +12427,7 @@ namespace WeixinRoboot
                 fsc.Close();
                 fsc.Dispose();
             }
-            FileStream fs = new FileStream(Application.StartupPath + "\\tmp.htm", FileMode.Truncate);
+            FileStream fs = new FileStream(Application.StartupPath + "\\tmp.htm", FileMode.OpenOrCreate);
             byte[] bsource = Encoding.UTF8.GetBytes(Saves);
             fs.Write(new byte[] { 0xEF, 0XBB, 0XBF }, 0, 3);
             fs.Write(bsource, 0, bsource.Length);
@@ -9544,7 +12500,7 @@ namespace WeixinRoboot
                 fsc.Flush();
                 fsc.Close();
             }
-            FileStream fsw = new FileStream(Application.StartupPath + "\\output\\" + gamem.GameKey + ".txt", FileMode.Truncate);
+            FileStream fsw = new FileStream(Application.StartupPath + "\\output\\" + gamem.GameKey + ".txt", FileMode.OpenOrCreate);
             byte[] b_SendKeyGame = Encoding.UTF8.GetBytes(SendKeyGame);
             fsw.Write(b_SendKeyGame, 0, b_SendKeyGame.Length);
             fsw.Flush();
@@ -9637,7 +12593,7 @@ namespace WeixinRoboot
 
         private void GetAndSetPoint(CefSharp.WinForms.ChromiumWebBrowser balllivepoint, BallType p_balltype)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             string html = "";
 
@@ -10139,7 +13095,7 @@ namespace WeixinRoboot
 
                 try
                 {
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                     DataRow[] rows = new DataRow[] { };
@@ -10310,7 +13266,7 @@ namespace WeixinRoboot
             {
                 try
                 {
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                     CookieCollection cookhk = new CookieCollection();
@@ -10466,7 +13422,7 @@ namespace WeixinRoboot
             #region 下载全年历史
             CookieCollection coohkk = new CookieCollection();
             //https://1680660.com/smallSix/findSmallSixHistory.do
-            string Result_year = NetFramework.Util_WEB.OpenUrl("https://1680660.com/smallSix/findSmallSixHistory.do", "https://6hch.com/", "year=" + takeYear.ToString() + "&type=1", "POST", coohkk, Encoding.UTF8, false, false, "application/x-www-form-urlencoded; charset=UTF-8");
+            string Result_year = NetFramework.Util_WEB.OpenUrl("http://1680660.com/smallSix/findSmallSixHistory.do", "https://6hch.com/", "year=" + takeYear.ToString() + "&type=1", "POST", coohkk, Encoding.UTF8, false, false, "application/x-www-form-urlencoded; charset=UTF-8");
             JObject j_result_year = JObject.Parse(Result_year);
 
             JArray prs = (JArray)j_result_year["result"]["data"]["bodyList"];
@@ -10580,7 +13536,7 @@ namespace WeixinRoboot
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -10590,8 +13546,47 @@ namespace WeixinRoboot
                 loadset.BlockStartMinute = Convert.ToInt32(tb_StartMinute.Text);
                 loadset.BlockEndHour = Convert.ToInt32(tb_EndHour.Text);
                 loadset.BlockEndMinute = Convert.ToInt32(tb_EndMinute.Text);
+                loadset.NoxPath = tb_NoxPath.Text;
+                loadset.LeiDianPath = tb_LeidianPath.Text;
+                loadset.AdbNoxMode = cb_adbnoxmode.Checked;
+                loadset.AdbLeidianMode = cb_adbleidianmode.Checked;
+                loadset.NoxSharePath = tb_noxsharepath.Text;
+                loadset.LeiDianSharePath = tb_leidiansharepath.Text;
+                loadset.TwoTreeNotSingle = cb_TwoTreeNotSingle.Checked;
+                loadset.FuliRatio = Convert.ToDecimal(tb_fuliratio.Text);
+                loadset.LiuShuiRatio = Convert.ToDecimal(tb_liushuiratio.Text);
+
+                loadset.Thread_AoZhouCai = T_AoZhouCai.Checked;
+                loadset.Thread_VRChongqing = T_VRChongQingShiShiCai.Checked;
+                loadset.Thread_TengXunShiFen = T_TengXunShiFen.Checked;
+                loadset.Thread_TengXunWuFen = T_TengXunWuFen.Checked;
+                loadset.Thread_WuFen = T_WuFenCai.Checked;
+                loadset.Thread_XinJiangShiShiCai = T_XinJiangShiShiCai.Checked;
+                loadset.Thread_ChongQingShiShiCai = T_chongqingshishicai.Checked;
+
+
                 db.SubmitChanges();
                 MessageBox.Show("保存成功");
+                //if (loadset.AdbNoxMode == true && loadset.NoxPath != "")
+                //{
+                //    CmdRun(loadset.NoxPath, "adb devices");
+                //}
+                //if (loadset.AdbLeidianMode == true && loadset.LeiDianPath != "")
+                //{
+                //    CmdRun(loadset.LeiDianPath, "adb devices");
+                //}
+                if (cb_adbnoxmode.Checked == true && tb_NoxPath.Text != "")
+                {
+                    string cmdr = CmdRun(tb_NoxPath.Text, "noxconsole.exe list");
+                    ShowEnumtors(cmdr, SourceNoxList, "noxconsole.exe list");
+                }
+                if (cb_adbleidianmode.Checked == true && tb_leidiansharepath.Text != "")
+                {
+                    string cmdr = CmdRun(tb_LeidianPath.Text, "dnconsole.exe list2");
+                    ShowEnumtors(cmdr, SourceLeidianList, "dnconsole.exe list2");
+                }
+
+
             }
             catch (Exception anyerror)
             {
@@ -10606,8 +13601,170 @@ namespace WeixinRoboot
 
         }
 
+        private void btn_Redownload_Click(object sender, EventArgs e)
+        {
+            System.Threading.Tasks.Task task = new System.Threading.Tasks.Task(() =>
+            {
+
+                DownloadResult(true, true);
+                MessageBox.Show("全下载已完成");
+            });
+
+            task.Start();
+            MessageBox.Show("全下载已启动");
 
 
+        }
+
+
+        private void AdbRefreshUpPoint()
+        {
+            while (true)
+            {
+                foreach (var injitem in InjectWins.Where(t => t.RefreshBill == true))
+                {
+                    if (cb_adbnoxmode.Checked == true)
+                    {
+                        CmdRun(tb_NoxPath.Text, " dnconsole.exe adb --name 高三二班重庆彩  --command \"shell  input swipe\" ");
+                    }
+                    if (cb_adbleidianmode.Checked == true)
+                    {
+                        CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + injitem.WX_UserName + "  --command \"shell  input swipe 181 246 181 510\" ");
+                        CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + injitem.WX_UserName + "  --command \" shell uiautomator dump /sdcard/bill.xml\" ");
+                        CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + injitem.WX_UserName + "  --command \" shell uiautomator dump /sdcard/bill.xml\" ");
+
+                    }
+
+
+
+                }
+                Thread.Sleep(5000);
+            }
+        }
+
+        private void btn_relogin_Click(object sender, EventArgs e)
+        {
+            //http://huy.vrbetapi.com//Account/LoginValidate?id=HUY&version=1.0&data=lVrOheZew4NAFwFkJmkk6HTItGzRs4S1jzGjGJy%2BSlwUkFsZeDyb%2BtJQGJrYcktDMBLvVjNEISyWd1fdO6gYGzEl1Ymwj%2FxCI4H5HwpZ3G3DJHjHvshxLWpiZdHdVzgK
+            //https://huy.vrbetapi.com//Account/LoginValidate?id=HUY&version=1.0&data=lVrOheZew4NAFwFkJmkk6HTItGzRs4S1jzGjGJy%2BSlwUkFsZeDyb%2BtJQGJrYcktD8m9x3h2APc9WRr7jB2V6DwpxdVVlphmiDzNf%2B7ch2PPDJHjHvshxLWpiZdHdVzgK
+            // wb_vrchongqing.Load("https://huy.vrbetapi.com//Account/LoginValidate?id=HUY&version=1.0&data=lVrOheZew4NAFwFkJmkk6HTItGzRs4S1jzGjGJy%2BSlwUkFsZeDyb%2BtJQGJrYcktD8m9x3h2APc9WRr7jB2V6DwpxdVVlphmiDzNf%2B7ch2PPDJHjHvshxLWpiZdHdVzgK");
+            ReloadWebApp();
+        }
+
+        private void btn_installapk_Click(object sender, EventArgs e)
+        {
+            //System.Threading.Tasks.Task task = new System.Threading.Tasks.Task(() =>
+            //{
+
+            foreach (var item in InjectWins)
+            {
+                if (item.OpenResult == false)
+                {
+                    continue;
+                }
+                if (item.WX_SourceType == "雷电")
+                {
+                    CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + item.WX_UserName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
+
+                    CmdRun(tb_LeidianPath.Text, "dnconsole uninstallapp  --name " + item.WX_UserName + " --packagename com.android.adbkeyboard");
+                    CmdRun(tb_LeidianPath.Text, "dnconsole installapp --name  " + item.WX_UserName + " --filename " + Application.StartupPath + "\\apk\\keyboardservice.apk");
+                    //adb shell ime set com.android.adbkeyboard/.AdbIME  
+                }
+                else if (item.WX_SourceType == "夜神")
+                {
+
+                }
+            }
+            MessageBox.Show("安装已完成");
+            //});
+
+            //task.Start();
+            //MessageBox.Show("安装已启动");
+        }
+
+        private void btn_active_Click(object sender, EventArgs e)
+        {
+            foreach (var item in InjectWins)
+            {
+                if (item.OpenResult == false)
+                {
+                    continue;
+                }
+                if (item.WX_SourceType == "雷电")
+                {
+
+                    //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
+                    //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
+                    //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
+
+                    // adb shell rm /sdcard/0.txt
+                    //adb push D:\file.txt system/
+                    // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
+
+                    CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + item.WX_UserName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
+                    //adb shell ime set com.android.adbkeyboard/.AdbIME  
+                }
+                else if (item.WX_SourceType == "夜神")
+                {
+
+                }
+            }
+            MessageBox.Show("安装已完成");
+        }
+
+        private void Btn_Restore_Click(object sender, EventArgs e)
+        {
+            foreach (var item in InjectWins)
+            {
+                if (item.OpenResult == false)
+                {
+                    continue;
+                }
+                if (item.WX_SourceType == "雷电")
+                {
+
+                    //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
+                    //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
+                    //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
+
+                    // adb shell rm /sdcard/0.txt
+                    //adb push D:\file.txt system/
+                    // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
+                    CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + item.WX_UserName + "  --command \"shell ime set  com.android.emu.inputservice/.InputService \" ");
+
+                    //adb shell ime set com.android.adbkeyboard/.AdbIME  
+                }
+                else if (item.WX_SourceType == "夜神")
+                {
+
+                }
+            }
+            MessageBox.Show("安装已完成");
+
+        }
+
+        private void btn_query_Click(object sender, EventArgs e)
+        {
+            string R = "";
+            if (cb_adbleidianmode.Checked == true)
+            {
+
+                //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
+                //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
+                //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
+
+                // adb shell rm /sdcard/0.txt
+                //adb push D:\file.txt system/
+                // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
+                R = CmdRun(tb_LeidianPath.Text, "  adb devices ");
+
+                //adb shell ime set com.android.adbkeyboard/.AdbIME  
+            }
+            else if (cb_adbnoxmode.Checked == true)
+            {
+                R = CmdRun(tb_LeidianPath.Text, "  Nox_adb devices ");
+            }
+            MessageBox.Show("模拟器在线状态：" + Environment.NewLine + R);
+        }
 
 
 

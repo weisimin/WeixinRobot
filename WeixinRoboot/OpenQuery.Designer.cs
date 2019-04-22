@@ -49,6 +49,7 @@
             this.btn_ExportToExcel.TabIndex = 0;
             this.btn_ExportToExcel.Text = "导出Excel";
             this.btn_ExportToExcel.UseVisualStyleBackColor = true;
+            this.btn_ExportToExcel.Click += new System.EventHandler(this.btn_ExportToExcel_Click);
             // 
             // gv_result
             // 
@@ -79,6 +80,8 @@
             // 
             // dtp_startdate
             // 
+            this.dtp_startdate.CustomFormat = "yyyy-MM-dd";
+            this.dtp_startdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtp_startdate.Location = new System.Drawing.Point(418, 14);
             this.dtp_startdate.Name = "dtp_startdate";
             this.dtp_startdate.Size = new System.Drawing.Size(105, 21);
@@ -95,6 +98,8 @@
             // 
             // dtp_enddate
             // 
+            this.dtp_enddate.CustomFormat = "yyyy-MM-dd";
+            this.dtp_enddate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtp_enddate.Location = new System.Drawing.Point(552, 14);
             this.dtp_enddate.Name = "dtp_enddate";
             this.dtp_enddate.Size = new System.Drawing.Size(105, 21);

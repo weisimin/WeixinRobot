@@ -8,8 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Xml;
-
-
+using System.Web.Security;
+using System.Reflection;
+using System.Web.Profile;
 namespace WeixinRoboot
 {
     public partial class LoginForm : Form
@@ -18,6 +19,7 @@ namespace WeixinRoboot
         {
             InitializeComponent();
             OnLoginSuccess += new LoginSuccess(Login_OnLoginSuccess);
+            cb_datasource.SelectedItem = "远程服务器";
         }
 
         void Login_OnLoginSuccess(string UserName)
@@ -67,6 +69,30 @@ namespace WeixinRoboot
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cb_datasource_SelectedValueChanged(object sender, EventArgs e)
+        {
+            GlobalParam.DataSourceName = cb_datasource.SelectedItem.ToString() == "本机" ? "LocalSqlServer" : "RemoteSqlServer";
+            SetProviderConnectionString(ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+        }
+        /// <summary>
+        /// Sets the provider connection string.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        private void SetProviderConnectionString(string connectionString)
+        {
+            var connectionStringField = Membership.Provider.GetType().GetField("_sqlConnectionString", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (connectionStringField != null)
+                connectionStringField.SetValue(Membership.Provider, connectionString);
+
+            var roleField = Roles.Provider.GetType().GetField("_sqlConnectionString", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (roleField != null)
+                roleField.SetValue(Roles.Provider, connectionString);
+
+            var profileField = ProfileManager.Provider.GetType().GetField("_sqlConnectionString", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (profileField != null)
+                profileField.SetValue(ProfileManager.Provider, connectionString);
         }
     }
 }

@@ -53,6 +53,8 @@
             // 
             // dtp_querydate
             // 
+            this.dtp_querydate.CustomFormat = "yyyy-MM-dd";
+            this.dtp_querydate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtp_querydate.Location = new System.Drawing.Point(77, 8);
             this.dtp_querydate.Name = "dtp_querydate";
             this.dtp_querydate.Size = new System.Drawing.Size(118, 21);

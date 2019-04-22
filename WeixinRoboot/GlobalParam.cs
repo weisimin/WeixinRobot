@@ -38,6 +38,8 @@ namespace WeixinRoboot
         }
 
         public static object KeyBoardLocking = new object();
+
+        public static string DataSourceName = "";
     }
 
 
@@ -241,7 +243,7 @@ namespace WeixinRoboot
     //        {
     //            _RobootProcess = value;
 
-    //            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+    //            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
     //            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
     //            Linq.WX_WebSendPICSetting set = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey

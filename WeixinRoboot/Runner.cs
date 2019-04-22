@@ -42,7 +42,7 @@ namespace WeixinRoboot
 
             //this.Invoke(new Action(() =>
             //{
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
             foreach (var item in (_Members["MemberList"]) as JArray)
@@ -68,7 +68,11 @@ namespace WeixinRoboot
                     //Seq = Seq.Substring(Seq.IndexOf("=") + 1);
 
                     Seq = RemarkName == "" ? NetFramework.Util_WEB.CleanHtml(NickName) : RemarkName;
-
+                    if (Seq.Contains("-"))
+                    {
+                        string[] Names = Seq.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        Seq = Names[Names.Length-1];
+                    }
                     Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
                     if (usrc == null)
                     {
@@ -130,7 +134,7 @@ namespace WeixinRoboot
                     newr.SetField("User_ContactTEMPID", UserNametempID);
                     newr.SetField("User_ContactType", UserNametempID.StartsWith("@@") ? "群" : "个人");
                     newr.SetField("User_SourceType", "微");
-                    newr.SetField("User_Contact", RemarkName == "" ? NickName : RemarkName);
+                    newr.SetField("User_Contact", NickName);
 
 
                     newr.SetField("User_IsReply", usrc.IsReply);
@@ -155,8 +159,14 @@ namespace WeixinRoboot
                     newr.SetField("User_AozcMode", usrc == null ? false : (usrc.AozcMode == null ? false : usrc.AozcMode));
 
                     newr.SetField("User_ChongqingMode", usrc == null ? false : (usrc.ChongqingMode == null ? false : usrc.ChongqingMode));
-                  
-                    
+
+                    newr.SetField("User_TengXunShiFen", usrc == null ? false : (usrc.TengXunShiFenMode == null ? false : usrc.TengXunShiFenMode));
+                    newr.SetField("User_TengXunWuFen", usrc == null ? false : (usrc.TengXunWuFenMode == null ? false : usrc.TengXunWuFenMode));
+
+                    newr.SetField("User_XinJiangShiShiCai", usrc == null ? false : (usrc.XinJiangMode == null ? false : usrc.XinJiangMode));
+
+
+
                     //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
                     //foreach (var logitem in UpdateLogs)
                     //{
@@ -202,7 +212,7 @@ namespace WeixinRoboot
                 }
                 this.Invoke(new Action(() =>
                 {
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                     BS_Contact.DataSource = null;
                     foreach (var item in contact)
@@ -289,7 +299,13 @@ namespace WeixinRoboot
                         newr.SetField("User_ContactTEMPID", UserNametempID);
                         newr.SetField("User_ContactType", item.ContactType);
                         newr.SetField("User_SourceType", "易");
-                        newr.SetField("User_Contact", RemarkName == "" ? NickName : RemarkName);
+
+
+                      
+                     
+                        newr.SetField("User_Contact",  RemarkName == "" ? NickName : RemarkName);
+
+
 
                         newr.SetField("User_IsReply", usrc.IsReply);
 
@@ -339,7 +355,7 @@ namespace WeixinRoboot
         public RunnerForm()
         {
             InitializeComponent();
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -376,9 +392,17 @@ namespace WeixinRoboot
 
             MemberSource.Columns.Add("User_FiveMinuteMode", typeof(Boolean));
             MemberSource.Columns.Add("User_HkMode", typeof(Boolean));
-              MemberSource.Columns.Add("User_AozcMode", typeof(Boolean));
+            MemberSource.Columns.Add("User_AozcMode", typeof(Boolean));
 
-              MemberSource.Columns.Add("User_ChongqingMode", typeof(Boolean));
+            MemberSource.Columns.Add("User_ChongqingMode", typeof(Boolean));
+
+
+            MemberSource.Columns.Add("User_TengXunShiFen", typeof(Boolean));
+            MemberSource.Columns.Add("User_TengXunWuFen", typeof(Boolean));
+            
+            MemberSource.Columns.Add("User_XinJiangShiShiCai", typeof(Boolean));
+
+
 
             BS_ReceiveReply.DataSource = ReplySource;
 
@@ -396,7 +420,7 @@ namespace WeixinRoboot
         private void LoadReplyLog(string SelectUser, string SourceType)
         {
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             //ReplySource.Columns.Add("Reply_Contact");
@@ -407,7 +431,7 @@ namespace WeixinRoboot
             //ReplySource.Columns.Add("Reply_ReceiveTime", typeof(object));
             //ReplySource.Columns.Add("Reply_ReplyTime", typeof(object));
 
-            DataTable PreRend = NetFramework.Util_Sql.RunSqlDataTable("LocalSqlServer"
+            DataTable PreRend = NetFramework.Util_Sql.RunSqlDataTable( GlobalParam.DataSourceName
                   , "Select case when ur.RemarkName<>'' then ur.RemarkName+'@#'+ur.NickName else ur.NickName end as Reply_Contact ,RL.WX_UserName as Reply_ContactID,RL.WX_SourceType as Reply_SourceType "
 
               + " ,'' as Reply_ContactTEMPID"
@@ -420,7 +444,7 @@ namespace WeixinRoboot
                   + " from WX_UserReplyLog RL with (nolock) join WX_UserReply ur with (nolock) on RL.aspnet_UserID=ur.aspnet_UserID and RL.WX_UserName=ur.WX_UserName and   RL.WX_SourceType=ur.WX_SourceType  where RL.aspnet_UserID='" + GlobalParam.UserKey.ToString() + "' and "
                   + "ReceiveTime >='" + dtp_StartDate.Value.Date.ToString("yyyy-MM-dd") + "' and "
                   + "ReceiveTime <'" + dtp_EndDate.Value.Date.ToString("yyyy-MM-dd") + "'  "
-                  + (SelectUser == "" ? "" : " and RL.WX_UserName='" + SelectUser.Replace("'","''") + "' ")
+                  + (SelectUser == "" ? "" : " and RL.WX_UserName='" + SelectUser.Replace("'", "''") + "' ")
                   + (SourceType == "" ? "" : " and RL.WX_SourceType='" + SourceType + "' ")
 
                   );
@@ -437,6 +461,7 @@ namespace WeixinRoboot
                 if (memusr.Length != 0)
                 {
                     item.SetField("Reply_ContactTEMPID", memusr[0].Field<string>("User_ContactTEMPID"));
+
                     item.SetField("Reply_Contact", memusr[0].Field<string>("User_Contact"));
 
                 }
@@ -497,7 +522,7 @@ namespace WeixinRoboot
 
         void RelySource_TableNewRow(object sender, DataTableNewRowEventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             if (e.Row != null)
@@ -722,9 +747,9 @@ namespace WeixinRoboot
             {
                 bool Newdb = false;
                 Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
-                if (cb_gamemode.SelectedItem!=null&&cb_gamemode.SelectedItem.ToString()=="重庆时时彩")
+                if (cb_gamemode.SelectedItem != null && cb_gamemode.SelectedItem.ToString() == "重庆时时彩")
                 {
-                    subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩; 
+                    subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
                 }
                 else if (cb_gamemode.SelectedItem != null && cb_gamemode.SelectedItem.ToString() == "五分彩")
                 {
@@ -739,17 +764,13 @@ namespace WeixinRoboot
                     subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
                 }
                 Linq.ProgramLogic.NewGameResult(
-                            fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb,subm);
-                DateTime day = DateTime.Now;
-                if (day.Hour <= 8)
-                {
-                    day = day.AddDays(-1);
-                }
+                            fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb, subm);
+
                 if (Newdb)
                 {
                     StartF.ShiShiCaiDealGameLogAndNotice();
                 }
-                StartF.DrawChongqingshishicai(day,subm);
+                StartF.DrawChongqingshishicai(subm);
                 StartF.SendChongqingResult(subm);
             }
             catch (Exception AnyError)
@@ -794,22 +815,14 @@ namespace WeixinRoboot
         {
             try
             {
-                if (DateTime.Now.Hour <=8 )
-                {
-                    StartF.DrawChongqingshishicai(DateTime.Today.AddDays(-1), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                    StartF.DrawChongqingshishicai(DateTime.Today.AddDays(-1), Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-                    StartF.DrawChongqingshishicai(DateTime.Today.AddDays(-1), Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-                    StartF.DrawChongqingshishicai(DateTime.Today.AddDays(-1), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-             
-                }
-                else
-                {
-                    StartF.DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                    StartF.DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-                    StartF.DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-                    StartF.DrawChongqingshishicai(DateTime.Today, Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
 
-                }
+                StartF.DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                StartF.DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+                StartF.DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+                StartF.DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+
+
+
 
                 StartF.ShiShiCaiDealGameLogAndNotice();
                 StartF.SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
@@ -943,6 +956,8 @@ namespace WeixinRoboot
                 Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("重庆时时彩模式", editrow, DateTime.Now);
 
 
+                
+
             }
         }
 
@@ -980,6 +995,46 @@ namespace WeixinRoboot
 
 
                 Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("澳洲幸运5模式", editrow, DateTime.Now);
+
+
+            }
+        }
+
+        private void MI_XinJiangShiShiCai_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("新疆时时彩模式", editrow, DateTime.Now);
+
+
+            }
+        }
+
+        private void MI_TengXunShiFen_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("腾讯十分模式", editrow, DateTime.Now);
+
+
+            }
+        }
+
+
+        private void MI_腾讯五分模式_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("腾讯五分模式", editrow, DateTime.Now);
 
 
             }

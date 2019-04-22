@@ -20,7 +20,7 @@ namespace WeixinRoboot
 
         private void btn_download_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             bool SendImage = false;
@@ -128,7 +128,7 @@ namespace WeixinRoboot
         private void Dtp_DownloadDate_ValueChanged(object sender, EventArgs e)
         {
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             BS_GameResult.DataSource = db.Game_Result
@@ -247,13 +247,10 @@ namespace WeixinRoboot
                 StartF.ShiShiCaiDealGameLogAndNotice();
             }
 
-            DateTime day = DateTime.Now;
-            if (day.Hour <= 8)
-            {
-                day = day.AddDays(-1);
-            }
 
-            StartF.DrawChongqingshishicai(day, subm);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            StartF.DrawChongqingshishicai( subm);
             if (Newdb)
             {
                 StartF.ShiShiCaiDealGameLogAndNotice();

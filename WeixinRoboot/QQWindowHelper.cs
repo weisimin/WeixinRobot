@@ -101,14 +101,17 @@ namespace WeixinRoboot
                         MainUI.Invoke(new Action(() =>
                         {
                             value = System.Windows.Forms.Clipboard.GetText();
-                            if (DateTime.Now.Minute % 10 == 0)
+
+                            string Minutes = DateTime.Now.Minute.ToString();
+                            Minutes = Minutes.Substring(Minutes.Length - 1);
+                            if (Minutes == "3" || Minutes=="8")
                             {
-                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_ALT, 0, 0, 0);
+                                //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_ALT, 0, 0, 0);
                                 NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_F, 0, 0, 0);
                                 System.Threading.Thread.Sleep(10);
 
                                 NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_F, 0, 2, 0);
-                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_ALT, 0, 2, 0);
+                               //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_ALT, 0, 2, 0);
                                 System.Threading.Thread.Sleep(10);
                             }
 

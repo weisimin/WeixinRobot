@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLRemove", "HTMLRemove\HT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinRobotLib", "WeixinRobotLib\WeixinRobotLib.csproj", "{7B148AB2-C2EF-47B8-B1E9-50F49B705E76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinRobotPhoneServices", "WeixinRobotPhoneServices\WeixinRobotPhoneServices.csproj", "{55068303-E1C2-4929-8072-2A0203FF7208}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenameTool", "RenameTool\RenameTool.csproj", "{97B72429-5468-4F3C-A38A-73DD55F319B9}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "GameSite", "http://localhost:2080", "{B5F2C0A1-7CAD-472D-BBBF-550DCEE842C4}"
@@ -34,6 +32,28 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "GameSite", "http://localhos
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		SlnRelativePath = "GameSite\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PhoneService", "http://localhost:54819", "{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_54819"
+		Debug.AspNetCompiler.PhysicalPath = "PhoneService\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54819\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_54819"
+		Release.AspNetCompiler.PhysicalPath = "PhoneService\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54819\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "PhoneService\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
@@ -115,20 +135,6 @@ Global
 		{7B148AB2-C2EF-47B8-B1E9-50F49B705E76}.Release|Win32.ActiveCfg = Release|Any CPU
 		{7B148AB2-C2EF-47B8-B1E9-50F49B705E76}.Release|x64.ActiveCfg = Release|Any CPU
 		{7B148AB2-C2EF-47B8-B1E9-50F49B705E76}.Release|x86.ActiveCfg = Release|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Release|Win32.ActiveCfg = Release|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Release|x64.ActiveCfg = Release|Any CPU
-		{55068303-E1C2-4929-8072-2A0203FF7208}.Release|x86.ActiveCfg = Release|Any CPU
 		{97B72429-5468-4F3C-A38A-73DD55F319B9}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{97B72429-5468-4F3C-A38A-73DD55F319B9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{97B72429-5468-4F3C-A38A-73DD55F319B9}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -159,6 +165,20 @@ Global
 		{B5F2C0A1-7CAD-472D-BBBF-550DCEE842C4}.Release|Win32.ActiveCfg = Debug|Any CPU
 		{B5F2C0A1-7CAD-472D-BBBF-550DCEE842C4}.Release|x64.ActiveCfg = Debug|Any CPU
 		{B5F2C0A1-7CAD-472D-BBBF-550DCEE842C4}.Release|x86.ActiveCfg = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Release|Win32.ActiveCfg = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Release|x64.ActiveCfg = Debug|Any CPU
+		{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}.Release|x86.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

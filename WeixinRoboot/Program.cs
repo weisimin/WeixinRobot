@@ -4,6 +4,12 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Diagnostics;
+using System.Reflection;
+using System.Security.Principal;
+using System.Windows.Forms;
+//xl1234567密码123456
+//http://down.1goubao.com/hy-android-new/
 namespace WeixinRoboot
 {
     static class Program
@@ -18,31 +24,32 @@ namespace WeixinRoboot
         [STAThread]
         static void Main()
         {
-
-              
-
-
-
-           // AllocConsole();
-            string ConfigFile = Application.StartupPath + "\\WeixinRoboot.exe.config";
-            string TempFileName = Application.StartupPath + "\\web.config";
-            if (System.IO.File.Exists(TempFileName))
+            Action run = () =>
             {
-                System.IO.File.Delete(TempFileName);
-            }
-            System.IO.File.Move(ConfigFile, TempFileName);
-            System.Diagnostics.Process proc = System.Diagnostics.Process.Start("C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\aspnet_regiis.exe", "-pef \"connectionStrings\" \"" + Application.StartupPath + "\"");
-
-
-            if (proc != null)
-            {
-                proc.WaitForExit();
-                System.IO.File.Move(TempFileName, ConfigFile);
-            }
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+               
+          
+        
+            // AllocConsole();
             try
             {
 
+                string ConfigFile = Application.StartupPath + "\\WeixinRoboot.exe.config";
+                string TempFileName = Application.StartupPath + "\\web.config";
+                if (System.IO.File.Exists(TempFileName))
+                {
+                    System.IO.File.Delete(TempFileName);
+                }
+                System.IO.File.Copy(ConfigFile, TempFileName);
+                //System.Diagnostics.Process proc = System.Diagnostics.Process.Start("C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\aspnet_regiis.exe", "-pef \"connectionStrings\" \"" + Application.StartupPath + "\"");
 
+
+                //if (proc != null)
+                //{
+                //    proc.WaitForExit();
+                //    System.IO.File.Move(TempFileName, ConfigFile);
+                //}
 
                 if (Directory.Exists(Application.StartupPath + "\\output") == true)
                 {
@@ -57,10 +64,10 @@ namespace WeixinRoboot
                     Directory.CreateDirectory(Application.StartupPath + "\\output");
                 }
 
-                //Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                //Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                 //var todel = db.Game_FootBall_VS.Where(t => t.LastAliveTime < DateTime.Now.AddDays(-3)
-                    
+
                 //    );
                 //foreach (var item in todel)
                 //{
@@ -80,9 +87,11 @@ namespace WeixinRoboot
             }
             catch (Exception AnyError)
             {
+                MessageBox.Show("启动失败"+AnyError.Message);
                 NetFramework.Console.WriteLine("删除临时图片失败");
                 NetFramework.Console.WriteLine(AnyError.Message);
                 NetFramework.Console.WriteLine(AnyError.StackTrace);
+                return;
             }
 
             //局部线程，不能及时结束会造成没相应
@@ -96,7 +105,7 @@ namespace WeixinRoboot
             loginf.OnLoginSuccess += new LoginForm.LoginSuccess(loginf_OnLoginSuccess);
             //try
             //{
-                Application.Run(loginf);
+            Application.Run(loginf);
             //}
             //catch (Exception AnyError)
             //{
@@ -115,14 +124,34 @@ namespace WeixinRoboot
             //}
             CefSharp.Cef.Shutdown();
             //FreeConsole();
-
+            };
+            WindowsIdentity wi = WindowsIdentity.GetCurrent();
+            bool runAsAdmin = wi != null && new WindowsPrincipal(wi).IsInRole(WindowsBuiltInRole.Administrator);
+            if (!runAsAdmin)
+            {
+                try
+                {
+                    //不可能以管理员方式直接启动一个 ClickOnce 部署的应用程序，所以尝试以管理员方式启动一个新的进程
+                    Process.Start(new ProcessStartInfo(Assembly.GetExecutingAssembly().CodeBase) { UseShellExecute = true, Verb = "runas" });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(string.Format("以管理员方式启动失败，将尝试以普通方式启动！{0}{1}", Environment.NewLine, ex), "出错啦！", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    run();//以管理员方式启动失败，则尝试普通方式启动
+                }
+                Application.Exit();
+            }
+            else
+            {
+                run();
+            }
         }
         static LoginForm loginf = null;
         static void loginf_OnLoginSuccess(string UserName)
         {
             loginf.Hide();
             #region
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
