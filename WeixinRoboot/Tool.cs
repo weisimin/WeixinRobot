@@ -150,7 +150,7 @@ namespace NetFramework
                 CurrentUrl = "正在下载" + TargetURL;
                 System.GC.Collect();
 
-                // NetFramework.Console.Write("下载URL" + LoginPage.RequestUri.AbsoluteUri + Environment.NewLine);
+                // NetFramework.Console.WriteLine("下载URL" + LoginPage.RequestUri.AbsoluteUri + Environment.NewLine);
                 LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
 
                 CurrentUrl = "已下载" + TargetURL;
@@ -562,7 +562,7 @@ namespace NetFramework
             LoginPage_Return = null;
             LoginPage = null;
             System.GC.Collect();
-            NetFramework.Console.Write("图片返回:" + responseBody);
+            NetFramework.Console.WriteLine("图片返回:" + responseBody);
             return responseBody;
             //返回：
             //            {
@@ -1068,7 +1068,12 @@ namespace NetFramework
             //{
             //    LastLog = LastLog.Substring(0, 5000);
             //}
-            System.Console.WriteLine(Message);
+            //if (Message.Contains("console"))
+            {
+                   System.Console.WriteLine(Message);
+            }
+         
+
         }
         public static string LastLog = "";
 
@@ -1319,28 +1324,28 @@ namespace NetFramework
 
 
         public static object LockLoad = true;
-        public static string JoinQueueAndWait(string URL, CefSharp.WinForms.ChromiumWebBrowser wb, Int32 milientTime = 500)
+        public static string JoinQueueAndWait(string URL, XPathWebBrowser wb, Int32 milientTime = 2000)
         {
             NetFramework.Console.WriteLine("网页组件正在锁定");
             lock (LockLoad)
             {
                 LockLoad = !((bool)LockLoad);
-                wb.Load(URL);
-                NetFramework.Console.WriteLine(wb.Name + "----" + URL);
-                DateTime pretime = DateTime.Now;
-                while ((DateTime.Now - pretime).TotalMilliseconds < milientTime)
+                wb.Navigate(URL);
+                DateTime PreTime = DateTime.Now;
+                while ((DateTime.Now-PreTime).TotalMilliseconds<milientTime)
                 {
                     System.Threading.Thread.Sleep(100);
-                    System.Windows.Forms.Application.DoEvents();
                 }
                
             } 
-            System.Threading.Tasks.Task<string> tsk = wb.GetBrowser().MainFrame.GetSourceAsync();
-                tsk.Wait();
-                return tsk.Result;
-            NetFramework.Console.WriteLine("网页组件已解锁");
+           
+                NetFramework.Console.WriteLine("网页组件已解锁");
+                return wb.Document.Body.InnerHtml;
+          
 
         }
+
+      
 
 
     }

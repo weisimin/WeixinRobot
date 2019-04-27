@@ -43,8 +43,6 @@
             this.lbl_shishicailink = new System.Windows.Forms.Label();
             this.cb_dragonpic = new System.Windows.Forms.CheckBox();
             this.cb_NumberPIC = new System.Windows.Forms.CheckBox();
-            this.lbl_NumberPIC = new System.Windows.Forms.Label();
-            this.lbl_dragonpic = new System.Windows.Forms.Label();
             this.cb_dragonlink = new System.Windows.Forms.CheckBox();
             this.cb_numericlink = new System.Windows.Forms.CheckBox();
             this.lbl_numericlink = new System.Windows.Forms.Label();
@@ -68,6 +66,10 @@
             this.lbl_balllivepoint = new System.Windows.Forms.Label();
             this.cb_SixResult = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.cb_NumberDragonTxt = new System.Windows.Forms.CheckBox();
+            this.cb_NiuNiuPic = new System.Windows.Forms.CheckBox();
+            this.cb_NoBigSmallSingleDoublePIC = new System.Windows.Forms.CheckBox();
+            this.cb_IsSendPIC = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.gv_matchclass)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bs_matchclass)).BeginInit();
             this.SuspendLayout();
@@ -181,38 +183,22 @@
             // cb_dragonpic
             // 
             this.cb_dragonpic.AutoSize = true;
-            this.cb_dragonpic.Location = new System.Drawing.Point(335, 83);
+            this.cb_dragonpic.Location = new System.Drawing.Point(277, 288);
             this.cb_dragonpic.Name = "cb_dragonpic";
-            this.cb_dragonpic.Size = new System.Drawing.Size(15, 14);
+            this.cb_dragonpic.Size = new System.Drawing.Size(63, 21);
             this.cb_dragonpic.TabIndex = 18;
+            this.cb_dragonpic.Text = "龙虎图";
             this.cb_dragonpic.UseVisualStyleBackColor = true;
             // 
             // cb_NumberPIC
             // 
             this.cb_NumberPIC.AutoSize = true;
-            this.cb_NumberPIC.Location = new System.Drawing.Point(335, 51);
+            this.cb_NumberPIC.Location = new System.Drawing.Point(278, 373);
             this.cb_NumberPIC.Name = "cb_NumberPIC";
-            this.cb_NumberPIC.Size = new System.Drawing.Size(15, 14);
+            this.cb_NumberPIC.Size = new System.Drawing.Size(90, 21);
             this.cb_NumberPIC.TabIndex = 17;
+            this.cb_NumberPIC.Text = "图1(数字图)";
             this.cb_NumberPIC.UseVisualStyleBackColor = true;
-            // 
-            // lbl_NumberPIC
-            // 
-            this.lbl_NumberPIC.AutoSize = true;
-            this.lbl_NumberPIC.Location = new System.Drawing.Point(247, 50);
-            this.lbl_NumberPIC.Name = "lbl_NumberPIC";
-            this.lbl_NumberPIC.Size = new System.Drawing.Size(56, 17);
-            this.lbl_NumberPIC.TabIndex = 16;
-            this.lbl_NumberPIC.Text = "数字图片";
-            // 
-            // lbl_dragonpic
-            // 
-            this.lbl_dragonpic.AutoSize = true;
-            this.lbl_dragonpic.Location = new System.Drawing.Point(247, 82);
-            this.lbl_dragonpic.Name = "lbl_dragonpic";
-            this.lbl_dragonpic.Size = new System.Drawing.Size(56, 17);
-            this.lbl_dragonpic.TabIndex = 15;
-            this.lbl_dragonpic.Text = "龙虎图片";
             // 
             // cb_dragonlink
             // 
@@ -279,7 +265,7 @@
             // cb_numericanddragon
             // 
             this.cb_numericanddragon.AutoSize = true;
-            this.cb_numericanddragon.Location = new System.Drawing.Point(475, 51);
+            this.cb_numericanddragon.Location = new System.Drawing.Point(355, 51);
             this.cb_numericanddragon.Name = "cb_numericanddragon";
             this.cb_numericanddragon.Size = new System.Drawing.Size(15, 14);
             this.cb_numericanddragon.TabIndex = 27;
@@ -288,7 +274,7 @@
             // lbl_numericanddragon
             // 
             this.lbl_numericanddragon.AutoSize = true;
-            this.lbl_numericanddragon.Location = new System.Drawing.Point(368, 50);
+            this.lbl_numericanddragon.Location = new System.Drawing.Point(248, 50);
             this.lbl_numericanddragon.Name = "lbl_numericanddragon";
             this.lbl_numericanddragon.Size = new System.Drawing.Size(101, 17);
             this.lbl_numericanddragon.TabIndex = 26;
@@ -421,11 +407,55 @@
             this.label1.TabIndex = 36;
             this.label1.Text = "六结果";
             // 
+            // cb_NumberDragonTxt
+            // 
+            this.cb_NumberDragonTxt.AutoSize = true;
+            this.cb_NumberDragonTxt.Location = new System.Drawing.Point(277, 261);
+            this.cb_NumberDragonTxt.Name = "cb_NumberDragonTxt";
+            this.cb_NumberDragonTxt.Size = new System.Drawing.Size(99, 21);
+            this.cb_NumberDragonTxt.TabIndex = 38;
+            this.cb_NumberDragonTxt.Text = "数字龙虎文本";
+            this.cb_NumberDragonTxt.UseVisualStyleBackColor = true;
+            // 
+            // cb_NiuNiuPic
+            // 
+            this.cb_NiuNiuPic.AutoSize = true;
+            this.cb_NiuNiuPic.Location = new System.Drawing.Point(277, 315);
+            this.cb_NiuNiuPic.Name = "cb_NiuNiuPic";
+            this.cb_NiuNiuPic.Size = new System.Drawing.Size(63, 21);
+            this.cb_NiuNiuPic.TabIndex = 39;
+            this.cb_NiuNiuPic.Text = "牛牛图";
+            this.cb_NiuNiuPic.UseVisualStyleBackColor = true;
+            // 
+            // cb_NoBigSmallSingleDoublePIC
+            // 
+            this.cb_NoBigSmallSingleDoublePIC.AutoSize = true;
+            this.cb_NoBigSmallSingleDoublePIC.Location = new System.Drawing.Point(277, 342);
+            this.cb_NoBigSmallSingleDoublePIC.Name = "cb_NoBigSmallSingleDoublePIC";
+            this.cb_NoBigSmallSingleDoublePIC.Size = new System.Drawing.Size(119, 21);
+            this.cb_NoBigSmallSingleDoublePIC.TabIndex = 40;
+            this.cb_NoBigSmallSingleDoublePIC.Text = "独龙虎图(没大单)";
+            this.cb_NoBigSmallSingleDoublePIC.UseVisualStyleBackColor = true;
+            // 
+            // cb_IsSendPIC
+            // 
+            this.cb_IsSendPIC.AutoSize = true;
+            this.cb_IsSendPIC.Location = new System.Drawing.Point(277, 237);
+            this.cb_IsSendPIC.Name = "cb_IsSendPIC";
+            this.cb_IsSendPIC.Size = new System.Drawing.Size(75, 21);
+            this.cb_IsSendPIC.TabIndex = 41;
+            this.cb_IsSendPIC.Text = "发送图片";
+            this.cb_IsSendPIC.UseVisualStyleBackColor = true;
+            // 
             // WebWeChatImageSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 502);
+            this.Controls.Add(this.cb_IsSendPIC);
+            this.Controls.Add(this.cb_NoBigSmallSingleDoublePIC);
+            this.Controls.Add(this.cb_NiuNiuPic);
+            this.Controls.Add(this.cb_NumberDragonTxt);
             this.Controls.Add(this.cb_SixResult);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cb_balllivepoint);
@@ -447,8 +477,6 @@
             this.Controls.Add(this.lbl_dragonlink);
             this.Controls.Add(this.cb_dragonpic);
             this.Controls.Add(this.cb_NumberPIC);
-            this.Controls.Add(this.lbl_NumberPIC);
-            this.Controls.Add(this.lbl_dragonpic);
             this.Controls.Add(this.cb_shishicailink);
             this.Controls.Add(this.lbl_shishicailink);
             this.Controls.Add(this.tb_ballinterval);
@@ -489,8 +517,6 @@
         private System.Windows.Forms.Label lbl_shishicailink;
         private System.Windows.Forms.CheckBox cb_dragonpic;
         private System.Windows.Forms.CheckBox cb_NumberPIC;
-        private System.Windows.Forms.Label lbl_NumberPIC;
-        private System.Windows.Forms.Label lbl_dragonpic;
         private System.Windows.Forms.CheckBox cb_dragonlink;
         private System.Windows.Forms.CheckBox cb_numericlink;
         private System.Windows.Forms.Label lbl_numericlink;
@@ -514,5 +540,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn 联赛;
         private System.Windows.Forms.CheckBox cb_SixResult;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox cb_NumberDragonTxt;
+        private System.Windows.Forms.CheckBox cb_NiuNiuPic;
+        private System.Windows.Forms.CheckBox cb_NoBigSmallSingleDoublePIC;
+        private System.Windows.Forms.CheckBox cb_IsSendPIC;
     }
 }

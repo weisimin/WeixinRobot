@@ -7,7 +7,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Principal;
-using System.Windows.Forms;
+
 //xl1234567密码123456
 //http://down.1goubao.com/hy-android-new/
 namespace WeixinRoboot
@@ -42,6 +42,15 @@ namespace WeixinRoboot
                     System.IO.File.Delete(TempFileName);
                 }
                 System.IO.File.Copy(ConfigFile, TempFileName);
+
+                //ConfigFile = Application.StartupPath + "\\OpenWebKitSharp.manifest.bak";
+                //TempFileName = Application.StartupPath + "\\OpenWebKitSharp.manifest";
+                //if (System.IO.File.Exists(TempFileName))
+                //{
+                //    System.IO.File.Delete(TempFileName);
+                //}
+                //System.IO.File.Copy(ConfigFile, TempFileName);
+
                 //System.Diagnostics.Process proc = System.Diagnostics.Process.Start("C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\aspnet_regiis.exe", "-pef \"connectionStrings\" \"" + Application.StartupPath + "\"");
 
 
@@ -63,7 +72,18 @@ namespace WeixinRoboot
                 {
                     Directory.CreateDirectory(Application.StartupPath + "\\output");
                 }
-
+                if (Directory.Exists(Application.StartupPath + "\\EmuFile") == true)
+                {
+                    string[] todels = Directory.GetFiles(Application.StartupPath + "\\EmuFile");
+                    foreach (var item in todels)
+                    {
+                        File.Delete(item);
+                    }
+                }
+                else
+                {
+                    Directory.CreateDirectory(Application.StartupPath + "\\EmuFile");
+                }
                 //Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                 //var todel = db.Game_FootBall_VS.Where(t => t.LastAliveTime < DateTime.Now.AddDays(-3)
@@ -109,22 +129,22 @@ namespace WeixinRoboot
             //}
             //catch (Exception AnyError)
             //{
-            //    MessageBox.Show(AnyError.Message);
-            //    if (System.IO.File.Exists(Application.StartupPath + "\\log.txt"))
-            //    {
-            //        System.IO.File.Delete(Application.StartupPath + "\\log.txt");
-            //    }
-            //    System.IO.FileStream fs = new System.IO.FileStream(Application.StartupPath + "\\log.txt", System.IO.FileMode.OpenOrCreate);
-            //    System.IO.StreamWriter sw = new System.IO.StreamWriter(fs);
-            //    sw.Write(AnyError.Message + Environment.NewLine + AnyError.StackTrace);
-            //    sw.Flush();
-            //    sw.Close();
-            //    //Environment.Exit(0);
+            ////    MessageBox.Show(AnyError.Message);
+            ////    if (System.IO.File.Exists(Application.StartupPath + "\\log.txt"))
+            ////    {
+            ////        System.IO.File.Delete(Application.StartupPath + "\\log.txt");
+            ////    }
+            ////    System.IO.FileStream fs = new System.IO.FileStream(Application.StartupPath + "\\log.txt", System.IO.FileMode.OpenOrCreate);
+            ////    System.IO.StreamWriter sw = new System.IO.StreamWriter(fs);
+            ////    sw.Write(AnyError.Message + Environment.NewLine + AnyError.StackTrace);
+            ////    sw.Flush();
+            ////    sw.Close();
+            ////    //Environment.Exit(0);
 
             //}
-            CefSharp.Cef.Shutdown();
+            //CefSharp.Cef.Shutdown();
             //FreeConsole();
-            };
+            };//action结束
             WindowsIdentity wi = WindowsIdentity.GetCurrent();
             bool runAsAdmin = wi != null && new WindowsPrincipal(wi).IsInRole(WindowsBuiltInRole.Administrator);
             if (!runAsAdmin)

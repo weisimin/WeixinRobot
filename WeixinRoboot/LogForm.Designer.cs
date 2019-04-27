@@ -36,12 +36,19 @@
             // 
             // tb_log
             // 
+            this.tb_log.BackColor = System.Drawing.Color.Black;
+            this.tb_log.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tb_log.ForeColor = System.Drawing.SystemColors.Window;
             this.tb_log.Location = new System.Drawing.Point(13, 13);
             this.tb_log.Multiline = true;
             this.tb_log.Name = "tb_log";
             this.tb_log.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tb_log.Size = new System.Drawing.Size(826, 237);
             this.tb_log.TabIndex = 0;
+            // 
+            // tm_refresh
+            // 
+            this.tm_refresh.Tick += new System.EventHandler(this.tm_refresh_Tick);
             // 
             // btn_refresh
             // 
@@ -60,6 +67,7 @@
             this.ClientSize = new System.Drawing.Size(860, 316);
             this.Controls.Add(this.btn_refresh);
             this.Controls.Add(this.tb_log);
+            this.DoubleBuffered = true;
             this.Name = "LogForm";
             this.Text = "LogForm";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.LogForm_Paint);

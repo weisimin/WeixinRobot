@@ -27,17 +27,17 @@ namespace WeixinRoboot
 {
     public partial class StartForm : Form
     {
-        CefSharp.WinForms.ChromiumWebBrowser wb_ballgame = null;
+        XPathWebBrowser wb_ballgame = null;
 
-        CefSharp.WinForms.ChromiumWebBrowser wb_other = null;
-        CefSharp.WinForms.ChromiumWebBrowser wb_refresh = null;
+        XPathWebBrowser wb_other = null;
+        XPathWebBrowser wb_refresh = null;
 
-        CefSharp.WinForms.ChromiumWebBrowser wb_balllivepoint = null;
+        XPathWebBrowser wb_balllivepoint = null;
 
 
-        CefSharp.WinForms.ChromiumWebBrowser wb_pointlog = null;
+        XPathWebBrowser wb_pointlog = null;
 
-        CefSharp.WinForms.ChromiumWebBrowser wb_vrchongqing = null;
+        XPathWebBrowser wb_vrchongqing = null;
 
         public StartForm()
         {
@@ -54,15 +54,43 @@ namespace WeixinRoboot
             //NetFramework.WindowsApi.EnumWindows(new NetFramework.WindowsApi.CallBack(EnumWinsCallBack), 0);
 
 
-            Thread DownLoad163 = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo));
-            DownLoad163.SetApartmentState(ApartmentState.STA);
-            DownLoad163.Start(Download163ThreadID);
+            Thread DownLoad163_Vr = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo_Vr));
+            DownLoad163_Vr.SetApartmentState(ApartmentState.STA);
+            DownLoad163_Vr.Start(Download163ThreadID);
+
+            Thread DownLoad163_Aoz = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo_Aoz));
+            DownLoad163_Aoz.SetApartmentState(ApartmentState.STA);
+            DownLoad163_Aoz.Start(Download163ThreadID);
+
+            Thread DownLoad163_tengshi = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo_tengshi));
+            DownLoad163_tengshi.SetApartmentState(ApartmentState.STA);
+            DownLoad163_tengshi.Start(Download163ThreadID);
+
+            Thread DownLoad163_tengwu = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo_tengwu));
+            DownLoad163_tengwu.SetApartmentState(ApartmentState.STA);
+            DownLoad163_tengwu.Start(Download163ThreadID);
+
+            Thread DownLoad163_wufen = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo_wufen));
+            DownLoad163_wufen.SetApartmentState(ApartmentState.STA);
+            DownLoad163_wufen.Start(Download163ThreadID);
+
+            Thread DownLoad163_xiangjiang = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo_xiangjiang));
+            DownLoad163_xiangjiang.SetApartmentState(ApartmentState.STA);
+            DownLoad163_xiangjiang.Start(Download163ThreadID);
+
+
+            Thread DownLoad163_chongqing = new Thread(new ParameterizedThreadStart(DownLoad163ThreadDo_chongqing));
+            DownLoad163_chongqing.SetApartmentState(ApartmentState.STA);
+            DownLoad163_chongqing.Start(Download163ThreadID);
+
+
+
 
             Thread CheckTimeSendThread = new Thread(new ThreadStart(CheckTimeSend));
             CheckTimeSendThread.SetApartmentState(ApartmentState.STA);
             CheckTimeSendThread.Start();
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -298,7 +326,10 @@ namespace WeixinRoboot
             EndNoticeBoss.Start();
 
 
-            wb_ballgame = new CefSharp.WinForms.ChromiumWebBrowser("http://odds.gooooal.com/company.html?type=1001");
+            wb_ballgame = new XPathWebBrowser();
+            wb_ballgame.ScriptErrorsSuppressed = true;
+
+
 
             wb_ballgame.Dock = DockStyle.Fill;
             wb_ballgame.Name = "wb_football";
@@ -318,20 +349,19 @@ namespace WeixinRoboot
 
 
 
-            wb_other = new CefSharp.WinForms.ChromiumWebBrowser("about:blank");
+            wb_other = new XPathWebBrowser();
 
             wb_other.Dock = DockStyle.Fill;
             wb_other.Name = "wb_other";
-
+            wb_other.ScriptErrorsSuppressed = true;
             gb_other.Controls.Add(wb_other);
 
 
 
-            wb_refresh = new CefSharp.WinForms.ChromiumWebBrowser("about:blank");
-
+            wb_refresh = new XPathWebBrowser();
             wb_refresh.Dock = DockStyle.Fill;
             wb_refresh.Name = "wb_refresh";
-
+            wb_refresh.ScriptErrorsSuppressed = true;
             gb_refresh.Controls.Add(wb_refresh);
 
 
@@ -339,7 +369,8 @@ namespace WeixinRoboot
 
 
 
-            wb_balllivepoint = new CefSharp.WinForms.ChromiumWebBrowser("http://live.gooooal.com");
+            wb_balllivepoint = new XPathWebBrowser();
+            wb_balllivepoint.ScriptErrorsSuppressed = true;
 
             wb_balllivepoint.Dock = DockStyle.Fill;
             wb_balllivepoint.Name = "wb_balllivepoint";
@@ -349,16 +380,16 @@ namespace WeixinRoboot
 
 
 
-            wb_pointlog = new CefSharp.WinForms.ChromiumWebBrowser("about:blank");
-
+            wb_pointlog = new XPathWebBrowser();
+            wb_pointlog.ScriptErrorsSuppressed = true;
             wb_pointlog.Dock = DockStyle.Fill;
             wb_pointlog.Name = "wb_pointlog";
 
             gb_pointlog.Controls.Add(wb_pointlog);
 
 
-            wb_vrchongqing = new CefSharp.WinForms.ChromiumWebBrowser("about:blank");
-
+            wb_vrchongqing = new XPathWebBrowser();
+            wb_vrchongqing.ScriptErrorsSuppressed = true;
             wb_vrchongqing.Dock = DockStyle.Fill;
             wb_vrchongqing.Name = "wb_vrchongqing";
 
@@ -484,9 +515,9 @@ namespace WeixinRoboot
             }
             catch (Exception AnyError)
             {
-                NetFramework.Console.Write(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.Message);
 
-                NetFramework.Console.Write(AnyError.StackTrace);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
             }
 
         }
@@ -510,9 +541,9 @@ namespace WeixinRoboot
             catch (Exception AnyError)
             {
 
-                NetFramework.Console.Write(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.Message);
 
-                NetFramework.Console.Write(AnyError.StackTrace);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
             }
 
 
@@ -792,9 +823,9 @@ namespace WeixinRoboot
             catch (Exception AnyError)
             {
 
-                NetFramework.Console.Write(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.Message);
 
-                NetFramework.Console.Write(AnyError.StackTrace);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
             }
 
         }
@@ -1081,8 +1112,8 @@ namespace WeixinRoboot
                 }
                 catch (Exception AnyError)
                 {
-                    NetFramework.Console.Write(AnyError.Message);
-                    NetFramework.Console.Write(AnyError.StackTrace);
+                    NetFramework.Console.WriteLine(AnyError.Message);
+                    NetFramework.Console.WriteLine(AnyError.StackTrace);
 
                 }
                 Thread.Sleep(500);
@@ -1446,7 +1477,7 @@ namespace WeixinRoboot
                     //}
                     if (eachMessage["cid"].Value<string>() == "1")
                     {
-                        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                         db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                         JObject AddMsgList = eachMessage["r"][1]["body"][0] as JObject;
@@ -1564,7 +1595,7 @@ namespace WeixinRoboot
 
                 Content = Regex.Replace(Content, "@((?!<br/>)[\\s\\S])+<br/>", "", RegexOptions.IgnoreCase);
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -1714,7 +1745,7 @@ namespace WeixinRoboot
 
                                 var NoticeContacts =
                                 SendRobotContent(MyOutResult, NoticeList
-                                    , contacts[0].Field<string>("User_SourceType")
+                                    , SourceType
                                     );
 
                             }
@@ -1731,8 +1762,8 @@ namespace WeixinRoboot
                         catch (Exception mysenderror)
                         {
 
-                            NetFramework.Console.Write(mysenderror.Message);
-                            NetFramework.Console.Write(mysenderror.StackTrace);
+                            NetFramework.Console.WriteLine(mysenderror.Message);
+                            NetFramework.Console.WriteLine(mysenderror.StackTrace);
                         }
 
 
@@ -1804,9 +1835,38 @@ namespace WeixinRoboot
                         #endregion
 
                         #region "发图"
-                        if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4")
+                        if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4"
+                            || Content.EndsWith("图")
+                                    )
                         {
+                            string GameType = "";
+                            string PicType = "";
+                            Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(Content, ref GameType, ref PicType);
                             SendChongqingResult(GetMode(contacts.ToArray()), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
+                            if (KeepPic== Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep)
+                            {
+                                 MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType+"模式", contacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                 MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", contacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                 SendRobotContent(GameType + PicType + "发图已开始", contacts, SourceType);
+                            }
+                            if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop)
+                            {
+                                  MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", contacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                  SendRobotContent(GameType + PicType + "发图已停止", contacts, SourceType);
+                            }
+                            if (KeepPic==  Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep|| KeepPic==  Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
+                            {
+                                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩, PicType + "图", FromUserNameTEMPID);
+                                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩, PicType + "图", FromUserNameTEMPID);
+                                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.五分彩, PicType + "图", FromUserNameTEMPID);
+                                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5, PicType + "图", FromUserNameTEMPID);
+
+                                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分, PicType + "图", FromUserNameTEMPID);
+                                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分, PicType + "图", FromUserNameTEMPID);
+                                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩, PicType + "图", FromUserNameTEMPID);
+                                SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩, PicType + "图", FromUserNameTEMPID);
+
+                            }
                         }
 
                         #endregion
@@ -1855,18 +1915,33 @@ namespace WeixinRoboot
                         }
                             #endregion
                         return;
-                    }
+                    }//会员模式
                     #endregion
 
 
                     #region "发图"
-                    if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4")
+                    if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4" 
+                        || Content.EndsWith ("图") 
+                        
+                        )
                     {
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩, Content, FromUserNameTEMPID);
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩, Content, FromUserNameTEMPID);
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.五分彩, Content, FromUserNameTEMPID);
-                        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5, Content, FromUserNameTEMPID);
+                        string GameType = "";
+                        string PicType = "";
+                        Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(Content, ref GameType, ref PicType);
+                         
+                        if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
+                        {
+                            SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩, PicType+"图", FromUserNameTEMPID);
+                            SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩, PicType + "图", FromUserNameTEMPID);
+                            SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.五分彩, PicType + "图", FromUserNameTEMPID);
+                            SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5, PicType + "图", FromUserNameTEMPID);
 
+                            SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分, PicType + "图", FromUserNameTEMPID);
+                            SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分, PicType + "图", FromUserNameTEMPID);
+                            SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩, PicType + "图", FromUserNameTEMPID);
+                            SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩, PicType + "图", FromUserNameTEMPID);
+
+                        }
                     }
 
                     #endregion
@@ -2007,8 +2082,8 @@ namespace WeixinRoboot
                         catch (Exception mysenderror)
                         {
 
-                            NetFramework.Console.Write(mysenderror.Message);
-                            NetFramework.Console.Write(mysenderror.StackTrace);
+                            NetFramework.Console.WriteLine(mysenderror.Message);
+                            NetFramework.Console.WriteLine(mysenderror.StackTrace);
                         }
                         if (OutMessage != "")
                         {
@@ -2109,8 +2184,10 @@ namespace WeixinRoboot
 
         JObject YiXin_MyInfo = null;
 
-        private string CmdRun(string Path, string ExeAndParam)
+        private String CmdRun(string Path, string ExeAndParam)
         {
+
+            //Process.Start(new ProcessStartInfo(Assembly.GetExecutingAssembly().CodeBase) { UseShellExecute = true, Verb = "runas" });
 
 
             System.Diagnostics.Process p = new System.Diagnostics.Process();
@@ -2118,9 +2195,10 @@ namespace WeixinRoboot
             p.StartInfo.UseShellExecute = false;    //是false否使用操作系统shell启动
             p.StartInfo.RedirectStandardInput = true;//接受来自调用程序的输入信息
             p.StartInfo.RedirectStandardOutput = true;//由调用程序获取输出信息
-            p.StartInfo.RedirectStandardError = false;//重定向标准错误输出
+            p.StartInfo.RedirectStandardError = true;//重定向标准错误输出
             p.StartInfo.CreateNoWindow = true;//不显示程序窗口
-            p.StartInfo.Verb = "RunAs";
+
+            p.StartInfo.Verb = "runas";
             p.Start();//启动程序
 
 
@@ -2155,11 +2233,20 @@ namespace WeixinRoboot
 
             String Outputs = reader.ReadToEnd();
 
-            p.WaitForExit();//等待程序执行完退出进程
+
+            p.WaitForExit();//等待程序执行完退出进程  
+
+
             p.Close();
-            NetFramework.Console.WriteLine(Outputs);
+            NetFramework.Console.WriteLine("#########################################################");
+            NetFramework.Console.WriteLine(ExeAndParam);
+
             return Outputs;
+
+            //NetFramework.Console.WriteLine(Outputs);
+
         }
+
 
         private void StreamWrite(Stream BaseStream, string Data, Encoding codee)
         {
@@ -2270,7 +2357,11 @@ namespace WeixinRoboot
             SnedImageThread.Start(new object[] { ImageFile, TempToUserID, WX_SourceType });
         }
 
-
+        public void SendRobotImageByte(byte[] ImageFile, string TempToUserID, string WX_SourceType)
+        {
+            Thread SnedImageThread = new Thread(new ParameterizedThreadStart(ThreadSendRobotImageByte));
+            SnedImageThread.Start(new object[] { ImageFile, TempToUserID, WX_SourceType });
+        }
         public void ThreadSendRobotImage(object param)
         {
             try
@@ -2305,7 +2396,40 @@ namespace WeixinRoboot
                 return;
             }
         }
+        public void ThreadSendRobotImageByte(object param)
+        {
+            try
+            {
+                string ImageFile = (string)(param as object[])[0];
+                string TempToUserID = (string)(param as object[])[1];
+                string WX_SourceType = (string)(param as object[])[2]; ;
 
+                switch (WX_SourceType)
+                {
+                    case "易":
+                        SendYiXinImage(ImageFile, TempToUserID);
+                        break;
+                    case "微":
+                        SendWXImage(ImageFile, TempToUserID);
+                        break;
+                    default:
+                        if (WX_SourceType.Contains("QQ"))
+                        {
+
+                            hwndSendImageFile(ImageFile, new IntPtr(Convert.ToInt32(TempToUserID)));
+                        }
+                        return;
+
+                }
+            }
+            catch (Exception AnyEror)
+            {
+
+                NetFramework.Console.WriteLine("图片发送失败," + AnyEror.Message);
+                NetFramework.Console.WriteLine("图片发送失败," + AnyEror.StackTrace);
+                return;
+            }
+        }
 
         public string SendWXContent(string Content, string TempToUserID)
         {
@@ -2346,7 +2470,7 @@ namespace WeixinRoboot
                 string Result4 = NetFramework.Util_WEB.OpenUrl(CheckUrl4
                          , "https://" + webhost + "/", body4.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.GetEncoding("UTF-8"), true);
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
@@ -2414,7 +2538,7 @@ namespace WeixinRoboot
                 string Result4 = NetFramework.Util_WEB.OpenUrl(CheckUrl4
                          , "https://" + webhost + "/", body4.ToString().Replace(Environment.NewLine, ""), "POST", cookie, Encoding.GetEncoding("UTF-8"), true);
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
@@ -2524,7 +2648,7 @@ namespace WeixinRoboot
                   , "https://" + webhost + "/", body2.ToString().Replace(Environment.NewLine, "").Replace(" ", ""), "POST", cookie, Encoding.UTF8, false);
 
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
@@ -2771,7 +2895,7 @@ namespace WeixinRoboot
 
                 // }
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
@@ -2840,7 +2964,7 @@ namespace WeixinRoboot
 
 
             NetFramework.Console.WriteLine("正在开奖" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             Linq.aspnet_UsersNewGameResultSend checkus = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -3054,7 +3178,7 @@ namespace WeixinRoboot
                 Proccesing = true;
                 string NewContent = ReceiveContent;
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.WX_UserReplyLog log = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -3478,7 +3602,7 @@ namespace WeixinRoboot
                     if (Splits.Count() != 1)
                     {
                         DateTime Times = ReceiveTime;
-                        Int32 Count = 2;
+
                         foreach (var Splititem in Splits)
                         {
 
@@ -3583,7 +3707,7 @@ namespace WeixinRoboot
                      , "", "", "GET", cookie);
 
 
-                NetFramework.Console.Write(Result);
+                NetFramework.Console.WriteLine(Result);
                 string Redirect = Result.Substring(Result.IndexOf("redirect_uri"));
                 Redirect = Redirect.Substring(Redirect.IndexOf("\"") + 1);
                 Redirect = Redirect.Substring(0, Redirect.Length - 2);
@@ -3625,8 +3749,8 @@ namespace WeixinRoboot
             }
             catch (Exception AnyError)
             {
-                NetFramework.Console.Write(AnyError.Message);
-                NetFramework.Console.Write(AnyError.StackTrace);
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
                 goto retry;
             }
         }
@@ -3771,13 +3895,13 @@ namespace WeixinRoboot
 
 
         Guid Download163ThreadID = Guid.NewGuid();
-        private void DownLoad163ThreadDo(object ThreadID)
+        private void DownLoad163ThreadDo_Vr(object ThreadID)
         {
             while (KillThread.ContainsKey((Guid)ThreadID) == false)
             {
                 try
                 {
-                    DownloadResult(false);
+                    DownloadResult_Vr(false);
                     System.Threading.Thread.Sleep(500);
                 }
                 catch (Exception anyerror)
@@ -3790,7 +3914,122 @@ namespace WeixinRoboot
 
             }
         }
-        private void DownloadResult(bool IsOpwnNow, Boolean FullDowbload = true)
+        private void DownLoad163ThreadDo_Aoz(object ThreadID)
+        {
+            while (KillThread.ContainsKey((Guid)ThreadID) == false)
+            {
+                try
+                {
+                    DownloadResult_Aoz(false);
+                    System.Threading.Thread.Sleep(500);
+                }
+                catch (Exception anyerror)
+                {
+
+
+                    System.Threading.Thread.Sleep(500);
+                }
+
+
+            }
+        }
+        private void DownLoad163ThreadDo_tengshi(object ThreadID)
+        {
+            while (KillThread.ContainsKey((Guid)ThreadID) == false)
+            {
+                try
+                {
+                    DownloadResult_tengshi(false);
+                    System.Threading.Thread.Sleep(500);
+                }
+                catch (Exception anyerror)
+                {
+
+
+                    System.Threading.Thread.Sleep(500);
+                }
+
+
+            }
+        }
+        private void DownLoad163ThreadDo_tengwu(object ThreadID)
+        {
+            while (KillThread.ContainsKey((Guid)ThreadID) == false)
+            {
+                try
+                {
+                    DownloadResult_tengwu(false);
+                    System.Threading.Thread.Sleep(500);
+                }
+                catch (Exception anyerror)
+                {
+
+
+                    System.Threading.Thread.Sleep(500);
+                }
+
+
+            }
+        }
+        private void DownLoad163ThreadDo_wufen(object ThreadID)
+        {
+            while (KillThread.ContainsKey((Guid)ThreadID) == false)
+            {
+                try
+                {
+                    DownloadResult_wufen(false);
+                    System.Threading.Thread.Sleep(500);
+                }
+                catch (Exception anyerror)
+                {
+
+
+                    System.Threading.Thread.Sleep(500);
+                }
+
+
+            }
+        }
+        private void DownLoad163ThreadDo_xiangjiang(object ThreadID)
+        {
+            while (KillThread.ContainsKey((Guid)ThreadID) == false)
+            {
+                try
+                {
+                    DownloadResult_xiangjiang(false);
+                    System.Threading.Thread.Sleep(500);
+                }
+                catch (Exception anyerror)
+                {
+
+
+                    System.Threading.Thread.Sleep(500);
+                }
+
+
+            }
+        }
+        private void DownLoad163ThreadDo_chongqing(object ThreadID)
+        {
+            while (KillThread.ContainsKey((Guid)ThreadID) == false)
+            {
+                try
+                {
+                    DownloadResult_chongqing(false);
+                    System.Threading.Thread.Sleep(500);
+                }
+                catch (Exception anyerror)
+                {
+
+
+                    System.Threading.Thread.Sleep(500);
+                }
+
+
+            }
+        }
+
+        private void DownloadResult_Aoz(bool IsOpwnNow, Boolean FullDowbload = true)
         {
 
 
@@ -3798,7 +4037,7 @@ namespace WeixinRoboot
             try
             {
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -3818,94 +4057,112 @@ namespace WeixinRoboot
                     }
                 }
                 catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-
-                //try
-                //{
-
-
-                //    DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
-                //    Result = Result || TmpCheck;
-                //    if (TmpCheck == true)
-                //    {
-                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-                //    }
+                { NetFramework.Console.WriteLine(AnyError.Message); NetFramework.Console.WriteLine(AnyError.StackTrace); }
 
 
 
 
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
 
-                //try
-                //{
-                //    DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today.AddDays(-1), false, IsOpwnNow);
-                //    Result = Result || TmpCheck;
-                //    if (TmpCheck == true)
-                //    {
-                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-                //    }
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+            }
+            catch (Exception AnyError)
+            {
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
+            }
 
-                //try
-                //{
-                //    DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
-                //    Result = Result || TmpCheck;
-                //    if (TmpCheck == true)
-                //    {
-                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-                //    }
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+        }
 
-                try
+        private void DownloadResult_Vr(bool IsOpwnNow, Boolean FullDowbload = true)
+        {
+
+
+
+
+
+            try
+            {
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+
+                if (loadset.Thread_VRChongqing == true)
                 {
-                    if (loadset.Thread_VRChongqing == true)
+                    Boolean TmpCheck = false;
+
                     {
-                        Boolean TmpCheck = false;
-
+                        try
                         {
-                            try
-                            {
-                                DownLoad163CaiPiaoV_vrchongqingcai(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow, FullDowbload);
+                            DownLoad163CaiPiaoV_vrchongqingcai(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow, FullDowbload);
 
-                                DownLoad163CaiPiaoV_vrchongqingcaislimWeb(ref TmpCheck, false);
+                            DownLoad163CaiPiaoV_vrchongqingcaislimWeb(ref TmpCheck, false);
 
-                            }
-                            catch (Exception AnyError)
-                            {
-                                NetFramework.Console.WriteLine(AnyError.Message);
-                                DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow, FullDowbload);
-                            }
                         }
-
-
-
-                        //DownLoadTest();
+                        catch (Exception AnyError)
+                        {
+                            NetFramework.Console.WriteLine(AnyError.Message);
+                            DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow, FullDowbload);
+                        }
                     }
 
+
+
+                    //DownLoadTest();
                 }
-                catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+
+            }
+            catch (Exception AnyError)
+            { NetFramework.Console.WriteLine(AnyError.Message); NetFramework.Console.WriteLine(AnyError.StackTrace); }
 
 
 
+
+
+
+        }
+        private void DownloadResult_tengshi(bool IsOpwnNow, Boolean FullDowbload = true)
+        {
+
+
+
+            try
+            {
+
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
                 try
                 {
                     if (loadset.Thread_TengXunShiFen == true)
                     {
                         Boolean TmpCheck = false;
                         DownLoad163CaiPiaoV_tengxunshifen(ref TmpCheck, DateTime.Today, false, IsOpwnNow, FullDowbload);
-
                     }
                 }
                 catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+                { NetFramework.Console.WriteLine(AnyError.Message); NetFramework.Console.WriteLine(AnyError.StackTrace); }
+
+
+
+            }
+            catch (Exception AnyError)
+            {
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
+            }
+
+        }
+        private void DownloadResult_tengwu(bool IsOpwnNow, Boolean FullDowbload = true)
+        {
+
+
+
+            try
+            {
+
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
 
                 try
                 {
@@ -3914,45 +4171,46 @@ namespace WeixinRoboot
                         Boolean TmpCheck = false;
                         try
                         {
-                        DownLoad163CaiPiaoV_tengxunwufenbyhuayu(ref TmpCheck, DateTime.Today, false, IsOpwnNow, FullDowbload);
+                            DownLoad163CaiPiaoV_tengxunwufenbyhuayu(ref TmpCheck, DateTime.Today, false, IsOpwnNow, FullDowbload);
 
                         }
                         catch (Exception)
                         {
-                            
-                          
+
+
                         }
 
 
                         DownLoad163CaiPiaoV_tengxunwufen(ref TmpCheck, DateTime.Today, false, IsOpwnNow, FullDowbload);
 
-                                           }
+                    }
                 }
                 catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-
-                //try
-                //{
+                { NetFramework.Console.WriteLine(AnyError.Message); NetFramework.Console.WriteLine(AnyError.StackTrace); }
 
 
 
 
-                //    DownLoad163CaiPiaoV_xianggangshishicai(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
-                //    Result = Result || TmpCheck;
-                //    if (TmpCheck == true)
-                //    {
-                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-                //    }
-                //    DownLoad163CaiPiaoV_xianggangshishicai(ref TmpCheck, DateTime.Today.AddDays(-1), false, IsOpwnNow);
-                //    Result = Result || TmpCheck;
-                //    if (TmpCheck == true)
-                //    {
-                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-                //    }
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+            }
+            catch (Exception AnyError)
+            {
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
+            }
+
+        }
+        private void DownloadResult_wufen(bool IsOpwnNow, Boolean FullDowbload = true)
+        {
+
+
+
+            try
+            {
+
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
 
                 try
                 {
@@ -3970,108 +4228,33 @@ namespace WeixinRoboot
                     }
                 }
                 catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-
-                //try
-                //{
-
-
-                //    DownLoad163CaiPiaoV_1395p(ref TmpCheck, DateTime.Now, false, IsOpwnNow);
-                //    Result = Result || TmpCheck;
-                //    if (TmpCheck == true)
-                //    {
-                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                //    }
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-
-                try
-                {
-
-                    if (loadset.Thread_ChongQingShiShiCai == true)
-                    {
-                        Boolean TmpCheck = false;
-
-                        DownLoad163CaiPiaoV_13322(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
-
-
-
-
-                        DownLoad163CaiPiaoV_13322(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
-                        //DownLoad163CaiPiaoV_kaijiangwang1332Fast(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+                { NetFramework.Console.WriteLine(AnyError.Message); NetFramework.Console.WriteLine(AnyError.StackTrace); }
 
 
 
 
 
+            }
+            catch (Exception AnyError)
+            {
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
+            }
 
-                    }
-
-                }
-                catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiaoV_13322(ref SendImage, DateTime.Now.AddDays(-1), false);
-                //    if (SendImage == true)
-                //    {
-                //        DealGameLogAndNotice();
-                //        SendChongqingResult();
-                //    }
-
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+        }
+        private void DownloadResult_xiangjiang(bool IsOpwnNow, Boolean FullDowbload = true)
+        {
 
 
 
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiaoV_cp222789(ref SendImage, DateTime.Now, false);
-                //    if (SendImage == true)
-                //    {
-                //        DealGameLogAndNotice();
-                //        SendChongqingResult();
-                //    }
+            try
+            {
 
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
+                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
 
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiaoV_cp222789(ref SendImage, DateTime.Now.AddDays(-1), false);
-                //    if (SendImage == true)
-                //    {
-                //        DealGameLogAndNotice();
-                //        SendChongqingResult();
-                //    }
-
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-                try
-                {
-                    if (loadset.Thread_ChongQingShiShiCai == true)
-                    {
-                        Boolean TmpCheck = false;
-                        DownLoad163CaiPiaoV_kaijiangwang(ref TmpCheck, DateTime.Now.AddDays(-1), false, IsOpwnNow, true, FullDowbload);
-
-
-                    }
-                }
-                catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
                 try
                 {
                     Boolean TmpCheck = false;
@@ -4083,150 +4266,90 @@ namespace WeixinRoboot
                     }
                 }
                 catch (Exception AnyError)
-                { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-                //try
-                //{
-
-                //    DownLoad163CaiPiaoV_kaijiangwang(ref TmpCheck, DateTime.Now, false, IsOpwnNow);
-                //    Result = Result || TmpCheck;
-
-                //    if (TmpCheck == true)
-                //    {
-                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                //    }
-
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-                //try
-                //{
-
-                //    DownLoad163CaiPiaoV_kaijiangwang(ref TmpCheck, DateTime.Now.AddDays(-1), false, IsOpwnNow);
-                //    Result = Result || TmpCheck;
-                //    if (TmpCheck == true)
-                //    {
-                //        SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                //    }
-
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiaoV_Taohua(ref SendImage, DateTime.Now, false);
-                //    if (SendImage == true)
-                //    {
-                //        DealGameLogAndNotice();
-                //        SendChongqingResult();
-                //    }
-
-                //}
-                //catch (Exception AnyError)
-                //{ NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiaoV_Taohua(ref SendImage, DateTime.Now.AddDays(-1), false);
-                //    if (SendImage == true)
-                //    {
-                //        DealGameLogAndNotice();
-                //        SendChongqingResult();
-                //    }
-
-                //}
-                //catch (Exception AnyError) { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiaoV_500(ref SendImage, DateTime.Now, false);
-                //    if (SendImage == true)
-                //    {
-                //        SendChongqingResult();
-                //    }
-                //    DealGameLogAndNotice();
-                //}
-                //catch (Exception AnyError) { }
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiaoV_500(ref SendImage, DateTime.Now.AddDays(-1), false);
-                //    if (SendImage == true)
-                //    {
-                //        SendChongqingResult();
-                //    }
-                //    DealGameLogAndNotice();
-                //}
-                //catch (Exception AnyError) { }
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiaoV_zhcw(ref SendImage, DateTime.Now, false);
-                //    if (SendImage == true)
-                //    {
-                //        SendChongqingResult();
-                //    }
-                //    DealGameLogAndNotice();
-                //}
-                //catch (Exception AnyError)
-                //{
-                //    //NetFramework.Console.Write(AnyError.Message);
-                //    //NetFramework.Console.Write(AnyError.StackTrace); 
-                //}
-
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiaoV_zhcw(ref SendImage, DateTime.Now.AddDays(-1), false);
-                //    if (SendImage == true)
-                //    {
-                //        SendChongqingResult();
-                //    }
-                //    DealGameLogAndNotice();
-                //}
-                //catch (Exception AnyError) { }
-
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiao_V163(ref SendImage, DateTime.Now, false);
-                //    if (SendImage == true)
-                //    {
-                //        SendChongqingResult();
-                //    }
-                //    DealGameLogAndNotice();
-                //}
-                //catch (Exception AnyError) { NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace); }
-                //try
-                //{
-                //    Boolean SendImage = false;
-                //    DownLoad163CaiPiao_V163(ref SendImage, DateTime.Now.AddDays(-1), false);
-                //    if (SendImage == true)
-                //    {
-                //        SendChongqingResult();
-                //    }
-                //    DealGameLogAndNotice();
-                //}
-                //catch (Exception AnyError)
-                //{
-                //    NetFramework.Console.Write(AnyError.Message); NetFramework.Console.Write(AnyError.StackTrace);
-
-                //}
-
+                { NetFramework.Console.WriteLine(AnyError.Message); NetFramework.Console.WriteLine(AnyError.StackTrace); }
 
 
             }
             catch (Exception AnyError)
             {
-                NetFramework.Console.Write(AnyError.Message);
-                NetFramework.Console.Write(AnyError.StackTrace);
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
             }
 
         }
+        private void DownloadResult_chongqing(bool IsOpwnNow, Boolean FullDowbload = true)
+        {
+
+
+
+            try
+            {
+
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+
+
+                try
+                {
+
+                    if (loadset.Thread_ChongQingShiShiCai == true)
+                    {
+                        Boolean TmpCheck = false;
+                        DownLoad163CaiPiaoV_13322(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+
+                    }
+
+                }
+                catch (Exception AnyError)
+                { NetFramework.Console.WriteLine(AnyError.Message); NetFramework.Console.WriteLine(AnyError.StackTrace); }
+
+                //try
+                //{
+
+                //    if (loadset.Thread_ChongQingShiShiCai == true)
+                //    {
+                //        Boolean TmpCheck = false;
+                //        DownLoad163CaiPiaoV_kaijiangwang1332Fast(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+
+                //    }
+
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.WriteLine(AnyError.Message); NetFramework.Console.WriteLine(AnyError.StackTrace); }
+
+                //try
+                //{
+
+                //    if (loadset.Thread_ChongQingShiShiCai == true)
+                //    {
+                //        Boolean TmpCheck = false;
+
+
+
+                //        DownLoad163CaiPiaoV_kaijiangwang(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+
+
+
+
+                //    }
+
+                //}
+                //catch (Exception AnyError)
+                //{ NetFramework.Console.WriteLine(AnyError.Message); NetFramework.Console.WriteLine(AnyError.StackTrace); }
+
+            }
+            catch (Exception AnyError)
+            {
+                NetFramework.Console.WriteLine(AnyError.Message);
+                NetFramework.Console.WriteLine(AnyError.StackTrace);
+            }
+
+        }
+
+
+
 
         public Linq.ProgramLogic.ShiShiCaiMode GetMode(DataRow[] dr)
         {
@@ -4248,6 +4371,23 @@ namespace WeixinRoboot
             {
                 subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
             }
+            else if (dr[0].Field<Boolean>("User_TengXunWuFen") == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
+            }
+            else if (dr[0].Field<Boolean>("User_TengXunShiFen") == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
+            }
+            else if (dr[0].Field<Boolean>("User_VR") == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩;
+            }
+            else if (dr[0].Field<Boolean>("User_XinJiangShiShiCai") == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩;
+            }
+
             return subm;
         }
 
@@ -4275,7 +4415,7 @@ namespace WeixinRoboot
 
         public void SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode subm, string Mode = "All", string ToUserID = "")
         {
-            NetFramework.Console.Write(GlobalParam.UserName + "开始发送图片" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NetFramework.Console.WriteLine(GlobalParam.UserName + "开始发送图片" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
 
             #region
@@ -4295,7 +4435,7 @@ namespace WeixinRoboot
 
             #region "有新的就通知,以及处理结果"
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             Linq.aspnet_UsersNewGameResultSend myconfig = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -4309,11 +4449,11 @@ namespace WeixinRoboot
                 )
             {
 
-                NetFramework.Console.Write("正在发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+                NetFramework.Console.WriteLine("正在发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
                 // var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
                 //筛选内存中勾了跟踪的
-                var users = RunnerF.MemberSource.Select("User_IsReply=1 ");
+                var users = RunnerF.MemberSource.Select("User_IsReply=1 " + (ToUserID == "" ? "" : " and User_ContactTEMPID='"+ToUserID+"'"));
                 foreach (var item in users)
                 {
 
@@ -4358,35 +4498,45 @@ namespace WeixinRoboot
                         webpcset.dragonpic = false;
                         webpcset.numericlink = false;
                         webpcset.dragonlink = false;
+
+                        webpcset.IsSendPIC = true;
+                        webpcset.NiuNiuPic = false;
+                        webpcset.NoBigSmallSingleDoublePIC = false;
+                        webpcset.NumberDragonTxt = false;
+                        webpcset.NumberPIC = false;
+                        webpcset.dragonpic = false;
                         db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
                         db.SubmitChanges();
 
                     }
                     //只发勾了的群或指定的人
-                    if ((dr[0].Field<string>("User_ContactType") == "群" && ToUserID == "") || (TEMPUserName == ToUserID))
+                    //if ((dr[0].Field<string>("User_ContactType") == "群" && ToUserID == "") || (TEMPUserName == ToUserID))
+                    if ((ToUserID == "") || (TEMPUserName == ToUserID))
                     {
-
-                        if (dr[0].Field<string>("User_SourceType") == "微")
+                        if (webpcset.IsSendPIC == false)
                         {
-                            if ((Mode == "All" && webpcset.dragonpic == true) || (Mode == "图2"))
-                            {
-
-                                SendRobotTxtFile(Application.StartupPath + "\\Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", TEMPUserName, SourceType);
-                            }
+                            continue;
                         }
 
-                        if (dr[0].Field<string>("User_SourceType") == "易")
+
+                        if ((Mode == "All" && webpcset.dragonpic == true) || (Mode == "图2") || (Mode == "龙虎图"))
                         {
-                            if ((Mode == "All" && webpcset.dragonpic == true) || (Mode == "图2"))
+                            if (dr[0].Field<string>("User_SourceType") == "易")
                             {
-                                SendRobotTxtFile(Application.StartupPath + "\\Data3_yixin" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", TEMPUserName, SourceType);
+                                SendRobotContent(StartForm.ReadVirtualFile("Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", db), TEMPUserName, SourceType);
                             }
+                            if (dr[0].Field<string>("User_SourceType") == "微")
+                            {
+                                SendRobotContent(StartForm.ReadVirtualFile("Data3_yixin" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", db), TEMPUserName, SourceType);
+                            }
+
+
                         }
-                        Thread.Sleep(1000);
+                        Thread.Sleep(500);
 
                         if ((Mode == "All" && webpcset.NumberPIC == true) || (Mode == "图1"))
                         {
-                            SendRobotImage(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".jpg", TEMPUserName, SourceType);
+                            SendRobotImageByte(StartForm.ReadVirtualFilebyte("Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".jpg", db), TEMPUserName, SourceType);
 
                         }
 
@@ -4397,7 +4547,7 @@ namespace WeixinRoboot
 
                         if ((Mode == "All" && webpcset.NumberAndDragonPIC == true) || (Mode == "图4"))
                         {
-                            SendRobotTxtFile(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", TEMPUserName, SourceType);
+                            SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", db), TEMPUserName, SourceType);
                         }
 
                         if (Mode == "All" && webpcset.shishicailink == true)
@@ -4406,7 +4556,43 @@ namespace WeixinRoboot
                         }
 
 
+                        if ((Mode == "All" && webpcset.NiuNiuPic == true) || (Mode == "VR图"))
+                        {
+                            if (dr[0].Field<string>("User_SourceType") == "易")
+                            {
+                                SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", db), TEMPUserName, SourceType);
+                            }
+                            if (dr[0].Field<string>("User_SourceType") == "微")
+                            {
+                                SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", db), TEMPUserName, SourceType);
+                            }
 
+                        }
+                        if ((Mode == "All" && webpcset.NoBigSmallSingleDoublePIC == true) || (Mode == "独龙虎图"))
+                        {
+                            if (dr[0].Field<string>("User_SourceType") == "易")
+                            {
+                                SendRobotContent(StartForm.ReadVirtualFile("ata数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", db), TEMPUserName, SourceType);
+                            }
+                            if (dr[0].Field<string>("User_SourceType") == "微")
+                            {
+                                SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", db), TEMPUserName, SourceType);
+                            }
+
+                        }
+
+                        if ((Mode == "All" && webpcset.NumberDragonTxt == true) || (Mode == "文本图") )
+                        {
+                            if (dr[0].Field<string>("User_SourceType") == "易")
+                            {
+                                SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", db), TEMPUserName, SourceType);
+                            }
+                            if (dr[0].Field<string>("User_SourceType") == "微")
+                            {
+                                SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode(dr))) + ".txt", db), TEMPUserName, SourceType);
+                            }
+
+                        }
 
 
 
@@ -4436,7 +4622,7 @@ namespace WeixinRoboot
 
             #endregion
 
-            NetFramework.Console.Write(GlobalParam.UserName + "发送图片完毕" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NetFramework.Console.WriteLine(GlobalParam.UserName + "发送图片完毕" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
         }
 
         private string Object2Str(object param)
@@ -4479,7 +4665,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiao_V163(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4498,7 +4684,7 @@ namespace WeixinRoboot
 
 
             URL += SelectDate.ToString("yyyyMMdd") + ".html";
-            NetFramework.Console.WriteLine("正在刷新163网页" + DateTime.Now.ToString("HH:mm:ss fff"));
+            // NetFramework.Console.WriteLine("正在刷新163网页" + DateTime.Now.ToString("HH:mm:ss fff"));
             string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", cookie163);
             Regex FindTableData = new Regex("<table width=\"100%\" border=\"0\" cellspacing=\"0\" class=\"awardList\">((?!</table>)[\\S\\s])+</table>", RegexOptions.IgnoreCase);
             string str_json = FindTableData.Match(Result).Value;
@@ -4537,8 +4723,8 @@ namespace WeixinRoboot
 
                 }//已开奖励
             }//每行处理
-            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
-            NetFramework.Console.WriteLine("163下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
+            // NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
+            //NetFramework.Console.WriteLine("163下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
             ShiShiCaiDealGameLogAndNotice();
 
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -4566,7 +4752,7 @@ namespace WeixinRoboot
             NewResult = false;
             //http://m.zhcw.com/kaijiang/place_info.jsp?id=572
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4632,7 +4818,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_500(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4724,7 +4910,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4850,7 +5036,7 @@ namespace WeixinRoboot
             {
 
                 string str_Win = trdata["opencode"].ToString();
-                if (str_Win=="")
+                if (str_Win == "")
                 {
                     continue;
                 }
@@ -4860,7 +5046,7 @@ namespace WeixinRoboot
                 //str_Win = str_Win.Substring(0, 9);
 
                 string GameTime = trdata["openedAt"].ToString();
-                str_dataperiod = str_dataperiod.Replace("-","");
+                str_dataperiod = str_dataperiod.Replace("-", "");
                 //20190328286
                 str_dataperiod = str_dataperiod.Substring(0, 8) + str_dataperiod.Substring(9, 3);
                 bool Newdb = false;
@@ -4903,12 +5089,12 @@ namespace WeixinRoboot
             //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
         }
-       
+
         public void DownLoad163CaiPiaoV_tengxunwufen(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean FullDowbload)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -4921,7 +5107,7 @@ namespace WeixinRoboot
 
 
 
-            string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCai.do?issue=&lotCode=tx5fc";
+            string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=tx5fc";
             //string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=tx5fc";
 
             NetFramework.Console.WriteLine("正在刷新腾讯五分网页" + DateTime.Now.ToString("HH:mm:ss fff"));
@@ -4990,7 +5176,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -5080,7 +5266,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -5221,7 +5407,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -5337,7 +5523,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -5668,7 +5854,7 @@ namespace WeixinRoboot
         }
         public void DownLoad163CaiPiaoV_vrchongqingcaislimWeb(ref Boolean NewResult, bool ReDrawGdi)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
@@ -5677,21 +5863,35 @@ namespace WeixinRoboot
             string Source = "";
             this.Invoke(new Action(() =>
             {
-                if (wb_vrchongqing.GetBrowser().MainFrame.Url.Contains("Bet/Index/42") == false)
+                if (wb_vrchongqing == null)
                 {
-                    throw new Exception("未登陆不能使用WEB采集");
+                    return;
                 }
-                System.Threading.Tasks.Task<string> tsk = wb_vrchongqing.GetBrowser().MainFrame.GetSourceAsync();
-                tsk.Wait();
-                Source = tsk.Result;
+                if (wb_vrchongqing.Url == null || wb_vrchongqing.Url.AbsoluteUri.Contains("Bet/Index/42") == false)
+                {
+                    NetFramework.Console.WriteLine("未登陆不能使用WEB采集");
+                    return;
+                }
+                try
+                {
+                    Source = wb_vrchongqing.Document.Body.InnerHtml; //StartGetDoc( wb_vrchongqing.DocumentAsHTMLDocument);
+
+
+                }
+                catch (Exception AnyError)
+                {
+                    NetFramework.Console.WriteLine(AnyError.Message);
+                    NetFramework.Console.WriteLine(AnyError.StackTrace);
+                }
             }));
-            Regex FindPeriod = new Regex("<span id=\"lastissue\" class=\"font-lightpink\">[0-9]+</span>", RegexOptions.IgnoreCase);
+            Regex FindPeriod = new Regex("<span class=\"font-lightpink\" id=\"lastissue\">[0-9]+</span>", RegexOptions.IgnoreCase);
             Regex FindWin = new Regex("<ul class=\"win_numbers font-white\"[^>]*>((?<mm><ul[^>]*>)+|(?<-mm></ul>)|[\\s\\S])*?(?(mm)(?!))</ul>", RegexOptions.IgnoreCase);
 
             string str_dataperiod = NetFramework.Util_WEB.CleanHtml(FindPeriod.Match(Source).Value);
             if (str_dataperiod == "")
             {
-                throw new Exception("网页模拟登陆APP失败");
+                NetFramework.Console.WriteLine("网页模拟登陆APP失败");
+                return;
             }
             string str_Win = NetFramework.Util_WEB.CleanHtml(FindWin.Match(Source).Value);
             str_Win = str_Win.Replace(Environment.NewLine, "").Replace(" ", "").Replace("\n", "");
@@ -5730,7 +5930,7 @@ namespace WeixinRoboot
         {
             NetFramework.Console.WriteLine("开始下载桃花中间表" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -5796,7 +5996,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -5811,15 +6011,15 @@ namespace WeixinRoboot
 
             string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
 
-            if (Lasturl == true)
-            {
-                URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10002";
-            }
-            else
-            {
-                URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10002";
-            }
-
+            //if (Lasturl == true)
+            //{
+            //    URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?lotCode=10002";
+            //}
+            //else
+            //{
+            //    URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10002";
+            //}
+            URL += SelectDate.ToString("yyyy-MM-dd") + "&lotCode=10002";
             //string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
 
 
@@ -5879,11 +6079,12 @@ namespace WeixinRoboot
         }
         //https://kj.13322.com/trend/lottery.findLotteryIssue.do //lottery=cqssc
         //https://kj.13322.com/ssc_cqssc_history_dtoday.html
+
         public void DownLoad163CaiPiaoV_kaijiangwang1332Fast(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean Lasturl = false, Boolean FullDowbload = false)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -5896,7 +6097,7 @@ namespace WeixinRoboot
 
 
 
-            string URL = "http://kj.13322.com/trend/lottery.findLotteryIssue.do";
+            String URL = "http://kj.13322.com/trend/lottery.findLotteryIssue.do";
 
 
 
@@ -5912,7 +6113,7 @@ namespace WeixinRoboot
             JObject Resultfull = JObject.Parse(Result);
 
 
-            //foreach (JObject item in Resultfull["result"]["data"])
+            foreach (JObject item in Resultfull["result"]["data"])
             {
 
 
@@ -5969,7 +6170,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -6062,7 +6263,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -6170,7 +6371,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -6316,7 +6517,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -6422,7 +6623,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载cp222789网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -6509,7 +6710,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载13322.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -6570,10 +6771,7 @@ namespace WeixinRoboot
                 bool Newdb = false;
 
                 Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, out Newdb, Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                //if (Newdb || IsOpenNow)
-                //{
 
-                //}
 
 
 
@@ -6610,7 +6808,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -6680,7 +6878,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -6758,7 +6956,7 @@ namespace WeixinRoboot
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
             NewResult = false;
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             #region 下载彩票结果
@@ -6837,26 +7035,39 @@ namespace WeixinRoboot
         }
 
 
+        public object FileLock = false;
         public void DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode subm)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             DateTime Localday = DateTime.Now;
 
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩 == false)
             {
-                if (Localday.Hour < 8)
+                if (subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯五分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+                {
+                    if (Localday.Hour * 60 + Localday.Minute < 5)
+                    {
+                        Localday = Localday.AddDays(-1);
+                    }
+                }
+                else if (Localday.Hour < 8)
                 {
                     Localday = Localday.AddDays(-1);
                 }
             }
+
             else
             {
+
+
+
                 if (Localday.Hour < 7)
                 {
                     Localday = Localday.AddDays(-1);
                 }
+
 
             }
 
@@ -6872,23 +7083,28 @@ namespace WeixinRoboot
             //Localday = Convert.ToDateTime(GameFullLocalPeriod.Substring(0, 4) + "-" + GameFullLocalPeriod.Substring(4, 2) + "-" + GameFullLocalPeriod.Substring(6, 2));
 
 
-            NetFramework.Console.Write(GlobalParam.UserName + "准备发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NetFramework.Console.WriteLine(GlobalParam.UserName + "准备发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
             string Sql = @"select top 288 GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where "
                ;
-            if (subm == Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩 || subm == Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯十分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩 || subm == Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
             {
 
                 Sql += "   GamePrivatePeriod like '" + Localday.ToString("yyyyMMdd")
                  + "%' and ";
             }
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯十分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+            {
 
+                Sql += "   GamePeriod like '" + Localday.ToString("yyyyMMdd")
+                 + "%' and ";
+            }
             Sql += " aspnet_Userid='" + GlobalParam.UserKey.ToString()
             + "' and GameName='" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm) + "' order by GamePeriod desc");
 
 
 
-            DataTable PrivatePerios = NetFramework.Util_Sql.RunSqlDataTable( GlobalParam.DataSourceName
+            DataTable PrivatePerios = NetFramework.Util_Sql.RunSqlDataTable(GlobalParam.DataSourceName
                 , Sql);
             DataView dv = PrivatePerios.AsDataView();
 
@@ -6908,7 +7124,7 @@ namespace WeixinRoboot
             //}
             Int32 TigerindexV1 = 0;
             Int32 TotalIndexV1 = 288;
-            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
                 TotalIndexV1 = 60;
             }
@@ -6943,16 +7159,8 @@ namespace WeixinRoboot
                 //}
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowrite = new FileStream(Application.StartupPath + "\\Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] Result = Encoding.UTF8.GetBytes(Datatextplain);
-            filetowrite.Write(Result, 0, Result.Length);
-            filetowrite.Flush();
-            filetowrite.Close();
-            filetowrite.Dispose();
+            SaveVirtualFile("Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", Datatextplain, db);
+
             #endregion
 
 
@@ -6966,7 +7174,7 @@ namespace WeixinRoboot
             //}
             Int32 TigerindexV2 = 0;
             Int32 TotalIndexV2 = 288;
-            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
                 TotalIndexV2 = 60;
             }
@@ -7000,16 +7208,8 @@ namespace WeixinRoboot
                 //}
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data3_yixin" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data3_yixin" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowrite_yixin = new FileStream(Application.StartupPath + "\\Data3_yixin" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] Result_yixin = Encoding.UTF8.GetBytes(Datatextplain_yixin);
-            filetowrite_yixin.Write(Result_yixin, 0, Result_yixin.Length);
-            filetowrite_yixin.Flush();
-            filetowrite_yixin.Close();
-            filetowrite_yixin.Dispose();
+            SaveVirtualFile("Data3_yixin" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", Datatextplain_yixin, db);
+
             #endregion
 
             #region 画龙虎图表QQ
@@ -7022,7 +7222,7 @@ namespace WeixinRoboot
             //}
             Int32 TigerindexVQQ = 0;
             Int32 TotalIndexVQQ = 30;
-            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
                 TotalIndexVQQ = 30;
             }
@@ -7057,16 +7257,8 @@ namespace WeixinRoboot
                 //}
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data3_QQ" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data3_QQ" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowrite_QQ = new FileStream(Application.StartupPath + "\\Data3_QQ" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] Result_QQ = Encoding.UTF8.GetBytes(Datatextplain_QQ);
-            filetowrite_QQ.Write(Result_QQ, 0, Result_QQ.Length);
-            filetowrite_QQ.Flush();
-            filetowrite_QQ.Close();
-            filetowrite_QQ.Dispose();
+            SaveVirtualFile("Data3_QQ" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", Datatextplain_QQ, db);
+
             #endregion
 
             #region 画龙虎图表钉钉
@@ -7079,7 +7271,7 @@ namespace WeixinRoboot
             //}
             Int32 TigerindexV3 = 0;
             Int32 TotalIndexV3 = 288;
-            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
                 TotalIndexV3 = 60;
             }
@@ -7114,16 +7306,8 @@ namespace WeixinRoboot
                 //}
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data3_dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data3_dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowrite_dingding = new FileStream(Application.StartupPath + "\\Data3_dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] Result_dingding = Encoding.UTF8.GetBytes(Datatextplain_dingding);
-            filetowrite_dingding.Write(Result_dingding, 0, Result_dingding.Length);
-            filetowrite_dingding.Flush();
-            filetowrite_dingding.Close();
-            filetowrite_dingding.Dispose();
+            SaveVirtualFile("Data3_dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", Datatextplain_dingding, db);
+
             #endregion
 
 
@@ -7179,7 +7363,7 @@ namespace WeixinRoboot
 
             #endregion
 
-            #region 画表格
+            #region 画表格数字图
             Bitmap img = new Bitmap(472, 780);
             Graphics g = Graphics.FromImage(img);
 
@@ -7210,7 +7394,7 @@ namespace WeixinRoboot
                     Font sf = new Font("微软雅黑", 15);
                     Brush br = new SolidBrush(Color.Black);
                     g.DrawString(myset.ImageTopText, sf, br, new PointF(MarginLeft, MarginTop + i * 30));
-                    g.DrawString(subm.ToString(), sf, br, new PointF(MarginLeft+300, MarginTop + i * 30));
+                    g.DrawString(subm.ToString(), sf, br, new PointF(MarginLeft + 300, MarginTop + i * 30));
 
                 }
                 else if (i == 1)
@@ -7329,15 +7513,20 @@ namespace WeixinRoboot
 
 
             }//每行画图
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".jpg"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".jpg");
-            }
-            img.Save(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            MemoryStream ms = new MemoryStream();
+            img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            SaveVirtualFile("Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".jpg"
+           , ms.GetBuffer(), db);
             img.Dispose();
             g.Dispose();
 
+
             #endregion
+
+
+
 
             #region 画表格+龙虎合
             Bitmap img_3 = new Bitmap(472, 780 + 180);
@@ -7527,17 +7716,16 @@ namespace WeixinRoboot
 
             #endregion
 
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + "_v3.jpg"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + "_v3.jpg");
-            }
-            img_3.Save(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + "_v3.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            MemoryStream ms3 = new MemoryStream();
+            img_3.Save(ms3, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            SaveVirtualFile("Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + "_v3.jpg"
+           , ms3.GetBuffer(), db);
             img_3.Dispose();
             g_3.Dispose();
 
+
             #endregion
-
-
 
             #region 数字文本
             string DatatextplainV7 = "";
@@ -7563,16 +7751,8 @@ namespace WeixinRoboot
             }
             DatatextplainV7 += Environment.NewLine;
 
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + "V7.txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + "V7.txt");
-            }
-            FileStream filetowriteV7 = new FileStream(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + "V7.txt", FileMode.OpenOrCreate);
-            byte[] ResultV7 = Encoding.UTF8.GetBytes(DatatextplainV7);
-            filetowriteV7.Write(ResultV7, 0, ResultV7.Length);
-            filetowriteV7.Flush();
-            filetowriteV7.Close();
-            filetowriteV7.Dispose();
+            SaveVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + "V7.txt", DatatextplainV7, db);
+
             #endregion
 
             #region 龙虎加数字文本有大小单双有牛牛
@@ -7638,16 +7818,8 @@ namespace WeixinRoboot
 
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowriteV22 = new FileStream(Application.StartupPath + "\\Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] ResultV22 = Encoding.UTF8.GetBytes(DatatextplainV22);
-            filetowriteV22.Write(ResultV22, 0, ResultV22.Length);
-            filetowriteV22.Flush();
-            filetowriteV22.Close();
-            filetowriteV22.Dispose();
+            SaveVirtualFile("Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", DatatextplainV22, db);
+
             #endregion
 
 
@@ -7717,16 +7889,9 @@ namespace WeixinRoboot
 
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowriteV23 = new FileStream(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] ResultV23 = Encoding.UTF8.GetBytes(DatatextplainV23);
-            filetowriteV23.Write(ResultV23, 0, ResultV23.Length);
-            filetowriteV23.Flush();
-            filetowriteV23.Close();
-            filetowriteV23.Dispose();
+
+            SaveVirtualFile("Data数字龙虎qq_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", DatatextplainV23, db);
+
             #endregion
 
 
@@ -7759,7 +7924,7 @@ namespace WeixinRoboot
                     continue;
                 }
                 DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
-                DatatextplainV24 += CaculateNumberAndDragon(subm, currow, false, true,true);
+                DatatextplainV24 += CaculateNumberAndDragon(subm, currow, false, true, true);
             }
             DatatextplainV24 += Environment.NewLine;
             Int32 TigerIndexV24 = 0;
@@ -7794,16 +7959,8 @@ namespace WeixinRoboot
 
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowriteV24 = new FileStream(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] ResultV24 = Encoding.UTF8.GetBytes(DatatextplainV24);
-            filetowriteV24.Write(ResultV24, 0, ResultV24.Length);
-            filetowriteV24.Flush();
-            filetowriteV24.Close();
-            filetowriteV24.Dispose();
+            SaveVirtualFile("Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", DatatextplainV24, db);
+
             #endregion
             #endregion
 
@@ -7836,7 +7993,7 @@ namespace WeixinRoboot
                     continue;
                 }
                 DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
-                DatatextplainV10 += CaculateNumberAndDragon(subm, currow,false,true);
+                DatatextplainV10 += CaculateNumberAndDragon(subm, currow, false, true);
             }
             DatatextplainV10 += Environment.NewLine;
             Int32 TigerindexV10 = 0;
@@ -7871,16 +8028,8 @@ namespace WeixinRoboot
 
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowriteV10 = new FileStream(Application.StartupPath + "\\Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] ResultV10 = Encoding.UTF8.GetBytes(DatatextplainV10);
-            filetowriteV10.Write(ResultV10, 0, ResultV10.Length);
-            filetowriteV10.Flush();
-            filetowriteV10.Close();
-            filetowriteV10.Dispose();
+            SaveVirtualFile("Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", DatatextplainV10, db);
+
             #endregion
 
 
@@ -7913,7 +8062,7 @@ namespace WeixinRoboot
                     continue;
                 }
                 DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
-                DatatextplainV11 += CaculateNumberAndDragon(subm, currow,false,true);
+                DatatextplainV11 += CaculateNumberAndDragon(subm, currow, false, true);
             }
             DatatextplainV11 += Environment.NewLine;
             Int32 TigerIndexV11 = 0;
@@ -7950,16 +8099,8 @@ namespace WeixinRoboot
 
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowriteV11 = new FileStream(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] ResultV11 = Encoding.UTF8.GetBytes(DatatextplainV11);
-            filetowriteV11.Write(ResultV11, 0, ResultV11.Length);
-            filetowriteV11.Flush();
-            filetowriteV11.Close();
-            filetowriteV11.Dispose();
+            SaveVirtualFile("Data数字龙虎qq_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", DatatextplainV11, db);
+
             #endregion
 
 
@@ -7992,7 +8133,7 @@ namespace WeixinRoboot
                     continue;
                 }
                 DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
-                DatatextplainV12 += CaculateNumberAndDragon(subm, currow,false,true);
+                DatatextplainV12 += CaculateNumberAndDragon(subm, currow, false, true);
             }
             DatatextplainV12 += Environment.NewLine;
             Int32 TigerIndexV12 = 0;
@@ -8027,16 +8168,8 @@ namespace WeixinRoboot
 
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowriteV12 = new FileStream(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] ResultV12 = Encoding.UTF8.GetBytes(DatatextplainV12);
-            filetowriteV12.Write(ResultV12, 0, ResultV12.Length);
-            filetowriteV12.Flush();
-            filetowriteV12.Close();
-            filetowriteV12.Dispose();
+            SaveVirtualFile("Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", DatatextplainV12, db);
+
             #endregion
             #endregion
 
@@ -8075,7 +8208,7 @@ namespace WeixinRoboot
             DatatextplainV5 += Environment.NewLine;
             Int32 TigerindexV5 = 0;
             Int32 TotalIndexV5 = 288;
-            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
                 TotalIndexV5 = 30;
             }
@@ -8105,16 +8238,8 @@ namespace WeixinRoboot
 
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowriteV5 = new FileStream(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] ResultV5 = Encoding.UTF8.GetBytes(DatatextplainV5);
-            filetowriteV5.Write(ResultV5, 0, ResultV5.Length);
-            filetowriteV5.Flush();
-            filetowriteV5.Close();
-            filetowriteV5.Dispose();
+            SaveVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", DatatextplainV5, db);
+
             #endregion
 
 
@@ -8152,7 +8277,7 @@ namespace WeixinRoboot
             DatatextplainV8 += Environment.NewLine;
             Int32 TigerIndexV8 = 0;
             Int32 TotalIndexV8 = 30;
-            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
                 TotalIndexV8 = 30;
             }
@@ -8184,16 +8309,8 @@ namespace WeixinRoboot
 
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎qq" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎qq" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowriteV8 = new FileStream(Application.StartupPath + "\\Data数字龙虎qq" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] ResultV8 = Encoding.UTF8.GetBytes(DatatextplainV8);
-            filetowriteV8.Write(ResultV8, 0, ResultV8.Length);
-            filetowriteV8.Flush();
-            filetowriteV8.Close();
-            filetowriteV8.Dispose();
+            SaveVirtualFile("Data数字龙虎qq" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", DatatextplainV8, db);
+
             #endregion
 
 
@@ -8231,7 +8348,7 @@ namespace WeixinRoboot
             DatatextplainV6 += Environment.NewLine;
             Int32 TigerIndexV6 = 0;
             Int32 TotalIndexV6 = 288;
-            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩 )
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
                 TotalIndexV6 = 60;
             }
@@ -8261,25 +8378,80 @@ namespace WeixinRoboot
 
 
             }//行循环
-            if (System.IO.File.Exists(Application.StartupPath + "\\Data数字龙虎dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt"))
-            {
-                System.IO.File.Delete(Application.StartupPath + "\\Data数字龙虎dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt");
-            }
-            FileStream filetowriteV6 = new FileStream(Application.StartupPath + "\\Data数字龙虎dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", FileMode.OpenOrCreate);
-            byte[] ResultV6 = Encoding.UTF8.GetBytes(DatatextplainV6);
-            filetowriteV6.Write(ResultV6, 0, ResultV6.Length);
-            filetowriteV6.Flush();
-            filetowriteV6.Close();
-            filetowriteV6.Dispose();
+            SaveVirtualFile("Data数字龙虎dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", DatatextplainV6, db);
+
             #endregion
 
 
             #endregion
 
-            NetFramework.Console.Write(GlobalParam.UserName + "准备完毕发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+            NetFramework.Console.WriteLine(GlobalParam.UserName + "准备完毕发图" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
         }
 
-        private string CaculateNumberAndDragon(Linq.ProgramLogic.ShiShiCaiMode subm, DataRow currow, bool AddTotal = true,bool NoBigSmallSingleDouble=false,bool CaculateNiuNiu=false)
+        private static void SaveVirtualFile(string FileName, string Context, Linq.dbDataContext db)
+        {
+            var data = db.aspnet_UserVirtualFile.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.FileID == FileName);
+            if (data != null)
+            {
+                db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, data);
+                data.FileContenxt = Convert.ToBase64String(Encoding.UTF8.GetBytes(Context));
+                db.SubmitChanges();
+            }
+            else
+            {
+                Linq.aspnet_UserVirtualFile newf = new Linq.aspnet_UserVirtualFile();
+                newf.aspnet_UserID = GlobalParam.UserKey;
+                newf.FileID = FileName;
+                newf.FileContenxt = Convert.ToBase64String(Encoding.UTF8.GetBytes(Context));
+                db.aspnet_UserVirtualFile.InsertOnSubmit(newf);
+                db.SubmitChanges();
+            }
+        }
+
+        private static void SaveVirtualFile(string FileName, byte[] Context, Linq.dbDataContext db)
+        {
+            var data = db.aspnet_UserVirtualFile.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.FileID == FileName);
+            if (data != null)
+            {
+                db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, data);
+                data.FileContenxt = Convert.ToBase64String(Context); ;
+                db.SubmitChanges();
+            }
+            else
+            {
+                Linq.aspnet_UserVirtualFile newf = new Linq.aspnet_UserVirtualFile();
+                newf.aspnet_UserID = GlobalParam.UserKey;
+                newf.FileID = FileName;
+                newf.FileContenxt = Convert.ToBase64String(Context);
+                db.aspnet_UserVirtualFile.InsertOnSubmit(newf);
+                db.SubmitChanges();
+            }
+        }
+
+        public static string ReadVirtualFile(string FileName, Linq.dbDataContext db)
+        {
+            var load = db.aspnet_UserVirtualFile.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.FileID == FileName);
+            db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, load);
+            if (load == null)
+            {
+                NetFramework.Console.WriteLine(FileName + "没有找到");
+            }
+
+            return load == null ? "" : Encoding.UTF8.GetString(Convert.FromBase64String(load.FileContenxt));
+        }
+        private static byte[] ReadVirtualFilebyte(string FileName, Linq.dbDataContext db)
+        {
+            var load = db.aspnet_UserVirtualFile.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.FileID == FileName);
+            db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, load);
+            if (load == null)
+            {
+                NetFramework.Console.WriteLine(FileName + "没有找到");
+            }
+
+            return load == null ? null : Convert.FromBase64String(load.FileContenxt);
+        }
+
+        private string CaculateNumberAndDragon(Linq.ProgramLogic.ShiShiCaiMode subm, DataRow currow, bool AddTotal = true, bool NoBigSmallSingleDouble = false, bool CaculateNiuNiu = false)
         {
             string DatatextplainV5 = "";
             string ShortPeriod = currow.Field<string>("期号");
@@ -8332,7 +8504,7 @@ namespace WeixinRoboot
                 DatatextplainV5 += 期号 + "  "
                     + 实时 + "  "
                     + OpenResult + "  "
-                    + (NoBigSmallSingleDouble == true ? "" : (大小 + 单双)) + 龙虎 + (CaculateNiuNiu == false ? "" : " "+牛牛)
+                    + (NoBigSmallSingleDouble == true ? "" : (大小 + 单双)) + 龙虎 + (CaculateNiuNiu == false ? "" : " " + 牛牛)
 
                     + (AddTotal == false ? "" : ("" + 合数))
                     + Environment.NewLine;
@@ -8344,7 +8516,7 @@ namespace WeixinRoboot
                 DatatextplainV5 += 期号 + "  "
                     + 时间 + "  "
                     + OpenResult + "  "
-                     + (NoBigSmallSingleDouble == true ? "" : (大小 + 单双)) + 龙虎 + (CaculateNiuNiu == false ? "" : " "+牛牛)
+                     + (NoBigSmallSingleDouble == true ? "" : (大小 + 单双)) + 龙虎 + (CaculateNiuNiu == false ? "" : " " + 牛牛)
 
                     + (AddTotal == false ? "" : ("" + 合数))
                     + Environment.NewLine;
@@ -8531,68 +8703,82 @@ namespace WeixinRoboot
         bool FirstRun = true;
         private void tm_refresh_Tick(object sender, EventArgs e)
         {
-            lbl_six.Text = "六下期：" + (GetNextPreriodHKSix(winsdb) == null ? "" : GetNextPreriodHKSix(winsdb).GamePeriod);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            lbl_six.Text = "六下期：" + (GetNextPreriodHKSix(db) == null ? "" : GetNextPreriodHKSix(db).GamePeriod);
             lbl_qqthread.Text = "(ALT+O)采集:" + (StopQQ == true ? "停止" : "运行");
             tm_refresh.Enabled = false;
             try
             {
 
-          
-            if (FirstRun == true)
-            {
-                Thread startdo = new Thread(new ThreadStart(ThreadStartGetBallRatioV2));
-                startdo.Start();
 
-                #region 启动联赛循环发图
-                Thread strcs = new Thread(new ThreadStart(ThreadRepeatCheckSend));
-                strcs.Start();
-                #endregion
+                if (FirstRun == true)
+                {
+                    wb_ballgame.Navigate("http://odds.gooooal.com/company.html?type=1001");
+                    wb_balllivepoint.Navigate("http://live.gooooal.com");
 
-                Thread trhksix = new Thread(new ThreadStart(ThreadGetHKSix));
-                trhksix.Start();
+                    Thread startdo = new Thread(new ThreadStart(ThreadStartGetBallRatioV2));
+                    startdo.Start();
 
-                Thread checkqq = new Thread(new ThreadStart(Thread_CheckQQ));
-                checkqq.SetApartmentState(ApartmentState.STA);
-                checkqq.Start();
+                    #region 启动联赛循环发图
+                    Thread strcs = new Thread(new ThreadStart(ThreadRepeatCheckSend));
+                    strcs.Start();
+                    #endregion
 
-                ReloadWebApp();
+                    Thread trhksix = new Thread(new ThreadStart(ThreadGetHKSix));
+                    trhksix.Start();
 
-                FirstRun = false;
-            }
-            System.Threading.Tasks.Task<string> tsk = wb_vrchongqing.GetBrowser().MainFrame.GetSourceAsync();
-            tsk.Wait();
-            //string Source = NetFramework.Util_CEF.JoinQueueAndWait(NewUrl, wb_vrchongqing);
-            string Source = tsk.Result;
-            if (wb_vrchongqing.GetBrowser().MainFrame.Url.Contains("/Bet/Index/42") == false && wb_vrchongqing.GetBrowser().MainFrame.Url.Contains("/Bet/Index") == true)
-            {
-                // wb_vrchongqing.Load("http://huy.vrbetapi.com/Bet/Index/42");
-                NetFramework.Util_CEF.JoinQueueAndWait("http://huy.vrbetapi.com/Bet/Index/42", wb_vrchongqing);
-            }
-            if (wb_vrchongqing.GetBrowser().MainFrame.Url.Contains("ErrorHandle/Timeout")
-                )
-            {
-                ReloadWebApp();
-            }
-            if (Source.Contains("时间逾期"))
-            {
+                    Thread checkqq = new Thread(new ThreadStart(Thread_CheckQQ));
+                    checkqq.SetApartmentState(ApartmentState.STA);
+                    checkqq.Start();
 
-                ReloadWebApp();
+                    ReloadWebApp();
 
-            }
+                    FirstRun = false;
+                }
 
-            SI_url.Text = NetFramework.Util_WEB.CurrentUrl;
-            SI_url.ToolTipText = SI_url.Text;
+                //string Source = NetFramework.Util_CEF.JoinQueueAndWait(NewUrl, wb_vrchongqing);
+
+                try
+                {
+
+                    if (wb_vrchongqing.Url.AbsoluteUri.Contains("/Bet/Index/42") == false && wb_vrchongqing.Url.AbsoluteUri.Contains("/Bet/Index") == true)
+                    {
+                        // wb_vrchongqing.Load("http://huy.vrbetapi.com/Bet/Index/42");
+                        wb_vrchongqing.Navigate("http://huy.vrbetapi.com/Bet/Index/42");
+                    }
+                    if (wb_vrchongqing.Url.AbsoluteUri.Contains("ErrorHandle/Timeout")
+                        )
+                    {
+                        ReloadWebApp();
+                    }
+                    String DocSource = wb_vrchongqing.Document.Body.InnerHtml;
+                    //StartGetDoc(wb_vrchongqing.DocumentAsHTMLDocument);
+                    if (DocSource.Contains("时间逾期"))
+                    {
+
+                        ReloadWebApp();
+
+                    }
+                }
+                catch (Exception AnyError)
+                {
+                    NetFramework.Console.WriteLine(AnyError.Message);
+                    NetFramework.Console.WriteLine(AnyError.StackTrace);
+                }
+                SI_url.Text = NetFramework.Util_WEB.CurrentUrl;
+                SI_url.ToolTipText = SI_url.Text;
 
 
 
 
 
-            if (ReloadWX == true)
-            {
-                btn_resfresh.Visible = true;
-                PicBarCode.Visible = true;
-                ReloadWX = false;
-            }
+                if (ReloadWX == true)
+                {
+                    btn_resfresh.Visible = true;
+                    PicBarCode.Visible = true;
+                    ReloadWX = false;
+                }
             }
             catch (Exception AnyError)
             {
@@ -8639,16 +8825,16 @@ namespace WeixinRoboot
             {
                 string LoginUrl = "https://api.honze88.com/api/v1/login";
                 string loginResult = NetFramework.Util_WEB.OpenUrl(LoginUrl, "", "{\"memberName\":\"xl1234567\",\"loginPasswd\":\"123456\"}", "POST", wufencai, true, true, "application/json; charset=utf-8"
-                   ,"");
+                   , "");
 
                 string tOKEN = JObject.Parse(loginResult)["token"].ToString();
                 HuaYuToken = tOKEN;
                 string URL = "https://api.honze88.com/api/v1/yules/vr/lobbies/601/landing";
 
                 string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
-                    , "JWT "+tOKEN);
+                    , "JWT " + tOKEN);
                 JObject jr = JObject.Parse(Result);
-                     //JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ0MzYxLCJuYW1lIjoieGwxMjM0NTY3IiwiaWF0IjoxNTU1MjEwNzMzLCJleHAiOjE1NTY0MjAzMzN9.6c9VVDQZkiCAd9Up_6MoqhooDGL_uL3ZSSAYE9j8YVc
+                //JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ0MzYxLCJuYW1lIjoieGwxMjM0NTY3IiwiaWF0IjoxNTU1MjEwNzMzLCJleHAiOjE1NTY0MjAzMzN9.6c9VVDQZkiCAd9Up_6MoqhooDGL_uL3ZSSAYE9j8YVc
                 string NewuRL = jr["url"].ToString();
                 NetFramework.Util_CEF.JoinQueueAndWait(NewuRL, wb_vrchongqing);
             }
@@ -8736,12 +8922,12 @@ namespace WeixinRoboot
             {
 
 
-                wb_ballgame.GetBrowser().StopLoad();
+                //wb_ballgame.Stop();
 
-                wb_other.GetBrowser().StopLoad();
-                wb_refresh.GetBrowser().StopLoad();
+                //wb_other.Stop();
+                //wb_refresh.Stop();
 
-                wb_balllivepoint.GetBrowser().StopLoad();
+                //wb_balllivepoint.Stop();
 
 
             }
@@ -8761,7 +8947,7 @@ namespace WeixinRoboot
 
 
 
-            CefSharp.Cef.Shutdown();
+            //CefSharp.Cef.Shutdown();
             GC.Collect();
             Application.Exit();
             Environment.Exit(0);
@@ -8817,7 +9003,14 @@ namespace WeixinRoboot
             {
                 try
                 {
-                    DownloadResult(true);
+                    DownloadResult_Vr(true);
+                    DownloadResult_Aoz(true);
+                    DownloadResult_tengshi(true);
+                    DownloadResult_tengwu(true);
+                    DownloadResult_wufen(true);
+                    DownloadResult_xiangjiang(true);
+                    DownloadResult_chongqing(true);
+
                 }
                 catch (Exception)
                 {
@@ -8910,7 +9103,7 @@ namespace WeixinRoboot
                     {
 
 
-                        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                        Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                         db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                         var Rows = RunnerF.MemberSource.Select("User_IsBoss='true'");
@@ -9006,12 +9199,12 @@ namespace WeixinRoboot
                 return PCSourceType.未知;
             }
         }
-        public Linq.dbDataContext winsdb = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+        public Linq.dbDataContext winsdb = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
 
         public bool EnumWinsCallBack(IntPtr hwnd, int lParam)
         {
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -9174,27 +9367,31 @@ namespace WeixinRoboot
         {
             try
             {
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
 
+                //foreach (Linq.WX_PCSendPicSetting wins in InjectWins)
+                //{
+                //    StringBuilder RAW = new StringBuilder(512);
+                //    NetFramework.WindowsApi.GetWindowText(new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)), RAW, 512);
+                //    if (RAW.ToString() == "")
+                //    {
+                //        wins.Can_Use = false;
+                //    }
+                //}
+
+                //var todelete = InjectWins.Where(t => t.Can_Use == false).ToArray();
+                //foreach (var item in todelete)
+                //{
+                //    InjectWins.Remove(item);
+                //}
                 foreach (Linq.WX_PCSendPicSetting wins in InjectWins)
                 {
                     StringBuilder RAW = new StringBuilder(512);
                     NetFramework.WindowsApi.GetWindowText(new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)), RAW, 512);
-                    if (RAW.ToString() == "")
-                    {
-                        wins.Can_Use = false;
-                    }
-                }
-
-                var todelete = InjectWins.Where(t => t.Can_Use == false).ToArray();
-                foreach (var item in todelete)
-                {
-                    InjectWins.Remove(item);
-                }
-                foreach (Linq.WX_PCSendPicSetting wins in InjectWins)
-                {
-                    StringBuilder RAW = new StringBuilder(512);
-                    NetFramework.WindowsApi.GetWindowText(new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)), RAW, 512);
-
+                    //if (RAW.ToString() == "")
+                    //{
+                    //    continue;
+                    //}
                     NetFramework.WindowsApi.SetWindowText(new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)), "智能发图" + RAW.ToString().Replace("智能发图", ""));
                     if (
                         //(DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour <= 8 ? 60 * 24 : 0) > wins.EndHour * 60 + wins.EndMinute + 2
@@ -9288,19 +9485,19 @@ namespace WeixinRoboot
                     {
                         if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PC微)
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", winsdb), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
 
 
                         }
                         else if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PCQ)
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎qq" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data数字龙虎qq" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", winsdb), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
 
 
                         }
                         else
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data数字龙虎dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", winsdb), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
                         }
                     }
 
@@ -9309,51 +9506,50 @@ namespace WeixinRoboot
                     {
                         if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PC微)
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", winsdb), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
 
 
                         }
                         else if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PCQ)
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data数字龙虎qq_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", winsdb), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
 
 
                         }
                         else
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", winsdb), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
                         }
                     }
                     if (wins.NoBigSmallSingleDoublePIC == true)
                     {
                         if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PC微)
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", winsdb), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
 
 
                         }
                         else if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PCQ)
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎qq_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data数字龙虎qq_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", winsdb), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
 
 
                         }
                         else
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", winsdb), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
                         }
                     }
 
 
                     if (wins.NumberText == true)
                     {
-                        hwndSendTextFile(Application.StartupPath + "\\Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + "V7.txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                        hwndSendText(ReadVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + "V7.txt", winsdb), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
                     }
 
 
 
                     Thread.Sleep(200);
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                     if (wins.DragonTigerOne == true)
@@ -9420,7 +9616,19 @@ namespace WeixinRoboot
                     if (wins.NumberPIC == true)
                     {
 
-                        hwndSendImageFile(Application.StartupPath + "\\Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".jpg", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                        lock (FileLock)
+                        {
+                            FileLock = !Convert.ToBoolean(FileLock);
+                            byte[] R = ReadVirtualFilebyte("Data" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".jpg", db);
+                            MemoryStream ms = new MemoryStream(R);
+                            Image image = Image.FromStream(ms);
+                            if (File.Exists(Application.StartupPath + "\\0.jpg"))
+                            {
+                                File.Delete(Application.StartupPath + "\\0.jpg");
+                            }
+                            image.Save(Application.StartupPath + "\\0.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                        }
+                        hwndSendImageFile(Application.StartupPath + "\\0.jpg", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
                     }
 
 
@@ -9432,16 +9640,16 @@ namespace WeixinRoboot
                     {
                         if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PC微)
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", db), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
                         }
                         else if (((PCSourceType)Enum.Parse(typeof(PCSourceType), wins.WX_SourceType)) == PCSourceType.PCQ)
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data3_qq" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data3_qq" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", db), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
 
                         }
                         else //if ((wins.WinClassName == "ChatWnd" || wins.WinClassName == "LDPlayerMainFrame") )
                         {
-                            hwndSendTextFile(Application.StartupPath + "\\Data3_dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
+                            hwndSendText(ReadVirtualFile("Data3_dingding" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), csubm)) + ".txt", db), new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)));
 
                         }
                     }
@@ -9537,6 +9745,7 @@ namespace WeixinRoboot
             }
 
         }
+        private object AdbFileLock = false;
         private void hwndSendTextFile(string FileText, IntPtr hwnd)
         {
             // lock (GlobalParam.KeyBoardLocking)
@@ -9731,225 +9940,245 @@ namespace WeixinRoboot
         }
         private void hwndSendText(string SendText, IntPtr hwnd)
         {
-            if (SendText==""||SendText==null)
+            if (SendText == "" || SendText == null)
             {
                 return;
             }
-            // lock (GlobalParam.KeyBoardLocking)
+            System.Threading.Tasks.Task tak = new System.Threading.Tasks.Task(new Action(() =>
             {
-                try
+
+
+
+
+
+                // lock (GlobalParam.KeyBoardLocking)
                 {
-
-
-                    this.Invoke(new Action(() =>
+                    try
                     {
 
-                        if (Setting == true)
+
+                        this.Invoke(new Action(() =>
                         {
-                            return;
-                        }
 
-                        Clipboard.Clear();
-                        StringBuilder RAW = new StringBuilder(512);
-                        Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
-                        if (winstate == 0)
-                        {
-                            return;
-                        }
+                            if (Setting == true)
+                            {
+                                return;
+                            }
 
-
-                        NetFramework.WindowsApi.ShowWindow(hwnd, 1);
-
-                        NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
-                        NetFramework.WindowsApi.SetForegroundWindow(hwnd);
+                            StringBuilder RAW = new StringBuilder(512);
+                            Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
+                            if (winstate == 0)
+                            {
+                                return;
+                            }
 
 
-                        Thread.Sleep(1000);
+                            NetFramework.WindowsApi.ShowWindow(hwnd, 1);
 
-                        //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
-                        //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
-
-                        //Thread.Sleep(50);
-                        //Application.DoEvents();
-                        //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 2, 0);
-                        //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 2, 0);
-                        #region
-
-                        //byte[] ToSend = Encoding.UTF8.GetBytes(SendText);
-                        //Int32 CurIndex = 0;
-
-                        //byte[] Dragon = (new byte[] { 240, 159, 144 });
-                        //byte[] Ok = (new byte[] { 240, 159, 136 });
-                        //byte[] Tiger = (new byte[] { 238, 129, 144 });
+                            NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
+                            NetFramework.WindowsApi.SetForegroundWindow(hwnd);
 
 
-                        //while (CurIndex < ToSend.Length)
-                        //{
-                        //    byte[] test = (new byte[] { ToSend[CurIndex], ToSend[CurIndex + 1], ToSend[CurIndex + 2] });
+                            Thread.Sleep(500);
 
-                        //    Application.DoEvents();
+                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
+                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
 
-                        //    if (bytecompare(test, Dragon))
-                        //    {
-                        //        Clipboard.Clear();
-                        //        Clipboard.SetText(Linq.DataLogic.Dragon, TextDataFormat.UnicodeText);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                        //        Thread.Sleep(50);
-                        //        Application.DoEvents();
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+                            //Thread.Sleep(50);
+                            //Application.DoEvents();
+                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 2, 0);
+                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 2, 0);
+                            #region
 
-                        //        CurIndex += 4;
-                        //    }
-                        //    else if (bytecompare(test, Ok))
-                        //    {
-                        //        Clipboard.Clear();
-                        //        Clipboard.SetText(Linq.DataLogic.OK, TextDataFormat.UnicodeText);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                        //        Thread.Sleep(50);
-                        //        Application.DoEvents();
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+                            //byte[] ToSend = Encoding.UTF8.GetBytes(SendText);
+                            //Int32 CurIndex = 0;
 
-                        //        CurIndex += 4;
-                        //    }
-                        //    else if (bytecompare(test, Tiger))
-                        //    {
-                        //        Clipboard.Clear();
-                        //        StringBuilder RAW = new StringBuilder(512);
-                        //        NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
-
-                        //        if (RAW.ToString().Contains("钉钉"))
-                        //        {
-                        //            Clipboard.SetText(Linq.DataLogic.Tiger_dingding, TextDataFormat.UnicodeText);
-                        //        }
-                        //        else
-                        //        {
-                        //            Clipboard.SetText(Linq.DataLogic.Tiger, TextDataFormat.Text);
-                        //        }
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                        //        Thread.Sleep(50);
-                        //        Application.DoEvents();
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                        //        CurIndex += 3;
-                        //    }
-                        //    else
-                        //    {
-                        //        Clipboard.Clear();
-                        //        Clipboard.SetText(Encoding.UTF8.GetString(ToSend, CurIndex, ToSend.Length - CurIndex), TextDataFormat.UnicodeText);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                        //        Thread.Sleep(100);
-                        //        Application.DoEvents();
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                        //        CurIndex = ToSend.Length;
-                        //    }
+                            //byte[] Dragon = (new byte[] { 240, 159, 144 });
+                            //byte[] Ok = (new byte[] { 240, 159, 136 });
+                            //byte[] Tiger = (new byte[] { 238, 129, 144 });
 
 
+                            //while (CurIndex < ToSend.Length)
+                            //{
+                            //    byte[] test = (new byte[] { ToSend[CurIndex], ToSend[CurIndex + 1], ToSend[CurIndex + 2] });
 
-                        //}
-                        #endregion
+                            //    Application.DoEvents();
 
-                        #region 保存成文件
-                        if (Directory.Exists(Application.StartupPath + "\\EmuFile") == false)
-                        {
-                            Directory.CreateDirectory(Application.StartupPath + "\\EmuFile");
-                        }
+                            //    if (bytecompare(test, Dragon))
+                            //    {
+                            //        Clipboard.Clear();
+                            //        Clipboard.SetText(Linq.DataLogic.Dragon, TextDataFormat.UnicodeText);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                            //        Thread.Sleep(50);
+                            //        Application.DoEvents();
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
 
-                        if (File.Exists(Application.StartupPath + "\\EmuFile" + "\\0.txt"))
-                        {
-                            File.Delete(Application.StartupPath + "\\EmuFile" + "\\0.txt");
+                            //        CurIndex += 4;
+                            //    }
+                            //    else if (bytecompare(test, Ok))
+                            //    {
+                            //        Clipboard.Clear();
+                            //        Clipboard.SetText(Linq.DataLogic.OK, TextDataFormat.UnicodeText);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                            //        Thread.Sleep(50);
+                            //        Application.DoEvents();
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
 
-                        }
-                        FileStream fs = new FileStream(Application.StartupPath + "\\EmuFile" + "\\0.txt", FileMode.OpenOrCreate);
-                        StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-                        sw.Write(SendText);
-                        sw.Flush();
-                        fs.Flush();
-                        sw.Close();
-                        fs.Close();
-                        #endregion
+                            //        CurIndex += 4;
+                            //    }
+                            //    else if (bytecompare(test, Tiger))
+                            //    {
+                            //        Clipboard.Clear();
+                            //        StringBuilder RAW = new StringBuilder(512);
+                            //        NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
 
-                        #region adb发送
-                        Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
-                        if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
-                        {
-                            AdbSendText(findenum.WX_UserName, PCSourceType.雷电, Application.StartupPath + "\\EmuFile" + "\\0.txt");
-                            return;
+                            //        if (RAW.ToString().Contains("钉钉"))
+                            //        {
+                            //            Clipboard.SetText(Linq.DataLogic.Tiger_dingding, TextDataFormat.UnicodeText);
+                            //        }
+                            //        else
+                            //        {
+                            //            Clipboard.SetText(Linq.DataLogic.Tiger, TextDataFormat.Text);
+                            //        }
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                            //        Thread.Sleep(50);
+                            //        Application.DoEvents();
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
 
-                        }
-                        if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
-                        {
-                            AdbSendText(findenum.WX_UserName, PCSourceType.夜神, Application.StartupPath + "\\EmuFile" + "\\0.txt");
-                            return;
-                        }
-                        #endregion
+                            //        CurIndex += 3;
+                            //    }
+                            //    else
+                            //    {
+                            //        Clipboard.Clear();
+                            //        Clipboard.SetText(Encoding.UTF8.GetString(ToSend, CurIndex, ToSend.Length - CurIndex), TextDataFormat.UnicodeText);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                            //        Thread.Sleep(100);
+                            //        Application.DoEvents();
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
 
-
-                        Clipboard.SetText((SendText.StartsWith(Linq.ProgramLogic.Tiger) ? " " : "") + SendText);
-                        Thread.Sleep(500);
-                        #region 模拟点击
-                        //NetFramework.WindowsApi.Rect pos = new NetFramework.WindowsApi.Rect();
-                        //NetFramework.WindowsApi.GetWindowRect(hwnd, out pos);
-
-                        //NetFramework.WindowsApi.SetCursorPos(
-                        //     pos.Right - 150
-                        //    , pos.Bottom - 20
-                        //    );//移动到需要点击的位置
-                        //Thread.Sleep(10);
-                        //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTDOWN | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
-                        //    , 0
-                        //    , 0
-                        //    , 0, 0);//点击
-                        //Thread.Sleep(10);
-                        //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTUP | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
-                        //     , 0
-                        //    , 0
-                        //    , 0, 0);//抬起
-
-                        //Thread.Sleep(100);
-
-                        #endregion
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                        Thread.Sleep(10);
-
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-                        Thread.Sleep(200);
+                            //        CurIndex = ToSend.Length;
+                            //    }
 
 
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
 
-                        Thread.Sleep(10);
+                            //}
+                            #endregion
 
-                        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
-                    }));// invoke 结束
-                }
-                catch (Exception AnyError)
-                {
-                    NetFramework.Console.WriteLine("复制失败" + AnyError.Message);
-                }
-            }
+
+
+                            #region adb发送
+                            #region 保存成文件
+                            //lock (AdbFileLock)
+                            {
+                                //AdbFileLock = !(Convert.ToBoolean(AdbFileLock));
+                                if (Directory.Exists(Application.StartupPath + "\\EmuFile") == false)
+                                {
+                                    Directory.CreateDirectory(Application.StartupPath + "\\EmuFile");
+                                }
+
+                                Guid NewFileName = Guid.NewGuid();
+                                FileStream fs = new FileStream(Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt", FileMode.OpenOrCreate);
+                                Byte[] tosend = Encoding.UTF8.GetBytes(SendText);
+                                fs.Write(tosend, 0, tosend.Length);
+
+
+                                fs.Flush();
+                                fs.Close();
+
+                                fs.Dispose();
+
+
+                            #endregion
+                                Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
+                                if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                                {
+                                    AdbSendText(findenum.WX_UserName, PCSourceType.雷电, Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt");
+
+                                    return;
+
+                                }
+                                if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
+                                {
+                                    AdbSendText(findenum.WX_UserName, PCSourceType.夜神, Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt");
+
+                                    return;
+                                }
+                            #endregion
+                            }//lock
+
+                            Clipboard.Clear();
+                            Clipboard.SetText((SendText.StartsWith(Linq.ProgramLogic.Tiger) ? " " : "") + SendText);
+
+                            Thread.Sleep(500);
+                            #region 模拟点击
+                            //NetFramework.WindowsApi.Rect pos = new NetFramework.WindowsApi.Rect();
+                            //NetFramework.WindowsApi.GetWindowRect(hwnd, out pos);
+
+                            //NetFramework.WindowsApi.SetCursorPos(
+                            //     pos.Right - 150
+                            //    , pos.Bottom - 20
+                            //    );//移动到需要点击的位置
+                            //Thread.Sleep(10);
+                            //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTDOWN | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
+                            //    , 0
+                            //    , 0
+                            //    , 0, 0);//点击
+                            //Thread.Sleep(10);
+                            //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTUP | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
+                            //     , 0
+                            //    , 0
+                            //    , 0, 0);//抬起
+
+                            //Thread.Sleep(100);
+
+                            #endregion
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                            Thread.Sleep(10);
+
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+                            Thread.Sleep(200);
+
+
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
+
+                            Thread.Sleep(10);
+
+                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
+
+                        }));// invoke 结束
+
+                    }
+                    catch (Exception AnyError)
+                    {
+                        NetFramework.Console.WriteLine("复制失败" + AnyError.Message);
+                    }
+                }//lock
+            }));//action
+            tak.Start();
         }
 
         private void AdbSendText(string EnumName, PCSourceType EnumType, string PCFilePath)
         {
             System.IO.FileStream FS = new FileStream(PCFilePath, FileMode.OpenOrCreate);
-            if (FS.Length==0)
+            if (FS.Length == 0)
             {
                 return;
             }
 
             if (EnumType == PCSourceType.雷电)
             {
+
+
                 //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
                 //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
                 //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
@@ -9958,7 +10187,7 @@ namespace WeixinRoboot
                 //adb push D:\file.txt system/
                 // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
 
-                CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + EnumName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
+                //CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + EnumName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
 
 
                 CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"  shell rm /sdcard/0.txt  \"");
@@ -9968,9 +10197,9 @@ namespace WeixinRoboot
 
                 CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"  push " + PCFilePath + " /sdcard/0.txt  \"");
 
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 90 452 \"");
+                //CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 90 440 \"");
 
-              
+
                 CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \" shell am broadcast -a ADB_INPUT_SF --es msg  0.txt \"");
                 //CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 163 425 \"");
 
@@ -9984,7 +10213,7 @@ namespace WeixinRoboot
                 //NoxConsole.exe adb -name:夜神模拟器 -command:" shell uiautomator dump /sdcard/1.xml"
 
                 //CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb -name:" + EnumName + " --command: \" shell am broadcast -a ADB_INPUT_CHARS --eia chars '" + ToAdb + "'\"");
-
+                File.Delete(PCFilePath);
             }
 
 
@@ -10056,7 +10285,7 @@ namespace WeixinRoboot
                     if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
                     {
                         AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, FileImage);
-               
+
                     }
                     if (findenum.WX_SourceType != "雷电" && findenum.WX_SourceType != "夜神")
                     {
@@ -10207,7 +10436,7 @@ namespace WeixinRoboot
 
                     //}
                     //整点停止下注
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                     Linq.Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == DateTime.Now.ToString("HH:mm"));
@@ -10301,7 +10530,7 @@ namespace WeixinRoboot
 
                     //}
                     //文字1，2，3
-                    foreach (Linq.WX_PCSendPicSetting CheckSendWin in InjectWins.Where(t=>t.aspnet_UserID==GlobalParam.UserKey))
+                    foreach (Linq.WX_PCSendPicSetting CheckSendWin in InjectWins.Where(t => t.aspnet_UserID == GlobalParam.UserKey))
                     {
                         StringBuilder RAW = new StringBuilder(512);
                         NetFramework.WindowsApi.GetWindowText(new IntPtr(Convert.ToInt32(CheckSendWin.WX_UserTMPID)), RAW, 512);
@@ -10313,7 +10542,7 @@ namespace WeixinRoboot
                         }
                         if (CheckSendWin.TMP_Text1Time.Value.AddMinutes(CheckSendWin.Text1Minute.Value) <= DateTime.Now && CheckSendWin.Text1 != "" && CheckSendWin.Text1 != null)
                         {
-                            if (CheckSendWin.Text1PicPath!=""&&CheckSendWin.Text1PicPath!=null)
+                            if (CheckSendWin.Text1PicPath != "" && CheckSendWin.Text1PicPath != null)
                             {
                                 hwndSendImageFile(CheckSendWin.Text1PicPath, new IntPtr(Convert.ToInt32(CheckSendWin.WX_UserTMPID)));
                             }
@@ -10408,7 +10637,7 @@ namespace WeixinRoboot
             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.北京赛车PK10);
             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
 
 
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -10616,7 +10845,7 @@ namespace WeixinRoboot
 
 
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             #region 整点发送下单情况和余下分数
 
@@ -11472,9 +11701,9 @@ namespace WeixinRoboot
         public enum BallType { 足球, 篮球 }
 
         private object LockLoad = false;
-        private void RefreshballV2(CefSharp.WinForms.ChromiumWebBrowser ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
+        private void RefreshballV2(XPathWebBrowser ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -11482,11 +11711,7 @@ namespace WeixinRoboot
 
 
 
-            if (ballgame.IsBrowserInitialized == false)
-            {
-                NetFramework.Console.WriteLine("控件" + ballgame.Name + "尚未初始化");
-                return;
-            }
+
             string html = "";
             this.Invoke(new Action(() =>
             {
@@ -11937,7 +12162,7 @@ namespace WeixinRoboot
                 }
                 try
                 {
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                     var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                         // && (t.LastAliveTime == null || t.LastAliveTime >= DateTime.Today.AddDays(-3))
@@ -11977,7 +12202,7 @@ namespace WeixinRoboot
             {
 
                 #region 分联赛发图
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                 var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -12072,36 +12297,34 @@ namespace WeixinRoboot
                     Newfswb.Write(Newwbs, 0, Newwbs.Length);
                     Newfswb.Flush();
                     Newfswb.Close();
-                    System.Threading.Tasks.Task<CefSharp.JavascriptResponse> gst = null;
+                    object gst = null;
                     this.Invoke(new Action(() =>
                     {
                         //lock (NetFramework.Util_CEF.LockLoad)
                         {
                             NetFramework.Util_CEF.LockLoad = !((bool)NetFramework.Util_CEF.LockLoad);
-                            wb_other.Load("file:///" + Application.StartupPath + "\\output\\" + matchclassicitem.GameType + matchclassicitem.MatchClass + ".htm");
+                            wb_other.Navigate("file:///" + Application.StartupPath + "\\output\\" + matchclassicitem.GameType + matchclassicitem.MatchClass + ".htm");
 
 
-                            DateTime PreSubTime = DateTime.Now;
-                            while ((DateTime.Now - PreSubTime).TotalMilliseconds < 100)
+
+
+
+
+
+                            try
                             {
-                                if (ExitKill)
-                                {
-                                    return;
-                                }
-                                Application.DoEvents();
-                                Thread.Sleep(100);
 
+
+                                gst = wb_other.Document.InvokeScript("$('body').height()");
                             }
-
-
-                            wb_refresh.GetBrowser().StopLoad();
-
-
-                            gst = wb_other.GetBrowser().MainFrame.EvaluateScriptAsync("$('body').height()");
-                            gst.Wait();
+                            catch (Exception AnyError)
+                            {
+                                NetFramework.Console.WriteLine(AnyError.Message);
+                                NetFramework.Console.WriteLine(AnyError.StackTrace);
+                            }
                         }
                     }));
-                    string jsheight = gst.Result.Result == null ? "1024" : gst.Result.Result.ToString();
+                    string jsheight = gst == null ? "1024" : gst.ToString();
                     Int32 njsheighy = Convert.ToInt32(jsheight);
                     Bitmap wbOutputbitmap = null;
                     this.Invoke(new Action(() =>
@@ -12177,7 +12400,7 @@ namespace WeixinRoboot
             }
             MatchCollection companys = findmaintr.Matches(tables[1].Value);
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             foreach (Match cmpitem in companys)
@@ -12432,38 +12655,49 @@ namespace WeixinRoboot
             fs.Write(new byte[] { 0xEF, 0XBB, 0XBF }, 0, 3);
             fs.Write(bsource, 0, bsource.Length);
             fs.Close();
-            System.Threading.Tasks.Task<CefSharp.JavascriptResponse> gst = null;
+
+            Object gst = null;
             this.Invoke(new Action(() =>
                        {
 
                            //lock (NetFramework.Util_CEF.LockLoad)
                            {
                                NetFramework.Util_CEF.LockLoad = !((bool)NetFramework.Util_CEF.LockLoad);
-                               wb_other.Load("file:///" + Application.StartupPath + "\\tmp.htm");
+                               wb_other.Navigate("file:///" + Application.StartupPath + "\\tmp.htm");
 
-                               DateTime pretimeV2 = DateTime.Now;
-                               while ((DateTime.Now - pretimeV2).TotalMilliseconds < 100)
-                               {
-                                   if (ExitKill)
-                                   {
-                                       return;
-                                   }
-                                   Application.DoEvents();
-                                   Thread.Sleep(100);
 
-                               }
                            }
-                           gst = wb_other.GetBrowser().MainFrame.EvaluateScriptAsync("$('#datatable').height()");
+                           try
+                           {
+
+
+                               wb_other.Document.InvokeScript("$('#datatable').height()");
+                           }
+                           catch (Exception anyerror)
+                           {
+                               NetFramework.Console.WriteLine(anyerror.Message);
+                               NetFramework.Console.WriteLine(anyerror.StackTrace);
+
+                           }
                        }));
 
-            gst.Wait();
 
-            string jsheight = gst.Result.Result == null ? "1024" : gst.Result.Result.ToString();
+
+            string jsheight = gst == null ? "1024" : gst.ToString();
             Int32 njsheight = Convert.ToInt32(jsheight);
+            try
+            {
 
-            gst = wb_other.GetBrowser().MainFrame.EvaluateScriptAsync("$('#datatable').width()");
-            gst.Wait();
-            string jshwidth = gst.Result.Result == null ? "1024" : gst.Result.Result.ToString();
+
+                gst = wb_other.Document.InvokeScript("$('#datatable').width()");
+            }
+            catch (Exception anyerror)
+            {
+                NetFramework.Console.WriteLine(anyerror.Message);
+                NetFramework.Console.WriteLine(anyerror.StackTrace);
+
+            }
+            string jshwidth = gst == null ? "1024" : gst.ToString();
             Int32 njswdith = Convert.ToInt32(jshwidth);
 
 
@@ -12591,9 +12825,9 @@ namespace WeixinRoboot
             }
         }
 
-        private void GetAndSetPoint(CefSharp.WinForms.ChromiumWebBrowser balllivepoint, BallType p_balltype)
+        private void GetAndSetPoint(XPathWebBrowser balllivepoint, BallType p_balltype)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             string html = "";
 
@@ -13095,7 +13329,7 @@ namespace WeixinRoboot
 
                 try
                 {
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                     DataRow[] rows = new DataRow[] { };
@@ -13191,7 +13425,7 @@ namespace WeixinRoboot
         {
             ExitKill = true;
 
-            CefSharp.Cef.Shutdown();
+            //CefSharp.Cef.Shutdown();
             Environment.Exit(0);
         }
 
@@ -13266,7 +13500,7 @@ namespace WeixinRoboot
             {
                 try
                 {
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
                     CookieCollection cookhk = new CookieCollection();
@@ -13536,7 +13770,7 @@ namespace WeixinRoboot
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -13606,7 +13840,13 @@ namespace WeixinRoboot
             System.Threading.Tasks.Task task = new System.Threading.Tasks.Task(() =>
             {
 
-                DownloadResult(true, true);
+                DownloadResult_Vr(true, true);
+                DownloadResult_Aoz(true, true);
+                DownloadResult_tengshi(true, true);
+                DownloadResult_tengwu(true, true);
+                DownloadResult_wufen(true, true);
+                DownloadResult_xiangjiang(true, true);
+                DownloadResult_chongqing(true, true);
                 MessageBox.Show("全下载已完成");
             });
 
@@ -13765,6 +14005,7 @@ namespace WeixinRoboot
             }
             MessageBox.Show("模拟器在线状态：" + Environment.NewLine + R);
         }
+
 
 
 

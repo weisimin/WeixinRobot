@@ -114,6 +114,44 @@ namespace WeixinRoboot
 
 
                     } //初始化，添加到数据库或同步数据库
+                    Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                       && t.WX_SourceType == "微"
+                        && t.WX_UserName == Seq
+                       );
+                    if (webpcset == null)
+                    {
+                        webpcset = new Linq.WX_WebSendPICSetting();
+
+                        webpcset.aspnet_UserID = GlobalParam.UserKey;
+
+                        webpcset.WX_SourceType ="微";
+                        webpcset.WX_UserName = Seq;
+
+                        webpcset.ballinterval = 120;
+                        webpcset.footballPIC = false;
+                        webpcset.bassketballpic = false;
+                        webpcset.balluclink = false;
+
+                        webpcset.card = false;
+                        webpcset.cardname = "";
+                        webpcset.shishicailink = false;
+                        webpcset.NumberPIC = false;
+                        webpcset.dragonpic = false;
+                        webpcset.numericlink = false;
+                        webpcset.dragonlink = false;
+
+                        webpcset.IsSendPIC = true;
+                        webpcset.NiuNiuPic = false;
+                        webpcset.NoBigSmallSingleDoublePIC = false;
+                        webpcset.NumberDragonTxt = false;
+                        webpcset.NumberPIC = false;
+                        webpcset.dragonpic = false;
+                        db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
+                        db.SubmitChanges();
+
+                    }
+
+
                     db.SubmitChanges();
                     usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
 
@@ -164,6 +202,7 @@ namespace WeixinRoboot
                     newr.SetField("User_TengXunWuFen", usrc == null ? false : (usrc.TengXunWuFenMode == null ? false : usrc.TengXunWuFenMode));
 
                     newr.SetField("User_XinJiangShiShiCai", usrc == null ? false : (usrc.XinJiangMode == null ? false : usrc.XinJiangMode));
+                    newr.SetField("User_VR", usrc == null ? false : (usrc.VRMode == null ? false : usrc.VRMode));
 
 
 
@@ -280,6 +319,42 @@ namespace WeixinRoboot
 
                         } //初始化，添加到数据库或同步数据库
                         db.SubmitChanges();
+                        Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                      && t.WX_SourceType == "易"
+                       && t.WX_UserName == item.ContactID
+                      );
+                        if (webpcset == null)
+                        {
+                            webpcset = new Linq.WX_WebSendPICSetting();
+
+                            webpcset.aspnet_UserID = GlobalParam.UserKey;
+
+                            webpcset.WX_SourceType = "易";
+                            webpcset.WX_UserName = item.ContactID;
+
+                            webpcset.ballinterval = 120;
+                            webpcset.footballPIC = false;
+                            webpcset.bassketballpic = false;
+                            webpcset.balluclink = false;
+
+                            webpcset.card = false;
+                            webpcset.cardname = "";
+                            webpcset.shishicailink = false;
+                            webpcset.NumberPIC = false;
+                            webpcset.dragonpic = false;
+                            webpcset.numericlink = false;
+                            webpcset.dragonlink = false;
+
+                            webpcset.IsSendPIC = true;
+                            webpcset.NiuNiuPic = false;
+                            webpcset.NoBigSmallSingleDoublePIC = false;
+                            webpcset.NumberDragonTxt = false;
+                            webpcset.NumberPIC = false;
+                            webpcset.dragonpic = false;
+                            db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
+                            db.SubmitChanges();
+
+                        }
                         usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == item.ContactID && t.WX_SourceType == "易");
 
 
@@ -402,7 +477,7 @@ namespace WeixinRoboot
             
             MemberSource.Columns.Add("User_XinJiangShiShiCai", typeof(Boolean));
 
-
+            MemberSource.Columns.Add("User_VR", typeof(Boolean));
 
             BS_ReceiveReply.DataSource = ReplySource;
 
@@ -953,7 +1028,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("重庆时时彩模式", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("重庆模式", editrow, DateTime.Now);
 
 
                 
@@ -968,7 +1043,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("五分彩模式", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("五分模式", editrow, DateTime.Now);
 
 
             }
@@ -981,7 +1056,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("香港时时彩模式", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("香港模式", editrow, DateTime.Now);
 
 
             }
@@ -994,7 +1069,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("澳洲幸运5模式", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("澳彩模式", editrow, DateTime.Now);
 
 
             }
@@ -1007,7 +1082,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("新疆时时彩模式", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("新疆模式", editrow, DateTime.Now);
 
 
             }
@@ -1020,7 +1095,7 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("腾讯十分模式", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("腾十模式", editrow, DateTime.Now);
 
 
             }
@@ -1034,8 +1109,22 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("腾讯五分模式", editrow, DateTime.Now);
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("腾五模式", editrow, DateTime.Now);
 
+
+            }
+        }
+
+        private void MI_vRMode_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("VR模式", editrow, DateTime.Now);
+                ((ToolStripMenuItem)sender).Checked = true;
+                
 
             }
         }

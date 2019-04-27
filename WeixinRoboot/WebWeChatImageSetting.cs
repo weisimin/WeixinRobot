@@ -25,7 +25,7 @@ namespace WeixinRoboot
         {
             try
             {
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                 var data = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                      && t.WX_SourceType == WX_SourceType
@@ -52,6 +52,14 @@ namespace WeixinRoboot
 
                     data.balllivepoint = cb_balllivepoint.Checked;
                     data.HKSixResult = cb_SixResult.Checked;
+
+
+                    data.NumberDragonTxt = cb_NumberDragonTxt.Checked;
+                    data.NiuNiuPic = cb_NiuNiuPic.Checked;
+                    data.NoBigSmallSingleDoublePIC = cb_NoBigSmallSingleDoublePIC.Checked;
+
+                    data.IsSendPIC = cb_IsSendPIC.Checked;
+
                     db.SubmitChanges();
                 }
                 else
@@ -82,6 +90,13 @@ namespace WeixinRoboot
                     newd.ballstart = cb_ballstart.Checked;
                     newd.ballend = cb_ballend.Checked;
                     newd.HKSixResult = cb_SixResult.Checked;
+
+
+                    newd.NumberDragonTxt = cb_NumberDragonTxt.Checked;
+                    newd.NiuNiuPic = cb_NiuNiuPic.Checked;
+                    newd.NoBigSmallSingleDoublePIC = cb_NoBigSmallSingleDoublePIC.Checked;
+
+                    newd.IsSendPIC = cb_IsSendPIC.Checked;
                     db.WX_WebSendPICSetting.InsertOnSubmit(newd);
                     db.SubmitChanges();
                 }
@@ -146,7 +161,7 @@ namespace WeixinRoboot
                 {
                     return;
                 }
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                 var data = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                      && t.WX_SourceType == WX_SourceType
@@ -174,7 +189,15 @@ namespace WeixinRoboot
                     cb_balllivepoint.Checked = data.balllivepoint.HasValue ? data.balllivepoint.Value : false; ;
 
                     cb_SixResult.Checked = data.HKSixResult.HasValue ? data.HKSixResult.Value : false;
-                    cb_numericanddragon.Checked = data.NumberAndDragonPIC.HasValue ?  data.NumberAndDragonPIC.Value:false;
+                    cb_numericanddragon.Checked = data.NumberAndDragonPIC.HasValue ? data.NumberAndDragonPIC.Value : false;
+
+
+
+                    cb_NumberDragonTxt.Checked = data.NumberDragonTxt.HasValue ? data.NumberDragonTxt.Value : false;
+                    cb_NiuNiuPic.Checked = data.NiuNiuPic.HasValue ? data.NiuNiuPic.Value : false;
+                    cb_NoBigSmallSingleDoublePIC.Checked = data.NoBigSmallSingleDoublePIC.HasValue ? data.NoBigSmallSingleDoublePIC.Value : false;
+
+                    cb_IsSendPIC.Checked = data.IsSendPIC.HasValue ? data.IsSendPIC.Value : false;
                 }
                 else
                 {
@@ -182,7 +205,7 @@ namespace WeixinRoboot
                 }
 
 
-                var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey 
+                var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                     //&&   (t.LastAliveTime==null||t.LastAliveTime>=DateTime.Today.AddDays(-3))
                      && t.Jobid == GlobalParam.JobID
                     );
