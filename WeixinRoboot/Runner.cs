@@ -152,6 +152,11 @@ namespace WeixinRoboot
                     }
                     else {
                         webpcset.IsSendPIC = false;
+                        webpcset.NiuNiuPic = false;
+                        webpcset.NoBigSmallSingleDoublePIC = false;
+                        webpcset.NumberDragonTxt = true;
+                        webpcset.NumberPIC = false;
+                        webpcset.dragonpic = false;
                         db.SubmitChanges();
                     }
 
@@ -362,6 +367,11 @@ namespace WeixinRoboot
                         else
                         {
                             webpcset.IsSendPIC = false;
+                            webpcset.NiuNiuPic = false;
+                            webpcset.NoBigSmallSingleDoublePIC = false;
+                            webpcset.NumberDragonTxt = true;
+                            webpcset.NumberPIC = false;
+                            webpcset.dragonpic = false;
                             db.SubmitChanges();
                         }
                         usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == item.ContactID && t.WX_SourceType == "易");
