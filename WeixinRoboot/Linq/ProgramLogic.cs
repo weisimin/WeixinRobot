@@ -5041,7 +5041,7 @@ namespace WeixinRoboot.Linq
                 AsyncAllUserRow(UserRow);
                 return "";
             }
-            else if (Content == "VR停图")
+            else if (Content == "牛牛停图")
             {
                 Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                                     && t.WX_SourceType == Row_WX_SourceType
@@ -5109,16 +5109,18 @@ namespace WeixinRoboot.Linq
                                     && t.WX_SourceType == Row_WX_SourceType
                                      && t.WX_UserName == Row_WX_UserName
                                     );
+
                 webpcset.IsSendPIC = true;
                 db.SubmitChanges();
                 return "";
             }
-            else if (Content == "VR发图")
+            else if (Content == "牛牛发图")
             {
                 Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                                     && t.WX_SourceType == Row_WX_SourceType
                                      && t.WX_UserName == Row_WX_UserName
                                     );
+                webpcset.IsSendPIC = true;
                 webpcset.NiuNiuPic = true;
                 db.SubmitChanges();
                 return "";
@@ -5130,6 +5132,7 @@ namespace WeixinRoboot.Linq
                                     && t.WX_SourceType == Row_WX_SourceType
                                      && t.WX_UserName == Row_WX_UserName
                                     );
+                webpcset.IsSendPIC = true;
                 webpcset.NumberDragonTxt = true;
                 db.SubmitChanges();
                 return "";
@@ -5140,6 +5143,7 @@ namespace WeixinRoboot.Linq
                                     && t.WX_SourceType == Row_WX_SourceType
                                      && t.WX_UserName == Row_WX_UserName
                                     );
+                webpcset.IsSendPIC = true;
                 webpcset.dragonpic = true;
                 db.SubmitChanges();
                 return "";
@@ -5150,6 +5154,7 @@ namespace WeixinRoboot.Linq
                                     && t.WX_SourceType == Row_WX_SourceType
                                      && t.WX_UserName == Row_WX_UserName
                                     );
+                webpcset.IsSendPIC = true;
                 webpcset.NoBigSmallSingleDoublePIC = true;
                 db.SubmitChanges();
                 return "";
@@ -5160,6 +5165,7 @@ namespace WeixinRoboot.Linq
                                     && t.WX_SourceType == Row_WX_SourceType
                                      && t.WX_UserName == Row_WX_UserName
                                     );
+                webpcset.IsSendPIC = true;
                 webpcset.NumberPIC = true;
                 db.SubmitChanges();
                 return "";
@@ -9310,7 +9316,7 @@ namespace WeixinRoboot.Linq
                 case "VR":
                     GameType = first2;
                     break;
-                case "滕五":
+                case "腾五":
                     GameType = first2;
                     break;
                 case "腾十":
@@ -9340,7 +9346,7 @@ namespace WeixinRoboot.Linq
                 case "牛牛":
                     PicType = "牛牛";
                     break;
-                case "图1":
+                case "1":
                     PicType = "图1";
                     break;
                 default:

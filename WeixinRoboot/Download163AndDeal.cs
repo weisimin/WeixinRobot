@@ -255,7 +255,7 @@ namespace WeixinRoboot
             {
                 StartF.ShiShiCaiDealGameLogAndNotice();
             }
-            StartF.SendChongqingResult(subm);
+            StartF.SendChongqingResultPic(subm);
 
             Dtp_DownloadDate_ValueChanged(null, null); ;
         }

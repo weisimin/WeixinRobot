@@ -124,7 +124,7 @@ namespace WeixinRoboot
 
                         webpcset.aspnet_UserID = GlobalParam.UserKey;
 
-                        webpcset.WX_SourceType ="微";
+                        webpcset.WX_SourceType = "微";
                         webpcset.WX_UserName = Seq;
 
                         webpcset.ballinterval = 120;
@@ -140,15 +140,19 @@ namespace WeixinRoboot
                         webpcset.numericlink = false;
                         webpcset.dragonlink = false;
 
-                        webpcset.IsSendPIC = true;
+                        webpcset.IsSendPIC = false;
                         webpcset.NiuNiuPic = false;
                         webpcset.NoBigSmallSingleDoublePIC = false;
-                        webpcset.NumberDragonTxt = false;
+                        webpcset.NumberDragonTxt = true;
                         webpcset.NumberPIC = false;
                         webpcset.dragonpic = false;
                         db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
                         db.SubmitChanges();
 
+                    }
+                    else {
+                        webpcset.IsSendPIC = false;
+                        db.SubmitChanges();
                     }
 
 
@@ -345,15 +349,20 @@ namespace WeixinRoboot
                             webpcset.numericlink = false;
                             webpcset.dragonlink = false;
 
-                            webpcset.IsSendPIC = true;
+                            webpcset.IsSendPIC = false;
                             webpcset.NiuNiuPic = false;
                             webpcset.NoBigSmallSingleDoublePIC = false;
-                            webpcset.NumberDragonTxt = false;
+                            webpcset.NumberDragonTxt = true;
                             webpcset.NumberPIC = false;
                             webpcset.dragonpic = false;
                             db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
                             db.SubmitChanges();
 
+                        }
+                        else
+                        {
+                            webpcset.IsSendPIC = false;
+                            db.SubmitChanges();
                         }
                         usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == item.ContactID && t.WX_SourceType == "易");
 
@@ -846,7 +855,7 @@ namespace WeixinRoboot
                     StartF.ShiShiCaiDealGameLogAndNotice();
                 }
                 StartF.DrawChongqingshishicai(subm);
-                StartF.SendChongqingResult(subm);
+                StartF.SendChongqingResultPic(subm);
             }
             catch (Exception AnyError)
             {
@@ -900,10 +909,10 @@ namespace WeixinRoboot
 
 
                 StartF.ShiShiCaiDealGameLogAndNotice();
-                StartF.SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                StartF.SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-                StartF.SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-                StartF.SendChongqingResult(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+                StartF.SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                StartF.SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+                StartF.SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+                StartF.SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
             }
             catch (Exception AnyError)
             {
