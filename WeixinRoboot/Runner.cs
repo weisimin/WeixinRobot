@@ -33,7 +33,7 @@ namespace WeixinRoboot
             //Set结束
         }
 
-
+        Boolean FirstRun = true;
         private void SetMembers()
         {
             NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"));
@@ -150,7 +150,8 @@ namespace WeixinRoboot
                         db.SubmitChanges();
 
                     }
-                    else {
+                    else if (FirstRun==true)
+                    {
                         webpcset.IsSendPIC = false;
                         webpcset.NiuNiuPic = false;
                         webpcset.NoBigSmallSingleDoublePIC = false;
@@ -240,7 +241,7 @@ namespace WeixinRoboot
             this.Invoke(new Action(() => { BS_Contact.DataSource = MemberSource; }));
             NetFramework.Console.WriteLine("更新联系人完成" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"));
 
-
+            FirstRun = false;
 
         }
 
