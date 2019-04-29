@@ -165,6 +165,7 @@ namespace NetFramework
                         string[] SplitDomain = cookieitem.Domain.Split((".").ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         Int32 Length = SplitDomain.Length;
                         cookieitem.Domain = "." + SplitDomain[Length - 2] + "." + SplitDomain[Length - 1];
+                        cookieitem.Expires = cookieitem.Expires == null ? DateTime.Now.AddHours(6) : cookieitem.Expires.AddHours(4);
                         BrowCookie.Add(cookieitem);
                     }
 

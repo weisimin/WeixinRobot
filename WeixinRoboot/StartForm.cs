@@ -1014,16 +1014,21 @@ namespace WeixinRoboot
 
                         NetFramework.Console.WriteLine(cookie.Count == 0 ? "" : cookie[0].Expires.ToString());
 
+                        string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
+             , "", "", "GET", cookie, false);
 
+                        newridata.LoadXml(Result2);
 
-                        ReStartWeixin();
-                        return;
+                      
                     }
                     if (Check["retcode"].ToString() == "1100")
                     {
                         Thread.Sleep(1500);
-                        ReStartWeixin();
-                        return;
+                        //ReStartWeixin();
+                        string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
+            , "", "", "GET", cookie, false);
+
+                        newridata.LoadXml(Result2);
 
                     }
                     else if (
@@ -1031,9 +1036,12 @@ namespace WeixinRoboot
                          )
                     {
 
+                        string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
+          , "", "", "GET", cookie, false);
 
-                        ReStartWeixin();
-                        return;
+                        newridata.LoadXml(Result2);
+                        //ReStartWeixin();
+                        //return;
 
                     }
 
@@ -3742,7 +3750,7 @@ namespace WeixinRoboot
 
         }//新消息
 
-
+        string RedirtURI = "";
         private JObject WXInit()
         {
             Int32 RetryCount = 1;
@@ -3770,7 +3778,7 @@ namespace WeixinRoboot
                 Redirect = Redirect.Substring(Redirect.IndexOf("\"") + 1);
                 Redirect = Redirect.Substring(0, Redirect.Length - 2);
                 string CheckUrl2 = Redirect;
-
+                RedirtURI = CheckUrl2;
                 webhost = CheckUrl2.Substring(CheckUrl2.IndexOf("//") + 2);
                 webhost = webhost.Substring(0, webhost.IndexOf("/"));
 
@@ -3803,7 +3811,9 @@ namespace WeixinRoboot
 
                 //Thread KeepUpdateContactThread = new Thread(new ParameterizedThreadStart(KeepUpdateContactThreadDo));
                 //KeepUpdateContactThread.Start(new object[]{ KeepUpdateContactThreadID,Skey,pass_ticket});
+
                 return RepeatGetMembers(Skey, pass_ticket);
+
             }
             catch (Exception AnyError)
             {
