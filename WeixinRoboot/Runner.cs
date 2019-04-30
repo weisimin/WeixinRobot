@@ -174,29 +174,29 @@ namespace WeixinRoboot
                     }
                     else if (FirstRun == true)
                     {
-                        webpcset.IsSendPIC = false;
-                        webpcset.NiuNiuPic = false;
-                        webpcset.NoBigSmallSingleDoublePIC = false;
-                        webpcset.NumberDragonTxt = true;
-                        webpcset.NumberPIC = false;
-                        webpcset.dragonpic = false;
-                        if (webpcset.PIC_StartHour.HasValue == false)
-                        {
-                            webpcset.PIC_StartHour = 8;
-                        }
-                        if (webpcset.PIC_StartMinute.HasValue == false)
-                        {
-                            webpcset.PIC_StartMinute = 0;
-                        }
-                        if (webpcset.PIC_EndHour.HasValue == false)
-                        {
-                            webpcset.PIC_EndHour = 3;
-                        }
-                        if (webpcset.Pic_EndMinute.HasValue == false)
-                        {
-                            webpcset.Pic_EndMinute = 0;
-                        }
-                        db.SubmitChanges();
+                        //webpcset.IsSendPIC = false;
+                        //webpcset.NiuNiuPic = false;
+                        //webpcset.NoBigSmallSingleDoublePIC = false;
+                        //webpcset.NumberDragonTxt = true;
+                        //webpcset.NumberPIC = false;
+                        //webpcset.dragonpic = false;
+                        //if (webpcset.PIC_StartHour.HasValue == false)
+                        //{
+                        //    webpcset.PIC_StartHour = 8;
+                        //}
+                        //if (webpcset.PIC_StartMinute.HasValue == false)
+                        //{
+                        //    webpcset.PIC_StartMinute = 0;
+                        //}
+                        //if (webpcset.PIC_EndHour.HasValue == false)
+                        //{
+                        //    webpcset.PIC_EndHour = 3;
+                        //}
+                        //if (webpcset.Pic_EndMinute.HasValue == false)
+                        //{
+                        //    webpcset.Pic_EndMinute = 0;
+                        //}
+                        //db.SubmitChanges();
                     }
 
 
@@ -406,13 +406,13 @@ namespace WeixinRoboot
                         }
                         else
                         {
-                            webpcset.IsSendPIC = false;
-                            webpcset.NiuNiuPic = false;
-                            webpcset.NoBigSmallSingleDoublePIC = false;
-                            webpcset.NumberDragonTxt = true;
-                            webpcset.NumberPIC = false;
-                            webpcset.dragonpic = false;
-                            db.SubmitChanges();
+                            //webpcset.IsSendPIC = false;
+                            //webpcset.NiuNiuPic = false;
+                            //webpcset.NoBigSmallSingleDoublePIC = false;
+                            //webpcset.NumberDragonTxt = true;
+                            //webpcset.NumberPIC = false;
+                            //webpcset.dragonpic = false;
+                            //db.SubmitChanges();
                         }
                         usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == item.ContactID && t.WX_SourceType == "易");
 

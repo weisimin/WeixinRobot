@@ -5089,6 +5089,7 @@ namespace WeixinRoboot.Linq
                                      && t.WX_UserName == Row_WX_UserName
                                     );
                 webpcset.NumberPIC = false;
+
                 db.SubmitChanges();
                 return "";
             }
@@ -5101,6 +5102,9 @@ namespace WeixinRoboot.Linq
                                        );
                 webpcset.IsSendPIC = false;
                 UserRow.SetField("User_IsSendPic", false);
+                DateTime writein = DateTime.Now; ;
+                webpcset.PIC_EndHour = writein.Hour;
+                webpcset.Pic_EndMinute = writein.Minute;
                 db.SubmitChanges();
                 return "";
             }
@@ -5113,6 +5117,10 @@ namespace WeixinRoboot.Linq
 
                 webpcset.IsSendPIC = true;
                 UserRow.SetField("User_IsSendPic", true);
+                                                          
+                DateTime writein = DateTime.Now;;
+                webpcset.PIC_StartHour = writein.Hour;
+                webpcset.PIC_StartMinute = writein.Minute;
                 db.SubmitChanges();
                 return "";
             }
@@ -5123,6 +5131,7 @@ namespace WeixinRoboot.Linq
                                      && t.WX_UserName == Row_WX_UserName
                                     );
                 webpcset.IsSendPIC = true;
+                UserRow.SetField("User_IsSendPic", true);
                 webpcset.NiuNiuPic = true;
                 db.SubmitChanges();
                 return "";
@@ -5135,6 +5144,7 @@ namespace WeixinRoboot.Linq
                                      && t.WX_UserName == Row_WX_UserName
                                     );
                 webpcset.IsSendPIC = true;
+                UserRow.SetField("User_IsSendPic", true);
                 webpcset.NumberDragonTxt = true;
                 db.SubmitChanges();
                 return "";
@@ -5146,6 +5156,7 @@ namespace WeixinRoboot.Linq
                                      && t.WX_UserName == Row_WX_UserName
                                     );
                 webpcset.IsSendPIC = true;
+                UserRow.SetField("User_IsSendPic", true);
                 webpcset.dragonpic = true;
                 db.SubmitChanges();
                 return "";
@@ -5157,6 +5168,7 @@ namespace WeixinRoboot.Linq
                                      && t.WX_UserName == Row_WX_UserName
                                     );
                 webpcset.IsSendPIC = true;
+                UserRow.SetField("User_IsSendPic", true);
                 webpcset.NoBigSmallSingleDoublePIC = true;
                 db.SubmitChanges();
                 return "";
@@ -5168,6 +5180,7 @@ namespace WeixinRoboot.Linq
                                      && t.WX_UserName == Row_WX_UserName
                                     );
                 webpcset.IsSendPIC = true;
+                UserRow.SetField("User_IsSendPic", true);
                 webpcset.NumberPIC = true;
                 db.SubmitChanges();
                 return "";
@@ -5177,7 +5190,7 @@ namespace WeixinRoboot.Linq
             {
                 try
                 {
-                    string TestTime = "2000-1-1 " + Content.Replace("停图", "");
+                    string TestTime = "2000-1-1 " + Content.Substring(2).Replace(".", ":").Replace("：", ":").Replace("。", ":"); ;
                     Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                                                           && t.WX_SourceType == Row_WX_SourceType
                                                            && t.WX_UserName == Row_WX_UserName
@@ -5191,16 +5204,17 @@ namespace WeixinRoboot.Linq
                 catch (Exception)
                 {
 
-
+                    return Content.Substring(2).Replace(".", ":").Replace("：", ":").Replace("。", ":") + "日期错误";
                 }
 
-                return "";
+                return "已设置停止发图时间：" + Content.Substring(2).Replace(".", ":").Replace("：", ":").Replace("。", ":");
+         
             }
             else if (Content.StartsWith("发图"))
             {
                 try
                 {
-                    string TestTime = "2000-1-1 " + Content.Replace("发图", "");
+                    string TestTime = "2000-1-1 " + Content.Substring(2).Replace(".",":").Replace("：",":").Replace("。",":");
                 Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                                                       && t.WX_SourceType == Row_WX_SourceType
                                                        && t.WX_UserName == Row_WX_UserName
@@ -5214,10 +5228,10 @@ namespace WeixinRoboot.Linq
                 catch (Exception)
                 {
 
-
+                    return Content.Substring(2).Replace(".", ":").Replace("：", ":").Replace("。", ":") + "日期错误";
                 }
 
-                return "";
+                return "已设置开始发图时间：" + Content.Substring(2).Replace(".", ":").Replace("：", ":").Replace("。", ":");
             }
 
             else if (Content.Length >= 2)
@@ -9332,15 +9346,26 @@ namespace WeixinRoboot.Linq
             return "？";
         }
 
-        public enum ShiShiCaiPicKeepType { Keep, Once, Stop, UnKnown }
+        public enum ShiShiCaiPicKeepType { Keep, Once, Stop, UnKnown, SetTime }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="Paramter"></param>
         /// <param name="GameType">重庆，新疆，五分，VR,滕五，腾十，澳彩</param>
         /// <param name="PicType">文本，龙虎，独龙虎，牛牛，图1（jpg）</param>
-        public static ShiShiCaiPicKeepType ShiShiCaiPicTypeCaculate(string Paramter, ref string GameType, ref  string PicType, ref string SettingUserName)
+        public static ShiShiCaiPicKeepType ShiShiCaiPicTypeCaculate(string NewParamter, ref string GameType, ref  string PicType, ref string SettingUserName)
         {
+            string Paramter = "";
+            if (NewParamter.Contains("群"))
+            {
+                SettingUserName = NewParamter.Substring(0, NewParamter.IndexOf("群"));
+                Paramter = NewParamter.Substring(NewParamter.IndexOf("群") + 1);
+            }
+            else
+            {
+                SettingUserName = "";
+                Paramter = NewParamter;
+            }
             GameType = "";
             PicType = "";
             if (Paramter.Length < 2)
@@ -9372,8 +9397,15 @@ namespace WeixinRoboot.Linq
                 case "澳彩":
                     GameType = first2;
                     break;
+                case "发图":
+                    GameType = Paramter;
+                    return ShiShiCaiPicKeepType.SetTime;
+                case "停图":
+                    GameType = Paramter;
+                    return ShiShiCaiPicKeepType.SetTime;
                 default:
-                    break;
+                    return ShiShiCaiPicKeepType.UnKnown;
+                    
             }
             string End2 = Paramter.Length > 4 ? Paramter.Substring(2, 2) : Paramter.Substring(2);
             Int32 StartPrefix = 0;
@@ -9386,6 +9418,14 @@ namespace WeixinRoboot.Linq
                 case "图":
                     PicType = "文本";
                     StartPrefix = 3;
+                    break;
+                case "发图":
+                    PicType = "文本";
+                    StartPrefix = 2;
+                    break;
+                case "停图":
+                    PicType = "文本";
+                    StartPrefix = 2;
                     break;
                 case "文本":
                     PicType = "文本";
@@ -9408,35 +9448,35 @@ namespace WeixinRoboot.Linq
                     StartPrefix = 4;
                     break;
                 default:
-                    break;
+                    return ShiShiCaiPicKeepType.UnKnown;
             }
             Int32 GroupIndex = 0;
-            string Operation = (Paramter.Length > StartPrefix + 2) ? Paramter.Substring(StartPrefix) : Paramter.Substring(StartPrefix, 2);
+            string Operation = (Paramter.Length > StartPrefix + 2) ? Paramter.Substring(StartPrefix,2) : Paramter.Substring(StartPrefix, 2);
             if (Operation == ("发图"))
             {
                 GroupIndex = StartPrefix + 2;
-                SettingUserName = Paramter.Substring(GroupIndex);
+               
                 return ShiShiCaiPicKeepType.Keep;
 
             }
             else if (Operation == ("停图"))
             {
                 GroupIndex = StartPrefix + 2;
-                SettingUserName = Paramter.Substring(GroupIndex);
+               
                 return ShiShiCaiPicKeepType.Stop;
 
             }
             else if (Operation == ("补图"))
             {
                 GroupIndex = StartPrefix + 2;
-                SettingUserName = Paramter.Substring(GroupIndex);
+              
                 return ShiShiCaiPicKeepType.Once;
 
             }
             else
             {
                 GroupIndex = StartPrefix;
-                SettingUserName = Paramter.Substring(GroupIndex);
+               
                 return ShiShiCaiPicKeepType.Once;
             }
 
