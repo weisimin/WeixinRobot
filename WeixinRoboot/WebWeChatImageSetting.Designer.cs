@@ -70,6 +70,12 @@
             this.cb_NiuNiuPic = new System.Windows.Forms.CheckBox();
             this.cb_NoBigSmallSingleDoublePIC = new System.Windows.Forms.CheckBox();
             this.cb_IsSendPIC = new System.Windows.Forms.CheckBox();
+            this.tb_EndHour = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tb_StartMinute = new System.Windows.Forms.TextBox();
+            this.tb_StartHour = new System.Windows.Forms.TextBox();
+            this.lbl_during = new System.Windows.Forms.Label();
+            this.tb_EndMinute = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.gv_matchclass)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bs_matchclass)).BeginInit();
             this.SuspendLayout();
@@ -447,11 +453,67 @@
             this.cb_IsSendPIC.Text = "发送图片";
             this.cb_IsSendPIC.UseVisualStyleBackColor = true;
             // 
+            // tb_EndHour
+            // 
+            this.tb_EndHour.Location = new System.Drawing.Point(422, 401);
+            this.tb_EndHour.Name = "tb_EndHour";
+            this.tb_EndHour.Size = new System.Drawing.Size(23, 23);
+            this.tb_EndHour.TabIndex = 46;
+            this.tb_EndHour.Text = "3";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(399, 405);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(17, 17);
+            this.label2.TabIndex = 45;
+            this.label2.Text = "~";
+            // 
+            // tb_StartMinute
+            // 
+            this.tb_StartMinute.Location = new System.Drawing.Point(366, 401);
+            this.tb_StartMinute.Name = "tb_StartMinute";
+            this.tb_StartMinute.Size = new System.Drawing.Size(27, 23);
+            this.tb_StartMinute.TabIndex = 44;
+            this.tb_StartMinute.Text = "0";
+            // 
+            // tb_StartHour
+            // 
+            this.tb_StartHour.Location = new System.Drawing.Point(337, 401);
+            this.tb_StartHour.Name = "tb_StartHour";
+            this.tb_StartHour.Size = new System.Drawing.Size(23, 23);
+            this.tb_StartHour.TabIndex = 43;
+            this.tb_StartHour.Text = "8";
+            // 
+            // lbl_during
+            // 
+            this.lbl_during.AutoSize = true;
+            this.lbl_during.Location = new System.Drawing.Point(272, 406);
+            this.lbl_during.Name = "lbl_during";
+            this.lbl_during.Size = new System.Drawing.Size(59, 17);
+            this.lbl_during.TabIndex = 42;
+            this.lbl_during.Text = "发图时段:";
+            // 
+            // tb_EndMinute
+            // 
+            this.tb_EndMinute.Location = new System.Drawing.Point(451, 401);
+            this.tb_EndMinute.Name = "tb_EndMinute";
+            this.tb_EndMinute.Size = new System.Drawing.Size(27, 23);
+            this.tb_EndMinute.TabIndex = 47;
+            this.tb_EndMinute.Text = "0";
+            // 
             // WebWeChatImageSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 502);
+            this.Controls.Add(this.tb_EndMinute);
+            this.Controls.Add(this.tb_EndHour);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.tb_StartMinute);
+            this.Controls.Add(this.tb_StartHour);
+            this.Controls.Add(this.lbl_during);
             this.Controls.Add(this.cb_IsSendPIC);
             this.Controls.Add(this.cb_NoBigSmallSingleDoublePIC);
             this.Controls.Add(this.cb_NiuNiuPic);
@@ -544,5 +606,11 @@
         private System.Windows.Forms.CheckBox cb_NiuNiuPic;
         private System.Windows.Forms.CheckBox cb_NoBigSmallSingleDoublePIC;
         private System.Windows.Forms.CheckBox cb_IsSendPIC;
+        private System.Windows.Forms.TextBox tb_EndHour;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tb_StartMinute;
+        private System.Windows.Forms.TextBox tb_StartHour;
+        private System.Windows.Forms.Label lbl_during;
+        private System.Windows.Forms.TextBox tb_EndMinute;
     }
 }

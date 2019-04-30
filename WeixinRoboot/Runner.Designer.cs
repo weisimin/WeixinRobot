@@ -116,6 +116,7 @@
             this.User_ContactID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsSendPic = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.User_IsCaculateFuli = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.会 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -160,6 +161,7 @@
             this.User_ContactID,
             this.User_ContactTMPID,
             this.User_IsReply,
+            this.User_IsSendPic,
             this.User_IsReceiveTransfer,
             this.User_IsCaculateFuli,
             this.会,
@@ -883,6 +885,14 @@
             this.User_IsReply.ReadOnly = true;
             this.User_IsReply.Width = 25;
             // 
+            // User_IsSendPic
+            // 
+            this.User_IsSendPic.DataPropertyName = "User_IsSendPic";
+            this.User_IsSendPic.HeaderText = "图";
+            this.User_IsSendPic.Name = "User_IsSendPic";
+            this.User_IsSendPic.ReadOnly = true;
+            this.User_IsSendPic.Width = 25;
+            // 
             // User_IsReceiveTransfer
             // 
             this.User_IsReceiveTransfer.DataPropertyName = "User_IsReceiveTransfer";
@@ -1128,6 +1138,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactID;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactTMPID;
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReply;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsSendPic;
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReceiveTransfer;
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsCaculateFuli;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 会;

@@ -1664,17 +1664,7 @@ namespace WeixinRoboot
                 if (Content != "")
                 {
 
-                    if (Content == "加")
-                    {
-                        if (SourceType == "微")
-                        {
-                            RepeatGetMembers(Skey, pass_ticket);
-                        }
-                        else if (SourceType == "易")
-                        {
-                            RepeatGetMembersYiXin();
-                        }
-                    }
+                    
 
 
                     //自己发的，对方发的，自己在群发的，对方在群发的
@@ -1704,7 +1694,17 @@ namespace WeixinRoboot
                     {
 
 
-
+                        if (Content == "加")
+                        {
+                            if (SourceType == "微")
+                            {
+                                RepeatGetMembers(Skey, pass_ticket);
+                            }
+                            else if (SourceType == "易")
+                            {
+                                RepeatGetMembersYiXin();
+                            }
+                        }
 
 
 
@@ -1844,23 +1844,29 @@ namespace WeixinRoboot
 
                         #region "发图"
                         if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4"
-                            || Content.EndsWith("图")
+                            || Content.Contains(Environment.NewLine)==false
                                     )
                         {
                             string GameType = "";
                             string PicType = "";
-                            Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(Content, ref GameType, ref PicType);
-                            SendChongqingResultPic(GetMode(contacts.ToArray()), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
+                            string SettingUserName = "";
+                            Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(Content, ref GameType, ref PicType, ref SettingUserName);
+                           
+                            DataRow[] Settingcontacts = RunnerF.MemberSource.Select("User_Contact='" + SettingUserName + "'");
+
+                            SendChongqingResultPic(GetMode(SettingUserName == "" ? contacts : Settingcontacts), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
+
+                            
                             if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep)
                             {
                                 MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", contacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                 MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", contacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                SendRobotContent(GameType + PicType + "发图已开始", contacts, SourceType);
+                                SendRobotContent(GameType + PicType + "发图已开始", SettingUserName == "" ? contacts : Settingcontacts, SourceType);
                             }
                             if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop)
                             {
                                 MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", contacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                SendRobotContent(GameType + PicType + "发图已停止", contacts, SourceType);
+                                SendRobotContent(GameType + PicType + "发图已停止", SettingUserName == "" ? contacts : Settingcontacts, SourceType);
                             }
                             if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
                             {
@@ -1958,13 +1964,14 @@ namespace WeixinRoboot
 
                     #region "发图"
                     if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4"
-                        || Content.EndsWith("图")
+                       || Content.Contains(Environment.NewLine) == false
 
                         )
                     {
                         string GameType = "";
                         string PicType = "";
-                        Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(Content, ref GameType, ref PicType);
+                        string SettingUserName = "";
+                        Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(Content, ref GameType, ref PicType, ref SettingUserName);
 
                         if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
                         {
@@ -4521,7 +4528,7 @@ namespace WeixinRoboot
 
                 // var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
                 //筛选内存中勾了跟踪的
-                var users = RunnerF.MemberSource.Select("User_IsReply=1 " + (ToUserID == "" ? "" : " and User_ContactTEMPID='" + ToUserID + "'"));
+                var users = RunnerF.MemberSource.Select("User_IsSendPic=1 " + (ToUserID == "" ? "" : " and User_ContactTEMPID='" + ToUserID + "'"));
                 foreach (var item in users)
                 {
 
@@ -4567,10 +4574,10 @@ namespace WeixinRoboot
                         webpcset.numericlink = false;
                         webpcset.dragonlink = false;
 
-                        webpcset.IsSendPIC = true;
+                        webpcset.IsSendPIC = false;
                         webpcset.NiuNiuPic = false;
                         webpcset.NoBigSmallSingleDoublePIC = false;
-                        webpcset.NumberDragonTxt = false;
+                        webpcset.NumberDragonTxt = true;
                         webpcset.NumberPIC = false;
                         webpcset.dragonpic = false;
                         db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
@@ -9472,7 +9479,7 @@ namespace WeixinRoboot
                         //      + (wins.OpenHour <= 6 ? 60 * 24 : 0)
 
                         //)
-                        Linq.ProgramLogic.TimeCanUse(wins.OpenHour, wins.OpenMinue, wins.EndHour, wins.EndMinute) == false
+                        Linq.ProgramLogic.TimeInDuring(wins.OpenHour, wins.OpenMinue, wins.EndHour, wins.EndMinute) == false
                         // Linq.ProgramLogic.TimeCanUse(7, 0, 3, 15) == false
                         )
                     {
@@ -10437,7 +10444,7 @@ namespace WeixinRoboot
                             NetFramework.WindowsApi.GetWindowText(new IntPtr(Convert.ToInt32(sendwins.WX_UserTMPID)), RAW, 512);
 
                             if (RAW.ToString() == "" || sendwins.OpenPIC == false
-                                || Linq.ProgramLogic.TimeCanUse(sendwins.OpenHour, sendwins.OpenMinue, sendwins.EndHour, sendwins.EndMinute) == false)
+                                || Linq.ProgramLogic.TimeInDuring(sendwins.OpenHour, sendwins.OpenMinue, sendwins.EndHour, sendwins.EndMinute) == false)
                             {
                                 continue;
 

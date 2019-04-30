@@ -42,7 +42,7 @@ namespace WeixinRoboot
 
             //this.Invoke(new Action(() =>
             //{
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
             foreach (var item in (_Members["MemberList"]) as JArray)
@@ -68,11 +68,11 @@ namespace WeixinRoboot
                     //Seq = Seq.Substring(Seq.IndexOf("=") + 1);
 
                     Seq = RemarkName == "" ? NetFramework.Util_WEB.CleanHtml(NickName) : RemarkName;
-                    if (Seq.Contains("-"))
-                    {
-                        string[] Names = Seq.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                        Seq = Names[Names.Length-1];
-                    }
+                    //if (Seq.Contains("-"))
+                    //{
+                    //    string[] Names = Seq.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    //    Seq = Names[Names.Length-1];
+                    //}
                     Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
                     if (usrc == null)
                     {
@@ -90,7 +90,7 @@ namespace WeixinRoboot
                         }
                         else
                         {
-                            newusrc.IsReply = false;
+                            newusrc.IsReply = true;
                         }
                         db.WX_UserReply.InsertOnSubmit(newusrc);
 
@@ -106,7 +106,7 @@ namespace WeixinRoboot
                             usrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName);
 
                         }
-                        if (UserNametempID.StartsWith("@@") == false && Seq != "0")
+                        //if (UserNametempID.StartsWith("@@") == false && Seq != "0")
                         {
                             usrc.IsReply = true;
                         }
@@ -146,11 +146,33 @@ namespace WeixinRoboot
                         webpcset.NumberDragonTxt = true;
                         webpcset.NumberPIC = false;
                         webpcset.dragonpic = false;
+
+
+
+                        {
+                            webpcset.PIC_StartHour = 8;
+                        }
+
+
+                        {
+                            webpcset.PIC_StartMinute = 0;
+                        }
+
+
+                        {
+                            webpcset.PIC_EndHour = 3;
+                        }
+
+
+                        {
+                            webpcset.Pic_EndMinute = 0;
+                        }
+                        db.SubmitChanges();
                         db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
                         db.SubmitChanges();
 
                     }
-                    else if (FirstRun==true)
+                    else if (FirstRun == true)
                     {
                         webpcset.IsSendPIC = false;
                         webpcset.NiuNiuPic = false;
@@ -158,6 +180,22 @@ namespace WeixinRoboot
                         webpcset.NumberDragonTxt = true;
                         webpcset.NumberPIC = false;
                         webpcset.dragonpic = false;
+                        if (webpcset.PIC_StartHour.HasValue == false)
+                        {
+                            webpcset.PIC_StartHour = 8;
+                        }
+                        if (webpcset.PIC_StartMinute.HasValue == false)
+                        {
+                            webpcset.PIC_StartMinute = 0;
+                        }
+                        if (webpcset.PIC_EndHour.HasValue == false)
+                        {
+                            webpcset.PIC_EndHour = 3;
+                        }
+                        if (webpcset.Pic_EndMinute.HasValue == false)
+                        {
+                            webpcset.Pic_EndMinute = 0;
+                        }
                         db.SubmitChanges();
                     }
 
@@ -186,10 +224,11 @@ namespace WeixinRoboot
 
 
                     newr.SetField("User_IsReply", usrc.IsReply);
+                    newr.SetField("User_IsSendPic", webpcset.IsSendPIC);
                     newr.SetField("User_IsAdmin", usrc.IsAdmin);
                     newr.SetField("User_IsBallPIC", usrc.IsBallPIC);
 
-                    if (UserNametempID.StartsWith("@@") == false && Seq != "0")
+                    //if (UserNametempID.StartsWith("@@") == false && Seq != "0")
                     {
                         newr.SetField("User_IsReply", usrc == null ? false : usrc.IsReply);
                     }
@@ -261,7 +300,7 @@ namespace WeixinRoboot
                 }
                 this.Invoke(new Action(() =>
                 {
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                     BS_Contact.DataSource = null;
                     foreach (var item in contact)
@@ -396,9 +435,9 @@ namespace WeixinRoboot
                         newr.SetField("User_SourceType", "易");
 
 
-                      
-                     
-                        newr.SetField("User_Contact",  RemarkName == "" ? NickName : RemarkName);
+
+
+                        newr.SetField("User_Contact", RemarkName == "" ? NickName : RemarkName);
 
 
 
@@ -450,7 +489,7 @@ namespace WeixinRoboot
         public RunnerForm()
         {
             InitializeComponent();
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
@@ -476,6 +515,7 @@ namespace WeixinRoboot
             MemberSource.Columns.Add("User_ContactID");
             MemberSource.Columns.Add("User_ContactTEMPID");
             MemberSource.Columns.Add("User_IsReply", typeof(Boolean));
+            MemberSource.Columns.Add("User_IsSendPic", typeof(Boolean));
             MemberSource.Columns.Add("User_IsReceiveTransfer", typeof(Boolean));
             MemberSource.Columns.Add("User_IsCaculateFuli", typeof(Boolean));
             MemberSource.Columns.Add("User_SourceType");
@@ -494,7 +534,7 @@ namespace WeixinRoboot
 
             MemberSource.Columns.Add("User_TengXunShiFen", typeof(Boolean));
             MemberSource.Columns.Add("User_TengXunWuFen", typeof(Boolean));
-            
+
             MemberSource.Columns.Add("User_XinJiangShiShiCai", typeof(Boolean));
 
             MemberSource.Columns.Add("User_VR", typeof(Boolean));
@@ -515,7 +555,7 @@ namespace WeixinRoboot
         private void LoadReplyLog(string SelectUser, string SourceType)
         {
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             //ReplySource.Columns.Add("Reply_Contact");
@@ -526,7 +566,7 @@ namespace WeixinRoboot
             //ReplySource.Columns.Add("Reply_ReceiveTime", typeof(object));
             //ReplySource.Columns.Add("Reply_ReplyTime", typeof(object));
 
-            DataTable PreRend = NetFramework.Util_Sql.RunSqlDataTable( GlobalParam.DataSourceName
+            DataTable PreRend = NetFramework.Util_Sql.RunSqlDataTable(GlobalParam.DataSourceName
                   , "Select case when ur.RemarkName<>'' then ur.RemarkName+'@#'+ur.NickName else ur.NickName end as Reply_Contact ,RL.WX_UserName as Reply_ContactID,RL.WX_SourceType as Reply_SourceType "
 
               + " ,'' as Reply_ContactTEMPID"
@@ -617,7 +657,7 @@ namespace WeixinRoboot
 
         void RelySource_TableNewRow(object sender, DataTableNewRowEventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             if (e.Row != null)
@@ -1051,7 +1091,7 @@ namespace WeixinRoboot
                 Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("重庆模式", editrow, DateTime.Now);
 
 
-                
+
 
             }
         }
@@ -1144,7 +1184,7 @@ namespace WeixinRoboot
 
                 Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("VR模式", editrow, DateTime.Now);
                 ((ToolStripMenuItem)sender).Checked = true;
-                
+
 
             }
         }

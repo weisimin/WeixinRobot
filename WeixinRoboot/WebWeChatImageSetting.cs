@@ -60,6 +60,10 @@ namespace WeixinRoboot
 
                     data.IsSendPIC = cb_IsSendPIC.Checked;
 
+                    data.PIC_StartHour = Convert.ToInt32( tb_StartHour.Text);
+                    data.PIC_StartMinute = Convert.ToInt32( tb_StartMinute.Text);
+                    data.PIC_EndHour =  Convert.ToInt32(tb_EndHour.Text);
+                    data.Pic_EndMinute =  Convert.ToInt32(tb_EndMinute.Text);
                     db.SubmitChanges();
                 }
                 else
@@ -97,6 +101,12 @@ namespace WeixinRoboot
                     newd.NoBigSmallSingleDoublePIC = cb_NoBigSmallSingleDoublePIC.Checked;
 
                     newd.IsSendPIC = cb_IsSendPIC.Checked;
+
+                    newd.PIC_StartHour = Convert.ToInt32(tb_StartHour.Text);
+                    newd.PIC_StartMinute = Convert.ToInt32(tb_StartMinute.Text);
+                    newd.PIC_EndHour = Convert.ToInt32(tb_EndHour.Text);
+                    newd.Pic_EndMinute = Convert.ToInt32(tb_EndMinute.Text);
+
                     db.WX_WebSendPICSetting.InsertOnSubmit(newd);
                     db.SubmitChanges();
                 }
@@ -198,6 +208,29 @@ namespace WeixinRoboot
                     cb_NoBigSmallSingleDoublePIC.Checked = data.NoBigSmallSingleDoublePIC.HasValue ? data.NoBigSmallSingleDoublePIC.Value : false;
 
                     cb_IsSendPIC.Checked = data.IsSendPIC.HasValue ? data.IsSendPIC.Value : false;
+
+                    tb_StartHour.Text =data.PIC_StartHour.HasValue?data.PIC_StartHour.ToString():"8";
+                    tb_StartMinute.Text = data.PIC_StartMinute.HasValue?data.PIC_StartMinute.ToString():"8";
+                    tb_EndHour.Text = data.PIC_EndHour.HasValue ? data.PIC_EndHour.ToString() : "8";
+                    tb_EndMinute.Text = data.Pic_EndMinute.HasValue ? data.Pic_EndMinute.ToString() : "8";
+
+                    if (data.PIC_StartHour.HasValue==false)
+                    {
+                        data.PIC_StartHour = 8;
+                    }
+                    if (data.PIC_StartMinute.HasValue == false)
+                    {
+                        data.PIC_StartMinute = 0;
+                    }
+                    if (data.PIC_EndHour.HasValue == false)
+                    {
+                        data.PIC_EndHour = 3;
+                    }
+                    if (data.Pic_EndMinute.HasValue == false)
+                    {
+                        data.Pic_EndMinute = 0;
+                    }
+                    db.SubmitChanges();
                 }
                 else
                 {

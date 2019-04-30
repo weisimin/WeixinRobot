@@ -12,7 +12,7 @@ namespace WeixinRoboot.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -74,6 +74,17 @@ namespace WeixinRoboot.Properties {
         public string WeixinRobootConnectionString3 {
             get {
                 return ((string)(this["WeixinRobootConnectionString3"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=superserver,9125;Initial Catalog=WeixinRoboot;Persist Security Info=T" +
+            "rue;User ID=sa;Password=liangwguang")]
+        public string WeixinRobootConnectionString4 {
+            get {
+                return ((string)(this["WeixinRobootConnectionString4"]));
             }
         }
     }

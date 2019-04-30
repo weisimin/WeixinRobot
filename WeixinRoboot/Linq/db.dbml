@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="WeixinRoboot" Class="dbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=WeixinRoboot;Persist Security Info=True;User ID=sa" SettingsObjectName="WeixinRoboot.Properties.Settings" SettingsPropertyName="WeixinRobootConnectionString3" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=superserver,9125;Initial Catalog=WeixinRoboot;Persist Security Info=True;User ID=sa" SettingsObjectName="WeixinRoboot.Properties.Settings" SettingsPropertyName="WeixinRobootConnectionString4" Provider="System.Data.SqlClient" />
   <Table Name="dbo.aspnet_Users" Member="aspnet_Users">
     <Type Name="aspnet_Users">
       <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
@@ -605,34 +605,6 @@
       <Column Name="FileContenxt" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
     </Type>
   </Table>
-  <Table Name="dbo.WX_WebSendPICSetting" Member="WX_WebSendPICSetting">
-    <Type Name="WX_WebSendPICSetting">
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="footballPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="bassketballpic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="balluclink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ballinterval" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="card" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="cardname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="shishicailink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="NumberPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="dragonpic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="numericlink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="dragonlink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="LastBallSendTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="NumberAndDragonPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ballstart" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ballend" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="balllivepoint" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="HKSixResult" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="NiuNiuPic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="NoBigSmallSingleDoublePIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="NumberDragonTxt" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsSendPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.WX_UserReply" Member="WX_UserReply">
     <Type Name="WX_UserReply">
       <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -655,6 +627,38 @@
       <Column Name="XinJiangMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="TengXunWuFenMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="VRMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_WebSendPICSetting" Member="WX_WebSendPICSetting">
+    <Type Name="WX_WebSendPICSetting">
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="footballPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="bassketballpic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="balluclink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ballinterval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="card" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="cardname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="shishicailink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NumberPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="dragonpic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="numericlink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="dragonlink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LastBallSendTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NumberAndDragonPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ballend" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ballstart" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="balllivepoint" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HKSixResult" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NumberDragonTxt" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NiuNiuPic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NoBigSmallSingleDoublePIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsSendPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PIC_StartHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PIC_StartMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PIC_EndHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Pic_EndMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
 </Database>
