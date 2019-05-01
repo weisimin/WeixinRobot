@@ -1868,12 +1868,12 @@ namespace WeixinRoboot
                             {
                                 MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                 MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                SendRobotContent((SettingUserName == ""? "" : SettingUserName + "群") + GameType + PicType + "发图已开始", contacts, SourceType);
+                                SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
                             }
                             if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop)
                             {
                                 MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + "发图已停止", contacts, SourceType);
+                                SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType  + MyOutResult, contacts, SourceType);
                             }
                             if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime)
                             {
