@@ -1980,61 +1980,61 @@ namespace WeixinRoboot
 
 
                     #region "发图"
-                    if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4"
-                       || (Content.Contains(Environment.NewLine) == false && Content.Contains("图"))
+                    //if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4"
+                    //   || (Content.Contains(Environment.NewLine) == false && Content.Contains("图"))
                         
 
-                        )
-                    {
-                        string GameType = "";
-                        string PicType = "";
-                        string SettingUserName = "";
-                        Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(Content, ref GameType, ref PicType, ref SettingUserName);
-                        if (KeepPic!= Linq.ProgramLogic.ShiShiCaiPicKeepType.UnKnown)
-                            {
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
-                                {
-                                    string ToSendGameType = "";
-                                    switch (GameType)
-                                    {
-                                        case "重庆":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩));
+                    //    )
+                    //{
+                    //    string GameType = "";
+                    //    string PicType = "";
+                    //    string SettingUserName = "";
+                    //    Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(Content, ref GameType, ref PicType, ref SettingUserName);
+                    //    if (KeepPic!= Linq.ProgramLogic.ShiShiCaiPicKeepType.UnKnown)
+                    //        {
+                    //            if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
+                    //            {
+                    //                string ToSendGameType = "";
+                    //                switch (GameType)
+                    //                {
+                    //                    case "重庆":
+                    //                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩));
 
-                                            break;
-                                        case "新疆":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩));
+                    //                        break;
+                    //                    case "新疆":
+                    //                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩));
 
-                                            break;
-                                        case "五分":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.五分彩));
+                    //                        break;
+                    //                    case "五分":
+                    //                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.五分彩));
 
-                                            break;
-                                        case "VR":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩));
+                    //                        break;
+                    //                    case "VR":
+                    //                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩));
 
-                                            break;
-                                        case "腾五":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分));
+                    //                        break;
+                    //                    case "腾五":
+                    //                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分));
 
-                                            break;
-                                        case "腾十":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分));
+                    //                        break;
+                    //                    case "腾十":
+                    //                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分));
 
-                                            break;
-                                        case "澳彩":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5));
+                    //                        break;
+                    //                    case "澳彩":
+                    //                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5));
 
-                                            break;
+                    //                        break;
 
 
-                                        default:
-                                            break;
-                                    }
+                    //                    default:
+                    //                        break;
+                    //                }
 
-                                    SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩, PicType + "图", FromUserNameTEMPID, ToSendGameType);
-                                }//不是未知发图模式
-                        }
-                    }
+                    //                SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩, PicType + "图", FromUserNameTEMPID, ToSendGameType);
+                    //            }//不是未知发图模式
+                    //    }
+                    //}
 
                     #endregion
 

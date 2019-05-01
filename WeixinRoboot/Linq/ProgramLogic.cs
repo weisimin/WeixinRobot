@@ -5106,7 +5106,8 @@ namespace WeixinRoboot.Linq
                 webpcset.PIC_EndHour = writein.Hour;
                 webpcset.Pic_EndMinute = writein.Minute;
                 db.SubmitChanges();
-                return "";
+                return (webpcset.IsSendPIC == true ? "发图中" : "停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+   
             }
             else if (Content == "发图")
             {
@@ -5122,7 +5123,7 @@ namespace WeixinRoboot.Linq
                 webpcset.PIC_StartHour = writein.Hour;
                 webpcset.PIC_StartMinute = writein.Minute;
                 db.SubmitChanges();
-                return "";
+                return (webpcset.IsSendPIC == true ? "发图中" : "停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
             }
             else if (Content == "牛牛发图")
             {
@@ -5134,7 +5135,8 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_IsSendPic", true);
                 webpcset.NiuNiuPic = true;
                 db.SubmitChanges();
-                return "";
+                return (webpcset.IsSendPIC == true ? "发图中" : "停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+  
             }
 
             else if (Content == "文本发图")
@@ -5147,7 +5149,8 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_IsSendPic", true);
                 webpcset.NumberDragonTxt = true;
                 db.SubmitChanges();
-                return "";
+                return (webpcset.IsSendPIC == true ? "发图中" : "停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+  
             }
             else if (Content == "龙虎发图")
             {
@@ -5159,7 +5162,8 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_IsSendPic", true);
                 webpcset.dragonpic = true;
                 db.SubmitChanges();
-                return "";
+                return (webpcset.IsSendPIC == true ? "发图中" : "停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+  
             }
             else if (Content == "独龙虎发图")
             {
@@ -5171,7 +5175,8 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_IsSendPic", true);
                 webpcset.NoBigSmallSingleDoublePIC = true;
                 db.SubmitChanges();
-                return "";
+                return (webpcset.IsSendPIC == true ? "发图中" : "停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+  
             }
             else if (Content == "图1发图")
             {
@@ -5183,7 +5188,8 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_IsSendPic", true);
                 webpcset.NumberPIC = true;
                 db.SubmitChanges();
-                return "";
+                return (webpcset.IsSendPIC == true ? "发图中" : "停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+  
             }
 
             else if (Content.StartsWith("停图"))
@@ -5200,6 +5206,8 @@ namespace WeixinRoboot.Linq
                     webpcset.Pic_EndMinute = writein.Minute;
 
                     db.SubmitChanges();
+                    return (webpcset.IsSendPIC==true?"发图中":"停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+  
                 }
                 catch (Exception)
                 {
@@ -5207,8 +5215,7 @@ namespace WeixinRoboot.Linq
                     return Content.Substring(2).Replace(".", ":").Replace("：", ":").Replace("。", ":") + "日期错误";
                 }
 
-                return "已设置停止发图时间：" + Content.Substring(2).Replace(".", ":").Replace("：", ":").Replace("。", ":");
-         
+                      
             }
             else if (Content.StartsWith("发图"))
             {
@@ -5220,10 +5227,13 @@ namespace WeixinRoboot.Linq
                                                        && t.WX_UserName == Row_WX_UserName
                                                       );
                 DateTime writein = Convert.ToDateTime(TestTime);
+                webpcset.IsSendPIC = true;
                 webpcset.PIC_StartHour = writein.Hour;
                 webpcset.PIC_StartMinute = writein.Minute;
 
                 db.SubmitChanges();
+                return  (webpcset.IsSendPIC==true?"发图中":"停止发图") +",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+  
                   }
                 catch (Exception)
                 {
@@ -5231,8 +5241,7 @@ namespace WeixinRoboot.Linq
                     return Content.Substring(2).Replace(".", ":").Replace("：", ":").Replace("。", ":") + "日期错误";
                 }
 
-                return "已设置开始发图时间：" + Content.Substring(2).Replace(".", ":").Replace("：", ":").Replace("。", ":");
-            }
+                    }
 
             else if (Content.Length >= 2)
             {
