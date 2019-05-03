@@ -9371,7 +9371,7 @@ namespace WeixinRoboot.Linq
             string Paramter = "";
             if (NewParamter.Contains("群"))
             {
-                SettingUserName = NewParamter.Substring(0, NewParamter.IndexOf("群"));
+                SettingUserName = NewParamter.Substring(0, NewParamter.LastIndexOf("群"));
                 Paramter = NewParamter.Substring(NewParamter.IndexOf("群") + 1);
             }
             else

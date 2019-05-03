@@ -10192,16 +10192,17 @@ namespace WeixinRoboot
                                 }
 
                                 Guid NewFileName = Guid.NewGuid();
-                                FileStream fs = new FileStream(Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt", FileMode.OpenOrCreate);
-                                Byte[] tosend = Encoding.UTF8.GetBytes(SendText);
-                                fs.Write(tosend, 0, tosend.Length);
+                                //FileStream fs = new FileStream(Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt", FileMode.OpenOrCreate);
+                                //Byte[] tosend = Encoding.UTF8.GetBytes(SendText);
+                                //fs.Write(tosend, 0, tosend.Length);
 
 
-                                fs.Flush();
-                                fs.Close();
+                                //fs.Flush();
+                                //fs.Close();
 
-                                fs.Dispose();
+                                //fs.Dispose();
 
+                                File.WriteAllText(Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt", SendText);
 
                             #endregion
                                 Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());

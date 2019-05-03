@@ -1336,7 +1336,7 @@ namespace NetFramework
                 while ((DateTime.Now-PreTime).TotalMilliseconds<milientTime)
                 {
                     System.Threading.Thread.Sleep(100);
-                    System.Windows.Forms.Application.DoEvents();
+                    //System.Windows.Forms.Application.DoEvents();
                 }
                
             } 
