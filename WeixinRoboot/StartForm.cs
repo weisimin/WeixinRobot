@@ -1019,7 +1019,7 @@ namespace WeixinRoboot
 
                         newridata.LoadXml(Result2);
 
-                      
+
                     }
                     if (Check["retcode"].ToString() == "1100")
                     {
@@ -1664,7 +1664,7 @@ namespace WeixinRoboot
                 if (Content != "")
                 {
 
-                    
+
 
 
                     //自己发的，对方发的，自己在群发的，对方在群发的
@@ -1851,81 +1851,81 @@ namespace WeixinRoboot
                             string PicType = "";
                             string SettingUserName = "";
                             Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(Content, ref GameType, ref PicType, ref SettingUserName);
-                            if (KeepPic!= Linq.ProgramLogic.ShiShiCaiPicKeepType.UnKnown)
+                            if (KeepPic != Linq.ProgramLogic.ShiShiCaiPicKeepType.UnKnown)
                             {
-                                
-                            
-                            DataRow[] Settingcontacts = RunnerF.MemberSource.Select("User_Contact='" + SettingUserName + "'");
-                            if (SettingUserName != "" && Settingcontacts.Length==0)
-                            {
-                                SendRobotContent("找不到玩家：" + SettingUserName,contacts, SourceType);
-                            }
-                            //图1，2，3，4使用
-                            SendChongqingResultPic(GetMode(SettingUserName == "" ? contacts : Settingcontacts), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
 
-                            
-                            if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep)
-                            {
-                                MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
-                            }
-                            if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop)
-                            {
-                                MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType  + MyOutResult, contacts, SourceType);
-                            }
-                            if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime)
-                            {
-                                 MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType, (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                 SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, contacts, SourceType);
-                            }
-                            
-                            if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
-                            {
-                                string ToSendGameType = "";
-                                switch (GameType)
+
+                                DataRow[] Settingcontacts = RunnerF.MemberSource.Select("User_Contact='" + SettingUserName + "'");
+                                if (SettingUserName != "" && Settingcontacts.Length == 0)
                                 {
-                                    case "重庆":
-                                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩));
-
-                                        break;
-                                    case "新疆":
-                                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩));
-
-                                        break;
-                                    case "五分":
-                                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.五分彩));
-
-                                        break;
-                                    case "VR":
-                                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩));
-
-                                        break;
-                                    case "腾五":
-                                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分));
-
-                                        break;
-                                    case "腾十":
-                                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分));
-
-                                        break;
-                                    case "澳彩":
-                                        ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5));
-
-                                        break;
-
-
-                                    default:
-                                        break;
+                                    SendRobotContent("找不到玩家：" + SettingUserName, contacts, SourceType);
                                 }
-                                foreach (DataRow item in (SettingUserName == "" ? contacts : Settingcontacts))
+                                //图1，2，3，4使用
+                                SendChongqingResultPic(GetMode(SettingUserName == "" ? contacts : Settingcontacts), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
+
+
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep)
                                 {
-                                    string NoticeTempid = item.Field<string>("User_ContactTEMPID");
-                                    SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩, PicType + "图", NoticeTempid, ToSendGameType);
-
+                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
                                 }
-                                                           }//不是未知发图模式
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop)
+                                {
+                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
+                                }
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime)
+                                {
+                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType, (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, contacts, SourceType);
+                                }
+
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
+                                {
+                                    string ToSendGameType = "";
+                                    switch (GameType)
+                                    {
+                                        case "重庆":
+                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩));
+
+                                            break;
+                                        case "新疆":
+                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩));
+
+                                            break;
+                                        case "五分":
+                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.五分彩));
+
+                                            break;
+                                        case "VR":
+                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩));
+
+                                            break;
+                                        case "腾五":
+                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分));
+
+                                            break;
+                                        case "腾十":
+                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分));
+
+                                            break;
+                                        case "澳彩":
+                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5));
+
+                                            break;
+
+
+                                        default:
+                                            break;
+                                    }
+                                    foreach (DataRow item in (SettingUserName == "" ? contacts : Settingcontacts))
+                                    {
+                                        string NoticeTempid = item.Field<string>("User_ContactTEMPID");
+                                        SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩, PicType + "图", NoticeTempid, ToSendGameType);
+
+                                    }
+                                }//不是未知发图模式
                             }
                         }
 
@@ -1982,7 +1982,7 @@ namespace WeixinRoboot
                     #region "发图"
                     //if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4"
                     //   || (Content.Contains(Environment.NewLine) == false && Content.Contains("图"))
-                        
+
 
                     //    )
                     //{
@@ -2323,12 +2323,12 @@ namespace WeixinRoboot
 
             StreamReader reader = new StreamReader(p.StandardOutput.BaseStream, Encoding.GetEncoding("GB2312"));
 
-            String Outputs = reader.ReadToEnd();
+
 
 
             p.WaitForExit();//等待程序执行完退出进程  
 
-
+            String Outputs = reader.ReadToEnd();
             p.Close();
             NetFramework.Console.WriteLine("#########################################################");
             NetFramework.Console.WriteLine(ExeAndParam);
@@ -4554,7 +4554,7 @@ namespace WeixinRoboot
 
                 // var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
                 //筛选内存中勾了跟踪的
-                var users = RunnerF.MemberSource.Select((ToUserID==""?"User_IsSendPic=1 ":" 1=1 ") + (ToUserID == "" ? "" : " and User_ContactTEMPID='" + ToUserID + "'"));
+                var users = RunnerF.MemberSource.Select((ToUserID == "" ? "User_IsSendPic=1 " : " 1=1 ") + (ToUserID == "" ? "" : " and User_ContactTEMPID='" + ToUserID + "'"));
                 foreach (var item in users)
                 {
 
@@ -4567,7 +4567,7 @@ namespace WeixinRoboot
                     {
                         continue;
                     }
-                    
+
                     string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
                     string SourceType = dr[0].Field<string>("User_SourceType");
                     Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
@@ -4611,7 +4611,7 @@ namespace WeixinRoboot
                         db.SubmitChanges();
 
                     }
-                    if (Linq.ProgramLogic.TimeInDuring(webpcset.PIC_StartHour,webpcset.PIC_StartMinute,webpcset.PIC_EndHour,webpcset.Pic_EndMinute)==false)
+                    if (Linq.ProgramLogic.TimeInDuring(webpcset.PIC_StartHour, webpcset.PIC_StartMinute, webpcset.PIC_EndHour, webpcset.Pic_EndMinute) == false)
                     {
                         continue;
                     }
@@ -4620,7 +4620,7 @@ namespace WeixinRoboot
                     //if ((dr[0].Field<string>("User_ContactType") == "群" && ToUserID == "") || (TEMPUserName == ToUserID))
                     if ((ToUserID == "") || (TEMPUserName == ToUserID))
                     {
-                        if (webpcset.IsSendPIC == false && ToUserID=="")
+                        if (webpcset.IsSendPIC == false && ToUserID == "")
                         {
                             continue;
                         }
@@ -4630,7 +4630,7 @@ namespace WeixinRoboot
                         {
                             if (dr[0].Field<string>("User_SourceType") == "易")
                             {
-                                SendRobotContent(StartForm.ReadVirtualFile("Data3" + GlobalParam.UserName + "_" + ToSendGameName+".txt", db), TEMPUserName, SourceType);
+                                SendRobotContent(StartForm.ReadVirtualFile("Data3" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
                             if (dr[0].Field<string>("User_SourceType") == "微")
                             {
@@ -4692,7 +4692,7 @@ namespace WeixinRoboot
                         {
                             if (dr[0].Field<string>("User_SourceType") == "易")
                             {
-                                SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎dingding" + GlobalParam.UserName + "_" + ToSendGameName+ ".txt", db), TEMPUserName, SourceType);
+                                SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎dingding" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
                             if (dr[0].Field<string>("User_SourceType") == "微")
                             {
@@ -9330,7 +9330,7 @@ namespace WeixinRoboot
 
 
                 string NewTitle = "智能发图" + RAW.ToString().Replace("智能发图", "");
-                NetFramework.WindowsApi.SetWindowText(hwnd, NewTitle);
+               // NetFramework.WindowsApi.SetWindowText(hwnd, NewTitle);
 
                 NetFramework.WindowsApi.Rect rec = new NetFramework.WindowsApi.Rect();
                 NetFramework.WindowsApi.GetWindowRect(hwnd, out rec);
@@ -9499,7 +9499,7 @@ namespace WeixinRoboot
                     //{
                     //    continue;
                     //}
-                    NetFramework.WindowsApi.SetWindowText(new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)), "智能发图" + RAW.ToString().Replace("智能发图", ""));
+                    //NetFramework.WindowsApi.SetWindowText(new IntPtr(Convert.ToInt32(wins.WX_UserTMPID)), "智能发图" + RAW.ToString().Replace("智能发图", ""));
                     if (
                         //(DateTime.Now.Hour * 60 + DateTime.Now.Minute + (DateTime.Now.Hour <= 8 ? 60 * 24 : 0) > wins.EndHour * 60 + wins.EndMinute + 2
                         //      + (wins.EndHour <= 4 ? 60 * 24 : 0)
@@ -10051,8 +10051,8 @@ namespace WeixinRoboot
             {
                 return;
             }
-            System.Threading.Tasks.Task tak = new System.Threading.Tasks.Task(new Action(() =>
-            {
+            //System.Threading.Tasks.Task tak = new System.Threading.Tasks.Task(new Action(() =>
+            //{
 
 
 
@@ -10073,11 +10073,11 @@ namespace WeixinRoboot
                             }
 
                             StringBuilder RAW = new StringBuilder(512);
-                            Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
-                            if (winstate == 0)
-                            {
-                                return;
-                            }
+                            //Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
+                            //if (winstate == 0)
+                            //{
+                            //    return;
+                            //}
 
 
                             NetFramework.WindowsApi.ShowWindow(hwnd, 1);
@@ -10271,8 +10271,8 @@ namespace WeixinRoboot
                         NetFramework.Console.WriteLine("复制失败" + AnyError.Message);
                     }
                 }//lock
-            }));//action
-            tak.Start();
+            //}));//action
+            //tak.Start();
         }
 
         private void AdbSendText(string EnumName, PCSourceType EnumType, string PCFilePath)
@@ -10464,12 +10464,12 @@ namespace WeixinRoboot
                 {
                     Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
                     MemoryStream ms = new MemoryStream(FileImageByte);
-                Image tosave = Image.FromStream(ms);
-                string NewFileName = Application.StartupPath + "\\EmuFile\\" + Guid.NewGuid().ToString() + ".jpg";
-                tosave.Save(NewFileName);
-                ms.Close();
-                ms.Dispose();
-                tosave.Dispose();
+                    Image tosave = Image.FromStream(ms);
+                    string NewFileName = Application.StartupPath + "\\EmuFile\\" + Guid.NewGuid().ToString() + ".jpg";
+                    tosave.Save(NewFileName);
+                    ms.Close();
+                    ms.Dispose();
+                    tosave.Dispose();
 
                     if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
                     {
@@ -14131,7 +14131,7 @@ namespace WeixinRoboot
                     // adb shell rm /sdcard/0.txt
                     //adb push D:\file.txt system/
                     // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
-
+                    CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + item.WX_UserName + "  --command \"  shell ime enable com.android.adbkeyboard/.AdbIME \" ");
                     CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + item.WX_UserName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
                     //adb shell ime set com.android.adbkeyboard/.AdbIME  
                 }
