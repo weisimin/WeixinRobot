@@ -64,10 +64,10 @@ namespace WeixinRoboot
         &&ds.WX_SourceType==cb_SourceType.SelectedItem.ToString()
                         select ds).ToList();
 
-            NetFramework.Console.WriteLine("########################################################################");
-            NetFramework.Console.WriteLine("查询日期" + dtp_startdate.Value.ToString("yyyyMMdd"));
-            NetFramework.Console.WriteLine("查询日期" + dtp_enddate.Value.ToString("yyyyMMdd"));
-            NetFramework.Console.WriteLine("########################################################################");
+            NetFramework.Console.WriteLine("########################################################################",false);
+            NetFramework.Console.WriteLine("查询日期" + dtp_startdate.Value.ToString("yyyyMMdd"),false);
+            NetFramework.Console.WriteLine("查询日期" + dtp_enddate.Value.ToString("yyyyMMdd"),false);
+            NetFramework.Console.WriteLine("########################################################################",false);
 
             var myWXUSERS = buys.Select(t => t.WX_UserName).Distinct();
 
@@ -117,10 +117,10 @@ namespace WeixinRoboot
             gv_result.Columns.Add(dccful);
 
             var BuyDays = buys.Select(t => t.GameLocalPeriod.Substring(0, 8)).Distinct().OrderBy(t => t);
-            NetFramework.Console.WriteLine("########################################################################");
-            NetFramework.Console.WriteLine("获得天数" + BuyDays.Count());
+            NetFramework.Console.WriteLine("########################################################################",false);
+            NetFramework.Console.WriteLine("获得天数" + BuyDays.Count(),false);
 
-            NetFramework.Console.WriteLine("########################################################################");
+            NetFramework.Console.WriteLine("########################################################################", false);
 
             #region "天数"
             foreach (var item in BuyDays)

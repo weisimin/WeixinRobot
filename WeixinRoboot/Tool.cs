@@ -18,7 +18,7 @@ namespace NetFramework
         {
             DateTime Pre = DateTime.Now;
             string Result= OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.UTF8, AllowRedirect, KeepAlive, ContentType,authorization);
-            NetFramework.Console.WriteLine("--------------网站下载总时间：" + (DateTime.Now - Pre).TotalSeconds.ToString());
+            NetFramework.Console.WriteLine("--------------网站下载总时间：" + (DateTime.Now - Pre).TotalSeconds.ToString(),false);
              return Result;
         }
 
@@ -185,9 +185,9 @@ namespace NetFramework
                 LoginPage = null;
                 System.GC.Collect();
 
-                NetFramework.Console.WriteLine("网址打开失败" + TargetURL);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace);
+                NetFramework.Console.WriteLine("网址打开失败" + TargetURL,true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message,true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace,true);
                 return "";
             }
 
@@ -248,9 +248,9 @@ namespace NetFramework
                 LoginPage = null;
                 System.GC.Collect();
 
-                NetFramework.Console.WriteLine("网址打开失败" + TargetURL);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace);
+                NetFramework.Console.WriteLine("网址打开失败" + TargetURL,true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message,true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace,true);
                 return "";
             }
             LoginPage.Abort();
@@ -488,11 +488,11 @@ namespace NetFramework
             try
             {
                 NetFramework.Util_WEB.CurrentUrl = "正在下载" + UploadUrl;
-                NetFramework.Console.WriteLine("正在上传图片");
+                NetFramework.Console.WriteLine("正在上传图片",false);
 
                 LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
                 NetFramework.Util_WEB.CurrentUrl = "已下载" + UploadUrl;
-                NetFramework.Console.WriteLine("上传图片完成");
+                NetFramework.Console.WriteLine("上传图片完成",false);
                 if (((HttpWebResponse)LoginPage_Return).Headers["Set-Cookie"] != null)
                 {
                     string Start = LoginPage.RequestUri.Host.Substring(0, LoginPage.RequestUri.Host.LastIndexOf("."));
@@ -563,7 +563,7 @@ namespace NetFramework
             LoginPage_Return = null;
             LoginPage = null;
             System.GC.Collect();
-            NetFramework.Console.WriteLine("图片返回:" + responseBody);
+            NetFramework.Console.WriteLine("图片返回:" + responseBody,false);
             return responseBody;
             //返回：
             //            {
@@ -708,11 +708,11 @@ namespace NetFramework
             try
             {
                 NetFramework.Util_WEB.CurrentUrl = "正在下载" + UploadUrl;
-                NetFramework.Console.WriteLine("正在上传图片");
+                NetFramework.Console.WriteLine("正在上传图片",false);
 
                 LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
                 NetFramework.Util_WEB.CurrentUrl = "已下载" + UploadUrl;
-                NetFramework.Console.WriteLine("上传图片完成");
+                NetFramework.Console.WriteLine("上传图片完成",false);
                 if (((HttpWebResponse)LoginPage_Return).Headers["Set-Cookie"] != null)
                 {
                     string Start = LoginPage.RequestUri.Host.Substring(0, LoginPage.RequestUri.Host.LastIndexOf("."));
@@ -785,7 +785,7 @@ namespace NetFramework
             LoginPage_Return = null;
             LoginPage = null;
             System.GC.Collect();
-            NetFramework.Console.WriteLine("图片返回:" + responseBody);
+            NetFramework.Console.WriteLine("图片返回:" + responseBody,false);
             return responseBody;
             //返回：
             //            {
@@ -1062,14 +1062,14 @@ namespace NetFramework
             //}
             System.Console.WriteLine(Message);
         }
-        public static void WriteLine(string Message)
+        public static void WriteLine(string Message,bool Exception)
         {
             //LastLog = Message + Environment.NewLine + LastLog;
             //if (LastLog.Length > 5000)
             //{
             //    LastLog = LastLog.Substring(0, 5000);
             //}
-            //if (Message.Contains("console"))
+            if (Exception)
             {
                    System.Console.WriteLine(Message);
             }
@@ -1327,7 +1327,7 @@ namespace NetFramework
         public static object LockLoad = true;
         public static string JoinQueueAndWait(string URL, XPathWebBrowser wb, Int32 milientTime = 2000)
         {
-            NetFramework.Console.WriteLine("网页组件正在锁定");
+            NetFramework.Console.WriteLine("网页组件正在锁定",false);
             lock (LockLoad)
             {
                 LockLoad = !((bool)LockLoad);
@@ -1341,7 +1341,7 @@ namespace NetFramework
                
             } 
            
-                NetFramework.Console.WriteLine("网页组件已解锁");
+                NetFramework.Console.WriteLine("网页组件已解锁",false);
                 return wb.Document.Body.InnerHtml;
           
 

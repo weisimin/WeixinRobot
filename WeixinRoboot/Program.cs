@@ -108,9 +108,9 @@ namespace WeixinRoboot
             catch (Exception AnyError)
             {
                 MessageBox.Show("启动失败"+AnyError.Message);
-                NetFramework.Console.WriteLine("删除临时图片失败");
-                NetFramework.Console.WriteLine(AnyError.Message);
-                NetFramework.Console.WriteLine(AnyError.StackTrace);
+                NetFramework.Console.WriteLine("删除临时图片失败",true);
+                NetFramework.Console.WriteLine(AnyError.Message,true);
+                NetFramework.Console.WriteLine(AnyError.StackTrace,true);
                 return;
             }
 

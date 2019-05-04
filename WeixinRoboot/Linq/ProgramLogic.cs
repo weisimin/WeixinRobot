@@ -4478,7 +4478,7 @@ namespace WeixinRoboot.Linq
                 }
                 catch
                 {
-                    NetFramework.Console.WriteLine("赛事时间错误" + DateTime.Today.Year.ToString() + "-" + item.GameTime);
+                    NetFramework.Console.WriteLine("赛事时间错误" + DateTime.Today.Year.ToString() + "-" + item.GameTime,true);
                 }
                 rtsfb += (item.MatchClass == null ? "" : item.MatchClass) + item.A_Team + " VS " + item.B_Team + Environment.NewLine;
                 var subglunopens = glunopens.Where(t => t.A_Team == item.A_Team && t.B_Team == item.B_Team);
@@ -6730,7 +6730,7 @@ namespace WeixinRoboot.Linq
 
         }
 
-        public static Game_Result NewGameResult(string str_Win, string str_dataperiod, out bool NewDbResult, ShiShiCaiMode subm, string GameTime = "2019-01-01")
+        public static Game_Result NewGameResult(string str_Win, string str_dataperiod, ref bool NewDbResult, ShiShiCaiMode subm, string GameTime = "2019-01-01")
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -6972,14 +6972,14 @@ namespace WeixinRoboot.Linq
                     gr.InsertDate = DateTime.Now;
                     db.Game_Result.InsertOnSubmit(gr);
                     db.SubmitChanges();
-                    NewDbResult = true;
+                    NewDbResult = NewDbResult||true;
                     return gr;
 
                 }//插入数据库
-                NewDbResult = false;
+                NewDbResult = NewDbResult || false;
                 return findGameResult;
             }
-            NewDbResult = false;
+            NewDbResult = NewDbResult || false;
             return null;
         }
 
@@ -7960,8 +7960,8 @@ namespace WeixinRoboot.Linq
             }
             catch (Exception AnyError)
             {
-                NetFramework.Console.WriteLine(AnyError.Message);
-                NetFramework.Console.WriteLine(AnyError.StackTrace);
+                NetFramework.Console.WriteLine(AnyError.Message,true);
+                NetFramework.Console.WriteLine(AnyError.StackTrace,true);
                 succhess = 0;
                 return null;
             }
@@ -8442,7 +8442,7 @@ namespace WeixinRoboot.Linq
                     NewModiMoney = 0;
                     return null;
                 }
-                NetFramework.Console.WriteLine(tmp_findMoney + "下注金额不能识别");
+                NetFramework.Console.WriteLine(tmp_findMoney + "下注金额不能识别",true);
             }
             try
             {
@@ -8905,8 +8905,8 @@ namespace WeixinRoboot.Linq
             }
             catch (Exception AnyError)
             {
-                NetFramework.Console.WriteLine(VS.A_Team + "VS" + VS.B_Team + " " + VS.GameKey + "当前盘异常");
-                NetFramework.Console.WriteLine(AnyError.StackTrace);
+                NetFramework.Console.WriteLine(VS.A_Team + "VS" + VS.B_Team + " " + VS.GameKey + "当前盘异常",true);
+                NetFramework.Console.WriteLine(AnyError.StackTrace,true);
                 return null;
             }
 

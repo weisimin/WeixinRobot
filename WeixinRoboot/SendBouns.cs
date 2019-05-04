@@ -77,12 +77,12 @@ namespace WeixinRoboot
                 // if (fcl.Count() == 0 && usrrow.Length != 0)
                 if (Senditem.Field<decimal?>("BounsCount").HasValue==false)
                 {
-                    NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName")+"无福利跳过");
+                    NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName")+"无福利跳过",true);
                     continue;
                 }
                 if (Senditem.Field<decimal?>("BounsCount").Value == 0)
                 {
-                    NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName") + "0福利跳过");
+                    NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName") + "0福利跳过",true);
                     continue;
                 }
 
@@ -106,15 +106,15 @@ namespace WeixinRoboot
                         catch (Exception AnyError)
                         {
 
-                            NetFramework.Console.WriteLine(AnyError.Message);
-                            NetFramework.Console.WriteLine(AnyError.StackTrace);
+                            NetFramework.Console.WriteLine(AnyError.Message,true);
+                            NetFramework.Console.WriteLine(AnyError.StackTrace,true);
                         }
 
                     }
                     else
                     {
 
-                        NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName") + "福利不能通知");
+                        NetFramework.Console.WriteLine(Senditem.Field<string>("WX_UserName") + "福利不能通知",true);
                     }
                 }
 

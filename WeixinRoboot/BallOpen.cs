@@ -337,7 +337,7 @@ namespace WeixinRoboot
                       );
                 if (findcontact == null)
                 {
-                    NetFramework.Console.WriteLine("找不到玩家，开奖结果发不出");
+                    NetFramework.Console.WriteLine("找不到玩家，开奖结果发不出",true);
                 }
                 else
                 {

@@ -36,7 +36,7 @@ namespace WeixinRoboot
         Boolean FirstRun = true;
         private void SetMembers()
         {
-            NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"));
+            NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"),false);
 
 
 
@@ -265,8 +265,8 @@ namespace WeixinRoboot
                 catch (Exception AnyError)
                 {
                     MessageBox.Show(RemarkName == "" ? NickName : RemarkName + "联系人保存失败");
-                    NetFramework.Console.WriteLine(AnyError.Message);
-                    NetFramework.Console.WriteLine(AnyError.StackTrace);
+                    NetFramework.Console.WriteLine(AnyError.Message,true);
+                    NetFramework.Console.WriteLine(AnyError.StackTrace,true);
                 }
 
 
@@ -278,7 +278,7 @@ namespace WeixinRoboot
 
 
             this.Invoke(new Action(() => { BS_Contact.DataSource = MemberSource; }));
-            NetFramework.Console.WriteLine("更新联系人完成" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"));
+            NetFramework.Console.WriteLine("更新联系人完成" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"),false);
 
             FirstRun = false;
 
@@ -290,7 +290,7 @@ namespace WeixinRoboot
 
         public void SetYixinMembers(List<StartForm.YixinContact> contact, List<StartForm.YixinContactInfo> contactinf)
         {
-            NetFramework.Console.WriteLine("开始更新更新易信联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"));
+            NetFramework.Console.WriteLine("开始更新更新易信联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"),false);
             try
             {
 
@@ -478,10 +478,10 @@ namespace WeixinRoboot
             catch (Exception AnyError)
             {
 
-                NetFramework.Console.WriteLine(AnyError.Message);
-                NetFramework.Console.WriteLine(AnyError.StackTrace);
+                NetFramework.Console.WriteLine(AnyError.Message,true);
+                NetFramework.Console.WriteLine(AnyError.StackTrace,true);
             }
-            NetFramework.Console.WriteLine("更新易信联系人完成" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"));
+            NetFramework.Console.WriteLine("更新易信联系人完成" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"),false);
 
         }
 
@@ -899,7 +899,7 @@ namespace WeixinRoboot
                     subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
                 }
                 Linq.ProgramLogic.NewGameResult(
-                            fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb, subm);
+                            fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, ref Newdb, subm);
 
                 if (Newdb)
                 {
@@ -911,8 +911,8 @@ namespace WeixinRoboot
             catch (Exception AnyError)
             {
 
-                NetFramework.Console.WriteLine(AnyError.Message);
-                NetFramework.Console.WriteLine(AnyError.StackTrace);
+                NetFramework.Console.WriteLine(AnyError.Message,true);
+                NetFramework.Console.WriteLine(AnyError.StackTrace,true);
             }
 
 

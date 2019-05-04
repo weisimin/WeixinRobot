@@ -241,7 +241,7 @@ namespace WeixinRoboot
                 subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
             }
             Linq.ProgramLogic.NewGameResult(
-                fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, out Newdb, subm);
+                fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, ref Newdb, subm);
             if (Newdb)
             {
                 StartF.ShiShiCaiDealGameLogAndNotice();
