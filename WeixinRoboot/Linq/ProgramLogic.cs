@@ -5097,7 +5097,28 @@ namespace WeixinRoboot.Linq
                 return ("停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
   
             }
+            else if (Content == "还原")
+            {
+                Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                                       && t.WX_SourceType == Row_WX_SourceType
+                                        && t.WX_UserName == Row_WX_UserName
+                                       );
+                webpcset.IsSendPIC = false;
+                UserRow.SetField("User_IsSendPic", false);
+                webpcset.NumberDragonTxt = true;
+                webpcset.NiuNiuPic = false;
+                webpcset.NoBigSmallSingleDoublePIC = false;
+                webpcset.dragonpic = false;
 
+                webpcset.PIC_EndHour =3;
+                webpcset.Pic_EndMinute = 0;
+
+                webpcset.PIC_StartHour = 6;
+                webpcset.PIC_StartMinute = 0;
+                db.SubmitChanges();
+                return ("发图还原") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+
+            }
             else if (Content == "停图")
             {
                 Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey

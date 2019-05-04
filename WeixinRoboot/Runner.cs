@@ -150,7 +150,7 @@ namespace WeixinRoboot
 
 
                         {
-                            webpcset.PIC_StartHour = 8;
+                            webpcset.PIC_StartHour = 6;
                         }
 
 

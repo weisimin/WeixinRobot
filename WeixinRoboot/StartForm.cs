@@ -2372,13 +2372,13 @@ namespace WeixinRoboot
                 case "微":
                     return SendWXContent(Content, TempToUserID);
                 default:
-                    //dnconsole.exe action --name *** --key call.input --value ***
+                    //ldconsole.exe action --name *** --key call.input --value ***
                     //NoxConsole.exe action –name *** –key call.input –value ***
-                    Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == TempToUserID);
+                  // var findenum = InjectWins.Where(t => t.WX_UserTMPID == TempToUserID);
 
                     //if (findenum != null && cb_adbnoxmode.Checked == true && WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
                     //{
-                    //    CmdRun(tb_Leidian.Text, " dnconsole.exe " + "–name " + findenum.WX_UserName + " –key call.input –value " + Content);
+                    //    CmdRun(tb_Leidian.Text, " ldconsole.exe " + "–name " + findenum.WX_UserName + " –key call.input –value " + Content);
                     //}
                     //if (findenum != null && cb_adbnoxmode.Checked == true && WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
                     //{
@@ -8919,8 +8919,8 @@ namespace WeixinRoboot
             if (cb_adbleidianmode.Checked == true && tb_LeidianPath.Text != "")
             {
                 CmdRun(tb_LeidianPath.Text, "adb devices");
-                string cmdr = CmdRun(tb_LeidianPath.Text, "dnconsole.exe list2");
-                ShowEnumtors(cmdr, SourceLeidianList, "dnconsole.exe list2");
+                string cmdr = CmdRun(tb_LeidianPath.Text, "ldconsole.exe list2");
+                ShowEnumtors(cmdr, SourceLeidianList, "ldconsole.exe list2");
             }
             //}));
 
@@ -9280,6 +9280,9 @@ namespace WeixinRoboot
 
         private void btn_InjectAndDo_Click(object sender, EventArgs e)
         {
+
+            InjectWins.Clear();
+
             NetFramework.WindowsApi.EnumWindows(new NetFramework.WindowsApi.CallBack(EnumWinsCallBack), 0);
             MI_GameLogManulDeal.Enabled = true;
             MI_Bouns_Manul.Enabled = true;
@@ -9321,7 +9324,6 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
 
             StringBuilder sb = new StringBuilder(512);
             NetFramework.WindowsApi.GetClassNameW(hwnd, sb, sb.Capacity);
@@ -9409,9 +9411,12 @@ namespace WeixinRoboot
 
 
                     }//数据库不存在
+                    
                     if (InjectWins.SingleOrDefault(t =>
-                        t.WX_UserName == NewTitle.Replace("智能发图", "")
-               && t.WX_SourceType == Enum.GetName(typeof(PCSourceType), WindowclassToSourceType(sb.ToString()))
+                                 (t.WX_UserName == NewTitle.Replace("智能发图", "")
+                        && t.WX_SourceType == Enum.GetName(typeof(PCSourceType), WindowclassToSourceType(sb.ToString()))
+                                 )
+                        
                         ) == null)
                     {
                         Linq.WX_PCSendPicSetting loadset = winsdb.WX_PCSendPicSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -9449,6 +9454,10 @@ namespace WeixinRoboot
 
 
                     }//内存对象无
+                    else { 
+                    
+                    
+                    }
                 }//剔除无效的窗口
 
 
@@ -9873,9 +9882,10 @@ namespace WeixinRoboot
                     fs.Close();
                     fs.Dispose();
                     string SendText = Encoding.UTF8.GetString(ToSend);
-                    Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
-
-                    if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                    var findenums = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
+                    foreach (var findenum in findenums)
+                    {
+                      if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
                     {
                         AdbSendText(findenum.WX_UserName, PCSourceType.雷电, FileText);
                         return;
@@ -10041,7 +10051,9 @@ namespace WeixinRoboot
                             NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
                         }));// invoke 结束
                     }
-                    #endregion
+                    #endregion  
+                    }
+                    
 
 
 
@@ -10213,20 +10225,23 @@ namespace WeixinRoboot
                             File.WriteAllText(Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt", SendText);
 
                         #endregion
-                            Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
-                            if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
-                            {
-                                AdbSendText(findenum.WX_UserName, PCSourceType.雷电, Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt");
+                           var findenums = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
+                           foreach (var findenum in findenums)
+                           {
+                               if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                               {
+                                   AdbSendText(findenum.WX_UserName, PCSourceType.雷电, Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt");
 
-                                return;
+                                   return;
 
-                            }
-                            if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
-                            {
-                                AdbSendText(findenum.WX_UserName, PCSourceType.夜神, Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt");
+                               }
+                               if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
+                               {
+                                   AdbSendText(findenum.WX_UserName, PCSourceType.夜神, Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt");
 
-                                return;
-                            }
+                                   return;
+                               }
+                           }
                         #endregion
                         }//lock
 
@@ -10295,29 +10310,29 @@ namespace WeixinRoboot
             {
 
 
-                //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
-                //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
-                //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
+                //ldconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
+                //ldconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
+                //ldconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
 
                 // adb shell rm /sdcard/0.txt
                 //adb push D:\file.txt system/
                 // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
 
-                //CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + EnumName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
+                //CmdRun(tb_LeidianPath.Text, " ldconsole.exe adb --name " + EnumName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
 
 
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"  shell rm /sdcard/0.txt  \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe " + "adb --name " + EnumName + " --command  \"  shell rm /sdcard/0.txt  \"");
 
 
 
 
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"  push " + PCFilePath + " /sdcard/0.txt  \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe " + "adb --name " + EnumName + " --command  \"  push " + PCFilePath + " /sdcard/0.txt  \"");
 
-                //CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 90 440 \"");
+                //CmdRun(tb_LeidianPath.Text, "ldconsole.exe adb --name " + EnumName + "  --command \"shell input tap 90 440 \"");
 
 
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \" shell am broadcast -a ADB_INPUT_SF --es msg  0.txt \"");
-                //CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 163 425 \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe " + "adb --name " + EnumName + " --command  \" shell am broadcast -a ADB_INPUT_SF --es msg  0.txt \"");
+                //CmdRun(tb_LeidianPath.Text, "ldconsole.exe adb --name " + EnumName + "  --command \"shell input tap 163 425 \"");
 
 
 
@@ -10328,7 +10343,7 @@ namespace WeixinRoboot
                 //NoxConsole.exe adb -name:夜神模拟器 -command:" shell input tap 332 616"
                 //NoxConsole.exe adb -name:夜神模拟器 -command:" shell uiautomator dump /sdcard/1.xml"
 
-                //CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb -name:" + EnumName + " --command: \" shell am broadcast -a ADB_INPUT_CHARS --eia chars '" + ToAdb + "'\"");
+                //CmdRun(tb_LeidianPath.Text, "ldconsole.exe " + "adb -name:" + EnumName + " --command: \" shell am broadcast -a ADB_INPUT_CHARS --eia chars '" + ToAdb + "'\"");
                 File.Delete(PCFilePath);
             }
 
@@ -10344,35 +10359,35 @@ namespace WeixinRoboot
             }
             if (EnumType == PCSourceType.雷电)
             {
-                //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
-                //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
-                //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
+                //ldconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
+                //ldconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
+                //ldconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
 
                 // adb shell rm /sdcard/0.txt
                 //adb push D:\file.txt system/
                 // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
 
-                CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + EnumName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
+                CmdRun(tb_LeidianPath.Text, " ldconsole.exe adb --name " + EnumName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
 
 
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"  shell rm /sdcard/0.jpg  \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe " + "adb --name " + EnumName + " --command  \"  shell rm /sdcard/0.jpg  \"");
 
 
 
 
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"  push " + PCFilePath + " /sdcard/0.jpg  \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe " + "adb --name " + EnumName + " --command  \"  push " + PCFilePath + " /sdcard/0.jpg  \"");
 
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb --name " + EnumName + " --command  \"   shell am broadcast -a android.intent.action.MEDIA_MOUNTED -d file:///sdcard/  \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe " + "adb --name " + EnumName + " --command  \"   shell am broadcast -a android.intent.action.MEDIA_MOUNTED -d file:///sdcard/  \"");
 
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 90 452 \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe adb --name " + EnumName + "  --command \"shell input tap 90 452 \"");
                 Thread.Sleep(50);
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 163 429 \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe adb --name " + EnumName + "  --command \"shell input tap 163 429 \"");
                 Thread.Sleep(50);
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 37 368 \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe adb --name " + EnumName + "  --command \"shell input tap 37 368 \"");
                 Thread.Sleep(50);
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 27 71 \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe adb --name " + EnumName + "  --command \"shell input tap 27 71 \"");
                 Thread.Sleep(50);
-                CmdRun(tb_LeidianPath.Text, "dnconsole.exe adb --name " + EnumName + "  --command \"shell input tap 155 30 \"");
+                CmdRun(tb_LeidianPath.Text, "ldconsole.exe adb --name " + EnumName + "  --command \"shell input tap 155 30 \"");
             }
             if (EnumType == PCSourceType.夜神)
             {
@@ -10380,7 +10395,7 @@ namespace WeixinRoboot
                 //NoxConsole.exe adb -name:夜神模拟器 -command:" shell input tap 332 616"
                 //NoxConsole.exe adb -name:夜神模拟器 -command:" shell uiautomator dump /sdcard/1.xml"
 
-                //CmdRun(tb_LeidianPath.Text, "dnconsole.exe " + "adb -name:" + EnumName + " --command: \" shell am broadcast -a ADB_INPUT_CHARS --eia chars '" + ToAdb + "'\"");
+                //CmdRun(tb_LeidianPath.Text, "ldconsole.exe " + "adb -name:" + EnumName + " --command: \" shell am broadcast -a ADB_INPUT_CHARS --eia chars '" + ToAdb + "'\"");
 
             }
 
@@ -10392,9 +10407,10 @@ namespace WeixinRoboot
             {
                 try
                 {
-                    Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
-
-                    if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                    var findenums = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
+                    foreach (var findenum in findenums)
+                    {
+                       if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
                     {
                         AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, FileImage);
                     }
@@ -10456,7 +10472,9 @@ namespace WeixinRoboot
 
 
                         }));// invoke 结束
+                    }  
                     }
+                   
                 }
                 catch (Exception AnyError)
                 {
@@ -10470,8 +10488,10 @@ namespace WeixinRoboot
             {
                 try
                 {
-                    Linq.WX_PCSendPicSetting findenum = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
-                    MemoryStream ms = new MemoryStream(FileImageByte);
+                   var findenums = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
+                   foreach (var findenum in findenums)
+                   {
+                      MemoryStream ms = new MemoryStream(FileImageByte);
                     Image tosave = Image.FromStream(ms);
                     string NewFileName = Application.StartupPath + "\\EmuFile\\" + Guid.NewGuid().ToString() + ".jpg";
                     tosave.Save(NewFileName);
@@ -10541,7 +10561,10 @@ namespace WeixinRoboot
 
 
                         }));// invoke 结束
-                    }
+                    }  
+                   }
+
+                   
                 }
                 catch (Exception AnyError)
                 {
@@ -11036,8 +11059,8 @@ namespace WeixinRoboot
             }
 
 
-            Linq.WX_PCSendPicSetting pcset = InjectWins.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
-            if (pcset == null)
+            var pcsets = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
+            if (pcsets.Count() == 0)
             {
                 return;
             }
@@ -11056,7 +11079,7 @@ namespace WeixinRoboot
             string GameFullLocalPeriod = "";
             bool ShiShiCaiSuccess = false;
             string ShiShiCaiErrorMessage = "";
-            Linq.ProgramLogic.ShiShiCaiMode subm = GetMode(pcset);
+            Linq.ProgramLogic.ShiShiCaiMode subm = GetMode(pcsets.First());
 
             Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod((DateTime.Now.AddSeconds(-30)), "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, false, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm, true);
 
@@ -11067,11 +11090,11 @@ namespace WeixinRoboot
             }
             #endregion
 
-            if ((pcset.PreSendPeriod != GameFullPeriod || pcset == null) && (GameFullPeriod != ""))
+            if ((pcsets.First().PreSendPeriod != GameFullPeriod || pcsets.First() == null) && (GameFullPeriod != ""))
             {
                 string ReturnSend = "##" + Environment.NewLine
                         + "=======休战=======" + Environment.NewLine
-                        + "本轮攻击" + (pcset.PreSendPeriod == null ? "" : (pcset.PreSendPeriod.Length >= 3 ? pcset.PreSendPeriod.Substring(pcset.PreSendPeriod.Length - 3, 3) : pcset.PreSendPeriod)) + "结束" + Environment.NewLine
+                        + "本轮攻击" + (pcsets.First().PreSendPeriod == null ? "" : (pcsets.First().PreSendPeriod.Length >= 3 ? pcsets.First().PreSendPeriod.Substring(pcsets.First().PreSendPeriod.Length - 3, 3) : pcsets.First().PreSendPeriod)) + "结束" + Environment.NewLine
                         + "请各参战玩家等待" + Environment.NewLine
                         + "下一回合的开始" + Environment.NewLine
                         + "====================" + Environment.NewLine
@@ -11103,7 +11126,7 @@ namespace WeixinRoboot
                 {
                     SendRobotContent(ReturnSend, hwnd.ToString(), Enum.GetName(typeof(PCSourceType), PCSourceType.PCQ));
                 }
-                pcset.PreSendPeriod = GameFullPeriod;
+                pcsets.First().PreSendPeriod = GameFullPeriod;
                 //winsdb.SubmitChanges();
 
             }//发送结束
@@ -11112,10 +11135,10 @@ namespace WeixinRoboot
             #region 如果开奖队列有数据
 
 
-            if (pcset != null && pcset.NextSendString != null && pcset.NextSendString != "")
+            if (pcsets.First() != null && pcsets.First().NextSendString != null && pcsets.First().NextSendString != "")
             {
-                SendRobotContent(pcset.NextSendString, hwnd.ToString(), Enum.GetName(typeof(PCSourceType), PCSourceType.PCQ));
-                pcset.NextSendString = "";
+                SendRobotContent(pcsets.First().NextSendString, hwnd.ToString(), Enum.GetName(typeof(PCSourceType), PCSourceType.PCQ));
+                pcsets.First().NextSendString = "";
                 //winsdb.SubmitChanges();
             }
             #endregion
@@ -11175,7 +11198,7 @@ namespace WeixinRoboot
 
                         usr = RunnerF.MemberSource.AsEnumerable().SingleOrDefault
                                (t => t.Field<object>("User_ContactID").ToString() == prewhosay
-                               && t.Field<object>("User_SourceType").ToString() == pcset.WX_SourceType
+                               && t.Field<object>("User_SourceType").ToString() == pcsets.First().WX_SourceType
                                );
 
 
@@ -11183,7 +11206,7 @@ namespace WeixinRoboot
                         {
                             Linq.WX_UserReply newr = new Linq.WX_UserReply();
                             newr.aspnet_UserID = GlobalParam.UserKey;
-                            newr.WX_SourceType = pcset.WX_SourceType;
+                            newr.WX_SourceType = pcsets.First().WX_SourceType;
                             newr.WX_UserName = prewhosay;
                             db.WX_UserReply.InsertOnSubmit(newr);
                             db.SubmitChanges();
@@ -11195,14 +11218,14 @@ namespace WeixinRoboot
                             DataRow newset = RunnerF.MemberSource.NewRow();
                             newset.SetField("User_ContactID", prewhosay);
                             newset.SetField("User_ContactTEMPID", hwnd.ToString());
-                            newset.SetField("User_SourceType", pcset.WX_SourceType);
+                            newset.SetField("User_SourceType", pcsets.First().WX_SourceType);
 
                             #region 拉取注入设置的模式
 
-                            newset.SetField("User_ChongqingMode", pcset.ChongqingMode);
-                            newset.SetField("User_FiveMinuteMode", pcset.FiveMinuteMode);
-                            newset.SetField("User_HkMode", pcset.HkMode);
-                            newset.SetField("User_AozcMode", pcset.AozcMode);
+                            newset.SetField("User_ChongqingMode", pcsets.First().ChongqingMode);
+                            newset.SetField("User_FiveMinuteMode", pcsets.First().FiveMinuteMode);
+                            newset.SetField("User_HkMode", pcsets.First().HkMode);
+                            newset.SetField("User_AozcMode", pcsets.First().AozcMode);
 
                             #endregion
                             newset.SetField("User_Contact", prewhosay);
@@ -11215,7 +11238,7 @@ namespace WeixinRoboot
                             DataRow newset = RunnerF.MemberSource.NewRow();
                             newset.SetField("User_ContactID", prewhosay);
                             newset.SetField("User_ContactTEMPID", hwnd.ToString());
-                            newset.SetField("User_SourceType", pcset.WX_SourceType);
+                            newset.SetField("User_SourceType", pcsets.First().WX_SourceType);
                             newset.SetField("User_Contact", prewhosay);
 
                             newset.SetField("User_IsAdmin", userreply.IsAdmin);
@@ -11223,10 +11246,10 @@ namespace WeixinRoboot
 
                             #region 拉取注入设置的模式
 
-                            newset.SetField("User_ChongqingMode", pcset.ChongqingMode);
-                            newset.SetField("User_FiveMinuteMode", pcset.FiveMinuteMode);
-                            newset.SetField("User_HkMode", pcset.HkMode);
-                            newset.SetField("User_AozcMode", pcset.AozcMode);
+                            newset.SetField("User_ChongqingMode", pcsets.First().ChongqingMode);
+                            newset.SetField("User_FiveMinuteMode", pcsets.First().FiveMinuteMode);
+                            newset.SetField("User_HkMode", pcsets.First().HkMode);
+                            newset.SetField("User_AozcMode", pcsets.First().AozcMode);
 
                             #endregion
 
@@ -11327,7 +11350,7 @@ namespace WeixinRoboot
 
 
                     Linq.WX_UserReply checkl = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
-                                           && t.WX_SourceType == pcset.WX_SourceType
+                                           && t.WX_SourceType == pcsets.First().WX_SourceType
                                            && t.WX_UserName == prewhosay
                                            );
 
@@ -11339,7 +11362,7 @@ namespace WeixinRoboot
                         string Return = NewWXContent(
                              RequestTime
                              , NewContent
-                             , usr, pcset.WX_SourceType
+                             , usr, pcsets.First().WX_SourceType
                              , (newloadreply.IsAdmin.HasValue ? newloadreply.IsAdmin.Value : false)
                              , MessageIndex, false, WindowName
                              );
@@ -11374,7 +11397,7 @@ namespace WeixinRoboot
                             string ReplaceNewContent = ReplaceWhoSayAndContent[1];
 
                             var replylog = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
-                                && t.WX_SourceType == pcset.WX_SourceType
+                                && t.WX_SourceType == pcsets.First().WX_SourceType
                                 && t.WX_UserName == prewhosay
                                 && t.ReceiveTime == RequestTime
                                 && t.ReceiveIndex == MessageIndex
@@ -11384,7 +11407,7 @@ namespace WeixinRoboot
                                 Linq.WX_UserReplyLog newl = new Linq.WX_UserReplyLog();
                                 newl.aspnet_UserID = GlobalParam.UserKey;
                                 newl.WX_UserName = prewhosay;
-                                newl.WX_SourceType = pcset.WX_SourceType;
+                                newl.WX_SourceType = pcsets.First().WX_SourceType;
                                 newl.SourceType = "人工";
                                 newl.ReceiveTime = RequestTime;
                                 newl.ReceiveIndex = MessageIndex;
@@ -11401,7 +11424,7 @@ namespace WeixinRoboot
 
                             var rows = RunnerF.MemberSource.AsEnumerable().Where
                                    (t => t.Field<string>("User_ContactID") == ReplaceWhoSay
-                                   && t.Field<string>("User_SourceType") == pcset.WX_SourceType
+                                   && t.Field<string>("User_SourceType") == pcsets.First().WX_SourceType
                                    );
                             DataRow ref_usr = null;
                             if (rows.Count() > 0)
@@ -14016,8 +14039,8 @@ namespace WeixinRoboot
                 }
                 if (cb_adbleidianmode.Checked == true && tb_leidiansharepath.Text != "")
                 {
-                    string cmdr = CmdRun(tb_LeidianPath.Text, "dnconsole.exe list2");
-                    ShowEnumtors(cmdr, SourceLeidianList, "dnconsole.exe list2");
+                    string cmdr = CmdRun(tb_LeidianPath.Text, "ldconsole.exe list2");
+                    ShowEnumtors(cmdr, SourceLeidianList, "ldconsole.exe list2");
                 }
 
 
@@ -14065,13 +14088,13 @@ namespace WeixinRoboot
                 {
                     if (cb_adbnoxmode.Checked == true)
                     {
-                        CmdRun(tb_NoxPath.Text, " dnconsole.exe adb --name 高三二班重庆彩  --command \"shell  input swipe\" ");
+                        CmdRun(tb_NoxPath.Text, " ldconsole.exe adb --name 高三二班重庆彩  --command \"shell  input swipe\" ");
                     }
                     if (cb_adbleidianmode.Checked == true)
                     {
-                        CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + injitem.WX_UserName + "  --command \"shell  input swipe 181 246 181 510\" ");
-                        CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + injitem.WX_UserName + "  --command \" shell uiautomator dump /sdcard/bill.xml\" ");
-                        CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + injitem.WX_UserName + "  --command \" shell uiautomator dump /sdcard/bill.xml\" ");
+                        CmdRun(tb_LeidianPath.Text, " ldconsole.exe adb --name " + injitem.WX_UserName + "  --command \"shell  input swipe 181 246 181 510\" ");
+                        CmdRun(tb_LeidianPath.Text, " ldconsole.exe adb --name " + injitem.WX_UserName + "  --command \" shell uiautomator dump /sdcard/bill.xml\" ");
+                        CmdRun(tb_LeidianPath.Text, " ldconsole.exe adb --name " + injitem.WX_UserName + "  --command \" shell uiautomator dump /sdcard/bill.xml\" ");
 
                     }
 
@@ -14103,7 +14126,7 @@ namespace WeixinRoboot
                 }
                 if (item.WX_SourceType == "雷电")
                 {
-                    CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + item.WX_UserName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
+                    CmdRun(tb_LeidianPath.Text, " ldconsole.exe adb --name " + item.WX_UserName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
 
                     CmdRun(tb_LeidianPath.Text, "dnconsole uninstallapp  --name " + item.WX_UserName + " --packagename com.android.adbkeyboard");
                     CmdRun(tb_LeidianPath.Text, "dnconsole installapp --name  " + item.WX_UserName + " --filename " + Application.StartupPath + "\\apk\\keyboardservice.apk");
@@ -14132,15 +14155,15 @@ namespace WeixinRoboot
                 if (item.WX_SourceType == "雷电")
                 {
 
-                    //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
-                    //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
-                    //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
+                    //ldconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
+                    //ldconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
+                    //ldconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
 
                     // adb shell rm /sdcard/0.txt
                     //adb push D:\file.txt system/
                     // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
-                    CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + item.WX_UserName + "  --command \"  shell ime enable com.android.adbkeyboard/.AdbIME \" ");
-                    CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + item.WX_UserName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
+                    CmdRun(tb_LeidianPath.Text, " ldconsole.exe adb --name " + item.WX_UserName + "  --command \"  shell ime enable com.android.adbkeyboard/.AdbIME \" ");
+                    CmdRun(tb_LeidianPath.Text, " ldconsole.exe adb --name " + item.WX_UserName + "  --command \"  shell ime set com.android.adbkeyboard/.AdbIME \" ");
                     //adb shell ime set com.android.adbkeyboard/.AdbIME  
                 }
                 else if (item.WX_SourceType == "夜神")
@@ -14162,14 +14185,14 @@ namespace WeixinRoboot
                 if (item.WX_SourceType == "雷电")
                 {
 
-                    //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
-                    //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
-                    //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
+                    //ldconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
+                    //ldconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
+                    //ldconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
 
                     // adb shell rm /sdcard/0.txt
                     //adb push D:\file.txt system/
                     // adb shell am broadcast -a ADB_INPUT_SF --es msg 0.txt
-                    CmdRun(tb_LeidianPath.Text, " dnconsole.exe adb --name " + item.WX_UserName + "  --command \"shell ime set  com.android.emu.inputservice/.InputService \" ");
+                    CmdRun(tb_LeidianPath.Text, " ldconsole.exe adb --name " + item.WX_UserName + "  --command \"shell ime set  com.android.emu.inputservice/.InputService \" ");
 
                     //adb shell ime set com.android.adbkeyboard/.AdbIME  
                 }
@@ -14188,9 +14211,9 @@ namespace WeixinRoboot
             if (cb_adbleidianmode.Checked == true)
             {
 
-                //dnconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
-                //dnconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
-                //dnconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
+                //ldconsole.exe action --name 高三二班重庆彩 --key call.input --value 中国123
+                //ldconsole.exe adb --name 高三二班重庆彩  --command "shell input tap 332 616 "
+                //ldconsole.exe adb --name 高三二班重庆彩  --command " shell uiautomator dump /sdcard/1.xml"
 
                 // adb shell rm /sdcard/0.txt
                 //adb push D:\file.txt system/

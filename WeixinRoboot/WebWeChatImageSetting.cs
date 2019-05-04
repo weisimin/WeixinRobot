@@ -216,7 +216,7 @@ namespace WeixinRoboot
 
                     if (data.PIC_StartHour.HasValue==false)
                     {
-                        data.PIC_StartHour = 8;
+                        data.PIC_StartHour = 6;
                     }
                     if (data.PIC_StartMinute.HasValue == false)
                     {
