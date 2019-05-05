@@ -1867,18 +1867,18 @@ namespace WeixinRoboot
                                 SendChongqingResultPic(GetMode(SettingUserName == "" ? contacts : Settingcontacts), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
 
 
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep)
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep && ( GameType!=""))
                                 {
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
                                 }
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop)
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop && ( GameType != ""))
                                 {
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
                                 }
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime)
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime )
                                 {
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType, (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, contacts, SourceType);
@@ -1918,8 +1918,10 @@ namespace WeixinRoboot
                                             ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5));
                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
                                             break;
-
-
+                                        case "":
+                                            ToSendGameType =  (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode),GetMode((SettingUserName == "" ? contacts : Settingcontacts))));
+                                            ToSendEnumType = GetMode((SettingUserName == "" ? contacts : Settingcontacts));
+                                            break;
                                         default:
                                             break;
                                     }
@@ -8046,7 +8048,7 @@ namespace WeixinRoboot
             Int32 TotalIndexV24 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV24 = 60;
+                TotalIndexV24 = 30;
             }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
@@ -8255,7 +8257,7 @@ namespace WeixinRoboot
             Int32 TotalIndexV12 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV12 = 60;
+                TotalIndexV12 = 30;
             }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
@@ -8465,7 +8467,7 @@ namespace WeixinRoboot
             Int32 TotalIndexV6 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV6 = 60;
+                TotalIndexV6 = 30;
             }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {

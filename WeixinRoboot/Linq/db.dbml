@@ -538,66 +538,6 @@
       <Column Name="Thread_XinJiangShiShiCai" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.WX_PCSendPicSetting" Member="WX_PCSendPicSetting">
-    <Type Name="WX_PCSendPicSetting">
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="OpenResult" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="NumberDragonTxt" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Is_Reply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="OpenPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="OpenHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="OpenMinue" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="BounsTimeStopPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="EndPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="EndHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="EndMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="DuringFiveMinute" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="OpenPlease" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="DragonTigerOne" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="WechatCard" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="LastPeriod" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Text1" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
-      <Column Name="Text1Minute" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Text2" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
-      <Column Name="Text2Minute" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Text3" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
-      <Column Name="Text3Minute" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="NumberPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="DragonPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="FootballPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="BasketballPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="BallLink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="BallInterval" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="WX_UserTMPID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Can_Use" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="TMP_Basketball" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="TMP_Football" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="TMP_Text1Time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="TMP_Text2Time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="TMP_Text3Time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="GroupOwner" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
-      <Column Name="PreSendPeriod" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="NextSendString" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
-      <Column Name="NumberText" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="FiveMinuteMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="HkMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="AozcMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ChongqingMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="RefreshBill" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Tengxunshifen" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="BeijingsaichePK10" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Tengxunwufen" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="VRChongqing" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="XinJiangMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Text1PicPath" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
-      <Column Name="NiuNiuPic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="NoBigSmallSingleDoublePIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="NiuNiuBigSmallPic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="WX_PCSendPicSetting_WX_PCSendPicSettingRandomTalk" Member="WX_PCSendPicSettingRandomTalk" ThisKey="aspnet_UserID,WX_UserName,WX_SourceType" OtherKey="aspnet_UserID,WX_UserName,WX_SourceType" Type="WX_PCSendPicSettingRandomTalk" />
-    </Type>
-  </Table>
   <Table Name="dbo.aspnet_UserVirtualFile" Member="aspnet_UserVirtualFile">
     <Type Name="aspnet_UserVirtualFile">
       <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -659,6 +599,67 @@
       <Column Name="PIC_StartMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="PIC_EndHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Pic_EndMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_PCSendPicSetting" Member="WX_PCSendPicSetting">
+    <Type Name="WX_PCSendPicSetting">
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="OpenResult" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NumberDragonTxt" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Is_Reply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="OpenPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="OpenHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OpenMinue" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BounsTimeStopPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="EndPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="EndHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EndMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DuringFiveMinute" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="OpenPlease" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DragonTigerOne" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="WechatCard" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LastPeriod" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Text1" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="Text1Minute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Text2" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="Text2Minute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Text3" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="Text3Minute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NumberPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DragonPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FootballPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="BasketballPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="BallLink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="BallInterval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="WX_UserTMPID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Can_Use" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="TMP_Text1Time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TMP_Text2Time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TMP_Text3Time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TMP_Football" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TMP_Basketball" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="GroupOwner" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="PreSendPeriod" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="NextSendString" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="NumberText" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FiveMinuteMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HkMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="AozcMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ChongqingMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RefreshBill" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Tengxunshifen" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Tengxunwufen" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="BeijingsaichePK10" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VRChongqing" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="XinJiangMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Text1PicPath" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="NiuNiuPic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NoBigSmallSingleDoublePIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NiuNiuBigSmallPic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PreSendGameType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="WX_PCSendPicSetting_WX_PCSendPicSettingRandomTalk" Member="WX_PCSendPicSettingRandomTalk" ThisKey="aspnet_UserID,WX_UserName,WX_SourceType" OtherKey="aspnet_UserID,WX_UserName,WX_SourceType" Type="WX_PCSendPicSettingRandomTalk" />
     </Type>
   </Table>
 </Database>
