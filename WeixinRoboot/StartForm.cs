@@ -1846,9 +1846,9 @@ namespace WeixinRoboot
                         #endregion
 
                         #region "发图"
-                        if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4"
-                            || (Content.Contains(Environment.NewLine) == false && Content.Contains("图"))
-                                    )
+                        //if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4"
+                        //    || (Content.Contains(Environment.NewLine) == false && Content.Contains("图"))
+                        //            )
                         {
                             string GameType = "";
                             string PicType = "";
@@ -1867,23 +1867,27 @@ namespace WeixinRoboot
                                 SendChongqingResultPic(GetMode(SettingUserName == "" ? contacts : Settingcontacts), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
 
 
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep && ( GameType!=""))
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep && (MyOutResult != ""))
                                 {
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
                                 }
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop && ( GameType != ""))
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop && (MyOutResult != ""))
                                 {
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
                                 }
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime )
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime && (MyOutResult != ""))
                                 {
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType, (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, contacts, SourceType);
                                 }
-
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.RestoreDefault && (MyOutResult != ""))
+                                {
+                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("停止", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, contacts, SourceType);
+                                }
                                 if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
                                 {
                                     string ToSendGameType = "";
@@ -1919,6 +1923,7 @@ namespace WeixinRoboot
                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
                                             break;
                                         case "":
+                                            PicType = "上次";
                                             ToSendGameType =  (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode),GetMode((SettingUserName == "" ? contacts : Settingcontacts))));
                                             ToSendEnumType = GetMode((SettingUserName == "" ? contacts : Settingcontacts));
                                             break;
@@ -4704,7 +4709,7 @@ namespace WeixinRoboot
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data3_yixin" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
-
+                            webpcset.PreSendGameType = "龙虎";
 
                         }
                         Thread.Sleep(500);
@@ -4712,7 +4717,7 @@ namespace WeixinRoboot
                         if ((Mode == "All" && webpcset.NumberPIC == true) || (Mode == "图1图"))
                         {
                             SendRobotImageByte(StartForm.ReadVirtualFilebyte("Data" + GlobalParam.UserName + "_" + ToSendGameName + ".jpg", db), TEMPUserName, SourceType);
-
+                            webpcset.PreSendGameType = "图1";
                         }
 
                         //if ((Mode == "All" && webpcset.NumberAndDragonPIC == true) || (Mode == "图3"))
@@ -13736,7 +13741,7 @@ namespace WeixinRoboot
                     string Number = j_result["result"]["data"]["preDrawCode"].ToString();
 
                     SetNextPreriodHKSix(j_result["result"]["data"]["drawIssue"].ToString()
-                      , Convert.ToDateTime(j_result["result"]["data"]["drawTime"]), db);
+                      , Convert.ToDateTime(j_result["result"]["data"]["drawTime"].ToString()), db);
 
                     string[] Numbers = Number.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                     if (Numbers.Length >= 7)
@@ -13760,7 +13765,7 @@ namespace WeixinRoboot
                             newgr.Num5 = Convert.ToInt32(Numbers[4]);
                             newgr.Num6 = Convert.ToInt32(Numbers[5]);
                             newgr.NumSpec = Convert.ToInt32(Numbers[6]);
-                            newgr.GameTime = Convert.ToDateTime(j_result["result"]["data"]["preDrawTime"]);
+                            newgr.GameTime = Convert.ToDateTime(j_result["result"]["data"]["preDrawTime"].ToString());
                             newgr.AnmialSpec = Linq.ProgramLogic.NumberToAnmial(newgr.NumSpec.Value);
 
                             newgr.Anmial1 = Linq.ProgramLogic.NumberToAnmial(newgr.Num1.Value);
@@ -13803,7 +13808,7 @@ namespace WeixinRoboot
                         }
                         else
                         {
-                            gr.GameTime = Convert.ToDateTime(j_result["result"]["data"]["preDrawTime"]);
+                            gr.GameTime = Convert.ToDateTime(j_result["result"]["data"]["preDrawTime"].ToString());
 
                             gr.AnmialSpec = Linq.ProgramLogic.NumberToAnmial(gr.NumSpec.Value);
                             gr.Anmial1 = Linq.ProgramLogic.NumberToAnmial(gr.Num1.Value);
@@ -13887,7 +13892,7 @@ namespace WeixinRoboot
             JArray prs = (JArray)j_result_year["result"]["data"]["bodyList"];
             foreach (var item in prs)
             {
-                string perios = item["preDrawDate"].ToString().Substring(0, 4) + Convert.ToInt32(item["issue"]).ToString("000");
+                string perios = item["preDrawDate"].ToString().Substring(0, 4) + Convert.ToInt32(item["issue"].ToString()).ToString("000");
 
                 string Number_year = item["preDrawCode"].ToString();
                 string[] Numbers_year = Number_year.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -13922,7 +13927,7 @@ namespace WeixinRoboot
                         newgr.Anmial6 = Linq.ProgramLogic.NumberToAnmial(newgr.Num6.Value);
 
 
-                        newgr.GameTime = Convert.ToDateTime(item["preDrawDate"]);
+                        newgr.GameTime = Convert.ToDateTime(item["preDrawDate"].ToString());
                         db.SubmitChanges();
                         db.Game_ResultHKSix.InsertOnSubmit(newgr);
                         db.SubmitChanges();
@@ -13930,7 +13935,7 @@ namespace WeixinRoboot
                     }
                     else
                     {
-                        gr_year.GameTime = Convert.ToDateTime(item["preDrawDate"]);
+                        gr_year.GameTime = Convert.ToDateTime(item["preDrawDate"].ToString());
                         gr_year.AnmialSpec = Linq.ProgramLogic.NumberToAnmial(gr_year.NumSpec.Value);
                         gr_year.Anmial1 = Linq.ProgramLogic.NumberToAnmial(gr_year.Num1.Value);
                         gr_year.Anmial2 = Linq.ProgramLogic.NumberToAnmial(gr_year.Num2.Value);

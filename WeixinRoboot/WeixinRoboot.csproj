@@ -96,9 +96,6 @@
       <HintPath>..\packages\Brotli.NET.1.0.19\lib\net40\Brotli.NET.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HtmlAgilityPack">
-      <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -117,7 +114,8 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="XPathWebBrowserControl">
-      <HintPath>..\packages\xpath-webbrowser.XPathWebBrowser.1.0.8\lib\net45\XPathWebBrowserControl.dll</HintPath>
+      <HintPath>..\packages\XPathWebBrowser.1.0.10\lib\net45\XPathWebBrowserControl.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
