@@ -120,12 +120,12 @@ namespace WeixinRoboot.Linq
     partial void InsertWX_UserReply(WX_UserReply instance);
     partial void UpdateWX_UserReply(WX_UserReply instance);
     partial void DeleteWX_UserReply(WX_UserReply instance);
-    partial void InsertWX_WebSendPICSetting(WX_WebSendPICSetting instance);
-    partial void UpdateWX_WebSendPICSetting(WX_WebSendPICSetting instance);
-    partial void DeleteWX_WebSendPICSetting(WX_WebSendPICSetting instance);
     partial void InsertWX_PCSendPicSetting(WX_PCSendPicSetting instance);
     partial void UpdateWX_PCSendPicSetting(WX_PCSendPicSetting instance);
     partial void DeleteWX_PCSendPicSetting(WX_PCSendPicSetting instance);
+    partial void InsertWX_WebSendPICSetting(WX_WebSendPICSetting instance);
+    partial void UpdateWX_WebSendPICSetting(WX_WebSendPICSetting instance);
+    partial void DeleteWX_WebSendPICSetting(WX_WebSendPICSetting instance);
     #endregion
 		
 		public dbDataContext() : 
@@ -398,19 +398,19 @@ namespace WeixinRoboot.Linq
 			}
 		}
 		
-		public System.Data.Linq.Table<WX_WebSendPICSetting> WX_WebSendPICSetting
-		{
-			get
-			{
-				return this.GetTable<WX_WebSendPICSetting>();
-			}
-		}
-		
 		public System.Data.Linq.Table<WX_PCSendPicSetting> WX_PCSendPicSetting
 		{
 			get
 			{
 				return this.GetTable<WX_PCSendPicSetting>();
+			}
+		}
+		
+		public System.Data.Linq.Table<WX_WebSendPICSetting> WX_WebSendPICSetting
+		{
+			get
+			{
+				return this.GetTable<WX_WebSendPICSetting>();
 			}
 		}
 	}
@@ -12385,716 +12385,6 @@ namespace WeixinRoboot.Linq
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_WebSendPICSetting")]
-	public partial class WX_WebSendPICSetting : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _aspnet_UserID;
-		
-		private string _WX_UserName;
-		
-		private string _WX_SourceType;
-		
-		private System.Nullable<bool> _footballPIC;
-		
-		private System.Nullable<bool> _bassketballpic;
-		
-		private System.Nullable<bool> _balluclink;
-		
-		private System.Nullable<int> _ballinterval;
-		
-		private System.Nullable<bool> _card;
-		
-		private string _cardname;
-		
-		private System.Nullable<bool> _shishicailink;
-		
-		private System.Nullable<bool> _NumberPIC;
-		
-		private System.Nullable<bool> _dragonpic;
-		
-		private System.Nullable<bool> _numericlink;
-		
-		private System.Nullable<bool> _dragonlink;
-		
-		private System.Nullable<System.DateTime> _LastBallSendTime;
-		
-		private System.Nullable<bool> _NumberAndDragonPIC;
-		
-		private System.Nullable<bool> _ballend;
-		
-		private System.Nullable<bool> _ballstart;
-		
-		private System.Nullable<bool> _balllivepoint;
-		
-		private System.Nullable<bool> _HKSixResult;
-		
-		private System.Nullable<bool> _NumberDragonTxt;
-		
-		private System.Nullable<bool> _NiuNiuPic;
-		
-		private System.Nullable<bool> _NoBigSmallSingleDoublePIC;
-		
-		private System.Nullable<bool> _IsSendPIC;
-		
-		private System.Nullable<int> _PIC_StartHour;
-		
-		private System.Nullable<int> _PIC_StartMinute;
-		
-		private System.Nullable<int> _PIC_EndHour;
-		
-		private System.Nullable<int> _Pic_EndMinute;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void Onaspnet_UserIDChanging(System.Guid value);
-    partial void Onaspnet_UserIDChanged();
-    partial void OnWX_UserNameChanging(string value);
-    partial void OnWX_UserNameChanged();
-    partial void OnWX_SourceTypeChanging(string value);
-    partial void OnWX_SourceTypeChanged();
-    partial void OnfootballPICChanging(System.Nullable<bool> value);
-    partial void OnfootballPICChanged();
-    partial void OnbassketballpicChanging(System.Nullable<bool> value);
-    partial void OnbassketballpicChanged();
-    partial void OnballuclinkChanging(System.Nullable<bool> value);
-    partial void OnballuclinkChanged();
-    partial void OnballintervalChanging(System.Nullable<int> value);
-    partial void OnballintervalChanged();
-    partial void OncardChanging(System.Nullable<bool> value);
-    partial void OncardChanged();
-    partial void OncardnameChanging(string value);
-    partial void OncardnameChanged();
-    partial void OnshishicailinkChanging(System.Nullable<bool> value);
-    partial void OnshishicailinkChanged();
-    partial void OnNumberPICChanging(System.Nullable<bool> value);
-    partial void OnNumberPICChanged();
-    partial void OndragonpicChanging(System.Nullable<bool> value);
-    partial void OndragonpicChanged();
-    partial void OnnumericlinkChanging(System.Nullable<bool> value);
-    partial void OnnumericlinkChanged();
-    partial void OndragonlinkChanging(System.Nullable<bool> value);
-    partial void OndragonlinkChanged();
-    partial void OnLastBallSendTimeChanging(System.Nullable<System.DateTime> value);
-    partial void OnLastBallSendTimeChanged();
-    partial void OnNumberAndDragonPICChanging(System.Nullable<bool> value);
-    partial void OnNumberAndDragonPICChanged();
-    partial void OnballendChanging(System.Nullable<bool> value);
-    partial void OnballendChanged();
-    partial void OnballstartChanging(System.Nullable<bool> value);
-    partial void OnballstartChanged();
-    partial void OnballlivepointChanging(System.Nullable<bool> value);
-    partial void OnballlivepointChanged();
-    partial void OnHKSixResultChanging(System.Nullable<bool> value);
-    partial void OnHKSixResultChanged();
-    partial void OnNumberDragonTxtChanging(System.Nullable<bool> value);
-    partial void OnNumberDragonTxtChanged();
-    partial void OnNiuNiuPicChanging(System.Nullable<bool> value);
-    partial void OnNiuNiuPicChanged();
-    partial void OnNoBigSmallSingleDoublePICChanging(System.Nullable<bool> value);
-    partial void OnNoBigSmallSingleDoublePICChanged();
-    partial void OnIsSendPICChanging(System.Nullable<bool> value);
-    partial void OnIsSendPICChanged();
-    partial void OnPIC_StartHourChanging(System.Nullable<int> value);
-    partial void OnPIC_StartHourChanged();
-    partial void OnPIC_StartMinuteChanging(System.Nullable<int> value);
-    partial void OnPIC_StartMinuteChanged();
-    partial void OnPIC_EndHourChanging(System.Nullable<int> value);
-    partial void OnPIC_EndHourChanged();
-    partial void OnPic_EndMinuteChanging(System.Nullable<int> value);
-    partial void OnPic_EndMinuteChanged();
-    #endregion
-		
-		public WX_WebSendPICSetting()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid aspnet_UserID
-		{
-			get
-			{
-				return this._aspnet_UserID;
-			}
-			set
-			{
-				if ((this._aspnet_UserID != value))
-				{
-					this.Onaspnet_UserIDChanging(value);
-					this.SendPropertyChanging();
-					this._aspnet_UserID = value;
-					this.SendPropertyChanged("aspnet_UserID");
-					this.Onaspnet_UserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(350) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string WX_UserName
-		{
-			get
-			{
-				return this._WX_UserName;
-			}
-			set
-			{
-				if ((this._WX_UserName != value))
-				{
-					this.OnWX_UserNameChanging(value);
-					this.SendPropertyChanging();
-					this._WX_UserName = value;
-					this.SendPropertyChanged("WX_UserName");
-					this.OnWX_UserNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string WX_SourceType
-		{
-			get
-			{
-				return this._WX_SourceType;
-			}
-			set
-			{
-				if ((this._WX_SourceType != value))
-				{
-					this.OnWX_SourceTypeChanging(value);
-					this.SendPropertyChanging();
-					this._WX_SourceType = value;
-					this.SendPropertyChanged("WX_SourceType");
-					this.OnWX_SourceTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_footballPIC", DbType="Bit")]
-		public System.Nullable<bool> footballPIC
-		{
-			get
-			{
-				return this._footballPIC;
-			}
-			set
-			{
-				if ((this._footballPIC != value))
-				{
-					this.OnfootballPICChanging(value);
-					this.SendPropertyChanging();
-					this._footballPIC = value;
-					this.SendPropertyChanged("footballPIC");
-					this.OnfootballPICChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bassketballpic", DbType="Bit")]
-		public System.Nullable<bool> bassketballpic
-		{
-			get
-			{
-				return this._bassketballpic;
-			}
-			set
-			{
-				if ((this._bassketballpic != value))
-				{
-					this.OnbassketballpicChanging(value);
-					this.SendPropertyChanging();
-					this._bassketballpic = value;
-					this.SendPropertyChanged("bassketballpic");
-					this.OnbassketballpicChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_balluclink", DbType="Bit")]
-		public System.Nullable<bool> balluclink
-		{
-			get
-			{
-				return this._balluclink;
-			}
-			set
-			{
-				if ((this._balluclink != value))
-				{
-					this.OnballuclinkChanging(value);
-					this.SendPropertyChanging();
-					this._balluclink = value;
-					this.SendPropertyChanged("balluclink");
-					this.OnballuclinkChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ballinterval", DbType="Int")]
-		public System.Nullable<int> ballinterval
-		{
-			get
-			{
-				return this._ballinterval;
-			}
-			set
-			{
-				if ((this._ballinterval != value))
-				{
-					this.OnballintervalChanging(value);
-					this.SendPropertyChanging();
-					this._ballinterval = value;
-					this.SendPropertyChanged("ballinterval");
-					this.OnballintervalChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_card", DbType="Bit")]
-		public System.Nullable<bool> card
-		{
-			get
-			{
-				return this._card;
-			}
-			set
-			{
-				if ((this._card != value))
-				{
-					this.OncardChanging(value);
-					this.SendPropertyChanging();
-					this._card = value;
-					this.SendPropertyChanged("card");
-					this.OncardChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cardname", DbType="NVarChar(50)")]
-		public string cardname
-		{
-			get
-			{
-				return this._cardname;
-			}
-			set
-			{
-				if ((this._cardname != value))
-				{
-					this.OncardnameChanging(value);
-					this.SendPropertyChanging();
-					this._cardname = value;
-					this.SendPropertyChanged("cardname");
-					this.OncardnameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_shishicailink", DbType="Bit")]
-		public System.Nullable<bool> shishicailink
-		{
-			get
-			{
-				return this._shishicailink;
-			}
-			set
-			{
-				if ((this._shishicailink != value))
-				{
-					this.OnshishicailinkChanging(value);
-					this.SendPropertyChanging();
-					this._shishicailink = value;
-					this.SendPropertyChanged("shishicailink");
-					this.OnshishicailinkChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NumberPIC", DbType="Bit")]
-		public System.Nullable<bool> NumberPIC
-		{
-			get
-			{
-				return this._NumberPIC;
-			}
-			set
-			{
-				if ((this._NumberPIC != value))
-				{
-					this.OnNumberPICChanging(value);
-					this.SendPropertyChanging();
-					this._NumberPIC = value;
-					this.SendPropertyChanged("NumberPIC");
-					this.OnNumberPICChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dragonpic", DbType="Bit")]
-		public System.Nullable<bool> dragonpic
-		{
-			get
-			{
-				return this._dragonpic;
-			}
-			set
-			{
-				if ((this._dragonpic != value))
-				{
-					this.OndragonpicChanging(value);
-					this.SendPropertyChanging();
-					this._dragonpic = value;
-					this.SendPropertyChanged("dragonpic");
-					this.OndragonpicChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_numericlink", DbType="Bit")]
-		public System.Nullable<bool> numericlink
-		{
-			get
-			{
-				return this._numericlink;
-			}
-			set
-			{
-				if ((this._numericlink != value))
-				{
-					this.OnnumericlinkChanging(value);
-					this.SendPropertyChanging();
-					this._numericlink = value;
-					this.SendPropertyChanged("numericlink");
-					this.OnnumericlinkChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dragonlink", DbType="Bit")]
-		public System.Nullable<bool> dragonlink
-		{
-			get
-			{
-				return this._dragonlink;
-			}
-			set
-			{
-				if ((this._dragonlink != value))
-				{
-					this.OndragonlinkChanging(value);
-					this.SendPropertyChanging();
-					this._dragonlink = value;
-					this.SendPropertyChanged("dragonlink");
-					this.OndragonlinkChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastBallSendTime", DbType="DateTime")]
-		public System.Nullable<System.DateTime> LastBallSendTime
-		{
-			get
-			{
-				return this._LastBallSendTime;
-			}
-			set
-			{
-				if ((this._LastBallSendTime != value))
-				{
-					this.OnLastBallSendTimeChanging(value);
-					this.SendPropertyChanging();
-					this._LastBallSendTime = value;
-					this.SendPropertyChanged("LastBallSendTime");
-					this.OnLastBallSendTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NumberAndDragonPIC", DbType="Bit")]
-		public System.Nullable<bool> NumberAndDragonPIC
-		{
-			get
-			{
-				return this._NumberAndDragonPIC;
-			}
-			set
-			{
-				if ((this._NumberAndDragonPIC != value))
-				{
-					this.OnNumberAndDragonPICChanging(value);
-					this.SendPropertyChanging();
-					this._NumberAndDragonPIC = value;
-					this.SendPropertyChanged("NumberAndDragonPIC");
-					this.OnNumberAndDragonPICChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ballend", DbType="Bit")]
-		public System.Nullable<bool> ballend
-		{
-			get
-			{
-				return this._ballend;
-			}
-			set
-			{
-				if ((this._ballend != value))
-				{
-					this.OnballendChanging(value);
-					this.SendPropertyChanging();
-					this._ballend = value;
-					this.SendPropertyChanged("ballend");
-					this.OnballendChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ballstart", DbType="Bit")]
-		public System.Nullable<bool> ballstart
-		{
-			get
-			{
-				return this._ballstart;
-			}
-			set
-			{
-				if ((this._ballstart != value))
-				{
-					this.OnballstartChanging(value);
-					this.SendPropertyChanging();
-					this._ballstart = value;
-					this.SendPropertyChanged("ballstart");
-					this.OnballstartChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_balllivepoint", DbType="Bit")]
-		public System.Nullable<bool> balllivepoint
-		{
-			get
-			{
-				return this._balllivepoint;
-			}
-			set
-			{
-				if ((this._balllivepoint != value))
-				{
-					this.OnballlivepointChanging(value);
-					this.SendPropertyChanging();
-					this._balllivepoint = value;
-					this.SendPropertyChanged("balllivepoint");
-					this.OnballlivepointChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HKSixResult", DbType="Bit")]
-		public System.Nullable<bool> HKSixResult
-		{
-			get
-			{
-				return this._HKSixResult;
-			}
-			set
-			{
-				if ((this._HKSixResult != value))
-				{
-					this.OnHKSixResultChanging(value);
-					this.SendPropertyChanging();
-					this._HKSixResult = value;
-					this.SendPropertyChanged("HKSixResult");
-					this.OnHKSixResultChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NumberDragonTxt", DbType="Bit")]
-		public System.Nullable<bool> NumberDragonTxt
-		{
-			get
-			{
-				return this._NumberDragonTxt;
-			}
-			set
-			{
-				if ((this._NumberDragonTxt != value))
-				{
-					this.OnNumberDragonTxtChanging(value);
-					this.SendPropertyChanging();
-					this._NumberDragonTxt = value;
-					this.SendPropertyChanged("NumberDragonTxt");
-					this.OnNumberDragonTxtChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NiuNiuPic", DbType="Bit")]
-		public System.Nullable<bool> NiuNiuPic
-		{
-			get
-			{
-				return this._NiuNiuPic;
-			}
-			set
-			{
-				if ((this._NiuNiuPic != value))
-				{
-					this.OnNiuNiuPicChanging(value);
-					this.SendPropertyChanging();
-					this._NiuNiuPic = value;
-					this.SendPropertyChanged("NiuNiuPic");
-					this.OnNiuNiuPicChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NoBigSmallSingleDoublePIC", DbType="Bit")]
-		public System.Nullable<bool> NoBigSmallSingleDoublePIC
-		{
-			get
-			{
-				return this._NoBigSmallSingleDoublePIC;
-			}
-			set
-			{
-				if ((this._NoBigSmallSingleDoublePIC != value))
-				{
-					this.OnNoBigSmallSingleDoublePICChanging(value);
-					this.SendPropertyChanging();
-					this._NoBigSmallSingleDoublePIC = value;
-					this.SendPropertyChanged("NoBigSmallSingleDoublePIC");
-					this.OnNoBigSmallSingleDoublePICChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsSendPIC", DbType="Bit")]
-		public System.Nullable<bool> IsSendPIC
-		{
-			get
-			{
-				return this._IsSendPIC;
-			}
-			set
-			{
-				if ((this._IsSendPIC != value))
-				{
-					this.OnIsSendPICChanging(value);
-					this.SendPropertyChanging();
-					this._IsSendPIC = value;
-					this.SendPropertyChanged("IsSendPIC");
-					this.OnIsSendPICChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PIC_StartHour", DbType="Int")]
-		public System.Nullable<int> PIC_StartHour
-		{
-			get
-			{
-				return this._PIC_StartHour;
-			}
-			set
-			{
-				if ((this._PIC_StartHour != value))
-				{
-					this.OnPIC_StartHourChanging(value);
-					this.SendPropertyChanging();
-					this._PIC_StartHour = value;
-					this.SendPropertyChanged("PIC_StartHour");
-					this.OnPIC_StartHourChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PIC_StartMinute", DbType="Int")]
-		public System.Nullable<int> PIC_StartMinute
-		{
-			get
-			{
-				return this._PIC_StartMinute;
-			}
-			set
-			{
-				if ((this._PIC_StartMinute != value))
-				{
-					this.OnPIC_StartMinuteChanging(value);
-					this.SendPropertyChanging();
-					this._PIC_StartMinute = value;
-					this.SendPropertyChanged("PIC_StartMinute");
-					this.OnPIC_StartMinuteChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PIC_EndHour", DbType="Int")]
-		public System.Nullable<int> PIC_EndHour
-		{
-			get
-			{
-				return this._PIC_EndHour;
-			}
-			set
-			{
-				if ((this._PIC_EndHour != value))
-				{
-					this.OnPIC_EndHourChanging(value);
-					this.SendPropertyChanging();
-					this._PIC_EndHour = value;
-					this.SendPropertyChanged("PIC_EndHour");
-					this.OnPIC_EndHourChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pic_EndMinute", DbType="Int")]
-		public System.Nullable<int> Pic_EndMinute
-		{
-			get
-			{
-				return this._Pic_EndMinute;
-			}
-			set
-			{
-				if ((this._Pic_EndMinute != value))
-				{
-					this.OnPic_EndMinuteChanging(value);
-					this.SendPropertyChanging();
-					this._Pic_EndMinute = value;
-					this.SendPropertyChanged("Pic_EndMinute");
-					this.OnPic_EndMinuteChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_PCSendPicSetting")]
 	public partial class WX_PCSendPicSetting : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -13210,8 +12500,6 @@ namespace WeixinRoboot.Linq
 		private System.Nullable<bool> _NoBigSmallSingleDoublePIC;
 		
 		private System.Nullable<bool> _NiuNiuBigSmallPic;
-		
-		private string _PreSendGameType;
 		
 		private EntitySet<WX_PCSendPicSettingRandomTalk> _WX_PCSendPicSettingRandomTalk;
 		
@@ -13329,8 +12617,6 @@ namespace WeixinRoboot.Linq
     partial void OnNoBigSmallSingleDoublePICChanged();
     partial void OnNiuNiuBigSmallPicChanging(System.Nullable<bool> value);
     partial void OnNiuNiuBigSmallPicChanged();
-    partial void OnPreSendGameTypeChanging(string value);
-    partial void OnPreSendGameTypeChanged();
     #endregion
 		
 		public WX_PCSendPicSetting()
@@ -14439,26 +13725,6 @@ namespace WeixinRoboot.Linq
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PreSendGameType", DbType="NVarChar(50)")]
-		public string PreSendGameType
-		{
-			get
-			{
-				return this._PreSendGameType;
-			}
-			set
-			{
-				if ((this._PreSendGameType != value))
-				{
-					this.OnPreSendGameTypeChanging(value);
-					this.SendPropertyChanging();
-					this._PreSendGameType = value;
-					this.SendPropertyChanged("PreSendGameType");
-					this.OnPreSendGameTypeChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="WX_PCSendPicSetting_WX_PCSendPicSettingRandomTalk", Storage="_WX_PCSendPicSettingRandomTalk", ThisKey="aspnet_UserID,WX_UserName,WX_SourceType", OtherKey="aspnet_UserID,WX_UserName,WX_SourceType")]
 		public EntitySet<WX_PCSendPicSettingRandomTalk> WX_PCSendPicSettingRandomTalk
 		{
@@ -14502,6 +13768,740 @@ namespace WeixinRoboot.Linq
 		{
 			this.SendPropertyChanging();
 			entity.WX_PCSendPicSetting = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_WebSendPICSetting")]
+	public partial class WX_WebSendPICSetting : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _aspnet_UserID;
+		
+		private string _WX_UserName;
+		
+		private string _WX_SourceType;
+		
+		private System.Nullable<bool> _footballPIC;
+		
+		private System.Nullable<bool> _bassketballpic;
+		
+		private System.Nullable<bool> _balluclink;
+		
+		private System.Nullable<int> _ballinterval;
+		
+		private System.Nullable<bool> _card;
+		
+		private string _cardname;
+		
+		private System.Nullable<bool> _shishicailink;
+		
+		private System.Nullable<bool> _NumberPIC;
+		
+		private System.Nullable<bool> _dragonpic;
+		
+		private System.Nullable<bool> _numericlink;
+		
+		private System.Nullable<bool> _dragonlink;
+		
+		private System.Nullable<System.DateTime> _LastBallSendTime;
+		
+		private System.Nullable<bool> _NumberAndDragonPIC;
+		
+		private System.Nullable<bool> _ballend;
+		
+		private System.Nullable<bool> _ballstart;
+		
+		private System.Nullable<bool> _balllivepoint;
+		
+		private System.Nullable<bool> _HKSixResult;
+		
+		private System.Nullable<bool> _NumberDragonTxt;
+		
+		private System.Nullable<bool> _NiuNiuPic;
+		
+		private System.Nullable<bool> _NoBigSmallSingleDoublePIC;
+		
+		private System.Nullable<bool> _IsSendPIC;
+		
+		private System.Nullable<int> _PIC_StartHour;
+		
+		private System.Nullable<int> _PIC_StartMinute;
+		
+		private System.Nullable<int> _PIC_EndHour;
+		
+		private System.Nullable<int> _Pic_EndMinute;
+		
+		private string _PreSendGameType;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onaspnet_UserIDChanging(System.Guid value);
+    partial void Onaspnet_UserIDChanged();
+    partial void OnWX_UserNameChanging(string value);
+    partial void OnWX_UserNameChanged();
+    partial void OnWX_SourceTypeChanging(string value);
+    partial void OnWX_SourceTypeChanged();
+    partial void OnfootballPICChanging(System.Nullable<bool> value);
+    partial void OnfootballPICChanged();
+    partial void OnbassketballpicChanging(System.Nullable<bool> value);
+    partial void OnbassketballpicChanged();
+    partial void OnballuclinkChanging(System.Nullable<bool> value);
+    partial void OnballuclinkChanged();
+    partial void OnballintervalChanging(System.Nullable<int> value);
+    partial void OnballintervalChanged();
+    partial void OncardChanging(System.Nullable<bool> value);
+    partial void OncardChanged();
+    partial void OncardnameChanging(string value);
+    partial void OncardnameChanged();
+    partial void OnshishicailinkChanging(System.Nullable<bool> value);
+    partial void OnshishicailinkChanged();
+    partial void OnNumberPICChanging(System.Nullable<bool> value);
+    partial void OnNumberPICChanged();
+    partial void OndragonpicChanging(System.Nullable<bool> value);
+    partial void OndragonpicChanged();
+    partial void OnnumericlinkChanging(System.Nullable<bool> value);
+    partial void OnnumericlinkChanged();
+    partial void OndragonlinkChanging(System.Nullable<bool> value);
+    partial void OndragonlinkChanged();
+    partial void OnLastBallSendTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnLastBallSendTimeChanged();
+    partial void OnNumberAndDragonPICChanging(System.Nullable<bool> value);
+    partial void OnNumberAndDragonPICChanged();
+    partial void OnballendChanging(System.Nullable<bool> value);
+    partial void OnballendChanged();
+    partial void OnballstartChanging(System.Nullable<bool> value);
+    partial void OnballstartChanged();
+    partial void OnballlivepointChanging(System.Nullable<bool> value);
+    partial void OnballlivepointChanged();
+    partial void OnHKSixResultChanging(System.Nullable<bool> value);
+    partial void OnHKSixResultChanged();
+    partial void OnNumberDragonTxtChanging(System.Nullable<bool> value);
+    partial void OnNumberDragonTxtChanged();
+    partial void OnNiuNiuPicChanging(System.Nullable<bool> value);
+    partial void OnNiuNiuPicChanged();
+    partial void OnNoBigSmallSingleDoublePICChanging(System.Nullable<bool> value);
+    partial void OnNoBigSmallSingleDoublePICChanged();
+    partial void OnIsSendPICChanging(System.Nullable<bool> value);
+    partial void OnIsSendPICChanged();
+    partial void OnPIC_StartHourChanging(System.Nullable<int> value);
+    partial void OnPIC_StartHourChanged();
+    partial void OnPIC_StartMinuteChanging(System.Nullable<int> value);
+    partial void OnPIC_StartMinuteChanged();
+    partial void OnPIC_EndHourChanging(System.Nullable<int> value);
+    partial void OnPIC_EndHourChanged();
+    partial void OnPic_EndMinuteChanging(System.Nullable<int> value);
+    partial void OnPic_EndMinuteChanged();
+    partial void OnPreSendGameTypeChanging(string value);
+    partial void OnPreSendGameTypeChanged();
+    #endregion
+		
+		public WX_WebSendPICSetting()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid aspnet_UserID
+		{
+			get
+			{
+				return this._aspnet_UserID;
+			}
+			set
+			{
+				if ((this._aspnet_UserID != value))
+				{
+					this.Onaspnet_UserIDChanging(value);
+					this.SendPropertyChanging();
+					this._aspnet_UserID = value;
+					this.SendPropertyChanged("aspnet_UserID");
+					this.Onaspnet_UserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(350) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_UserName
+		{
+			get
+			{
+				return this._WX_UserName;
+			}
+			set
+			{
+				if ((this._WX_UserName != value))
+				{
+					this.OnWX_UserNameChanging(value);
+					this.SendPropertyChanging();
+					this._WX_UserName = value;
+					this.SendPropertyChanged("WX_UserName");
+					this.OnWX_UserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string WX_SourceType
+		{
+			get
+			{
+				return this._WX_SourceType;
+			}
+			set
+			{
+				if ((this._WX_SourceType != value))
+				{
+					this.OnWX_SourceTypeChanging(value);
+					this.SendPropertyChanging();
+					this._WX_SourceType = value;
+					this.SendPropertyChanged("WX_SourceType");
+					this.OnWX_SourceTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_footballPIC", DbType="Bit")]
+		public System.Nullable<bool> footballPIC
+		{
+			get
+			{
+				return this._footballPIC;
+			}
+			set
+			{
+				if ((this._footballPIC != value))
+				{
+					this.OnfootballPICChanging(value);
+					this.SendPropertyChanging();
+					this._footballPIC = value;
+					this.SendPropertyChanged("footballPIC");
+					this.OnfootballPICChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bassketballpic", DbType="Bit")]
+		public System.Nullable<bool> bassketballpic
+		{
+			get
+			{
+				return this._bassketballpic;
+			}
+			set
+			{
+				if ((this._bassketballpic != value))
+				{
+					this.OnbassketballpicChanging(value);
+					this.SendPropertyChanging();
+					this._bassketballpic = value;
+					this.SendPropertyChanged("bassketballpic");
+					this.OnbassketballpicChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_balluclink", DbType="Bit")]
+		public System.Nullable<bool> balluclink
+		{
+			get
+			{
+				return this._balluclink;
+			}
+			set
+			{
+				if ((this._balluclink != value))
+				{
+					this.OnballuclinkChanging(value);
+					this.SendPropertyChanging();
+					this._balluclink = value;
+					this.SendPropertyChanged("balluclink");
+					this.OnballuclinkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ballinterval", DbType="Int")]
+		public System.Nullable<int> ballinterval
+		{
+			get
+			{
+				return this._ballinterval;
+			}
+			set
+			{
+				if ((this._ballinterval != value))
+				{
+					this.OnballintervalChanging(value);
+					this.SendPropertyChanging();
+					this._ballinterval = value;
+					this.SendPropertyChanged("ballinterval");
+					this.OnballintervalChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_card", DbType="Bit")]
+		public System.Nullable<bool> card
+		{
+			get
+			{
+				return this._card;
+			}
+			set
+			{
+				if ((this._card != value))
+				{
+					this.OncardChanging(value);
+					this.SendPropertyChanging();
+					this._card = value;
+					this.SendPropertyChanged("card");
+					this.OncardChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cardname", DbType="NVarChar(50)")]
+		public string cardname
+		{
+			get
+			{
+				return this._cardname;
+			}
+			set
+			{
+				if ((this._cardname != value))
+				{
+					this.OncardnameChanging(value);
+					this.SendPropertyChanging();
+					this._cardname = value;
+					this.SendPropertyChanged("cardname");
+					this.OncardnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_shishicailink", DbType="Bit")]
+		public System.Nullable<bool> shishicailink
+		{
+			get
+			{
+				return this._shishicailink;
+			}
+			set
+			{
+				if ((this._shishicailink != value))
+				{
+					this.OnshishicailinkChanging(value);
+					this.SendPropertyChanging();
+					this._shishicailink = value;
+					this.SendPropertyChanged("shishicailink");
+					this.OnshishicailinkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NumberPIC", DbType="Bit")]
+		public System.Nullable<bool> NumberPIC
+		{
+			get
+			{
+				return this._NumberPIC;
+			}
+			set
+			{
+				if ((this._NumberPIC != value))
+				{
+					this.OnNumberPICChanging(value);
+					this.SendPropertyChanging();
+					this._NumberPIC = value;
+					this.SendPropertyChanged("NumberPIC");
+					this.OnNumberPICChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dragonpic", DbType="Bit")]
+		public System.Nullable<bool> dragonpic
+		{
+			get
+			{
+				return this._dragonpic;
+			}
+			set
+			{
+				if ((this._dragonpic != value))
+				{
+					this.OndragonpicChanging(value);
+					this.SendPropertyChanging();
+					this._dragonpic = value;
+					this.SendPropertyChanged("dragonpic");
+					this.OndragonpicChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_numericlink", DbType="Bit")]
+		public System.Nullable<bool> numericlink
+		{
+			get
+			{
+				return this._numericlink;
+			}
+			set
+			{
+				if ((this._numericlink != value))
+				{
+					this.OnnumericlinkChanging(value);
+					this.SendPropertyChanging();
+					this._numericlink = value;
+					this.SendPropertyChanged("numericlink");
+					this.OnnumericlinkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dragonlink", DbType="Bit")]
+		public System.Nullable<bool> dragonlink
+		{
+			get
+			{
+				return this._dragonlink;
+			}
+			set
+			{
+				if ((this._dragonlink != value))
+				{
+					this.OndragonlinkChanging(value);
+					this.SendPropertyChanging();
+					this._dragonlink = value;
+					this.SendPropertyChanged("dragonlink");
+					this.OndragonlinkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastBallSendTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> LastBallSendTime
+		{
+			get
+			{
+				return this._LastBallSendTime;
+			}
+			set
+			{
+				if ((this._LastBallSendTime != value))
+				{
+					this.OnLastBallSendTimeChanging(value);
+					this.SendPropertyChanging();
+					this._LastBallSendTime = value;
+					this.SendPropertyChanged("LastBallSendTime");
+					this.OnLastBallSendTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NumberAndDragonPIC", DbType="Bit")]
+		public System.Nullable<bool> NumberAndDragonPIC
+		{
+			get
+			{
+				return this._NumberAndDragonPIC;
+			}
+			set
+			{
+				if ((this._NumberAndDragonPIC != value))
+				{
+					this.OnNumberAndDragonPICChanging(value);
+					this.SendPropertyChanging();
+					this._NumberAndDragonPIC = value;
+					this.SendPropertyChanged("NumberAndDragonPIC");
+					this.OnNumberAndDragonPICChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ballend", DbType="Bit")]
+		public System.Nullable<bool> ballend
+		{
+			get
+			{
+				return this._ballend;
+			}
+			set
+			{
+				if ((this._ballend != value))
+				{
+					this.OnballendChanging(value);
+					this.SendPropertyChanging();
+					this._ballend = value;
+					this.SendPropertyChanged("ballend");
+					this.OnballendChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ballstart", DbType="Bit")]
+		public System.Nullable<bool> ballstart
+		{
+			get
+			{
+				return this._ballstart;
+			}
+			set
+			{
+				if ((this._ballstart != value))
+				{
+					this.OnballstartChanging(value);
+					this.SendPropertyChanging();
+					this._ballstart = value;
+					this.SendPropertyChanged("ballstart");
+					this.OnballstartChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_balllivepoint", DbType="Bit")]
+		public System.Nullable<bool> balllivepoint
+		{
+			get
+			{
+				return this._balllivepoint;
+			}
+			set
+			{
+				if ((this._balllivepoint != value))
+				{
+					this.OnballlivepointChanging(value);
+					this.SendPropertyChanging();
+					this._balllivepoint = value;
+					this.SendPropertyChanged("balllivepoint");
+					this.OnballlivepointChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HKSixResult", DbType="Bit")]
+		public System.Nullable<bool> HKSixResult
+		{
+			get
+			{
+				return this._HKSixResult;
+			}
+			set
+			{
+				if ((this._HKSixResult != value))
+				{
+					this.OnHKSixResultChanging(value);
+					this.SendPropertyChanging();
+					this._HKSixResult = value;
+					this.SendPropertyChanged("HKSixResult");
+					this.OnHKSixResultChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NumberDragonTxt", DbType="Bit")]
+		public System.Nullable<bool> NumberDragonTxt
+		{
+			get
+			{
+				return this._NumberDragonTxt;
+			}
+			set
+			{
+				if ((this._NumberDragonTxt != value))
+				{
+					this.OnNumberDragonTxtChanging(value);
+					this.SendPropertyChanging();
+					this._NumberDragonTxt = value;
+					this.SendPropertyChanged("NumberDragonTxt");
+					this.OnNumberDragonTxtChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NiuNiuPic", DbType="Bit")]
+		public System.Nullable<bool> NiuNiuPic
+		{
+			get
+			{
+				return this._NiuNiuPic;
+			}
+			set
+			{
+				if ((this._NiuNiuPic != value))
+				{
+					this.OnNiuNiuPicChanging(value);
+					this.SendPropertyChanging();
+					this._NiuNiuPic = value;
+					this.SendPropertyChanged("NiuNiuPic");
+					this.OnNiuNiuPicChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NoBigSmallSingleDoublePIC", DbType="Bit")]
+		public System.Nullable<bool> NoBigSmallSingleDoublePIC
+		{
+			get
+			{
+				return this._NoBigSmallSingleDoublePIC;
+			}
+			set
+			{
+				if ((this._NoBigSmallSingleDoublePIC != value))
+				{
+					this.OnNoBigSmallSingleDoublePICChanging(value);
+					this.SendPropertyChanging();
+					this._NoBigSmallSingleDoublePIC = value;
+					this.SendPropertyChanged("NoBigSmallSingleDoublePIC");
+					this.OnNoBigSmallSingleDoublePICChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsSendPIC", DbType="Bit")]
+		public System.Nullable<bool> IsSendPIC
+		{
+			get
+			{
+				return this._IsSendPIC;
+			}
+			set
+			{
+				if ((this._IsSendPIC != value))
+				{
+					this.OnIsSendPICChanging(value);
+					this.SendPropertyChanging();
+					this._IsSendPIC = value;
+					this.SendPropertyChanged("IsSendPIC");
+					this.OnIsSendPICChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PIC_StartHour", DbType="Int")]
+		public System.Nullable<int> PIC_StartHour
+		{
+			get
+			{
+				return this._PIC_StartHour;
+			}
+			set
+			{
+				if ((this._PIC_StartHour != value))
+				{
+					this.OnPIC_StartHourChanging(value);
+					this.SendPropertyChanging();
+					this._PIC_StartHour = value;
+					this.SendPropertyChanged("PIC_StartHour");
+					this.OnPIC_StartHourChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PIC_StartMinute", DbType="Int")]
+		public System.Nullable<int> PIC_StartMinute
+		{
+			get
+			{
+				return this._PIC_StartMinute;
+			}
+			set
+			{
+				if ((this._PIC_StartMinute != value))
+				{
+					this.OnPIC_StartMinuteChanging(value);
+					this.SendPropertyChanging();
+					this._PIC_StartMinute = value;
+					this.SendPropertyChanged("PIC_StartMinute");
+					this.OnPIC_StartMinuteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PIC_EndHour", DbType="Int")]
+		public System.Nullable<int> PIC_EndHour
+		{
+			get
+			{
+				return this._PIC_EndHour;
+			}
+			set
+			{
+				if ((this._PIC_EndHour != value))
+				{
+					this.OnPIC_EndHourChanging(value);
+					this.SendPropertyChanging();
+					this._PIC_EndHour = value;
+					this.SendPropertyChanged("PIC_EndHour");
+					this.OnPIC_EndHourChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pic_EndMinute", DbType="Int")]
+		public System.Nullable<int> Pic_EndMinute
+		{
+			get
+			{
+				return this._Pic_EndMinute;
+			}
+			set
+			{
+				if ((this._Pic_EndMinute != value))
+				{
+					this.OnPic_EndMinuteChanging(value);
+					this.SendPropertyChanging();
+					this._Pic_EndMinute = value;
+					this.SendPropertyChanged("Pic_EndMinute");
+					this.OnPic_EndMinuteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PreSendGameType", DbType="NChar(10)")]
+		public string PreSendGameType
+		{
+			get
+			{
+				return this._PreSendGameType;
+			}
+			set
+			{
+				if ((this._PreSendGameType != value))
+				{
+					this.OnPreSendGameTypeChanging(value);
+					this.SendPropertyChanging();
+					this._PreSendGameType = value;
+					this.SendPropertyChanged("PreSendGameType");
+					this.OnPreSendGameTypeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

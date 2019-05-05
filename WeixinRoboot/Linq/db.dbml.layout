@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 19.5" name="db">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 11.25" name="db">
   <DataContextMoniker Name="/dbDataContext" />
   <nestedChildShapes>
     <classShape Id="a17d83f0-97b9-4203-9195-8ee827330e83" isExpanded="false" absoluteBounds="4, 0.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/aspnet_Users" />
       <nestedChildShapes>
-        <elementListCompartment Id="6158d71c-ce9e-41a7-8fb9-b53ad3f42196" absoluteBounds="4.015, 0.96, 1.9700000000000002, 1.5846048990885415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="6158d71c-ce9e-41a7-8fb9-b53ad3f42196" absoluteBounds="4.015, 0.96, 1.9700000000000002, 1.5316874186197915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="95bc75f5-ebb0-4646-b9f3-7171d44f59df" isExpanded="false" absoluteBounds="4.125, 1.375, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/aspnet_Membership" />
       <nestedChildShapes>
-        <elementListCompartment Id="6b3dfb4f-5ab8-482a-a066-a6a41e7764fa" absoluteBounds="4.14, 1.835, 1.9700000000000002, 4.258880615234375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="6b3dfb4f-5ab8-482a-a066-a6a41e7764fa" absoluteBounds="4.14, 1.835, 1.9700000000000002, 4.118804931640625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <associationConnector edgePoints="[(5.0625 : 0.95); (5.0625 : 1.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
@@ -24,189 +24,189 @@
     <classShape Id="181267ac-9b20-402e-b1a2-418fbae2230a" isExpanded="false" absoluteBounds="0.625, 0.75, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_Result" />
       <nestedChildShapes>
-        <elementListCompartment Id="761d8569-9eb8-45d6-b98f-53d50ab17c5b" absoluteBounds="0.64000000000000012, 1.21, 1.9700000000000002, 2.348683675130208" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="761d8569-9eb8-45d6-b98f-53d50ab17c5b" absoluteBounds="0.64000000000000012, 1.21, 1.9700000000000002, 2.270863850911458" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="a8314ab6-baa8-4c86-8835-51a5b3b1b319" isExpanded="false" absoluteBounds="3.5, 5.375, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/TaoHua_GameResult" />
       <nestedChildShapes>
-        <elementListCompartment Id="f2eb0e00-c8a5-47e9-a286-d78c5bccb61f" absoluteBounds="3.5149999999999997, 5.835, 1.9700000000000002, 0.62950642903645826" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="f2eb0e00-c8a5-47e9-a286-d78c5bccb61f" absoluteBounds="3.5149999999999997, 5.835, 1.9700000000000002, 0.60771687825520826" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="671232b5-2a23-4f2e-b5ed-aac9a4017ef3" isExpanded="false" absoluteBounds="0.625, 1.625, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_ChongqingshishicaiPeriodMinute" />
       <nestedChildShapes>
-        <elementListCompartment Id="94aaf813-e3dd-4228-ae6f-4d876d8a0e6f" absoluteBounds="0.64000000000000012, 2.085, 1.9700000000000002, 1.2025655110677083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="94aaf813-e3dd-4228-ae6f-4d876d8a0e6f" absoluteBounds="0.64000000000000012, 2.085, 1.9700000000000002, 1.1620992024739583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="0930ca4c-47cc-411a-8abc-d6f0d02b0f8f" isExpanded="false" absoluteBounds="6.25, 3.625, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/PIC_EndSendLog" />
       <nestedChildShapes>
-        <elementListCompartment Id="6b8848aa-b5fe-4ee0-80b0-58f69b0b2a7e" absoluteBounds="6.2650000000000006, 4.085, 1.9700000000000002, 1.2025655110677083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="6b8848aa-b5fe-4ee0-80b0-58f69b0b2a7e" absoluteBounds="6.2650000000000006, 4.085, 1.9700000000000002, 1.1620992024739583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="3bd049bb-48be-4acd-afc0-067cf5d80355" isExpanded="false" absoluteBounds="6.25, 4.375, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_PicErrorLog" />
       <nestedChildShapes>
-        <elementListCompartment Id="476f6aa2-31c4-443b-9548-045ca68b3641" absoluteBounds="6.265, 4.835, 1.9700000000000002, 1.7756245930989583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="476f6aa2-31c4-443b-9548-045ca68b3641" absoluteBounds="6.265, 4.835, 1.9700000000000002, 1.7164815266927083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="70fd6c22-8d7c-421b-9bb9-4b739415d051" isExpanded="false" absoluteBounds="1, 5.375, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_BounsConfig" />
       <nestedChildShapes>
-        <elementListCompartment Id="8d3369db-448f-44a6-87d6-cfd57cd2a113" absoluteBounds="1.0150000000000001, 5.835, 1.9700000000000002, 1.966644287109375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8d3369db-448f-44a6-87d6-cfd57cd2a113" absoluteBounds="1.0150000000000001, 5.835, 1.9700000000000002, 1.901275634765625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="d1e8f4e0-42ca-4d17-815b-4981fd5a7080" isExpanded="false" absoluteBounds="3.5, 6.375, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_ResultFootBall_Last" />
       <nestedChildShapes>
-        <elementListCompartment Id="a8f26f7c-9473-4be0-beac-e64593a0e4f7" absoluteBounds="3.5149999999999997, 6.835, 1.9700000000000002, 2.1576639811197915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a8f26f7c-9473-4be0-beac-e64593a0e4f7" absoluteBounds="3.5149999999999997, 6.835, 1.9700000000000002, 2.0860697428385415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="e345f89d-e3e1-40e1-87ff-93c23284b2be" isExpanded="false" absoluteBounds="0.75, 8.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_Football_LastRatio" />
       <nestedChildShapes>
-        <elementListCompartment Id="b5b9b0df-b3fa-42ff-bcdb-788263d67cc5" absoluteBounds="0.76500000000000012, 8.96, 1.9700000000000002, 9.2253926595052071" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="b5b9b0df-b3fa-42ff-bcdb-788263d67cc5" absoluteBounds="0.76500000000000012, 8.96, 1.9700000000000002, 8.9234517415364571" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="3d138fdd-e02c-46d1-9b23-852f4068878b" isExpanded="false" absoluteBounds="1.125, 6.75, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_UserGameLog_Football" />
       <nestedChildShapes>
-        <elementListCompartment Id="dbbd0a67-08ae-4bf4-8121-4bf760cb3fc6" absoluteBounds="1.1400000000000001, 7.21, 1.9700000000000002, 10.944569905598957" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="dbbd0a67-08ae-4bf4-8121-4bf760cb3fc6" absoluteBounds="1.1400000000000001, 7.21, 1.9700000000000002, 10.586598714192707" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="0cf27e6c-1090-4144-91e9-8170ac6eac7b" isExpanded="false" absoluteBounds="1, 7.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_ResultFootBall" />
       <nestedChildShapes>
-        <elementListCompartment Id="6d76eb3c-30af-46f3-a14a-0ef18324344f" absoluteBounds="1.0150000000000001, 7.9600000000000009, 1.9700000000000002, 1.5846048990885415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="6d76eb3c-30af-46f3-a14a-0ef18324344f" absoluteBounds="1.0150000000000001, 7.9600000000000009, 1.9700000000000002, 1.5316874186197915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="bf0f0e74-6ddf-4525-b8d1-dba99e1a198d" isExpanded="false" absoluteBounds="0.875, 10.125, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_FootBall_VSRatios" />
       <nestedChildShapes>
-        <elementListCompartment Id="a0c1b840-f208-4119-affc-e4a14e4eb236" absoluteBounds="0.89000000000000012, 10.585, 1.9700000000000002, 9.0343729654947911" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a0c1b840-f208-4119-affc-e4a14e4eb236" absoluteBounds="0.89000000000000012, 10.585, 1.9700000000000002, 8.7386576334635411" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="80bef856-fbb1-472c-a635-0817af4d5e9f" isExpanded="false" absoluteBounds="3.5, 7.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_ResultFootBallPointLog_Last" />
       <nestedChildShapes>
-        <elementListCompartment Id="c7b5a65e-8d57-4f17-8b4b-2aa0afa2c893" absoluteBounds="3.5149999999999997, 7.96, 1.9700000000000002, 1.2025655110677083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="c7b5a65e-8d57-4f17-8b4b-2aa0afa2c893" absoluteBounds="3.5149999999999997, 7.96, 1.9700000000000002, 1.1620992024739583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="0e77d94b-b9e6-4a1f-bb81-7d116afae9c1" isExpanded="false" absoluteBounds="1, 9.375, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_FootBall_VS" />
       <nestedChildShapes>
-        <elementListCompartment Id="3eb45ca8-8717-482b-8f46-e64a479a32a9" absoluteBounds="1.0150000000000001, 9.835, 1.9700000000000002, 2.7307230631510415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="3eb45ca8-8717-482b-8f46-e64a479a32a9" absoluteBounds="1.0150000000000001, 9.835, 1.9700000000000002, 2.6404520670572915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="f1b77050-d8d5-45f2-a75e-a5ad42ed3ced" isExpanded="false" absoluteBounds="3.75, 3.625, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_UserReplyLog" />
       <nestedChildShapes>
-        <elementListCompartment Id="644daf05-981b-4f70-8a51-20278df2ab74" absoluteBounds="3.7649999999999997, 4.085, 1.9700000000000002, 2.348683675130208" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="644daf05-981b-4f70-8a51-20278df2ab74" absoluteBounds="3.7649999999999997, 4.085, 1.9700000000000002, 2.270863850911458" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="e92342d8-0414-4869-b0a1-f09dca00c10f" isExpanded="false" absoluteBounds="0.75, 3, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_UserGameLog_Bonus" />
       <nestedChildShapes>
-        <elementListCompartment Id="d9ed985f-98dd-4fed-95de-69c87b7a475a" absoluteBounds="0.76500000000000012, 3.46, 1.9700000000000002, 1.966644287109375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="d9ed985f-98dd-4fed-95de-69c87b7a475a" absoluteBounds="0.76500000000000012, 3.46, 1.9700000000000002, 1.901275634765625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="cb130ecf-94dd-49d0-b909-090b65558f1c" isExpanded="false" absoluteBounds="1, 4.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_UserChangeLog" />
       <nestedChildShapes>
-        <elementListCompartment Id="69a50ba9-4096-45fe-983b-71c5ce268676" absoluteBounds="1.0150000000000001, 4.96, 1.9700000000000002, 3.3037821451822915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="69a50ba9-4096-45fe-983b-71c5ce268676" absoluteBounds="1.0150000000000001, 4.96, 1.9700000000000002, 3.1948343912760415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="e8551161-bc2b-4d33-a2d6-ca5a7dc66005" isExpanded="false" absoluteBounds="6.375, 2.625, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_TimeHKSix" />
       <nestedChildShapes>
-        <elementListCompartment Id="09277fab-e06d-486f-994f-d3c915a582a9" absoluteBounds="6.39, 3.085, 1.9700000000000002, 0.820526123046875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="09277fab-e06d-486f-994f-d3c915a582a9" absoluteBounds="6.39, 3.085, 1.9700000000000002, 0.792510986328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="eb2eb137-9b67-4283-b789-b5ed46360b4a" isExpanded="false" absoluteBounds="6.25, 5.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_ResultHKSix" />
       <nestedChildShapes>
-        <elementListCompartment Id="1f2af949-99b3-424a-9a84-443dafdb0838" absoluteBounds="6.265, 5.96, 1.9700000000000002, 3.494801839192708" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="1f2af949-99b3-424a-9a84-443dafdb0838" absoluteBounds="6.265, 5.96, 1.9700000000000002, 3.379628499348958" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="d4a83715-4118-422d-9a93-56be31929588" isExpanded="false" absoluteBounds="6.25, 6.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_UserGameLog_HKSix" />
       <nestedChildShapes>
-        <elementListCompartment Id="14ca74d0-8b1b-4c5b-b5f9-1bf5e430f0b2" absoluteBounds="6.265, 6.96, 1.9700000000000002, 2.348683675130208" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="14ca74d0-8b1b-4c5b-b5f9-1bf5e430f0b2" absoluteBounds="6.265, 6.96, 1.9700000000000002, 2.270863850911458" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="a489d059-ae7e-4f61-8dd9-ae84ee078b8e" isExpanded="false" absoluteBounds="1, 6, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_WuFenPeriodMinute" />
       <nestedChildShapes>
-        <elementListCompartment Id="18b3955e-35ff-4845-a536-dfc6c2663e5d" absoluteBounds="1.0150000000000001, 6.46, 1.9700000000000002, 1.2025655110677083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="18b3955e-35ff-4845-a536-dfc6c2663e5d" absoluteBounds="1.0150000000000001, 6.46, 1.9700000000000002, 1.1620992024739583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="ed861053-2ac0-440e-a434-e5078a9ed8f2" isExpanded="false" absoluteBounds="0.5, 2.25, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_UserGameLog" />
       <nestedChildShapes>
-        <elementListCompartment Id="67351330-05a0-4584-8438-4fbd3e533315" absoluteBounds="0.51500000000000012, 2.71, 1.9700000000000002, 5.213979085286458" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="67351330-05a0-4584-8438-4fbd3e533315" absoluteBounds="0.51500000000000012, 2.71, 1.9700000000000002, 5.042775472005208" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="022e0739-f89f-4669-b689-6983db7230ce" isExpanded="false" absoluteBounds="4.25, 9.625, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_WebSendPICSettingMatchClass" />
       <nestedChildShapes>
-        <elementListCompartment Id="f26cd7c2-5d38-438f-a021-3ab0f730a45f" absoluteBounds="4.265, 10.085, 1.9700000000000002, 1.393585205078125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="f26cd7c2-5d38-438f-a021-3ab0f730a45f" absoluteBounds="4.265, 10.085, 1.9700000000000002, 1.346893310546875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="3ab26f68-0755-43f8-a13d-3a60c4e8547b" isExpanded="false" absoluteBounds="3.875, 4.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/Game_BasicRatio" />
       <nestedChildShapes>
-        <elementListCompartment Id="547c4fd6-9058-42f5-9dad-502e99ec7692" absoluteBounds="3.8899999999999997, 4.96, 1.9700000000000002, 2.539703369140625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="547c4fd6-9058-42f5-9dad-502e99ec7692" absoluteBounds="3.8899999999999997, 4.96, 1.9700000000000002, 2.455657958984375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="e5113788-8ac6-4bbf-a136-b45497316142" isExpanded="false" absoluteBounds="7.375, 9.375, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_PCTransMoneyLog" />
       <nestedChildShapes>
-        <elementListCompartment Id="4511df1c-a2aa-4d0d-b8dc-753e7a1bdc73" absoluteBounds="7.39, 9.835, 1.9700000000000002, 1.5846048990885415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="4511df1c-a2aa-4d0d-b8dc-753e7a1bdc73" absoluteBounds="7.39, 9.835, 1.9700000000000002, 1.5316874186197915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="a289782a-1aa0-4136-8606-6306fc2e0338" isExpanded="false" absoluteBounds="7.5, 8.75, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_PCSendPicSettingRandomTalk" />
       <nestedChildShapes>
-        <elementListCompartment Id="0cdb949f-cdd5-44ad-882b-f02e76e97161" absoluteBounds="7.515, 9.21, 1.9700000000000002, 1.7756245930989583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="0cdb949f-cdd5-44ad-882b-f02e76e97161" absoluteBounds="7.515, 9.21, 1.9700000000000002, 1.7164815266927083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="3c2b3d08-e3af-4aba-8334-9e9e649458ed" isExpanded="false" absoluteBounds="3.75, 2.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/aspnet_UsersNewGameResultSend" />
       <nestedChildShapes>
-        <elementListCompartment Id="85deef46-1a58-4342-b74f-ae888f66267c" absoluteBounds="3.7649999999999997, 2.96, 1.9700000000000002, 7.8882548014322911" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="85deef46-1a58-4342-b74f-ae888f66267c" absoluteBounds="3.7649999999999997, 2.96, 1.9700000000000002, 7.6298929850260411" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="08e0ed63-15c7-4e90-9235-b3df3136ea12" isExpanded="false" absoluteBounds="4.25, 10.5, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/aspnet_UserVirtualFile" />
       <nestedChildShapes>
-        <elementListCompartment Id="635662e1-fad7-4087-a050-ea758cf555f8" absoluteBounds="4.265, 10.96, 1.9700000000000002, 0.820526123046875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="635662e1-fad7-4087-a050-ea758cf555f8" absoluteBounds="4.265, 10.96, 1.9700000000000002, 0.792510986328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="53581d72-b063-4704-8004-fbb89efd63df" isExpanded="false" absoluteBounds="0.625, 3.75, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_UserReply" />
       <nestedChildShapes>
-        <elementListCompartment Id="d67b4142-c655-4fdb-9567-a48a6a0a2655" absoluteBounds="0.64000000000000012, 4.21, 1.9700000000000002, 4.067860921223958" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="d67b4142-c655-4fdb-9567-a48a6a0a2655" absoluteBounds="0.64000000000000012, 4.21, 1.9700000000000002, 3.934010823567708" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="29e93cbe-ff3a-4e23-8cc7-1ccc712c1b3f" isExpanded="false" absoluteBounds="4.875, 8.75, 2, 0.45">
-      <DataClassMoniker Name="/dbDataContext/WX_WebSendPICSetting" />
-      <nestedChildShapes>
-        <elementListCompartment Id="389521a3-6d06-4806-8987-108679335aa3" absoluteBounds="4.89, 9.21, 1.9700000000000002, 5.5960184733072911" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="8688cfd3-044d-4213-90a4-e2c405a07ff1" absoluteBounds="7.5, 7.75, 2, 11.504569905598959">
+    <classShape Id="31bbce54-d67e-457d-b616-64f9afc91700" isExpanded="false" absoluteBounds="8.625, 7.875, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_PCSendPicSetting" />
       <nestedChildShapes>
-        <elementListCompartment Id="e39c0a3a-d333-437b-922c-e4181aba7408" absoluteBounds="7.5150000000000006, 8.21, 1.9700000000000002, 10.944569905598957" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="4b2027c7-b202-4293-a2bd-3f2df20b5cc5" absoluteBounds="8.64, 8.335, 1.9700000000000002, 10.401804606119791" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(8.5 : 7.75); (8.5 : 7.5); (8.5 : 7.5); (8.5 : 8.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(9.0625 : 8.325); (9.0625 : 8.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbDataContext/WX_PCSendPicSetting/WX_PCSendPicSetting_WX_PCSendPicSettingRandomTalk" />
       <nodes>
-        <classShapeMoniker Id="8688cfd3-044d-4213-90a4-e2c405a07ff1" />
+        <classShapeMoniker Id="31bbce54-d67e-457d-b616-64f9afc91700" />
         <classShapeMoniker Id="a289782a-1aa0-4136-8606-6306fc2e0338" />
       </nodes>
     </associationConnector>
+    <classShape Id="8ed0056f-23df-45c4-a960-db07fd2c1c49" isExpanded="false" absoluteBounds="4.375, 8.75, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/WX_WebSendPICSetting" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6a118a49-1150-47be-9e95-74ea234cc746" absoluteBounds="4.39, 9.21, 1.9700000000000002, 5.597157796223958" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>
