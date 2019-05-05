@@ -195,17 +195,17 @@
         <elementListCompartment Id="4b2027c7-b202-4293-a2bd-3f2df20b5cc5" absoluteBounds="8.64, 8.335, 1.9700000000000002, 10.401804606119791" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(9.0625 : 8.325); (9.0625 : 8.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(9.0625 : 8.325); (9.0625 : 8.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/dbDataContext/WX_PCSendPicSetting/WX_PCSendPicSetting_WX_PCSendPicSettingRandomTalk" />
       <nodes>
         <classShapeMoniker Id="31bbce54-d67e-457d-b616-64f9afc91700" />
         <classShapeMoniker Id="a289782a-1aa0-4136-8606-6306fc2e0338" />
       </nodes>
     </associationConnector>
-    <classShape Id="8ed0056f-23df-45c4-a960-db07fd2c1c49" isExpanded="false" absoluteBounds="4.375, 8.75, 2, 0.45">
+    <classShape Id="36800a99-1d99-40b4-94ad-cb865c6f0df9" isExpanded="false" absoluteBounds="4.375, 8.875, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/WX_WebSendPICSetting" />
       <nestedChildShapes>
-        <elementListCompartment Id="6a118a49-1150-47be-9e95-74ea234cc746" absoluteBounds="4.39, 9.21, 1.9700000000000002, 5.597157796223958" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="fd42837c-abad-4d71-902a-901979b46130" absoluteBounds="4.39, 9.335, 1.9700000000000002, 5.597157796223958" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

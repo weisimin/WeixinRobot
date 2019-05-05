@@ -14464,7 +14464,7 @@ namespace WeixinRoboot.Linq
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PreSendGameType", DbType="NChar(10)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PreSendGameType", DbType="NVarChar(50)")]
 		public string PreSendGameType
 		{
 			get

@@ -659,7 +659,7 @@
       <Column Name="PIC_StartMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="PIC_EndHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Pic_EndMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="PreSendGameType" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="PreSendGameType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>
