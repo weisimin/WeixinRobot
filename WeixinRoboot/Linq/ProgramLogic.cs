@@ -5127,9 +5127,9 @@ namespace WeixinRoboot.Linq
                                        );
                 webpcset.IsSendPIC = false;
                 UserRow.SetField("User_IsSendPic", false);
-                DateTime writein = DateTime.Now; ;
-                webpcset.PIC_EndHour = writein.Hour;
-                webpcset.Pic_EndMinute = writein.Minute;
+                //DateTime writein = DateTime.Now; ;
+                //webpcset.PIC_EndHour = writein.Hour;
+               // webpcset.Pic_EndMinute = writein.Minute;
                 db.SubmitChanges();
                 return ("停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
 
@@ -5144,9 +5144,9 @@ namespace WeixinRoboot.Linq
                 webpcset.IsSendPIC = true;
                 UserRow.SetField("User_IsSendPic", true);
 
-                DateTime writein = DateTime.Now; ;
-                webpcset.PIC_StartHour = writein.Hour;
-                webpcset.PIC_StartMinute = writein.Minute;
+                //DateTime writein = DateTime.Now; ;
+               // webpcset.PIC_StartHour = writein.Hour;
+                //webpcset.PIC_StartMinute = writein.Minute;
                 db.SubmitChanges();
                 return (webpcset.IsSendPIC == true ? "发图中" : "停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
             }
