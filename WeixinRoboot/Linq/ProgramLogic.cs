@@ -5753,7 +5753,7 @@ namespace WeixinRoboot.Linq
 
 
         }
-        public enum ShiShiCaiMode { 重庆时时彩, 五分彩, 香港时时彩, 澳洲幸运5, 腾讯十分, 腾讯五分, 北京赛车PK10, VR重庆时时彩, 新疆时时彩 }
+        public enum ShiShiCaiMode { 重庆时时彩, 五分彩, 香港时时彩, 澳洲幸运5, 腾讯十分, 腾讯五分, 北京赛车PK10, VR重庆时时彩, 新疆时时彩,未知 }
 
         //https://1680380.com/view/PK10/pk10kai.html
 

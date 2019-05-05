@@ -1867,23 +1867,23 @@ namespace WeixinRoboot
                                 SendChongqingResultPic(GetMode(SettingUserName == "" ? contacts : Settingcontacts), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
 
 
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep && (MyOutResult != ""))
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep && (MyOutResult == ""))
                                 {
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
                                 }
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop && (MyOutResult != ""))
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop && (MyOutResult == ""))
                                 {
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
                                 }
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime && (MyOutResult != ""))
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime && (MyOutResult == ""))
                                 {
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType, (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, contacts, SourceType);
                                 }
-                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.RestoreDefault && (MyOutResult != ""))
+                                if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.RestoreDefault && (MyOutResult == ""))
                                 {
                                     MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("停止", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                                     SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, contacts, SourceType);
@@ -1891,7 +1891,7 @@ namespace WeixinRoboot
                                 if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
                                 {
                                     string ToSendGameType = "";
-                                    Linq.ProgramLogic.ShiShiCaiMode ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.北京赛车PK10;
+                                    Linq.ProgramLogic.ShiShiCaiMode ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.未知;
                                     switch (GameType)
                                     {
                                         case "重庆":
@@ -1923,8 +1923,8 @@ namespace WeixinRoboot
                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
                                             break;
                                         case "":
-                                            PicType = "上次";
-                                            ToSendGameType =  (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode),GetMode((SettingUserName == "" ? contacts : Settingcontacts))));
+
+                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode((SettingUserName == "" ? contacts : Settingcontacts))));
                                             ToSendEnumType = GetMode((SettingUserName == "" ? contacts : Settingcontacts));
                                             break;
                                         default:
@@ -1932,9 +1932,24 @@ namespace WeixinRoboot
                                     }
                                     foreach (DataRow item in (SettingUserName == "" ? contacts : Settingcontacts))
                                     {
+                                        if (PicType == "")
+                                        {
+
+                                            Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                          && t.WX_SourceType == item.Field<object>("User_SourceType").ToString()
+                           && t.WX_UserName == item.Field<object>("User_ContactID").ToString()
+                          );
+                                            if (webpcset == null || webpcset.PreSendGameType == null || webpcset.PreSendGameType == "")
+                                            {
+                                                PicType = "文本";
+                                            }
+                                            else {
+                                                PicType = webpcset.PreSendGameType;
+                                            }
+
+                                        }//空白取数
                                         string NoticeTempid = item.Field<string>("User_ContactTEMPID");
                                         SendChongqingResultPic(ToSendEnumType, PicType + "图", NoticeTempid, ToSendGameType);
-
                                     }
                                 }//不是未知发图模式
                             }
@@ -2381,7 +2396,7 @@ namespace WeixinRoboot
                 default:
                     //ldconsole.exe action --name *** --key call.input --value ***
                     //NoxConsole.exe action –name *** –key call.input –value ***
-                  // var findenum = InjectWins.Where(t => t.WX_UserTMPID == TempToUserID);
+                    // var findenum = InjectWins.Where(t => t.WX_UserTMPID == TempToUserID);
 
                     //if (findenum != null && cb_adbnoxmode.Checked == true && WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
                     //{
@@ -4086,7 +4101,7 @@ namespace WeixinRoboot
         }
         private void DownLoad163ThreadDo_wufen()
         {
-           // while (KillThread.ContainsKey((Guid)ThreadID) == false)
+            // while (KillThread.ContainsKey((Guid)ThreadID) == false)
             {
                 try
                 {
@@ -4728,6 +4743,7 @@ namespace WeixinRoboot
                         if ((Mode == "All" && webpcset.NumberAndDragonPIC == true) || (Mode == "图4图"))
                         {
                             SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
+                            webpcset.PreSendGameType = "图4";
                         }
 
                         if (Mode == "All" && webpcset.shishicailink == true)
@@ -4746,7 +4762,7 @@ namespace WeixinRoboot
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
-
+                            webpcset.PreSendGameType = "牛牛";
                         }
                         if ((Mode == "All" && webpcset.NoBigSmallSingleDoublePIC == true) || (Mode == "独龙虎图"))
                         {
@@ -4758,7 +4774,7 @@ namespace WeixinRoboot
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
-
+                            webpcset.PreSendGameType = "独龙虎";
                         }
 
                         if ((Mode == "All" && webpcset.NumberDragonTxt == true) || (Mode == "文本图"))
@@ -4771,12 +4787,12 @@ namespace WeixinRoboot
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
-
+                            webpcset.PreSendGameType = "文本";
                         }
 
 
 
-
+                        db.SubmitChanges();
 
 
 
@@ -4844,7 +4860,7 @@ namespace WeixinRoboot
 
         public void DownLoad163CaiPiao_V163(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -4929,7 +4945,7 @@ namespace WeixinRoboot
 
         public void DownLoad163CaiPiaoV_zhcw(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
-            
+
             //http://m.zhcw.com/kaijiang/place_info.jsp?id=572
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
@@ -4997,7 +5013,7 @@ namespace WeixinRoboot
 
         public void DownLoad163CaiPiaoV_500(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -5089,7 +5105,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_tengxunshifen(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -5176,7 +5192,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_tengxunwufenbyhuayu(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -5256,7 +5272,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_tengxunwufen(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -5329,7 +5345,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_beijingsaichepk10(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -5419,7 +5435,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_vrchongqingcai(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -5551,7 +5567,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_vrchongqingcaislim(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -5658,7 +5674,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_vrchongqingcaislimapp(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -6077,7 +6093,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_Taohua(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             NetFramework.Console.WriteLine("开始下载桃花中间表" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"), false);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -6143,7 +6159,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_kaijiangwang(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean Lasturl = false)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -6227,7 +6243,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_kaijiangwang1332Fast(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean Lasturl = false)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -6309,7 +6325,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_xinjiangshishicai(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, Boolean Lasturl = false)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -6398,7 +6414,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_aozcAPI168(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, bool Lasturl = false)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -6503,7 +6519,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_aozc(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, bool Lasturl = false)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -6643,7 +6659,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_aozc888888(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow, bool Lasturl = false)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -6746,7 +6762,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_cp222789(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载cp222789网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -6833,7 +6849,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_13322(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载13322.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -6931,7 +6947,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_1395p(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -7001,7 +7017,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_xianggangshishicai(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -7079,7 +7095,7 @@ namespace WeixinRoboot
         public void DownLoad163CaiPiaoV_wufencai(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
-            
+
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
@@ -9418,12 +9434,12 @@ namespace WeixinRoboot
 
 
                     }//数据库不存在
-                    
+
                     if (InjectWins.SingleOrDefault(t =>
                                  (t.WX_UserName == NewTitle.Replace("智能发图", "")
                         && t.WX_SourceType == Enum.GetName(typeof(PCSourceType), WindowclassToSourceType(sb.ToString()))
                                  )
-                        
+
                         ) == null)
                     {
                         Linq.WX_PCSendPicSetting loadset = winsdb.WX_PCSendPicSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -9461,9 +9477,10 @@ namespace WeixinRoboot
 
 
                     }//内存对象无
-                    else { 
-                    
-                    
+                    else
+                    {
+
+
                     }
                 }//剔除无效的窗口
 
@@ -9538,7 +9555,7 @@ namespace WeixinRoboot
                         // Linq.ProgramLogic.TimeCanUse(7, 0, 3, 15) == false
                         )
                     {
-                        NetFramework.Console.WriteLine("不在时间:"+wins.OpenHour.ToString()+":"+ wins.OpenMinue.ToString()+"-"+ wins.EndHour.ToString()+":" +wins.EndMinute.ToString(),true);
+                        NetFramework.Console.WriteLine("不在时间:" + wins.OpenHour.ToString() + ":" + wins.OpenMinue.ToString() + "-" + wins.EndHour.ToString() + ":" + wins.EndMinute.ToString(), true);
                         continue;
 
                     }
@@ -9892,175 +9909,175 @@ namespace WeixinRoboot
                     var findenums = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
                     foreach (var findenum in findenums)
                     {
-                      if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
-                    {
-                        AdbSendText(findenum.WX_UserName, PCSourceType.雷电, FileText);
-                        return;
-
-                    }
-                    if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
-                    {
-                        AdbSendText(findenum.WX_UserName, PCSourceType.夜神, FileText);
-                        return;
-                    }
-                    #region "复制发图"
-
-                    {
-                        this.Invoke(new Action(() =>
+                        if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
                         {
+                            AdbSendText(findenum.WX_UserName, PCSourceType.雷电, FileText);
+                            return;
 
-                            Clipboard.Clear();
-                            StringBuilder RAW = new StringBuilder(512);
-                            Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
-                            if (winstate == 0)
+                        }
+                        if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
+                        {
+                            AdbSendText(findenum.WX_UserName, PCSourceType.夜神, FileText);
+                            return;
+                        }
+                        #region "复制发图"
+
+                        {
+                            this.Invoke(new Action(() =>
                             {
-                                return;
-                            }
 
-                            NetFramework.WindowsApi.ShowWindow(hwnd, 1);
-                            NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
-                            NetFramework.WindowsApi.SetForegroundWindow(hwnd);
+                                Clipboard.Clear();
+                                StringBuilder RAW = new StringBuilder(512);
+                                Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
+                                if (winstate == 0)
+                                {
+                                    return;
+                                }
 
-
-                            Thread.Sleep(1000);
-                            //Thread.Sleep(200);
-
-                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
-                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
-
-                            //Thread.Sleep(50);
-                            //Application.DoEvents();
-                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 2, 0);
-                            //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 2, 0);
-
-                            #region
-                            //Int32 CurIndex = 0;
-
-                            //byte[] Dragon = (new byte[] { 240, 159, 144 });
-                            //byte[] Ok = (new byte[] { 240, 159, 136 });
-                            //byte[] Tiger = (new byte[] { 238, 129, 144 });
-
-                            //while (CurIndex < ToSend.Length)
-                            //{
-                            //    byte[] test = (new byte[] { ToSend[CurIndex], ToSend[CurIndex + 1], ToSend[CurIndex + 2] });
-
-                            //    Application.DoEvents();
-
-                            //    if (bytecompare(test, Dragon))
-                            //    {
-                            //        Clipboard.Clear();
-                            //        Clipboard.SetText(Linq.DataLogic.Dragon, TextDataFormat.UnicodeText);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                            //        Thread.Sleep(50);
-                            //        Application.DoEvents();
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                            //        CurIndex += 4;
-                            //    }
-                            //    else if (bytecompare(test, Ok))
-                            //    {
-                            //        Clipboard.Clear();
-                            //        Clipboard.SetText(Linq.DataLogic.OK, TextDataFormat.UnicodeText);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                            //        Thread.Sleep(50);
-                            //        Application.DoEvents();
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                            //        CurIndex += 4;
-                            //    }
-                            //    else if (bytecompare(test, Tiger))
-                            //    {
-                            //        Clipboard.Clear();
-
-                            //        StringBuilder RAW = new StringBuilder(512);
-                            //        NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
-
-                            //        if (RAW.ToString().Contains("钉钉"))
-                            //        {
-                            //            Clipboard.SetText(Linq.DataLogic.Tiger_dingding, TextDataFormat.UnicodeText);
-                            //        }
-                            //        else
-                            //        {
-                            //            Clipboard.SetText(Linq.DataLogic.Tiger, TextDataFormat.Text);
-                            //        }
-
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                            //        Thread.Sleep(50);
-                            //        Application.DoEvents();
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                            //        CurIndex += 3;
-                            //    }
-                            //    else
-                            //    {
-                            //        Clipboard.Clear();
-                            //        Clipboard.SetText(Encoding.UTF8.GetString(ToSend, CurIndex, ToSend.Length - CurIndex), TextDataFormat.UnicodeText);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                            //        Thread.Sleep(100);
-                            //        Application.DoEvents();
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                            //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                            //        CurIndex = ToSend.Length;
-                            //    }
+                                NetFramework.WindowsApi.ShowWindow(hwnd, 1);
+                                NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
+                                NetFramework.WindowsApi.SetForegroundWindow(hwnd);
 
 
+                                Thread.Sleep(1000);
+                                //Thread.Sleep(200);
 
-                            //}
-                            #endregion
+                                //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 0, 0);
+                                //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 0, 0);
+
+                                //Thread.Sleep(50);
+                                //Application.DoEvents();
+                                //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_S, 0, 2, 0);
+                                //NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_MENU, 0, 2, 0);
+
+                                #region
+                                //Int32 CurIndex = 0;
+
+                                //byte[] Dragon = (new byte[] { 240, 159, 144 });
+                                //byte[] Ok = (new byte[] { 240, 159, 136 });
+                                //byte[] Tiger = (new byte[] { 238, 129, 144 });
+
+                                //while (CurIndex < ToSend.Length)
+                                //{
+                                //    byte[] test = (new byte[] { ToSend[CurIndex], ToSend[CurIndex + 1], ToSend[CurIndex + 2] });
+
+                                //    Application.DoEvents();
+
+                                //    if (bytecompare(test, Dragon))
+                                //    {
+                                //        Clipboard.Clear();
+                                //        Clipboard.SetText(Linq.DataLogic.Dragon, TextDataFormat.UnicodeText);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                                //        Thread.Sleep(50);
+                                //        Application.DoEvents();
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                                //        CurIndex += 4;
+                                //    }
+                                //    else if (bytecompare(test, Ok))
+                                //    {
+                                //        Clipboard.Clear();
+                                //        Clipboard.SetText(Linq.DataLogic.OK, TextDataFormat.UnicodeText);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                                //        Thread.Sleep(50);
+                                //        Application.DoEvents();
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                                //        CurIndex += 4;
+                                //    }
+                                //    else if (bytecompare(test, Tiger))
+                                //    {
+                                //        Clipboard.Clear();
+
+                                //        StringBuilder RAW = new StringBuilder(512);
+                                //        NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
+
+                                //        if (RAW.ToString().Contains("钉钉"))
+                                //        {
+                                //            Clipboard.SetText(Linq.DataLogic.Tiger_dingding, TextDataFormat.UnicodeText);
+                                //        }
+                                //        else
+                                //        {
+                                //            Clipboard.SetText(Linq.DataLogic.Tiger, TextDataFormat.Text);
+                                //        }
+
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                                //        Thread.Sleep(50);
+                                //        Application.DoEvents();
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                                //        CurIndex += 3;
+                                //    }
+                                //    else
+                                //    {
+                                //        Clipboard.Clear();
+                                //        Clipboard.SetText(Encoding.UTF8.GetString(ToSend, CurIndex, ToSend.Length - CurIndex), TextDataFormat.UnicodeText);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                                //        Thread.Sleep(100);
+                                //        Application.DoEvents();
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                                //        NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                                //        CurIndex = ToSend.Length;
+                                //    }
 
 
-                            Clipboard.SetText((SendText.StartsWith(Linq.ProgramLogic.Tiger) ? " " : "") + SendText);
-                            Thread.Sleep(50);
-                            #region 模拟点击
-                            //NetFramework.WindowsApi.Rect pos = new NetFramework.WindowsApi.Rect();
-                            //NetFramework.WindowsApi.GetWindowRect(hwnd, out pos);
 
-                            //NetFramework.WindowsApi.SetCursorPos(
-                            //     pos.Right - 150
-                            //    , pos.Bottom - 20
-                            //    );//移动到需要点击的位置
-                            //Thread.Sleep(10);
-                            //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTDOWN | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
-                            //    , 0
-                            //    , 0
-                            //    , 0, 0);//点击
-                            //Thread.Sleep(10);
-                            //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTUP | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
-                            //     , 0
-                            //    , 0
-                            //    , 0, 0);//抬起
-
-                            //Thread.Sleep(100);
-
-                            #endregion
+                                //}
+                                #endregion
 
 
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-                            Thread.Sleep(10);
+                                Clipboard.SetText((SendText.StartsWith(Linq.ProgramLogic.Tiger) ? " " : "") + SendText);
+                                Thread.Sleep(50);
+                                #region 模拟点击
+                                //NetFramework.WindowsApi.Rect pos = new NetFramework.WindowsApi.Rect();
+                                //NetFramework.WindowsApi.GetWindowRect(hwnd, out pos);
 
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-                            Thread.Sleep(50);
+                                //NetFramework.WindowsApi.SetCursorPos(
+                                //     pos.Right - 150
+                                //    , pos.Bottom - 20
+                                //    );//移动到需要点击的位置
+                                //Thread.Sleep(10);
+                                //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTDOWN | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
+                                //    , 0
+                                //    , 0
+                                //    , 0, 0);//点击
+                                //Thread.Sleep(10);
+                                //NetFramework.WindowsApi.mouse_event(NetFramework.WindowsApi.MOUSEEVENTF_LEFTUP | NetFramework.WindowsApi.MOUSEEVENTF_ABSOLUTE
+                                //     , 0
+                                //    , 0
+                                //    , 0, 0);//抬起
 
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
+                                //Thread.Sleep(100);
 
-                            Thread.Sleep(10);
+                                #endregion
 
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
-                        }));// invoke 结束
+
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+                                Thread.Sleep(10);
+
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+                                Thread.Sleep(50);
+
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
+
+                                Thread.Sleep(10);
+
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
+                            }));// invoke 结束
+                        }
+                        #endregion
                     }
-                    #endregion  
-                    }
-                    
+
 
 
 
@@ -10232,23 +10249,23 @@ namespace WeixinRoboot
                             File.WriteAllText(Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt", SendText);
 
                         #endregion
-                           var findenums = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
-                           foreach (var findenum in findenums)
-                           {
-                               if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
-                               {
-                                   AdbSendText(findenum.WX_UserName, PCSourceType.雷电, Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt");
+                            var findenums = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
+                            foreach (var findenum in findenums)
+                            {
+                                if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                                {
+                                    AdbSendText(findenum.WX_UserName, PCSourceType.雷电, Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt");
 
-                                   return;
+                                    return;
 
-                               }
-                               if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
-                               {
-                                   AdbSendText(findenum.WX_UserName, PCSourceType.夜神, Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt");
+                                }
+                                if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
+                                {
+                                    AdbSendText(findenum.WX_UserName, PCSourceType.夜神, Application.StartupPath + "\\EmuFile" + "\\" + NewFileName + ".txt");
 
-                                   return;
-                               }
-                           }
+                                    return;
+                                }
+                            }
                         #endregion
                         }//lock
 
@@ -10417,71 +10434,71 @@ namespace WeixinRoboot
                     var findenums = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
                     foreach (var findenum in findenums)
                     {
-                       if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
-                    {
-                        AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, FileImage);
-                    }
-                    if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
-                    {
-                        AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, FileImage);
+                        if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                        {
+                            AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, FileImage);
+                        }
+                        if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
+                        {
+                            AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, FileImage);
 
-                    }
-                    if (findenum.WX_SourceType != "雷电" && findenum.WX_SourceType != "夜神")
-                    {
-
-                        this.Invoke(new Action(() =>
+                        }
+                        if (findenum.WX_SourceType != "雷电" && findenum.WX_SourceType != "夜神")
                         {
 
-                            Clipboard.Clear();
-                            StringBuilder RAW = new StringBuilder(512);
-                            Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
-                            if (winstate == 0)
+                            this.Invoke(new Action(() =>
                             {
-                                return;
-                            }
 
-                            //System.Collections.Specialized.StringCollection sc = new System.Collections.Specialized.StringCollection();
-                            //sc.Add(FileImage);
-                            //Clipboard.SetFileDropList(sc);
-                            Image tocpyimage = Image.FromFile(FileImage);
-                            System.Drawing.Bitmap bp = new Bitmap(tocpyimage);
-                            Clipboard.SetData("System.Drawing.Bitmap", bp);
+                                Clipboard.Clear();
+                                StringBuilder RAW = new StringBuilder(512);
+                                Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
+                                if (winstate == 0)
+                                {
+                                    return;
+                                }
 
-
-                            NetFramework.WindowsApi.ShowWindow(hwnd, 1);
-                            NetFramework.WindowsApi.SetForegroundWindow(hwnd);
-                            NetFramework.WindowsApi.SetActiveWindow(hwnd);
-                            NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
-
-                            Thread.Sleep(50);
-
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-
-                            Thread.Sleep(10);
-
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                            bp.Dispose();
-
-                            tocpyimage.Dispose();
-                            bp = null;
-                            tocpyimage = null;
+                                //System.Collections.Specialized.StringCollection sc = new System.Collections.Specialized.StringCollection();
+                                //sc.Add(FileImage);
+                                //Clipboard.SetFileDropList(sc);
+                                Image tocpyimage = Image.FromFile(FileImage);
+                                System.Drawing.Bitmap bp = new Bitmap(tocpyimage);
+                                Clipboard.SetData("System.Drawing.Bitmap", bp);
 
 
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
+                                NetFramework.WindowsApi.ShowWindow(hwnd, 1);
+                                NetFramework.WindowsApi.SetForegroundWindow(hwnd);
+                                NetFramework.WindowsApi.SetActiveWindow(hwnd);
+                                NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
 
-                            Thread.Sleep(10);
+                                Thread.Sleep(50);
 
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+
+                                Thread.Sleep(10);
+
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                                bp.Dispose();
+
+                                tocpyimage.Dispose();
+                                bp = null;
+                                tocpyimage = null;
+
+
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
+
+                                Thread.Sleep(10);
+
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
 
 
 
-                        }));// invoke 结束
-                    }  
+                            }));// invoke 结束
+                        }
                     }
-                   
+
                 }
                 catch (Exception AnyError)
                 {
@@ -10495,83 +10512,83 @@ namespace WeixinRoboot
             {
                 try
                 {
-                   var findenums = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
-                   foreach (var findenum in findenums)
-                   {
-                      MemoryStream ms = new MemoryStream(FileImageByte);
-                    Image tosave = Image.FromStream(ms);
-                    string NewFileName = Application.StartupPath + "\\EmuFile\\" + Guid.NewGuid().ToString() + ".jpg";
-                    tosave.Save(NewFileName);
-                    ms.Close();
-                    ms.Dispose();
-                    tosave.Dispose();
-
-                    if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                    var findenums = InjectWins.Where(t => t.WX_UserTMPID == hwnd.ToString());
+                    foreach (var findenum in findenums)
                     {
-                        AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, NewFileName);
-                    }
-                    if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
-                    {
-                        AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, NewFileName);
+                        MemoryStream ms = new MemoryStream(FileImageByte);
+                        Image tosave = Image.FromStream(ms);
+                        string NewFileName = Application.StartupPath + "\\EmuFile\\" + Guid.NewGuid().ToString() + ".jpg";
+                        tosave.Save(NewFileName);
+                        ms.Close();
+                        ms.Dispose();
+                        tosave.Dispose();
 
-                    }
-                    if (findenum.WX_SourceType != "雷电" && findenum.WX_SourceType != "夜神")
-                    {
+                        if (findenum != null && cb_adbleidianmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.雷电))
+                        {
+                            AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, NewFileName);
+                        }
+                        if (findenum != null && cb_adbnoxmode.Checked == true && findenum.WX_SourceType == Enum.GetName(typeof(PCSourceType), PCSourceType.夜神))
+                        {
+                            AdbSendImage(findenum.WX_UserName, PCSourceType.雷电, NewFileName);
 
-                        this.Invoke(new Action(() =>
+                        }
+                        if (findenum.WX_SourceType != "雷电" && findenum.WX_SourceType != "夜神")
                         {
 
-                            Clipboard.Clear();
-                            StringBuilder RAW = new StringBuilder(512);
-                            Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
-                            if (winstate == 0)
+                            this.Invoke(new Action(() =>
                             {
-                                return;
-                            }
 
-                            //System.Collections.Specialized.StringCollection sc = new System.Collections.Specialized.StringCollection();
-                            //sc.Add(FileImage);
-                            //Clipboard.SetFileDropList(sc);
-                            Image tocpyimage = Image.FromFile(NewFileName);
-                            System.Drawing.Bitmap bp = new Bitmap(tocpyimage);
-                            Clipboard.SetData("System.Drawing.Bitmap", bp);
+                                Clipboard.Clear();
+                                StringBuilder RAW = new StringBuilder(512);
+                                Int32 winstate = NetFramework.WindowsApi.GetWindowText(hwnd, RAW, 512);
+                                if (winstate == 0)
+                                {
+                                    return;
+                                }
 
-
-                            NetFramework.WindowsApi.ShowWindow(hwnd, 1);
-                            NetFramework.WindowsApi.SetForegroundWindow(hwnd);
-                            NetFramework.WindowsApi.SetActiveWindow(hwnd);
-                            NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
-
-                            Thread.Sleep(50);
-
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
-
-                            Thread.Sleep(10);
-
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
-
-                            bp.Dispose();
-
-                            tocpyimage.Dispose();
-                            bp = null;
-                            tocpyimage = null;
+                                //System.Collections.Specialized.StringCollection sc = new System.Collections.Specialized.StringCollection();
+                                //sc.Add(FileImage);
+                                //Clipboard.SetFileDropList(sc);
+                                Image tocpyimage = Image.FromFile(NewFileName);
+                                System.Drawing.Bitmap bp = new Bitmap(tocpyimage);
+                                Clipboard.SetData("System.Drawing.Bitmap", bp);
 
 
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
+                                NetFramework.WindowsApi.ShowWindow(hwnd, 1);
+                                NetFramework.WindowsApi.SetForegroundWindow(hwnd);
+                                NetFramework.WindowsApi.SetActiveWindow(hwnd);
+                                NetFramework.WindowsApi.SwitchToThisWindow(hwnd, true);
 
-                            Thread.Sleep(10);
+                                Thread.Sleep(50);
 
-                            NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 0, 0);
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 0, 0);
+
+                                Thread.Sleep(10);
+
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_V, 0, 2, 0);
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_CONTROL, 0, 2, 0);
+
+                                bp.Dispose();
+
+                                tocpyimage.Dispose();
+                                bp = null;
+                                tocpyimage = null;
+
+
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 0, 0);
+
+                                Thread.Sleep(10);
+
+                                NetFramework.WindowsApi.keybd_event(NetFramework.WindowsApi.VK_RETURN, 0, 2, 0);
 
 
 
-                        }));// invoke 结束
-                    }  
-                   }
+                            }));// invoke 结束
+                        }
+                    }
 
-                   
+
                 }
                 catch (Exception AnyError)
                 {
