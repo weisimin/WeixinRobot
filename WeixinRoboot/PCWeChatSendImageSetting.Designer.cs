@@ -59,6 +59,8 @@
             this.澳洲幸运5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.腾讯十分 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.腾讯五分 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.腾讯十分信 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.腾讯五分信 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.北京赛车PK10 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.VR重庆彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.新疆时时彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -126,6 +128,8 @@
             this.澳洲幸运5,
             this.腾讯十分,
             this.腾讯五分,
+            this.腾讯十分信,
+            this.腾讯五分信,
             this.北京赛车PK10,
             this.VR重庆彩,
             this.新疆时时彩,
@@ -386,6 +390,18 @@
             this.腾讯五分.IndeterminateValue = "False";
             this.腾讯五分.Name = "腾讯五分";
             this.腾讯五分.Width = 80;
+            // 
+            // 腾讯十分信
+            // 
+            this.腾讯十分信.DataPropertyName = "TengxunshifenXin";
+            this.腾讯十分信.HeaderText = "腾讯十分信";
+            this.腾讯十分信.Name = "腾讯十分信";
+            // 
+            // 腾讯五分信
+            // 
+            this.腾讯五分信.DataPropertyName = "TengxunwufenXin";
+            this.腾讯五分信.HeaderText = "腾讯五分信";
+            this.腾讯五分信.Name = "腾讯五分信";
             // 
             // 北京赛车PK10
             // 
@@ -655,6 +671,8 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn 澳洲幸运5;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 腾讯十分;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 腾讯五分;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 腾讯十分信;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 腾讯五分信;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 北京赛车PK10;
         private System.Windows.Forms.DataGridViewCheckBoxColumn VR重庆彩;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 新疆时时彩;

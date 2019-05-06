@@ -126,6 +126,8 @@
             this.Btn_Restore = new System.Windows.Forms.Button();
             this.btn_query = new System.Windows.Forms.Button();
             this.gb_tengxunwufen = new System.Windows.Forms.GroupBox();
+            this.T_TengXunWuFenXin = new System.Windows.Forms.CheckBox();
+            this.T_TengXunShiFenXin = new System.Windows.Forms.CheckBox();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
@@ -1013,11 +1015,33 @@
             this.gb_tengxunwufen.TabStop = false;
             this.gb_tengxunwufen.Text = "腾讯五分";
             // 
+            // T_TengXunWuFenXin
+            // 
+            this.T_TengXunWuFenXin.AutoSize = true;
+            this.T_TengXunWuFenXin.Location = new System.Drawing.Point(426, 156);
+            this.T_TengXunWuFenXin.Name = "T_TengXunWuFenXin";
+            this.T_TengXunWuFenXin.Size = new System.Drawing.Size(84, 16);
+            this.T_TengXunWuFenXin.TabIndex = 73;
+            this.T_TengXunWuFenXin.Text = "腾讯五分信";
+            this.T_TengXunWuFenXin.UseVisualStyleBackColor = true;
+            // 
+            // T_TengXunShiFenXin
+            // 
+            this.T_TengXunShiFenXin.AutoSize = true;
+            this.T_TengXunShiFenXin.Location = new System.Drawing.Point(426, 138);
+            this.T_TengXunShiFenXin.Name = "T_TengXunShiFenXin";
+            this.T_TengXunShiFenXin.Size = new System.Drawing.Size(84, 16);
+            this.T_TengXunShiFenXin.TabIndex = 72;
+            this.T_TengXunShiFenXin.Text = "腾讯十分信";
+            this.T_TengXunShiFenXin.UseVisualStyleBackColor = true;
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 694);
+            this.Controls.Add(this.T_TengXunWuFenXin);
+            this.Controls.Add(this.T_TengXunShiFenXin);
             this.Controls.Add(this.gb_tengxunwufen);
             this.Controls.Add(this.btn_query);
             this.Controls.Add(this.Btn_Restore);
@@ -1207,6 +1231,8 @@
         private System.Windows.Forms.Button Btn_Restore;
         private System.Windows.Forms.Button btn_query;
         private System.Windows.Forms.GroupBox gb_tengxunwufen;
+        private System.Windows.Forms.CheckBox T_TengXunWuFenXin;
+        private System.Windows.Forms.CheckBox T_TengXunShiFenXin;
 
     }
 }

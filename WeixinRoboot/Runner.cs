@@ -150,7 +150,7 @@ namespace WeixinRoboot
 
 
                         {
-                            webpcset.PIC_StartHour = 6;
+                            webpcset.PIC_StartHour = 9;
                         }
 
 
@@ -160,7 +160,7 @@ namespace WeixinRoboot
 
 
                         {
-                            webpcset.PIC_EndHour = 3;
+                            webpcset.PIC_EndHour = 2;
                         }
 
 
@@ -1184,6 +1184,32 @@ namespace WeixinRoboot
 
                 Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("VR模式", editrow, DateTime.Now);
                 ((ToolStripMenuItem)sender).Checked = true;
+
+
+            }
+        }
+
+        private void MI_TengXunShiFenXinMode_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("腾十信模式", editrow, DateTime.Now);
+
+
+            }
+        }
+
+        private void MI_TengXunWuFenXinMode_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("腾五信模式", editrow, DateTime.Now);
 
 
             }
