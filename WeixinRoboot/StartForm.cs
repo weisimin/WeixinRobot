@@ -4863,7 +4863,7 @@ namespace WeixinRoboot
                     //if ((dr[0].Field<string>("User_ContactType") == "群" && ToUserID == "") || (TEMPUserName == ToUserID))
                     if ((ToUserID == "") || (TEMPUserName == ToUserID))
                     {
-                        if (webpcset.IsSendPIC == false && ToUserID == "")
+                        if (webpcset.IsSendPIC == false )
                         {
                             continue;
                         }
