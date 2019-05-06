@@ -250,6 +250,10 @@ namespace WeixinRoboot
                     newr.SetField("User_TengXunShiFen", usrc == null ? false : (usrc.TengXunShiFenMode == null ? false : usrc.TengXunShiFenMode));
                     newr.SetField("User_TengXunWuFen", usrc == null ? false : (usrc.TengXunWuFenMode == null ? false : usrc.TengXunWuFenMode));
 
+                    newr.SetField("User_TengXunShiFenXin", usrc == null ? false : (usrc.TengXunShiFenXinMode == null ? false : usrc.TengXunShiFenXinMode));
+                    newr.SetField("User_TengXunWuFenXin", usrc == null ? false : (usrc.TengXunWuFenXinMode == null ? false : usrc.TengXunWuFenXinMode));
+
+
                     newr.SetField("User_XinJiangShiShiCai", usrc == null ? false : (usrc.XinJiangMode == null ? false : usrc.XinJiangMode));
                     newr.SetField("User_VR", usrc == null ? false : (usrc.VRMode == null ? false : usrc.VRMode));
 
@@ -534,6 +538,9 @@ namespace WeixinRoboot
 
             MemberSource.Columns.Add("User_TengXunShiFen", typeof(Boolean));
             MemberSource.Columns.Add("User_TengXunWuFen", typeof(Boolean));
+
+            MemberSource.Columns.Add("User_TengXunShiFenXin", typeof(Boolean));
+            MemberSource.Columns.Add("User_TengXunWuFenXin", typeof(Boolean));
 
             MemberSource.Columns.Add("User_XinJiangShiShiCai", typeof(Boolean));
 

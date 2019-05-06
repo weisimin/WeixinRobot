@@ -1939,6 +1939,14 @@ namespace WeixinRoboot
                                             ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分));
                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
                                             break;
+                                        case "腾五信":
+                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信));
+                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
+                                            break;
+                                        case "腾十信":
+                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信));
+                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
+                                            break;
                                         case "澳彩":
                                             ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5));
                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
