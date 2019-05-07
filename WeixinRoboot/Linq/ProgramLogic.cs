@@ -6997,7 +6997,8 @@ namespace WeixinRoboot.Linq
                     //LocalTime = LocalTime.AddMinutes(-150);
 
 
-                    FindMinute_aozc = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == LocalTime.ToString("HH:mm") && t.GameType == "澳洲幸运5");
+                    FindMinute_aozc = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == LocalTime.ToString("HH:mm") 
+                        && t.GameType == "澳洲幸运5");
                 }
                 var findGameResult = db.Game_Result.SingleOrDefault(t =>
                     t.GameName == Enum.GetName(typeof(ShiShiCaiMode), subm)

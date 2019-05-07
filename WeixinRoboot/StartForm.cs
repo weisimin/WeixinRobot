@@ -2035,6 +2035,8 @@ namespace WeixinRoboot
                     #endregion
 
 
+
+
                     #region "发图"
                     //if (Content == ("图1") || (Content == ("图2")) || Content == "图3" || Content == "图4"
                     //   || (Content.Contains(Environment.NewLine) == false && Content.Contains("图"))
@@ -2205,7 +2207,49 @@ namespace WeixinRoboot
                     }));
 
 
-
+                    #region 会员并且是私聊
+                    if (checkreply.IsAdmin == true)
+                    {
+                        if (Content == "00")
+                        {
+                            foreach (DataRow UserRow in RunnerF.MemberSource.Rows)
+                            {
+                                string Row_WX_UserName = (UserRow == null ? "" : UserRow.Field<string>("User_ContactID"));
+                                string Row_WX_SourceType = (UserRow == null ? "" : UserRow.Field<string>("User_SourceType"));
+         
+                                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey 
+                                    && t.WX_UserName == Row_WX_UserName 
+                                    && t.WX_SourceType == Row_WX_SourceType);
+                                toupdate.IsReply = false;
+                                UserRow.SetField("User_IsReply", false);
+                                db.SubmitChanges();
+                            }
+                           string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                            var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
+                            SendRobotContent("已全取消自动",NoticeList
+                                 , userr.Field<string>("User_SourceType"));
+                        }
+                        if (Content == "99")
+                        {
+                            foreach (DataRow UserRow in RunnerF.MemberSource.Rows)
+                            {
+                                string Row_WX_UserName = (UserRow == null ? "" : UserRow.Field<string>("User_ContactID"));
+                                string Row_WX_SourceType = (UserRow == null ? "" : UserRow.Field<string>("User_SourceType"));
+         
+                                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey 
+                                    && t.WX_UserName == Row_WX_UserName 
+                                    && t.WX_SourceType == Row_WX_SourceType);
+                                toupdate.IsReply = true;
+                                UserRow.SetField("User_IsReply", true);
+                                db.SubmitChanges();
+                            }
+                            string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                            var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
+                            SendRobotContent("已全勾上自动", NoticeList
+                                 , userr.Field<string>("User_SourceType"));
+                        }
+                    }
+                    #endregion
 
 
                     #region "玩家回复检查是否启用自动跟踪"
@@ -5315,9 +5359,9 @@ namespace WeixinRoboot
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
 
-//            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-//                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
-//).Count();
+            //            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+            //).Count();
 
 
 
@@ -5368,9 +5412,9 @@ namespace WeixinRoboot
 
 
 
-//            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-//                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
-//).Count();
+            //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+            //).Count();
             //if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             //{
             //    NewResult = true;
@@ -5403,9 +5447,9 @@ namespace WeixinRoboot
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
 
-//            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-//                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
-//).Count();
+            //            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
+            //).Count();
 
 
 
@@ -5448,9 +5492,9 @@ namespace WeixinRoboot
 
 
 
-//            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-//                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
-//).Count();
+            //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
+            //).Count();
             //if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             //{
             //    NewResult = true;
@@ -5482,10 +5526,10 @@ namespace WeixinRoboot
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
 
-//            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-//                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
-//).Count();
-//            //http://gf4.006632.com:90/Result/Index?game=244
+            //            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
+            //).Count();
+            //            //http://gf4.006632.com:90/Result/Index?game=244
 
 
             string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=txsfc";
@@ -5637,9 +5681,9 @@ namespace WeixinRoboot
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
 
-//            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-//                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信)
-//).Count();
+            //            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信)
+            //).Count();
             //http://gf4.006632.com:90/Result/Index?game=244
 
 
@@ -5710,9 +5754,9 @@ namespace WeixinRoboot
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
 
-//            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-//                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信)
-//).Count();
+            //            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信)
+            //).Count();
 
 
 
@@ -5755,9 +5799,9 @@ namespace WeixinRoboot
 
 
 
-//            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-//                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信)
-//).Count();
+            //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信)
+            //).Count();
             //if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             //{
             //    NewResult = true;
@@ -6895,7 +6939,7 @@ namespace WeixinRoboot
 
                     string str_dataperiod = (item["preDrawIssue"] as JValue).Value.ToString();
                     string StrTime = (item["preDrawTime"] as JValue).Value.ToString();
-                    StrTime = Convert.ToDateTime(StrTime).AddMinutes(-150).ToString("yyyy-MM-dd HH:mm:ss");
+                    //StrTime = Convert.ToDateTime(StrTime).AddMinutes(-150).ToString("yyyy-MM-dd HH:mm:ss");
 
                     if (MaxAozcPeriod == "")
                     {
@@ -7137,7 +7181,7 @@ namespace WeixinRoboot
                     string StrTime = (item["c_d"] as JValue).Value.ToString();
                     string[] Times = StrTime.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                     StrTime = DateTime.Today.Year + "-" + Times[0].Replace("/", "-") + " " + Times[2];
-                    StrTime = Convert.ToDateTime(StrTime).AddMinutes(-150).ToString("yyyy-MM-dd HH:mm:ss");
+                    //StrTime = Convert.ToDateTime(StrTime).AddMinutes(-150).ToString("yyyy-MM-dd HH:mm:ss");
 
                     if (MaxAozcPeriod == "")
                     {
@@ -7799,10 +7843,10 @@ namespace WeixinRoboot
             //    Datatextplain_dingding += "本地时间与官网时差150分钟" + Environment.NewLine;
             //}
             Int32 TigerindexVQQ = 0;
-            Int32 TotalIndexVQQ = 30;
+            Int32 TotalIndexVQQ = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexVQQ = 30;
+                TotalIndexVQQ = 60;
             }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
@@ -8368,7 +8412,7 @@ namespace WeixinRoboot
             Int32 TotalIndexV22 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV22 = 30;
+                TotalIndexV22 = 60;
             }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
@@ -8434,10 +8478,10 @@ namespace WeixinRoboot
             }
             DatatextplainV23 += Environment.NewLine;
             Int32 TigerIndexV23 = 0;
-            Int32 TotalIndexV23 = 30;
+            Int32 TotalIndexV23 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV23 = 30;
+                TotalIndexV23 = 60;
             }
             //最新在前
             foreach (DataRow datetextitem in dtCopy.Rows)
@@ -8509,7 +8553,7 @@ namespace WeixinRoboot
             Int32 TotalIndexV24 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV24 = 30;
+                TotalIndexV24 = 60;
             }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
@@ -8578,7 +8622,7 @@ namespace WeixinRoboot
             Int32 TotalIndexV10 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV10 = 30;
+                TotalIndexV10 = 60;
             }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
@@ -8644,10 +8688,10 @@ namespace WeixinRoboot
             }
             DatatextplainV11 += Environment.NewLine;
             Int32 TigerIndexV11 = 0;
-            Int32 TotalIndexV11 = 30;
+            Int32 TotalIndexV11 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV11 = 30;
+                TotalIndexV11 = 60;
             }
             //最新在前
             foreach (DataRow datetextitem in dtCopy.Rows)
@@ -8718,7 +8762,7 @@ namespace WeixinRoboot
             Int32 TotalIndexV12 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV12 = 30;
+                TotalIndexV12 = 60;
             }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
@@ -8788,7 +8832,7 @@ namespace WeixinRoboot
             Int32 TotalIndexV5 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV5 = 30;
+                TotalIndexV5 = 60;
             }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
@@ -8854,10 +8898,10 @@ namespace WeixinRoboot
             }
             DatatextplainV8 += Environment.NewLine;
             Int32 TigerIndexV8 = 0;
-            Int32 TotalIndexV8 = 30;
+            Int32 TotalIndexV8 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV8 = 30;
+                TotalIndexV8 = 60;
             }
             //最新在前
             foreach (DataRow datetextitem in dtCopy.Rows)
@@ -8928,7 +8972,7 @@ namespace WeixinRoboot
             Int32 TotalIndexV6 = 288;
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5 || subm == Linq.ProgramLogic.ShiShiCaiMode.五分彩)
             {
-                TotalIndexV6 = 30;
+                TotalIndexV6 = 60;
             }
             foreach (DataRow datetextitem in dtCopy.Rows)
             {
@@ -9279,6 +9323,7 @@ namespace WeixinRoboot
 
 
         bool FirstRun = true;
+        DateTime? VR_PreTime = DateTime.Now;
         private void tm_refresh_Tick(object sender, EventArgs e)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
@@ -9337,6 +9382,10 @@ namespace WeixinRoboot
 
                         ReloadWebApp();
 
+                    }
+                    if ((DateTime.Now - VR_PreTime.Value).TotalSeconds > 60)
+                    {
+                        ReloadWebApp();
                     }
                 }
                 catch (Exception AnyError)
@@ -9401,6 +9450,7 @@ namespace WeixinRoboot
         {
             try
             {
+                VR_PreTime = DateTime.Now;
                 string LoginUrl = "https://api.honze88.com/api/v1/login";
                 string loginResult = NetFramework.Util_WEB.OpenUrl(LoginUrl, "", "{\"memberName\":\"xl1234567\",\"loginPasswd\":\"123456\"}", "POST", wufencai, true, true, "application/json; charset=utf-8"
                    , "");
