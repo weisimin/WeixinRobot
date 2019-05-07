@@ -4808,7 +4808,7 @@ namespace WeixinRoboot.Linq
                 toupdate.VRMode = false;
 
                 toupdate.TengXunShiFenXinMode = false;
-                toupdate.TengXunWuFenMode = false;
+                toupdate.TengXunWuFenXinMode = false;
 
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", true);
@@ -4849,7 +4849,7 @@ namespace WeixinRoboot.Linq
                 toupdate.XinJiangMode = false;
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
-                toupdate.TengXunWuFenMode = false;
+                toupdate.TengXunWuFenXinMode = false;
 
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
@@ -4887,7 +4887,7 @@ namespace WeixinRoboot.Linq
                 toupdate.XinJiangMode = false;
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
-                toupdate.TengXunWuFenMode = false;
+                toupdate.TengXunWuFenXinMode = false;
 
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
@@ -4924,7 +4924,7 @@ namespace WeixinRoboot.Linq
                 toupdate.XinJiangMode = true;
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
-                toupdate.TengXunWuFenMode = false;
+                toupdate.TengXunWuFenXinMode = false;
 
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
@@ -4960,7 +4960,7 @@ namespace WeixinRoboot.Linq
                 toupdate.XinJiangMode = false;
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
-                toupdate.TengXunWuFenMode = false;
+                toupdate.TengXunWuFenXinMode = false;
 
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
@@ -4996,7 +4996,7 @@ namespace WeixinRoboot.Linq
                 toupdate.XinJiangMode = false;
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
-                toupdate.TengXunWuFenMode = false;
+                toupdate.TengXunWuFenXinMode = false;
 
 
                 db.SubmitChanges();
@@ -5034,7 +5034,7 @@ namespace WeixinRoboot.Linq
                 toupdate.XinJiangMode = false;
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = true;
-                toupdate.TengXunWuFenMode = false;
+                toupdate.TengXunWuFenXinMode = false;
 
 
                 db.SubmitChanges();
@@ -5071,7 +5071,7 @@ namespace WeixinRoboot.Linq
                 toupdate.XinJiangMode = false;
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
-                toupdate.TengXunWuFenMode = true;
+                toupdate.TengXunWuFenXinMode = true;
 
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
@@ -5108,7 +5108,7 @@ namespace WeixinRoboot.Linq
                 toupdate.XinJiangMode = false;
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
-                toupdate.TengXunWuFenMode = false;
+                toupdate.TengXunWuFenXinMode = false;
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", false);
@@ -5143,7 +5143,7 @@ namespace WeixinRoboot.Linq
                 toupdate.XinJiangMode = false;
                 toupdate.VRMode = true;
                 toupdate.TengXunShiFenXinMode = false;
-                toupdate.TengXunWuFenMode = false;
+                toupdate.TengXunWuFenXinMode = false;
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", false);

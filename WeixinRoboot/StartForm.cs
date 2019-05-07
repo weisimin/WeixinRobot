@@ -129,7 +129,7 @@ namespace WeixinRoboot
 
             T_TengXunShiFenXin.Checked = loadset.Thread_TengXunShiFenXin.HasValue ? loadset.Thread_TengXunShiFenXin.Value : true;
             T_TengXunWuFenXin.Checked = loadset.Thread_TengXunWuFenXin.HasValue ? loadset.Thread_TengXunWuFenXin.Value : true;
-           
+
 
 
             if (loadset.LeiDianPath == null)
@@ -987,7 +987,7 @@ namespace WeixinRoboot
 
                     #region "微信监听"
 
-                    MethodRestart:
+                MethodRestart:
 
 
                     this.Invoke(new Action(() => { lbl_msg.Text = "机器人监听中"; }));
@@ -1060,10 +1060,10 @@ namespace WeixinRoboot
                          )
                     {
                         goto MethodRestart;
-          //              string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
-          //, "", "", "GET", cookie, false);
+                        //              string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
+                        //, "", "", "GET", cookie, false);
 
-          //              newridata.LoadXml(Result2);
+                        //              newridata.LoadXml(Result2);
                         //ReStartWeixin();
                         //return;
 
@@ -1972,7 +1972,8 @@ namespace WeixinRoboot
                                             {
                                                 PicType = "文本";
                                             }
-                                            else {
+                                            else
+                                            {
                                                 PicType = webpcset.PreSendGameType;
                                             }
 
@@ -4390,7 +4391,27 @@ namespace WeixinRoboot
                     if (loadset.Thread_TengXunShiFenXin == true)
                     {
                         Boolean TmpCheck = false;
-                        DownLoad163CaiPiaoV_tengxunshifen_xin(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+                        try
+                        {
+                            DownLoad163CaiPiaoV_tengxunshifen_xin_gf4(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
+                        try
+                        {
+                            DownLoad163CaiPiaoV_tengxunshifen_xin_188(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
+
                         if (TmpCheck)
                         {
                             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾十信);
@@ -4488,7 +4509,17 @@ namespace WeixinRoboot
                         Boolean TmpCheck = false;
                         try
                         {
-                            DownLoad163CaiPiaoV_tengxunwufen_xin(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+                            DownLoad163CaiPiaoV_tengxunwufen_xin_188(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
+                        try
+                        {
+                            DownLoad163CaiPiaoV_tengxunwufen_xin_gf4(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
 
                         }
                         catch (Exception)
@@ -4737,7 +4768,7 @@ namespace WeixinRoboot
 
         public static Linq.ProgramLogic.ShiShiCaiMode GetMode(Linq.WX_PCSendPicSetting dr)
         {
-            Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
+            Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.未知;
             if (dr.ChongqingMode == true)
             {
                 subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
@@ -4753,6 +4784,22 @@ namespace WeixinRoboot
             else if (dr.AozcMode == true)
             {
                 subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
+            }
+            else if (dr.Tengxunshifen == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
+            }
+            else if (dr.Tengxunwufen == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
+            }
+            else if (dr.TengxunshifenXin == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
+            }
+            else if (dr.TengxunwufenXin == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
             }
             return subm;
         }
@@ -4863,7 +4910,7 @@ namespace WeixinRoboot
                     //if ((dr[0].Field<string>("User_ContactType") == "群" && ToUserID == "") || (TEMPUserName == ToUserID))
                     if ((ToUserID == "") || (TEMPUserName == ToUserID))
                     {
-                        if (webpcset.IsSendPIC == false )
+                        if (webpcset.IsSendPIC == false)
                         {
                             continue;
                         }
@@ -5268,9 +5315,9 @@ namespace WeixinRoboot
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
 
-            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
-).Count();
+//            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+//                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+//).Count();
 
 
 
@@ -5321,9 +5368,9 @@ namespace WeixinRoboot
 
 
 
-            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
-).Count();
+//            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+//                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+//).Count();
             //if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             //{
             //    NewResult = true;
@@ -5343,9 +5390,9 @@ namespace WeixinRoboot
             //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
         }
-        
+
         //http://gf4.006632.com:90/Result/GetLotteryResultList?gameID=246&pageSize=288&pageIndex=1&_=1557140016391
-        public void DownLoad163CaiPiaoV_tengxunshifen_xin(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
+        public void DownLoad163CaiPiaoV_tengxunshifen_xin_gf4(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
@@ -5356,9 +5403,9 @@ namespace WeixinRoboot
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
 
-            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
-).Count();
+//            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+//                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
+//).Count();
 
 
 
@@ -5367,7 +5414,7 @@ namespace WeixinRoboot
 
             NetFramework.Console.WriteLine("正在刷新腾讯十分网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
 
-            string Result = NetFramework.Util_WEB.OpenUrl(URL,  "http://gf4.006632.com:90/Result/Index?game=246","", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8");
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "http://gf4.006632.com:90/Result/Index?game=246", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8");
             DateTime PreTime = DateTime.Now;
             JObject jresult = JObject.Parse(Result);
 
@@ -5387,7 +5434,7 @@ namespace WeixinRoboot
 
                     );
                 string str_Win = Oldstr_Win.Replace(Environment.NewLine, ",");
-               
+
                 str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", "");
 
                 //str_dataperiod = str_dataperiod.Substring(2, 9);
@@ -5401,9 +5448,9 @@ namespace WeixinRoboot
 
 
 
-            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
-).Count();
+//            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+//                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
+//).Count();
             //if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             //{
             //    NewResult = true;
@@ -5423,9 +5470,81 @@ namespace WeixinRoboot
             //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
         }
-       
-        
-        
+
+        public void DownLoad163CaiPiaoV_tengxunshifen_xin_188(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://pay4.hbcchy.com/lotterytrend/getsscchart
+
+
+//            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+//                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
+//).Count();
+//            //http://gf4.006632.com:90/Result/Index?game=244
+
+
+            string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=txsfc";
+            //string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=txsfc";
+
+            NetFramework.Console.WriteLine("正在刷新腾讯十分信188网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8");
+            DateTime PreTime = DateTime.Now;
+            JObject jresult = JObject.Parse(Result);
+
+
+            Int32 FullCount = 0;
+            JArray periods = (JArray)jresult["result"]["data"];
+            foreach (JToken trdata in periods)
+            {
+
+                string str_Win = trdata["preDrawCode"].ToString();
+
+                string str_dataperiod = trdata["preDrawIssue"].ToString();
+
+                str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", "");
+                // str_Win = str_Win.Substring(0, 9);
+
+                string GameTime = trdata["preDrawTime"].ToString();
+                //str_dataperiod = str_dataperiod.Substring(2, 9);
+
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.腾十信, GameTime);
+
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
+            NetFramework.Console.WriteLine("腾讯十分信188下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+            //).Count();
+            //            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            //            {
+            //                NewResult = true;
+
+
+            //                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+
+            //            }
+
+            //            if (LocalGameResultCount != AfterCheckCount)
+            //            {
+            //                SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+            //            }
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
+
         //https://api.honze88.com/api/v1/lotteries/17/issuos
         public void DownLoad163CaiPiaoV_tengxunwufenbyhuayu(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
@@ -5507,7 +5626,7 @@ namespace WeixinRoboot
 
         }
 
-        public void DownLoad163CaiPiaoV_tengxunwufen_xin(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
+        public void DownLoad163CaiPiaoV_tengxunwufen_xin_188(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
@@ -5518,9 +5637,9 @@ namespace WeixinRoboot
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
 
-            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信)
-).Count();
+//            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+//                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信)
+//).Count();
             //http://gf4.006632.com:90/Result/Index?game=244
 
 
@@ -5543,8 +5662,8 @@ namespace WeixinRoboot
 
                 string str_dataperiod = trdata["preDrawIssue"].ToString();
 
-                str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
-                str_Win = str_Win.Substring(0, 9);
+                str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", "");
+                // str_Win = str_Win.Substring(0, 9);
 
                 string GameTime = trdata["preDrawTime"].ToString();
                 //str_dataperiod = str_dataperiod.Substring(2, 9);
@@ -5579,8 +5698,89 @@ namespace WeixinRoboot
             //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
         }
-       
-        
+
+        public void DownLoad163CaiPiaoV_tengxunwufen_xin_gf4(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://pay4.hbcchy.com/lotterytrend/getsscchart
+
+
+//            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+//                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信)
+//).Count();
+
+
+
+
+            string URL = "http://gf4.006632.com:90/Result/GetLotteryResultList?gameID=244&pageSize=288&pageIndex=1&_=1557140016391";
+
+            NetFramework.Console.WriteLine("正在刷新腾五信网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "http://gf4.006632.com:90/Result/Index?game=244", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8");
+            DateTime PreTime = DateTime.Now;
+            JObject jresult = JObject.Parse(Result);
+
+
+
+            JArray periods = (JArray)jresult["list"];
+            Int32 FullCount = 0;
+            foreach (JToken trdata in periods)
+            {
+
+                string Oldstr_Win = NetFramework.Util_WEB.CleanHtml(
+                    ((JObject)trdata)["result"].ToString()
+                    );
+
+                string str_dataperiod = NetFramework.Util_WEB.CleanHtml(
+                     ((JObject)trdata)["period"].ToString()
+
+                    );
+                string str_Win = Oldstr_Win.Replace(Environment.NewLine, ",");
+
+                str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", "");
+
+                //str_dataperiod = str_dataperiod.Substring(2, 9);
+                string GameTime = ((JObject)trdata)["date"].ToString();
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.腾五信, GameTime);
+
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
+            NetFramework.Console.WriteLine("腾五信下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+            ShiShiCaiDealGameLogAndNotice();
+
+
+
+//            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+//                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信)
+//).Count();
+            //if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            //{
+            //    NewResult = true;
+
+
+            //    DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+
+            //}
+            //if (LocalGameResultCount != AfterCheckCount)
+            //{
+            //    SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+            //}
+
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
+
+
+
         //http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCai.do?issue=&lotCode=tx5fc
         public void DownLoad163CaiPiaoV_beijingsaichepk10(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
@@ -7423,7 +7623,7 @@ namespace WeixinRoboot
 
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩 == false)
             {
-                if (subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯五分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+                if (subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯五分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯十分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾五信 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾十信)
                 {
                     if (Localday.Hour * 60 + Localday.Minute < 5)
                     {
