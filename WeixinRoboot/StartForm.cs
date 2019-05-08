@@ -2216,17 +2216,17 @@ namespace WeixinRoboot
                             {
                                 string Row_WX_UserName = (UserRow == null ? "" : UserRow.Field<string>("User_ContactID"));
                                 string Row_WX_SourceType = (UserRow == null ? "" : UserRow.Field<string>("User_SourceType"));
-         
-                                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey 
-                                    && t.WX_UserName == Row_WX_UserName 
+
+                                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                                    && t.WX_UserName == Row_WX_UserName
                                     && t.WX_SourceType == Row_WX_SourceType);
                                 toupdate.IsReply = false;
                                 UserRow.SetField("User_IsReply", false);
                                 db.SubmitChanges();
                             }
-                           string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                            string WX_UserName = contacts[0].Field<string>("User_ContactID");
                             var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
-                            SendRobotContent("已全取消自动",NoticeList
+                            SendRobotContent("已全取消自动", NoticeList
                                  , userr.Field<string>("User_SourceType"));
                         }
                         if (Content == "99")
@@ -2235,9 +2235,9 @@ namespace WeixinRoboot
                             {
                                 string Row_WX_UserName = (UserRow == null ? "" : UserRow.Field<string>("User_ContactID"));
                                 string Row_WX_SourceType = (UserRow == null ? "" : UserRow.Field<string>("User_SourceType"));
-         
-                                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey 
-                                    && t.WX_UserName == Row_WX_UserName 
+
+                                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                                    && t.WX_UserName == Row_WX_UserName
                                     && t.WX_SourceType == Row_WX_SourceType);
                                 toupdate.IsReply = true;
                                 UserRow.SetField("User_IsReply", true);
@@ -4215,7 +4215,7 @@ namespace WeixinRoboot
 
         private void DownLoad163ThreadDo_wufen()
         {
-            // while (KillThread.ContainsKey((Guid)ThreadID) == false)
+            while (true)
             {
                 try
                 {
@@ -4342,21 +4342,37 @@ namespace WeixinRoboot
                         try
                         {
                             DownLoad163CaiPiaoV_vrchongqingcaislimWeb(ref TmpCheck, false);
-
                             //DownLoad163CaiPiaoV_vrchongqingcai(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
-
-                            if (TmpCheck)
-                            {
-                                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
-                                SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
-                            }
-
-
                         }
+
                         catch (Exception AnyError)
                         {
                             NetFramework.Console.WriteLine(AnyError.Message, true);
+
+                        }
+                        try
+                        {
                             DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
+                        }
+
+                        catch (Exception AnyError)
+                        {
+                            NetFramework.Console.WriteLine(AnyError.Message, true);
+
+                        }
+                        try
+                        {
+                            DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref TmpCheck, false);
+                        }
+
+                        catch (Exception AnyError)
+                        {
+                            NetFramework.Console.WriteLine(AnyError.Message, true);
+                        }
+                        if (TmpCheck)
+                        {
+                            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+                            SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
                         }
                     }
 
@@ -6553,6 +6569,50 @@ namespace WeixinRoboot
 
             #endregion
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
+            NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+            //).Count();
+            //            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            //            {
+            //                NewResult = true;
+
+
+            //                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+            //            }
+            //            if (LocalGameResultCount != AfterCheckCount)
+            //            {
+            //                SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+            //            }
+        }
+
+        public void DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref Boolean NewResult, bool ReDrawGdi)
+        {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            var OtherUsers = db.Game_Result.Where(t => t.GameName == "VR重庆时时彩").OrderByDescending(t => t.GamePeriod);
+
+            #region 补充历史开奖
+            Int32 TakeIndex = 0;
+            foreach (Linq.Game_Result item in OtherUsers)
+            {
+                TakeIndex += 1;
+                if (TakeIndex >= 80)
+                {
+                    break;
+                }
+
+                Linq.ProgramLogic.NewGameResult(item.GameResult, item.GamePeriod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+
+            }
+
+            #endregion
             NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
             ShiShiCaiDealGameLogAndNotice();
 
@@ -9326,13 +9386,14 @@ namespace WeixinRoboot
         DateTime? VR_PreTime = DateTime.Now;
         private void tm_refresh_Tick(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            lbl_six.Text = "六下期：" + (GetNextPreriodHKSix(db) == null ? "" : GetNextPreriodHKSix(db).GamePeriod);
-            lbl_qqthread.Text = "(ALT+O)采集:" + (StopQQ == true ? "停止" : "运行");
-            tm_refresh.Enabled = false;
+
             try
             {
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                lbl_six.Text = "六下期：" + (GetNextPreriodHKSix(db) == null ? "" : GetNextPreriodHKSix(db).GamePeriod);
+                lbl_qqthread.Text = "(ALT+O)采集:" + (StopQQ == true ? "停止" : "运行");
+                tm_refresh.Enabled = false;
 
 
                 if (FirstRun == true)
@@ -9406,6 +9467,25 @@ namespace WeixinRoboot
                     PicBarCode.Visible = true;
                     ReloadWX = false;
                 }
+                #region 显示模拟器
+                //this.Invoke(new Action(() =>
+                //{
+
+                if (cb_adbnoxmode.Checked == true && tb_NoxPath.Text != "")
+                {
+                    CmdRun(tb_LeidianPath.Text, "adb devices");
+                    string cmdr = CmdRun(tb_NoxPath.Text, "noxconsole.exe list");
+                    ShowEnumtors(cmdr, SourceNoxList, "noxconsole.exe list");
+                }
+                if (cb_adbleidianmode.Checked == true && tb_LeidianPath.Text != "")
+                {
+                    CmdRun(tb_LeidianPath.Text, "adb devices");
+                    string cmdr = CmdRun(tb_LeidianPath.Text, "ldconsole.exe list2");
+                    ShowEnumtors(cmdr, SourceLeidianList, "ldconsole.exe list2");
+                }
+                //}));
+
+                #endregion
             }
             catch (Exception AnyError)
             {
@@ -9418,25 +9498,7 @@ namespace WeixinRoboot
             //} 
 
 
-            #region 显示模拟器
-            //this.Invoke(new Action(() =>
-            //{
 
-            if (cb_adbnoxmode.Checked == true && tb_NoxPath.Text != "")
-            {
-                CmdRun(tb_LeidianPath.Text, "adb devices");
-                string cmdr = CmdRun(tb_NoxPath.Text, "noxconsole.exe list");
-                ShowEnumtors(cmdr, SourceNoxList, "noxconsole.exe list");
-            }
-            if (cb_adbleidianmode.Checked == true && tb_LeidianPath.Text != "")
-            {
-                CmdRun(tb_LeidianPath.Text, "adb devices");
-                string cmdr = CmdRun(tb_LeidianPath.Text, "ldconsole.exe list2");
-                ShowEnumtors(cmdr, SourceLeidianList, "ldconsole.exe list2");
-            }
-            //}));
-
-            #endregion
 
 
             tm_refresh.Enabled = true;
@@ -12920,12 +12982,13 @@ namespace WeixinRoboot
 
             while (true)
             {
-                if (ExitKill)
+               
+                try
+                { 
+                    if (ExitKill)
                 {
                     return;
                 }
-                try
-                {
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                     var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -13512,17 +13575,18 @@ namespace WeixinRoboot
         {
             while (true)
             {
-                if (ExitKill)
-                {
-                    return;
-                }
-                if (IsRefreshBall == false)
-                {
-                    Thread.Sleep(1000);
-                    continue;
-                }
+
                 try
                 {
+                    if (ExitKill)
+                    {
+                        return;
+                    }
+                    if (IsRefreshBall == false)
+                    {
+                        Thread.Sleep(1000);
+                        continue;
+                    }
                     RefreshballV2(wb_ballgame, "mm_content", BallType.篮球, Linq.ProgramLogic.BallCompanyType.皇冠);
                     RefreshballV2(wb_ballgame, "data_main", BallType.足球, Linq.ProgramLogic.BallCompanyType.皇冠);
                     RefreshballV2(wb_ballgame, "mm_content", BallType.篮球, Linq.ProgramLogic.BallCompanyType.澳彩);
@@ -13559,18 +13623,18 @@ namespace WeixinRoboot
             CheckHasStart = true;
             while (true)
             {
-                if (ExitKill)
-                {
-                    return;
-                }
-                if (IsRefreshBall == false)
-                {
-                    Thread.Sleep(1000);
-                    continue;
-                }
+
                 try
                 {
-
+                    if (ExitKill)
+                    {
+                        return;
+                    }
+                    if (IsRefreshBall == false)
+                    {
+                        Thread.Sleep(1000);
+                        continue;
+                    }
                     GetAndSetPoint(wb_balllivepoint, BallType.足球);
                     GetAndSetPoint(wb_balllivepoint, BallType.篮球);
 
