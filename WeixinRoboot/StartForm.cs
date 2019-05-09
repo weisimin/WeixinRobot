@@ -27,17 +27,17 @@ namespace WeixinRoboot
 {
     public partial class StartForm : Form
     {
-        XPathWebBrowser wb_ballgame = null;
+        Gecko.GeckoWebBrowser wb_ballgame = null;
 
-        XPathWebBrowser wb_other = null;
-        XPathWebBrowser wb_refresh = null;
+        Gecko.GeckoWebBrowser wb_other = null;
+        Gecko.GeckoWebBrowser wb_refresh = null;
 
-        XPathWebBrowser wb_balllivepoint = null;
+        Gecko.GeckoWebBrowser wb_balllivepoint = null;
 
 
-        XPathWebBrowser wb_pointlog = null;
+        Gecko.GeckoWebBrowser wb_pointlog = null;
 
-        XPathWebBrowser wb_vrchongqing = null;
+        Gecko.GeckoWebBrowser wb_vrchongqing = null;
 
         public StartForm()
         {
@@ -347,8 +347,7 @@ namespace WeixinRoboot
             EndNoticeBoss.Start();
 
 
-            wb_ballgame = new XPathWebBrowser();
-            wb_ballgame.ScriptErrorsSuppressed = true;
+            wb_ballgame = new Gecko.GeckoWebBrowser();
 
 
 
@@ -370,19 +369,19 @@ namespace WeixinRoboot
 
 
 
-            wb_other = new XPathWebBrowser();
+            wb_other = new Gecko.GeckoWebBrowser();
 
             wb_other.Dock = DockStyle.Fill;
             wb_other.Name = "wb_other";
-            wb_other.ScriptErrorsSuppressed = true;
+
             gb_other.Controls.Add(wb_other);
 
 
 
-            wb_refresh = new XPathWebBrowser();
+            wb_refresh = new Gecko.GeckoWebBrowser();
             wb_refresh.Dock = DockStyle.Fill;
             wb_refresh.Name = "wb_refresh";
-            wb_refresh.ScriptErrorsSuppressed = true;
+
             gb_refresh.Controls.Add(wb_refresh);
 
 
@@ -390,8 +389,8 @@ namespace WeixinRoboot
 
 
 
-            wb_balllivepoint = new XPathWebBrowser();
-            wb_balllivepoint.ScriptErrorsSuppressed = true;
+            wb_balllivepoint = new Gecko.GeckoWebBrowser();
+
 
             wb_balllivepoint.Dock = DockStyle.Fill;
             wb_balllivepoint.Name = "wb_balllivepoint";
@@ -401,16 +400,16 @@ namespace WeixinRoboot
 
 
 
-            wb_pointlog = new XPathWebBrowser();
-            wb_pointlog.ScriptErrorsSuppressed = true;
+            wb_pointlog = new Gecko.GeckoWebBrowser();
+
             wb_pointlog.Dock = DockStyle.Fill;
             wb_pointlog.Name = "wb_pointlog";
 
             gb_pointlog.Controls.Add(wb_pointlog);
 
 
-            wb_vrchongqing = new XPathWebBrowser();
-            wb_vrchongqing.ScriptErrorsSuppressed = true;
+            wb_vrchongqing = new Gecko.GeckoWebBrowser();
+
             wb_vrchongqing.Dock = DockStyle.Fill;
             wb_vrchongqing.Name = "wb_vrchongqing";
 
@@ -1916,7 +1915,7 @@ namespace WeixinRoboot
                                     switch (GameType)
                                     {
                                         case "重庆":
-                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
+                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
                                             break;
                                         case "新疆":
                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩;
@@ -1928,23 +1927,23 @@ namespace WeixinRoboot
                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩;
                                             break;
                                         case "腾五":
-                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
+                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
                                             break;
                                         case "腾十":
-                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
+                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
                                             break;
                                         case "腾五信":
-                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
+                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
                                             break;
                                         case "腾十信":
-                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
+                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
                                             break;
                                         case "澳彩":
-                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
+                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
                                             break;
                                         case "":
 
-                                               ToSendEnumType = GetMode((SettingUserName == "" ? contacts : Settingcontacts));
+                                            ToSendEnumType = GetMode((SettingUserName == "" ? contacts : Settingcontacts));
                                             break;
                                         default:
                                             break;
@@ -2236,6 +2235,27 @@ namespace WeixinRoboot
                             string WX_UserName = contacts[0].Field<string>("User_ContactID");
                             var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
                             SendRobotContent("已全勾上自动", NoticeList
+                                 , userr.Field<string>("User_SourceType"));
+                        }
+                        if (Content == "88")
+                        {
+                            foreach (DataRow UserRow in RunnerF.MemberSource.Rows)
+                            {
+                                string Row_WX_UserName = (UserRow == null ? "" : UserRow.Field<string>("User_ContactID"));
+                                string Row_WX_SourceType = (UserRow == null ? "" : UserRow.Field<string>("User_SourceType"));
+
+                                Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                                    && t.WX_SourceType == Row_WX_SourceType
+                                     && t.WX_UserName == Row_WX_UserName
+                                    );
+
+                                webpcset.IsSendPIC = false;
+                                UserRow.SetField("User_IsSendPic", false);
+                                db.SubmitChanges();
+                            }
+                            string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                            var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
+                            SendRobotContent("已全取消发图", NoticeList
                                  , userr.Field<string>("User_SourceType"));
                         }
                     }
@@ -4962,7 +4982,7 @@ namespace WeixinRoboot
                     {
                         continue;
                     }
-                    string ToSendGameName = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), FilterSubmode)) ;
+                    string ToSendGameName = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), FilterSubmode));
                     //只发勾了的群或指定的人
                     //if ((dr[0].Field<string>("User_ContactType") == "群" && ToUserID == "") || (TEMPUserName == ToUserID))
                     if ((ToUserID == "") || (TEMPUserName == ToUserID))
@@ -6524,23 +6544,8 @@ namespace WeixinRoboot
                     NetFramework.Console.WriteLine(AnyError.StackTrace, true);
                 }
             }));
-            Regex FindPeriod = new Regex("<span class=\"font-lightpink\" id=\"lastissue\">[0-9]+</span>", RegexOptions.IgnoreCase);
+            Regex FindPeriod = new Regex("<span id=\"lastissue\" class=\"font-lightpink\">[0-9]+</span>", RegexOptions.IgnoreCase);
             Regex FindWin = new Regex("<ul class=\"win_numbers font-white\"[^>]*>((?<mm><ul[^>]*>)+|(?<-mm></ul>)|[\\s\\S])*?(?(mm)(?!))</ul>", RegexOptions.IgnoreCase);
-
-            string str_dataperiod = NetFramework.Util_WEB.CleanHtml(FindPeriod.Match(Source).Value);
-            if (str_dataperiod == "")
-            {
-                NetFramework.Console.WriteLine("网页模拟登陆APP失败", true);
-                return;
-            }
-            string str_Win = NetFramework.Util_WEB.CleanHtml(FindWin.Match(Source).Value);
-            str_Win = str_Win.Replace(Environment.NewLine, "").Replace(" ", "").Replace("\n", "");
-            if (str_Win.Contains("?") == false && str_Win != "")
-            {
-
-                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
-
-            }
             #region 补充历史开奖
             Regex FindHistory = new Regex("<ul class=\"text-left\">[^>]*>((?<mm><ul[^>]*>)+|(?<-mm></ul>)|[\\s\\S])*?(?(mm)(?!))</ul>", RegexOptions.IgnoreCase); ;
             Regex Finddats = new Regex("<li[^>]*>((?<mm><li[^>]*>)+|(?<-mm></li>)|[\\s\\S])*?(?(mm)(?!))</li>", RegexOptions.IgnoreCase);
@@ -6565,6 +6570,21 @@ namespace WeixinRoboot
             }
 
             #endregion
+            string str_dataperiod = NetFramework.Util_WEB.CleanHtml(FindPeriod.Match(Source).Value);
+            if (str_dataperiod == "")
+            {
+                NetFramework.Console.WriteLine("网页模拟登陆APP失败", true);
+                return;
+            }
+            string str_Win = NetFramework.Util_WEB.CleanHtml(FindWin.Match(Source).Value);
+            str_Win = str_Win.Replace(Environment.NewLine, "").Replace(" ", "").Replace("\n", "");
+            if (str_Win.Contains("?") == false && str_Win != "")
+            {
+
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+            }
+
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
             ShiShiCaiDealGameLogAndNotice();
@@ -9441,10 +9461,10 @@ namespace WeixinRoboot
                         ReloadWebApp();
 
                     }
-                    if ((DateTime.Now - VR_PreTime.Value).TotalSeconds > 60)
-                    {
-                        ReloadWebApp();
-                    }
+                    //if ((DateTime.Now - VR_PreTime.Value).TotalSeconds > 60)
+                    //{
+                    //    ReloadWebApp();
+                    //}
                 }
                 catch (Exception AnyError)
                 {
@@ -12524,7 +12544,7 @@ namespace WeixinRoboot
         public enum BallType { 足球, 篮球 }
 
         private object LockLoad = false;
-        private void RefreshballV2(XPathWebBrowser ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
+        private void RefreshballV2(Gecko.GeckoWebBrowser ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -12979,13 +12999,13 @@ namespace WeixinRoboot
 
             while (true)
             {
-               
+
                 try
-                { 
-                    if (ExitKill)
                 {
-                    return;
-                }
+                    if (ExitKill)
+                    {
+                        return;
+                    }
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                     var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -13139,7 +13159,7 @@ namespace WeixinRoboot
                             {
 
 
-                                gst = wb_other.Document.InvokeScript("$('body').height()");
+                                gst = new Gecko.AutoJSContext(wb_other.Window).EvaluateScript("$('body').height()");
                             }
                             catch (Exception AnyError)
                             {
@@ -13495,7 +13515,7 @@ namespace WeixinRoboot
                            {
 
 
-                               wb_other.Document.InvokeScript("$('#datatable').height()");
+                               new Gecko.AutoJSContext(wb_other.Window).EvaluateScript("$('#datatable').height()");
                            }
                            catch (Exception anyerror)
                            {
@@ -13513,7 +13533,7 @@ namespace WeixinRoboot
             {
 
 
-                gst = wb_other.Document.InvokeScript("$('#datatable').width()");
+                gst = new Gecko.AutoJSContext(wb_other.Window).EvaluateScript("$('#datatable').width()");
             }
             catch (Exception anyerror)
             {
@@ -13650,7 +13670,7 @@ namespace WeixinRoboot
             }
         }
 
-        private void GetAndSetPoint(XPathWebBrowser balllivepoint, BallType p_balltype)
+        private void GetAndSetPoint(Gecko.GeckoWebBrowser balllivepoint, BallType p_balltype)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");

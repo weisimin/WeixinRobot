@@ -1325,10 +1325,10 @@ namespace NetFramework
 
 
         public static object LockLoad = true;
-        public static string JoinQueueAndWait(string URL, XPathWebBrowser wb, Int32 milientTime = 2000)
+        public static string JoinQueueAndWait(string URL, Gecko.GeckoWebBrowser   wb, Int32 milientTime = 2000)
         {
             NetFramework.Console.WriteLine("网页组件正在锁定",false);
-            lock (LockLoad)
+            //lock (LockLoad)
             {
                 LockLoad = !((bool)LockLoad);
                 wb.Navigate(URL);
@@ -1342,6 +1342,7 @@ namespace NetFramework
             } 
            
                 NetFramework.Console.WriteLine("网页组件已解锁",false);
+       
                 return wb.Document.Body.InnerHtml;
           
 
