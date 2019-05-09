@@ -1916,45 +1916,35 @@ namespace WeixinRoboot
                                     switch (GameType)
                                     {
                                         case "重庆":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩));
-                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
+                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
                                             break;
                                         case "新疆":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩));
                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩;
                                             break;
                                         case "五分":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.五分彩));
                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.五分彩;
                                             break;
                                         case "VR":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩));
                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩;
                                             break;
                                         case "腾五":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分));
-                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
+                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
                                             break;
                                         case "腾十":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯十分));
-                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
+                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
                                             break;
                                         case "腾五信":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾五信));
-                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
+                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
                                             break;
                                         case "腾十信":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信));
-                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
+                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
                                             break;
                                         case "澳彩":
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5));
-                                            ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
+                                             ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
                                             break;
                                         case "":
 
-                                            ToSendGameType = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), GetMode((SettingUserName == "" ? contacts : Settingcontacts))));
-                                            ToSendEnumType = GetMode((SettingUserName == "" ? contacts : Settingcontacts));
+                                               ToSendEnumType = GetMode((SettingUserName == "" ? contacts : Settingcontacts));
                                             break;
                                         default:
                                             break;
@@ -1979,7 +1969,7 @@ namespace WeixinRoboot
 
                                         }//空白取数
                                         string NoticeTempid = item.Field<string>("User_ContactTEMPID");
-                                        SendChongqingResultPic(ToSendEnumType, PicType + "图", NoticeTempid, ToSendGameType);
+                                        SendChongqingResultPic(ToSendEnumType, PicType + "图", NoticeTempid);
                                     }
                                 }//不是未知发图模式
                             }
@@ -4788,7 +4778,7 @@ namespace WeixinRoboot
 
         public Linq.ProgramLogic.ShiShiCaiMode GetMode(DataRow[] dr)
         {
-            Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
+            Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.未知;
             if (dr[0].Field<Boolean>("User_ChongqingMode") == true
                 )
             {
@@ -4822,7 +4812,14 @@ namespace WeixinRoboot
             {
                 subm = Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩;
             }
-
+            else if (dr[0].Field<Boolean>("User_TengXunShiFenXin") == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
+            }
+            else if (dr[0].Field<Boolean>("User_TengXunWuFenXin") == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
+            }
             return subm;
         }
 
@@ -4864,7 +4861,7 @@ namespace WeixinRoboot
             return subm;
         }
 
-        public void SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode FilterSubmode, string Mode = "All", string ToUserID = "", string PicGameType = "")
+        public void SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode FilterSubmode, string Mode = "All", string ToUserID = "")
         {
             NetFramework.Console.WriteLine(GlobalParam.UserName + "开始发送图片" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine, false);
 
@@ -4913,7 +4910,7 @@ namespace WeixinRoboot
                     {
                         continue;
                     }
-                    if (GetMode(dr) != FilterSubmode && ToUserID == "")
+                    if (GetMode(dr) != FilterSubmode)
                     {
                         continue;
                     }
@@ -4965,7 +4962,7 @@ namespace WeixinRoboot
                     {
                         continue;
                     }
-                    string ToSendGameName = PicGameType == "" ? (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), FilterSubmode)) : PicGameType;
+                    string ToSendGameName = (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), FilterSubmode)) ;
                     //只发勾了的群或指定的人
                     //if ((dr[0].Field<string>("User_ContactType") == "群" && ToUserID == "") || (TEMPUserName == ToUserID))
                     if ((ToUserID == "") || (TEMPUserName == ToUserID))
