@@ -1873,7 +1873,41 @@ namespace WeixinRoboot
                             string GameType = "";
                             string PicType = "";
                             string SettingUserName = "";
-                            Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(Content, ref GameType, ref PicType, ref SettingUserName);
+
+                            string NewContent = "";
+                            if (Content.StartsWith("01"))
+                            {
+                                NewContent = "重庆发图";
+                            }
+                            else if (Content.StartsWith("02"))
+                            {
+                                NewContent = "VR发图";
+                            }
+                            else if (Content.StartsWith("03"))
+                            {
+                                NewContent = "澳彩发图";
+                            }
+                            else if (Content.StartsWith("50"))
+                            {
+                                NewContent = "滕五发图";
+                            }
+                            else if (Content.StartsWith("51"))
+                            {
+                                NewContent = "滕五信发图";
+                            }
+                            else if (Content.StartsWith("10"))
+                            {
+                                NewContent = "滕十发图";
+                            }
+                            else if (Content.StartsWith("11"))
+                            {
+                                NewContent = "滕十信发图";
+                            }
+                            else
+                            {
+                                NewContent = Content;
+                            }
+                            Linq.ProgramLogic.ShiShiCaiPicKeepType KeepPic = Linq.ProgramLogic.ShiShiCaiPicTypeCaculate(NewContent, ref GameType, ref PicType, ref SettingUserName);
                             if (KeepPic != Linq.ProgramLogic.ShiShiCaiPicKeepType.UnKnown)
                             {
 
@@ -1884,7 +1918,7 @@ namespace WeixinRoboot
                                     SendRobotContent("找不到玩家：" + SettingUserName, contacts, SourceType);
                                 }
                                 //图1，2，3，4使用
-                                SendChongqingResultPic(GetMode(SettingUserName == "" ? contacts : Settingcontacts), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
+                                SendChongqingResultPic(Linq.ProgramLogic.GetMode(SettingUserName == "" ? contacts : Settingcontacts), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
 
 
                                 if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep && (MyOutResult == ""))
@@ -1943,7 +1977,7 @@ namespace WeixinRoboot
                                             break;
                                         case "":
 
-                                            ToSendEnumType = GetMode((SettingUserName == "" ? contacts : Settingcontacts));
+                                            ToSendEnumType = Linq.ProgramLogic.GetMode((SettingUserName == "" ? contacts : Settingcontacts));
                                             break;
                                         default:
                                             break;
@@ -3294,7 +3328,7 @@ namespace WeixinRoboot
 
                     bool ShiShiCaiSuccess = false;
                     string ShiShiCaiErrorMessage = "";
-                    Linq.ProgramLogic.ShiShiCaiMode subm = GetMode(sets.First());
+                    Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.GetMode(sets.First());
 
                     Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(DateTime.Now, "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, true, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm);
 
@@ -4533,6 +4567,16 @@ namespace WeixinRoboot
 
 
                         }
+                         try
+                        {
+                            DownLoad163CaiPiaoV_tengxunwufenbyhuayulishi(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+
+                        }
+                        catch (Exception)
+                        {
+
+
+                        }
 
                         if (TmpCheck)
                         {
@@ -4796,90 +4840,7 @@ namespace WeixinRoboot
 
 
 
-        public Linq.ProgramLogic.ShiShiCaiMode GetMode(DataRow[] dr)
-        {
-            Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.未知;
-            if (dr[0].Field<Boolean>("User_ChongqingMode") == true
-                )
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
-            }
-            else if (dr[0].Field<Boolean>("User_FiveMinuteMode") == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.五分彩;
-            }
-            else if (dr[0].Field<Boolean>("User_HkMode") == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.香港时时彩;
-            }
-            else if (dr[0].Field<Boolean>("User_AozcMode") == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
-            }
-            else if (dr[0].Field<Boolean>("User_TengXunWuFen") == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
-            }
-            else if (dr[0].Field<Boolean>("User_TengXunShiFen") == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
-            }
-            else if (dr[0].Field<Boolean>("User_VR") == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩;
-            }
-            else if (dr[0].Field<Boolean>("User_XinJiangShiShiCai") == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩;
-            }
-            else if (dr[0].Field<Boolean>("User_TengXunShiFenXin") == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
-            }
-            else if (dr[0].Field<Boolean>("User_TengXunWuFenXin") == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
-            }
-            return subm;
-        }
-
-        public static Linq.ProgramLogic.ShiShiCaiMode GetMode(Linq.WX_PCSendPicSetting dr)
-        {
-            Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.未知;
-            if (dr.ChongqingMode == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
-            }
-            else if (dr.FiveMinuteMode == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.五分彩;
-            }
-            else if (dr.HkMode == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.香港时时彩;
-            }
-            else if (dr.AozcMode == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
-            }
-            else if (dr.Tengxunshifen == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
-            }
-            else if (dr.Tengxunwufen == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
-            }
-            else if (dr.TengxunshifenXin == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
-            }
-            else if (dr.TengxunwufenXin == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
-            }
-            return subm;
-        }
+ 
 
         public void SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode FilterSubmode, string Mode = "All", string ToUserID = "")
         {
@@ -4930,7 +4891,7 @@ namespace WeixinRoboot
                     {
                         continue;
                     }
-                    if (GetMode(dr) != FilterSubmode)
+                    if (Linq.ProgramLogic.GetMode(dr) != FilterSubmode)
                     {
                         continue;
                     }
@@ -5702,6 +5663,86 @@ namespace WeixinRoboot
             //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
         }
+        public void DownLoad163CaiPiaoV_tengxunwufenbyhuayulishi(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //https://api.honze88.com/api/v1/lotteries/17/issuos
+            //https://api.honze88.com/api/v1/lotteries/17/opencodes?limit=288
+
+            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+).Count();
+
+
+
+            string URL = "https://api.honze88.com/api/v1/lotteries/17/issuos";
+            //string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=tx5fc";
+
+            NetFramework.Console.WriteLine("正在刷新腾讯五分网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
+                   , "JWT " + HuaYuToken);
+            //JObject jr = JObject.Parse(Result);
+            DateTime PreTime = DateTime.Now;
+            //JObject jresult = JObject.Parse(Result);
+
+
+            Int32 FullCount = 0;
+            JArray periods = JArray.Parse(Result);
+            foreach (JToken trdata in periods)
+            {
+
+                string str_Win = trdata["opencode"].ToString();
+                if (str_Win == "")
+                {
+                    continue;
+                }
+                string str_dataperiod = trdata["issuo"].ToString();
+
+                str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
+                //str_Win = str_Win.Substring(0, 9);
+
+               
+                str_dataperiod = str_dataperiod.Replace("-", "");
+                //20190328286
+                str_dataperiod = str_dataperiod.Substring(0, 8) + str_dataperiod.Substring(9, 3);
+
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
+            NetFramework.Console.WriteLine("腾讯五分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+).Count();
+            //if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            //{
+            //    NewResult = true;
+
+
+            //    DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+
+            //}
+
+            //if (LocalGameResultCount != AfterCheckCount)
+            //{
+            //    SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+            //}
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
 
         public void DownLoad163CaiPiaoV_tengxunwufen_xin_188(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
@@ -11699,7 +11740,7 @@ namespace WeixinRoboot
             string GameFullLocalPeriod = "";
             bool ShiShiCaiSuccess = false;
             string ShiShiCaiErrorMessage = "";
-            Linq.ProgramLogic.ShiShiCaiMode subm = GetMode(pcsets.First());
+            Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.GetMode(pcsets.First());
 
             Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod((DateTime.Now.AddSeconds(-30)), "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, false, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm, true);
 
