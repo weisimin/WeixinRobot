@@ -1692,13 +1692,13 @@ namespace WeixinRoboot
 
                     //自己发的，对方发的，自己在群发的，对方在群发的
 
-                    var contacts = RunnerF.MemberSource.Select("User_ContactTEMPID='" + (FromUserNameTEMPID == MyUserName(SourceType) ? ToUserNameTEMPID : FromUserNameTEMPID) + "'");
-                    if (contacts.Count() == 0)
+                    var Tocontacts = RunnerF.MemberSource.Select("User_ContactTEMPID='" + (FromUserNameTEMPID == MyUserName(SourceType) ? ToUserNameTEMPID : FromUserNameTEMPID) + "'");
+                    if (Tocontacts.Count() == 0)
                     {
                         NetFramework.Console.WriteLine("找不到联系人，消息无法处理" + (FromUserNameTEMPID == MyUserName(SourceType) ? ToUserNameTEMPID : FromUserNameTEMPID), true);
                         return;
                     }
-                    DataRow userr = contacts.First();
+                    DataRow userr = Tocontacts.First();
                     Linq.WX_UserReply checkreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == userr.Field<string>("User_ContactID") && t.WX_SourceType == userr.Field<string>("User_SourceType"));
 
 
@@ -1721,12 +1721,16 @@ namespace WeixinRoboot
                         {
                             if (SourceType == "微")
                             {
+                                SendRobotContent("开始刷新联系人", Tocontacts
+                                   , SourceType
+                                   );
                                 RepeatGetMembers(Skey, pass_ticket);
                             }
                             else if (SourceType == "易")
                             {
                                 RepeatGetMembersYiXin();
                             }
+
                         }
 
 
@@ -1735,7 +1739,7 @@ namespace WeixinRoboot
                         try
                         {
                             //执行会员命令
-                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Content, contacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Content, Tocontacts[0], JavaSecondTime(Convert.ToInt64(msgTime)));
                             string[] Splits = Content.Replace("，", ",").Replace("，", ",")
                                        .Replace(".", ",").Replace("。", ",").Replace("。", ",")
                                        .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -1745,7 +1749,7 @@ namespace WeixinRoboot
                                 foreach (var Splititem in Splits)
                                 {
                                     Times.AddMilliseconds(10);
-                                    String TmpMessage = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Splititem, contacts[0], Times);
+                                    String TmpMessage = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Splititem, Tocontacts[0], Times);
 
                                     if (TmpMessage != "")
                                     {
@@ -1758,10 +1762,10 @@ namespace WeixinRoboot
 
 
                             //执行模拟下单,模拟下单内部切分
-                            if (contacts[0].Field<Boolean?>("User_IsReply") == true)
+                            if (Tocontacts[0].Field<Boolean?>("User_IsReply") == true)
                             {
 
-                                String TmpMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, contacts[0], "人工", true);
+                                String TmpMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, Tocontacts[0], "人工", true);
                                 if (TmpMessage != "")
                                 {
                                     MyOutResult = TmpMessage;
@@ -1771,7 +1775,7 @@ namespace WeixinRoboot
                             //全部执行玩才输出
                             if (MyOutResult != "")
                             {
-                                string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                                string WX_UserName = Tocontacts[0].Field<string>("User_ContactID");
                                 var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
 
                                 var NoticeContacts =
@@ -1889,19 +1893,19 @@ namespace WeixinRoboot
                             }
                             else if (Content.StartsWith("50"))
                             {
-                                NewContent = "滕五发图";
+                                NewContent = "腾五发图";
                             }
                             else if (Content.StartsWith("51"))
                             {
-                                NewContent = "滕五信发图";
+                                NewContent = "腾五信发图";
                             }
                             else if (Content.StartsWith("10"))
                             {
-                                NewContent = "滕十发图";
+                                NewContent = "腾十发图";
                             }
                             else if (Content.StartsWith("11"))
                             {
-                                NewContent = "滕十信发图";
+                                NewContent = "腾十信发图";
                             }
                             else
                             {
@@ -1915,32 +1919,32 @@ namespace WeixinRoboot
                                 DataRow[] Settingcontacts = RunnerF.MemberSource.Select("User_Contact='" + SettingUserName + "'");
                                 if (SettingUserName != "" && Settingcontacts.Length == 0)
                                 {
-                                    SendRobotContent("找不到玩家：" + SettingUserName, contacts, SourceType);
+                                    SendRobotContent("找不到玩家：" + SettingUserName, Tocontacts, SourceType);
                                 }
                                 //图1，2，3，4使用
-                                SendChongqingResultPic(Linq.ProgramLogic.GetMode(SettingUserName == "" ? contacts : Settingcontacts), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
+                                SendChongqingResultPic(Linq.ProgramLogic.GetMode(SettingUserName == "" ? Tocontacts : Settingcontacts), Content, (FindGroupIsMember.Count() > 0 ? FromUserNameTEMPID : ToUserNameTEMPID));
 
 
                                 if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep && (MyOutResult == ""))
                                 {
-                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
+                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
                                 }
                                 if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop && (MyOutResult == ""))
                                 {
-                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + GameType + PicType + MyOutResult, contacts, SourceType);
+                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
                                 }
                                 if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime && (MyOutResult == ""))
                                 {
-                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType, (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, contacts, SourceType);
+                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType, (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
                                 }
                                 if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.RestoreDefault && (MyOutResult == ""))
                                 {
-                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("停止", (SettingUserName == "" ? contacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, contacts, SourceType);
+                                    MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("停止", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                    SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
                                 }
                                 if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
                                 {
@@ -1977,12 +1981,12 @@ namespace WeixinRoboot
                                             break;
                                         case "":
 
-                                            ToSendEnumType = Linq.ProgramLogic.GetMode((SettingUserName == "" ? contacts : Settingcontacts));
+                                            ToSendEnumType = Linq.ProgramLogic.GetMode((SettingUserName == "" ? Tocontacts : Settingcontacts));
                                             break;
                                         default:
                                             break;
                                     }
-                                    foreach (DataRow item in (SettingUserName == "" ? contacts : Settingcontacts))
+                                    foreach (DataRow item in (SettingUserName == "" ? Tocontacts : Settingcontacts))
                                     {
                                         if (PicType == "")
                                         {
@@ -2247,7 +2251,7 @@ namespace WeixinRoboot
                                 UserRow.SetField("User_IsReply", false);
                                 db.SubmitChanges();
                             }
-                            string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                            string WX_UserName = Tocontacts[0].Field<string>("User_ContactID");
                             var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
                             SendRobotContent("已全取消自动", NoticeList
                                  , userr.Field<string>("User_SourceType"));
@@ -2266,7 +2270,7 @@ namespace WeixinRoboot
                                 UserRow.SetField("User_IsReply", true);
                                 db.SubmitChanges();
                             }
-                            string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                            string WX_UserName = Tocontacts[0].Field<string>("User_ContactID");
                             var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
                             SendRobotContent("已全勾上自动", NoticeList
                                  , userr.Field<string>("User_SourceType"));
@@ -2287,7 +2291,7 @@ namespace WeixinRoboot
                                 UserRow.SetField("User_IsSendPic", false);
                                 db.SubmitChanges();
                             }
-                            string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                            string WX_UserName = Tocontacts[0].Field<string>("User_ContactID");
                             var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
                             SendRobotContent("已全取消发图", NoticeList
                                  , userr.Field<string>("User_SourceType"));
@@ -2323,7 +2327,7 @@ namespace WeixinRoboot
                         }
                         if (OutMessage != "")
                         {
-                            string WX_UserName = contacts[0].Field<string>("User_ContactID");
+                            string WX_UserName = Tocontacts[0].Field<string>("User_ContactID");
                             var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
 
                             SendRobotContent(OutMessage, NoticeList
@@ -4567,7 +4571,7 @@ namespace WeixinRoboot
 
 
                         }
-                         try
+                        try
                         {
                             DownLoad163CaiPiaoV_tengxunwufenbyhuayulishi(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
 
@@ -4840,7 +4844,7 @@ namespace WeixinRoboot
 
 
 
- 
+
 
         public void SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode FilterSubmode, string Mode = "All", string ToUserID = "")
         {
@@ -5680,7 +5684,7 @@ namespace WeixinRoboot
 
 
 
-            string URL = "https://api.honze88.com/api/v1/lotteries/17/issuos";
+            string URL = "https://api.honze88.com/api/v1/lotteries/17/opencodes?limit=288";
             //string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=tx5fc";
 
             NetFramework.Console.WriteLine("正在刷新腾讯五分网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
@@ -5707,7 +5711,7 @@ namespace WeixinRoboot
                 str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
                 //str_Win = str_Win.Substring(0, 9);
 
-               
+
                 str_dataperiod = str_dataperiod.Replace("-", "");
                 //20190328286
                 str_dataperiod = str_dataperiod.Substring(0, 8) + str_dataperiod.Substring(9, 3);
@@ -7278,7 +7282,7 @@ namespace WeixinRoboot
 
             // string URL = "http://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=";
             //string URL = "https://www.cp8200.com/CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=lucky5ball";
-            string URL = "https://88888kai.com/History/HisList.aspx?id=10076&date=" + SelectDate.ToString("yyyy-MM-dd") + "&_=" + (new Random().Next().ToString());
+            string URL = "https://88888kai.com/Open/CurrentOpen.aspx?code=10076&_=0.19714537356157447";
 
             {
 
@@ -9685,12 +9689,12 @@ namespace WeixinRoboot
 
             }
 
-            wb_ballgame.Dispose();
+            // wb_ballgame.Dispose();
 
-            wb_other.Dispose();
-            wb_refresh.Dispose();
+            //wb_other.Dispose();
+            //wb_refresh.Dispose();
 
-            wb_balllivepoint.Dispose();
+            //wb_balllivepoint.Dispose();
 
 
 

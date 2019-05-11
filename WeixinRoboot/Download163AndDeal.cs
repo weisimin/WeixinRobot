@@ -65,7 +65,7 @@ namespace WeixinRoboot
                         if ((webpcset.dragonpic == true))
                         {
 
-                            StartF.SendRobotContent(StartForm.ReadVirtualFile("Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), StartF.GetMode(dr))) + ".txt",db), TEMPUserName, WX_SourceType);
+                            StartF.SendRobotContent(StartForm.ReadVirtualFile("Data3" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.GetMode(dr))) + ".txt",db), TEMPUserName, WX_SourceType);
                            
                         }
                     }
@@ -75,7 +75,7 @@ namespace WeixinRoboot
                         if ((webpcset.dragonpic == true))
                         {
 
-                            StartF.SendRobotContent(StartForm.ReadVirtualFile("Data3_yixin" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), StartF.GetMode(dr))) + ".txt",db), TEMPUserName, WX_SourceType);
+                            StartF.SendRobotContent(StartForm.ReadVirtualFile("Data3_yixin" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.GetMode(dr))) + ".txt",db), TEMPUserName, WX_SourceType);
                         }
                     }
 
@@ -92,7 +92,7 @@ namespace WeixinRoboot
 
                     if ((webpcset.NumberAndDragonPIC == true))
                     {
-                        StartF.SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), StartF.GetMode(dr))) + ".txt",db), TEMPUserName, WX_SourceType);
+                        StartF.SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + (Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.GetMode(dr))) + ".txt",db), TEMPUserName, WX_SourceType);
                     }
 
                     if (webpcset.shishicailink == true)
