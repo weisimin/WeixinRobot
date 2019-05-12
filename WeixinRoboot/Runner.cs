@@ -33,12 +33,17 @@ namespace WeixinRoboot
             //Set结束
         }
 
-        Boolean FirstRun = true;
+        Boolean SetMemberRuning = false;
         private void SetMembers()
         {
             NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"),false);
 
+            if (SetMemberRuning==true)
+            {
+                return;
+            }
 
+            SetMemberRuning = true;
 
             //this.Invoke(new Action(() =>
             //{
@@ -172,33 +177,7 @@ namespace WeixinRoboot
                         db.SubmitChanges();
 
                     }
-                    else if (FirstRun == true)
-                    {
-                        //webpcset.IsSendPIC = false;
-                        //webpcset.NiuNiuPic = false;
-                        //webpcset.NoBigSmallSingleDoublePIC = false;
-                        //webpcset.NumberDragonTxt = true;
-                        //webpcset.NumberPIC = false;
-                        //webpcset.dragonpic = false;
-                        //if (webpcset.PIC_StartHour.HasValue == false)
-                        //{
-                        //    webpcset.PIC_StartHour = 8;
-                        //}
-                        //if (webpcset.PIC_StartMinute.HasValue == false)
-                        //{
-                        //    webpcset.PIC_StartMinute = 0;
-                        //}
-                        //if (webpcset.PIC_EndHour.HasValue == false)
-                        //{
-                        //    webpcset.PIC_EndHour = 3;
-                        //}
-                        //if (webpcset.Pic_EndMinute.HasValue == false)
-                        //{
-                        //    webpcset.Pic_EndMinute = 0;
-                        //}
-                        //db.SubmitChanges();
-                    }
-
+                   
 
                     db.SubmitChanges();
                     usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
@@ -268,7 +247,7 @@ namespace WeixinRoboot
                 }
                 catch (Exception AnyError)
                 {
-                    MessageBox.Show(RemarkName == "" ? NickName : RemarkName + "联系人保存失败");
+                    MessageBox.Show((RemarkName == "" ? NickName : RemarkName) + "联系人保存失败");
                     NetFramework.Console.WriteLine(AnyError.Message,true);
                     NetFramework.Console.WriteLine(AnyError.StackTrace,true);
                 }
@@ -280,11 +259,11 @@ namespace WeixinRoboot
             // BS_Contact.Sort = "User_Contact";
             // }));
 
-
+            SetMemberRuning = false;
             this.Invoke(new Action(() => { BS_Contact.DataSource = MemberSource; }));
             NetFramework.Console.WriteLine("更新联系人完成" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"),false);
 
-            FirstRun = false;
+       
 
         }
 
