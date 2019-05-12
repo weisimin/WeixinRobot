@@ -1325,7 +1325,7 @@ namespace NetFramework
 
 
         public static object LockLoad = true;
-        public static string JoinQueueAndWait(string URL, Gecko.GeckoWebBrowser   wb, Int32 milientTime = 2000)
+        public static string JoinQueueAndWait(string URL, System.Windows.Forms.WebBrowser   wb, Int32 milientTime = 2000)
         {
             NetFramework.Console.WriteLine("网页组件正在锁定",false);
             //lock (LockLoad)
@@ -1333,11 +1333,11 @@ namespace NetFramework
                 LockLoad = !((bool)LockLoad);
                 wb.Navigate(URL);
                 DateTime PreTime = DateTime.Now;
-                while ((DateTime.Now-PreTime).TotalMilliseconds<milientTime)
-                {
-                    System.Threading.Thread.Sleep(100);
-                    //System.Windows.Forms.Application.DoEvents();
-                }
+                //while ((DateTime.Now-PreTime).TotalMilliseconds<milientTime)
+                //{
+                //    System.Threading.Thread.Sleep(100);
+                //    //System.Windows.Forms.Application.DoEvents();
+                //}
                
             } 
            

@@ -27,17 +27,17 @@ namespace WeixinRoboot
 {
     public partial class StartForm : Form
     {
-        Gecko.GeckoWebBrowser wb_ballgame = null;
+        WebBrowser wb_ballgame = null;
 
-        Gecko.GeckoWebBrowser wb_other = null;
-        Gecko.GeckoWebBrowser wb_refresh = null;
+        WebBrowser wb_other = null;
+        WebBrowser wb_refresh = null;
 
-        Gecko.GeckoWebBrowser wb_balllivepoint = null;
+        WebBrowser wb_balllivepoint = null;
 
 
-        Gecko.GeckoWebBrowser wb_pointlog = null;
+        WebBrowser wb_pointlog = null;
 
-        Gecko.GeckoWebBrowser wb_vrchongqing = null;
+        WebBrowser wb_vrchongqing = null;
 
         public StartForm()
         {
@@ -347,8 +347,8 @@ namespace WeixinRoboot
             EndNoticeBoss.Start();
 
 
-            wb_ballgame = new Gecko.GeckoWebBrowser();
-
+            wb_ballgame = new WebBrowser();
+            wb_ballgame.ScriptErrorsSuppressed = true;
 
 
             wb_ballgame.Dock = DockStyle.Fill;
@@ -369,8 +369,8 @@ namespace WeixinRoboot
 
 
 
-            wb_other = new Gecko.GeckoWebBrowser();
-
+            wb_other = new WebBrowser();
+            wb_other.ScriptErrorsSuppressed = true;
             wb_other.Dock = DockStyle.Fill;
             wb_other.Name = "wb_other";
 
@@ -378,7 +378,8 @@ namespace WeixinRoboot
 
 
 
-            wb_refresh = new Gecko.GeckoWebBrowser();
+            wb_refresh = new WebBrowser();
+            wb_refresh.ScriptErrorsSuppressed = true;
             wb_refresh.Dock = DockStyle.Fill;
             wb_refresh.Name = "wb_refresh";
 
@@ -389,9 +390,9 @@ namespace WeixinRoboot
 
 
 
-            wb_balllivepoint = new Gecko.GeckoWebBrowser();
+            wb_balllivepoint = new WebBrowser();
 
-
+            wb_balllivepoint.ScriptErrorsSuppressed = true;
             wb_balllivepoint.Dock = DockStyle.Fill;
             wb_balllivepoint.Name = "wb_balllivepoint";
 
@@ -400,16 +401,16 @@ namespace WeixinRoboot
 
 
 
-            wb_pointlog = new Gecko.GeckoWebBrowser();
-
+            wb_pointlog = new WebBrowser();
+            wb_pointlog.ScriptErrorsSuppressed = true;
             wb_pointlog.Dock = DockStyle.Fill;
             wb_pointlog.Name = "wb_pointlog";
 
             gb_pointlog.Controls.Add(wb_pointlog);
 
 
-            wb_vrchongqing = new Gecko.GeckoWebBrowser();
-
+            wb_vrchongqing = new WebBrowser();
+            wb_vrchongqing.ScriptErrorsSuppressed = true;
             wb_vrchongqing.Dock = DockStyle.Fill;
             wb_vrchongqing.Name = "wb_vrchongqing";
 
@@ -2469,14 +2470,17 @@ namespace WeixinRoboot
             //获取cmd窗口的输出信息
 
 
-            StreamReader reader = new StreamReader(p.StandardOutput.BaseStream, Encoding.GetEncoding("GB2312"));
+            //StreamReader reader = new StreamReader(p.StandardOutput.BaseStream, Encoding.GetEncoding("GB2312"));
 
 
 
 
             p.WaitForExit();//等待程序执行完退出进程  
 
-            String Outputs = reader.ReadToEnd();
+           // byte[] bytes = new byte[ p.StandardOutput.BaseStream.Length];
+            //p.StandardOutput.BaseStream.Read(bytes, 0, bytes.Length);
+
+            String Outputs =p.StandardOutput.ReadToEnd();
             p.Close();
             NetFramework.Console.WriteLine("#########################################################", false);
             NetFramework.Console.WriteLine(ExeAndParam, false);
@@ -6589,7 +6593,7 @@ namespace WeixinRoboot
                     NetFramework.Console.WriteLine(AnyError.StackTrace, true);
                 }
             }));
-            Regex FindPeriod = new Regex("<span id=\"lastissue\" class=\"font-lightpink\">[0-9]+</span>", RegexOptions.IgnoreCase);
+            Regex FindPeriod =  new Regex("<span((?!>)[\\s\\S])+id=\"lastissue\"((?!</span>)[\\s\\S])+</span>", RegexOptions.IgnoreCase); 
             Regex FindWin = new Regex("<ul class=\"win_numbers font-white\"[^>]*>((?<mm><ul[^>]*>)+|(?<-mm></ul>)|[\\s\\S])*?(?(mm)(?!))</ul>", RegexOptions.IgnoreCase);
             #region 补充历史开奖
             Regex FindHistory = new Regex("<ul class=\"text-left\">[^>]*>((?<mm><ul[^>]*>)+|(?<-mm></ul>)|[\\s\\S])*?(?(mm)(?!))</ul>", RegexOptions.IgnoreCase); ;
@@ -12589,7 +12593,7 @@ namespace WeixinRoboot
         public enum BallType { 足球, 篮球 }
 
         private object LockLoad = false;
-        private void RefreshballV2(Gecko.GeckoWebBrowser ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
+        private void RefreshballV2(WebBrowser ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -13204,7 +13208,7 @@ namespace WeixinRoboot
                             {
 
 
-                                gst = new Gecko.AutoJSContext(wb_other.Window).EvaluateScript("$('body').height()");
+                                gst = wb_other.Document.InvokeScript("$('body').height()");
                             }
                             catch (Exception AnyError)
                             {
@@ -13560,7 +13564,7 @@ namespace WeixinRoboot
                            {
 
 
-                               new Gecko.AutoJSContext(wb_other.Window).EvaluateScript("$('#datatable').height()");
+                                (wb_other).Document.InvokeScript("$('#datatable').height()");
                            }
                            catch (Exception anyerror)
                            {
@@ -13578,7 +13582,7 @@ namespace WeixinRoboot
             {
 
 
-                gst = new Gecko.AutoJSContext(wb_other.Window).EvaluateScript("$('#datatable').width()");
+                gst = (wb_other.Document).InvokeScript("$('#datatable').width()");
             }
             catch (Exception anyerror)
             {
@@ -13715,7 +13719,7 @@ namespace WeixinRoboot
             }
         }
 
-        private void GetAndSetPoint(Gecko.GeckoWebBrowser balllivepoint, BallType p_balltype)
+        private void GetAndSetPoint(WebBrowser balllivepoint, BallType p_balltype)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");

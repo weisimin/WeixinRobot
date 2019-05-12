@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.wb_messages = new System.Windows.Forms.WebBrowser();
+            this.wb_messages.ScriptErrorsSuppressed = true;
             this.Btn_Send = new System.Windows.Forms.Button();
             this.Btn_SendImage = new System.Windows.Forms.Button();
             this.tb_MessageContent = new System.Windows.Forms.TextBox();
@@ -36,7 +37,7 @@
             // 
             // wb_messages
             // 
-            this.wb_messages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.wb_messages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.wb_messages.Location = new System.Drawing.Point(13, 26);
             this.wb_messages.MinimumSize = new System.Drawing.Size(20, 20);

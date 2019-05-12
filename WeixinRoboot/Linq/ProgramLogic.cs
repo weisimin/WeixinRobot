@@ -9789,5 +9789,17 @@ namespace WeixinRoboot.Linq
 
         }
 
+        public string ShiShiModeGetName(ShiShiCaiMode subm)
+        {
+            switch (subm)
+            {
+                case ShiShiCaiMode.VR重庆时时彩:
+                    return "02";
+                default:
+                    return subm.ToString();
+            }
+        }
+
+
     }
 }
