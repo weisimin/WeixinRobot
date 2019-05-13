@@ -979,8 +979,16 @@ namespace WeixinRoboot
         Guid KeepaliveYiXInid = Guid.NewGuid();
         private void KeepAlieveDo(object ThreadID)
         {
+            if (KillThread.ContainsKey((Guid)ThreadID))
+            {
+                return;
+            }
             while (true)
             {
+                if (KillThread.ContainsKey((Guid)ThreadID))
+                {
+                    return;
+                }
                 try
                 {
 
@@ -1038,22 +1046,22 @@ namespace WeixinRoboot
 
                         NetFramework.Console.WriteLine(cookie.Count == 0 ? "" : cookie[0].Expires.ToString(), true);
 
-                        string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
-             , "", "", "GET", cookie, false);
+             //           string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
+             //, "", "", "GET", cookie, false);
 
-                        newridata.LoadXml(Result2);
-
+             //           newridata.LoadXml(Result2);
+                        goto MethodRestart;
 
                     }
                     if (Check["retcode"].ToString() == "1100")
                     {
                         Thread.Sleep(50);
-                        //ReStartWeixin();
-                        string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
-            , "", "", "GET", cookie, false);
+            //            //ReStartWeixin();
+            //            string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
+            //, "", "", "GET", cookie, false);
 
-                        newridata.LoadXml(Result2);
-
+            //            newridata.LoadXml(Result2);
+                        goto MethodRestart;
                     }
                     else if (
                      ((Result3.Contains("selector:\"7\"")) == true)
