@@ -1046,21 +1046,21 @@ namespace WeixinRoboot
 
                         NetFramework.Console.WriteLine(cookie.Count == 0 ? "" : cookie[0].Expires.ToString(), true);
 
-             //           string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
-             //, "", "", "GET", cookie, false);
+                        //           string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
+                        //, "", "", "GET", cookie, false);
 
-             //           newridata.LoadXml(Result2);
+                        //           newridata.LoadXml(Result2);
                         goto MethodRestart;
 
                     }
                     if (Check["retcode"].ToString() == "1100")
                     {
                         Thread.Sleep(50);
-            //            //ReStartWeixin();
-            //            string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
-            //, "", "", "GET", cookie, false);
+                        //            //ReStartWeixin();
+                        //            string Result2 = NetFramework.Util_WEB.OpenUrl(RedirtURI
+                        //, "", "", "GET", cookie, false);
 
-            //            newridata.LoadXml(Result2);
+                        //            newridata.LoadXml(Result2);
                         goto MethodRestart;
                     }
                     else if (
@@ -2485,10 +2485,10 @@ namespace WeixinRoboot
 
             p.WaitForExit();//等待程序执行完退出进程  
 
-           // byte[] bytes = new byte[ p.StandardOutput.BaseStream.Length];
+            // byte[] bytes = new byte[ p.StandardOutput.BaseStream.Length];
             //p.StandardOutput.BaseStream.Read(bytes, 0, bytes.Length);
 
-            String Outputs =p.StandardOutput.ReadToEnd();
+            String Outputs = p.StandardOutput.ReadToEnd();
             p.Close();
             NetFramework.Console.WriteLine("#########################################################", false);
             NetFramework.Console.WriteLine(ExeAndParam, false);
@@ -4585,6 +4585,9 @@ namespace WeixinRoboot
                         }
                         try
                         {
+
+                            //DownLoad163CaiPiaoV_tengxunwufenbyhuayu(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+
                             DownLoad163CaiPiaoV_tengxunwufenbyhuayulishi(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
 
                         }
@@ -5611,9 +5614,9 @@ namespace WeixinRoboot
             //https://api.honze88.com/api/v1/lotteries/17/issuos
 
 
-            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
-).Count();
+            //            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+            //).Count();
 
 
 
@@ -5622,7 +5625,7 @@ namespace WeixinRoboot
 
             NetFramework.Console.WriteLine("正在刷新腾讯五分网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
 
-            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", HuaYuCookie, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
                    , "JWT " + HuaYuToken);
             //JObject jr = JObject.Parse(Result);
             DateTime PreTime = DateTime.Now;
@@ -5657,9 +5660,9 @@ namespace WeixinRoboot
             ShiShiCaiDealGameLogAndNotice();
 
 
-            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
-).Count();
+            //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+            //).Count();
             //if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
             //{
             //    NewResult = true;
@@ -5679,6 +5682,7 @@ namespace WeixinRoboot
             //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
         }
+        CookieCollection HuaYuCookie = new CookieCollection();
         public void DownLoad163CaiPiaoV_tengxunwufenbyhuayulishi(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
@@ -5690,19 +5694,21 @@ namespace WeixinRoboot
             //https://api.honze88.com/api/v1/lotteries/17/issuos
             //https://api.honze88.com/api/v1/lotteries/17/opencodes?limit=288
 
-            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
-).Count();
+            //            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+            //).Count();
 
 
 
-            string URL = "https://api.honze88.com/api/v1/lotteries/17/opencodes?limit=288";
-            //string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=tx5fc";
+            //string URL = "https://api.honze88.com/api/v1/lotteries/17/opencodes?limit=50";
+            string URL = "https://api.honze88.com/api/v1/lotteries/17/issuos";
+            // string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=tx5fc";
 
             NetFramework.Console.WriteLine("正在刷新腾讯五分网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
 
-            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", HuaYuCookie, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
                    , "JWT " + HuaYuToken);
+
             //JObject jr = JObject.Parse(Result);
             DateTime PreTime = DateTime.Now;
             //JObject jresult = JObject.Parse(Result);
@@ -5728,7 +5734,8 @@ namespace WeixinRoboot
                 //20190328286
                 str_dataperiod = str_dataperiod.Substring(0, 8) + str_dataperiod.Substring(9, 3);
 
-                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+                string GameTime = trdata["openedAt"].ToString();
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.腾讯五分, GameTime);
 
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
@@ -6601,7 +6608,7 @@ namespace WeixinRoboot
                     NetFramework.Console.WriteLine(AnyError.StackTrace, true);
                 }
             }));
-            Regex FindPeriod =  new Regex("<span((?!>)[\\s\\S])+id=\"lastissue\"((?!</span>)[\\s\\S])+</span>", RegexOptions.IgnoreCase); 
+            Regex FindPeriod = new Regex("<span((?!>)[\\s\\S])+id=\"lastissue\"((?!</span>)[\\s\\S])+</span>", RegexOptions.IgnoreCase);
             Regex FindWin = new Regex("<ul class=\"win_numbers font-white\"[^>]*>((?<mm><ul[^>]*>)+|(?<-mm></ul>)|[\\s\\S])*?(?(mm)(?!))</ul>", RegexOptions.IgnoreCase);
             #region 补充历史开奖
             Regex FindHistory = new Regex("<ul class=\"text-left\">[^>]*>((?<mm><ul[^>]*>)+|(?<-mm></ul>)|[\\s\\S])*?(?(mm)(?!))</ul>", RegexOptions.IgnoreCase); ;
@@ -9582,25 +9589,59 @@ namespace WeixinRoboot
 
 
         private string HuaYuToken = "";
+        private bool TskRuning = false;
         private void ReloadWebApp()
         {
             try
             {
-                VR_PreTime = DateTime.Now;
-                string LoginUrl = "https://api.honze88.com/api/v1/login";
-                string loginResult = NetFramework.Util_WEB.OpenUrl(LoginUrl, "", "{\"memberName\":\"xl1234567\",\"loginPasswd\":\"123456\"}", "POST", wufencai, true, true, "application/json; charset=utf-8"
-                   , "");
 
-                string tOKEN = JObject.Parse(loginResult)["token"].ToString();
-                HuaYuToken = tOKEN;
-                string URL = "https://api.honze88.com/api/v1/yules/vr/lobbies/601/landing";
+                System.Threading.Tasks.Task tsk = new System.Threading.Tasks.Task(new Action(() =>
+                {
+                    if (TskRuning == true)
+                    {
+                        return;
+                    }
+                    TskRuning = true;
+                    try
+                    {
 
-                string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
-                    , "JWT " + tOKEN);
-                JObject jr = JObject.Parse(Result);
-                //JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ0MzYxLCJuYW1lIjoieGwxMjM0NTY3IiwiaWF0IjoxNTU1MjEwNzMzLCJleHAiOjE1NTY0MjAzMzN9.6c9VVDQZkiCAd9Up_6MoqhooDGL_uL3ZSSAYE9j8YVc
-                string NewuRL = jr["url"].ToString();
-                NetFramework.Util_CEF.JoinQueueAndWait(NewuRL, wb_vrchongqing);
+
+                        VR_PreTime = DateTime.Now;
+                        string LoginUrl = "https://api.honze88.com/api/v1/login";
+                        string loginResult = NetFramework.Util_WEB.OpenUrl(LoginUrl, "", "{\"memberName\":\"xl1234567\",\"loginPasswd\":\"123456\"}", "POST", wufencai, true, true, "application/json; charset=utf-8"
+                           , "");
+
+                        string tOKEN = JObject.Parse(loginResult)["token"].ToString();
+                        HuaYuToken = tOKEN;
+                        string URL = "https://api.honze88.com/api/v1/yules/vr/lobbies/601/landing";
+
+                        string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8"
+                            , "JWT " + tOKEN);
+                        JObject jr = JObject.Parse(Result);
+                        //JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ0MzYxLCJuYW1lIjoieGwxMjM0NTY3IiwiaWF0IjoxNTU1MjEwNzMzLCJleHAiOjE1NTY0MjAzMzN9.6c9VVDQZkiCAd9Up_6MoqhooDGL_uL3ZSSAYE9j8YVc
+                        string NewuRL = jr["url"].ToString();
+                        this.Invoke(
+                            new Action(() =>
+                            {
+
+
+                                NetFramework.Util_CEF.JoinQueueAndWait(NewuRL, wb_vrchongqing);
+                            })
+
+                            );//Invoke 
+                    }
+                    catch (Exception AnyError)
+                    {
+                        NetFramework.Console.WriteLine(AnyError.Message, true);
+                        NetFramework.Console.WriteLine(AnyError.StackTrace, true);
+
+                    }
+                    TskRuning = false;
+                }));
+
+                tsk.Start();
+
+
             }
             catch (Exception anyerror)
             {
@@ -13572,7 +13613,7 @@ namespace WeixinRoboot
                            {
 
 
-                                (wb_other).Document.InvokeScript("$('#datatable').height()");
+                               (wb_other).Document.InvokeScript("$('#datatable').height()");
                            }
                            catch (Exception anyerror)
                            {

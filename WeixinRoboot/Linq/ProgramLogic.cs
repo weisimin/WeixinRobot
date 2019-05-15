@@ -7172,8 +7172,10 @@ namespace WeixinRoboot.Linq
 
                     else if (subm == ShiShiCaiMode.腾讯五分)
                     {
+
                         gr.GameTime = Convert.ToDateTime(
-                       GameTime);
+                      str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                      + FindMinute_tengxunwufen.TimeMinute);
 
                         gr.GamePrivatePeriod = Convert.ToDateTime(
                                               str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
@@ -7183,7 +7185,9 @@ namespace WeixinRoboot.Linq
                     else if (subm == ShiShiCaiMode.腾五信)
                     {
                         gr.GameTime = Convert.ToDateTime(
-                       GameTime);
+                       str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                       + FindMinute_tengxunwufenXin.TimeMinute);
+
 
                         gr.GamePrivatePeriod = Convert.ToDateTime(
                                               str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "

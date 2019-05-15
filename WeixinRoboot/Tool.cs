@@ -62,7 +62,7 @@ namespace NetFramework
 
             if (authorization!="")
             {
-                LoginPage.Headers.Add("authorization", authorization);
+                LoginPage.Headers.Add("Authorization", authorization);
  
             }
            
@@ -1342,8 +1342,8 @@ namespace NetFramework
             } 
            
                 NetFramework.Console.WriteLine("网页组件已解锁",false);
-       
-                return wb.Document.Body.InnerHtml;
+
+                return wb.Document==null?"":wb.Document.Body.InnerHtml;
           
 
         }
