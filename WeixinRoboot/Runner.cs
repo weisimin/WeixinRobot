@@ -677,7 +677,7 @@ namespace WeixinRoboot
         {
             BS_Contact.Filter = "User_Contact like '%" + tb_ContactFilter.Text + "%'";
             BS_ReceiveReply.Filter = "";
-            this.Refresh();
+            //this.Refresh();
 
         }
 

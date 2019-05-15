@@ -14,12 +14,12 @@ namespace NetFramework
     public class Util_WEB
     {
         public static string CurrentUrl = "";
-        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8", string authorization="")
+        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8", string authorization = "")
         {
             DateTime Pre = DateTime.Now;
-            string Result= OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.UTF8, AllowRedirect, KeepAlive, ContentType,authorization);
-            NetFramework.Console.WriteLine("--------------网站下载总时间：" + (DateTime.Now - Pre).TotalSeconds.ToString(),false);
-             return Result;
+            string Result = OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.UTF8, AllowRedirect, KeepAlive, ContentType, authorization);
+            NetFramework.Console.WriteLine("--------------网站下载总时间：" + (DateTime.Now - Pre).TotalSeconds.ToString(), false);
+            return Result;
         }
 
         public static bool CheckValidationResult(object sender
@@ -41,13 +41,13 @@ namespace NetFramework
             }
         }
 
-        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = false, bool KeepAlive = true, string ContentType = "application/json;charset=UTF-8", string authorization="")
+        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = false, bool KeepAlive = true, string ContentType = "application/json;charset=UTF-8", string authorization = "")
         {
 
             //System.Net.ServicePointManager.MaxServicePoints=20;
 
             System.Net.ServicePointManager.DefaultConnectionLimit = 500;
- 
+
             System.Net.ServicePointManager.SetTcpKeepAlive(true, 15000, 15000);
             //HttpWebRequest LoginPage = null;
             //    GetHttpWebResponseNoRedirect(TargetURL,"","",out LoginPage);
@@ -60,12 +60,12 @@ namespace NetFramework
             ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
-            if (authorization!="")
+            if (authorization != "")
             {
                 LoginPage.Headers.Add("Authorization", authorization);
- 
+
             }
-           
+
             LoginPage.Method = Method;
             if (TargetURL.ToLower().StartsWith("https"))
             {
@@ -185,9 +185,9 @@ namespace NetFramework
                 LoginPage = null;
                 System.GC.Collect();
 
-                NetFramework.Console.WriteLine("网址打开失败" + TargetURL,true);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message,true);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace,true);
+                NetFramework.Console.WriteLine("网址打开失败" + TargetURL, true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message, true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace, true);
                 return "";
             }
 
@@ -248,9 +248,9 @@ namespace NetFramework
                 LoginPage = null;
                 System.GC.Collect();
 
-                NetFramework.Console.WriteLine("网址打开失败" + TargetURL,true);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message,true);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace,true);
+                NetFramework.Console.WriteLine("网址打开失败" + TargetURL, true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message, true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace, true);
                 return "";
             }
             LoginPage.Abort();
@@ -488,11 +488,11 @@ namespace NetFramework
             try
             {
                 NetFramework.Util_WEB.CurrentUrl = "正在下载" + UploadUrl;
-                NetFramework.Console.WriteLine("正在上传图片",false);
+                NetFramework.Console.WriteLine("正在上传图片", false);
 
                 LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
                 NetFramework.Util_WEB.CurrentUrl = "已下载" + UploadUrl;
-                NetFramework.Console.WriteLine("上传图片完成",false);
+                NetFramework.Console.WriteLine("上传图片完成", false);
                 if (((HttpWebResponse)LoginPage_Return).Headers["Set-Cookie"] != null)
                 {
                     string Start = LoginPage.RequestUri.Host.Substring(0, LoginPage.RequestUri.Host.LastIndexOf("."));
@@ -563,7 +563,7 @@ namespace NetFramework
             LoginPage_Return = null;
             LoginPage = null;
             System.GC.Collect();
-            NetFramework.Console.WriteLine("图片返回:" + responseBody,false);
+            NetFramework.Console.WriteLine("图片返回:" + responseBody, false);
             return responseBody;
             //返回：
             //            {
@@ -708,11 +708,11 @@ namespace NetFramework
             try
             {
                 NetFramework.Util_WEB.CurrentUrl = "正在下载" + UploadUrl;
-                NetFramework.Console.WriteLine("正在上传图片",false);
+                NetFramework.Console.WriteLine("正在上传图片", false);
 
                 LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
                 NetFramework.Util_WEB.CurrentUrl = "已下载" + UploadUrl;
-                NetFramework.Console.WriteLine("上传图片完成",false);
+                NetFramework.Console.WriteLine("上传图片完成", false);
                 if (((HttpWebResponse)LoginPage_Return).Headers["Set-Cookie"] != null)
                 {
                     string Start = LoginPage.RequestUri.Host.Substring(0, LoginPage.RequestUri.Host.LastIndexOf("."));
@@ -785,7 +785,7 @@ namespace NetFramework
             LoginPage_Return = null;
             LoginPage = null;
             System.GC.Collect();
-            NetFramework.Console.WriteLine("图片返回:" + responseBody,false);
+            NetFramework.Console.WriteLine("图片返回:" + responseBody, false);
             return responseBody;
             //返回：
             //            {
@@ -1062,7 +1062,7 @@ namespace NetFramework
             //}
             System.Console.WriteLine(Message);
         }
-        public static void WriteLine(string Message,bool Exception)
+        public static void WriteLine(string Message, bool Exception)
         {
             //LastLog = Message + Environment.NewLine + LastLog;
             //if (LastLog.Length > 5000)
@@ -1071,9 +1071,9 @@ namespace NetFramework
             //}
             if (Exception)
             {
-                   System.Console.WriteLine(Message);
+                System.Console.WriteLine(Message);
             }
-         
+
 
         }
         public static string LastLog = "";
@@ -1325,30 +1325,32 @@ namespace NetFramework
 
 
         public static object LockLoad = true;
-        public static string JoinQueueAndWait(string URL, System.Windows.Forms.WebBrowser   wb, Int32 milientTime = 2000)
+        public static string JoinQueueAndWait(string URL, EO.WinForm.WebControl wb, Int32 milientTime = 2000)
         {
-            NetFramework.Console.WriteLine("网页组件正在锁定",false);
+            NetFramework.Console.WriteLine("网页组件正在锁定", false);
             //lock (LockLoad)
             {
                 LockLoad = !((bool)LockLoad);
-                wb.Navigate(URL);
+                wb.WebView.LoadUrl(URL);
                 DateTime PreTime = DateTime.Now;
                 //while ((DateTime.Now-PreTime).TotalMilliseconds<milientTime)
                 //{
                 //    System.Threading.Thread.Sleep(100);
                 //    //System.Windows.Forms.Application.DoEvents();
                 //}
-               
-            } 
-           
-                NetFramework.Console.WriteLine("网页组件已解锁",false);
 
-                return wb.Document==null?"":wb.Document.Body.InnerHtml;
-          
+            }
+
+            NetFramework.Console.WriteLine("网页组件已解锁", false);
+
+            return wb.WebView.GetHtml();
+
 
         }
 
-      
+       
+
+
 
 
     }

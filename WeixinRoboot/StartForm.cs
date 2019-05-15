@@ -27,17 +27,17 @@ namespace WeixinRoboot
 {
     public partial class StartForm : Form
     {
-        WebBrowser wb_ballgame = null;
+        EO.WinForm.WebControl wb_ballgame = null;
 
-        WebBrowser wb_other = null;
-        WebBrowser wb_refresh = null;
+        EO.WinForm.WebControl wb_other = null;
+        EO.WinForm.WebControl wb_refresh = null;
 
-        WebBrowser wb_balllivepoint = null;
+        EO.WinForm.WebControl wb_balllivepoint = null;
 
 
-        WebBrowser wb_pointlog = null;
+        EO.WinForm.WebControl wb_pointlog = null;
 
-        WebBrowser wb_vrchongqing = null;
+        EO.WinForm.WebControl wb_vrchongqing = null;
 
         public StartForm()
         {
@@ -347,9 +347,9 @@ namespace WeixinRoboot
             EndNoticeBoss.Start();
 
 
-            wb_ballgame = new WebBrowser();
-            wb_ballgame.ScriptErrorsSuppressed = true;
-
+            wb_ballgame = new EO.WinForm.WebControl();
+            //wb_ballgame.ScriptErrorsSuppressed = true;
+            wb_ballgame.WebView = new EO.WebBrowser.WebView();
 
             wb_ballgame.Dock = DockStyle.Fill;
             wb_ballgame.Name = "wb_football";
@@ -369,17 +369,18 @@ namespace WeixinRoboot
 
 
 
-            wb_other = new WebBrowser();
-            wb_other.ScriptErrorsSuppressed = true;
-            wb_other.Dock = DockStyle.Fill;
-            wb_other.Name = "wb_other";
-
+            wb_other = new EO.WinForm.WebControl();
+            //wb_other.ScriptErrorsSuppressed = true;
+           // wb_other.Dock = DockStyle.Fill;
+           // wb_other.Name = "wb_other";
+            wb_other.WebView = new EO.WebBrowser.WebView();
             gb_other.Controls.Add(wb_other);
 
 
 
-            wb_refresh = new WebBrowser();
-            wb_refresh.ScriptErrorsSuppressed = true;
+            wb_refresh = new EO.WinForm.WebControl();
+            wb_refresh.WebView = new EO.WebBrowser.WebView();
+            //wb_refresh.ScriptErrorsSuppressed = true;
             wb_refresh.Dock = DockStyle.Fill;
             wb_refresh.Name = "wb_refresh";
 
@@ -390,9 +391,9 @@ namespace WeixinRoboot
 
 
 
-            wb_balllivepoint = new WebBrowser();
-
-            wb_balllivepoint.ScriptErrorsSuppressed = true;
+            wb_balllivepoint = new EO.WinForm.WebControl();
+            wb_balllivepoint.WebView = new EO.WebBrowser.WebView();
+            //wb_balllivepoint.ScriptErrorsSuppressed = true;
             wb_balllivepoint.Dock = DockStyle.Fill;
             wb_balllivepoint.Name = "wb_balllivepoint";
 
@@ -401,16 +402,18 @@ namespace WeixinRoboot
 
 
 
-            wb_pointlog = new WebBrowser();
-            wb_pointlog.ScriptErrorsSuppressed = true;
+            wb_pointlog = new EO.WinForm.WebControl();
+            wb_pointlog.WebView = new EO.WebBrowser.WebView();
+            //wb_pointlog.ScriptErrorsSuppressed = true;
             wb_pointlog.Dock = DockStyle.Fill;
             wb_pointlog.Name = "wb_pointlog";
 
             gb_pointlog.Controls.Add(wb_pointlog);
 
 
-            wb_vrchongqing = new WebBrowser();
-            wb_vrchongqing.ScriptErrorsSuppressed = true;
+            wb_vrchongqing = new EO.WinForm.WebControl();
+            wb_vrchongqing.WebView = new EO.WebBrowser.WebView();
+            //wb_vrchongqing.ScriptErrorsSuppressed = true;
             wb_vrchongqing.Dock = DockStyle.Fill;
             wb_vrchongqing.Name = "wb_vrchongqing";
 
@@ -2488,7 +2491,8 @@ namespace WeixinRoboot
             // byte[] bytes = new byte[ p.StandardOutput.BaseStream.Length];
             //p.StandardOutput.BaseStream.Read(bytes, 0, bytes.Length);
 
-            String Outputs = p.StandardOutput.ReadToEnd();
+            // String Outputs = p.StandardOutput.ReadToEnd();
+            String Outputs = "";
             p.Close();
             NetFramework.Console.WriteLine("#########################################################", false);
             NetFramework.Console.WriteLine(ExeAndParam, false);
@@ -6576,6 +6580,93 @@ namespace WeixinRoboot
             LoginPage.Abort();
 
         }
+        //        public void DownLoad163CaiPiaoV_vrchongqingcaislimWebDOM(ref Boolean NewResult, bool ReDrawGdi)
+        //        {
+        //            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+        //            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+        //            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+        //               && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+        //).Count();
+        //            DateTime PreTime = DateTime.Now;
+
+        //            this.Invoke(new Action(() =>
+        //            {
+        //                if (wb_vrchongqing == null)
+        //                {
+        //                    return;
+        //                }
+        //                if (wb_vrchongqing.Url == null || wb_vrchongqing.Url.AbsoluteUri.Contains("Bet/Index/42") == false)
+        //                {
+        //                    NetFramework.Console.WriteLine("未登陆不能使用WEB采集", true);
+        //                    return;
+        //                }
+
+
+        //            }));
+        //            //Regex FindPeriod = new Regex("<span((?!>)[\\s\\S])+id=\"lastissue\"((?!</span>)[\\s\\S])+</span>", RegexOptions.IgnoreCase);
+        //            //Regex FindWin = new Regex("<ul class=\"win_numbers font-white\"[^>]*>((?<mm><ul[^>]*>)+|(?<-mm></ul>)|[\\s\\S])*?(?(mm)(?!))</ul>", RegexOptions.IgnoreCase);
+        //            //#region 补充历史开奖
+        //            //Regex FindHistory = new Regex("<ul class=\"text-left\">[^>]*>((?<mm><ul[^>]*>)+|(?<-mm></ul>)|[\\s\\S])*?(?(mm)(?!))</ul>", RegexOptions.IgnoreCase); ;
+        //            //Regex Finddats = new Regex("<li[^>]*>((?<mm><li[^>]*>)+|(?<-mm></li>)|[\\s\\S])*?(?(mm)(?!))</li>", RegexOptions.IgnoreCase);
+        //            //MatchCollection mc = FindHistory.Matches(Source);
+        //            //foreach (Match item in mc)
+        //            //{
+        //            //    if (item.Value.Contains("封盘"))
+        //            //    {
+        //            //        continue;
+        //            //    }
+        //            //    MatchCollection dats = Finddats.Matches(item.Value);
+        //            //    string lst_dataperiod = NetFramework.Util_WEB.CleanHtml(dats[0].Value);
+        //            //    string lst_wins = NetFramework.Util_WEB.CleanHtml(dats[1].Value)
+        //            //        + NetFramework.Util_WEB.CleanHtml(dats[2].Value)
+        //            //        + NetFramework.Util_WEB.CleanHtml(dats[3].Value)
+        //            //           + NetFramework.Util_WEB.CleanHtml(dats[4].Value)
+        //            //               + NetFramework.Util_WEB.CleanHtml(dats[5].Value);
+
+        //            //    Linq.ProgramLogic.NewGameResult(lst_wins, lst_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+
+        //            //}
+
+        //            //#endregion
+
+        //            //WebKit.DOM.Node issuenode = wb_vrchongqing.Document.GetElementById("lastissue");
+        //            string str_dataperiod = wb_vrchongqing.Document.GetElementById("lastissue").TextContent;
+        //            if (str_dataperiod == "")
+        //            {
+        //                NetFramework.Console.WriteLine("网页模拟登陆APP失败", true);
+        //                return;
+        //            }
+        //            string str_Win = issuenode.ChildNodes[0].TextContent;
+        //            str_Win = str_Win.Replace(Environment.NewLine, "").Replace(" ", "").Replace("\n", "");
+        //            if (str_Win.Contains("?") == false && str_Win != "")
+        //            {
+
+        //                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+        //            }
+
+        //            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
+        //            NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+        //            ShiShiCaiDealGameLogAndNotice();
+
+
+        //            //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+        //            //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+        //            //).Count();
+        //            //            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+        //            //            {
+        //            //                NewResult = true;
+
+
+        //            //                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+        //            //            }
+        //            //            if (LocalGameResultCount != AfterCheckCount)
+        //            //            {
+        //            //                SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+        //            //            }
+        //        }
         public void DownLoad163CaiPiaoV_vrchongqingcaislimWeb(ref Boolean NewResult, bool ReDrawGdi)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
@@ -6591,14 +6682,14 @@ namespace WeixinRoboot
                 {
                     return;
                 }
-                if (wb_vrchongqing.Url == null || wb_vrchongqing.Url.AbsoluteUri.Contains("Bet/Index/42") == false)
+                if (wb_vrchongqing == null || wb_vrchongqing.WebView.Url.Contains("Bet/Index/42") == false)
                 {
                     NetFramework.Console.WriteLine("未登陆不能使用WEB采集", true);
                     return;
                 }
                 try
                 {
-                    Source = wb_vrchongqing.Document.Body.InnerHtml; //StartGetDoc( wb_vrchongqing.DocumentAsHTMLDocument);
+                    Source = wb_vrchongqing.WebView.GetHtml();
 
 
                 }
@@ -6670,7 +6761,6 @@ namespace WeixinRoboot
             //                SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
             //            }
         }
-
         public void DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref Boolean NewResult, bool ReDrawGdi)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
@@ -9479,8 +9569,8 @@ namespace WeixinRoboot
 
                 if (FirstRun == true)
                 {
-                    wb_ballgame.Navigate("http://odds.gooooal.com/company.html?type=1001");
-                    wb_balllivepoint.Navigate("http://live.gooooal.com");
+                    wb_ballgame.WebView.LoadUrl("http://odds.gooooal.com/company.html?type=1001");
+                    wb_balllivepoint.WebView.LoadUrl("http://live.gooooal.com");
 
                     Thread startdo = new Thread(new ThreadStart(ThreadStartGetBallRatioV2));
                     startdo.Start();
@@ -9506,18 +9596,21 @@ namespace WeixinRoboot
 
                 try
                 {
-
-                    if (wb_vrchongqing.Url.AbsoluteUri.Contains("/Bet/Index/42") == false && wb_vrchongqing.Url.AbsoluteUri.Contains("/Bet/Index") == true)
+                    if (wb_vrchongqing.WebView.Url == null)
+                    {
+                        ReloadWebApp();
+                    }
+                    if (wb_vrchongqing.WebView.Url.Contains("/Bet/Index/42") == false && wb_vrchongqing.WebView.Url.Contains("/Bet/Index") == true)
                     {
                         // wb_vrchongqing.Load("http://huy.vrbetapi.com/Bet/Index/42");
-                        wb_vrchongqing.Navigate("http://huy.vrbetapi.com/Bet/Index/42");
+                        wb_vrchongqing.WebView.LoadUrl("http://huy.vrbetapi.com/Bet/Index/42");
                     }
-                    if (wb_vrchongqing.Url.AbsoluteUri.Contains("ErrorHandle/Timeout")
+                    if (wb_vrchongqing.WebView.Url.Contains("ErrorHandle/Timeout")
                         )
                     {
                         ReloadWebApp();
                     }
-                    String DocSource = wb_vrchongqing.Document.Body.InnerHtml;
+                    String DocSource = wb_vrchongqing.WebView.GetHtml();
                     //StartGetDoc(wb_vrchongqing.DocumentAsHTMLDocument);
                     if (DocSource.Contains("时间逾期"))
                     {
@@ -12220,7 +12313,7 @@ namespace WeixinRoboot
         }
 
 
-        //private void Refreshball(CefSharp.WinForms.ChromiumWebBrowser wb, string idname, string balltype)
+        //private void Refreshball(CefSharp.WinForms.ChromiumCefSharp.WinForms.ChromiumWebBrowser wb, string idname, string balltype)
         //{
         //    this.Invoke(new Action(() =>
         //    {
@@ -12462,7 +12555,7 @@ namespace WeixinRoboot
 
         //    }));//ACTION结束
         //}
-        //private void Refreshother(CefSharp.WinForms.ChromiumWebBrowser wb)
+        //private void Refreshother(CefSharp.WinForms.ChromiumCefSharp.WinForms.ChromiumWebBrowser wb)
         //{
         //    this.Invoke(new Action(() =>
         //    {
@@ -12642,7 +12735,7 @@ namespace WeixinRoboot
         public enum BallType { 足球, 篮球 }
 
         private object LockLoad = false;
-        private void RefreshballV2(WebBrowser ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
+        private void RefreshballV2(EO.WinForm.WebControl ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -13245,7 +13338,7 @@ namespace WeixinRoboot
                         //lock (NetFramework.Util_CEF.LockLoad)
                         {
                             NetFramework.Util_CEF.LockLoad = !((bool)NetFramework.Util_CEF.LockLoad);
-                            wb_other.Navigate("file:///" + Application.StartupPath + "\\output\\" + matchclassicitem.GameType + matchclassicitem.MatchClass + ".htm");
+                            wb_other.WebView.LoadUrl("file:///" + Application.StartupPath + "\\output\\" + matchclassicitem.GameType + matchclassicitem.MatchClass + ".htm");
 
 
 
@@ -13257,7 +13350,7 @@ namespace WeixinRoboot
                             {
 
 
-                                gst = wb_other.Document.InvokeScript("$('body').height()");
+                                gst = wb_other.WebView.EvalScript("$('body').height()");
                             }
                             catch (Exception AnyError)
                             {
@@ -13605,7 +13698,7 @@ namespace WeixinRoboot
                            //lock (NetFramework.Util_CEF.LockLoad)
                            {
                                NetFramework.Util_CEF.LockLoad = !((bool)NetFramework.Util_CEF.LockLoad);
-                               wb_other.Navigate("file:///" + Application.StartupPath + "\\tmp.htm");
+                               wb_other.WebView.LoadUrlAndWait("file:///" + Application.StartupPath + "\\tmp.htm");
 
 
                            }
@@ -13613,7 +13706,7 @@ namespace WeixinRoboot
                            {
 
 
-                               (wb_other).Document.InvokeScript("$('#datatable').height()");
+                               (wb_other).WebView.EvalScript("$('#datatable').height()");
                            }
                            catch (Exception anyerror)
                            {
@@ -13631,7 +13724,7 @@ namespace WeixinRoboot
             {
 
 
-                gst = (wb_other.Document).InvokeScript("$('#datatable').width()");
+                gst = (wb_other).WebView.EvalScript("$('#datatable').width()");
             }
             catch (Exception anyerror)
             {
@@ -13768,7 +13861,7 @@ namespace WeixinRoboot
             }
         }
 
-        private void GetAndSetPoint(WebBrowser balllivepoint, BallType p_balltype)
+        private void GetAndSetPoint(EO.WinForm.WebControl balllivepoint, BallType p_balltype)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
