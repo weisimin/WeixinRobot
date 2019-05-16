@@ -58,9 +58,7 @@ namespace NetFramework
             //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
             ((HttpWebRequest)LoginPage).Timeout = 15000;
             ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-
-            if (authorization != "")
+             if (authorization != "")
             {
                 LoginPage.Headers.Add("Authorization", authorization);
 
@@ -69,7 +67,9 @@ namespace NetFramework
             LoginPage.Method = Method;
             if (TargetURL.ToLower().StartsWith("https"))
             {
-                System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
+
+                //System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
                 ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
             }
 
@@ -139,7 +139,7 @@ namespace NetFramework
             LoginPage.Timeout = 15000;
             if (RefURL.ToLower().StartsWith("https"))
             {
-                System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
+                //System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
                 ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
             }
             System.GC.Collect();
@@ -1348,7 +1348,7 @@ namespace NetFramework
 
         }
 
-       
+
 
 
 

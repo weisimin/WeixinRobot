@@ -15,7 +15,7 @@ namespace WeixinRoboot
         {
             InitializeComponent();
         }
-
+        public RunnerForm RunnerF = null;
         private void WebWeChatImageSetting_Load(object sender, EventArgs e)
         {
 
@@ -60,10 +60,10 @@ namespace WeixinRoboot
 
                     data.IsSendPIC = cb_IsSendPIC.Checked;
 
-                    data.PIC_StartHour = Convert.ToInt32( tb_StartHour.Text);
-                    data.PIC_StartMinute = Convert.ToInt32( tb_StartMinute.Text);
-                    data.PIC_EndHour =  Convert.ToInt32(tb_EndHour.Text);
-                    data.Pic_EndMinute =  Convert.ToInt32(tb_EndMinute.Text);
+                    data.PIC_StartHour = Convert.ToInt32(tb_StartHour.Text);
+                    data.PIC_StartMinute = Convert.ToInt32(tb_StartMinute.Text);
+                    data.PIC_EndHour = Convert.ToInt32(tb_EndHour.Text);
+                    data.Pic_EndMinute = Convert.ToInt32(tb_EndMinute.Text);
                     db.SubmitChanges();
                 }
                 else
@@ -110,7 +110,11 @@ namespace WeixinRoboot
                     db.WX_WebSendPICSetting.InsertOnSubmit(newd);
                     db.SubmitChanges();
                 }
-
+                DataRow[] list = RunnerF.MemberSource.Select("User_ContactID='"+WX_UserName+"'");
+                foreach (var rowitem in list)
+                {
+                    rowitem.SetField<Boolean?>("User_IsSendPic", cb_IsSendPIC.Checked);
+                }
 
                 foreach (var item in subsource)
                 {
@@ -209,12 +213,12 @@ namespace WeixinRoboot
 
                     cb_IsSendPIC.Checked = data.IsSendPIC.HasValue ? data.IsSendPIC.Value : false;
 
-                    tb_StartHour.Text =data.PIC_StartHour.HasValue?data.PIC_StartHour.ToString():"9";
-                    tb_StartMinute.Text = data.PIC_StartMinute.HasValue?data.PIC_StartMinute.ToString():"0";
+                    tb_StartHour.Text = data.PIC_StartHour.HasValue ? data.PIC_StartHour.ToString() : "9";
+                    tb_StartMinute.Text = data.PIC_StartMinute.HasValue ? data.PIC_StartMinute.ToString() : "0";
                     tb_EndHour.Text = data.PIC_EndHour.HasValue ? data.PIC_EndHour.ToString() : "2";
                     tb_EndMinute.Text = data.Pic_EndMinute.HasValue ? data.Pic_EndMinute.ToString() : "0";
 
-                    if (data.PIC_StartHour.HasValue==false)
+                    if (data.PIC_StartHour.HasValue == false)
                     {
                         data.PIC_StartHour = 9;
                     }

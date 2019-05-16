@@ -128,6 +128,7 @@
             this.gb_tengxunwufen = new System.Windows.Forms.GroupBox();
             this.T_TengXunWuFenXin = new System.Windows.Forms.CheckBox();
             this.T_TengXunShiFenXin = new System.Windows.Forms.CheckBox();
+            this.cb_robotstop = new System.Windows.Forms.CheckBox();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
@@ -549,6 +550,7 @@
             this.cb_refreshball.TabIndex = 25;
             this.cb_refreshball.Text = "采集球赛";
             this.cb_refreshball.UseVisualStyleBackColor = true;
+            this.cb_refreshball.CheckedChanged += new System.EventHandler(this.cb_refreshball_CheckedChanged);
             // 
             // lbl_six
             // 
@@ -827,7 +829,7 @@
             // cb_TwoTreeNotSingle
             // 
             this.cb_TwoTreeNotSingle.AutoSize = true;
-            this.cb_TwoTreeNotSingle.Location = new System.Drawing.Point(318, 316);
+            this.cb_TwoTreeNotSingle.Location = new System.Drawing.Point(268, 316);
             this.cb_TwoTreeNotSingle.Name = "cb_TwoTreeNotSingle";
             this.cb_TwoTreeNotSingle.Size = new System.Drawing.Size(96, 16);
             this.cb_TwoTreeNotSingle.TabIndex = 52;
@@ -1035,11 +1037,23 @@
             this.T_TengXunShiFenXin.Text = "腾讯十分信";
             this.T_TengXunShiFenXin.UseVisualStyleBackColor = true;
             // 
+            // cb_robotstop
+            // 
+            this.cb_robotstop.AutoSize = true;
+            this.cb_robotstop.Location = new System.Drawing.Point(90, 261);
+            this.cb_robotstop.Name = "cb_robotstop";
+            this.cb_robotstop.Size = new System.Drawing.Size(84, 16);
+            this.cb_robotstop.TabIndex = 74;
+            this.cb_robotstop.Text = "机器人停止";
+            this.cb_robotstop.UseVisualStyleBackColor = true;
+            this.cb_robotstop.CheckedChanged += new System.EventHandler(this.cb_robotstop_CheckedChanged);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 694);
+            this.Controls.Add(this.cb_robotstop);
             this.Controls.Add(this.T_TengXunWuFenXin);
             this.Controls.Add(this.T_TengXunShiFenXin);
             this.Controls.Add(this.gb_tengxunwufen);
@@ -1233,6 +1247,7 @@
         private System.Windows.Forms.GroupBox gb_tengxunwufen;
         private System.Windows.Forms.CheckBox T_TengXunWuFenXin;
         private System.Windows.Forms.CheckBox T_TengXunShiFenXin;
+        private System.Windows.Forms.CheckBox cb_robotstop;
 
     }
 }

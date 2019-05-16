@@ -1034,6 +1034,7 @@ namespace WeixinRoboot
                 string ContactName = editrow.Field<string>("User_Contact");
 
                 WebWeChatImageSetting wset = new WebWeChatImageSetting();
+                wset.RunnerF = this;
                 wset.WX_SourceType = SourceType;
                 wset.WX_UserName = ContactID;
                 wset.Show();
