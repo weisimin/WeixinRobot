@@ -317,7 +317,7 @@ namespace WeixinRoboot
             {
                 SleepTime = 600;
             }
-            tm_refresh.Start();
+           
 
 
 
@@ -418,6 +418,9 @@ namespace WeixinRoboot
             wb_vrchongqing.Name = "wb_vrchongqing";
 
             gb_vrchongqingshishicai.Controls.Add(wb_vrchongqing);
+
+
+            tm_refresh.Start();
 
         }
 
@@ -9609,8 +9612,8 @@ namespace WeixinRoboot
 
                 if (FirstRun == true)
                 {
-                    wb_ballgame.WebView.LoadUrl("http://odds.gooooal.com/company.html?type=1001");
-                    wb_balllivepoint.WebView.LoadUrl("http://live.gooooal.com");
+                    wb_ballgame.WebView.LoadUrlAndWait("http://odds.gooooal.com/company.html?type=1001");
+                    wb_balllivepoint.WebView.LoadUrlAndWait("http://live.gooooal.com");
 
                     Thread startdo = new Thread(new ThreadStart(ThreadStartGetBallRatioV2));
                     startdo.Start();
@@ -9643,7 +9646,7 @@ namespace WeixinRoboot
                     if (wb_vrchongqing.WebView.Url.Contains("/Bet/Index/42") == false && wb_vrchongqing.WebView.Url.Contains("/Bet/Index") == true)
                     {
                         // wb_vrchongqing.Load("http://huy.vrbetapi.com/Bet/Index/42");
-                        wb_vrchongqing.WebView.LoadUrl("http://huy.vrbetapi.com/Bet/Index/42");
+                        wb_vrchongqing.WebView.LoadUrlAndWait("http://huy.vrbetapi.com/Bet/Index/42");
                     }
                     if (wb_vrchongqing.WebView.Url.Contains("ErrorHandle/Timeout")
                         )
@@ -13378,7 +13381,7 @@ namespace WeixinRoboot
                         //lock (NetFramework.Util_CEF.LockLoad)
                         {
                             NetFramework.Util_CEF.LockLoad = !((bool)NetFramework.Util_CEF.LockLoad);
-                            wb_other.WebView.LoadUrl("file:///" + Application.StartupPath + "\\output\\" + matchclassicitem.GameType + matchclassicitem.MatchClass + ".htm");
+                            wb_other.WebView.LoadUrlAndWait("file:///" + Application.StartupPath + "\\output\\" + matchclassicitem.GameType + matchclassicitem.MatchClass + ".htm");
 
 
 
