@@ -1342,11 +1342,19 @@ namespace NetFramework
             }
 
             NetFramework.Console.WriteLine("网页组件已解锁", false);
+            try
+            {
+                return wb.WebView.GetHtml();
+            }
+            catch (Exception)
+            {
 
-            return wb.WebView.GetHtml();
-
+                return "";
+            }
+            
 
         }
+
 
 
 

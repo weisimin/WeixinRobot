@@ -348,7 +348,7 @@ namespace WeixinRoboot
 
 
             wb_ballgame = new EO.WinForm.WebControl();
-            //wb_ballgame.ScriptErrorsSuppressed = true;
+           // wb_ballgame.ScriptErrorsSuppressed = true;
             wb_ballgame.WebView = new EO.WebBrowser.WebView();
 
             wb_ballgame.Dock = DockStyle.Fill;
@@ -4459,7 +4459,7 @@ namespace WeixinRoboot
                         }
                         try
                         {
-                            DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
+                           // DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
                         }
 
                         catch (Exception AnyError)
@@ -6725,14 +6725,14 @@ namespace WeixinRoboot
                 {
                     return;
                 }
-                if (wb_vrchongqing == null || wb_vrchongqing.WebView.Url.Contains("Bet/Index/42") == false)
+                if (wb_vrchongqing == null || wb_vrchongqing.WebView==null|| wb_vrchongqing.WebView.Url.Contains("Bet/Index/42") == false)
                 {
                     NetFramework.Console.WriteLine("未登陆不能使用WEB采集", true);
                     return;
                 }
                 try
                 {
-                    Source = wb_vrchongqing.WebView.GetHtml();
+                    Source = wb_vrchongqing.WebView.GetHtml();  
 
 
                 }
@@ -9612,8 +9612,8 @@ namespace WeixinRoboot
 
                 if (FirstRun == true)
                 {
-                    wb_ballgame.WebView.LoadUrlAndWait("http://odds.gooooal.com/company.html?type=1001");
-                    wb_balllivepoint.WebView.LoadUrlAndWait("http://live.gooooal.com");
+                    wb_ballgame.WebView.LoadUrl("http://odds.gooooal.com/company.html?type=1001");
+                    wb_balllivepoint.WebView.LoadUrl("http://live.gooooal.com");
 
                     Thread startdo = new Thread(new ThreadStart(ThreadStartGetBallRatioV2));
                     startdo.Start();
@@ -9646,14 +9646,14 @@ namespace WeixinRoboot
                     if (wb_vrchongqing.WebView.Url.Contains("/Bet/Index/42") == false && wb_vrchongqing.WebView.Url.Contains("/Bet/Index") == true)
                     {
                         // wb_vrchongqing.Load("http://huy.vrbetapi.com/Bet/Index/42");
-                        wb_vrchongqing.WebView.LoadUrlAndWait("http://huy.vrbetapi.com/Bet/Index/42");
+                        wb_vrchongqing.WebView.LoadUrl("http://huy.vrbetapi.com/Bet/Index/42");
                     }
                     if (wb_vrchongqing.WebView.Url.Contains("ErrorHandle/Timeout")
                         )
                     {
                         ReloadWebApp();
                     }
-                    String DocSource = wb_vrchongqing.WebView.GetHtml();
+                    String DocSource = wb_vrchongqing.WebView.GetHtml();  
                     //StartGetDoc(wb_vrchongqing.DocumentAsHTMLDocument);
                     if (DocSource.Contains("时间逾期") || DocSource.Contains("重新登陆"))
                     {
@@ -12356,7 +12356,7 @@ namespace WeixinRoboot
         }
 
 
-        //private void Refreshball(CefSharp.WinForms.ChromiumCefSharp.WinForms.ChromiumWebBrowser wb, string idname, string balltype)
+        //private void Refreshball(CefSharp.WinForms.ChromiumCefSharp.WinForms.ChromiumEO.WinForm.WebControl wb, string idname, string balltype)
         //{
         //    this.Invoke(new Action(() =>
         //    {
@@ -12598,7 +12598,7 @@ namespace WeixinRoboot
 
         //    }));//ACTION结束
         //}
-        //private void Refreshother(CefSharp.WinForms.ChromiumCefSharp.WinForms.ChromiumWebBrowser wb)
+        //private void Refreshother(CefSharp.WinForms.ChromiumCefSharp.WinForms.ChromiumEO.WinForm.WebControl wb)
         //{
         //    this.Invoke(new Action(() =>
         //    {
@@ -13381,7 +13381,7 @@ namespace WeixinRoboot
                         //lock (NetFramework.Util_CEF.LockLoad)
                         {
                             NetFramework.Util_CEF.LockLoad = !((bool)NetFramework.Util_CEF.LockLoad);
-                            wb_other.WebView.LoadUrlAndWait("file:///" + Application.StartupPath + "\\output\\" + matchclassicitem.GameType + matchclassicitem.MatchClass + ".htm");
+                            wb_other.WebView.LoadUrl("file:///" + Application.StartupPath + "\\output\\" + matchclassicitem.GameType + matchclassicitem.MatchClass + ".htm");
 
 
 
@@ -13741,7 +13741,7 @@ namespace WeixinRoboot
                            //lock (NetFramework.Util_CEF.LockLoad)
                            {
                                NetFramework.Util_CEF.LockLoad = !((bool)NetFramework.Util_CEF.LockLoad);
-                               wb_other.WebView.LoadUrlAndWait("file:///" + Application.StartupPath + "\\tmp.htm");
+                               wb_other.WebView.LoadUrl("file:///" + Application.StartupPath + "\\tmp.htm");
 
 
                            }

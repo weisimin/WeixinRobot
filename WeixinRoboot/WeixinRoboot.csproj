@@ -28,7 +28,7 @@
     <InstallUrl>http://superserver:9123/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>27</ApplicationRevision>
+    <ApplicationRevision>35</ApplicationRevision>
     <ApplicationVersion>2.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -106,11 +106,17 @@
       <HintPath>..\packages\Brotli.NET.1.0.19\lib\net40\Brotli.NET.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EO.Base">
-      <HintPath>C:\Program Files (x86)\Essential Objects\EO.Total 2017\EO.Base.dll</HintPath>
+    <Reference Include="EO.Base, Version=17.2.92.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\EO.Base.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebBrowser">
-      <HintPath>C:\Program Files (x86)\Essential Objects\EO.Total 2017\EO.WebBrowser.dll</HintPath>
+    <Reference Include="EO.WebBrowser, Version=17.2.92.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\EO.WebBrowser.dll</HintPath>
+    </Reference>
+    <Reference Include="EO.WebEngine, Version=17.2.92.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\EO.WebEngine.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\Newtonsoft.Json.dll</HintPath>
