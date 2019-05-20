@@ -142,13 +142,13 @@ namespace NetFramework
                 //System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
                 ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
             }
-            System.GC.Collect();
+            //System.GC.Collect();
             System.Threading.Thread.Sleep(100);
             HttpWebResponse LoginPage_Return = null;
             try
             {
                 CurrentUrl = "正在下载" + TargetURL;
-                System.GC.Collect();
+                //System.GC.Collect();
 
                 // NetFramework.Console.WriteLine("下载URL" + LoginPage.RequestUri.AbsoluteUri + Environment.NewLine);
                 LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
@@ -183,11 +183,11 @@ namespace NetFramework
             {
 
                 LoginPage = null;
-                System.GC.Collect();
+                //System.GC.Collect();
 
                 NetFramework.Console.WriteLine("网址打开失败" + TargetURL, true);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message, true);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace, true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message, false);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace, false);
                 return "";
             }
 
@@ -246,7 +246,7 @@ namespace NetFramework
             {
                 LoginPage.Abort();
                 LoginPage = null;
-                System.GC.Collect();
+                //System.GC.Collect();
 
                 NetFramework.Console.WriteLine("网址打开失败" + TargetURL, true);
                 NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message, true);
@@ -261,7 +261,7 @@ namespace NetFramework
             LoginPage_Return.Close();
             LoginPage_Return = null;
             LoginPage = null;
-            System.GC.Collect();
+            //System.GC.Collect();
 
 
             return responseBody;

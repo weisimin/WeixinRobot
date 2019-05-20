@@ -6445,7 +6445,7 @@ namespace WeixinRoboot
             LoginPage.Method = "POST";
             ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
-            System.GC.Collect();
+            //System.GC.Collect();
             System.Threading.Thread.Sleep(100);
             HttpWebResponse LoginPage_Return = null;
             LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
@@ -6505,7 +6505,7 @@ namespace WeixinRoboot
             {
                 LoginPage.Abort();
                 LoginPage = null;
-                System.GC.Collect();
+                //System.GC.Collect();
 
 
             }
@@ -6553,7 +6553,7 @@ namespace WeixinRoboot
             LoginPage.Method = "POST";
             ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
             ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
-            System.GC.Collect();
+            //System.GC.Collect();
             System.Threading.Thread.Sleep(100);
             HttpWebResponse LoginPage_Return = null;
             LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
@@ -6613,7 +6613,7 @@ namespace WeixinRoboot
             {
                 LoginPage.Abort();
                 LoginPage = null;
-                System.GC.Collect();
+                //System.GC.Collect();
 
 
             }
@@ -9652,7 +9652,7 @@ namespace WeixinRoboot
                     }
                     String DocSource = wb_vrchongqing.WebView.GetHtml();
                     //StartGetDoc(wb_vrchongqing.DocumentAsHTMLDocument);
-                    if (DocSource.Contains("时间逾期"))
+                    if (DocSource.Contains("时间逾期") || DocSource.Contains("重新登陆"))
                     {
 
                         ReloadWebApp();
@@ -9886,7 +9886,7 @@ namespace WeixinRoboot
 
 
             //CefSharp.Cef.Shutdown();
-            GC.Collect();
+            //GC.Collect();
             Application.Exit();
             Environment.Exit(0);
 

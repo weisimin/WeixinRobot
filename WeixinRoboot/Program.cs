@@ -25,129 +25,130 @@ namespace WeixinRoboot
         [STAThread]
         static void Main()
         {
+            EO.Base.Runtime.EnableEOWP = true;
             EO.WebBrowser.Runtime.AddLicense("f5mkwOm7aNjw/Rr2d7PzAw/kq8Dy9xqfndj49uihaamzwd2ua6e1yM2fr9z2BBTup7SmwuKhaLXABBTmp9j4Bh3kd9nYBw/kcN3l6vrYasH7+xG0sru1xuy8drOzBBTmp9j4Bh3kd7Oz/RTinuX39ul14+30EO2s3MLNF+ic3PIEEMidtbTG27ZwrbXG3LN1pvD6DuSn6unaD7114+30EO2s3OmxGeCm3MGz8M5nzunz7fGo7vf2HaF3s7P9FOKe5ff2EL112PD9GvZ3s+X1D5+t8PT26KF+xrLUE/Go5Omzy5+v3PYEFO6ntKbC4q1p");
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
-          
+
             Action run = () =>
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-               
-          
-        
-            // AllocConsole();
-            try
-            {
 
-                string ConfigFile = Application.StartupPath + "\\WeixinRoboot.exe.config";
-                string TempFileName = Application.StartupPath + "\\web.config";
-                if (System.IO.File.Exists(TempFileName))
+
+
+                // AllocConsole();
+                try
                 {
-                    System.IO.File.Delete(TempFileName);
-                }
-                System.IO.File.Copy(ConfigFile, TempFileName);
 
-                //ConfigFile = Application.StartupPath + "\\OpenWebKitSharp.manifest.bak";
-                //TempFileName = Application.StartupPath + "\\OpenWebKitSharp.manifest";
-                //if (System.IO.File.Exists(TempFileName))
-                //{
-                //    System.IO.File.Delete(TempFileName);
-                //}
-                //System.IO.File.Copy(ConfigFile, TempFileName);
-
-                //System.Diagnostics.Process proc = System.Diagnostics.Process.Start("C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\aspnet_regiis.exe", "-pef \"connectionStrings\" \"" + Application.StartupPath + "\"");
-
-
-                //if (proc != null)
-                //{
-                //    proc.WaitForExit();
-                //    System.IO.File.Move(TempFileName, ConfigFile);
-                //}
-
-                if (Directory.Exists(Application.StartupPath + "\\output") == true)
-                {
-                    string[] todels = Directory.GetFiles(Application.StartupPath + "\\output");
-                    foreach (var item in todels)
+                    string ConfigFile = Application.StartupPath + "\\WeixinRoboot.exe.config";
+                    string TempFileName = Application.StartupPath + "\\web.config";
+                    if (System.IO.File.Exists(TempFileName))
                     {
-                        File.Delete(item);
+                        System.IO.File.Delete(TempFileName);
                     }
-                }
-                else
-                {
-                    Directory.CreateDirectory(Application.StartupPath + "\\output");
-                }
-                if (Directory.Exists(Application.StartupPath + "\\EmuFile") == true)
-                {
-                    string[] todels = Directory.GetFiles(Application.StartupPath + "\\EmuFile");
-                    foreach (var item in todels)
+                    System.IO.File.Copy(ConfigFile, TempFileName);
+
+                    //ConfigFile = Application.StartupPath + "\\OpenWebKitSharp.manifest.bak";
+                    //TempFileName = Application.StartupPath + "\\OpenWebKitSharp.manifest";
+                    //if (System.IO.File.Exists(TempFileName))
+                    //{
+                    //    System.IO.File.Delete(TempFileName);
+                    //}
+                    //System.IO.File.Copy(ConfigFile, TempFileName);
+
+                    //System.Diagnostics.Process proc = System.Diagnostics.Process.Start("C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\aspnet_regiis.exe", "-pef \"connectionStrings\" \"" + Application.StartupPath + "\"");
+
+
+                    //if (proc != null)
+                    //{
+                    //    proc.WaitForExit();
+                    //    System.IO.File.Move(TempFileName, ConfigFile);
+                    //}
+
+                    if (Directory.Exists(Application.StartupPath + "\\output") == true)
                     {
-                        File.Delete(item);
+                        string[] todels = Directory.GetFiles(Application.StartupPath + "\\output");
+                        foreach (var item in todels)
+                        {
+                            File.Delete(item);
+                        }
                     }
+                    else
+                    {
+                        Directory.CreateDirectory(Application.StartupPath + "\\output");
+                    }
+                    if (Directory.Exists(Application.StartupPath + "\\EmuFile") == true)
+                    {
+                        string[] todels = Directory.GetFiles(Application.StartupPath + "\\EmuFile");
+                        foreach (var item in todels)
+                        {
+                            File.Delete(item);
+                        }
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(Application.StartupPath + "\\EmuFile");
+                    }
+                    //Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+                    //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                    //var todel = db.Game_FootBall_VS.Where(t => t.LastAliveTime < DateTime.Now.AddDays(-3)
+
+                    //    );
+                    //foreach (var item in todel)
+                    //{
+                    //    var todeldetail = db.Game_FootBall_VSRatios.Where(t => t.aspnet_UserID == item.aspnet_UserID && t.GameKey == item.GameKey);
+                    //    db.Game_FootBall_VSRatios.DeleteAllOnSubmit(todeldetail);
+
+                    //    var todellast = db.Game_Football_LastRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey && t.GameKey == item.GameKey);
+                    //    db.Game_Football_LastRatio.DeleteAllOnSubmit(todellast);
+
+                    //}
+
+
+                    //db.Game_FootBall_VS.DeleteAllOnSubmit(todel);
+
+
+                    //db.SubmitChanges();
                 }
-                else
+                catch (Exception AnyError)
                 {
-                    Directory.CreateDirectory(Application.StartupPath + "\\EmuFile");
+                    MessageBox.Show("启动失败" + AnyError.Message);
+                    NetFramework.Console.WriteLine("删除临时图片失败", true);
+                    NetFramework.Console.WriteLine(AnyError.Message, true);
+                    NetFramework.Console.WriteLine(AnyError.StackTrace, true);
+                    return;
                 }
-                //Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-                //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                //var todel = db.Game_FootBall_VS.Where(t => t.LastAliveTime < DateTime.Now.AddDays(-3)
 
-                //    );
-                //foreach (var item in todel)
+                //局部线程，不能及时结束会造成没相应
+                //全局LINQ数据库，会频繁出现SQLDATAREADER已打开或关闭的问题
+
+                Linq.ProgramLogic.ComboStringInit();
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                loginf = new LoginForm();
+                loginf.OnLoginSuccess += new LoginForm.LoginSuccess(loginf_OnLoginSuccess);
+                //try
                 //{
-                //    var todeldetail = db.Game_FootBall_VSRatios.Where(t => t.aspnet_UserID == item.aspnet_UserID && t.GameKey == item.GameKey);
-                //    db.Game_FootBall_VSRatios.DeleteAllOnSubmit(todeldetail);
-
-                //    var todellast = db.Game_Football_LastRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey && t.GameKey == item.GameKey);
-                //    db.Game_Football_LastRatio.DeleteAllOnSubmit(todellast);
+                Application.Run(loginf);
+                //}
+                //catch (Exception AnyError)
+                //{
+                ////    MessageBox.Show(AnyError.Message);
+                ////    if (System.IO.File.Exists(Application.StartupPath + "\\log.txt"))
+                ////    {
+                ////        System.IO.File.Delete(Application.StartupPath + "\\log.txt");
+                ////    }
+                ////    System.IO.FileStream fs = new System.IO.FileStream(Application.StartupPath + "\\log.txt", System.IO.FileMode.OpenOrCreate);
+                ////    System.IO.StreamWriter sw = new System.IO.StreamWriter(fs);
+                ////    sw.Write(AnyError.Message + Environment.NewLine + AnyError.StackTrace);
+                ////    sw.Flush();
+                ////    sw.Close();
+                ////    //Environment.Exit(0);
 
                 //}
-
-
-                //db.Game_FootBall_VS.DeleteAllOnSubmit(todel);
-
-
-                //db.SubmitChanges();
-            }
-            catch (Exception AnyError)
-            {
-                MessageBox.Show("启动失败"+AnyError.Message);
-                NetFramework.Console.WriteLine("删除临时图片失败",true);
-                NetFramework.Console.WriteLine(AnyError.Message,true);
-                NetFramework.Console.WriteLine(AnyError.StackTrace,true);
-                return;
-            }
-
-            //局部线程，不能及时结束会造成没相应
-            //全局LINQ数据库，会频繁出现SQLDATAREADER已打开或关闭的问题
-
-            Linq.ProgramLogic.ComboStringInit();
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            loginf = new LoginForm();
-            loginf.OnLoginSuccess += new LoginForm.LoginSuccess(loginf_OnLoginSuccess);
-            //try
-            //{
-            Application.Run(loginf);
-            //}
-            //catch (Exception AnyError)
-            //{
-            ////    MessageBox.Show(AnyError.Message);
-            ////    if (System.IO.File.Exists(Application.StartupPath + "\\log.txt"))
-            ////    {
-            ////        System.IO.File.Delete(Application.StartupPath + "\\log.txt");
-            ////    }
-            ////    System.IO.FileStream fs = new System.IO.FileStream(Application.StartupPath + "\\log.txt", System.IO.FileMode.OpenOrCreate);
-            ////    System.IO.StreamWriter sw = new System.IO.StreamWriter(fs);
-            ////    sw.Write(AnyError.Message + Environment.NewLine + AnyError.StackTrace);
-            ////    sw.Flush();
-            ////    sw.Close();
-            ////    //Environment.Exit(0);
-
-            //}
-            //CefSharp.Cef.Shutdown();
-            //FreeConsole();
+                //CefSharp.Cef.Shutdown();
+                //FreeConsole();
             };//action结束
             WindowsIdentity wi = WindowsIdentity.GetCurrent();
             bool runAsAdmin = wi != null && new WindowsPrincipal(wi).IsInRole(WindowsBuiltInRole.Administrator);
@@ -175,7 +176,7 @@ namespace WeixinRoboot
         {
             loginf.Hide();
             #region
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
 
