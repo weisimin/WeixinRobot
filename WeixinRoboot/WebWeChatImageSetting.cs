@@ -224,15 +224,15 @@ namespace WeixinRoboot
                     }
                     if (data.PIC_StartMinute.HasValue == false)
                     {
-                        data.PIC_StartMinute = 0;
+                        data.PIC_StartMinute = 2;
                     }
                     if (data.PIC_EndHour.HasValue == false)
                     {
-                        data.PIC_EndHour = 2;
+                        data.PIC_EndHour = 8;
                     }
                     if (data.Pic_EndMinute.HasValue == false)
                     {
-                        data.Pic_EndMinute = 0;
+                        data.Pic_EndMinute = 58;
                     }
                     db.SubmitChanges();
                 }

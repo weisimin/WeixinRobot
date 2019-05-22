@@ -36,22 +36,24 @@ namespace WeixinRoboot
         Boolean SetMemberRuning = false;
         private void SetMembers()
         {
-            NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"),false);
+            NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"), true);
+            DateTime StartTime = DateTime.Now;
 
-            if (SetMemberRuning==true)
+            if (SetMemberRuning == true)
             {
                 return;
             }
 
             SetMemberRuning = true;
 
-            //this.Invoke(new Action(() =>
-            //{
+            this.Invoke(new Action(() =>
+            {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
+            //this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
             foreach (var item in (_Members["MemberList"]) as JArray)
             {
+                DateTime EachStart = DateTime.Now;
                 string UserNametempID = "";
                 string NickName = "";
                 string RemarkName = "";
@@ -115,9 +117,6 @@ namespace WeixinRoboot
                         {
                             usrc.IsReply = true;
                         }
-
-
-
                     } //初始化，添加到数据库或同步数据库
                     Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                        && t.WX_SourceType == "微"
@@ -152,43 +151,37 @@ namespace WeixinRoboot
                         webpcset.NumberPIC = false;
                         webpcset.dragonpic = false;
 
-
-
                         {
                             webpcset.PIC_StartHour = 9;
                         }
-
-
                         {
                             webpcset.PIC_StartMinute = 0;
                         }
-
-
                         {
                             webpcset.PIC_EndHour = 2;
                         }
-
-
                         {
                             webpcset.Pic_EndMinute = 0;
                         }
-                        db.SubmitChanges();
                         db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
-                        db.SubmitChanges();
-
                     }
-                   
 
+                    NetFramework.Console.WriteLine("准备提交,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
                     db.SubmitChanges();
+
                     usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
 
+                    NetFramework.Console.WriteLine("数据库,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
 
-
-                    DataRow[] Lists = MemberSource.Select("User_ContactTEMPID='" + UserNametempID + "' and User_SourceType='微'");
+                    DataRow[] Lists = { MemberSource.Rows.Find(new object[] { UserNametempID, "微" }) }; //
+                    //MemberSource.Select("User_ContactTEMPID='" + UserNametempID + "' and User_SourceType='微'");
                     DataRow newr = null;
-                    if (Lists.Length == 0)
+                    if (Lists.Length == 0 || Lists[0] == null)
                     {
                         newr = MemberSource.NewRow();
+                        newr.SetField("User_ContactTEMPID", UserNametempID);
+                        newr.SetField("User_SourceType", "微");
+
                         MemberSource.Rows.Add(newr);
                     }
                     else
@@ -196,10 +189,9 @@ namespace WeixinRoboot
                         newr = Lists[0];
                     }
                     newr.SetField("User_ContactID", Seq);
-                    newr.SetField("User_ContactTEMPID", UserNametempID);
-                    newr.SetField("User_ContactType", UserNametempID.StartsWith("@@") ? "群" : "个人");
-                    newr.SetField("User_SourceType", "微");
+
                     newr.SetField("User_Contact", NickName);
+                    newr.SetField("User_ContactType", UserNametempID.StartsWith("@@") ? "群" : "个人");
 
 
                     newr.SetField("User_IsReply", usrc.IsReply);
@@ -237,6 +229,7 @@ namespace WeixinRoboot
                     newr.SetField("User_VR", usrc == null ? false : (usrc.VRMode == null ? false : usrc.VRMode));
 
 
+                    NetFramework.Console.WriteLine("单个联系人,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
 
                     //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
                     //foreach (var logitem in UpdateLogs)
@@ -244,26 +237,29 @@ namespace WeixinRoboot
                     //    logitem.SetField("Reply_ContactTEMPID", UserNametempID);
                     //    logitem.SetField("Reply_Contact", RemarkName == "" ? NickName : RemarkName);
                     //}
+
                 }
                 catch (Exception AnyError)
                 {
                     MessageBox.Show((RemarkName == "" ? NickName : RemarkName) + "联系人保存失败");
-                    NetFramework.Console.WriteLine(AnyError.Message,true);
-                    NetFramework.Console.WriteLine(AnyError.StackTrace,true);
+                    NetFramework.Console.WriteLine(AnyError.Message, true);
+                    NetFramework.Console.WriteLine(AnyError.StackTrace, true);
                 }
-
+                this.Invalidate();
+                Application.DoEvents();
 
             }//成员列表循环
-
+            db.SubmitChanges();
 
             // BS_Contact.Sort = "User_Contact";
-            // }));
+             }));//Invoke
 
             SetMemberRuning = false;
-            this.Invoke(new Action(() => { BS_Contact.DataSource = MemberSource; }));
-            NetFramework.Console.WriteLine("更新联系人完成" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"),false);
 
-       
+            //this.Invoke(new Action(() => { BS_Contact.DataSource = MemberSource; }));
+            NetFramework.Console.WriteLine("更新联系人完成,耗时:" + (DateTime.Now - StartTime).TotalSeconds.ToString(), true);
+
+
 
         }
 
@@ -273,7 +269,7 @@ namespace WeixinRoboot
 
         public void SetYixinMembers(List<StartForm.YixinContact> contact, List<StartForm.YixinContactInfo> contactinf)
         {
-            NetFramework.Console.WriteLine("开始更新更新易信联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"),false);
+            NetFramework.Console.WriteLine("开始更新更新易信联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"), false);
             try
             {
 
@@ -461,10 +457,10 @@ namespace WeixinRoboot
             catch (Exception AnyError)
             {
 
-                NetFramework.Console.WriteLine(AnyError.Message,true);
-                NetFramework.Console.WriteLine(AnyError.StackTrace,true);
+                NetFramework.Console.WriteLine(AnyError.Message, true);
+                NetFramework.Console.WriteLine(AnyError.StackTrace, true);
             }
-            NetFramework.Console.WriteLine("更新易信联系人完成" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"),false);
+            NetFramework.Console.WriteLine("更新易信联系人完成" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"), false);
 
         }
 
@@ -524,6 +520,9 @@ namespace WeixinRoboot
             MemberSource.Columns.Add("User_XinJiangShiShiCai", typeof(Boolean));
 
             MemberSource.Columns.Add("User_VR", typeof(Boolean));
+
+            DataColumn[] dcs = { MemberSource.Columns["User_ContactTEMPID"], MemberSource.Columns["User_SourceType"] };
+            MemberSource.PrimaryKey = dcs;
 
             BS_ReceiveReply.DataSource = ReplySource;
 
@@ -897,8 +896,8 @@ namespace WeixinRoboot
             catch (Exception AnyError)
             {
 
-                NetFramework.Console.WriteLine(AnyError.Message,true);
-                NetFramework.Console.WriteLine(AnyError.StackTrace,true);
+                NetFramework.Console.WriteLine(AnyError.Message, true);
+                NetFramework.Console.WriteLine(AnyError.StackTrace, true);
             }
 
 

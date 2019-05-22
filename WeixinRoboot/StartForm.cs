@@ -2393,6 +2393,7 @@ namespace WeixinRoboot
                                 toupdate.IsReply = true;
                                 UserRow.SetField("User_IsReply", true);
                                 db.SubmitChanges();
+
                             }
                             string WX_UserName = Tocontacts[0].Field<string>("User_ContactID");
                             var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
@@ -2428,6 +2429,10 @@ namespace WeixinRoboot
 
                             }));
                             RobotStop = true;
+                            string WX_UserName = Tocontacts[0].Field<string>("User_ContactID");
+                            var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
+                            SendRobotContent("机器人已停止", NoticeList
+                                 , userr.Field<string>("User_SourceType"));
                         }
                         else if (Content == "77")
                         {
@@ -2438,6 +2443,10 @@ namespace WeixinRoboot
 
                                 }));
                             RobotStop = false;
+                            string WX_UserName = Tocontacts[0].Field<string>("User_ContactID");
+                            var NoticeList = RunnerF.MemberSource.Select("User_ContactID='" + WX_UserName + "'");
+                            SendRobotContent("机器人已回复", NoticeList
+                               , userr.Field<string>("User_SourceType"));
                         }
 
 
@@ -3300,7 +3309,6 @@ namespace WeixinRoboot
                 {
 
                     Int32 TotalChanges = Linq.ProgramLogic.WX_UserGameLog_Deal(this, notice_item.WX_UserName, notice_item.WX_SourceType);
-                    db.SubmitChanges();
                     if (TotalChanges == 0)
                     {
                         continue;

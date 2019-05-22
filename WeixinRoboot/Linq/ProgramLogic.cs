@@ -5316,11 +5316,11 @@ namespace WeixinRoboot.Linq
                 webpcset.NoBigSmallSingleDoublePIC = false;
                 webpcset.dragonpic = false;
 
-                webpcset.PIC_EndHour = 2;
-                webpcset.Pic_EndMinute = 0;
+                webpcset.PIC_EndHour = 8;
+                webpcset.Pic_EndMinute = 58;
 
                 webpcset.PIC_StartHour = 9;
-                webpcset.PIC_StartMinute = 0;
+                webpcset.PIC_StartMinute = 2;
                 db.SubmitChanges();
                 return GetMode(UserRow).ToString() + ("发图停止") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
 
@@ -6501,7 +6501,7 @@ namespace WeixinRoboot.Linq
         public static decimal WXUserChangeLog_GetRemainder(string UserContactID, string SourceType)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             var RemindList = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                 && t.WX_UserName == UserContactID
