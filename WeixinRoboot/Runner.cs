@@ -152,16 +152,16 @@ namespace WeixinRoboot
                         webpcset.dragonpic = false;
 
                         {
-                            webpcset.PIC_StartHour = 9;
+                            webpcset.PIC_StartHour = 8;
                         }
                         {
-                            webpcset.PIC_StartMinute = 0;
+                            webpcset.PIC_StartMinute = 58;
                         }
                         {
                             webpcset.PIC_EndHour = 2;
                         }
                         {
-                            webpcset.Pic_EndMinute = 0;
+                            webpcset.Pic_EndMinute = 3;
                         }
                         db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
                     }

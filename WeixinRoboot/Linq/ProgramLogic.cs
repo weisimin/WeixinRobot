@@ -5316,11 +5316,11 @@ namespace WeixinRoboot.Linq
                 webpcset.NoBigSmallSingleDoublePIC = false;
                 webpcset.dragonpic = false;
 
-                webpcset.PIC_EndHour = 8;
-                webpcset.Pic_EndMinute = 58;
+                webpcset.PIC_EndHour = 2;
+                webpcset.Pic_EndMinute = 3;
 
-                webpcset.PIC_StartHour = 9;
-                webpcset.PIC_StartMinute = 2;
+                webpcset.PIC_StartHour = 8;
+                webpcset.PIC_StartMinute = 58;
                 db.SubmitChanges();
                 return GetMode(UserRow).ToString() + ("发图停止") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
 

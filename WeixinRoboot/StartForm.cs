@@ -4918,6 +4918,10 @@ namespace WeixinRoboot
 
         public void SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode FilterSubmode, string Mode = "All", string ToUserID = "")
         {
+            if (RobotStop==true)
+            {
+                return;
+            }
             NetFramework.Console.WriteLine(GlobalParam.UserName + "开始发送图片" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine, false);
 
 

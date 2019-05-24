@@ -213,26 +213,26 @@ namespace WeixinRoboot
 
                     cb_IsSendPIC.Checked = data.IsSendPIC.HasValue ? data.IsSendPIC.Value : false;
 
-                    tb_StartHour.Text = data.PIC_StartHour.HasValue ? data.PIC_StartHour.ToString() : "9";
-                    tb_StartMinute.Text = data.PIC_StartMinute.HasValue ? data.PIC_StartMinute.ToString() : "0";
+                    tb_StartHour.Text = data.PIC_StartHour.HasValue ? data.PIC_StartHour.ToString() : "8";
+                    tb_StartMinute.Text = data.PIC_StartMinute.HasValue ? data.PIC_StartMinute.ToString() : "58";
                     tb_EndHour.Text = data.PIC_EndHour.HasValue ? data.PIC_EndHour.ToString() : "2";
-                    tb_EndMinute.Text = data.Pic_EndMinute.HasValue ? data.Pic_EndMinute.ToString() : "0";
+                    tb_EndMinute.Text = data.Pic_EndMinute.HasValue ? data.Pic_EndMinute.ToString() : "3";
 
                     if (data.PIC_StartHour.HasValue == false)
                     {
-                        data.PIC_StartHour = 9;
+                        data.PIC_StartHour = 8;
                     }
                     if (data.PIC_StartMinute.HasValue == false)
                     {
-                        data.PIC_StartMinute = 2;
+                        data.PIC_StartMinute = 58;
                     }
                     if (data.PIC_EndHour.HasValue == false)
                     {
-                        data.PIC_EndHour = 8;
+                        data.PIC_EndHour = 2;
                     }
                     if (data.Pic_EndMinute.HasValue == false)
                     {
-                        data.Pic_EndMinute = 58;
+                        data.Pic_EndMinute = 3;
                     }
                     db.SubmitChanges();
                 }
