@@ -14,5 +14,11 @@
         <elementListCompartment Id="259d6583-29e4-4ac4-ba35-d09059fdfef5" absoluteBounds="0.51500000000000012, 1.71, 1.9700000000000002, 2.348683675130208" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="2e914e6b-7053-4e38-8d8f-f691709e8663" isExpanded="false" absoluteBounds="0.5, 2.125, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/aspnet_UsersNewGameResultSend" />
+      <nestedChildShapes>
+        <elementListCompartment Id="39548d3e-7b58-4a50-8e76-236b0ac33015" absoluteBounds="0.51500000000000012, 2.585, 1.9700000000000002, 8.4613138834635411" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>
