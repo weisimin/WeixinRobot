@@ -20,5 +20,24 @@
         <elementListCompartment Id="39548d3e-7b58-4a50-8e76-236b0ac33015" absoluteBounds="0.51500000000000012, 2.585, 1.9700000000000002, 8.4613138834635411" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="c67293d4-fbb3-453a-a585-0ef59ed7bbe5" isExpanded="false" absoluteBounds="3.375, 2.375, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/aspnet_Users" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4a33b744-3b70-44ba-bfe4-e7152e4d1d3a" absoluteBounds="3.39, 2.835, 1.9700000000000002, 1.5846048990885415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d6e462d6-6fb8-4cc6-a032-69a53650b5f9" isExpanded="false" absoluteBounds="3.25, 1.5, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/aspnet_Membership" />
+      <nestedChildShapes>
+        <elementListCompartment Id="023d8896-704e-465c-ac0d-efedc92e3de1" absoluteBounds="3.2649999999999997, 1.96, 1.9700000000000002, 4.258880615234375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4.3125 : 2.375); (4.3125 : 1.95)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/dbDataContext/aspnet_Users/aspnet_Users_aspnet_Membership" />
+      <nodes>
+        <classShapeMoniker Id="c67293d4-fbb3-453a-a585-0ef59ed7bbe5" />
+        <classShapeMoniker Id="d6e462d6-6fb8-4cc6-a032-69a53650b5f9" />
+      </nodes>
+    </associationConnector>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

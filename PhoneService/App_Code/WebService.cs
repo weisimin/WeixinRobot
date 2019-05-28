@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 [WebService(Namespace = "http://13828081978.zicp.vip/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 // 若要允许使用 ASP.NET AJAX 从脚本中调用此 Web 服务，请取消注释以下行。 
-//[System.Web.Script.Services.ScriptService]
+[System.Web.Script.Services.ScriptService]
 public class WebService : System.Web.Services.WebService
 {
 
@@ -27,50 +27,54 @@ public class WebService : System.Web.Services.WebService
 
 
     [WebMethod]
-    public void UserLogIn(string UserName, string Password)
+    public string UserLogIn(string UserName, string Password)
     {
 
         bool r = Membership.ValidateUser(UserName, Password);
         MembershipUser msr = Membership.GetUser(UserName);
         if (r == true)
         {
-            Context.Response.Write(Membership.GetUser().ProviderUserKey.ToString());
+            return (msr.ProviderUserKey.ToString());
         }
         else if (msr == null)
         {
-            Context.Response.Write("用户不存在");
+           return ("用户不存在");
         }
         else if (msr.IsLockedOut)
         {
-            Context.Response.Write("密码错误次数太多,或已停用");
+           return ("密码错误次数太多,已停用");
         }
         else
         {
-            Context.Response.Write("密码错误");
+           return ("密码错误");
         }
 
-        Context.Response.End();
+       
     }
 
     [WebMethod]
-    public void GetSetting(string saspnetUserid)
+    public string GetSetting(string saspnetUserid)
     {
         Guid aspnetUserid = Guid.Parse(saspnetUserid);
-        dbDataContext db = new dbDataContext();
+        dbDataContext db = new dbDataContext("LocalSqlServer");
         aspnet_UsersNewGameResultSend sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == aspnetUserid);
-        Context.Response.Write(JsonConvert.SerializeObject(sets));
-        Context.Response.End();
+       return (JsonConvert.SerializeObject(sets));
+      
 
     }
     [WebMethod]
-    public void SaveSetting(string UserName, string Password, string jaspnet_UsersNewGameResultSend)
+    public string SaveSetting(string UserName, string Password, string jaspnet_UsersNewGameResultSend)
     {
         MembershipUser msr = Membership.GetUser(UserName);
-        dbDataContext db = new dbDataContext();
+        dbDataContext db = new dbDataContext("LocalSqlServer");
         aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend);
 
         aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)msr.ProviderUserKey);
-
+        if (save_sets==null)
+        {
+            save_sets = new aspnet_UsersNewGameResultSend();
+            save_sets.aspnet_UserID = (Guid)msr.ProviderUserKey;
+        }
         save_sets.ActiveCode = tins_sets.ActiveCode;
 
         save_sets.IsNewSend = tins_sets.IsNewSend;
@@ -159,17 +163,69 @@ public class WebService : System.Web.Services.WebService
         try
         {
             db.SubmitChanges();
-            Context.Response.Write("保存成功");
-            Context.Response.End();
+           return ("保存成功");
+           
         }
         catch (Exception anyerror)
         {
 
-            Context.Response.Write("保存失败"+anyerror.Message);
-            Context.Response.End();
+           return ("保存失败"+anyerror.Message);
+            
         }
 
 
     }
 
+    [WebMethod]
+    public List<Guid> GetBossUsers(string bossaspnetuserid)
+    {
+        dbDataContext db = new dbDataContext("LocalSqlServer");
+        List<Guid> takeusers = ((from ds in db.aspnet_UsersNewGameResultSend
+                                 where ds.bossaspnet_UserID == Guid.Parse(bossaspnetuserid)
+
+                                 select ds.aspnet_UserID).Distinct()
+
+                                              ).ToList();
+        return takeusers;
+    
+    }
+
+    [WebMethod]
+    public string GetUserToken(string UserName, string Password)
+    {
+        bool r = Membership.ValidateUser(UserName, Password);
+        if (r == false)
+        {
+            return "账号密码错误";
+        }
+        else
+        {
+            MembershipUser msr = Membership.GetUser(UserName);
+            FormsAuthentication.SetAuthCookie(UserName, true);
+            string Cookie = FormsAuthentication.GetAuthCookie(UserName, true).Value;
+            
+            return Cookie;
+        
+        }
+    
+    }
+    [WebMethod]
+    public string UnLockUser(string UserName)
+    {
+        MembershipUser r = Membership.GetUser(UserName);
+        if (r == null)
+        {
+            return "用户名不存在";
+        }
+        else
+        {
+            MembershipUser msr = Membership.GetUser(UserName);
+            FormsAuthentication.SetAuthCookie(UserName, true);
+            string Cookie = FormsAuthentication.GetAuthCookie(UserName, true).Value;
+
+            return Cookie;
+
+        }
+
+    }
 }
