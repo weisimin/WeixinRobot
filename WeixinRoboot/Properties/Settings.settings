@@ -50,5 +50,11 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=superserver,9125;Initial Catalog=WeixinRoboot;Persist Security Info=True;User ID=sa;Password=liangwguang</Value>
     </Setting>
+    <Setting Name="WeixinRoboot_RobootWeb_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://13828081978.zicp.vip/WebService.asmx</Value>
+    </Setting>
+    <Setting Name="WeixinRoboot_RobotWebAdmin_SysadminServices" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://13828081978.zicp.vip/SysadminServices.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

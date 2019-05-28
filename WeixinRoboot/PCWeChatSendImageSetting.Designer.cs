@@ -64,6 +64,7 @@
             this.北京赛车PK10 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.VR重庆彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.新疆时时彩 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.河内五分 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.NumberText = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.刷新账单 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Is_Reply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -133,6 +134,7 @@
             this.北京赛车PK10,
             this.VR重庆彩,
             this.新疆时时彩,
+            this.河内五分,
             this.NumberText,
             this.刷新账单,
             this.Is_Reply,
@@ -424,6 +426,12 @@
             this.新疆时时彩.HeaderText = "新疆时时彩";
             this.新疆时时彩.Name = "新疆时时彩";
             // 
+            // 河内五分
+            // 
+            this.河内五分.DataPropertyName = "HeNeiWuFenMode";
+            this.河内五分.HeaderText = "河内五分";
+            this.河内五分.Name = "河内五分";
+            // 
             // NumberText
             // 
             this.NumberText.DataPropertyName = "NumberText";
@@ -676,6 +684,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn 北京赛车PK10;
         private System.Windows.Forms.DataGridViewCheckBoxColumn VR重庆彩;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 新疆时时彩;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 河内五分;
         private System.Windows.Forms.DataGridViewCheckBoxColumn NumberText;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 刷新账单;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Is_Reply;

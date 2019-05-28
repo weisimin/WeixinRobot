@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace WeixinRoboot
 {
@@ -21,9 +23,11 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
     
-            Linq.aspnet_UsersNewGameResultSend updatecode = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+            Linq.aspnet_UsersNewGameResultSend updatecode = Linq.Util_Services.GetServicesSetting();
             updatecode.ActiveCode = fd_activecode.Text;
-            db.SubmitChanges();
+            RobootWeb.WebService ws = new RobootWeb.WebService();
+            string Res=ws.SaveSetting(GlobalParam.UserName, GlobalParam.Password, JsonConvert.SerializeObject(updatecode));
+            MessageBox.Show(Res);
             this.Close ();
 
         }

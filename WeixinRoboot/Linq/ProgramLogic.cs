@@ -5,9 +5,22 @@ using System.Text;
 using System.Data;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
-using System.Web.Security;
+
 namespace WeixinRoboot.Linq
 {
+    public class VersonFunctions
+    {
+        public DateTime EndTime;
+        public bool Thread_AoZhouCai = false;
+        public bool Thread_ChongQingShiShiCai = false;
+        public bool Thread_TengXunShiFen = false;
+        public bool Thread_TengXunWuFen = false;
+        public bool Thread_VRChongqing = false;
+        public bool Thread_WuFen = false;
+        public bool Thread_XinJiangShiShiCai = false;
+        public bool Thread_TengXunShiFenXin = false;
+        public bool Thread_TengXunWuFenXin = false;
+    }
     /// <summary>
     /// LINQ SUBMIT CHANGERS 不稳定 停用
     /// </summary>
@@ -57,6 +70,10 @@ namespace WeixinRoboot.Linq
             {
                 subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
             }
+            else if (dr.Field<Boolean>("User_HeNeiWuFen") == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.河内五分;
+            }
             return subm;
         }
 
@@ -96,6 +113,10 @@ namespace WeixinRoboot.Linq
                 subm = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
             }
             else if (dr.TengxunwufenXin == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
+            }
+            else if (dr.HeNeiWuFenMode == true)
             {
                 subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
             }
@@ -3890,7 +3911,7 @@ namespace WeixinRoboot.Linq
                 else if ((GameContent.StartsWith("查流水")
                                 ) && gm == GameMode.时时彩)
                 {
-                    Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                    Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                     string Period = GameContent.Substring(3);
                     if (Period == "")
                     {
@@ -3947,7 +3968,7 @@ namespace WeixinRoboot.Linq
 
                                         if (ComboString.ContainsKey(BuyType3))
                                         {
-                                            Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                                            Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
                                             if (myset.IsBlock == true)
                                             {
                                                 return "封盘";
@@ -4122,7 +4143,7 @@ namespace WeixinRoboot.Linq
 
                                 if (ComboString.ContainsKey(BuyType2))
                                 {
-                                    Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                                    Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
                                     if (myset.IsBlock == true)
                                     {
                                         return "封盘";
@@ -4618,7 +4639,7 @@ namespace WeixinRoboot.Linq
             {
 
 
-                Int32? MaxTraceCount = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey).MaxPlayerCount;
+                Int32? MaxTraceCount = Util_Services.GetServicesSetting().MaxPlayerCount;
                 //if (MaxTraceCount.HasValue == false)
                 //{
                 //    MaxTraceCount = 50;
@@ -4762,7 +4783,7 @@ namespace WeixinRoboot.Linq
             }
             else if (Content.StartsWith("查福利"))
             {
-                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 string Period = Content.Substring(3);
                 if (Period == "")
                 {
@@ -4897,7 +4918,7 @@ namespace WeixinRoboot.Linq
 
                 toupdate.TengXunShiFenXinMode = false;
                 toupdate.TengXunWuFenXinMode = false;
-
+                toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", true);
                 UserRow.SetField("User_FiveMinuteMode", false);
@@ -4913,7 +4934,7 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_TengXunShiFenXin", false);
                 UserRow.SetField("User_TengXunWuFenXin", false);
 
-
+                UserRow.SetField("User_HeNeiWuFen", false);
 
                 AsyncAllUserRow(UserRow);
                 return "";
@@ -4938,7 +4959,7 @@ namespace WeixinRoboot.Linq
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
                 toupdate.TengXunWuFenXinMode = false;
-
+                toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", true);
@@ -4952,6 +4973,7 @@ namespace WeixinRoboot.Linq
 
                 UserRow.SetField("User_TengXunShiFenXin", false);
                 UserRow.SetField("User_TengXunWuFenXin", false);
+                UserRow.SetField("User_HeNeiWuFen", false);
 
                 AsyncAllUserRow(UserRow);
                 return "";
@@ -4976,7 +4998,7 @@ namespace WeixinRoboot.Linq
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
                 toupdate.TengXunWuFenXinMode = false;
-
+                toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", false);
@@ -4990,6 +5012,7 @@ namespace WeixinRoboot.Linq
 
                 UserRow.SetField("User_TengXunShiFenXin", false);
                 UserRow.SetField("User_TengXunWuFenXin", false);
+                UserRow.SetField("User_HeNeiWuFen", false);
                 AsyncAllUserRow(UserRow);
                 return "";
             }
@@ -5013,7 +5036,7 @@ namespace WeixinRoboot.Linq
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
                 toupdate.TengXunWuFenXinMode = false;
-
+                toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", false);
@@ -5027,6 +5050,7 @@ namespace WeixinRoboot.Linq
 
                 UserRow.SetField("User_TengXunShiFenXin", false);
                 UserRow.SetField("User_TengXunWuFenXin", false);
+                UserRow.SetField("User_HeNeiWuFen", false);
                 AsyncAllUserRow(UserRow);
                 return "";
             }
@@ -5049,7 +5073,7 @@ namespace WeixinRoboot.Linq
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
                 toupdate.TengXunWuFenXinMode = false;
-
+                toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", false);
@@ -5063,6 +5087,7 @@ namespace WeixinRoboot.Linq
 
                 UserRow.SetField("User_TengXunShiFenXin", false);
                 UserRow.SetField("User_TengXunWuFenXin", false);
+                UserRow.SetField("User_HeNeiWuFen", false);
                 AsyncAllUserRow(UserRow);
                 return "";
             }
@@ -5085,7 +5110,7 @@ namespace WeixinRoboot.Linq
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
                 toupdate.TengXunWuFenXinMode = false;
-
+                toupdate.HeNeiWuFenMode = false;
 
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
@@ -5100,7 +5125,7 @@ namespace WeixinRoboot.Linq
 
                 UserRow.SetField("User_TengXunShiFenXin", false);
                 UserRow.SetField("User_TengXunWuFenXin", false);
-
+                UserRow.SetField("User_HeNeiWuFen", false);
                 AsyncAllUserRow(UserRow);
                 return "";
             }
@@ -5123,7 +5148,7 @@ namespace WeixinRoboot.Linq
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = true;
                 toupdate.TengXunWuFenXinMode = false;
-
+                toupdate.HeNeiWuFenMode = false;
 
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
@@ -5135,9 +5160,10 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_XinJiangShiShiCai", false);
 
 
-                UserRow.SetField("User_VR", false);           
+                UserRow.SetField("User_VR", false);
                 UserRow.SetField("User_TengXunShiFenXin", true);
                 UserRow.SetField("User_TengXunWuFenXin", false);
+                UserRow.SetField("User_HeNeiWuFen", false);
                 AsyncAllUserRow(UserRow);
                 return "";
             }
@@ -5160,7 +5186,7 @@ namespace WeixinRoboot.Linq
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
                 toupdate.TengXunWuFenXinMode = true;
-
+                toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", false);
@@ -5174,6 +5200,7 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_VR", false);
                 UserRow.SetField("User_TengXunShiFenXin", false);
                 UserRow.SetField("User_TengXunWuFenXin", true);
+                UserRow.SetField("User_HeNeiWuFen", false);
 
                 AsyncAllUserRow(UserRow);
                 return "";
@@ -5197,6 +5224,7 @@ namespace WeixinRoboot.Linq
                 toupdate.VRMode = false;
                 toupdate.TengXunShiFenXinMode = false;
                 toupdate.TengXunWuFenXinMode = false;
+                toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", false);
@@ -5209,6 +5237,8 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_VR", false);
                 UserRow.SetField("User_TengXunShiFenXin", false);
                 UserRow.SetField("User_TengXunWuFenXin", false);
+                UserRow.SetField("User_HeNeiWuFen", false);
+
                 AsyncAllUserRow(UserRow);
                 return "";
             }
@@ -5232,6 +5262,7 @@ namespace WeixinRoboot.Linq
                 toupdate.VRMode = true;
                 toupdate.TengXunShiFenXinMode = false;
                 toupdate.TengXunWuFenXinMode = false;
+                toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
                 UserRow.SetField("User_ChongqingMode", false);
                 UserRow.SetField("User_FiveMinuteMode", false);
@@ -5244,6 +5275,45 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_VR", true);
                 UserRow.SetField("User_TengXunShiFenXin", false);
                 UserRow.SetField("User_TengXunWuFenXin", false);
+                UserRow.SetField("User_HeNeiWuFen", false);
+
+                AsyncAllUserRow(UserRow);
+                return "";
+            }
+            else if (Content == "河五模式")
+            {
+
+                if (WX_SourceType == "PCQ")
+                {
+                    return "QQ模式，在注入设置设定模式";
+                }
+
+                Linq.WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Row_WX_UserName && t.WX_SourceType == Row_WX_SourceType);
+                toupdate.ChongqingMode = false;
+                toupdate.FiveMinuteMode = false;
+                toupdate.HkMode = false;
+                toupdate.AozcMode = false;
+                toupdate.TengXunShiFenMode = false;
+                toupdate.TengXunWuFenMode = false;
+                toupdate.XinJiangMode = false;
+                toupdate.VRMode = false;
+                toupdate.TengXunShiFenXinMode = false;
+                toupdate.TengXunWuFenXinMode = false;
+                toupdate.HeNeiWuFenMode = true;
+
+                db.SubmitChanges();
+                UserRow.SetField("User_ChongqingMode", false);
+                UserRow.SetField("User_FiveMinuteMode", false);
+                UserRow.SetField("User_HkMode", false);
+                UserRow.SetField("User_AozcMode", false);
+                UserRow.SetField("User_TengXunShiFen", false);
+                UserRow.SetField("User_TengXunWuFen", false);
+                UserRow.SetField("User_XinJiangShiShiCai", false);
+
+                UserRow.SetField("User_VR", false);
+                UserRow.SetField("User_TengXunShiFenXin", false);
+                UserRow.SetField("User_TengXunWuFenXin", false);
+                UserRow.SetField("User_HeNeiWuFen", true);
                 AsyncAllUserRow(UserRow);
                 return "";
             }
@@ -5255,7 +5325,7 @@ namespace WeixinRoboot.Linq
                                     );
                 webpcset.NiuNiuPic = false;
                 db.SubmitChanges();
-                return GetMode(UserRow).ToString()+("停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+                return GetMode(UserRow).ToString() + ("停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
 
             }
 
@@ -5335,7 +5405,7 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_IsSendPic", false);
                 //DateTime writein = DateTime.Now; ;
                 //webpcset.PIC_EndHour = writein.Hour;
-               // webpcset.Pic_EndMinute = writein.Minute;
+                // webpcset.Pic_EndMinute = writein.Minute;
                 db.SubmitChanges();
                 return GetMode(UserRow).ToString() + ("停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
 
@@ -5351,10 +5421,10 @@ namespace WeixinRoboot.Linq
                 UserRow.SetField("User_IsSendPic", true);
 
                 //DateTime writein = DateTime.Now; ;
-               // webpcset.PIC_StartHour = writein.Hour;
+                // webpcset.PIC_StartHour = writein.Hour;
                 //webpcset.PIC_StartMinute = writein.Minute;
                 db.SubmitChanges();
-                return GetMode(UserRow).ToString() + ( webpcset.IsSendPIC == true ? "发图中" : "停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
+                return GetMode(UserRow).ToString() + (webpcset.IsSendPIC == true ? "发图中" : "停止发图") + ",发图时间" + webpcset.PIC_StartHour.ToString() + ":" + webpcset.PIC_StartMinute.ToString() + "-" + webpcset.PIC_EndHour.ToString() + ":" + webpcset.Pic_EndMinute.ToString();
             }
             else if (Content == "牛牛发图")
             {
@@ -5432,7 +5502,7 @@ namespace WeixinRoboot.Linq
                                                           && t.WX_SourceType == Row_WX_SourceType
                                                            && t.WX_UserName == Row_WX_UserName
                                                           );
-                    if (TestTime=="24:00")
+                    if (TestTime == "24:00")
                     {
                         webpcset.PIC_EndHour = 24;
                         webpcset.Pic_EndMinute = 0;
@@ -5585,13 +5655,13 @@ namespace WeixinRoboot.Linq
 
 
                     case "封盘":
-                        Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                        Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
                         myset.IsBlock = true;
                         db.SubmitChanges();
                         return "已封盘";
 
                     case "解封":
-                        Linq.aspnet_UsersNewGameResultSend myset2 = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                        Linq.aspnet_UsersNewGameResultSend myset2 = Util_Services.GetServicesSetting();
                         myset2.IsBlock = false;
                         db.SubmitChanges();
                         return "已解封";
@@ -5966,7 +6036,7 @@ namespace WeixinRoboot.Linq
 
 
         }
-        public enum ShiShiCaiMode { 重庆时时彩, 五分彩, 香港时时彩, 澳洲幸运5, 腾讯十分, 腾讯五分, 北京赛车PK10, VR重庆时时彩, 新疆时时彩,未知,腾五信,腾十信 }
+        public enum ShiShiCaiMode { 重庆时时彩, 五分彩, 香港时时彩, 澳洲幸运5, 腾讯十分, 腾讯五分, 北京赛车PK10, VR重庆时时彩, 新疆时时彩, 未知, 腾五信, 腾十信,全彩,河内五分 }
 
         //https://1680380.com/view/PK10/pk10kai.html
 
@@ -5983,7 +6053,7 @@ namespace WeixinRoboot.Linq
         public static void ChongQingShiShiCaiCaculatePeriod(DateTime RequestTime, string RequestPeriod, dbDataContext db, string WX_UserName, string WX_SourceType, out string GameFullPeriod, out string GameFullLocalPeriod, Boolean adminmode, out Boolean Success, out string ErrorMessage, ShiShiCaiMode SpecMode, Boolean NoBlock = false)
         {
 
-            Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+            Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
             if (myset.IsBlock == true && adminmode == false && NoBlock == false)
             {
                 Success = false;
@@ -6083,7 +6153,7 @@ namespace WeixinRoboot.Linq
                     return;
                 }
             }
-          
+
             string NextSubPeriod = "";
             string NextSubLocalPeriod = "";
 
@@ -7058,6 +7128,12 @@ namespace WeixinRoboot.Linq
                 {
                     FindMinute_tengxunwufen = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(8, 3) && t.GameType == "腾讯五分");
                 }
+                Linq.Game_WuFenPeriodMinute FindMinute_heneiwufen = null;
+                if (subm == ShiShiCaiMode.河内五分)
+                {
+                    FindMinute_heneiwufen = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(8, 3) && t.GameType == "河内五分");
+                }
+
                 Linq.Game_WuFenPeriodMinute FindMinute_tengxunshifenXin = null;
                 if (subm == ShiShiCaiMode.腾十信)
                 {
@@ -7084,6 +7160,7 @@ namespace WeixinRoboot.Linq
                     FindMinute_vrchongqingshishicai = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.PeriodIndex == str_dataperiod.Substring(8, 3) && t.GameType == "VR重庆时时彩");
                 }
 
+               
 
                 Linq.Game_WuFenPeriodMinute FindMinute_aozc = null;
                 if (subm == ShiShiCaiMode.澳洲幸运5)
@@ -7092,7 +7169,7 @@ namespace WeixinRoboot.Linq
                     //LocalTime = LocalTime.AddMinutes(-150);
 
 
-                    FindMinute_aozc = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == LocalTime.ToString("HH:mm") 
+                    FindMinute_aozc = db.Game_WuFenPeriodMinute.SingleOrDefault(t => t.TimeMinute == LocalTime.ToString("HH:mm")
                         && t.GameType == "澳洲幸运5");
                 }
                 var findGameResult = db.Game_Result.SingleOrDefault(t =>
@@ -7180,6 +7257,18 @@ namespace WeixinRoboot.Linq
                         gr.GamePrivatePeriod = Convert.ToDateTime(
                                               str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
                                              ).AddDays(Convert.ToDouble(FindMinute_tengxunwufen.Private_Day)).ToString("yyyyMMdd") + FindMinute_tengxunwufen.Private_Peirod;
+
+                    }
+                    else if (subm == ShiShiCaiMode.河内五分)
+                    {
+
+                        gr.GameTime = Convert.ToDateTime(
+                      str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                      + FindMinute_heneiwufen.TimeMinute);
+
+                        gr.GamePrivatePeriod = Convert.ToDateTime(
+                                              str_dataperiod.Substring(0, 4) + "-" + str_dataperiod.Substring(4, 2) + "-" + str_dataperiod.Substring(6, 2) + " "
+                                             ).AddDays(Convert.ToDouble(FindMinute_heneiwufen.Private_Day)).ToString("yyyyMMdd") + FindMinute_heneiwufen.Private_Peirod;
 
                     }
                     else if (subm == ShiShiCaiMode.腾五信)
@@ -9657,10 +9746,10 @@ namespace WeixinRoboot.Linq
             PicType = "";
 
 
-            string first2 = (Paramter.Length>2?Paramter.Substring(0, 2):Paramter);
+            string first2 = (Paramter.Length > 2 ? Paramter.Substring(0, 2) : Paramter);
             string first3 = (Paramter.Length > 3 ? Paramter.Substring(0, 3) : Paramter);
             first2 = first2.ToUpper();
-            first3=first3.ToUpper();
+            first3 = first3.ToUpper();
             switch (first2)
             {
                 case "重庆":
@@ -9694,13 +9783,16 @@ namespace WeixinRoboot.Linq
                     {
                         GameType = first2;
                     }
-                 
+
                     break;
                 case "澳彩":
                     GameType = first2;
                     break;
+                case "河五":
+                    GameType = first2;
+                    break;
                 default:
-                    GameType="";
+                    GameType = "";
                     break;
             }
             string End2 = Paramter.Length > (GameType.Length + 2) ? Paramter.Substring((GameType.Length), 2) : Paramter.Substring(GameType.Length);
@@ -9713,23 +9805,23 @@ namespace WeixinRoboot.Linq
                     break;
                 case "文本":
                     PicType = "文本";
-                    StartPrefix = GameType.Length+2;
+                    StartPrefix = GameType.Length + 2;
                     break;
                 case "龙虎":
                     PicType = "龙虎";
-                    StartPrefix = GameType.Length+2;
+                    StartPrefix = GameType.Length + 2;
                     break;
                 case "独龙":
                     PicType = "独龙虎";
-                    StartPrefix = GameType.Length+3;
+                    StartPrefix = GameType.Length + 3;
                     break;
                 case "牛牛":
                     PicType = "牛牛";
-                    StartPrefix = GameType.Length+2;
+                    StartPrefix = GameType.Length + 2;
                     break;
                 case "图1":
                     PicType = "图1";
-                    StartPrefix = GameType.Length+2;
+                    StartPrefix = GameType.Length + 2;
                     break;
                 default:
                     PicType = "";
@@ -9778,7 +9870,7 @@ namespace WeixinRoboot.Linq
             {
                 return ShiShiCaiPicKeepType.Once;
             }
-            if (Operation .StartsWith ("发图"))
+            if (Operation.StartsWith("发图"))
             {
                 return ShiShiCaiPicKeepType.SetTime;
             }

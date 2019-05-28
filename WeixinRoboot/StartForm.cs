@@ -19,7 +19,7 @@ using System.Diagnostics;
 using System.IO.Compression;
 
 using System.Configuration;
-
+using WeixinRoboot.Linq;
 
 
 
@@ -92,6 +92,10 @@ namespace WeixinRoboot
             DownLoad163_chongqing.SetApartmentState(ApartmentState.STA);
             DownLoad163_chongqing.Start();
 
+            Thread DownLoad163_HeNeiWuFen = new Thread(new ThreadStart(DownLoad163ThreadDo_HeNeiWuFen));
+            DownLoad163_HeNeiWuFen.SetApartmentState(ApartmentState.STA);
+            DownLoad163_HeNeiWuFen.Start();
+
 
 
 
@@ -102,7 +106,7 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-            Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+            Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
             tb_StartHour.Text = loadset.BlockStartHour.HasValue ? loadset.BlockStartHour.Value.ToString() : "";
             tb_StartMinute.Text = loadset.BlockStartMinute.HasValue ? loadset.BlockStartMinute.Value.ToString() : "";
             tb_EndHour.Text = loadset.BlockEndHour.HasValue ? loadset.BlockEndHour.Value.ToString() : "";
@@ -130,6 +134,7 @@ namespace WeixinRoboot
             T_TengXunShiFenXin.Checked = loadset.Thread_TengXunShiFenXin.HasValue ? loadset.Thread_TengXunShiFenXin.Value : true;
             T_TengXunWuFenXin.Checked = loadset.Thread_TengXunWuFenXin.HasValue ? loadset.Thread_TengXunWuFenXin.Value : true;
 
+            T_HeNeiWuFen.Checked = loadset.Thread_HeNeiWuFen.HasValue ? loadset.Thread_HeNeiWuFen.Value : true;
 
 
             if (loadset.LeiDianPath == null)
@@ -204,9 +209,10 @@ namespace WeixinRoboot
             {
                 loadset.Thread_ChongQingShiShiCai = true; ;
             }
-
-
-
+            if (loadset.Thread_HeNeiWuFen == null)
+            {
+                loadset.Thread_HeNeiWuFen = true; ;
+            }
 
             db.SubmitChanges();
 
@@ -274,9 +280,41 @@ namespace WeixinRoboot
                 case "User":
                     MI_UserSetting.Visible = false;
                     break;
+                case "EasyRobot":
+                    PicBarCode_yixin.Visible = false;
+                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                    db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                    Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
+                    this.Invoke(new Action(() =>
+                    {
+                        T_AoZhouCai.Checked = false;
+                        T_chongqingshishicai.Checked = false;
+                        T_TengXunShiFen.Checked = false;
+                        T_TengXunShiFenXin.Checked = false;
+                        T_TengXunWuFen.Checked = false;
+                        T_TengXunWuFenXin.Checked = false;
+                        T_WuFenCai.Checked = false;
+                        T_XinJiangShiShiCai.Checked = false;
+
+                        T_AoZhouCai.Visible = false;
+                        T_chongqingshishicai.Visible = false;
+                        T_TengXunShiFen.Visible = false;
+                        T_TengXunShiFenXin.Visible = false;
+                        T_TengXunWuFen.Visible = false;
+                        T_TengXunWuFenXin.Visible = false;
+                        T_WuFenCai.Visible = false;
+                        T_XinJiangShiShiCai.Visible = false;
+
+
+                    }));//控件设置结束
+
+
+
+                    break;
                 default:
                     break;
             }
+
         }
 
         protected override void WndProc(ref Message m)
@@ -317,7 +355,7 @@ namespace WeixinRoboot
             {
                 SleepTime = 600;
             }
-           
+
 
 
 
@@ -348,7 +386,7 @@ namespace WeixinRoboot
 
 
             wb_ballgame = new EO.WinForm.WebControl();
-           // wb_ballgame.ScriptErrorsSuppressed = true;
+            // wb_ballgame.ScriptErrorsSuppressed = true;
             wb_ballgame.WebView = new EO.WebBrowser.WebView();
 
             wb_ballgame.Dock = DockStyle.Fill;
@@ -680,7 +718,7 @@ namespace WeixinRoboot
 
         DateTime? RestartTime_WeiXin = null;
         Int32? RestartCount_WeiXin = 0;
-        private void ReStartWeixin(Boolean SetDatabase=true)
+        private void ReStartWeixin(Boolean SetDatabase = true)
         {
             NetFramework.Console.WriteLine("微信重启" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"), false);
             if (RestartTime_WeiXin != null && (DateTime.Now - RestartTime_WeiXin.Value).TotalMinutes <= 2 && RestartCount_WeiXin > 3)
@@ -1657,7 +1695,7 @@ namespace WeixinRoboot
 
 
                 #region 消息处理
-                Linq.aspnet_UsersNewGameResultSend mysetting = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend mysetting = Util_Services.GetServicesSetting();
 
                 //string FromUserNameTEMPID = AddMsgList["FromUserName"].ToString();
                 //string ToUserNameTEMPID = AddMsgList["ToUserName"].ToString();
@@ -1750,7 +1788,7 @@ namespace WeixinRoboot
                                     SendRobotContent("开始刷新联系人", Tocontacts
                                        , SourceType
                                        );
-                                    RepeatGetMembers(Skey, pass_ticket,true);
+                                    RepeatGetMembers(Skey, pass_ticket, true);
                                 }
                                 else if (SourceType == "易")
                                 {
@@ -2004,6 +2042,9 @@ namespace WeixinRoboot
                                                 break;
                                             case "澳彩":
                                                 ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
+                                                break;
+                                            case "河五":
+                                                ToSendEnumType = Linq.ProgramLogic.ShiShiCaiMode.河内五分;
                                                 break;
                                             case "":
 
@@ -2746,7 +2787,7 @@ namespace WeixinRoboot
         public string SendWXContent(string Content, string TempToUserID)
         {
             Int32 TestCount = 1;
-       // ReDo:
+            // ReDo:
             TestCount += 1;
             if (TestCount >= 3)
             {
@@ -3280,7 +3321,7 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-            Linq.aspnet_UsersNewGameResultSend checkus = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+            Linq.aspnet_UsersNewGameResultSend checkus = Util_Services.GetServicesSetting();
             string LastPeriod = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderByDescending(t => t.GamePeriod).First().GamePeriod;
 
             if ((checkus != null && checkus.IsNewSend == true) || (IgoreDataSettingSend == true))
@@ -4058,7 +4099,7 @@ namespace WeixinRoboot
                 //Thread KeepUpdateContactThread = new Thread(new ParameterizedThreadStart(KeepUpdateContactThreadDo));
                 //KeepUpdateContactThread.Start(new object[]{ KeepUpdateContactThreadID,Skey,pass_ticket});
 
-                return RepeatGetMembers(Skey, pass_ticket,SetDataBase);
+                return RepeatGetMembers(Skey, pass_ticket, SetDataBase);
 
             }
             catch (Exception AnyError)
@@ -4071,7 +4112,7 @@ namespace WeixinRoboot
 
         Int32 GetMembersCount = 1;
 
-        private JObject RepeatGetMembers(string Skey, string pass_ticket,bool SetDataBase=true)
+        private JObject RepeatGetMembers(string Skey, string pass_ticket, bool SetDataBase = true)
         {
             GetMembersCount += 1;
             if (GetMembersCount > 10)
@@ -4139,9 +4180,9 @@ namespace WeixinRoboot
 
             ;
 
-            if (SetDataBase==true)
+            if (SetDataBase == true)
             {
-                         RunnerF.MembersSet(Members);   
+                RunnerF.MembersSet(Members);
             }
 
             return Members;
@@ -4386,6 +4427,27 @@ namespace WeixinRoboot
             }
         }
 
+        private void DownLoad163ThreadDo_HeNeiWuFen()
+        {
+            while (true)
+            {
+                try
+                {
+                    DownloadResult_HeNeiWuFen(false);
+                    System.Threading.Thread.Sleep(500);
+                }
+                catch (Exception anyerror)
+                {
+
+
+                    System.Threading.Thread.Sleep(500);
+                }
+
+
+            }
+        }
+
+
         private void DownloadResult_Aoz(bool IsOpwnNow)
         {
 
@@ -4397,7 +4459,7 @@ namespace WeixinRoboot
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 try
                 {
                     if (loadset.Thread_AoZhouCai == true)
@@ -4447,7 +4509,7 @@ namespace WeixinRoboot
             {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 if (loadset.Thread_VRChongqing == true)
                 {
@@ -4467,7 +4529,7 @@ namespace WeixinRoboot
                         }
                         try
                         {
-                           // DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
+                            // DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
                         }
 
                         catch (Exception AnyError)
@@ -4519,7 +4581,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 try
                 {
                     if (loadset.Thread_TengXunShiFen == true)
@@ -4560,7 +4622,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 try
                 {
                     if (loadset.Thread_TengXunShiFenXin == true)
@@ -4621,7 +4683,7 @@ namespace WeixinRoboot
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
                 {
@@ -4688,7 +4750,7 @@ namespace WeixinRoboot
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
                 {
@@ -4752,7 +4814,7 @@ namespace WeixinRoboot
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
                 {
@@ -4802,7 +4864,7 @@ namespace WeixinRoboot
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
                 {
@@ -4844,7 +4906,7 @@ namespace WeixinRoboot
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-                Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
 
                 try
@@ -4911,6 +4973,50 @@ namespace WeixinRoboot
 
         }
 
+        private void DownloadResult_HeNeiWuFen(bool IsOpwnNow)
+        {
+
+
+
+            try
+            {
+
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
+
+
+                try
+                {
+
+                    if (loadset.Thread_HeNeiWuFen == true)
+                    {
+                        Boolean TmpCheck = false;
+                        DownLoad163CaiPiaoV_henei_188(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
+                        if (TmpCheck)
+                        {
+                            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.河内五分);
+                            SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.河内五分);
+                        }
+                    }
+
+                }
+                catch (Exception AnyError)
+                {
+                    NetFramework.Console.WriteLine(AnyError.Message, true);
+                    NetFramework.Console.WriteLine(AnyError.StackTrace, true);
+                }
+
+
+            }
+            catch (Exception AnyError)
+            {
+                NetFramework.Console.WriteLine(AnyError.Message, true);
+                NetFramework.Console.WriteLine(AnyError.StackTrace, true);
+            }
+
+        }
 
 
 
@@ -4918,7 +5024,7 @@ namespace WeixinRoboot
 
         public void SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode FilterSubmode, string Mode = "All", string ToUserID = "")
         {
-            if (RobotStop==true)
+            if (RobotStop == true)
             {
                 return;
             }
@@ -4945,7 +5051,7 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-            Linq.aspnet_UsersNewGameResultSend myconfig = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+            Linq.aspnet_UsersNewGameResultSend myconfig = Util_Services.GetServicesSetting();
             if (
                 (DateTime.Now.Hour >= myconfig.SendImageStart && DateTime.Now.Hour <= myconfig.SendImageEnd)
                 || (DateTime.Now.Hour >= myconfig.SendImageStart2 && DateTime.Now.Hour <= myconfig.SendImageEnd2)
@@ -4976,7 +5082,7 @@ namespace WeixinRoboot
 
                     string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
                     string SourceType = dr[0].Field<string>("User_SourceType");
-                    Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+                    Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
                     if (!myset.IsSendPIC == true && ToUserID == "")
                     {
                         continue;
@@ -5634,6 +5740,81 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("腾讯十分信188下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+            ShiShiCaiDealGameLogAndNotice();
+
+
+            //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+            //).Count();
+            //            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            //            {
+            //                NewResult = true;
+
+
+            //                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+
+            //            }
+
+            //            if (LocalGameResultCount != AfterCheckCount)
+            //            {
+            //                SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+            //            }
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+
+
+        public void DownLoad163CaiPiaoV_henei_188(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            #region 下载彩票结果
+            //http://pay4.hbcchy.com/lotterytrend/getsscchart
+
+
+            //            Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.腾十信)
+            //).Count();
+            //            //http://gf4.006632.com:90/Result/Index?game=244
+
+
+            string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=hn5fc";
+            //string URL = "http://www.188kaijiang.wang/api.php?param=CQShiCai/getBaseCQShiCaiList.do?date=&lotCode=hn5fc";
+
+            NetFramework.Console.WriteLine("正在刷新河内五分网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8");
+            DateTime PreTime = DateTime.Now;
+            JObject jresult = JObject.Parse(Result);
+
+
+            Int32 FullCount = 0;
+            JArray periods = (JArray)jresult["result"]["data"];
+            foreach (JToken trdata in periods)
+            {
+
+                string str_Win = trdata["preDrawCode"].ToString();
+
+                string str_dataperiod = trdata["preDrawIssue"].ToString();
+
+                str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", "");
+                // str_Win = str_Win.Substring(0, 9);
+
+                string GameTime = trdata["preDrawTime"].ToString();
+                str_dataperiod = str_dataperiod.Substring(0, 8)+str_dataperiod.Substring(9, 3);
+
+
+                Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.河内五分, GameTime);
+
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
+            NetFramework.Console.WriteLine("腾讯河内五分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
             ShiShiCaiDealGameLogAndNotice();
 
 
@@ -6737,14 +6918,14 @@ namespace WeixinRoboot
                 {
                     return;
                 }
-                if (wb_vrchongqing == null || wb_vrchongqing.WebView==null|| wb_vrchongqing.WebView.Url.Contains("Bet/Index/42") == false)
+                if (wb_vrchongqing == null || wb_vrchongqing.WebView == null || wb_vrchongqing.WebView.Url.Contains("Bet/Index/42") == false)
                 {
                     NetFramework.Console.WriteLine("未登陆不能使用WEB采集", true);
                     return;
                 }
                 try
                 {
-                    Source = wb_vrchongqing.WebView.GetHtml();  
+                    Source = wb_vrchongqing.WebView.GetHtml();
 
 
                 }
@@ -7712,6 +7893,7 @@ namespace WeixinRoboot
 
         }
 
+       
 
         CookieCollection cc1395 = new CookieCollection();
         public void DownLoad163CaiPiaoV_1395p(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
@@ -8278,7 +8460,7 @@ namespace WeixinRoboot
 
 
 
-            Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+            Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
 
             for (int i = 0; i <= 25; i++)
             {
@@ -8442,7 +8624,7 @@ namespace WeixinRoboot
 
 
 
-            Linq.aspnet_UsersNewGameResultSend myset_3 = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+            Linq.aspnet_UsersNewGameResultSend myset_3 = Util_Services.GetServicesSetting();
 
             for (int i = 0; i <= 25; i++)
             {
@@ -9665,7 +9847,7 @@ namespace WeixinRoboot
                     {
                         ReloadWebApp();
                     }
-                    String DocSource = wb_vrchongqing.WebView.GetHtml();  
+                    String DocSource = wb_vrchongqing.WebView.GetHtml();
                     //StartGetDoc(wb_vrchongqing.DocumentAsHTMLDocument);
                     if (DocSource.Contains("时间逾期") || DocSource.Contains("重新登陆"))
                     {
@@ -9967,6 +10149,9 @@ namespace WeixinRoboot
                     DownloadResult_wufen(true);
                     DownloadResult_xiangjiang(true);
                     DownloadResult_chongqing(true);
+                    DownloadResult_tengshi_xin(true);
+                    DownloadResult_tengwu_xin(true);
+                    DownloadResult_HeNeiWuFen(true);
 
                 }
                 catch (Exception)
@@ -11722,7 +11907,7 @@ namespace WeixinRoboot
 
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-            Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+            Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
             if (loadset.Thread_ChongQingShiShiCai == true)
             {
@@ -14846,7 +15031,7 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-            Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey);
+            Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
             try
             {
                 loadset.BlockStartHour = Convert.ToInt32(tb_StartHour.Text);
@@ -14873,7 +15058,7 @@ namespace WeixinRoboot
 
                 loadset.Thread_TengXunShiFenXin = T_TengXunShiFenXin.Checked;
                 loadset.Thread_TengXunWuFenXin = T_TengXunWuFenXin.Checked;
-
+                loadset.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
 
 
                 db.SubmitChanges();
@@ -14924,6 +15109,13 @@ namespace WeixinRoboot
                 DownloadResult_wufen(true);
                 DownloadResult_xiangjiang(true);
                 DownloadResult_chongqing(true);
+
+                DownloadResult_tengshi_xin(true);
+                DownloadResult_tengwu_xin(true);
+
+                DownloadResult_HeNeiWuFen(true);
+
+
                 MessageBox.Show("全下载已完成");
             });
 

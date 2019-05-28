@@ -10,13 +10,17 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Net;
 using System.Xml;
-using System.Web.Security;
+
 namespace WeixinRoboot
 {
     public class GlobalParam
     {
         public static string UserName;
+        public static string Password;
+        public static string ASPXAUTH;
         public static bool LogInSuccess = false;
+        public static CookieContainer LoginCookie;
+
         public static Guid UserKey = Guid.Empty;
 
         public static Dictionary<string, Boolean> HaveSend = new Dictionary<string, bool>();
@@ -40,6 +44,9 @@ namespace WeixinRoboot
         public static object KeyBoardLocking = new object();
 
         public static string DataSourceName = "";
+
+        public static string VersionMode = "";
+
     }
 
 

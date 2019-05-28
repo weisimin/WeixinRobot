@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Web.Security;
+
 namespace WeixinRoboot
 {
     public partial class UserSetting : Form
@@ -19,7 +19,7 @@ namespace WeixinRoboot
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             ep_wf.Clear();
             if (fd_BossUserName.Text != "")
@@ -60,7 +60,7 @@ namespace WeixinRoboot
                         newGameResultSend.BlockEndHour = 7;
                         newGameResultSend.BlockEndMinute = 9;
 
-                        MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
+                        //MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
                         newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                         newGameResultSend.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
@@ -81,8 +81,7 @@ namespace WeixinRoboot
 
 
 
-                        db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
-                        db.SubmitChanges();
+                        Linq.Util_Services.SaveServicesSetting(newGameResultSend);
 
                         MembershipUser sysadmin = System.Web.Security.Membership.GetUser("sysadmin");
 
@@ -108,13 +107,13 @@ namespace WeixinRoboot
                                 newr.WX_SourceType = item.WX_SourceType;
                                 newr.Enable = item.Enable;
 
-                              
+
                                 newr.OrderIndex = item.OrderIndex;
                                 db.Game_BasicRatio.InsertOnSubmit(newr);
                                 db.SubmitChanges();
                             }
                         }
-                      
+
 
                         var BounsConfig = db.WX_BounsConfig.Where(t => t.aspnet_UserID == (sysadmin == null ? Guid.Empty : (Guid)sysadmin.ProviderUserKey));
 
@@ -132,13 +131,13 @@ namespace WeixinRoboot
                                 newr.FixNumber = item.FixNumber;
                                 newr.FlowPercent = item.FlowPercent;
                                 newr.IfDivousPercent = item.IfDivousPercent;
-                              
+
                                 db.WX_BounsConfig.InsertOnSubmit(newr);
                                 db.SubmitChanges();
                             }
                         }
 
-                      
+
 
                         MessageBox.Show("保存成功");
                     }
@@ -173,7 +172,7 @@ namespace WeixinRoboot
                         }
 
                         #region 开奖立即发送设置
-                        Linq.aspnet_UsersNewGameResultSend finds = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)user.ProviderUserKey);
+                        Linq.aspnet_UsersNewGameResultSend finds = Linq.Util_Services.GetServicesSetting((Guid)user.ProviderUserKey);
                         if (finds == null)
                         {
                             Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
@@ -207,7 +206,7 @@ namespace WeixinRoboot
                             newGameResultSend.BlockEndHour = 7;
                             newGameResultSend.BlockEndMinute = 9;
 
-                            db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
+                            Linq.Util_Services.SaveServicesSetting(newGameResultSend);
 
 
                         }
@@ -249,7 +248,7 @@ namespace WeixinRoboot
                         fd_SendTimeStart1.Enabled = false;
                         fd_SendTimeEnd1.Enabled = false;
 
-
+                        Linq.Util_Services.SaveServicesSetting(finds);
 
                         db.SubmitChanges();
 
@@ -274,7 +273,7 @@ namespace WeixinRoboot
                         usermydata.ChangePassword(NewPassword, fd_password.Text);
                     }
                     System.Web.Security.Membership.UpdateUser(usermydata);
-                    Linq.aspnet_UsersNewGameResultSend findsmydata = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)usermydata.ProviderUserKey);
+                    Linq.aspnet_UsersNewGameResultSend findsmydata = Linq.Util_Services.GetServicesSetting((Guid)usermydata.ProviderUserKey);
                     if (findsmydata == null)
                     {
                         Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
@@ -310,7 +309,7 @@ namespace WeixinRoboot
                         newGameResultSend.BlockEndHour = 7;
                         newGameResultSend.BlockEndMinute = 9;
 
-                        db.aspnet_UsersNewGameResultSend.InsertOnSubmit(newGameResultSend);
+                        Linq.Util_Services.SaveServicesSetting(newGameResultSend);
 
 
                     }
@@ -322,11 +321,6 @@ namespace WeixinRoboot
                         findsmydata.IsReceiveOrder = FD_ReceiveOrder.Checked;
                         findsmydata.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
                         findsmydata.ActiveCode = fd_activecode.Text;
-
-                        findsmydata.IsBlock = Fd_IsBlock.Checked;
-                        findsmydata.IsSendPIC = FD_SendPIC.Checked;
-                        findsmydata.IsReceiveOrder = FD_ReceiveOrder.Checked;
-                        findsmydata.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
                         MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
                         findsmydata.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
@@ -345,7 +339,7 @@ namespace WeixinRoboot
 
                         findsmydata.ImageTopText = fd_ImageTopText.Text;
                         findsmydata.ImageEndText = fd_ImageEndText.Text; ;
-
+                        Linq.Util_Services.SaveServicesSetting(findsmydata);
                     }
 
 
@@ -416,7 +410,7 @@ namespace WeixinRoboot
 
         private void Btn_Load_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
             fd_SendTimeEnd1.Enabled = true;
@@ -439,7 +433,7 @@ namespace WeixinRoboot
                     fd_ImageEndText.Enabled = true;
                     fd_ImageTopText.Enabled = true;
 
-                    Linq.aspnet_UsersNewGameResultSend newgs = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)usr.ProviderUserKey);
+                    Linq.aspnet_UsersNewGameResultSend newgs = Linq.Util_Services.GetServicesSetting((Guid)usr.ProviderUserKey);
                     if (newgs == null)
                     {
                         fd_NewGameSend.Checked = false;
@@ -447,7 +441,7 @@ namespace WeixinRoboot
                         fd_IsLock.Checked = false;
                         FD_SendPIC.Checked = false;
                         FD_ReceiveOrder.Checked = false;
-                        fd_MaxPlayerCount.Text = "50";
+                        fd_MaxPlayerCount.Text = "500";
 
                         fd_SendTimeStart1.Text = "0";
                         fd_SendTimeEnd1.Text = "24";
@@ -469,8 +463,8 @@ namespace WeixinRoboot
                         System.Web.Security.MembershipUser boss = System.Web.Security.Membership.GetUser(newgs.bossaspnet_UserID == null ? Guid.Empty : newgs.bossaspnet_UserID);
                         fd_BossUserName.Text = (boss == null ? "" : boss.UserName);
 
-                        fd_SendTimeStart1.Text = Object2Str(newgs.SendImageStart,"0");
-                        fd_SendTimeEnd1.Text = Object2Str(newgs.SendImageEnd,"24");
+                        fd_SendTimeStart1.Text = Object2Str(newgs.SendImageStart, "0");
+                        fd_SendTimeEnd1.Text = Object2Str(newgs.SendImageEnd, "24");
 
                         fd_SendTimeStart2.Text = Object2Str(newgs.SendImageStart2, "0");
                         fd_SendTimeEnd2.Text = Object2Str(newgs.SendImageEnd2, "24");
@@ -518,12 +512,16 @@ namespace WeixinRoboot
 
         private void UserSetting_Load(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-            var source = from ms in db.aspnet_Membership
-                         join us in db.aspnet_Users on ms.UserId equals us.UserId
-                         select new { us.UserId, us.UserName, ms.IsLockedOut };
+            RobotWebAdmin.SysadminServices adws = new  RobotWebAdmin.SysadminServices();
+            adws.CookieContainer = new System.Net.CookieContainer();
+            System.Net.Cookie login= new  System.Net.Cookie(".ASPXAUTH",GlobalParam.ASPXAUTH);
+           
+            adws.CookieContainer=GlobalParam.LoginCookie;
+
+            var source = adws.GetAllUsers();
             BS_UserList.DataSource = source;
         }
 
@@ -532,7 +530,7 @@ namespace WeixinRoboot
             fd_activecode.Text = NetFramework.Util_MD5.BuidMD5ActiveCode(fd_EndDate.Value, (Guid)Membership.GetUser(fd_username.Text).ProviderUserKey);
         }
 
-        private string Object2Str(object param,string NullValue="")
+        private string Object2Str(object param, string NullValue = "")
         {
 
             return param == null ? NullValue : param.ToString();

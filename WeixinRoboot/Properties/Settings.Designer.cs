@@ -12,7 +12,7 @@ namespace WeixinRoboot.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -85,6 +85,26 @@ namespace WeixinRoboot.Properties {
         public string WeixinRobootConnectionString4 {
             get {
                 return ((string)(this["WeixinRobootConnectionString4"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://13828081978.zicp.vip/WebService.asmx")]
+        public string WeixinRoboot_RobootWeb_WebService {
+            get {
+                return ((string)(this["WeixinRoboot_RobootWeb_WebService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://13828081978.zicp.vip/SysadminServices.asmx")]
+        public string WeixinRoboot_RobotWebAdmin_SysadminServices {
+            get {
+                return ((string)(this["WeixinRoboot_RobotWebAdmin_SysadminServices"]));
             }
         }
     }

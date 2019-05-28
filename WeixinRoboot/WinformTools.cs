@@ -26,6 +26,30 @@ namespace NetFramework
 
         }
 
+        public static bool? ValidateWebUser(string UserName, string Password,ref Guid ProviderUserKey,ref string AspxAuth,ref CookieContainer otscookie)
+        {
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+           string Result= ws.UserLogIn(UserName, Password);
+           if (Result == "用户不存在")
+           {
+               return null;
+           }
+           else if (Result=="密码错误次数太多,已停用")
+           {
+               return false;
+           }
+           else if (Result == "密码错误")
+           {
+               return false;
+           }
+           else
+           {
+               ProviderUserKey = Guid.Parse(Result);
+               AspxAuth = ws.GetUserToken(UserName, Password);
+               otscookie = ws.CookieContainer;
+               return true;
+           }
+        }
 
     }
     #endregion

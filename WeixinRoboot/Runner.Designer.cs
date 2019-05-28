@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gv_contact = new System.Windows.Forms.DataGridView();
             this.BS_Contact = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -79,6 +79,8 @@
             this.MI_TengXunShiFenMode = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_TengXunWuFenMode = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_vRMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_TengXunShiFenXinMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_TengXunWuFenXinMode = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_ContactFilter = new System.Windows.Forms.TextBox();
             this.dtp_EndDate = new System.Windows.Forms.DateTimePicker();
             this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
@@ -128,12 +130,12 @@
             this.澳 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.腾十 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.腾五 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.河五 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.腾十信 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.腾五信 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.疆 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.VR = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.MI_TengXunShiFenXinMode = new System.Windows.Forms.ToolStripMenuItem();
-            this.MI_TengXunWuFenXinMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_HeNeiWuFenMode = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -149,14 +151,14 @@
             this.gv_contact.AllowUserToDeleteRows = false;
             this.gv_contact.AllowUserToOrderColumns = true;
             this.gv_contact.AutoGenerateColumns = false;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_contact.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_contact.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gv_contact.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gv_contact.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.User_SourceType,
@@ -177,19 +179,20 @@
             this.澳,
             this.腾十,
             this.腾五,
+            this.河五,
             this.腾十信,
             this.腾五信,
             this.疆,
             this.VR});
             this.gv_contact.DataSource = this.BS_Contact;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_contact.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_contact.DefaultCellStyle = dataGridViewCellStyle2;
             this.gv_contact.Location = new System.Drawing.Point(12, 68);
             this.gv_contact.MultiSelect = false;
             this.gv_contact.Name = "gv_contact";
@@ -218,14 +221,14 @@
             this.gv_ReceiveReply.AllowUserToAddRows = false;
             this.gv_ReceiveReply.AllowUserToDeleteRows = false;
             this.gv_ReceiveReply.AutoGenerateColumns = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_ReceiveReply.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_ReceiveReply.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gv_ReceiveReply.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_ReceiveReply.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Reply_Contact,
@@ -237,14 +240,14 @@
             this.Reply_ReceiveTime,
             this.Reply_ReplyTime});
             this.gv_ReceiveReply.DataSource = this.BS_ReceiveReply;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_ReceiveReply.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_ReceiveReply.DefaultCellStyle = dataGridViewCellStyle4;
             this.gv_ReceiveReply.Location = new System.Drawing.Point(359, 166);
             this.gv_ReceiveReply.Name = "gv_ReceiveReply";
             this.gv_ReceiveReply.ReadOnly = true;
@@ -508,7 +511,8 @@
             this.MI_TengXunWuFenMode,
             this.MI_vRMode,
             this.MI_TengXunShiFenXinMode,
-            this.MI_TengXunWuFenXinMode});
+            this.MI_TengXunWuFenXinMode,
+            this.MI_HeNeiWuFenMode});
             this.MI_赔付模式.Name = "MI_赔付模式";
             this.MI_赔付模式.Size = new System.Drawing.Size(160, 22);
             this.MI_赔付模式.Text = "赔付模式";
@@ -568,6 +572,20 @@
             this.MI_vRMode.Size = new System.Drawing.Size(160, 22);
             this.MI_vRMode.Text = "VR模式";
             this.MI_vRMode.Click += new System.EventHandler(this.MI_vRMode_Click);
+            // 
+            // MI_TengXunShiFenXinMode
+            // 
+            this.MI_TengXunShiFenXinMode.Name = "MI_TengXunShiFenXinMode";
+            this.MI_TengXunShiFenXinMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_TengXunShiFenXinMode.Text = "腾讯十分信模式";
+            this.MI_TengXunShiFenXinMode.Click += new System.EventHandler(this.MI_TengXunShiFenXinMode_Click);
+            // 
+            // MI_TengXunWuFenXinMode
+            // 
+            this.MI_TengXunWuFenXinMode.Name = "MI_TengXunWuFenXinMode";
+            this.MI_TengXunWuFenXinMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_TengXunWuFenXinMode.Text = "腾讯五分信模式";
+            this.MI_TengXunWuFenXinMode.Click += new System.EventHandler(this.MI_TengXunWuFenXinMode_Click);
             // 
             // tb_ContactFilter
             // 
@@ -996,6 +1014,16 @@
             this.腾五.ReadOnly = true;
             this.腾五.Width = 45;
             // 
+            // 河五
+            // 
+            this.河五.DataPropertyName = "User_HeNeiWuFen";
+            this.河五.HeaderText = "河五";
+            this.河五.Name = "河五";
+            this.河五.ReadOnly = true;
+            this.河五.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.河五.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.河五.Width = 45;
+            // 
             // 腾十信
             // 
             this.腾十信.DataPropertyName = "User_TengXunShiFenXin";
@@ -1032,19 +1060,12 @@
             this.VR.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.VR.Width = 45;
             // 
-            // MI_TengXunShiFenXinMode
+            // MI_HeNeiWuFenMode
             // 
-            this.MI_TengXunShiFenXinMode.Name = "MI_TengXunShiFenXinMode";
-            this.MI_TengXunShiFenXinMode.Size = new System.Drawing.Size(160, 22);
-            this.MI_TengXunShiFenXinMode.Text = "腾讯十分信模式";
-            this.MI_TengXunShiFenXinMode.Click += new System.EventHandler(this.MI_TengXunShiFenXinMode_Click);
-            // 
-            // MI_TengXunWuFenXinMode
-            // 
-            this.MI_TengXunWuFenXinMode.Name = "MI_TengXunWuFenXinMode";
-            this.MI_TengXunWuFenXinMode.Size = new System.Drawing.Size(160, 22);
-            this.MI_TengXunWuFenXinMode.Text = "腾讯五分信模式";
-            this.MI_TengXunWuFenXinMode.Click += new System.EventHandler(this.MI_TengXunWuFenXinMode_Click);
+            this.MI_HeNeiWuFenMode.Name = "MI_HeNeiWuFenMode";
+            this.MI_HeNeiWuFenMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_HeNeiWuFenMode.Text = "河内五分模式";
+            this.MI_HeNeiWuFenMode.Click += new System.EventHandler(this.MI_HeNeiWuFenXinMode_Click);
             // 
             // RunnerForm
             // 
@@ -1170,6 +1191,8 @@
         private System.Windows.Forms.ToolStripMenuItem MI_赔付模式;
         private System.Windows.Forms.ToolStripMenuItem MI_TengXunWuFenMode;
         private System.Windows.Forms.ToolStripMenuItem MI_vRMode;
+        private System.Windows.Forms.ToolStripMenuItem MI_TengXunShiFenXinMode;
+        private System.Windows.Forms.ToolStripMenuItem MI_TengXunWuFenXinMode;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_SourceType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_Contact;
@@ -1188,11 +1211,11 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn 澳;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 腾十;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 腾五;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn 河五;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 腾十信;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 腾五信;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 疆;
         private System.Windows.Forms.DataGridViewCheckBoxColumn VR;
-        private System.Windows.Forms.ToolStripMenuItem MI_TengXunShiFenXinMode;
-        private System.Windows.Forms.ToolStripMenuItem MI_TengXunWuFenXinMode;
+        private System.Windows.Forms.ToolStripMenuItem MI_HeNeiWuFenMode;
     }
 }

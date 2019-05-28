@@ -129,6 +129,7 @@
             this.T_TengXunWuFenXin = new System.Windows.Forms.CheckBox();
             this.T_TengXunShiFenXin = new System.Windows.Forms.CheckBox();
             this.cb_robotstop = new System.Windows.Forms.CheckBox();
+            this.T_HeNeiWuFen = new System.Windows.Forms.CheckBox();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
@@ -1048,11 +1049,22 @@
             this.cb_robotstop.UseVisualStyleBackColor = true;
             this.cb_robotstop.CheckedChanged += new System.EventHandler(this.cb_robotstop_CheckedChanged);
             // 
+            // T_HeNeiWuFen
+            // 
+            this.T_HeNeiWuFen.AutoSize = true;
+            this.T_HeNeiWuFen.Location = new System.Drawing.Point(426, 178);
+            this.T_HeNeiWuFen.Name = "T_HeNeiWuFen";
+            this.T_HeNeiWuFen.Size = new System.Drawing.Size(72, 16);
+            this.T_HeNeiWuFen.TabIndex = 75;
+            this.T_HeNeiWuFen.Text = "河内五分";
+            this.T_HeNeiWuFen.UseVisualStyleBackColor = true;
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 694);
+            this.Controls.Add(this.T_HeNeiWuFen);
             this.Controls.Add(this.cb_robotstop);
             this.Controls.Add(this.T_TengXunWuFenXin);
             this.Controls.Add(this.T_TengXunShiFenXin);
@@ -1248,6 +1260,7 @@
         private System.Windows.Forms.CheckBox T_TengXunWuFenXin;
         private System.Windows.Forms.CheckBox T_TengXunShiFenXin;
         private System.Windows.Forms.CheckBox cb_robotstop;
+        private System.Windows.Forms.CheckBox T_HeNeiWuFen;
 
     }
 }

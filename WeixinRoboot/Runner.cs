@@ -48,211 +48,212 @@ namespace WeixinRoboot
 
             this.Invoke(new Action(() =>
             {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            //this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
-            foreach (var item in (_Members["MemberList"]) as JArray)
-            {
-                DateTime EachStart = DateTime.Now;
-                string UserNametempID = "";
-                string NickName = "";
-                string RemarkName = "";
-                string HeadImgUrl = "";
-                try
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                //this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
+                foreach (var item in (_Members["MemberList"]) as JArray)
                 {
-
-                    UserNametempID = (item["UserName"] as JValue).Value.ToString();
-                    NickName = (item["NickName"] as JValue).Value.ToString();
-                    RemarkName = (item["RemarkName"] as JValue).Value.ToString();
-                    HeadImgUrl = (item["HeadImgUrl"] as JValue).Value.ToString();
-
-                    //NetFramework.Console.WriteLine("更新联系人" + NickName);
-                    //Application.DoEvents();
-
-                    System.Text.RegularExpressions.Regex FindSeq = new System.Text.RegularExpressions.Regex("seq=([0-9])+");
-
-                    string Seq = FindSeq.Match(HeadImgUrl).Value;
-                    //Seq = Seq.Substring(Seq.IndexOf("=") + 1);
-
-                    Seq = RemarkName == "" ? NetFramework.Util_WEB.CleanHtml(NickName) : RemarkName;
-                    //if (Seq.Contains("-"))
-                    //{
-                    //    string[] Names = Seq.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                    //    Seq = Names[Names.Length-1];
-                    //}
-                    Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
-                    if (usrc == null)
+                    DateTime EachStart = DateTime.Now;
+                    string UserNametempID = "";
+                    string NickName = "";
+                    string RemarkName = "";
+                    string HeadImgUrl = "";
+                    try
                     {
-                        Linq.WX_UserReply newusrc = new Linq.WX_UserReply();
-                        newusrc.aspnet_UserID = GlobalParam.UserKey;
-                        newusrc.WX_UserName = Seq;
-                        newusrc.WX_SourceType = "微";
-                        newusrc.RemarkName = RemarkName;
-                        newusrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName);
 
-                        newusrc.IsCaculateFuli = true;
-                        if (UserNametempID.StartsWith("@@") == false)
+                        UserNametempID = (item["UserName"] as JValue).Value.ToString();
+                        NickName = (item["NickName"] as JValue).Value.ToString();
+                        RemarkName = (item["RemarkName"] as JValue).Value.ToString();
+                        HeadImgUrl = (item["HeadImgUrl"] as JValue).Value.ToString();
+
+                        //NetFramework.Console.WriteLine("更新联系人" + NickName);
+                        //Application.DoEvents();
+
+                        System.Text.RegularExpressions.Regex FindSeq = new System.Text.RegularExpressions.Regex("seq=([0-9])+");
+
+                        string Seq = FindSeq.Match(HeadImgUrl).Value;
+                        //Seq = Seq.Substring(Seq.IndexOf("=") + 1);
+
+                        Seq = RemarkName == "" ? NetFramework.Util_WEB.CleanHtml(NickName) : RemarkName;
+                        //if (Seq.Contains("-"))
+                        //{
+                        //    string[] Names = Seq.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        //    Seq = Names[Names.Length-1];
+                        //}
+                        Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+                        if (usrc == null)
                         {
-                            newusrc.IsReply = true;
+                            Linq.WX_UserReply newusrc = new Linq.WX_UserReply();
+                            newusrc.aspnet_UserID = GlobalParam.UserKey;
+                            newusrc.WX_UserName = Seq;
+                            newusrc.WX_SourceType = "微";
+                            newusrc.RemarkName = RemarkName;
+                            newusrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName);
+
+                            newusrc.IsCaculateFuli = true;
+                            if (UserNametempID.StartsWith("@@") == false)
+                            {
+                                newusrc.IsReply = true;
+                            }
+                            else
+                            {
+                                newusrc.IsReply = true;
+                            }
+                            db.WX_UserReply.InsertOnSubmit(newusrc);
+
+
+                        } //初始化，添加到数据库或同步数据库
+                        else
+                        {
+                            if ((usrc.RemarkName != RemarkName) || (usrc.NickName != NetFramework.Util_WEB.CleanHtml(NickName))
+                                )
+                            {
+
+                                usrc.RemarkName = RemarkName;
+                                usrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName);
+
+                            }
+                            //if (UserNametempID.StartsWith("@@") == false && Seq != "0")
+                            {
+                                usrc.IsReply = true;
+                            }
+                        } //初始化，添加到数据库或同步数据库
+                        Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                           && t.WX_SourceType == "微"
+                            && t.WX_UserName == Seq
+                           );
+                        if (webpcset == null)
+                        {
+                            webpcset = new Linq.WX_WebSendPICSetting();
+
+                            webpcset.aspnet_UserID = GlobalParam.UserKey;
+
+                            webpcset.WX_SourceType = "微";
+                            webpcset.WX_UserName = Seq;
+
+                            webpcset.ballinterval = 120;
+                            webpcset.footballPIC = false;
+                            webpcset.bassketballpic = false;
+                            webpcset.balluclink = false;
+
+                            webpcset.card = false;
+                            webpcset.cardname = "";
+                            webpcset.shishicailink = false;
+                            webpcset.NumberPIC = false;
+                            webpcset.dragonpic = false;
+                            webpcset.numericlink = false;
+                            webpcset.dragonlink = false;
+
+                            webpcset.IsSendPIC = false;
+                            webpcset.NiuNiuPic = false;
+                            webpcset.NoBigSmallSingleDoublePIC = false;
+                            webpcset.NumberDragonTxt = true;
+                            webpcset.NumberPIC = false;
+                            webpcset.dragonpic = false;
+
+                            {
+                                webpcset.PIC_StartHour = 8;
+                            }
+                            {
+                                webpcset.PIC_StartMinute = 58;
+                            }
+                            {
+                                webpcset.PIC_EndHour = 2;
+                            }
+                            {
+                                webpcset.Pic_EndMinute = 3;
+                            }
+                            db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
+                        }
+
+                        NetFramework.Console.WriteLine("准备提交,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
+                        db.SubmitChanges();
+
+                        usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+
+                        NetFramework.Console.WriteLine("数据库,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
+
+                        DataRow[] Lists = { MemberSource.Rows.Find(new object[] { UserNametempID, "微" }) }; //
+                        //MemberSource.Select("User_ContactTEMPID='" + UserNametempID + "' and User_SourceType='微'");
+                        DataRow newr = null;
+                        if (Lists.Length == 0 || Lists[0] == null)
+                        {
+                            newr = MemberSource.NewRow();
+                            newr.SetField("User_ContactTEMPID", UserNametempID);
+                            newr.SetField("User_SourceType", "微");
+
+                            MemberSource.Rows.Add(newr);
                         }
                         else
                         {
-                            newusrc.IsReply = true;
+                            newr = Lists[0];
                         }
-                        db.WX_UserReply.InsertOnSubmit(newusrc);
+                        newr.SetField("User_ContactID", Seq);
+
+                        newr.SetField("User_Contact", NickName);
+                        newr.SetField("User_ContactType", UserNametempID.StartsWith("@@") ? "群" : "个人");
 
 
-                    } //初始化，添加到数据库或同步数据库
-                    else
-                    {
-                        if ((usrc.RemarkName != RemarkName) || (usrc.NickName != NetFramework.Util_WEB.CleanHtml(NickName))
-                            )
-                        {
+                        newr.SetField("User_IsReply", usrc.IsReply);
+                        newr.SetField("User_IsSendPic", webpcset.IsSendPIC);
+                        newr.SetField("User_IsAdmin", usrc.IsAdmin);
+                        newr.SetField("User_IsBallPIC", usrc.IsBallPIC);
 
-                            usrc.RemarkName = RemarkName;
-                            usrc.NickName = NetFramework.Util_WEB.CleanHtml(NickName);
-
-                        }
                         //if (UserNametempID.StartsWith("@@") == false && Seq != "0")
                         {
-                            usrc.IsReply = true;
+                            newr.SetField("User_IsReply", usrc == null ? false : usrc.IsReply);
                         }
-                    } //初始化，添加到数据库或同步数据库
-                    Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
-                       && t.WX_SourceType == "微"
-                        && t.WX_UserName == Seq
-                       );
-                    if (webpcset == null)
-                    {
-                        webpcset = new Linq.WX_WebSendPICSetting();
 
-                        webpcset.aspnet_UserID = GlobalParam.UserKey;
 
-                        webpcset.WX_SourceType = "微";
-                        webpcset.WX_UserName = Seq;
+                        newr.SetField("User_IsReceiveTransfer", usrc == null ? false : usrc.IsReceiveTransfer);
+                        newr.SetField("User_IsCaculateFuli", usrc == null ? false : usrc.IsCaculateFuli);
 
-                        webpcset.ballinterval = 120;
-                        webpcset.footballPIC = false;
-                        webpcset.bassketballpic = false;
-                        webpcset.balluclink = false;
+                        newr.SetField("User_IsBoss", usrc == null ? false : (usrc.IsBoss == null ? false : usrc.IsBoss));
 
-                        webpcset.card = false;
-                        webpcset.cardname = "";
-                        webpcset.shishicailink = false;
-                        webpcset.NumberPIC = false;
-                        webpcset.dragonpic = false;
-                        webpcset.numericlink = false;
-                        webpcset.dragonlink = false;
+                        newr.SetField("User_FiveMinuteMode", usrc == null ? false : (usrc.FiveMinuteMode == null ? false : usrc.FiveMinuteMode));
 
-                        webpcset.IsSendPIC = false;
-                        webpcset.NiuNiuPic = false;
-                        webpcset.NoBigSmallSingleDoublePIC = false;
-                        webpcset.NumberDragonTxt = true;
-                        webpcset.NumberPIC = false;
-                        webpcset.dragonpic = false;
+                        newr.SetField("User_HkMode", usrc == null ? false : (usrc.HkMode == null ? false : usrc.HkMode));
 
-                        {
-                            webpcset.PIC_StartHour = 8;
-                        }
-                        {
-                            webpcset.PIC_StartMinute = 58;
-                        }
-                        {
-                            webpcset.PIC_EndHour = 2;
-                        }
-                        {
-                            webpcset.Pic_EndMinute = 3;
-                        }
-                        db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
+                        newr.SetField("User_AozcMode", usrc == null ? false : (usrc.AozcMode == null ? false : usrc.AozcMode));
+
+                        newr.SetField("User_ChongqingMode", usrc == null ? false : (usrc.ChongqingMode == null ? false : usrc.ChongqingMode));
+
+                        newr.SetField("User_TengXunShiFen", usrc == null ? false : (usrc.TengXunShiFenMode == null ? false : usrc.TengXunShiFenMode));
+                        newr.SetField("User_TengXunWuFen", usrc == null ? false : (usrc.TengXunWuFenMode == null ? false : usrc.TengXunWuFenMode));
+
+                        newr.SetField("User_TengXunShiFenXin", usrc == null ? false : (usrc.TengXunShiFenXinMode == null ? false : usrc.TengXunShiFenXinMode));
+                        newr.SetField("User_TengXunWuFenXin", usrc == null ? false : (usrc.TengXunWuFenXinMode == null ? false : usrc.TengXunWuFenXinMode));
+
+
+                        newr.SetField("User_XinJiangShiShiCai", usrc == null ? false : (usrc.XinJiangMode == null ? false : usrc.XinJiangMode));
+                        newr.SetField("User_VR", usrc == null ? false : (usrc.VRMode == null ? false : usrc.VRMode));
+                        newr.SetField("User_HeNeiWuFen", usrc == null ? false : (usrc.HeNeiWuFenMode == null ? false : usrc.HeNeiWuFenMode));
+
+
+                        NetFramework.Console.WriteLine("单个联系人,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
+
+                        //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
+                        //foreach (var logitem in UpdateLogs)
+                        //{
+                        //    logitem.SetField("Reply_ContactTEMPID", UserNametempID);
+                        //    logitem.SetField("Reply_Contact", RemarkName == "" ? NickName : RemarkName);
+                        //}
+
                     }
-
-                    NetFramework.Console.WriteLine("准备提交,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
-                    db.SubmitChanges();
-
-                    usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
-
-                    NetFramework.Console.WriteLine("数据库,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
-
-                    DataRow[] Lists = { MemberSource.Rows.Find(new object[] { UserNametempID, "微" }) }; //
-                    //MemberSource.Select("User_ContactTEMPID='" + UserNametempID + "' and User_SourceType='微'");
-                    DataRow newr = null;
-                    if (Lists.Length == 0 || Lists[0] == null)
+                    catch (Exception AnyError)
                     {
-                        newr = MemberSource.NewRow();
-                        newr.SetField("User_ContactTEMPID", UserNametempID);
-                        newr.SetField("User_SourceType", "微");
-
-                        MemberSource.Rows.Add(newr);
+                        MessageBox.Show((RemarkName == "" ? NickName : RemarkName) + "联系人保存失败");
+                        NetFramework.Console.WriteLine(AnyError.Message, true);
+                        NetFramework.Console.WriteLine(AnyError.StackTrace, true);
                     }
-                    else
-                    {
-                        newr = Lists[0];
-                    }
-                    newr.SetField("User_ContactID", Seq);
+                    this.Invalidate();
+                    Application.DoEvents();
 
-                    newr.SetField("User_Contact", NickName);
-                    newr.SetField("User_ContactType", UserNametempID.StartsWith("@@") ? "群" : "个人");
+                }//成员列表循环
+                db.SubmitChanges();
 
-
-                    newr.SetField("User_IsReply", usrc.IsReply);
-                    newr.SetField("User_IsSendPic", webpcset.IsSendPIC);
-                    newr.SetField("User_IsAdmin", usrc.IsAdmin);
-                    newr.SetField("User_IsBallPIC", usrc.IsBallPIC);
-
-                    //if (UserNametempID.StartsWith("@@") == false && Seq != "0")
-                    {
-                        newr.SetField("User_IsReply", usrc == null ? false : usrc.IsReply);
-                    }
-
-
-                    newr.SetField("User_IsReceiveTransfer", usrc == null ? false : usrc.IsReceiveTransfer);
-                    newr.SetField("User_IsCaculateFuli", usrc == null ? false : usrc.IsCaculateFuli);
-
-                    newr.SetField("User_IsBoss", usrc == null ? false : (usrc.IsBoss == null ? false : usrc.IsBoss));
-
-                    newr.SetField("User_FiveMinuteMode", usrc == null ? false : (usrc.FiveMinuteMode == null ? false : usrc.FiveMinuteMode));
-
-                    newr.SetField("User_HkMode", usrc == null ? false : (usrc.HkMode == null ? false : usrc.HkMode));
-
-                    newr.SetField("User_AozcMode", usrc == null ? false : (usrc.AozcMode == null ? false : usrc.AozcMode));
-
-                    newr.SetField("User_ChongqingMode", usrc == null ? false : (usrc.ChongqingMode == null ? false : usrc.ChongqingMode));
-
-                    newr.SetField("User_TengXunShiFen", usrc == null ? false : (usrc.TengXunShiFenMode == null ? false : usrc.TengXunShiFenMode));
-                    newr.SetField("User_TengXunWuFen", usrc == null ? false : (usrc.TengXunWuFenMode == null ? false : usrc.TengXunWuFenMode));
-
-                    newr.SetField("User_TengXunShiFenXin", usrc == null ? false : (usrc.TengXunShiFenXinMode == null ? false : usrc.TengXunShiFenXinMode));
-                    newr.SetField("User_TengXunWuFenXin", usrc == null ? false : (usrc.TengXunWuFenXinMode == null ? false : usrc.TengXunWuFenXinMode));
-
-
-                    newr.SetField("User_XinJiangShiShiCai", usrc == null ? false : (usrc.XinJiangMode == null ? false : usrc.XinJiangMode));
-                    newr.SetField("User_VR", usrc == null ? false : (usrc.VRMode == null ? false : usrc.VRMode));
-
-
-                    NetFramework.Console.WriteLine("单个联系人,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
-
-                    //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
-                    //foreach (var logitem in UpdateLogs)
-                    //{
-                    //    logitem.SetField("Reply_ContactTEMPID", UserNametempID);
-                    //    logitem.SetField("Reply_Contact", RemarkName == "" ? NickName : RemarkName);
-                    //}
-
-                }
-                catch (Exception AnyError)
-                {
-                    MessageBox.Show((RemarkName == "" ? NickName : RemarkName) + "联系人保存失败");
-                    NetFramework.Console.WriteLine(AnyError.Message, true);
-                    NetFramework.Console.WriteLine(AnyError.StackTrace, true);
-                }
-                this.Invalidate();
-                Application.DoEvents();
-
-            }//成员列表循环
-            db.SubmitChanges();
-
-            // BS_Contact.Sort = "User_Contact";
-             }));//Invoke
+                // BS_Contact.Sort = "User_Contact";
+            }));//Invoke
 
             SetMemberRuning = false;
 
@@ -440,6 +441,9 @@ namespace WeixinRoboot
                         newr.SetField("User_AozcMode", usrc == null ? false : (usrc.AozcMode == null ? false : usrc.AozcMode));
 
                         newr.SetField("User_ChongqingMode", usrc == null ? false : (usrc.ChongqingMode == null ? false : usrc.ChongqingMode));
+
+                        newr.SetField("User_HeNeiWuFen", usrc == null ? false : (usrc.HeNeiWuFenMode == null ? false : usrc.HeNeiWuFenMode));
+                       
                         //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
                         //foreach (var logitem in UpdateLogs)
                         //{
@@ -513,6 +517,8 @@ namespace WeixinRoboot
 
             MemberSource.Columns.Add("User_TengXunShiFen", typeof(Boolean));
             MemberSource.Columns.Add("User_TengXunWuFen", typeof(Boolean));
+            MemberSource.Columns.Add("User_HeNeiWuFen", typeof(Boolean));
+
 
             MemberSource.Columns.Add("User_TengXunShiFenXin", typeof(Boolean));
             MemberSource.Columns.Add("User_TengXunWuFenXin", typeof(Boolean));
@@ -1200,9 +1206,404 @@ namespace WeixinRoboot
 
             }
         }
+  private void MI_HeNeiWuFenXinMode_Click(object sender, EventArgs e)
+        {
+            if (gv_contact.SelectedRows.Count != 0)
+            {
+                DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
+
+
+                Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("河五模式", editrow, DateTime.Now);
+
+
+            }
+        }
+
+        private void SetMode(Linq.ProgramLogic.ShiShiCaiMode Mode)
+        {
+            switch (Mode)
+            {
+                case Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩:
+                    this.Invoke(new Action(() =>
+                    {
+                        MI_ChongQingMode.Visible = true;
+                        MI_vRMode.Visible = false;
+                        MI_AozcMode.Visible = false;
+                        MI_HkMode.Visible = false;
+                        MI_XinJiangShiShiCaiMode.Visible = false;
+                        MI_FiveMinuteMode.Visible = false;
+                        MI_TengXunWuFenMode.Visible = false;
+                        MI_TengXunWuFenXinMode.Visible = false;
+                        MI_TengXunShiFenMode.Visible = false;
+                        MI_TengXunShiFenXinMode.Visible = false;
+                        MI_HeNeiWuFenMode.Visible = false;
+
+                        gv_contact.Columns["重"].Visible = true;
+                        gv_contact.Columns["VR"].Visible = false;
+                        gv_contact.Columns["澳"].Visible = false;
+                        gv_contact.Columns["港"].Visible = false;
+                        gv_contact.Columns["疆"].Visible = false;
+                        gv_contact.Columns["五"].Visible = false;
+                        gv_contact.Columns["腾五"].Visible = false;
+                        gv_contact.Columns["腾五信"].Visible = false;
+                        gv_contact.Columns["腾十"].Visible = false;
+                        gv_contact.Columns["腾十信"].Visible = false;
+                        gv_contact.Columns["河五"].Visible = false;
 
 
 
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = false;
+                        MI_vRMode.Visible = true;
+                        MI_AozcMode.Visible = false;
+                        MI_HkMode.Visible = false;
+                        MI_XinJiangShiShiCaiMode.Visible = false;
+                        MI_FiveMinuteMode.Visible = false;
+                        MI_TengXunWuFenMode.Visible = false;
+                        MI_TengXunWuFenXinMode.Visible = false;
+                        MI_TengXunShiFenMode.Visible = false;
+                        MI_TengXunShiFenXinMode.Visible = false;
+                        MI_HeNeiWuFenMode.Visible = false;
+
+                        gv_contact.Columns["重"].Visible = false;
+                        gv_contact.Columns["VR"].Visible = true;
+                        gv_contact.Columns["澳"].Visible = false;
+                        gv_contact.Columns["港"].Visible = false;
+                        gv_contact.Columns["疆"].Visible = false;
+                        gv_contact.Columns["五"].Visible = false;
+                        gv_contact.Columns["腾五"].Visible = false;
+                        gv_contact.Columns["腾五信"].Visible = false;
+                        gv_contact.Columns["腾十"].Visible = false;
+                        gv_contact.Columns["腾十信"].Visible = false;
+                        gv_contact.Columns["河五"].Visible = false;
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = false;
+                        MI_vRMode.Visible = false;
+                        MI_AozcMode.Visible = true;
+                        MI_HkMode.Visible = false;
+                        MI_XinJiangShiShiCaiMode.Visible = false;
+                        MI_FiveMinuteMode.Visible = false;
+                        MI_TengXunWuFenMode.Visible = false;
+                        MI_TengXunWuFenXinMode.Visible = false;
+                        MI_TengXunShiFenMode.Visible = false;
+                        MI_TengXunShiFenXinMode.Visible = false;
+                        MI_HeNeiWuFenMode.Visible = false;
+
+                        gv_contact.Columns["重"].Visible = false;
+                        gv_contact.Columns["VR"].Visible = false;
+                        gv_contact.Columns["澳"].Visible = true;
+                        gv_contact.Columns["港"].Visible = false;
+                        gv_contact.Columns["疆"].Visible = false;
+                        gv_contact.Columns["五"].Visible = false;
+                        gv_contact.Columns["腾五"].Visible = false;
+                        gv_contact.Columns["腾五信"].Visible = false;
+                        gv_contact.Columns["腾十"].Visible = false;
+                        gv_contact.Columns["腾十信"].Visible = false;
+                        gv_contact.Columns["河五"].Visible = false;
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.香港时时彩:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = false;
+                        MI_vRMode.Visible = false;
+                        MI_AozcMode.Visible = false;
+                        MI_HkMode.Visible = true;
+                        MI_XinJiangShiShiCaiMode.Visible = false;
+                        MI_FiveMinuteMode.Visible = false;
+                        MI_TengXunWuFenMode.Visible = false;
+                        MI_TengXunWuFenXinMode.Visible = false;
+                        MI_TengXunShiFenMode.Visible = false;
+                        MI_TengXunShiFenXinMode.Visible = false;
+                        MI_HeNeiWuFenMode.Visible = false;
+
+                        gv_contact.Columns["重"].Visible = false;
+                        gv_contact.Columns["VR"].Visible = false;
+                        gv_contact.Columns["澳"].Visible = false;
+                        gv_contact.Columns["港"].Visible = true;
+                        gv_contact.Columns["疆"].Visible = false;
+                        gv_contact.Columns["五"].Visible = false;
+                        gv_contact.Columns["腾五"].Visible = false;
+                        gv_contact.Columns["腾五信"].Visible = false;
+                        gv_contact.Columns["腾十"].Visible = false;
+                        gv_contact.Columns["腾十信"].Visible = false;
+                        gv_contact.Columns["河五"].Visible = false;
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = false;
+                        MI_vRMode.Visible = false;
+                        MI_AozcMode.Visible = false;
+                        MI_HkMode.Visible = false;
+                        MI_XinJiangShiShiCaiMode.Visible = true;
+                        MI_FiveMinuteMode.Visible = false;
+                        MI_TengXunWuFenMode.Visible = false;
+                        MI_TengXunWuFenXinMode.Visible = false;
+                        MI_TengXunShiFenMode.Visible = false;
+                        MI_TengXunShiFenXinMode.Visible = false;
+                        MI_HeNeiWuFenMode.Visible = false;
+
+                        gv_contact.Columns["重"].Visible = false;
+                        gv_contact.Columns["VR"].Visible = false;
+                        gv_contact.Columns["澳"].Visible = false;
+                        gv_contact.Columns["港"].Visible = false;
+                        gv_contact.Columns["疆"].Visible = true;
+                        gv_contact.Columns["五"].Visible = false;
+                        gv_contact.Columns["腾五"].Visible = false;
+                        gv_contact.Columns["腾五信"].Visible = false;
+                        gv_contact.Columns["腾十"].Visible = false;
+                        gv_contact.Columns["腾十信"].Visible = false;
+                        gv_contact.Columns["河五"].Visible = false;
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.五分彩:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = false;
+                        MI_vRMode.Visible = false;
+                        MI_AozcMode.Visible = false;
+                        MI_HkMode.Visible = false;
+                        MI_XinJiangShiShiCaiMode.Visible = false;
+                        MI_FiveMinuteMode.Visible = true;
+                        MI_TengXunWuFenMode.Visible = false;
+                        MI_TengXunWuFenXinMode.Visible = false;
+                        MI_TengXunShiFenMode.Visible = false;
+                        MI_TengXunShiFenXinMode.Visible = false;
+                        MI_HeNeiWuFenMode.Visible = false;
+
+                        gv_contact.Columns["重"].Visible = false;
+                        gv_contact.Columns["VR"].Visible = false;
+                        gv_contact.Columns["澳"].Visible = false;
+                        gv_contact.Columns["港"].Visible = false;
+                        gv_contact.Columns["疆"].Visible = false;
+                        gv_contact.Columns["五"].Visible = true;
+                        gv_contact.Columns["腾五"].Visible = false;
+                        gv_contact.Columns["腾五信"].Visible = false;
+                        gv_contact.Columns["腾十"].Visible = false;
+                        gv_contact.Columns["腾十信"].Visible = false;
+                        gv_contact.Columns["河五"].Visible = false;
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.腾讯五分:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = false;
+                        MI_vRMode.Visible = false;
+                        MI_AozcMode.Visible = false;
+                        MI_HkMode.Visible = false;
+                        MI_XinJiangShiShiCaiMode.Visible = false;
+                        MI_FiveMinuteMode.Visible = false;
+
+                        MI_TengXunWuFenMode.Visible = true;
+                        MI_TengXunWuFenXinMode.Visible = false;
+                        MI_TengXunShiFenMode.Visible = false;
+                        MI_TengXunShiFenXinMode.Visible = false;
+                        MI_HeNeiWuFenMode.Visible = false;
+
+                        gv_contact.Columns["重"].Visible = false;
+                        gv_contact.Columns["VR"].Visible = false;
+                        gv_contact.Columns["澳"].Visible = false;
+                        gv_contact.Columns["港"].Visible = false;
+                        gv_contact.Columns["疆"].Visible = false;
+                        gv_contact.Columns["五"].Visible = false;
+                        gv_contact.Columns["腾五"].Visible = true;
+                        gv_contact.Columns["腾五信"].Visible = false;
+                        gv_contact.Columns["腾十"].Visible = false;
+                        gv_contact.Columns["腾十信"].Visible = false;
+                        gv_contact.Columns["河五"].Visible = false;
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.腾讯十分:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = false;
+                        MI_vRMode.Visible = false;
+                        MI_AozcMode.Visible = false;
+                        MI_HkMode.Visible = false;
+                        MI_XinJiangShiShiCaiMode.Visible = false;
+                        MI_FiveMinuteMode.Visible = false;
+
+                        MI_TengXunWuFenMode.Visible = false;
+                        MI_TengXunWuFenXinMode.Visible = false;
+                        MI_TengXunShiFenMode.Visible = true;
+                        MI_TengXunShiFenXinMode.Visible = false;
+                        MI_HeNeiWuFenMode.Visible = false;
+
+                        gv_contact.Columns["重"].Visible = false;
+                        gv_contact.Columns["VR"].Visible = false;
+                        gv_contact.Columns["澳"].Visible = false;
+                        gv_contact.Columns["港"].Visible = false;
+                        gv_contact.Columns["疆"].Visible = false;
+                        gv_contact.Columns["五"].Visible = false;
+                        gv_contact.Columns["腾五"].Visible = false;
+                        gv_contact.Columns["腾五信"].Visible = false;
+                        gv_contact.Columns["腾十"].Visible = true;
+                        gv_contact.Columns["腾十信"].Visible = false;
+                        gv_contact.Columns["河五"].Visible = false;
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.腾五信:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = false;
+                        MI_vRMode.Visible = false;
+                        MI_AozcMode.Visible = false;
+                        MI_HkMode.Visible = false;
+                        MI_XinJiangShiShiCaiMode.Visible = false;
+                        MI_FiveMinuteMode.Visible = false;
+
+                        MI_TengXunWuFenMode.Visible = false;
+                        MI_TengXunWuFenXinMode.Visible = true;
+                        MI_TengXunShiFenMode.Visible = false;
+                        MI_TengXunShiFenXinMode.Visible = false;
+                        MI_HeNeiWuFenMode.Visible = false;
+
+                        gv_contact.Columns["重"].Visible = false;
+                        gv_contact.Columns["VR"].Visible = false;
+                        gv_contact.Columns["澳"].Visible = false;
+                        gv_contact.Columns["港"].Visible = false;
+                        gv_contact.Columns["疆"].Visible = false;
+                        gv_contact.Columns["五"].Visible = false;
+                        gv_contact.Columns["腾五"].Visible = false;
+                        gv_contact.Columns["腾五信"].Visible = true;
+                        gv_contact.Columns["腾十"].Visible = false;
+                        gv_contact.Columns["腾十信"].Visible = false;
+                        gv_contact.Columns["河五"].Visible = false;
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.腾十信:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = false;
+                        MI_vRMode.Visible = false;
+                        MI_AozcMode.Visible = false;
+                        MI_HkMode.Visible = false;
+                        MI_XinJiangShiShiCaiMode.Visible = false;
+                        MI_FiveMinuteMode.Visible = false;
+
+                        MI_TengXunWuFenMode.Visible = false;
+                        MI_TengXunWuFenXinMode.Visible = false;
+                        MI_TengXunShiFenMode.Visible = false;
+                        MI_TengXunShiFenXinMode.Visible = true;
+                        MI_HeNeiWuFenMode.Visible = false;
+
+
+                        gv_contact.Columns["重"].Visible = false;
+                        gv_contact.Columns["VR"].Visible = false;
+                        gv_contact.Columns["澳"].Visible = false;
+                        gv_contact.Columns["港"].Visible = false;
+                        gv_contact.Columns["疆"].Visible = false;
+                        gv_contact.Columns["五"].Visible = false;
+                        gv_contact.Columns["腾五"].Visible = false;
+                        gv_contact.Columns["腾五信"].Visible = false;
+                        gv_contact.Columns["腾十"].Visible = false;
+                        gv_contact.Columns["腾十信"].Visible = true;
+                        gv_contact.Columns["河五"].Visible = false;
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.河内五分:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = false;
+                        MI_vRMode.Visible = false;
+                        MI_AozcMode.Visible = false;
+                        MI_HkMode.Visible = false;
+                        MI_XinJiangShiShiCaiMode.Visible = false;
+                        MI_FiveMinuteMode.Visible = false;
+
+                        MI_TengXunWuFenMode.Visible = false;
+                        MI_TengXunWuFenXinMode.Visible = false;
+                        MI_TengXunShiFenMode.Visible = false;
+                        MI_TengXunShiFenXinMode.Visible = false;
+                        MI_HeNeiWuFenMode.Visible = true;
+
+
+                        gv_contact.Columns["重"].Visible = false;
+                        gv_contact.Columns["VR"].Visible = false;
+                        gv_contact.Columns["澳"].Visible = false;
+                        gv_contact.Columns["港"].Visible = false;
+                        gv_contact.Columns["疆"].Visible = false;
+                        gv_contact.Columns["五"].Visible = false;
+                        gv_contact.Columns["腾五"].Visible = false;
+                        gv_contact.Columns["腾五信"].Visible = false;
+                        gv_contact.Columns["腾十"].Visible = false;
+                        gv_contact.Columns["腾十信"].Visible = false;
+                        gv_contact.Columns["河五"].Visible = true;
+
+                    }));
+                    break;
+                case Linq.ProgramLogic.ShiShiCaiMode.全彩:
+                    this.Invoke(new Action(() =>
+                    {
+
+                        MI_ChongQingMode.Visible = true;
+                        MI_vRMode.Visible = true;
+                        MI_AozcMode.Visible = true;
+                        MI_HkMode.Visible = true;
+                        MI_XinJiangShiShiCaiMode.Visible = true;
+                        MI_FiveMinuteMode.Visible = true;
+                        MI_HeNeiWuFenMode.Visible = true;
+                        MI_TengXunWuFenMode.Visible = true;
+                        MI_TengXunWuFenXinMode.Visible = true;
+                        MI_TengXunShiFenMode.Visible = true;
+                        MI_TengXunShiFenXinMode.Visible = true;
+
+
+                        gv_contact.Columns["重"].Visible = true;
+                        gv_contact.Columns["VR"].Visible = true;
+                        gv_contact.Columns["澳"].Visible = true;
+                        gv_contact.Columns["港"].Visible = true;
+                        gv_contact.Columns["疆"].Visible = true;
+                        gv_contact.Columns["五"].Visible = true;
+                        gv_contact.Columns["腾五"].Visible = true;
+                        gv_contact.Columns["腾五信"].Visible = true;
+                        gv_contact.Columns["腾十"].Visible = true;
+                        gv_contact.Columns["腾十信"].Visible = true;
+                        gv_contact.Columns["河五"].Visible = true;
+
+
+
+
+
+                    }));
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+      
 
 
 

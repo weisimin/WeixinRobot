@@ -111,12 +111,14 @@
             this.cb_datasource.Font = new System.Drawing.Font("宋体", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cb_datasource.FormattingEnabled = true;
             this.cb_datasource.Items.AddRange(new object[] {
+            "远程服务器",
             "本机",
-            "远程服务器"});
+            "迷你本机"});
             this.cb_datasource.Location = new System.Drawing.Point(172, 134);
             this.cb_datasource.Name = "cb_datasource";
             this.cb_datasource.Size = new System.Drawing.Size(157, 29);
             this.cb_datasource.TabIndex = 7;
+            this.cb_datasource.SelectedIndexChanged += new System.EventHandler(this.cb_datasource_SelectedIndexChanged);
             this.cb_datasource.SelectedValueChanged += new System.EventHandler(this.cb_datasource_SelectedValueChanged);
             // 
             // LoginForm

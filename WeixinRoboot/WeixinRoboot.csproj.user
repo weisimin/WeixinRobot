@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <PublishUrlHistory>ftp://superserver:9124/|E:\publishtest\|F:\publish test\|ftp://LAPTOP-VUQTIAUP:9124/|ftp://172.6.8.143:9124/</PublishUrlHistory>
-    <InstallUrlHistory>http://superserver:9123/|http://13828081978.qicp.vip/|http://LAPTOP-VUQTIAUP:9123/|http://172.6.8.143:9123/|http://localhost:9123/</InstallUrlHistory>
+    <InstallUrlHistory>http://13828081978.qicp.vip/|http://superserver:9123/|http://LAPTOP-VUQTIAUP:9123/|http://172.6.8.143:9123/|http://localhost:9123/</InstallUrlHistory>
     <SupportUrlHistory />
     <UpdateUrlHistory />
     <BootstrapperUrlHistory />
