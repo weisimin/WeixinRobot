@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Xml;
-using System.Web.Security;
+//using System.Web.Security;
 using System.Reflection;
 using System.Web.Profile;
 namespace WeixinRoboot
@@ -132,17 +132,17 @@ namespace WeixinRoboot
         /// <param name="connectionString">The connection string.</param>
         private void SetProviderConnectionString(string connectionString)
         {
-            var connectionStringField = Membership.Provider.GetType().GetField("_sqlConnectionString", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (connectionStringField != null)
-                connectionStringField.SetValue(Membership.Provider, connectionString);
+            //var connectionStringField = Membership.Provider.GetType().GetField("_sqlConnectionString", BindingFlags.Instance | BindingFlags.NonPublic);
+            //if (connectionStringField != null)
+            //    connectionStringField.SetValue(Membership.Provider, connectionString);
 
-            var roleField = Roles.Provider.GetType().GetField("_sqlConnectionString", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (roleField != null)
-                roleField.SetValue(Roles.Provider, connectionString);
+            //var roleField = Roles.Provider.GetType().GetField("_sqlConnectionString", BindingFlags.Instance | BindingFlags.NonPublic);
+            //if (roleField != null)
+            //    roleField.SetValue(Roles.Provider, connectionString);
 
-            var profileField = ProfileManager.Provider.GetType().GetField("_sqlConnectionString", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (profileField != null)
-                profileField.SetValue(ProfileManager.Provider, connectionString);
+            //var profileField = ProfileManager.Provider.GetType().GetField("_sqlConnectionString", BindingFlags.Instance | BindingFlags.NonPublic);
+            //if (profileField != null)
+            //    profileField.SetValue(ProfileManager.Provider, connectionString);
         }
 
         private void cb_datasource_SelectedIndexChanged(object sender, EventArgs e)

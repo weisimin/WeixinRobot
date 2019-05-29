@@ -24,7 +24,7 @@ namespace WeixinRoboot
             ep_wf.Clear();
             if (fd_BossUserName.Text != "")
             {
-                MembershipUser checkboss = Membership.GetUser(fd_BossUserName.Text);
+                //MembershipUser checkboss = Membership.GetUser(fd_BossUserName.Text);
                 if (checkboss == null)
                 {
                     ep_wf.SetError(fd_BossUserName, "老板号找不到");
@@ -37,7 +37,7 @@ namespace WeixinRoboot
                 case "New":
                     try
                     {
-                        MembershipUser usr = System.Web.Security.Membership.CreateUser(fd_username.Text, fd_password.Text);
+                        //MembershipUser usr = System.Web.Security.Membership.CreateUser(fd_username.Text, fd_password.Text);
                         Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
                         newGameResultSend.aspnet_UserID = (Guid)usr.ProviderUserKey;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
@@ -83,7 +83,7 @@ namespace WeixinRoboot
 
                         Linq.Util_Services.SaveServicesSetting(newGameResultSend);
 
-                        MembershipUser sysadmin = System.Web.Security.Membership.GetUser("sysadmin");
+                        //MembershipUser sysadmin = System.Web.Security.Membership.GetUser("sysadmin");
 
 
 
@@ -153,7 +153,7 @@ namespace WeixinRoboot
                     try
                     {
 
-                        MembershipUser user = System.Web.Security.Membership.GetUser(fd_username.Text);
+                        //MembershipUser user = System.Web.Security.Membership.GetUser(fd_username.Text);
                         if (fd_password.Text != "")
                         {
                             string NewPassword = user.ResetPassword();
@@ -183,7 +183,7 @@ namespace WeixinRoboot
                             newGameResultSend.IsSendPIC = FD_SendPIC.Checked;
                             newGameResultSend.IsReceiveOrder = FD_ReceiveOrder.Checked;
                             newGameResultSend.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
-                            MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
+                            //MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
                             newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                             newGameResultSend.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
@@ -223,7 +223,7 @@ namespace WeixinRoboot
                             finds.IsSendPIC = FD_SendPIC.Checked;
                             finds.IsReceiveOrder = FD_ReceiveOrder.Checked;
                             finds.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
-                            MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
+                            //MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
                             finds.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                             finds.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
@@ -266,13 +266,13 @@ namespace WeixinRoboot
                     }
                     break;
                 case "MyData":
-                    MembershipUser usermydata = System.Web.Security.Membership.GetUser(fd_username.Text);
+                    //MembershipUser usermydata = System.Web.Security.Membership.GetUser(fd_username.Text);
                     if (fd_password.Text != "")
                     {
                         string NewPassword = usermydata.ResetPassword();
                         usermydata.ChangePassword(NewPassword, fd_password.Text);
                     }
-                    System.Web.Security.Membership.UpdateUser(usermydata);
+                   // System.Web.Security.Membership.UpdateUser(usermydata);
                     Linq.aspnet_UsersNewGameResultSend findsmydata = Linq.Util_Services.GetServicesSetting((Guid)usermydata.ProviderUserKey);
                     if (findsmydata == null)
                     {
@@ -284,7 +284,7 @@ namespace WeixinRoboot
                         newGameResultSend.IsSendPIC = FD_SendPIC.Checked;
                         newGameResultSend.IsReceiveOrder = FD_ReceiveOrder.Checked;
                         newGameResultSend.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
-                        MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
+                        //MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
                         newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                         newGameResultSend.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
@@ -321,7 +321,7 @@ namespace WeixinRoboot
                         findsmydata.IsReceiveOrder = FD_ReceiveOrder.Checked;
                         findsmydata.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
                         findsmydata.ActiveCode = fd_activecode.Text;
-                        MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
+                        //MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
                         findsmydata.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                         findsmydata.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
@@ -418,7 +418,7 @@ namespace WeixinRoboot
 
             try
             {
-                MembershipUser usr = Membership.GetUser(fd_username.Text);
+                //MembershipUser usr = Membership.GetUser(fd_username.Text);
                 if (usr != null)
                 {
                     fd_password.Enabled = true;

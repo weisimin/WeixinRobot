@@ -4745,7 +4745,7 @@ namespace WeixinRoboot.Linq
 
                     foreach (Guid item in takeusers)
                     {
-                        System.Web.Security.MembershipUser usr = System.Web.Security.Membership.GetUser(item);
+                        //System.Web.Security.MembershipUser usr = System.Web.Security.Membership.GetUser(item);
                         DataTable Fulls = BuildOpenQueryTable(dt_From.Value, dt_To.Value, item);
                         foreach (DataRow rowitem in Fulls.Rows)
                         {
