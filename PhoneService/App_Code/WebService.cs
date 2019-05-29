@@ -209,23 +209,5 @@ public class WebService : System.Web.Services.WebService
         }
     
     }
-    [WebMethod]
-    public string UnLockUser(string UserName)
-    {
-        MembershipUser r = Membership.GetUser(UserName);
-        if (r == null)
-        {
-            return "用户名不存在";
-        }
-        else
-        {
-            MembershipUser msr = Membership.GetUser(UserName);
-            FormsAuthentication.SetAuthCookie(UserName, true);
-            string Cookie = FormsAuthentication.GetAuthCookie(UserName, true).Value;
-
-            return Cookie;
-
-        }
-
-    }
+   
 }
