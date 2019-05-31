@@ -4732,12 +4732,8 @@ namespace WeixinRoboot.Linq
 
 
                     }
-                    List<Guid> takeusers = ((from ds in db.aspnet_UsersNewGameResultSend
-                                             where ds.bossaspnet_UserID == GlobalParam.UserKey
-
-                                             select ds.aspnet_UserID).Distinct()
-
-                                             ).ToList();
+                    RobootWeb.WebService ws = new RobootWeb.WebService();
+                    List<Guid> takeusers =ws.GetBossUsers(GlobalParam.UserKey.ToString()).ToList();
                     takeusers.Add(GlobalParam.UserKey);
 
 

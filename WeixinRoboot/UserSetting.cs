@@ -6,7 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 namespace WeixinRoboot
 {
     public partial class UserSetting : Form
@@ -22,9 +23,12 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             ep_wf.Clear();
+            RobotWebAdmin.SysadminServices adws = new RobotWebAdmin.SysadminServices();
+            adws.CookieContainer = GlobalParam.LoginCookie;
+            RobootWeb.WebService usrws = new RobootWeb.WebService();
             if (fd_BossUserName.Text != "")
             {
-                //MembershipUser checkboss = Membership.GetUser(fd_BossUserName.Text);
+                 string checkbossid = Membership.GetUser(fd_BossUserName.Text);
                 if (checkboss == null)
                 {
                     ep_wf.SetError(fd_BossUserName, "老板号找不到");
@@ -37,9 +41,9 @@ namespace WeixinRoboot
                 case "New":
                     try
                     {
-                        //MembershipUser usr = System.Web.Security.Membership.CreateUser(fd_username.Text, fd_password.Text);
+                       JObject  usr = adws.CreateUser(fd_username.Text, fd_password.Text);
                         Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
-                        newGameResultSend.aspnet_UserID = (Guid)usr.ProviderUserKey;
+                        newGameResultSend.aspnet_UserID = Guid.Parse(adws.GetUserIDByName(fd_username.Text)) ;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
 
                         newGameResultSend.IsBlock = Fd_IsBlock.Checked;
@@ -83,12 +87,12 @@ namespace WeixinRoboot
 
                         Linq.Util_Services.SaveServicesSetting(newGameResultSend);
 
-                        //MembershipUser sysadmin = System.Web.Security.Membership.GetUser("sysadmin");
+                        Guid CopySourceID = Guid.Empty; // System.Web.Security.Membership.GetUser("sysadmin");
 
 
 
 
-                        var CopyRatio = db.Game_BasicRatio.Where(t => t.aspnet_UserID == (sysadmin == null ? Guid.Empty : (Guid)sysadmin.ProviderUserKey));
+                        var CopyRatio = db.Game_BasicRatio.Where(t => t.aspnet_UserID == guid);
 
                         if (CopyRatio.Count() != 0)
                         {
@@ -152,31 +156,36 @@ namespace WeixinRoboot
                 case "Modify":
                     try
                     {
-
+                        bool success=true;
+                      
+                        JObject juser=  JObject.Parse( adws.GetUserInfo(fd_username.Text));
                         //MembershipUser user = System.Web.Security.Membership.GetUser(fd_username.Text);
                         if (fd_password.Text != "")
                         {
-                            string NewPassword = user.ResetPassword();
-                            user.ChangePassword(NewPassword, fd_password.Text);
+                            //string NewPassword = user.ResetPassword();
+                            //user.ChangePassword(NewPassword, fd_password.Text);
+                            usrws.ChangePassword(Guid.Parse(juser["ProviderUserKey"].ToString()), fd_password.Text);
                         }
                         if (fd_IsLock.Checked == false)
                         {
-                            user.UnlockUser();
+                            //user.UnlockUser();
+                           success&=   adws.SetUserLock(fd_username.Text, false);
                         }
-                        System.Web.Security.Membership.UpdateUser(user);
+                        //System.Web.Security.Membership.UpdateUser(user);
                         if (fd_IsLock.Checked == true)
                         {
-                            Linq.aspnet_Users aspnet_Users = db.aspnet_Users.SingleOrDefault(t => t.UserId == new Guid(user.ProviderUserKey.ToString()));
-                            aspnet_Users.aspnet_Membership.IsLockedOut = true;
-                            db.SubmitChanges();
+                            //Linq.aspnet_Users aspnet_Users = db.aspnet_Users.SingleOrDefault(t => t.UserId == new Guid(user.ProviderUserKey.ToString()));
+                            //aspnet_Users.aspnet_Membership.IsLockedOut = true;
+                            //db.SubmitChanges();
+                            success &= adws.SetUserLock(fd_username.Text, true);
                         }
 
                         #region 开奖立即发送设置
-                        Linq.aspnet_UsersNewGameResultSend finds = Linq.Util_Services.GetServicesSetting((Guid)user.ProviderUserKey);
+                        Linq.aspnet_UsersNewGameResultSend finds = Linq.Util_Services.GetServicesSetting(Guid.Parse(userguid));
                         if (finds == null)
                         {
                             Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
-                            newGameResultSend.aspnet_UserID = (Guid)user.ProviderUserKey;
+                            newGameResultSend.aspnet_UserID = Guid.Parse(userguid); //(Guid)userguid.ProviderUserKey;
                             newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
                             newGameResultSend.ActiveCode = fd_activecode.Text;
                             newGameResultSend.IsBlock = Fd_IsBlock.Checked;
@@ -269,8 +278,9 @@ namespace WeixinRoboot
                     //MembershipUser usermydata = System.Web.Security.Membership.GetUser(fd_username.Text);
                     if (fd_password.Text != "")
                     {
-                        string NewPassword = usermydata.ResetPassword();
-                        usermydata.ChangePassword(NewPassword, fd_password.Text);
+                        //string NewPassword = usermydata.ResetPassword();
+                        //usermydata.ChangePassword(NewPassword, fd_password.Text);
+                        userws.get
                     }
                    // System.Web.Security.Membership.UpdateUser(usermydata);
                     Linq.aspnet_UsersNewGameResultSend findsmydata = Linq.Util_Services.GetServicesSetting((Guid)usermydata.ProviderUserKey);
@@ -415,16 +425,18 @@ namespace WeixinRoboot
 
             fd_SendTimeEnd1.Enabled = true;
             fd_SendTimeStart1.Enabled = true;
-
+            RobotWebAdmin.SysadminServices adws = new RobotWebAdmin.SysadminServices();
+            adws.CookieContainer = GlobalParam.LoginCookie;
+            RobootWeb.WebService usrws = new RobootWeb.WebService();
             try
             {
-                //MembershipUser usr = Membership.GetUser(fd_username.Text);
-                if (usr != null)
+                Newtonsoft.Json.Linq.JObject Juser = Newtonsoft.Json.Linq.JObject.Parse( adws.GetUserInfo(fd_username.Text));
+                if (Juser != null)
                 {
                     fd_password.Enabled = true;
                     fd_IsLock.Enabled = true;
 
-                    fd_IsLock.Checked = usr.IsLockedOut;
+                    fd_IsLock.Checked = Convert.ToBoolean(Juser["IsLockedOut"].ToString());
 
 
                     btn_Save.Enabled = true;
@@ -433,7 +445,7 @@ namespace WeixinRoboot
                     fd_ImageEndText.Enabled = true;
                     fd_ImageTopText.Enabled = true;
 
-                    Linq.aspnet_UsersNewGameResultSend newgs = Linq.Util_Services.GetServicesSetting((Guid)usr.ProviderUserKey);
+                    Linq.aspnet_UsersNewGameResultSend newgs = Linq.Util_Services.GetServicesSetting(Guid.Parse(Juser["ProviderUserKey"].ToString()));
                     if (newgs == null)
                     {
                         fd_NewGameSend.Checked = false;
@@ -460,7 +472,7 @@ namespace WeixinRoboot
                         FD_SendPIC.Checked = newgs.IsSendPIC.HasValue ? newgs.IsSendPIC.Value : false; ;
                         FD_ReceiveOrder.Checked = newgs.IsReceiveOrder.HasValue ? newgs.IsReceiveOrder.Value : false; ;
                         fd_MaxPlayerCount.Text = newgs.MaxPlayerCount.HasValue ? newgs.MaxPlayerCount.ToString() : "50";
-                        System.Web.Security.MembershipUser boss = System.Web.Security.Membership.GetUser(newgs.bossaspnet_UserID == null ? Guid.Empty : newgs.bossaspnet_UserID);
+                        //System.Web.Security.MembershipUser boss = System.Web.Security.Membership.GetUser(newgs.bossaspnet_UserID == null ? Guid.Empty : newgs.bossaspnet_UserID);
                         fd_BossUserName.Text = (boss == null ? "" : boss.UserName);
 
                         fd_SendTimeStart1.Text = Object2Str(newgs.SendImageStart, "0");
