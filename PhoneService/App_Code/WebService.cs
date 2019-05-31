@@ -38,18 +38,18 @@ public class WebService : System.Web.Services.WebService
         }
         else if (msr == null)
         {
-           return ("用户不存在");
+            return ("用户不存在");
         }
         else if (msr.IsLockedOut)
         {
-           return ("密码错误次数太多,已停用");
+            return ("密码错误次数太多,已停用");
         }
         else
         {
-           return ("密码错误");
+            return ("密码错误");
         }
 
-       
+
     }
 
     [WebMethod]
@@ -58,8 +58,8 @@ public class WebService : System.Web.Services.WebService
         Guid aspnetUserid = Guid.Parse(saspnetUserid);
         dbDataContext db = new dbDataContext("LocalSqlServer");
         aspnet_UsersNewGameResultSend sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == aspnetUserid);
-       return (JsonConvert.SerializeObject(sets));
-      
+        return (JsonConvert.SerializeObject(sets));
+
 
     }
     [WebMethod]
@@ -70,7 +70,7 @@ public class WebService : System.Web.Services.WebService
         aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend);
 
         aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)msr.ProviderUserKey);
-        if (save_sets==null)
+        if (save_sets == null)
         {
             save_sets = new aspnet_UsersNewGameResultSend();
             save_sets.aspnet_UserID = (Guid)msr.ProviderUserKey;
@@ -163,14 +163,14 @@ public class WebService : System.Web.Services.WebService
         try
         {
             db.SubmitChanges();
-           return ("保存成功");
-           
+            return ("保存成功");
+
         }
         catch (Exception anyerror)
         {
 
-           return ("保存失败"+anyerror.Message);
-            
+            return ("保存失败" + anyerror.Message);
+
         }
 
 
@@ -187,7 +187,7 @@ public class WebService : System.Web.Services.WebService
 
                                               ).ToList();
         return takeusers;
-    
+
     }
 
     [WebMethod]
@@ -203,11 +203,25 @@ public class WebService : System.Web.Services.WebService
             MembershipUser msr = Membership.GetUser(UserName);
             FormsAuthentication.SetAuthCookie(UserName, true);
             string Cookie = FormsAuthentication.GetAuthCookie(UserName, true).Value;
-            
+
             return Cookie;
-        
+
         }
-    
+
     }
-   
+    [WebMethod]
+    public void ChangePassword(Guid userid, String NewPassord)
+    {
+        
+        MembershipUser user = Membership.GetUser(userid);
+        string tmpPassword = user.ResetPassword();
+        user.ChangePassword(tmpPassword, NewPassord);
+    }
+    [WebMethod]
+    public string GetUserInfo(Guid UserID)
+    {
+
+        MembershipUser usr = System.Web.Security.Membership.GetUser(UserID);
+        return JsonConvert.SerializeObject(usr);
+    }
 }

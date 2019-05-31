@@ -33,18 +33,42 @@ public class SysadminServices : System.Web.Services.WebService
     {
         dbDataContext db = new dbDataContext("LocalSqlServer");
         var source = (from ms in db.aspnet_Membership
-                     join us in db.aspnet_Users on ms.UserId equals us.UserId
-                     select new { us.UserId, us.UserName, ms.IsLockedOut }).ToList();
+                      join us in db.aspnet_Users on ms.UserId equals us.UserId
+                      select new { us.UserId, us.UserName, ms.IsLockedOut }).ToList();
         return JsonConvert.SerializeObject(source);
     }
     [WebMethod]
-    public MembershipUser CreateUser(string UserName, String Password)
+    public string CreateUser(string UserName, String Password)
     {
 
         MembershipUser usr = System.Web.Security.Membership.CreateUser(UserName, Password);
-        return usr;
+        return JsonConvert.SerializeObject(usr);
+    }
+    [WebMethod]
+    public Boolean SetUserLock(string UserName, Boolean IsLockOut)
+    {
+
+        MembershipUser usr = System.Web.Security.Membership.GetUser(UserName);
+        if (IsLockOut == false)
+        {
+            return usr.UnlockUser();
+        }
+        else
+        {
+            dbDataContext db = new dbDataContext("LocalSqlServer");
+            aspnet_Users aspnet_Users = db.aspnet_Users.SingleOrDefault(t => t.UserId == new Guid(usr.ProviderUserKey.ToString()));
+            aspnet_Users.aspnet_Membership.IsLockedOut = true;
+            db.SubmitChanges();
+            return true;
+        }
     }
 
+    [WebMethod]
+    public string GetUserInfo(string UserName)
+    {
 
+        MembershipUser usr = System.Web.Security.Membership.GetUser(UserName);
+        return JsonConvert.SerializeObject(usr);
+    }
 
 }
