@@ -187,7 +187,7 @@ namespace WeixinRoboot
             string ActiveCode = Linq.Util_Services.GetServicesSetting() .ActiveCode;
 
             DateTime? EndDate = null;
-            bool Success = NetFramework.Util_MD5.MD5Success(ActiveCode, out EndDate, (Guid)System.Web.Security.Membership.GetUser(UserName).ProviderUserKey);
+            bool Success = NetFramework.Util_MD5.MD5Success(ActiveCode, out EndDate, GlobalParam.UserKey);
             if (Success == false)
             {
                 MessageBox.Show("激活码异常");
@@ -210,7 +210,7 @@ namespace WeixinRoboot
             StartForm sf = new StartForm();
 
 
-            if (System.Web.Security.Roles.IsUserInRole(UserName, "Admin"))
+            if (UserName=="sysadmin")
             {
                 sf.SetMode("Admin");
 

@@ -1066,6 +1066,7 @@ namespace NetFramework
             if (Exception)
             {
                 System.Console.WriteLine(Message);
+               // hrow new Exception(Message);
             }
 
 

@@ -1145,6 +1145,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StartForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StartForm_FormClosed);
             this.Load += new System.EventHandler(this.Start_Load);
+            this.Shown += new System.EventHandler(this.StartForm_Shown);
             this.Botton_Status.ResumeLayout(false);
             this.Botton_Status.PerformLayout();
             this.TopMenu.ResumeLayout(false);

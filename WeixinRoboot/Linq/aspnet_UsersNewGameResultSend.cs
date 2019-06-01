@@ -1092,7 +1092,7 @@ namespace WeixinRoboot.Linq
         {
             RobootWeb.WebService ws = new RobootWeb.WebService();
             string jaspnet_UsersNewGameResultSend = ws.GetSetting(key.ToString());
-            aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend);
+            aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(aspnet_UsersNewGameResultSend));
             return tins_sets;
 
         }

@@ -33,7 +33,7 @@ namespace WeixinRoboot
                 //{
                 //    ep_wf.SetError(fd_BossUserName, "老板号找不到");
                 //    return;
-               // }
+                // }
             }
 
             switch (_Mode)
@@ -41,9 +41,9 @@ namespace WeixinRoboot
                 case "New":
                     try
                     {
-                       JObject  usr = JObject.Parse( adws.CreateUser(fd_username.Text, fd_password.Text));
+                        JObject usr = JObject.Parse(adws.CreateUser(fd_username.Text, fd_password.Text));
                         Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
-                        newGameResultSend.aspnet_UserID = Guid.Parse(usr["ProviderUserKey"].ToString()) ;
+                        newGameResultSend.aspnet_UserID = Guid.Parse(usr["ProviderUserKey"].ToString());
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
 
                         newGameResultSend.IsBlock = Fd_IsBlock.Checked;
@@ -86,7 +86,7 @@ namespace WeixinRoboot
 
 
                         Linq.Util_Services.SaveServicesSetting(newGameResultSend);
-                        Linq.Game_BasicRatio[] CopyRatio = (Linq.Game_BasicRatio[])JsonConvert.DeserializeObject(usrws.GetTemplateRatios());
+                        Linq.Game_BasicRatio[] CopyRatio = (Linq.Game_BasicRatio[])JsonConvert.DeserializeObject(usrws.GetTemplateRatios(), typeof(Linq.Game_BasicRatio[]));
 
                         if (CopyRatio.Count() != 0)
                         {
@@ -113,7 +113,7 @@ namespace WeixinRoboot
                         }
 
 
-                        Linq.WX_BounsConfig[] BounsConfig = (Linq.WX_BounsConfig[])JsonConvert.DeserializeObject(usrws.GetTemplateBonus());
+                        Linq.WX_BounsConfig[] BounsConfig = (Linq.WX_BounsConfig[])JsonConvert.DeserializeObject(usrws.GetTemplateBonus(), typeof(Linq.WX_BounsConfig[]));
 
                         if (BounsConfig.Count() != 0)
                         {
@@ -150,9 +150,9 @@ namespace WeixinRoboot
                 case "Modify":
                     try
                     {
-                        bool success=true;
-                      
-                        JObject juser=  JObject.Parse( adws.GetUserInfo(fd_username.Text));
+                        bool success = true;
+
+                        JObject juser = JObject.Parse(adws.GetUserInfo(fd_username.Text));
                         //MembershipUser user = System.Web.Security.Membership.GetUser(fd_username.Text);
                         if (fd_password.Text != "")
                         {
@@ -163,7 +163,7 @@ namespace WeixinRoboot
                         if (fd_IsLock.Checked == false)
                         {
                             //user.UnlockUser();
-                           success&=   adws.SetUserLock(fd_username.Text, false);
+                            success &= adws.SetUserLock(fd_username.Text, false);
                         }
                         //System.Web.Security.Membership.UpdateUser(user);
                         if (fd_IsLock.Checked == true)
@@ -276,7 +276,7 @@ namespace WeixinRoboot
                         //usermydata.ChangePassword(NewPassword, fd_password.Text);
                         usrws.ChangePassword(GlobalParam.UserKey, fd_password.Text);
                     }
-                   // System.Web.Security.Membership.UpdateUser(usermydata);
+                    // System.Web.Security.Membership.UpdateUser(usermydata);
                     Linq.aspnet_UsersNewGameResultSend findsmydata = Linq.Util_Services.GetServicesSetting(GlobalParam.UserKey);
                     if (findsmydata == null)
                     {
@@ -430,11 +430,12 @@ namespace WeixinRoboot
                     Juser = Newtonsoft.Json.Linq.JObject.Parse(usrws.GetUserInfo(GlobalParam.UserKey));
                 }
                 else
-                { 
-               Juser=  Newtonsoft.Json.Linq.JObject.Parse( adws.GetUserInfo(fd_username.Text));
+                {
+                    var source = adws.GetAllUsers();
+                    BS_UserList.DataSource = source;
                 }
-                   
-               
+
+
                 if (Juser != null)
                 {
                     fd_password.Enabled = true;
@@ -531,22 +532,15 @@ namespace WeixinRoboot
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
 
-            RobotWebAdmin.SysadminServices adws = new  RobotWebAdmin.SysadminServices();
-            adws.CookieContainer = new System.Net.CookieContainer();
-            System.Net.Cookie login= new  System.Net.Cookie(".ASPXAUTH",GlobalParam.ASPXAUTH);
-           
-            adws.CookieContainer=GlobalParam.LoginCookie;
 
-            var source = adws.GetAllUsers();
-            BS_UserList.DataSource = source;
         }
 
         private void Btn_Build_Click(object sender, EventArgs e)
         {
             RobotWebAdmin.SysadminServices adws = new RobotWebAdmin.SysadminServices();
             adws.CookieContainer = new System.Net.CookieContainer();
-           JObject Juser=  JObject.Parse( adws.GetUserInfo(fd_username.Text));
-           fd_activecode.Text = adws.BuidMD5ActiveCode(fd_EndDate.Value, Guid.Parse(Juser["ProviderUserKey"].ToString()));
+            JObject Juser = JObject.Parse(adws.GetUserInfo(fd_username.Text));
+            fd_activecode.Text = adws.BuidMD5ActiveCode(fd_EndDate.Value, Guid.Parse(Juser["ProviderUserKey"].ToString()));
         }
 
         private string Object2Str(object param, string NullValue = "")

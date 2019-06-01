@@ -20,7 +20,8 @@ using System.IO.Compression;
 
 using System.Configuration;
 using WeixinRoboot.Linq;
-
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 
 namespace WeixinRoboot
@@ -54,198 +55,7 @@ namespace WeixinRoboot
             //NetFramework.WindowsApi.EnumWindows(new NetFramework.WindowsApi.CallBack(EnumWinsCallBack), 0);
 
 
-            Thread DownLoad163_Vr = new Thread(new ThreadStart(DownLoad163ThreadDo_Vr));
-            DownLoad163_Vr.SetApartmentState(ApartmentState.STA);
-            DownLoad163_Vr.Start();
-
-            Thread DownLoad163_Aoz = new Thread(new ThreadStart(DownLoad163ThreadDo_Aoz));
-            DownLoad163_Aoz.SetApartmentState(ApartmentState.STA);
-            DownLoad163_Aoz.Start();
-
-            Thread DownLoad163_tengshi2 = new Thread(new ThreadStart(DownLoad163ThreadDo_tengshi_xin));
-            DownLoad163_tengshi2.SetApartmentState(ApartmentState.STA);
-            DownLoad163_tengshi2.Start();
-
-
-            Thread DownLoad163_tengshi = new Thread(new ThreadStart(DownLoad163ThreadDo_tengshi));
-            DownLoad163_tengshi.SetApartmentState(ApartmentState.STA);
-            DownLoad163_tengshi.Start();
-
-            Thread DownLoad163_tengwu = new Thread(new ThreadStart(DownLoad163ThreadDo_tengwu));
-            DownLoad163_tengwu.SetApartmentState(ApartmentState.STA);
-            DownLoad163_tengwu.Start();
-
-            Thread DownLoad163_tengwu2 = new Thread(new ThreadStart(DownLoad163ThreadDo_tengwu_xin));
-            DownLoad163_tengwu2.SetApartmentState(ApartmentState.STA);
-            DownLoad163_tengwu2.Start();
-
-            Thread DownLoad163_wufen = new Thread(new ThreadStart(DownLoad163ThreadDo_wufen));
-            DownLoad163_wufen.SetApartmentState(ApartmentState.STA);
-            DownLoad163_wufen.Start();
-
-            Thread DownLoad163_xiangjiang = new Thread(new ThreadStart(DownLoad163ThreadDo_xiangjiang));
-            DownLoad163_xiangjiang.SetApartmentState(ApartmentState.STA);
-            DownLoad163_xiangjiang.Start();
-
-
-            Thread DownLoad163_chongqing = new Thread(new ThreadStart(DownLoad163ThreadDo_chongqing));
-            DownLoad163_chongqing.SetApartmentState(ApartmentState.STA);
-            DownLoad163_chongqing.Start();
-
-            Thread DownLoad163_HeNeiWuFen = new Thread(new ThreadStart(DownLoad163ThreadDo_HeNeiWuFen));
-            DownLoad163_HeNeiWuFen.SetApartmentState(ApartmentState.STA);
-            DownLoad163_HeNeiWuFen.Start();
-
-
-
-
-            Thread CheckTimeSendThread = new Thread(new ThreadStart(CheckTimeSend));
-            CheckTimeSendThread.SetApartmentState(ApartmentState.STA);
-            CheckTimeSendThread.Start();
-
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
-            Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
-            tb_StartHour.Text = loadset.BlockStartHour.HasValue ? loadset.BlockStartHour.Value.ToString() : "";
-            tb_StartMinute.Text = loadset.BlockStartMinute.HasValue ? loadset.BlockStartMinute.Value.ToString() : "";
-            tb_EndHour.Text = loadset.BlockEndHour.HasValue ? loadset.BlockEndHour.Value.ToString() : "";
-            tb_EndMinute.Text = loadset.BlockEndMinute.HasValue ? loadset.BlockEndMinute.Value.ToString() : "";
-            tb_NoxPath.Text = loadset.NoxPath;
-            tb_LeidianPath.Text = loadset.LeiDianPath;
-            tb_leidiansharepath.Text = loadset.LeiDianSharePath;
-            tb_noxsharepath.Text = loadset.NoxSharePath;
-            cb_adbnoxmode.Checked = loadset.AdbNoxMode.HasValue ? loadset.AdbNoxMode.Value : false;
-            cb_adbleidianmode.Checked = loadset.AdbLeidianMode.HasValue ? loadset.AdbLeidianMode.Value : false;
-            cb_TwoTreeNotSingle.Checked = loadset.TwoTreeNotSingle.HasValue ? loadset.TwoTreeNotSingle.Value : false;
-
-            tb_liushuiratio.Text = loadset.LiuShuiRatio.HasValue ? loadset.LiuShuiRatio.Value.ToString("0.000") : "0.024";
-            tb_fuliratio.Text = loadset.FuliRatio.HasValue ? loadset.FuliRatio.Value.ToString("0.000") : "0.02";
-
-
-            T_AoZhouCai.Checked = loadset.Thread_AoZhouCai.HasValue ? loadset.Thread_AoZhouCai.Value : true;
-            T_VRChongQingShiShiCai.Checked = loadset.Thread_VRChongqing.HasValue ? loadset.Thread_VRChongqing.Value : true;
-            T_TengXunShiFen.Checked = loadset.Thread_TengXunShiFen.HasValue ? loadset.Thread_TengXunShiFen.Value : true;
-            T_TengXunWuFen.Checked = loadset.Thread_TengXunWuFen.HasValue ? loadset.Thread_TengXunWuFen.Value : true;
-            T_WuFenCai.Checked = loadset.Thread_WuFen.HasValue ? loadset.Thread_WuFen.Value : true;
-            T_XinJiangShiShiCai.Checked = loadset.Thread_XinJiangShiShiCai.HasValue ? loadset.Thread_XinJiangShiShiCai.Value : true;
-            T_chongqingshishicai.Checked = loadset.Thread_ChongQingShiShiCai.HasValue ? loadset.Thread_ChongQingShiShiCai.Value : true;
-
-            T_TengXunShiFenXin.Checked = loadset.Thread_TengXunShiFenXin.HasValue ? loadset.Thread_TengXunShiFenXin.Value : true;
-            T_TengXunWuFenXin.Checked = loadset.Thread_TengXunWuFenXin.HasValue ? loadset.Thread_TengXunWuFenXin.Value : true;
-
-            T_HeNeiWuFen.Checked = loadset.Thread_HeNeiWuFen.HasValue ? loadset.Thread_HeNeiWuFen.Value : true;
-
-
-            if (loadset.LeiDianPath == null)
-            {
-                loadset.LeiDianPath = "";
-            }
-            if (loadset.LeiDianSharePath == null)
-            {
-                loadset.LeiDianSharePath = "";
-            } if (loadset.NoxPath == null)
-            {
-                loadset.NoxPath = "";
-            } if (loadset.NoxSharePath == null)
-            {
-                loadset.NoxSharePath = "";
-            }
-            if (loadset.AdbNoxMode == null)
-            {
-                loadset.AdbNoxMode = false; ;
-            }
-            if (loadset.AdbLeidianMode == null)
-            {
-                loadset.AdbLeidianMode = false; ;
-            }
-            if (loadset.TwoTreeNotSingle == null)
-            {
-                loadset.TwoTreeNotSingle = false;
-            }
-            if (loadset.LiuShuiRatio == null)
-            {
-                loadset.LiuShuiRatio = 0.024M;
-            }
-            if (loadset.FuliRatio == null)
-            {
-                loadset.FuliRatio = 0.02M; ;
-            }
-
-            if (loadset.Thread_AoZhouCai == null)
-            {
-                loadset.Thread_AoZhouCai = true; ;
-            }
-
-            if (loadset.Thread_VRChongqing == null)
-            {
-                loadset.Thread_VRChongqing = true; ;
-            }
-            if (loadset.Thread_TengXunShiFen == null)
-            {
-                loadset.Thread_TengXunShiFen = true; ;
-            }
-            if (loadset.Thread_TengXunWuFen == null)
-            {
-                loadset.Thread_TengXunWuFen = true; ;
-            }
-            if (loadset.Thread_TengXunShiFenXin == null)
-            {
-                loadset.Thread_TengXunShiFenXin = true; ;
-            }
-            if (loadset.Thread_TengXunWuFenXin == null)
-            {
-                loadset.Thread_TengXunWuFenXin = true; ;
-            }
-            if (loadset.Thread_WuFen == null)
-            {
-                loadset.Thread_WuFen = true; ;
-            }
-            if (loadset.Thread_XinJiangShiShiCai == null)
-            {
-                loadset.Thread_XinJiangShiShiCai = true; ;
-            }
-            if (loadset.Thread_ChongQingShiShiCai == null)
-            {
-                loadset.Thread_ChongQingShiShiCai = true; ;
-            }
-            if (loadset.Thread_HeNeiWuFen == null)
-            {
-                loadset.Thread_HeNeiWuFen = true; ;
-            }
-
-            db.SubmitChanges();
-
-            gv_NoxEnums.DataSource = SourceNoxList;
-            gv_LeidianEnums.DataSource = SourceLeidianList;
-
-            #region 任务管理器
-            Process[] FindNoxList = Process.GetProcessesByName("nox");
-            if (FindNoxList.Length > 0)
-            {
-                tb_NoxPath.Text = FindNoxList[0].MainModule.FileName;
-                tb_NoxPath.Text = tb_NoxPath.Text.Substring(0, tb_NoxPath.Text.LastIndexOf("\\"));
-            }
-
-            Process[] FindLeiDianList = Process.GetProcessesByName("dnplayer");
-            if (FindLeiDianList.Length > 0)
-            {
-                tb_LeidianPath.Text = FindLeiDianList[0].MainModule.FileName;
-                tb_LeidianPath.Text = tb_LeidianPath.Text.Substring(0, tb_LeidianPath.Text.LastIndexOf("\\"));
-            }
-            #endregion
-
-
-
-
-            //if (loadset.AdbNoxMode == true && loadset.NoxPath != "")
-            //{
-            //    CmdRun(loadset.NoxPath, "adb.exe devices");
-            //}
-            //if (loadset.AdbLeidianMode == true && loadset.LeiDianPath != "")
-            //{
-            //    CmdRun(loadset.LeiDianPath, "adb.exe devices");
-            //}
+           
         }
 
         public string _uuid = "";
@@ -273,6 +83,8 @@ namespace WeixinRoboot
 
         public void SetMode(string Mode)
         {
+ Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                    db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             switch (Mode)
             {
                 case "Admin":
@@ -282,11 +94,9 @@ namespace WeixinRoboot
                     break;
                 case "EasyRobot":
                     PicBarCode_yixin.Visible = false;
-                    Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-                    db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                   
                     Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
-                    this.Invoke(new Action(() =>
-                    {
+                   
                         T_AoZhouCai.Checked = false;
                         T_chongqingshishicai.Checked = false;
                         T_TengXunShiFen.Checked = false;
@@ -295,6 +105,7 @@ namespace WeixinRoboot
                         T_TengXunWuFenXin.Checked = false;
                         T_WuFenCai.Checked = false;
                         T_XinJiangShiShiCai.Checked = false;
+                       
 
                         T_AoZhouCai.Visible = false;
                         T_chongqingshishicai.Visible = false;
@@ -304,16 +115,78 @@ namespace WeixinRoboot
                         T_TengXunWuFenXin.Visible = false;
                         T_WuFenCai.Visible = false;
                         T_XinJiangShiShiCai.Visible = false;
+                        T_HeNeiWuFen.Visible = false;
 
                         RunnerF.SetMode(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
 
-                    }));//控件设置结束
+                   
 
 
 
                     break;
                 default:
                     break;
+            }
+            //复制赔率和福利到本地
+
+            RobootWeb.WebService usrws = new RobootWeb.WebService();
+            if (db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey).Count() == 0)
+            {
+
+
+
+
+                Linq.Game_BasicRatio[] CopyRatio = (Linq.Game_BasicRatio[])JsonConvert.DeserializeObject(usrws.GetTemplateRatios(), typeof(Linq.Game_BasicRatio[]));
+
+                if (CopyRatio.Count() != 0)
+                {
+                    foreach (var item in CopyRatio)
+                    {
+                        Linq.Game_BasicRatio newr = new Linq.Game_BasicRatio();
+                        newr.aspnet_UserID = (GlobalParam.UserKey);
+                        newr.BasicRatio = item.BasicRatio;
+                        newr.BuyType = item.BuyType;
+                        newr.BuyValue = item.BuyValue;
+                        newr.GameType = item.GameType;
+                        newr.IncludeMin = item.IncludeMin;
+                        newr.MaxBuy = item.MaxBuy;
+                        newr.MinBuy = item.MinBuy;
+                        newr.BonusBuyValueCondition = item.BonusBuyValueCondition;
+                        newr.WX_SourceType = item.WX_SourceType;
+                        newr.Enable = item.Enable;
+
+
+                        newr.OrderIndex = item.OrderIndex;
+                        db.Game_BasicRatio.InsertOnSubmit(newr);
+                        db.SubmitChanges();
+                    }
+                }
+            }
+
+            if (db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey).Count() == 0)
+            {
+
+                Linq.WX_BounsConfig[] BounsConfig = (Linq.WX_BounsConfig[])JsonConvert.DeserializeObject(usrws.GetTemplateBonus(), typeof(Linq.WX_BounsConfig[]));
+
+                if (BounsConfig.Count() != 0)
+                {
+                    foreach (var item in BounsConfig)
+                    {
+                        Linq.WX_BounsConfig newr = new Linq.WX_BounsConfig();
+                        newr.aspnet_UserID = (GlobalParam.UserKey);
+                        newr.RowNumber = item.RowNumber;
+                        newr.StartBuyPeriod = item.StartBuyPeriod;
+                        newr.EndBuyPeriod = item.EndBuyPeriod;
+                        newr.StartBuyAverage = item.StartBuyAverage;
+                        newr.EndBuyAverage = item.EndBuyAverage;
+                        newr.FixNumber = item.FixNumber;
+                        newr.FlowPercent = item.FlowPercent;
+                        newr.IfDivousPercent = item.IfDivousPercent;
+
+                        db.WX_BounsConfig.InsertOnSubmit(newr);
+                        db.SubmitChanges();
+                    }
+                }
             }
 
         }
@@ -15284,6 +15157,208 @@ namespace WeixinRoboot
         private void cb_robotstop_CheckedChanged(object sender, EventArgs e)
         {
             RobotStop = cb_robotstop.Checked;
+        }
+        bool FirstShow = true;
+        private void StartForm_Shown(object sender, EventArgs e)
+        {
+            if (FirstShow)
+            {
+                 Thread DownLoad163_Vr = new Thread(new ThreadStart(DownLoad163ThreadDo_Vr));
+            DownLoad163_Vr.SetApartmentState(ApartmentState.STA);
+            DownLoad163_Vr.Start();
+
+            Thread DownLoad163_Aoz = new Thread(new ThreadStart(DownLoad163ThreadDo_Aoz));
+            DownLoad163_Aoz.SetApartmentState(ApartmentState.STA);
+            DownLoad163_Aoz.Start();
+
+            Thread DownLoad163_tengshi2 = new Thread(new ThreadStart(DownLoad163ThreadDo_tengshi_xin));
+            DownLoad163_tengshi2.SetApartmentState(ApartmentState.STA);
+            DownLoad163_tengshi2.Start();
+
+
+            Thread DownLoad163_tengshi = new Thread(new ThreadStart(DownLoad163ThreadDo_tengshi));
+            DownLoad163_tengshi.SetApartmentState(ApartmentState.STA);
+            DownLoad163_tengshi.Start();
+
+            Thread DownLoad163_tengwu = new Thread(new ThreadStart(DownLoad163ThreadDo_tengwu));
+            DownLoad163_tengwu.SetApartmentState(ApartmentState.STA);
+            DownLoad163_tengwu.Start();
+
+            Thread DownLoad163_tengwu2 = new Thread(new ThreadStart(DownLoad163ThreadDo_tengwu_xin));
+            DownLoad163_tengwu2.SetApartmentState(ApartmentState.STA);
+            DownLoad163_tengwu2.Start();
+
+            Thread DownLoad163_wufen = new Thread(new ThreadStart(DownLoad163ThreadDo_wufen));
+            DownLoad163_wufen.SetApartmentState(ApartmentState.STA);
+            DownLoad163_wufen.Start();
+
+            Thread DownLoad163_xiangjiang = new Thread(new ThreadStart(DownLoad163ThreadDo_xiangjiang));
+            DownLoad163_xiangjiang.SetApartmentState(ApartmentState.STA);
+            DownLoad163_xiangjiang.Start();
+
+
+            Thread DownLoad163_chongqing = new Thread(new ThreadStart(DownLoad163ThreadDo_chongqing));
+            DownLoad163_chongqing.SetApartmentState(ApartmentState.STA);
+            DownLoad163_chongqing.Start();
+
+            Thread DownLoad163_HeNeiWuFen = new Thread(new ThreadStart(DownLoad163ThreadDo_HeNeiWuFen));
+            DownLoad163_HeNeiWuFen.SetApartmentState(ApartmentState.STA);
+            DownLoad163_HeNeiWuFen.Start();
+
+
+
+
+            Thread CheckTimeSendThread = new Thread(new ThreadStart(CheckTimeSend));
+            CheckTimeSendThread.SetApartmentState(ApartmentState.STA);
+            CheckTimeSendThread.Start();
+
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+
+            Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
+            tb_StartHour.Text = loadset.BlockStartHour.HasValue ? loadset.BlockStartHour.Value.ToString() : "";
+            tb_StartMinute.Text = loadset.BlockStartMinute.HasValue ? loadset.BlockStartMinute.Value.ToString() : "";
+            tb_EndHour.Text = loadset.BlockEndHour.HasValue ? loadset.BlockEndHour.Value.ToString() : "";
+            tb_EndMinute.Text = loadset.BlockEndMinute.HasValue ? loadset.BlockEndMinute.Value.ToString() : "";
+            tb_NoxPath.Text = loadset.NoxPath;
+            tb_LeidianPath.Text = loadset.LeiDianPath;
+            tb_leidiansharepath.Text = loadset.LeiDianSharePath;
+            tb_noxsharepath.Text = loadset.NoxSharePath;
+            cb_adbnoxmode.Checked = loadset.AdbNoxMode.HasValue ? loadset.AdbNoxMode.Value : false;
+            cb_adbleidianmode.Checked = loadset.AdbLeidianMode.HasValue ? loadset.AdbLeidianMode.Value : false;
+            cb_TwoTreeNotSingle.Checked = loadset.TwoTreeNotSingle.HasValue ? loadset.TwoTreeNotSingle.Value : false;
+
+            tb_liushuiratio.Text = loadset.LiuShuiRatio.HasValue ? loadset.LiuShuiRatio.Value.ToString("0.000") : "0.024";
+            tb_fuliratio.Text = loadset.FuliRatio.HasValue ? loadset.FuliRatio.Value.ToString("0.000") : "0.02";
+
+
+            T_AoZhouCai.Checked = loadset.Thread_AoZhouCai.HasValue ? loadset.Thread_AoZhouCai.Value : true;
+            T_VRChongQingShiShiCai.Checked = loadset.Thread_VRChongqing.HasValue ? loadset.Thread_VRChongqing.Value : true;
+            T_TengXunShiFen.Checked = loadset.Thread_TengXunShiFen.HasValue ? loadset.Thread_TengXunShiFen.Value : true;
+            T_TengXunWuFen.Checked = loadset.Thread_TengXunWuFen.HasValue ? loadset.Thread_TengXunWuFen.Value : true;
+            T_WuFenCai.Checked = loadset.Thread_WuFen.HasValue ? loadset.Thread_WuFen.Value : true;
+            T_XinJiangShiShiCai.Checked = loadset.Thread_XinJiangShiShiCai.HasValue ? loadset.Thread_XinJiangShiShiCai.Value : true;
+            T_chongqingshishicai.Checked = loadset.Thread_ChongQingShiShiCai.HasValue ? loadset.Thread_ChongQingShiShiCai.Value : true;
+
+            T_TengXunShiFenXin.Checked = loadset.Thread_TengXunShiFenXin.HasValue ? loadset.Thread_TengXunShiFenXin.Value : true;
+            T_TengXunWuFenXin.Checked = loadset.Thread_TengXunWuFenXin.HasValue ? loadset.Thread_TengXunWuFenXin.Value : true;
+
+            T_HeNeiWuFen.Checked = loadset.Thread_HeNeiWuFen.HasValue ? loadset.Thread_HeNeiWuFen.Value : true;
+
+
+            if (loadset.LeiDianPath == null)
+            {
+                loadset.LeiDianPath = "";
+            }
+            if (loadset.LeiDianSharePath == null)
+            {
+                loadset.LeiDianSharePath = "";
+            } if (loadset.NoxPath == null)
+            {
+                loadset.NoxPath = "";
+            } if (loadset.NoxSharePath == null)
+            {
+                loadset.NoxSharePath = "";
+            }
+            if (loadset.AdbNoxMode == null)
+            {
+                loadset.AdbNoxMode = false; ;
+            }
+            if (loadset.AdbLeidianMode == null)
+            {
+                loadset.AdbLeidianMode = false; ;
+            }
+            if (loadset.TwoTreeNotSingle == null)
+            {
+                loadset.TwoTreeNotSingle = false;
+            }
+            if (loadset.LiuShuiRatio == null)
+            {
+                loadset.LiuShuiRatio = 0.024M;
+            }
+            if (loadset.FuliRatio == null)
+            {
+                loadset.FuliRatio = 0.02M; ;
+            }
+
+            if (loadset.Thread_AoZhouCai == null)
+            {
+                loadset.Thread_AoZhouCai = true; ;
+            }
+
+            if (loadset.Thread_VRChongqing == null)
+            {
+                loadset.Thread_VRChongqing = true; ;
+            }
+            if (loadset.Thread_TengXunShiFen == null)
+            {
+                loadset.Thread_TengXunShiFen = true; ;
+            }
+            if (loadset.Thread_TengXunWuFen == null)
+            {
+                loadset.Thread_TengXunWuFen = true; ;
+            }
+            if (loadset.Thread_TengXunShiFenXin == null)
+            {
+                loadset.Thread_TengXunShiFenXin = true; ;
+            }
+            if (loadset.Thread_TengXunWuFenXin == null)
+            {
+                loadset.Thread_TengXunWuFenXin = true; ;
+            }
+            if (loadset.Thread_WuFen == null)
+            {
+                loadset.Thread_WuFen = true; ;
+            }
+            if (loadset.Thread_XinJiangShiShiCai == null)
+            {
+                loadset.Thread_XinJiangShiShiCai = true; ;
+            }
+            if (loadset.Thread_ChongQingShiShiCai == null)
+            {
+                loadset.Thread_ChongQingShiShiCai = true; ;
+            }
+            if (loadset.Thread_HeNeiWuFen == null)
+            {
+                loadset.Thread_HeNeiWuFen = true; ;
+            }
+
+            db.SubmitChanges();
+
+            gv_NoxEnums.DataSource = SourceNoxList;
+            gv_LeidianEnums.DataSource = SourceLeidianList;
+
+            #region 任务管理器
+            Process[] FindNoxList = Process.GetProcessesByName("nox");
+            if (FindNoxList.Length > 0)
+            {
+                tb_NoxPath.Text = FindNoxList[0].MainModule.FileName;
+                tb_NoxPath.Text = tb_NoxPath.Text.Substring(0, tb_NoxPath.Text.LastIndexOf("\\"));
+            }
+
+            Process[] FindLeiDianList = Process.GetProcessesByName("dnplayer");
+            if (FindLeiDianList.Length > 0)
+            {
+                tb_LeidianPath.Text = FindLeiDianList[0].MainModule.FileName;
+                tb_LeidianPath.Text = tb_LeidianPath.Text.Substring(0, tb_LeidianPath.Text.LastIndexOf("\\"));
+            }
+            #endregion
+
+
+
+
+            //if (loadset.AdbNoxMode == true && loadset.NoxPath != "")
+            //{
+            //    CmdRun(loadset.NoxPath, "adb.exe devices");
+            //}
+            //if (loadset.AdbLeidianMode == true && loadset.LeiDianPath != "")
+            //{
+            //    CmdRun(loadset.LeiDianPath, "adb.exe devices");
+            //}
+
+            }//第一次显示
+            FirstShow = false;
+
         }
 
 
