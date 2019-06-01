@@ -22,7 +22,7 @@ namespace WeixinRoboot
             cb_datasource.SelectedItem = "远程服务器";
         }
 
-        void Login_OnLoginSuccess(string UserName)
+        void Login_OnLoginSuccess(string UserName,string GameMode)
         {
             this.Hide();
 
@@ -80,7 +80,7 @@ namespace WeixinRoboot
                     GlobalParam.UserName = tb_UserName.Text;
                     GlobalParam.LogInSuccess = true;
                     GlobalParam.Password = tb_pwd.Text;
-                                     OnLoginSuccess(tb_UserName.Text);
+                    OnLoginSuccess(tb_UserName.Text, CB_GameType.SelectedItem == null ? "" : CB_GameType.SelectedItem.ToString());
                 }
                 else if (Success.Value == false)
                 {
@@ -96,7 +96,7 @@ namespace WeixinRoboot
             #endregion
 
         }
-        public delegate void LoginSuccess(string UserName);
+        public delegate void LoginSuccess(string UserName,string GameMode);
         public event LoginSuccess OnLoginSuccess;
 
         private void btn_Cancel_Click(object sender, EventArgs e)
@@ -112,12 +112,16 @@ namespace WeixinRoboot
             {
                 case "本机":
                     GlobalParam.DataSourceName = "LocalSqlServer";
+                    CB_GameType.Visible = false;
                     break;
                 case "远程服务器":
                     GlobalParam.DataSourceName = "RemoteSqlServer";
+                    CB_GameType.Visible = false;
                     break;
                 case "迷你本机":
                     GlobalParam.DataSourceName = "Express";
+                    CB_GameType.Visible = true;
+                    CB_GameType.SelectedItem = "VR";
                     break;
                 default:
                     break;

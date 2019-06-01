@@ -176,7 +176,7 @@ namespace WeixinRoboot
             }
         }
         static LoginForm loginf = null;
-        static void loginf_OnLoginSuccess(string UserName)
+        static void loginf_OnLoginSuccess(string UserName,string GameMode)
         {
             loginf.Hide();
             #region
@@ -212,17 +212,14 @@ namespace WeixinRoboot
 
             if (UserName=="sysadmin")
             {
-                sf.SetMode("Admin");
+                sf.SetMode("Admin","");
 
             }
             else
             {
-                sf.SetMode("User");
+                sf.SetMode("User","");
             }
-            if (GlobalParam.DataSourceName=="Express")
-            {
-                 sf.SetMode("EasyRobot");
-            }
+            sf.SetMode("EasyRobot",GameMode);
             sf.Show();
         }
     }
