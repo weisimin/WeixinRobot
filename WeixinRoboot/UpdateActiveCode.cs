@@ -20,9 +20,7 @@ namespace WeixinRoboot
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+           
             Linq.aspnet_UsersNewGameResultSend updatecode = Linq.Util_Services.GetServicesSetting();
             updatecode.ActiveCode = fd_activecode.Text;
             RobootWeb.WebService ws = new RobootWeb.WebService();

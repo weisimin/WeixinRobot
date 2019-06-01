@@ -37,6 +37,8 @@ namespace WeixinRoboot.RobotWebAdmin {
         
         private System.Threading.SendOrPostCallback GetUserInfoOperationCompleted;
         
+        private System.Threading.SendOrPostCallback BuidMD5ActiveCodeOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -86,6 +88,9 @@ namespace WeixinRoboot.RobotWebAdmin {
         
         /// <remarks/>
         public event GetUserInfoCompletedEventHandler GetUserInfoCompleted;
+        
+        /// <remarks/>
+        public event BuidMD5ActiveCodeCompletedEventHandler BuidMD5ActiveCodeCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetAllUsers", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -206,6 +211,37 @@ namespace WeixinRoboot.RobotWebAdmin {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/BuidMD5ActiveCode", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string BuidMD5ActiveCode(System.DateTime EndDate, System.Guid MyGuid) {
+            object[] results = this.Invoke("BuidMD5ActiveCode", new object[] {
+                        EndDate,
+                        MyGuid});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void BuidMD5ActiveCodeAsync(System.DateTime EndDate, System.Guid MyGuid) {
+            this.BuidMD5ActiveCodeAsync(EndDate, MyGuid, null);
+        }
+        
+        /// <remarks/>
+        public void BuidMD5ActiveCodeAsync(System.DateTime EndDate, System.Guid MyGuid, object userState) {
+            if ((this.BuidMD5ActiveCodeOperationCompleted == null)) {
+                this.BuidMD5ActiveCodeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBuidMD5ActiveCodeOperationCompleted);
+            }
+            this.InvokeAsync("BuidMD5ActiveCode", new object[] {
+                        EndDate,
+                        MyGuid}, this.BuidMD5ActiveCodeOperationCompleted, userState);
+        }
+        
+        private void OnBuidMD5ActiveCodeOperationCompleted(object arg) {
+            if ((this.BuidMD5ActiveCodeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.BuidMD5ActiveCodeCompleted(this, new BuidMD5ActiveCodeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -315,6 +351,32 @@ namespace WeixinRoboot.RobotWebAdmin {
         private object[] results;
         
         internal GetUserInfoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void BuidMD5ActiveCodeCompletedEventHandler(object sender, BuidMD5ActiveCodeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class BuidMD5ActiveCodeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal BuidMD5ActiveCodeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

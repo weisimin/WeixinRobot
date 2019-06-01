@@ -4745,8 +4745,8 @@ namespace WeixinRoboot.Linq
                         DataTable Fulls = BuildOpenQueryTable(dt_From.Value, dt_To.Value, item);
                         foreach (DataRow rowitem in Fulls.Rows)
                         {
-                            Result += usr.UserName + ":"
-                                + ObjectToString(rowitem.Field<object>("类别"))
+                            Result += //usr.UserName + ":"
+                                 ObjectToString(rowitem.Field<object>("类别"))
                                  + ObjectToString(rowitem.Field<object>("全部玩家")) + Environment.NewLine;
 
                         }

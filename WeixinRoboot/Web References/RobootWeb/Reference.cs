@@ -43,6 +43,10 @@ namespace WeixinRoboot.RobootWeb {
         
         private System.Threading.SendOrPostCallback GetUserInfoOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetTemplateRatiosOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetTemplateBonusOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -101,6 +105,12 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         public event GetUserInfoCompletedEventHandler GetUserInfoCompleted;
+        
+        /// <remarks/>
+        public event GetTemplateRatiosCompletedEventHandler GetTemplateRatiosCompleted;
+        
+        /// <remarks/>
+        public event GetTemplateBonusCompletedEventHandler GetTemplateBonusCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogIn", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -315,6 +325,60 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetTemplateRatios", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetTemplateRatios() {
+            object[] results = this.Invoke("GetTemplateRatios", new object[0]);
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetTemplateRatiosAsync() {
+            this.GetTemplateRatiosAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetTemplateRatiosAsync(object userState) {
+            if ((this.GetTemplateRatiosOperationCompleted == null)) {
+                this.GetTemplateRatiosOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetTemplateRatiosOperationCompleted);
+            }
+            this.InvokeAsync("GetTemplateRatios", new object[0], this.GetTemplateRatiosOperationCompleted, userState);
+        }
+        
+        private void OnGetTemplateRatiosOperationCompleted(object arg) {
+            if ((this.GetTemplateRatiosCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetTemplateRatiosCompleted(this, new GetTemplateRatiosCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetTemplateBonus", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetTemplateBonus() {
+            object[] results = this.Invoke("GetTemplateBonus", new object[0]);
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetTemplateBonusAsync() {
+            this.GetTemplateBonusAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetTemplateBonusAsync(object userState) {
+            if ((this.GetTemplateBonusOperationCompleted == null)) {
+                this.GetTemplateBonusOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetTemplateBonusOperationCompleted);
+            }
+            this.InvokeAsync("GetTemplateBonus", new object[0], this.GetTemplateBonusOperationCompleted, userState);
+        }
+        
+        private void OnGetTemplateBonusOperationCompleted(object arg) {
+            if ((this.GetTemplateBonusCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetTemplateBonusCompleted(this, new GetTemplateBonusCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -480,6 +544,58 @@ namespace WeixinRoboot.RobootWeb {
         private object[] results;
         
         internal GetUserInfoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void GetTemplateRatiosCompletedEventHandler(object sender, GetTemplateRatiosCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetTemplateRatiosCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetTemplateRatiosCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void GetTemplateBonusCompletedEventHandler(object sender, GetTemplateBonusCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetTemplateBonusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetTemplateBonusCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

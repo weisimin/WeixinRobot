@@ -219,6 +219,10 @@ namespace WeixinRoboot
             {
                 sf.SetMode("User");
             }
+            if (GlobalParam.DataSourceName=="Express")
+            {
+                 sf.SetMode("EasyRobot");
+            }
             sf.Show();
         }
     }

@@ -1219,7 +1219,7 @@ namespace WeixinRoboot
             }
         }
 
-        private void SetMode(Linq.ProgramLogic.ShiShiCaiMode Mode)
+        public void SetMode(Linq.ProgramLogic.ShiShiCaiMode Mode)
         {
             switch (Mode)
             {

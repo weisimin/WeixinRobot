@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://13828081978.zicp.vip/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://13828081978.zicp.vip/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://13828081978.zicp.vip/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://13828081978.zicp.vip/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://13828081978.zicp.vip/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
       <s:element name="GetAllUsers">
         <s:complexType />
       </s:element>
@@ -56,6 +57,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="BuidMD5ActiveCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="EndDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="MyGuid" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuidMD5ActiveCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuidMD5ActiveCodeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetAllUsersSoapIn">
@@ -82,6 +105,12 @@
   <wsdl:message name="GetUserInfoSoapOut">
     <wsdl:part name="parameters" element="tns:GetUserInfoResponse" />
   </wsdl:message>
+  <wsdl:message name="BuidMD5ActiveCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:BuidMD5ActiveCode" />
+  </wsdl:message>
+  <wsdl:message name="BuidMD5ActiveCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:BuidMD5ActiveCodeResponse" />
+  </wsdl:message>
   <wsdl:portType name="SysadminServicesSoap">
     <wsdl:operation name="GetAllUsers">
       <wsdl:input message="tns:GetAllUsersSoapIn" />
@@ -98,6 +127,10 @@
     <wsdl:operation name="GetUserInfo">
       <wsdl:input message="tns:GetUserInfoSoapIn" />
       <wsdl:output message="tns:GetUserInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuidMD5ActiveCode">
+      <wsdl:input message="tns:BuidMD5ActiveCodeSoapIn" />
+      <wsdl:output message="tns:BuidMD5ActiveCodeSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="SysadminServicesSoap" type="tns:SysadminServicesSoap">
@@ -138,6 +171,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="BuidMD5ActiveCode">
+      <soap:operation soapAction="http://13828081978.zicp.vip/BuidMD5ActiveCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="SysadminServicesSoap12" type="tns:SysadminServicesSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -170,6 +212,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetUserInfo">
       <soap12:operation soapAction="http://13828081978.zicp.vip/GetUserInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuidMD5ActiveCode">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/BuidMD5ActiveCode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

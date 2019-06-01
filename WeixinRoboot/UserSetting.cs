@@ -28,12 +28,12 @@ namespace WeixinRoboot
             RobootWeb.WebService usrws = new RobootWeb.WebService();
             if (fd_BossUserName.Text != "")
             {
-                 string checkbossid = Membership.GetUser(fd_BossUserName.Text);
-                if (checkboss == null)
-                {
-                    ep_wf.SetError(fd_BossUserName, "老板号找不到");
-                    return;
-                }
+                //string checkbossid = Membership.GetUser(fd_BossUserName.Text);
+                //if (checkboss == null)
+                //{
+                //    ep_wf.SetError(fd_BossUserName, "老板号找不到");
+                //    return;
+               // }
             }
 
             switch (_Mode)
@@ -41,9 +41,9 @@ namespace WeixinRoboot
                 case "New":
                     try
                     {
-                       JObject  usr = adws.CreateUser(fd_username.Text, fd_password.Text);
+                       JObject  usr = JObject.Parse( adws.CreateUser(fd_username.Text, fd_password.Text));
                         Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
-                        newGameResultSend.aspnet_UserID = Guid.Parse(adws.GetUserIDByName(fd_username.Text)) ;
+                        newGameResultSend.aspnet_UserID = Guid.Parse(usr["ProviderUserKey"].ToString()) ;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
 
                         newGameResultSend.IsBlock = Fd_IsBlock.Checked;
@@ -65,7 +65,7 @@ namespace WeixinRoboot
                         newGameResultSend.BlockEndMinute = 9;
 
                         //MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
-                        newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
+                        //newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                         newGameResultSend.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
                         newGameResultSend.SendImageEnd = Convert.ToInt32(fd_SendTimeEnd1.Text);
@@ -86,20 +86,14 @@ namespace WeixinRoboot
 
 
                         Linq.Util_Services.SaveServicesSetting(newGameResultSend);
-
-                        Guid CopySourceID = Guid.Empty; // System.Web.Security.Membership.GetUser("sysadmin");
-
-
-
-
-                        var CopyRatio = db.Game_BasicRatio.Where(t => t.aspnet_UserID == guid);
+                        Linq.Game_BasicRatio[] CopyRatio = (Linq.Game_BasicRatio[])JsonConvert.DeserializeObject(usrws.GetTemplateRatios());
 
                         if (CopyRatio.Count() != 0)
                         {
                             foreach (var item in CopyRatio)
                             {
                                 Linq.Game_BasicRatio newr = new Linq.Game_BasicRatio();
-                                newr.aspnet_UserID = (Guid)usr.ProviderUserKey;
+                                newr.aspnet_UserID = Guid.Parse(usr["ProviderUserKey"].ToString());
                                 newr.BasicRatio = item.BasicRatio;
                                 newr.BuyType = item.BuyType;
                                 newr.BuyValue = item.BuyValue;
@@ -119,14 +113,14 @@ namespace WeixinRoboot
                         }
 
 
-                        var BounsConfig = db.WX_BounsConfig.Where(t => t.aspnet_UserID == (sysadmin == null ? Guid.Empty : (Guid)sysadmin.ProviderUserKey));
+                        Linq.WX_BounsConfig[] BounsConfig = (Linq.WX_BounsConfig[])JsonConvert.DeserializeObject(usrws.GetTemplateBonus());
 
                         if (BounsConfig.Count() != 0)
                         {
                             foreach (var item in BounsConfig)
                             {
                                 Linq.WX_BounsConfig newr = new Linq.WX_BounsConfig();
-                                newr.aspnet_UserID = (Guid)usr.ProviderUserKey;
+                                newr.aspnet_UserID = Guid.Parse(usr["ProviderUserKey"].ToString());
                                 newr.RowNumber = item.RowNumber;
                                 newr.StartBuyPeriod = item.StartBuyPeriod;
                                 newr.EndBuyPeriod = item.EndBuyPeriod;
@@ -181,11 +175,11 @@ namespace WeixinRoboot
                         }
 
                         #region 开奖立即发送设置
-                        Linq.aspnet_UsersNewGameResultSend finds = Linq.Util_Services.GetServicesSetting(Guid.Parse(userguid));
+                        Linq.aspnet_UsersNewGameResultSend finds = Linq.Util_Services.GetServicesSetting(Guid.Parse(juser["ProviderUserKey"].ToString()));
                         if (finds == null)
                         {
                             Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
-                            newGameResultSend.aspnet_UserID = Guid.Parse(userguid); //(Guid)userguid.ProviderUserKey;
+                            newGameResultSend.aspnet_UserID = Guid.Parse(juser["ProviderUserKey"].ToString()); //(Guid)userguid.ProviderUserKey;
                             newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
                             newGameResultSend.ActiveCode = fd_activecode.Text;
                             newGameResultSend.IsBlock = Fd_IsBlock.Checked;
@@ -193,7 +187,7 @@ namespace WeixinRoboot
                             newGameResultSend.IsReceiveOrder = FD_ReceiveOrder.Checked;
                             newGameResultSend.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
                             //MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
-                            newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
+                            //newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                             newGameResultSend.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
                             newGameResultSend.SendImageEnd = Convert.ToInt32(fd_SendTimeEnd1.Text);
@@ -233,7 +227,7 @@ namespace WeixinRoboot
                             finds.IsReceiveOrder = FD_ReceiveOrder.Checked;
                             finds.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
                             //MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
-                            finds.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
+                            //finds.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                             finds.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
                             finds.SendImageEnd = Convert.ToInt32(fd_SendTimeEnd1.Text);
@@ -280,14 +274,14 @@ namespace WeixinRoboot
                     {
                         //string NewPassword = usermydata.ResetPassword();
                         //usermydata.ChangePassword(NewPassword, fd_password.Text);
-                        userws.get
+                        usrws.ChangePassword(GlobalParam.UserKey, fd_password.Text);
                     }
                    // System.Web.Security.Membership.UpdateUser(usermydata);
-                    Linq.aspnet_UsersNewGameResultSend findsmydata = Linq.Util_Services.GetServicesSetting((Guid)usermydata.ProviderUserKey);
+                    Linq.aspnet_UsersNewGameResultSend findsmydata = Linq.Util_Services.GetServicesSetting(GlobalParam.UserKey);
                     if (findsmydata == null)
                     {
                         Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
-                        newGameResultSend.aspnet_UserID = (Guid)usermydata.ProviderUserKey;
+                        newGameResultSend.aspnet_UserID = GlobalParam.UserKey;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
                         newGameResultSend.ActiveCode = fd_activecode.Text;
                         newGameResultSend.IsBlock = Fd_IsBlock.Checked;
@@ -295,7 +289,7 @@ namespace WeixinRoboot
                         newGameResultSend.IsReceiveOrder = FD_ReceiveOrder.Checked;
                         newGameResultSend.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
                         //MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
-                        newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
+                        //newGameResultSend.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                         newGameResultSend.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
                         newGameResultSend.SendImageEnd = Convert.ToInt32(fd_SendTimeEnd1.Text);
@@ -332,7 +326,7 @@ namespace WeixinRoboot
                         findsmydata.MaxPlayerCount = Convert.ToInt32(fd_MaxPlayerCount.Text);
                         findsmydata.ActiveCode = fd_activecode.Text;
                         //MembershipUser boss = Membership.GetUser(fd_BossUserName.Text);
-                        findsmydata.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
+                        //findsmydata.bossaspnet_UserID = (boss == null ? Guid.Empty : (Guid)boss.ProviderUserKey);
 
                         findsmydata.SendImageStart = Convert.ToInt32(fd_SendTimeStart1.Text);
                         findsmydata.SendImageEnd = Convert.ToInt32(fd_SendTimeEnd1.Text);
@@ -430,7 +424,17 @@ namespace WeixinRoboot
             RobootWeb.WebService usrws = new RobootWeb.WebService();
             try
             {
-                Newtonsoft.Json.Linq.JObject Juser = Newtonsoft.Json.Linq.JObject.Parse( adws.GetUserInfo(fd_username.Text));
+                Newtonsoft.Json.Linq.JObject Juser = null;
+                if (_Mode == "MyData")
+                {
+                    Juser = Newtonsoft.Json.Linq.JObject.Parse(usrws.GetUserInfo(GlobalParam.UserKey));
+                }
+                else
+                { 
+               Juser=  Newtonsoft.Json.Linq.JObject.Parse( adws.GetUserInfo(fd_username.Text));
+                }
+                   
+               
                 if (Juser != null)
                 {
                     fd_password.Enabled = true;
@@ -464,7 +468,7 @@ namespace WeixinRoboot
                         fd_NewGameSend.Checked = newgs.IsNewSend.HasValue ? newgs.IsNewSend.Value : false;
                         fd_activecode.Text = newgs.ActiveCode;
                         DateTime? LastDate = null;
-                        NetFramework.Util_MD5.MD5Success(newgs.ActiveCode, out LastDate, (Guid)Membership.GetUser(fd_username.Text).ProviderUserKey);
+                        NetFramework.Util_MD5.MD5Success(newgs.ActiveCode, out LastDate, newgs.aspnet_UserID);
                         fd_EndDate.Value = LastDate.HasValue ? LastDate.Value : fd_EndDate.MinDate;
 
 
@@ -473,7 +477,7 @@ namespace WeixinRoboot
                         FD_ReceiveOrder.Checked = newgs.IsReceiveOrder.HasValue ? newgs.IsReceiveOrder.Value : false; ;
                         fd_MaxPlayerCount.Text = newgs.MaxPlayerCount.HasValue ? newgs.MaxPlayerCount.ToString() : "50";
                         //System.Web.Security.MembershipUser boss = System.Web.Security.Membership.GetUser(newgs.bossaspnet_UserID == null ? Guid.Empty : newgs.bossaspnet_UserID);
-                        fd_BossUserName.Text = (boss == null ? "" : boss.UserName);
+                        //fd_BossUserName.Text = (boss == null ? "" : boss.UserName);
 
                         fd_SendTimeStart1.Text = Object2Str(newgs.SendImageStart, "0");
                         fd_SendTimeEnd1.Text = Object2Str(newgs.SendImageEnd, "24");
@@ -539,7 +543,10 @@ namespace WeixinRoboot
 
         private void Btn_Build_Click(object sender, EventArgs e)
         {
-            fd_activecode.Text = NetFramework.Util_MD5.BuidMD5ActiveCode(fd_EndDate.Value, (Guid)Membership.GetUser(fd_username.Text).ProviderUserKey);
+            RobotWebAdmin.SysadminServices adws = new RobotWebAdmin.SysadminServices();
+            adws.CookieContainer = new System.Net.CookieContainer();
+           JObject Juser=  JObject.Parse( adws.GetUserInfo(fd_username.Text));
+           fd_activecode.Text = adws.BuidMD5ActiveCode(fd_EndDate.Value, Guid.Parse(Juser["ProviderUserKey"].ToString()));
         }
 
         private string Object2Str(object param, string NullValue = "")

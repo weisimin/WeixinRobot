@@ -990,13 +990,7 @@ namespace NetFramework
             }
         }
 
-        public static string BuidMD5ActiveCode(DateTime EndDate, Guid MyGuid)
-        {
-            string ToConvert = MyGuid.ToString() + EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            ToConvert = GetStrMd5X2(ToConvert) + ToConvert;
-            byte[] bs = Encoding.UTF8.GetBytes(ToConvert);
-            return Convert.ToBase64String(bs);
-        }
+       
     }
 
     public class Util_Math

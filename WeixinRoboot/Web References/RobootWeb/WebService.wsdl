@@ -107,6 +107,26 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetTemplateRatios">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTemplateRatiosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTemplateRatiosResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTemplateBonus">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTemplateBonusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTemplateBonusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -158,6 +178,18 @@
   <wsdl:message name="GetUserInfoSoapOut">
     <wsdl:part name="parameters" element="tns:GetUserInfoResponse" />
   </wsdl:message>
+  <wsdl:message name="GetTemplateRatiosSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTemplateRatios" />
+  </wsdl:message>
+  <wsdl:message name="GetTemplateRatiosSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTemplateRatiosResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTemplateBonusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTemplateBonus" />
+  </wsdl:message>
+  <wsdl:message name="GetTemplateBonusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTemplateBonusResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceSoap">
     <wsdl:operation name="UserLogIn">
       <wsdl:input message="tns:UserLogInSoapIn" />
@@ -186,6 +218,14 @@
     <wsdl:operation name="GetUserInfo">
       <wsdl:input message="tns:GetUserInfoSoapIn" />
       <wsdl:output message="tns:GetUserInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateRatios">
+      <wsdl:input message="tns:GetTemplateRatiosSoapIn" />
+      <wsdl:output message="tns:GetTemplateRatiosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateBonus">
+      <wsdl:input message="tns:GetTemplateBonusSoapIn" />
+      <wsdl:output message="tns:GetTemplateBonusSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
@@ -253,6 +293,24 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetTemplateRatios">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetTemplateRatios" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateBonus">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetTemplateBonus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -312,6 +370,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetUserInfo">
       <soap12:operation soapAction="http://13828081978.zicp.vip/GetUserInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateRatios">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetTemplateRatios" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateBonus">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetTemplateBonus" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

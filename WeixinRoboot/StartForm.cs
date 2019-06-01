@@ -305,6 +305,7 @@ namespace WeixinRoboot
                         T_WuFenCai.Visible = false;
                         T_XinJiangShiShiCai.Visible = false;
 
+                        RunnerF.SetMode(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
 
                     }));//控件设置结束
 
