@@ -224,4 +224,20 @@ public class WebService : System.Web.Services.WebService
         MembershipUser usr = System.Web.Security.Membership.GetUser(UserID);
         return JsonConvert.SerializeObject(usr);
     }
+    [WebMethod]
+    public string GetTemplateRatios()
+    {
+        Guid CopySourceID =(Guid) System.Web.Security.Membership.GetUser("sysadmin").ProviderUserKey;
+        dbDataContext db = new dbDataContext("LocalSqlServer");
+        var CopyRatio = db.Game_BasicRatio.Where(t => t.aspnet_UserID == CopySourceID);
+        return JsonConvert.SerializeObject(CopyRatio);
+    }
+    [WebMethod]
+    public string GetTemplateBonus()
+    {
+        Guid CopySourceID = (Guid)System.Web.Security.Membership.GetUser("sysadmin").ProviderUserKey;
+        dbDataContext db = new dbDataContext("LocalSqlServer");
+        var CopyRatio = db.WX_BounsConfig.Where(t => t.aspnet_UserID == CopySourceID);
+        return JsonConvert.SerializeObject(CopyRatio);
+    }
 }

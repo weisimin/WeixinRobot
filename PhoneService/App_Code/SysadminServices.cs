@@ -7,6 +7,7 @@ using System.Web.Security;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Data;
+using System.Text;
 /// <summary>
 /// SysadminServices 的摘要说明
 /// </summary>
@@ -70,5 +71,19 @@ public class SysadminServices : System.Web.Services.WebService
         MembershipUser usr = System.Web.Security.Membership.GetUser(UserName);
         return JsonConvert.SerializeObject(usr);
     }
-
+    [WebMethod]
+    public  string BuidMD5ActiveCode(DateTime EndDate, Guid MyGuid)
+    {
+        string ToConvert = MyGuid.ToString() + EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        ToConvert = GetStrMd5X2(ToConvert) + ToConvert;
+        byte[] bs = Encoding.UTF8.GetBytes(ToConvert);
+        return Convert.ToBase64String(bs);
+    }
+    public static string GetStrMd5X2(string ConvertString)
+    {
+        System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+        string t2 = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(ConvertString)));
+        t2 = t2.Replace("-", "");
+        return t2;
+    }
 }

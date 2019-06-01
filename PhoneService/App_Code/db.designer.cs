@@ -21,7 +21,7 @@ using System.Reflection;
 
 
 
-[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="WeixinRoboot")]
+[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="Weixinroboot")]
 public partial class dbDataContext : System.Data.Linq.DataContext
 {
 	
@@ -44,9 +44,20 @@ public partial class dbDataContext : System.Data.Linq.DataContext
   partial void Insertaspnet_Membership(aspnet_Membership instance);
   partial void Updateaspnet_Membership(aspnet_Membership instance);
   partial void Deleteaspnet_Membership(aspnet_Membership instance);
+  partial void InsertGame_BasicRatio(Game_BasicRatio instance);
+  partial void UpdateGame_BasicRatio(Game_BasicRatio instance);
+  partial void DeleteGame_BasicRatio(Game_BasicRatio instance);
+  partial void InsertWX_BounsConfig(WX_BounsConfig instance);
+  partial void UpdateWX_BounsConfig(WX_BounsConfig instance);
+  partial void DeleteWX_BounsConfig(WX_BounsConfig instance);
   #endregion
 	
-
+	public dbDataContext() : 
+			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["WeixinrobootConnectionString"].ConnectionString, mappingSource)
+	{
+		OnCreated();
+	}
+	
 	public dbDataContext(string connection) : 
 			base(connection, mappingSource)
 	{
@@ -108,6 +119,22 @@ public partial class dbDataContext : System.Data.Linq.DataContext
 		get
 		{
 			return this.GetTable<aspnet_Membership>();
+		}
+	}
+	
+	public System.Data.Linq.Table<Game_BasicRatio> Game_BasicRatio
+	{
+		get
+		{
+			return this.GetTable<Game_BasicRatio>();
+		}
+	}
+	
+	public System.Data.Linq.Table<WX_BounsConfig> WX_BounsConfig
+	{
+		get
+		{
+			return this.GetTable<WX_BounsConfig>();
 		}
 	}
 }
@@ -2774,6 +2801,586 @@ public partial class aspnet_Membership : INotifyPropertyChanging, INotifyPropert
 					this._UserId = default(System.Guid);
 				}
 				this.SendPropertyChanged("aspnet_Users");
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Game_BasicRatio")]
+public partial class Game_BasicRatio : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private System.Guid _aspnet_UserID;
+	
+	private string _GameType;
+	
+	private string _BuyType;
+	
+	private string _BuyValue;
+	
+	private decimal _MinBuy;
+	
+	private decimal _MaxBuy;
+	
+	private System.Nullable<decimal> _BasicRatio;
+	
+	private System.Nullable<decimal> _OrderIndex;
+	
+	private bool _IncludeMin;
+	
+	private string _BonusBuyValueCondition;
+	
+	private string _WX_SourceType;
+	
+	private System.Nullable<bool> _Enable;
+	
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onaspnet_UserIDChanging(System.Guid value);
+    partial void Onaspnet_UserIDChanged();
+    partial void OnGameTypeChanging(string value);
+    partial void OnGameTypeChanged();
+    partial void OnBuyTypeChanging(string value);
+    partial void OnBuyTypeChanged();
+    partial void OnBuyValueChanging(string value);
+    partial void OnBuyValueChanged();
+    partial void OnMinBuyChanging(decimal value);
+    partial void OnMinBuyChanged();
+    partial void OnMaxBuyChanging(decimal value);
+    partial void OnMaxBuyChanged();
+    partial void OnBasicRatioChanging(System.Nullable<decimal> value);
+    partial void OnBasicRatioChanged();
+    partial void OnOrderIndexChanging(System.Nullable<decimal> value);
+    partial void OnOrderIndexChanged();
+    partial void OnIncludeMinChanging(bool value);
+    partial void OnIncludeMinChanged();
+    partial void OnBonusBuyValueConditionChanging(string value);
+    partial void OnBonusBuyValueConditionChanged();
+    partial void OnWX_SourceTypeChanging(string value);
+    partial void OnWX_SourceTypeChanged();
+    partial void OnEnableChanging(System.Nullable<bool> value);
+    partial void OnEnableChanged();
+    #endregion
+	
+	public Game_BasicRatio()
+	{
+		OnCreated();
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+	public System.Guid aspnet_UserID
+	{
+		get
+		{
+			return this._aspnet_UserID;
+		}
+		set
+		{
+			if ((this._aspnet_UserID != value))
+			{
+				this.Onaspnet_UserIDChanging(value);
+				this.SendPropertyChanging();
+				this._aspnet_UserID = value;
+				this.SendPropertyChanged("aspnet_UserID");
+				this.Onaspnet_UserIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameType", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+	public string GameType
+	{
+		get
+		{
+			return this._GameType;
+		}
+		set
+		{
+			if ((this._GameType != value))
+			{
+				this.OnGameTypeChanging(value);
+				this.SendPropertyChanging();
+				this._GameType = value;
+				this.SendPropertyChanged("GameType");
+				this.OnGameTypeChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyType", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+	public string BuyType
+	{
+		get
+		{
+			return this._BuyType;
+		}
+		set
+		{
+			if ((this._BuyType != value))
+			{
+				this.OnBuyTypeChanging(value);
+				this.SendPropertyChanging();
+				this._BuyType = value;
+				this.SendPropertyChanged("BuyType");
+				this.OnBuyTypeChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyValue", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+	public string BuyValue
+	{
+		get
+		{
+			return this._BuyValue;
+		}
+		set
+		{
+			if ((this._BuyValue != value))
+			{
+				this.OnBuyValueChanging(value);
+				this.SendPropertyChanging();
+				this._BuyValue = value;
+				this.SendPropertyChanged("BuyValue");
+				this.OnBuyValueChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinBuy", DbType="Decimal(18,3) NOT NULL")]
+	public decimal MinBuy
+	{
+		get
+		{
+			return this._MinBuy;
+		}
+		set
+		{
+			if ((this._MinBuy != value))
+			{
+				this.OnMinBuyChanging(value);
+				this.SendPropertyChanging();
+				this._MinBuy = value;
+				this.SendPropertyChanged("MinBuy");
+				this.OnMinBuyChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaxBuy", DbType="Decimal(18,3) NOT NULL")]
+	public decimal MaxBuy
+	{
+		get
+		{
+			return this._MaxBuy;
+		}
+		set
+		{
+			if ((this._MaxBuy != value))
+			{
+				this.OnMaxBuyChanging(value);
+				this.SendPropertyChanging();
+				this._MaxBuy = value;
+				this.SendPropertyChanged("MaxBuy");
+				this.OnMaxBuyChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BasicRatio", DbType="Decimal(18,3)")]
+	public System.Nullable<decimal> BasicRatio
+	{
+		get
+		{
+			return this._BasicRatio;
+		}
+		set
+		{
+			if ((this._BasicRatio != value))
+			{
+				this.OnBasicRatioChanging(value);
+				this.SendPropertyChanging();
+				this._BasicRatio = value;
+				this.SendPropertyChanged("BasicRatio");
+				this.OnBasicRatioChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderIndex", DbType="Decimal(18,2)")]
+	public System.Nullable<decimal> OrderIndex
+	{
+		get
+		{
+			return this._OrderIndex;
+		}
+		set
+		{
+			if ((this._OrderIndex != value))
+			{
+				this.OnOrderIndexChanging(value);
+				this.SendPropertyChanging();
+				this._OrderIndex = value;
+				this.SendPropertyChanged("OrderIndex");
+				this.OnOrderIndexChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeMin", DbType="Bit NOT NULL", IsPrimaryKey=true)]
+	public bool IncludeMin
+	{
+		get
+		{
+			return this._IncludeMin;
+		}
+		set
+		{
+			if ((this._IncludeMin != value))
+			{
+				this.OnIncludeMinChanging(value);
+				this.SendPropertyChanging();
+				this._IncludeMin = value;
+				this.SendPropertyChanged("IncludeMin");
+				this.OnIncludeMinChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BonusBuyValueCondition", DbType="NVarChar(30) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+	public string BonusBuyValueCondition
+	{
+		get
+		{
+			return this._BonusBuyValueCondition;
+		}
+		set
+		{
+			if ((this._BonusBuyValueCondition != value))
+			{
+				this.OnBonusBuyValueConditionChanging(value);
+				this.SendPropertyChanging();
+				this._BonusBuyValueCondition = value;
+				this.SendPropertyChanged("BonusBuyValueCondition");
+				this.OnBonusBuyValueConditionChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_SourceType", DbType="NVarChar(30) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+	public string WX_SourceType
+	{
+		get
+		{
+			return this._WX_SourceType;
+		}
+		set
+		{
+			if ((this._WX_SourceType != value))
+			{
+				this.OnWX_SourceTypeChanging(value);
+				this.SendPropertyChanging();
+				this._WX_SourceType = value;
+				this.SendPropertyChanged("WX_SourceType");
+				this.OnWX_SourceTypeChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Enable", DbType="Bit")]
+	public System.Nullable<bool> Enable
+	{
+		get
+		{
+			return this._Enable;
+		}
+		set
+		{
+			if ((this._Enable != value))
+			{
+				this.OnEnableChanging(value);
+				this.SendPropertyChanging();
+				this._Enable = value;
+				this.SendPropertyChanged("Enable");
+				this.OnEnableChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WX_BounsConfig")]
+public partial class WX_BounsConfig : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private System.Guid _aspnet_UserID;
+	
+	private int _RowNumber;
+	
+	private System.Nullable<decimal> _StartBuyPeriod;
+	
+	private System.Nullable<decimal> _EndBuyPeriod;
+	
+	private System.Nullable<decimal> _StartBuyAverage;
+	
+	private System.Nullable<decimal> _EndBuyAverage;
+	
+	private System.Nullable<decimal> _FixNumber;
+	
+	private System.Nullable<decimal> _FlowPercent;
+	
+	private System.Nullable<decimal> _IfDivousPercent;
+	
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onaspnet_UserIDChanging(System.Guid value);
+    partial void Onaspnet_UserIDChanged();
+    partial void OnRowNumberChanging(int value);
+    partial void OnRowNumberChanged();
+    partial void OnStartBuyPeriodChanging(System.Nullable<decimal> value);
+    partial void OnStartBuyPeriodChanged();
+    partial void OnEndBuyPeriodChanging(System.Nullable<decimal> value);
+    partial void OnEndBuyPeriodChanged();
+    partial void OnStartBuyAverageChanging(System.Nullable<decimal> value);
+    partial void OnStartBuyAverageChanged();
+    partial void OnEndBuyAverageChanging(System.Nullable<decimal> value);
+    partial void OnEndBuyAverageChanged();
+    partial void OnFixNumberChanging(System.Nullable<decimal> value);
+    partial void OnFixNumberChanged();
+    partial void OnFlowPercentChanging(System.Nullable<decimal> value);
+    partial void OnFlowPercentChanged();
+    partial void OnIfDivousPercentChanging(System.Nullable<decimal> value);
+    partial void OnIfDivousPercentChanged();
+    #endregion
+	
+	public WX_BounsConfig()
+	{
+		OnCreated();
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_UserID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+	public System.Guid aspnet_UserID
+	{
+		get
+		{
+			return this._aspnet_UserID;
+		}
+		set
+		{
+			if ((this._aspnet_UserID != value))
+			{
+				this.Onaspnet_UserIDChanging(value);
+				this.SendPropertyChanging();
+				this._aspnet_UserID = value;
+				this.SendPropertyChanged("aspnet_UserID");
+				this.Onaspnet_UserIDChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RowNumber", DbType="Int NOT NULL", IsPrimaryKey=true)]
+	public int RowNumber
+	{
+		get
+		{
+			return this._RowNumber;
+		}
+		set
+		{
+			if ((this._RowNumber != value))
+			{
+				this.OnRowNumberChanging(value);
+				this.SendPropertyChanging();
+				this._RowNumber = value;
+				this.SendPropertyChanged("RowNumber");
+				this.OnRowNumberChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartBuyPeriod", DbType="Decimal(18,6)")]
+	public System.Nullable<decimal> StartBuyPeriod
+	{
+		get
+		{
+			return this._StartBuyPeriod;
+		}
+		set
+		{
+			if ((this._StartBuyPeriod != value))
+			{
+				this.OnStartBuyPeriodChanging(value);
+				this.SendPropertyChanging();
+				this._StartBuyPeriod = value;
+				this.SendPropertyChanged("StartBuyPeriod");
+				this.OnStartBuyPeriodChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndBuyPeriod", DbType="Decimal(18,6)")]
+	public System.Nullable<decimal> EndBuyPeriod
+	{
+		get
+		{
+			return this._EndBuyPeriod;
+		}
+		set
+		{
+			if ((this._EndBuyPeriod != value))
+			{
+				this.OnEndBuyPeriodChanging(value);
+				this.SendPropertyChanging();
+				this._EndBuyPeriod = value;
+				this.SendPropertyChanged("EndBuyPeriod");
+				this.OnEndBuyPeriodChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartBuyAverage", DbType="Decimal(18,6)")]
+	public System.Nullable<decimal> StartBuyAverage
+	{
+		get
+		{
+			return this._StartBuyAverage;
+		}
+		set
+		{
+			if ((this._StartBuyAverage != value))
+			{
+				this.OnStartBuyAverageChanging(value);
+				this.SendPropertyChanging();
+				this._StartBuyAverage = value;
+				this.SendPropertyChanged("StartBuyAverage");
+				this.OnStartBuyAverageChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndBuyAverage", DbType="Decimal(18,6)")]
+	public System.Nullable<decimal> EndBuyAverage
+	{
+		get
+		{
+			return this._EndBuyAverage;
+		}
+		set
+		{
+			if ((this._EndBuyAverage != value))
+			{
+				this.OnEndBuyAverageChanging(value);
+				this.SendPropertyChanging();
+				this._EndBuyAverage = value;
+				this.SendPropertyChanged("EndBuyAverage");
+				this.OnEndBuyAverageChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FixNumber", DbType="Decimal(18,6)")]
+	public System.Nullable<decimal> FixNumber
+	{
+		get
+		{
+			return this._FixNumber;
+		}
+		set
+		{
+			if ((this._FixNumber != value))
+			{
+				this.OnFixNumberChanging(value);
+				this.SendPropertyChanging();
+				this._FixNumber = value;
+				this.SendPropertyChanged("FixNumber");
+				this.OnFixNumberChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FlowPercent", DbType="Decimal(18,6)")]
+	public System.Nullable<decimal> FlowPercent
+	{
+		get
+		{
+			return this._FlowPercent;
+		}
+		set
+		{
+			if ((this._FlowPercent != value))
+			{
+				this.OnFlowPercentChanging(value);
+				this.SendPropertyChanging();
+				this._FlowPercent = value;
+				this.SendPropertyChanged("FlowPercent");
+				this.OnFlowPercentChanged();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IfDivousPercent", DbType="Decimal(18,6)")]
+	public System.Nullable<decimal> IfDivousPercent
+	{
+		get
+		{
+			return this._IfDivousPercent;
+		}
+		set
+		{
+			if ((this._IfDivousPercent != value))
+			{
+				this.OnIfDivousPercentChanging(value);
+				this.SendPropertyChanging();
+				this._IfDivousPercent = value;
+				this.SendPropertyChanged("IfDivousPercent");
+				this.OnIfDivousPercentChanged();
 			}
 		}
 	}
