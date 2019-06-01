@@ -56,7 +56,7 @@ public class WebService : System.Web.Services.WebService
     public string GetSetting(string saspnetUserid)
     {
         Guid aspnetUserid = Guid.Parse(saspnetUserid);
-        dbDataContext db = new dbDataContext("LocalSqlServer");
+        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         aspnet_UsersNewGameResultSend sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == aspnetUserid);
         return (JsonConvert.SerializeObject(sets));
 
@@ -66,8 +66,8 @@ public class WebService : System.Web.Services.WebService
     public string SaveSetting(string UserName, string Password, string jaspnet_UsersNewGameResultSend)
     {
         MembershipUser msr = Membership.GetUser(UserName);
-        dbDataContext db = new dbDataContext("LocalSqlServer");
-        aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend);
+        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(aspnet_UsersNewGameResultSend));
 
         aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)msr.ProviderUserKey);
         if (save_sets == null)
@@ -179,7 +179,7 @@ public class WebService : System.Web.Services.WebService
     [WebMethod]
     public List<Guid> GetBossUsers(string bossaspnetuserid)
     {
-        dbDataContext db = new dbDataContext("LocalSqlServer");
+        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         List<Guid> takeusers = ((from ds in db.aspnet_UsersNewGameResultSend
                                  where ds.bossaspnet_UserID == Guid.Parse(bossaspnetuserid)
 
@@ -228,7 +228,7 @@ public class WebService : System.Web.Services.WebService
     public string GetTemplateRatios()
     {
         Guid CopySourceID =(Guid) System.Web.Security.Membership.GetUser("sysadmin").ProviderUserKey;
-        dbDataContext db = new dbDataContext("LocalSqlServer");
+        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         var CopyRatio = db.Game_BasicRatio.Where(t => t.aspnet_UserID == CopySourceID);
         return JsonConvert.SerializeObject(CopyRatio);
     }
@@ -236,7 +236,7 @@ public class WebService : System.Web.Services.WebService
     public string GetTemplateBonus()
     {
         Guid CopySourceID = (Guid)System.Web.Security.Membership.GetUser("sysadmin").ProviderUserKey;
-        dbDataContext db = new dbDataContext("LocalSqlServer");
+        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         var CopyRatio = db.WX_BounsConfig.Where(t => t.aspnet_UserID == CopySourceID);
         return JsonConvert.SerializeObject(CopyRatio);
     }

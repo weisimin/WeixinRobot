@@ -53,7 +53,7 @@ public partial class dbDataContext : System.Data.Linq.DataContext
   #endregion
 	
 	public dbDataContext() : 
-			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["WeixinrobootConnectionString"].ConnectionString, mappingSource)
+			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString, mappingSource)
 	{
 		OnCreated();
 	}

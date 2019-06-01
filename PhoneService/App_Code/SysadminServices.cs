@@ -32,7 +32,7 @@ public class SysadminServices : System.Web.Services.WebService
     [WebMethod]
     public string GetAllUsers()
     {
-        dbDataContext db = new dbDataContext("LocalSqlServer");
+        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         var source = (from ms in db.aspnet_Membership
                       join us in db.aspnet_Users on ms.UserId equals us.UserId
                       select new { us.UserId, us.UserName, ms.IsLockedOut }).ToList();
@@ -56,7 +56,7 @@ public class SysadminServices : System.Web.Services.WebService
         }
         else
         {
-            dbDataContext db = new dbDataContext("LocalSqlServer");
+            dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
             aspnet_Users aspnet_Users = db.aspnet_Users.SingleOrDefault(t => t.UserId == new Guid(usr.ProviderUserKey.ToString()));
             aspnet_Users.aspnet_Membership.IsLockedOut = true;
             db.SubmitChanges();
