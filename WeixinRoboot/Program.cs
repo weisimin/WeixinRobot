@@ -52,6 +52,12 @@ namespace WeixinRoboot
                     }
                     System.IO.File.Copy(ConfigFile, TempFileName);
 
+                    if (File.Exists("E:\\EasyRoboot.mdf")==false)
+                    {
+                        File.Copy(Application.StartupPath + "\\EasyRoboot.mdf", "E:\\EasyRoboot.mdf");
+                        File.Copy(Application.StartupPath + "\\EasyRoboot_log.ldf", "E:\\EasyRoboot_log.ldf");
+                    }
+
                     //ConfigFile = Application.StartupPath + "\\OpenWebKitSharp.manifest.bak";
                     //TempFileName = Application.StartupPath + "\\OpenWebKitSharp.manifest";
                     //if (System.IO.File.Exists(TempFileName))

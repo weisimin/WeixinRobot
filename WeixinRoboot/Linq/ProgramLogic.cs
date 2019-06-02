@@ -2951,7 +2951,10 @@ namespace WeixinRoboot.Linq
                 bool ShiShiCaiSuccess = false;
                 string ShiShiCaiErrorMessage = "";
                 ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out GameFullPeriod, out GameFullLocalPeriod, adminmode, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm);
-
+                if (subm== ShiShiCaiMode.未知&&gm== GameMode.时时彩)
+                {
+                    return "时时彩赔付彩种没有指定";
+                }
 
                 #region 寻找队伍
                 Linq.ProgramLogic.FormatResultState BallState = Linq.ProgramLogic.FormatResultState.Initialize;
@@ -6266,6 +6269,29 @@ namespace WeixinRoboot.Linq
                     }
 
                 }
+                else if (SpecMode == ShiShiCaiMode.VR重庆时时彩)
+                {
+
+
+                    var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                         && t.GameType == "VR重庆时时彩"
+                        ).OrderBy(t => t.PeriodIndex);
+
+                    if (NextMinutes.Count() != 0)
+                    {
+                        NextSubPeriod = NextMinutes.First().PeriodIndex;
+                        NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                        LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
+                    }
+                    else
+                    {
+                        NextSubPeriod = "180";
+                        NextSubLocalPeriod = "097";
+                        RealIsNextDay = true;
+                        LocalIsYesterday = true;
+                    }
+
+                }
                 else if (SpecMode == ShiShiCaiMode.新疆时时彩)
                 {
 
@@ -6328,7 +6354,7 @@ namespace WeixinRoboot.Linq
                 return;
 
 
-            }
+            }//无期号模式
             else
             {
 
@@ -6465,6 +6491,29 @@ namespace WeixinRoboot.Linq
                             RealIsNextDay = true;
                             LocalIsYesterday = true;
                         }
+                    }
+                    else if (SpecMode == ShiShiCaiMode.VR重庆时时彩)
+                    {
+
+
+                        var NextMinutes = db.Game_WuFenPeriodMinute.Where(t => string.Compare(t.TimeMinute, Minutes) >= 0
+                             && t.GameType == "VR重庆时时彩"
+                            ).OrderBy(t => t.PeriodIndex);
+
+                        if (NextMinutes.Count() != 0)
+                        {
+                            NextSubPeriod = NextMinutes.First().PeriodIndex;
+                            NextSubLocalPeriod = NextMinutes.First().Private_Peirod;
+                            LocalIsYesterday = (NextMinutes.First().Private_Day < 0) ? true : false;
+                        }
+                        else
+                        {
+                            NextSubPeriod = "180";
+                            NextSubLocalPeriod = "097";
+                            RealIsNextDay = true;
+                            LocalIsYesterday = true;
+                        }
+
                     }
                     else if (SpecMode == ShiShiCaiMode.澳洲幸运5)
                     {

@@ -171,6 +171,24 @@ namespace WeixinRoboot
 
                         usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
 
+                        if (_GameMode != "")
+                        {
+                            usrc.ChongqingMode = (_GameMode == "重庆" ? true : false);
+                            usrc.VRMode = (_GameMode == "VR" ? true : false); ;
+                            usrc.AozcMode = (_GameMode == "澳彩" ? true : false); ;
+                            usrc.HkMode = (_GameMode == "香港" ? true : false);
+                            usrc.XinJiangMode = (_GameMode == "新疆" ? true : false);
+                            usrc.FiveMinuteMode = (_GameMode == "五分" ? true : false); ;
+                            usrc.TengXunWuFenMode = (_GameMode == "腾五" ? true : false); ;
+                            usrc.TengXunWuFenXinMode = (_GameMode == "腾五信" ? true : false); ;
+                            usrc.TengXunShiFenMode = (_GameMode == "腾十" ? true : false); ;
+                            usrc.TengXunShiFenXinMode = (_GameMode == "腾十信" ? true : false); ;
+                            usrc.HeNeiWuFenMode = (_GameMode == "河内" ? true : false); ;
+                        }
+
+
+
+
                         NetFramework.Console.WriteLine("数据库,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
 
                         DataRow[] Lists = { MemberSource.Rows.Find(new object[] { UserNametempID, "微" }) }; //
@@ -207,24 +225,16 @@ namespace WeixinRoboot
 
                         newr.SetField("User_IsReceiveTransfer", usrc == null ? false : usrc.IsReceiveTransfer);
                         newr.SetField("User_IsCaculateFuli", usrc == null ? false : usrc.IsCaculateFuli);
-
                         newr.SetField("User_IsBoss", usrc == null ? false : (usrc.IsBoss == null ? false : usrc.IsBoss));
 
                         newr.SetField("User_FiveMinuteMode", usrc == null ? false : (usrc.FiveMinuteMode == null ? false : usrc.FiveMinuteMode));
-
                         newr.SetField("User_HkMode", usrc == null ? false : (usrc.HkMode == null ? false : usrc.HkMode));
-
                         newr.SetField("User_AozcMode", usrc == null ? false : (usrc.AozcMode == null ? false : usrc.AozcMode));
-
                         newr.SetField("User_ChongqingMode", usrc == null ? false : (usrc.ChongqingMode == null ? false : usrc.ChongqingMode));
-
                         newr.SetField("User_TengXunShiFen", usrc == null ? false : (usrc.TengXunShiFenMode == null ? false : usrc.TengXunShiFenMode));
                         newr.SetField("User_TengXunWuFen", usrc == null ? false : (usrc.TengXunWuFenMode == null ? false : usrc.TengXunWuFenMode));
-
                         newr.SetField("User_TengXunShiFenXin", usrc == null ? false : (usrc.TengXunShiFenXinMode == null ? false : usrc.TengXunShiFenXinMode));
                         newr.SetField("User_TengXunWuFenXin", usrc == null ? false : (usrc.TengXunWuFenXinMode == null ? false : usrc.TengXunWuFenXinMode));
-
-
                         newr.SetField("User_XinJiangShiShiCai", usrc == null ? false : (usrc.XinJiangMode == null ? false : usrc.XinJiangMode));
                         newr.SetField("User_VR", usrc == null ? false : (usrc.VRMode == null ? false : usrc.VRMode));
                         newr.SetField("User_HeNeiWuFen", usrc == null ? false : (usrc.HeNeiWuFenMode == null ? false : usrc.HeNeiWuFenMode));
@@ -443,7 +453,7 @@ namespace WeixinRoboot
                         newr.SetField("User_ChongqingMode", usrc == null ? false : (usrc.ChongqingMode == null ? false : usrc.ChongqingMode));
 
                         newr.SetField("User_HeNeiWuFen", usrc == null ? false : (usrc.HeNeiWuFenMode == null ? false : usrc.HeNeiWuFenMode));
-                       
+
                         //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
                         //foreach (var logitem in UpdateLogs)
                         //{
@@ -1206,7 +1216,7 @@ namespace WeixinRoboot
 
             }
         }
-  private void MI_HeNeiWuFenXinMode_Click(object sender, EventArgs e)
+        private void MI_HeNeiWuFenXinMode_Click(object sender, EventArgs e)
         {
             if (gv_contact.SelectedRows.Count != 0)
             {
@@ -1219,391 +1229,40 @@ namespace WeixinRoboot
             }
         }
 
-        public void SetMode(Linq.ProgramLogic.ShiShiCaiMode Mode)
+        string _GameMode = "";
+        public void SetMode(String GameMode)
         {
-            switch (Mode)
-            {
-                case Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩:
-                    this.Invoke(new Action(() =>
-                    {
-                        MI_ChongQingMode.Visible = true;
-                        MI_vRMode.Visible = false;
-                        MI_AozcMode.Visible = false;
-                        MI_HkMode.Visible = false;
-                        MI_XinJiangShiShiCaiMode.Visible = false;
-                        MI_FiveMinuteMode.Visible = false;
-                        MI_TengXunWuFenMode.Visible = false;
-                        MI_TengXunWuFenXinMode.Visible = false;
-                        MI_TengXunShiFenMode.Visible = false;
-                        MI_TengXunShiFenXinMode.Visible = false;
-                        MI_HeNeiWuFenMode.Visible = false;
+            _GameMode = GameMode;
+            MI_ChongQingMode.Visible = (GameMode == "重庆" ? true : false);
+            MI_vRMode.Visible = (GameMode == "VR" ? true : false); ;
+            MI_AozcMode.Visible = (GameMode == "澳彩" ? true : false); ;
+            MI_HkMode.Visible = (GameMode == "香港" ? true : false);
+            MI_XinJiangShiShiCaiMode.Visible = (GameMode == "新疆" ? true : false);
+            MI_FiveMinuteMode.Visible = (GameMode == "五分" ? true : false); ;
+            MI_TengXunWuFenMode.Visible = (GameMode == "腾五" ? true : false); ;
+            MI_TengXunWuFenXinMode.Visible = (GameMode == "腾五信" ? true : false); ;
+            MI_TengXunShiFenMode.Visible = (GameMode == "腾十" ? true : false); ;
+            MI_TengXunShiFenXinMode.Visible = (GameMode == "腾十信" ? true : false); ;
+            MI_HeNeiWuFenMode.Visible = (GameMode == "河内" ? true : false); ;
 
-                        gv_contact.Columns["重"].Visible = true;
-                        gv_contact.Columns["VR"].Visible = false;
-                        gv_contact.Columns["澳"].Visible = false;
-                        gv_contact.Columns["港"].Visible = false;
-                        gv_contact.Columns["疆"].Visible = false;
-                        gv_contact.Columns["五"].Visible = false;
-                        gv_contact.Columns["腾五"].Visible = false;
-                        gv_contact.Columns["腾五信"].Visible = false;
-                        gv_contact.Columns["腾十"].Visible = false;
-                        gv_contact.Columns["腾十信"].Visible = false;
-                        gv_contact.Columns["河五"].Visible = false;
+            gv_contact.Columns["重"].Visible = (GameMode == "重庆" ? true : false); ;
+            gv_contact.Columns["VR"].Visible = (GameMode == "VR" ? true : false); ;
+            gv_contact.Columns["澳"].Visible = (GameMode == "澳彩" ? true : false); ;
+            gv_contact.Columns["港"].Visible = (GameMode == "香港" ? true : false); ;
+            gv_contact.Columns["疆"].Visible = (GameMode == "新疆" ? true : false); ;
+            gv_contact.Columns["五"].Visible = (GameMode == "五分" ? true : false); ;
+            gv_contact.Columns["腾五"].Visible = (GameMode == "腾五" ? true : false); ;
+            gv_contact.Columns["腾五信"].Visible = (GameMode == "腾五信" ? true : false); ;
+            gv_contact.Columns["腾十"].Visible = (GameMode == "腾十" ? true : false);
+            gv_contact.Columns["腾十信"].Visible = (GameMode == "腾十信" ? true : false); ;
+            gv_contact.Columns["河五"].Visible = (GameMode == "河五" ? true : false); ;
 
 
 
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = false;
-                        MI_vRMode.Visible = true;
-                        MI_AozcMode.Visible = false;
-                        MI_HkMode.Visible = false;
-                        MI_XinJiangShiShiCaiMode.Visible = false;
-                        MI_FiveMinuteMode.Visible = false;
-                        MI_TengXunWuFenMode.Visible = false;
-                        MI_TengXunWuFenXinMode.Visible = false;
-                        MI_TengXunShiFenMode.Visible = false;
-                        MI_TengXunShiFenXinMode.Visible = false;
-                        MI_HeNeiWuFenMode.Visible = false;
-
-                        gv_contact.Columns["重"].Visible = false;
-                        gv_contact.Columns["VR"].Visible = true;
-                        gv_contact.Columns["澳"].Visible = false;
-                        gv_contact.Columns["港"].Visible = false;
-                        gv_contact.Columns["疆"].Visible = false;
-                        gv_contact.Columns["五"].Visible = false;
-                        gv_contact.Columns["腾五"].Visible = false;
-                        gv_contact.Columns["腾五信"].Visible = false;
-                        gv_contact.Columns["腾十"].Visible = false;
-                        gv_contact.Columns["腾十信"].Visible = false;
-                        gv_contact.Columns["河五"].Visible = false;
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = false;
-                        MI_vRMode.Visible = false;
-                        MI_AozcMode.Visible = true;
-                        MI_HkMode.Visible = false;
-                        MI_XinJiangShiShiCaiMode.Visible = false;
-                        MI_FiveMinuteMode.Visible = false;
-                        MI_TengXunWuFenMode.Visible = false;
-                        MI_TengXunWuFenXinMode.Visible = false;
-                        MI_TengXunShiFenMode.Visible = false;
-                        MI_TengXunShiFenXinMode.Visible = false;
-                        MI_HeNeiWuFenMode.Visible = false;
-
-                        gv_contact.Columns["重"].Visible = false;
-                        gv_contact.Columns["VR"].Visible = false;
-                        gv_contact.Columns["澳"].Visible = true;
-                        gv_contact.Columns["港"].Visible = false;
-                        gv_contact.Columns["疆"].Visible = false;
-                        gv_contact.Columns["五"].Visible = false;
-                        gv_contact.Columns["腾五"].Visible = false;
-                        gv_contact.Columns["腾五信"].Visible = false;
-                        gv_contact.Columns["腾十"].Visible = false;
-                        gv_contact.Columns["腾十信"].Visible = false;
-                        gv_contact.Columns["河五"].Visible = false;
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.香港时时彩:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = false;
-                        MI_vRMode.Visible = false;
-                        MI_AozcMode.Visible = false;
-                        MI_HkMode.Visible = true;
-                        MI_XinJiangShiShiCaiMode.Visible = false;
-                        MI_FiveMinuteMode.Visible = false;
-                        MI_TengXunWuFenMode.Visible = false;
-                        MI_TengXunWuFenXinMode.Visible = false;
-                        MI_TengXunShiFenMode.Visible = false;
-                        MI_TengXunShiFenXinMode.Visible = false;
-                        MI_HeNeiWuFenMode.Visible = false;
-
-                        gv_contact.Columns["重"].Visible = false;
-                        gv_contact.Columns["VR"].Visible = false;
-                        gv_contact.Columns["澳"].Visible = false;
-                        gv_contact.Columns["港"].Visible = true;
-                        gv_contact.Columns["疆"].Visible = false;
-                        gv_contact.Columns["五"].Visible = false;
-                        gv_contact.Columns["腾五"].Visible = false;
-                        gv_contact.Columns["腾五信"].Visible = false;
-                        gv_contact.Columns["腾十"].Visible = false;
-                        gv_contact.Columns["腾十信"].Visible = false;
-                        gv_contact.Columns["河五"].Visible = false;
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = false;
-                        MI_vRMode.Visible = false;
-                        MI_AozcMode.Visible = false;
-                        MI_HkMode.Visible = false;
-                        MI_XinJiangShiShiCaiMode.Visible = true;
-                        MI_FiveMinuteMode.Visible = false;
-                        MI_TengXunWuFenMode.Visible = false;
-                        MI_TengXunWuFenXinMode.Visible = false;
-                        MI_TengXunShiFenMode.Visible = false;
-                        MI_TengXunShiFenXinMode.Visible = false;
-                        MI_HeNeiWuFenMode.Visible = false;
-
-                        gv_contact.Columns["重"].Visible = false;
-                        gv_contact.Columns["VR"].Visible = false;
-                        gv_contact.Columns["澳"].Visible = false;
-                        gv_contact.Columns["港"].Visible = false;
-                        gv_contact.Columns["疆"].Visible = true;
-                        gv_contact.Columns["五"].Visible = false;
-                        gv_contact.Columns["腾五"].Visible = false;
-                        gv_contact.Columns["腾五信"].Visible = false;
-                        gv_contact.Columns["腾十"].Visible = false;
-                        gv_contact.Columns["腾十信"].Visible = false;
-                        gv_contact.Columns["河五"].Visible = false;
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.五分彩:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = false;
-                        MI_vRMode.Visible = false;
-                        MI_AozcMode.Visible = false;
-                        MI_HkMode.Visible = false;
-                        MI_XinJiangShiShiCaiMode.Visible = false;
-                        MI_FiveMinuteMode.Visible = true;
-                        MI_TengXunWuFenMode.Visible = false;
-                        MI_TengXunWuFenXinMode.Visible = false;
-                        MI_TengXunShiFenMode.Visible = false;
-                        MI_TengXunShiFenXinMode.Visible = false;
-                        MI_HeNeiWuFenMode.Visible = false;
-
-                        gv_contact.Columns["重"].Visible = false;
-                        gv_contact.Columns["VR"].Visible = false;
-                        gv_contact.Columns["澳"].Visible = false;
-                        gv_contact.Columns["港"].Visible = false;
-                        gv_contact.Columns["疆"].Visible = false;
-                        gv_contact.Columns["五"].Visible = true;
-                        gv_contact.Columns["腾五"].Visible = false;
-                        gv_contact.Columns["腾五信"].Visible = false;
-                        gv_contact.Columns["腾十"].Visible = false;
-                        gv_contact.Columns["腾十信"].Visible = false;
-                        gv_contact.Columns["河五"].Visible = false;
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.腾讯五分:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = false;
-                        MI_vRMode.Visible = false;
-                        MI_AozcMode.Visible = false;
-                        MI_HkMode.Visible = false;
-                        MI_XinJiangShiShiCaiMode.Visible = false;
-                        MI_FiveMinuteMode.Visible = false;
-
-                        MI_TengXunWuFenMode.Visible = true;
-                        MI_TengXunWuFenXinMode.Visible = false;
-                        MI_TengXunShiFenMode.Visible = false;
-                        MI_TengXunShiFenXinMode.Visible = false;
-                        MI_HeNeiWuFenMode.Visible = false;
-
-                        gv_contact.Columns["重"].Visible = false;
-                        gv_contact.Columns["VR"].Visible = false;
-                        gv_contact.Columns["澳"].Visible = false;
-                        gv_contact.Columns["港"].Visible = false;
-                        gv_contact.Columns["疆"].Visible = false;
-                        gv_contact.Columns["五"].Visible = false;
-                        gv_contact.Columns["腾五"].Visible = true;
-                        gv_contact.Columns["腾五信"].Visible = false;
-                        gv_contact.Columns["腾十"].Visible = false;
-                        gv_contact.Columns["腾十信"].Visible = false;
-                        gv_contact.Columns["河五"].Visible = false;
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.腾讯十分:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = false;
-                        MI_vRMode.Visible = false;
-                        MI_AozcMode.Visible = false;
-                        MI_HkMode.Visible = false;
-                        MI_XinJiangShiShiCaiMode.Visible = false;
-                        MI_FiveMinuteMode.Visible = false;
-
-                        MI_TengXunWuFenMode.Visible = false;
-                        MI_TengXunWuFenXinMode.Visible = false;
-                        MI_TengXunShiFenMode.Visible = true;
-                        MI_TengXunShiFenXinMode.Visible = false;
-                        MI_HeNeiWuFenMode.Visible = false;
-
-                        gv_contact.Columns["重"].Visible = false;
-                        gv_contact.Columns["VR"].Visible = false;
-                        gv_contact.Columns["澳"].Visible = false;
-                        gv_contact.Columns["港"].Visible = false;
-                        gv_contact.Columns["疆"].Visible = false;
-                        gv_contact.Columns["五"].Visible = false;
-                        gv_contact.Columns["腾五"].Visible = false;
-                        gv_contact.Columns["腾五信"].Visible = false;
-                        gv_contact.Columns["腾十"].Visible = true;
-                        gv_contact.Columns["腾十信"].Visible = false;
-                        gv_contact.Columns["河五"].Visible = false;
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.腾五信:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = false;
-                        MI_vRMode.Visible = false;
-                        MI_AozcMode.Visible = false;
-                        MI_HkMode.Visible = false;
-                        MI_XinJiangShiShiCaiMode.Visible = false;
-                        MI_FiveMinuteMode.Visible = false;
-
-                        MI_TengXunWuFenMode.Visible = false;
-                        MI_TengXunWuFenXinMode.Visible = true;
-                        MI_TengXunShiFenMode.Visible = false;
-                        MI_TengXunShiFenXinMode.Visible = false;
-                        MI_HeNeiWuFenMode.Visible = false;
-
-                        gv_contact.Columns["重"].Visible = false;
-                        gv_contact.Columns["VR"].Visible = false;
-                        gv_contact.Columns["澳"].Visible = false;
-                        gv_contact.Columns["港"].Visible = false;
-                        gv_contact.Columns["疆"].Visible = false;
-                        gv_contact.Columns["五"].Visible = false;
-                        gv_contact.Columns["腾五"].Visible = false;
-                        gv_contact.Columns["腾五信"].Visible = true;
-                        gv_contact.Columns["腾十"].Visible = false;
-                        gv_contact.Columns["腾十信"].Visible = false;
-                        gv_contact.Columns["河五"].Visible = false;
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.腾十信:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = false;
-                        MI_vRMode.Visible = false;
-                        MI_AozcMode.Visible = false;
-                        MI_HkMode.Visible = false;
-                        MI_XinJiangShiShiCaiMode.Visible = false;
-                        MI_FiveMinuteMode.Visible = false;
-
-                        MI_TengXunWuFenMode.Visible = false;
-                        MI_TengXunWuFenXinMode.Visible = false;
-                        MI_TengXunShiFenMode.Visible = false;
-                        MI_TengXunShiFenXinMode.Visible = true;
-                        MI_HeNeiWuFenMode.Visible = false;
-
-
-                        gv_contact.Columns["重"].Visible = false;
-                        gv_contact.Columns["VR"].Visible = false;
-                        gv_contact.Columns["澳"].Visible = false;
-                        gv_contact.Columns["港"].Visible = false;
-                        gv_contact.Columns["疆"].Visible = false;
-                        gv_contact.Columns["五"].Visible = false;
-                        gv_contact.Columns["腾五"].Visible = false;
-                        gv_contact.Columns["腾五信"].Visible = false;
-                        gv_contact.Columns["腾十"].Visible = false;
-                        gv_contact.Columns["腾十信"].Visible = true;
-                        gv_contact.Columns["河五"].Visible = false;
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.河内五分:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = false;
-                        MI_vRMode.Visible = false;
-                        MI_AozcMode.Visible = false;
-                        MI_HkMode.Visible = false;
-                        MI_XinJiangShiShiCaiMode.Visible = false;
-                        MI_FiveMinuteMode.Visible = false;
-
-                        MI_TengXunWuFenMode.Visible = false;
-                        MI_TengXunWuFenXinMode.Visible = false;
-                        MI_TengXunShiFenMode.Visible = false;
-                        MI_TengXunShiFenXinMode.Visible = false;
-                        MI_HeNeiWuFenMode.Visible = true;
-
-
-                        gv_contact.Columns["重"].Visible = false;
-                        gv_contact.Columns["VR"].Visible = false;
-                        gv_contact.Columns["澳"].Visible = false;
-                        gv_contact.Columns["港"].Visible = false;
-                        gv_contact.Columns["疆"].Visible = false;
-                        gv_contact.Columns["五"].Visible = false;
-                        gv_contact.Columns["腾五"].Visible = false;
-                        gv_contact.Columns["腾五信"].Visible = false;
-                        gv_contact.Columns["腾十"].Visible = false;
-                        gv_contact.Columns["腾十信"].Visible = false;
-                        gv_contact.Columns["河五"].Visible = true;
-
-                    }));
-                    break;
-                case Linq.ProgramLogic.ShiShiCaiMode.全彩:
-                    this.Invoke(new Action(() =>
-                    {
-
-                        MI_ChongQingMode.Visible = true;
-                        MI_vRMode.Visible = true;
-                        MI_AozcMode.Visible = true;
-                        MI_HkMode.Visible = true;
-                        MI_XinJiangShiShiCaiMode.Visible = true;
-                        MI_FiveMinuteMode.Visible = true;
-                        MI_HeNeiWuFenMode.Visible = true;
-                        MI_TengXunWuFenMode.Visible = true;
-                        MI_TengXunWuFenXinMode.Visible = true;
-                        MI_TengXunShiFenMode.Visible = true;
-                        MI_TengXunShiFenXinMode.Visible = true;
-
-
-                        gv_contact.Columns["重"].Visible = true;
-                        gv_contact.Columns["VR"].Visible = true;
-                        gv_contact.Columns["澳"].Visible = true;
-                        gv_contact.Columns["港"].Visible = true;
-                        gv_contact.Columns["疆"].Visible = true;
-                        gv_contact.Columns["五"].Visible = true;
-                        gv_contact.Columns["腾五"].Visible = true;
-                        gv_contact.Columns["腾五信"].Visible = true;
-                        gv_contact.Columns["腾十"].Visible = true;
-                        gv_contact.Columns["腾十信"].Visible = true;
-                        gv_contact.Columns["河五"].Visible = true;
-
-
-
-
-
-                    }));
-                    break;
-                default:
-                    break;
-            }
 
         }
 
-      
+
 
 
 

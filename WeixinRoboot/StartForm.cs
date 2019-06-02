@@ -125,26 +125,30 @@ namespace WeixinRoboot
                      T_TengXunWuFenXin.Visible = (GameMode == "腾五信" ? true : false);
                      T_WuFenCai.Visible = (GameMode == "五分" ? true : false);
                      T_XinJiangShiShiCai.Visible = (GameMode == "新疆" ? true : false);
-                     T_HeNeiWuFen.Visible = (GameMode == "河内" ? true : false);
+                     T_HeNeiWuFen.Visible = (GameMode == "河五" ? true : false);
                      T_VRChongQingShiShiCai.Visible = (GameMode == "VR" ? true : false);
 
 
-                    loadset.Thread_AoZhouCai = false;
-                    loadset.Thread_ChongQingShiShiCai = false;
-                    loadset.Thread_HeNeiWuFen = false;
-                    loadset.Thread_TengXunShiFen = false;
-                    loadset.Thread_TengXunShiFenXin = false;
-                    loadset.Thread_TengXunWuFen = false;
-                    loadset.Thread_TengXunWuFenXin = false;
-                    loadset.Thread_VRChongqing = true;
-                    loadset.Thread_WuFen = false;
-                    loadset.Thread_XinJiangShiShiCai = false;
+                    loadset.Thread_AoZhouCai =  (GameMode == "澳彩" ? true : false);
+                    loadset.Thread_ChongQingShiShiCai =  (GameMode == "重庆" ? true : false);
 
+                    loadset.Thread_HeNeiWuFen = (GameMode == "河五" ? true : false);
+                    loadset.Thread_TengXunShiFen = (GameMode == "腾十" ? true : false);
+                    loadset.Thread_TengXunShiFenXin = (GameMode == "腾十信" ? true : false);
+                    loadset.Thread_TengXunWuFen = (GameMode == "腾五" ? true : false);
+                    loadset.Thread_TengXunWuFenXin = (GameMode == "腾五信" ? true : false);
+
+                    loadset.Thread_WuFen = (GameMode == "五分" ? true : false);
+                    loadset.Thread_XinJiangShiShiCai =  (GameMode == "新疆" ? true : false);
+                    loadset.Thread_VRChongqing =(GameMode == "VR" ? true : false);
 
 
                     Util_Services.SaveServicesSetting(loadset);
-
-                    RunnerF.SetMode(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+                    if (GameMode!="")
+                    {
+                         RunnerF.SetMode(GameMode);
+                    }
+                   
 
 
 
@@ -3519,34 +3523,11 @@ namespace WeixinRoboot
                     }
 
                     Linq.ProgramLogic.GameMode gm = Linq.ProgramLogic.GameMode.非玩法;
-                    Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
+                    Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.未知;
 
-                    if (userr.Field<Boolean>("User_ChongqingMode") == true
-
-                        )
-                    {
-                        subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
-                    }
-                    else if (userr.Field<Boolean>("User_FiveMinuteMode") == true)
-                    {
-                        subm = Linq.ProgramLogic.ShiShiCaiMode.五分彩;
-                    }
-                    else if (userr.Field<Boolean>("User_HkMode") == true)
-                    {
-                        subm = Linq.ProgramLogic.ShiShiCaiMode.香港时时彩;
-                    }
-                    else if (userr.Field<Boolean>("User_AozcMode") == true)
-                    {
-                        subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
-                    }
-                    else if (userr.Field<Boolean>("User_XinJiangShiShiCai") == true)
-                    {
-                        subm = Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩;
-                    }
-                    else if (userr.Field<Boolean>("User_TengXunShiFen") == true)
-                    {
-                        subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
-                    }
+                  
+                        subm = Linq.ProgramLogic.GetMode(userr);
+                   
 
 
                     if (NewContent.StartsWith("六"))

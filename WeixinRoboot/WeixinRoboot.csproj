@@ -350,8 +350,12 @@
     <None Include="EO.Base.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="EasyRoboot.mdf" />
-    <Content Include="EasyRoboot_log.ldf" />
+    <Content Include="EasyRoboot.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EasyRoboot_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="EO.Base.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

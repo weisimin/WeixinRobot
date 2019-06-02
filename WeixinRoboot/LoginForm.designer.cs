@@ -135,7 +135,7 @@
             "腾五信",
             "五分",
             "新疆",
-            "河内",
+            "河五",
             "VR"});
             this.CB_GameType.Location = new System.Drawing.Point(336, 134);
             this.CB_GameType.Name = "CB_GameType";
