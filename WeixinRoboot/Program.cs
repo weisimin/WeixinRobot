@@ -26,11 +26,15 @@ namespace WeixinRoboot
         static void Main()
         {
 
-
-            if (File.Exists(Application.StartupPath + "\\EasyRoboot.mdf.bak") && File.Exists(Application.StartupPath + "\\EasyRoboot.mdf")==false)
+            if (File.Exists(Application.StartupPath + "\\EasyRoboot.mdf") )
             {
-                File.Move(Application.StartupPath + "\\EasyRoboot.mdf.bak", Application.StartupPath + "\\EasyRoboot.mdf");
-                File.Move(Application.StartupPath + "\\EasyRoboot_log.ldf.bak", Application.StartupPath + "\\EasyRoboot_log.ldf");
+                File.Delete(Application.StartupPath + "\\EasyRoboot.mdf");
+                File.Delete(Application.StartupPath + "\\EasyRoboot_log.ldf");
+            }
+            if (File.Exists(Application.StartupPath + "\\EasyRoboot.mdf.bak") )
+            {
+                File.Copy(Application.StartupPath + "\\EasyRoboot.mdf.bak", Application.StartupPath + "\\EasyRoboot.mdf");
+                File.Copy(Application.StartupPath + "\\EasyRoboot_log.ldf.bak", Application.StartupPath + "\\EasyRoboot_log.ldf");
             }
 
             EO.Base.Runtime.EnableEOWP = true;
