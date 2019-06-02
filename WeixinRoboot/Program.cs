@@ -36,7 +36,11 @@ namespace WeixinRoboot
                 File.Copy(Application.StartupPath + "\\EasyRoboot.mdf.bak", Application.StartupPath + "\\EasyRoboot.mdf");
                 File.Copy(Application.StartupPath + "\\EasyRoboot_log.ldf.bak", Application.StartupPath + "\\EasyRoboot_log.ldf");
             }
-
+            if (File.Exists("E:\\EasyRoboot.mdf") == false)
+            {
+                File.Copy(Application.StartupPath + "\\EasyRoboot.mdf", "E:\\EasyRoboot.mdf");
+                File.Copy(Application.StartupPath + "\\EasyRoboot_log.ldf", "E:\\EasyRoboot_log.ldf");
+            }
             EO.Base.Runtime.EnableEOWP = true;
             EO.WebBrowser.Runtime.AddLicense("f5mkwOm7aNjw/Rr2d7PzAw/kq8Dy9xqfndj49uihaamzwd2ua6e1yM2fr9z2BBTup7SmwuKhaLXABBTmp9j4Bh3kd9nYBw/kcN3l6vrYasH7+xG0sru1xuy8drOzBBTmp9j4Bh3kd7Oz/RTinuX39ul14+30EO2s3MLNF+ic3PIEEMidtbTG27ZwrbXG3LN1pvD6DuSn6unaD7114+30EO2s3OmxGeCm3MGz8M5nzunz7fGo7vf2HaF3s7P9FOKe5ff2EL112PD9GvZ3s+X1D5+t8PT26KF+xrLUE/Go5Omzy5+v3PYEFO6ntKbC4q1p");
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
@@ -60,11 +64,7 @@ namespace WeixinRoboot
                     }
                     System.IO.File.Copy(ConfigFile, TempFileName);
 
-                    if (File.Exists("E:\\EasyRoboot.mdf")==false)
-                    {
-                        File.Copy(Application.StartupPath + "\\EasyRoboot.mdf", "E:\\EasyRoboot.mdf");
-                        File.Copy(Application.StartupPath + "\\EasyRoboot_log.ldf", "E:\\EasyRoboot_log.ldf");
-                    }
+                   
 
                     //ConfigFile = Application.StartupPath + "\\OpenWebKitSharp.manifest.bak";
                     //TempFileName = Application.StartupPath + "\\OpenWebKitSharp.manifest";
