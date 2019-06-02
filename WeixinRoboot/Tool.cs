@@ -1335,7 +1335,7 @@ namespace NetFramework
             //lock (LockLoad)
             {
                 LockLoad = !((bool)LockLoad);
-                wb.WebView.LoadUrlAndWait(URL);
+                wb.WebView.LoadUrl(URL);
                 DateTime PreTime = DateTime.Now;
                 //while ((DateTime.Now-PreTime).TotalMilliseconds<milientTime)
                 //{
