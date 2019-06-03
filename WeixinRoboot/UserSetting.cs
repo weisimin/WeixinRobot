@@ -21,8 +21,8 @@ namespace WeixinRoboot
         private void btn_Save_Click(object sender, EventArgs e)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
             ep_wf.Clear();
             RobotWebAdmin.SysadminServices adws = new RobotWebAdmin.SysadminServices();
             adws.CookieContainer = GlobalParam.LoginCookie;
@@ -416,8 +416,8 @@ namespace WeixinRoboot
         private void Btn_Load_Click(object sender, EventArgs e)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
             fd_SendTimeEnd1.Enabled = true;
             fd_SendTimeStart1.Enabled = true;
             RobotWebAdmin.SysadminServices adws = new RobotWebAdmin.SysadminServices();
@@ -531,8 +531,8 @@ namespace WeixinRoboot
         private void UserSetting_Load(object sender, EventArgs e)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
 
         }
 

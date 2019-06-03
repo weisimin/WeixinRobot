@@ -49,8 +49,8 @@ namespace WeixinRoboot
             this.Invoke(new Action(() =>
             {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                db.ObjectTrackingEnabled = false;
+                //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                //db.ObjectTrackingEnabled = false;
                 //this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
                 foreach (var item in (_Members["MemberList"]) as JArray)
                 {
@@ -292,8 +292,8 @@ namespace WeixinRoboot
                 this.Invoke(new Action(() =>
                 {
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-                    db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                    db.ObjectTrackingEnabled = false;
+                    //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                    //db.ObjectTrackingEnabled = false;
                     BS_Contact.DataSource = null;
                     foreach (var item in contact)
                     {
@@ -485,8 +485,8 @@ namespace WeixinRoboot
         {
             InitializeComponent();
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
 
             dtp_StartDate.Value = DateTime.Today.AddDays(-3);
             dtp_EndDate.Value = DateTime.Today.AddMonths(1);
@@ -559,8 +559,8 @@ namespace WeixinRoboot
         {
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
             //ReplySource.Columns.Add("Reply_Contact");
             //ReplySource.Columns.Add("Reply_ContactID");
             //ReplySource.Columns.Add("Reply_ContactTEMPID");
@@ -661,8 +661,8 @@ namespace WeixinRoboot
         void RelySource_TableNewRow(object sender, DataTableNewRowEventArgs e)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
             if (e.Row != null)
             {
                 return;

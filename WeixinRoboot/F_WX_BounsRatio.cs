@@ -24,8 +24,8 @@ namespace WeixinRoboot
             try
             {
                 
-                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                db.ObjectTrackingEnabled = false;
+                //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                //db.ObjectTrackingEnabled = false;
                 db.SubmitChanges();
                 BS_GV_DATA.DataSource = db.WX_BounsConfig.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderBy(t => t.RowNumber); ;
                 MessageBox.Show("保存成功");

@@ -25,8 +25,8 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
            
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
             var datasource = from ds in db.WX_UserChangeLog
                              group ds by new { ds.WX_UserName, ds.WX_SourceType, ds.aspnet_UserID } into g
                              join dm in db.WX_UserReply on new { g.Key.aspnet_UserID, g.Key.WX_UserName, g.Key.WX_SourceType } equals new { dm.aspnet_UserID, dm.WX_UserName, dm.WX_SourceType }
@@ -57,8 +57,8 @@ namespace WeixinRoboot
         private void gv_data_SelectionChanged(object sender, EventArgs e)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
             if (gv_data.SelectedRows.Count != 0)
             {
                 string WX_UserName = gv_data.SelectedRows[0].Cells["WX_UserName"].Value.ToString();

@@ -126,7 +126,7 @@ namespace WeixinRoboot
                         Directory.CreateDirectory(Application.StartupPath + "\\EmuFile");
                     }
                     //Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-                    //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                    ////db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                     //var todel = db.Game_FootBall_VS.Where(t => t.LastAliveTime < DateTime.Now.AddDays(-3)
 
                     //    );
@@ -213,8 +213,8 @@ namespace WeixinRoboot
             loginf.Hide();
             #region
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
 
             string ActiveCode = Linq.Util_Services.GetServicesSetting().ActiveCode;
 

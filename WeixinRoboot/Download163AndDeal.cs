@@ -21,8 +21,8 @@ namespace WeixinRoboot
         private void btn_download_Click(object sender, EventArgs e)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
             bool SendImage = false;
             //StartF.DownLoad163CaiPiaoV_kaijiangwang(ref SendImage, Dtp_DownloadDate.Value, true,true);
             //StartF.DownLoad163CaiPiaoV_aozc(ref SendImage, Dtp_DownloadDate.Value, true, true);
@@ -129,8 +129,8 @@ namespace WeixinRoboot
         {
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
             BS_GameResult.DataSource = db.Game_Result
                 .Where(t => t.aspnet_UserID == GlobalParam.UserKey
                     && t.GameTime.Value.Date == Dtp_DownloadDate.Value.Date)
@@ -249,8 +249,8 @@ namespace WeixinRoboot
 
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            db.ObjectTrackingEnabled = false;
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
             StartF.DrawChongqingshishicai( subm);
             if (Newdb)
             {

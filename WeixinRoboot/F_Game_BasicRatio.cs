@@ -71,12 +71,13 @@ namespace WeixinRoboot
 
 
         Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-          db.ObjectTrackingEnabled = false;
+        
 
 
         private void F_Game_BasicRatio_Load(object sender, EventArgs e)
         {
-            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            //db.ObjectTrackingEnabled = false;
             BS_Game_BasicRatio.DataSource = db.Game_BasicRatio.Where(t => t.aspnet_UserID == GlobalParam.UserKey)
                 .OrderBy(t => t.WX_SourceType).ThenBy(t=>t.GameType).ThenBy(t => t.BuyType).ThenBy(t => t.BonusBuyValueCondition).ThenBy(t => t.BuyValue).ToArray();
 

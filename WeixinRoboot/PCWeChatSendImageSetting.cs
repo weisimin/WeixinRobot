@@ -36,8 +36,8 @@ namespace WeixinRoboot
                 if (loadset.GroupOwner != null && loadset.GroupOwner != "")
                 {
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-                    db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                    db.ObjectTrackingEnabled = false;
+                    //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                    //db.ObjectTrackingEnabled = false;
                     QqWindowHelper qh = new QqWindowHelper(new IntPtr(Convert.ToInt32(loadset.WX_UserTMPID)), "", false);
                     qh.ReloadMembers(loadset.GroupOwner, SF.RunnerF.MemberSource, loadset.WX_SourceType, db, new IntPtr(Convert.ToInt32(loadset.WX_UserTMPID)));
                 }
