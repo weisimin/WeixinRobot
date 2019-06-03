@@ -251,7 +251,12 @@ namespace WeixinRoboot
             {
                 sf.SetMode("User", "");
             }
-            sf.SetMode("EasyRobot", GameMode);
+            if (GlobalParam.DataSourceName == "Express")
+            {
+                sf.SetMode("EasyRobot", GameMode);
+            }
+
+
             sf.Show();
         }
     }

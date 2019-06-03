@@ -95,15 +95,6 @@ namespace WeixinRoboot
                 case "EasyRobot":
                     PicBarCode_yixin.Visible = false;
 
-                    switch (GameMode)
-                    {
-                        case "重庆":
-                            break;
-                        default:
-                            break;
-                    }
-
-
                     Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                     T_AoZhouCai.Checked = (GameMode == "澳彩" ? true : false);
@@ -14648,7 +14639,8 @@ namespace WeixinRoboot
 
                     CookieCollection cookhk = new CookieCollection();
                     //https://1680660.com/smallSix/findSmallSixInfo.do
-                    string Result = NetFramework.Util_WEB.OpenUrl("http://1680660.com/smallSix/findSmallSixInfo.do", "", "", "GET", cookhk, Encoding.GetEncoding("UTF-8"));
+                    //只支持HTTPS
+                    string Result = NetFramework.Util_WEB.OpenUrl("https://1680660.com/smallSix/findSmallSixInfo.do", "", "", "GET", cookhk, Encoding.GetEncoding("UTF-8"));
                     JObject j_result = JObject.Parse(Result);
                     string lastperiod = j_result["result"]["data"]["preDrawIssue"].ToString();
                     string Number = j_result["result"]["data"]["preDrawCode"].ToString();
@@ -14946,7 +14938,8 @@ namespace WeixinRoboot
                 loadset.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
 
 
-                db.SubmitChanges();
+                Linq.Util_Services.SaveServicesSetting(loadset);
+              
                 if (sender != null)
                 {
                     MessageBox.Show("保存成功");
