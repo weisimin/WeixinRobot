@@ -1066,16 +1066,6 @@ namespace NetFramework
             if (Exception)
             {
                 System.Console.WriteLine(Message);
-                try
-                {
-                    throw new Exception(Message);
-                }
-                catch (Exception anyerror)
-                {
-
-                    System.Console.WriteLine(anyerror.StackTrace);
-                }
-               
             }
 
 

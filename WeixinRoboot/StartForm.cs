@@ -102,35 +102,35 @@ namespace WeixinRoboot
                         default:
                             break;
                     }
-                   
-                   
-                     Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
-
-                     T_AoZhouCai.Checked = (GameMode=="澳彩"?true:false);
-                     T_chongqingshishicai.Checked = (GameMode == "重庆" ? true : false);
-                     T_TengXunShiFen.Checked =( GameMode == "腾十" ? true : false);
-                     T_TengXunShiFenXin.Checked = (GameMode == "腾十信" ? true : false);
-                     T_TengXunWuFen.Checked =( GameMode == "腾五" ? true : false);
-                     T_TengXunWuFenXin.Checked = (GameMode == "腾五信" ? true : false);
-                     T_WuFenCai.Checked = (GameMode == "五分" ? true : false);
-                     T_XinJiangShiShiCai.Checked = (GameMode == "新疆" ? true : false);
-                     T_HeNeiWuFen.Checked =( GameMode == "河内" ? true : false);
-                     T_VRChongQingShiShiCai.Checked = (GameMode == "VR" ? true : false);
-
-                     T_AoZhouCai.Visible = (GameMode == "澳彩" ? true : false);
-                     T_chongqingshishicai.Visible = (GameMode == "重庆" ? true : false);
-                     T_TengXunShiFen.Visible = (GameMode == "腾十" ? true : false);
-                     T_TengXunShiFenXin.Visible =( GameMode == "腾十信" ? true : false);
-                     T_TengXunWuFen.Visible =( GameMode == "腾五" ? true : false);
-                     T_TengXunWuFenXin.Visible = (GameMode == "腾五信" ? true : false);
-                     T_WuFenCai.Visible = (GameMode == "五分" ? true : false);
-                     T_XinJiangShiShiCai.Visible = (GameMode == "新疆" ? true : false);
-                     T_HeNeiWuFen.Visible = (GameMode == "河五" ? true : false);
-                     T_VRChongQingShiShiCai.Visible = (GameMode == "VR" ? true : false);
 
 
-                    loadset.Thread_AoZhouCai =  (GameMode == "澳彩" ? true : false);
-                    loadset.Thread_ChongQingShiShiCai =  (GameMode == "重庆" ? true : false);
+                    Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
+
+                    T_AoZhouCai.Checked = (GameMode == "澳彩" ? true : false);
+                    T_chongqingshishicai.Checked = (GameMode == "重庆" ? true : false);
+                    T_TengXunShiFen.Checked = (GameMode == "腾十" ? true : false);
+                    T_TengXunShiFenXin.Checked = (GameMode == "腾十信" ? true : false);
+                    T_TengXunWuFen.Checked = (GameMode == "腾五" ? true : false);
+                    T_TengXunWuFenXin.Checked = (GameMode == "腾五信" ? true : false);
+                    T_WuFenCai.Checked = (GameMode == "五分" ? true : false);
+                    T_XinJiangShiShiCai.Checked = (GameMode == "新疆" ? true : false);
+                    T_HeNeiWuFen.Checked = (GameMode == "河内" ? true : false);
+                    T_VRChongQingShiShiCai.Checked = (GameMode == "VR" ? true : false);
+
+                    T_AoZhouCai.Visible = (GameMode == "澳彩" ? true : false);
+                    T_chongqingshishicai.Visible = (GameMode == "重庆" ? true : false);
+                    T_TengXunShiFen.Visible = (GameMode == "腾十" ? true : false);
+                    T_TengXunShiFenXin.Visible = (GameMode == "腾十信" ? true : false);
+                    T_TengXunWuFen.Visible = (GameMode == "腾五" ? true : false);
+                    T_TengXunWuFenXin.Visible = (GameMode == "腾五信" ? true : false);
+                    T_WuFenCai.Visible = (GameMode == "五分" ? true : false);
+                    T_XinJiangShiShiCai.Visible = (GameMode == "新疆" ? true : false);
+                    T_HeNeiWuFen.Visible = (GameMode == "河五" ? true : false);
+                    T_VRChongQingShiShiCai.Visible = (GameMode == "VR" ? true : false);
+
+
+                    loadset.Thread_AoZhouCai = (GameMode == "澳彩" ? true : false);
+                    loadset.Thread_ChongQingShiShiCai = (GameMode == "重庆" ? true : false);
 
                     loadset.Thread_HeNeiWuFen = (GameMode == "河五" ? true : false);
                     loadset.Thread_TengXunShiFen = (GameMode == "腾十" ? true : false);
@@ -139,16 +139,16 @@ namespace WeixinRoboot
                     loadset.Thread_TengXunWuFenXin = (GameMode == "腾五信" ? true : false);
 
                     loadset.Thread_WuFen = (GameMode == "五分" ? true : false);
-                    loadset.Thread_XinJiangShiShiCai =  (GameMode == "新疆" ? true : false);
-                    loadset.Thread_VRChongqing =(GameMode == "VR" ? true : false);
+                    loadset.Thread_XinJiangShiShiCai = (GameMode == "新疆" ? true : false);
+                    loadset.Thread_VRChongqing = (GameMode == "VR" ? true : false);
 
 
                     Util_Services.SaveServicesSetting(loadset);
-                    if (GameMode!="")
+                    if (GameMode != "")
                     {
-                         RunnerF.SetMode(GameMode);
+                        RunnerF.SetMode(GameMode);
                     }
-                   
+
 
 
 
@@ -173,7 +173,7 @@ namespace WeixinRoboot
                 {
                     foreach (var item in CopyRatio)
                     {
-                        NetFramework.Console.WriteLine("正在复制默认赔率",true);
+                        NetFramework.Console.WriteLine("正在复制默认赔率", true);
                         Linq.Game_BasicRatio newr = new Linq.Game_BasicRatio();
                         newr.aspnet_UserID = (GlobalParam.UserKey);
                         newr.BasicRatio = item.BasicRatio;
@@ -223,7 +223,7 @@ namespace WeixinRoboot
             }
 
         }
-    
+
 
         protected override void WndProc(ref Message m)
         {
@@ -3525,9 +3525,9 @@ namespace WeixinRoboot
                     Linq.ProgramLogic.GameMode gm = Linq.ProgramLogic.GameMode.非玩法;
                     Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.未知;
 
-                  
-                        subm = Linq.ProgramLogic.GetMode(userr);
-                   
+
+                    subm = Linq.ProgramLogic.GetMode(userr);
+
 
 
                     if (NewContent.StartsWith("六"))
@@ -9406,11 +9406,11 @@ namespace WeixinRoboot
         public static string ReadVirtualFile(string FileName, Linq.dbDataContext db)
         {
             var load = db.aspnet_UserVirtualFile.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.FileID == FileName);
-            db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, load);
             if (load == null)
             {
                 NetFramework.Console.WriteLine(FileName + "没有找到", true);
             }
+            db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, load);
 
             return load == null ? "" : Encoding.UTF8.GetString(Convert.FromBase64String(load.FileContenxt));
         }

@@ -100,7 +100,7 @@ namespace WeixinRoboot
                                 newusrc.IsReply = true;
                             }
                             db.WX_UserReply.InsertOnSubmit(newusrc);
-
+                            db.SubmitChanges();
 
                         } //初始化，添加到数据库或同步数据库
                         else
@@ -167,7 +167,7 @@ namespace WeixinRoboot
                         }
 
                         NetFramework.Console.WriteLine("准备提交,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
-                        db.SubmitChanges();
+
 
                         usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
 
@@ -185,7 +185,7 @@ namespace WeixinRoboot
                             usrc.TengXunShiFenXinMode = (_GameMode == "腾十信" ? true : false); ;
                             usrc.HeNeiWuFenMode = (_GameMode == "河内" ? true : false); ;
                         }
-
+                        db.SubmitChanges();
 
 
 
