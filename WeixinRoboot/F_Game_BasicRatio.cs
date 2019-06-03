@@ -71,7 +71,7 @@ namespace WeixinRoboot
 
 
         Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-
+          db.ObjectTrackingEnabled = false;
 
 
         private void F_Game_BasicRatio_Load(object sender, EventArgs e)

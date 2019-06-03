@@ -214,7 +214,7 @@ namespace WeixinRoboot
             #region
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
 
             string ActiveCode = Linq.Util_Services.GetServicesSetting().ActiveCode;
 

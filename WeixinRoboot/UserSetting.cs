@@ -22,6 +22,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            db.ObjectTrackingEnabled = false;
             ep_wf.Clear();
             RobotWebAdmin.SysadminServices adws = new RobotWebAdmin.SysadminServices();
             adws.CookieContainer = GlobalParam.LoginCookie;
@@ -416,7 +417,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             fd_SendTimeEnd1.Enabled = true;
             fd_SendTimeStart1.Enabled = true;
             RobotWebAdmin.SysadminServices adws = new RobotWebAdmin.SysadminServices();
@@ -531,7 +532,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
 
         }
 

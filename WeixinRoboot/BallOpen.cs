@@ -59,6 +59,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            db.ObjectTrackingEnabled = false;
             var source = (from ds in db.WX_UserGameLog_Football
                           where ds.HaveOpen == false
                           && ds.WX_SourceType == cb_wxsourcetype.SelectedItem.ToString()
@@ -81,7 +82,7 @@ namespace WeixinRoboot
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
 
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.Game_ResultFootBall gr_fb = db.Game_ResultFootBall.SingleOrDefault(t => t.GameID == ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID);
 
                 if (gr_fb == null)
@@ -262,7 +263,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             Linq.Game_ResultFootBall newgr = new Linq.Game_ResultFootBall();
 
             Linq.Game_ResultFootBall findgr = db.Game_ResultFootBall.SingleOrDefault(t => t.GameID == ((List<GameHalfResult>)gv_result.DataSource).First().OpenGameID);

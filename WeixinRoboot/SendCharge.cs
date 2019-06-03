@@ -38,7 +38,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+            db.ObjectTrackingEnabled = false;
             try
             {
                 ep_sql.Clear();
@@ -105,7 +105,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-    
+            db.ObjectTrackingEnabled = false;
             var data = from dsl in db.WX_UserChangeLog
                        join dsu in db.WX_UserReply
                        on new { dsl.WX_UserName, dsl.aspnet_UserID ,dsl.WX_SourceType} equals new { dsu.WX_UserName, dsu.aspnet_UserID ,dsu.WX_SourceType}

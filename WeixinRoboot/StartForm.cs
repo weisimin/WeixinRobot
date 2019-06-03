@@ -85,6 +85,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            db.ObjectTrackingEnabled = false;
             switch (Mode)
             {
                 case "Admin":
@@ -1468,7 +1469,7 @@ namespace WeixinRoboot
                     {
                         Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                         db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                        db.ObjectTrackingEnabled = false;
                         JObject AddMsgList = eachMessage["r"][1]["body"][0] as JObject;
                         if (AddMsgList == null)
                         {
@@ -1588,7 +1589,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
 
 
 
@@ -2725,7 +2726,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
                 log.aspnet_Userid = GlobalParam.UserKey;
                 log.SendTime = DateTime.Now;
@@ -2793,7 +2794,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
                 log.aspnet_Userid = GlobalParam.UserKey;
                 log.SendTime = DateTime.Now;
@@ -2903,7 +2904,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
                 log.aspnet_Userid = GlobalParam.UserKey;
                 log.SendTime = DateTime.Now;
@@ -3150,7 +3151,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
                 log.aspnet_Userid = GlobalParam.UserKey;
                 log.SendTime = DateTime.Now;
@@ -3219,7 +3220,7 @@ namespace WeixinRoboot
             NetFramework.Console.WriteLine("正在开奖" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"), false);
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             Linq.aspnet_UsersNewGameResultSend checkus = Util_Services.GetServicesSetting();
             string LastPeriod = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderByDescending(t => t.GamePeriod).First().GamePeriod;
 
@@ -3432,7 +3433,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.WX_UserReplyLog log = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                                               && t.WX_UserName == userr.Field<string>("User_ContactID")
                                               && t.WX_SourceType == userr.Field<string>("User_SourceType")
@@ -4334,7 +4335,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 try
                 {
@@ -4385,6 +4386,7 @@ namespace WeixinRoboot
             {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 if (loadset.Thread_VRChongqing == true)
@@ -4457,6 +4459,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 try
                 {
@@ -4498,6 +4501,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 try
                 {
@@ -4558,7 +4562,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
@@ -4625,7 +4629,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
@@ -4689,7 +4693,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
@@ -4739,7 +4743,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
@@ -4781,7 +4785,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
 
@@ -4859,7 +4863,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
 
@@ -4926,7 +4930,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             Linq.aspnet_UsersNewGameResultSend myconfig = Util_Services.GetServicesSetting();
             if (
                 (DateTime.Now.Hour >= myconfig.SendImageStart && DateTime.Now.Hour <= myconfig.SendImageEnd)
@@ -5163,7 +5167,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://caipiao.163.com/award/cqssc/20180413.html
 
@@ -5250,7 +5254,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://caipiao.163.com/award/cqssc/20180413.html
 
@@ -5316,7 +5320,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://m.500.com/info/kaijiang/ssc/2018-05-11.shtml
 
@@ -5408,7 +5412,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -5496,7 +5500,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -5575,7 +5579,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -5649,7 +5653,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -5725,7 +5729,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.honze88.com/api/v1/lotteries/17/issuos
 
@@ -5805,7 +5809,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.honze88.com/api/v1/lotteries/17/issuos
             //https://api.honze88.com/api/v1/lotteries/17/opencodes?limit=288
@@ -5889,7 +5893,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -5962,7 +5966,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -6045,7 +6049,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -6135,7 +6139,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -6267,7 +6271,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -6374,7 +6378,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -6783,6 +6787,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            db.ObjectTrackingEnabled = false;
             Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
 ).Count();
@@ -6877,7 +6882,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             var OtherUsers = db.Game_Result.Where(t => t.GameName == "VR重庆时时彩").OrderByDescending(t => t.GamePeriod);
 
             #region 补充历史开奖
@@ -6923,7 +6928,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://m.500.com/info/kaijiang/ssc/2018-05-11.shtml
 
@@ -6989,7 +6994,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
 
@@ -7073,7 +7078,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
 
@@ -7155,7 +7160,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10004
 
@@ -7244,7 +7249,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://ssc.zzk3.cn/index.php?s=/home/record/index/yes/1.html
 
@@ -7349,7 +7354,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://ssc.zzk3.cn/index.php?s=/home/record/index/yes/1.html
 
@@ -7489,7 +7494,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://ssc.zzk3.cn/index.php?s=/home/record/index/yes/1.html
 
@@ -7592,7 +7597,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
 
@@ -7679,7 +7684,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
 
@@ -7778,7 +7783,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
 
@@ -7848,7 +7853,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://ssc.zzk3.cn/index.php?s=/home/record/index/yes/1.html
 
@@ -7926,7 +7931,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://cp98881.com/draw-wfc-20190216.html
 
@@ -8006,7 +8011,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             DateTime Localday = DateTime.Now;
 
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩 == false)
@@ -9675,6 +9680,7 @@ namespace WeixinRoboot
             {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                db.ObjectTrackingEnabled = false;
                 lbl_six.Text = "六下期：" + (GetNextPreriodHKSix(db) == null ? "" : GetNextPreriodHKSix(db).GamePeriod);
                 lbl_qqthread.Text = "(ALT+O)采集:" + (StopQQ == true ? "停止" : "运行");
                 tm_refresh.Enabled = false;
@@ -10123,7 +10129,7 @@ namespace WeixinRoboot
 
                         Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                         db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                        db.ObjectTrackingEnabled = false;
                         var Rows = RunnerF.MemberSource.Select("User_IsBoss='true'");
                         foreach (var Bossitem in Rows)
                         {
@@ -10227,7 +10233,8 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
+            db.ObjectTrackingEnabled = false;
             StringBuilder sb = new StringBuilder(512);
             NetFramework.WindowsApi.GetClassNameW(hwnd, sb, sb.Capacity);
             if (sb.ToString() == "ChatWnd" || (sb.ToString() == "StandardFrame_DingTalk") || (sb.ToString() == "LDPlayerMainFrame") || (sb.ToString() == "TXGuiFoundation")
@@ -10396,7 +10403,8 @@ namespace WeixinRoboot
             try
             {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                db.ObjectTrackingEnabled = false;
                 //foreach (Linq.WX_PCSendPicSetting wins in InjectWins)
                 //{
                 //    StringBuilder RAW = new StringBuilder(512);
@@ -11576,7 +11584,7 @@ namespace WeixinRoboot
                     //整点停止下注
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                    db.ObjectTrackingEnabled = false;
                     Linq.Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == DateTime.Now.ToString("HH:mm"));
                     if (testmin != null && GlobalParam.HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + testmin.PeriodIndex) == false)
                     {
@@ -11779,9 +11787,8 @@ namespace WeixinRoboot
             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾十信);
             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾五信);
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-
-
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            db.ObjectTrackingEnabled = false;
 
             Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
@@ -11997,6 +12004,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            db.ObjectTrackingEnabled = false;
             #region 整点发送下单情况和余下分数
 
 
@@ -12855,7 +12863,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
 
 
 
@@ -13315,6 +13323,7 @@ namespace WeixinRoboot
                     }
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                    db.ObjectTrackingEnabled = false;
                     var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                         // && (t.LastAliveTime == null || t.LastAliveTime >= DateTime.Today.AddDays(-3))
                          && t.Jobid == GlobalParam.JobID
@@ -13355,7 +13364,7 @@ namespace WeixinRoboot
                 #region 分联赛发图
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                     // && (t.LastAliveTime == null || t.LastAliveTime >= DateTime.Today.AddDays(-3))
                      && t.Jobid == GlobalParam.JobID
@@ -13553,7 +13562,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             foreach (Match cmpitem in companys)
             {
                 MatchCollection data_td = findtds.Matches(cmpitem.Value);
@@ -13981,6 +13990,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            db.ObjectTrackingEnabled = false;
             string html = "";
 
             this.Invoke(new Action(() =>
@@ -14478,7 +14488,7 @@ namespace WeixinRoboot
                 {
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                    db.ObjectTrackingEnabled = false;
                     DataRow[] rows = new DataRow[] { };
                     this.Invoke(new Action(() =>
                     {
@@ -14636,7 +14646,7 @@ namespace WeixinRoboot
                 {
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                    db.ObjectTrackingEnabled = false;
                     CookieCollection cookhk = new CookieCollection();
                     //https://1680660.com/smallSix/findSmallSixInfo.do
                     //只支持HTTPS
@@ -14907,7 +14917,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+            db.ObjectTrackingEnabled = false;
             Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
             try
             {
@@ -15222,7 +15232,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-
+                db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 tb_StartHour.Text = loadset.BlockStartHour.HasValue ? loadset.BlockStartHour.Value.ToString() : "";
                 tb_StartMinute.Text = loadset.BlockStartMinute.HasValue ? loadset.BlockStartMinute.Value.ToString() : "";
