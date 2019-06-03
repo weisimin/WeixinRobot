@@ -57,6 +57,7 @@ public class WebService : System.Web.Services.WebService
     {
         Guid aspnetUserid = Guid.Parse(saspnetUserid);
         dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        //db.ObjectTrackingEnabled = false;
         aspnet_UsersNewGameResultSend sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == aspnetUserid);
         return (JsonConvert.SerializeObject(sets));
 
@@ -67,6 +68,7 @@ public class WebService : System.Web.Services.WebService
     {
         MembershipUser msr = Membership.GetUser(UserName);
         dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+       // db.ObjectTrackingEnabled = false;
         aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(aspnet_UsersNewGameResultSend));
 
         aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)msr.ProviderUserKey);
@@ -180,6 +182,7 @@ public class WebService : System.Web.Services.WebService
     public List<Guid> GetBossUsers(string bossaspnetuserid)
     {
         dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+       // db.ObjectTrackingEnabled = false;
         List<Guid> takeusers = ((from ds in db.aspnet_UsersNewGameResultSend
                                  where ds.bossaspnet_UserID == Guid.Parse(bossaspnetuserid)
 
