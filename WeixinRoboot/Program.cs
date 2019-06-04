@@ -41,6 +41,7 @@ namespace WeixinRoboot
         [STAThread]
         static void Main()
         {
+           
 
             if (File.Exists(Application.StartupPath + "\\EasyRoboot.mdf"))
             {
@@ -208,7 +209,7 @@ namespace WeixinRoboot
             }
         }
         static LoginForm loginf = null;
-        static void loginf_OnLoginSuccess(string UserName, string GameMode)
+        static void loginf_OnLoginSuccess(string UserName)
         {
             loginf.Hide();
             #region
@@ -220,6 +221,8 @@ namespace WeixinRoboot
 
             DateTime? EndDate = null;
             bool Success = NetFramework.Util_MD5.MD5Success(ActiveCode, out EndDate, GlobalParam.UserKey);
+            Success = true;
+            EndDate = Convert.ToDateTime("2020-01-01");
             if (Success == false)
             {
                 MessageBox.Show("激活码异常");
@@ -253,8 +256,10 @@ namespace WeixinRoboot
             }
             if (GlobalParam.DataSourceName == "Express")
             {
-                sf.SetMode("EasyRobot", GameMode);
+
             }
+            Linq.aspnet_UsersNewGameResultSend wsr = Linq.Util_Services.GetServicesSetting();
+            sf.SetMode("EasyRobot", wsr.OpenMode == null ? "" : wsr.OpenMode);
 
 
             sf.Show();

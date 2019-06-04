@@ -19,7 +19,7 @@ namespace WeixinRoboot
         public static string Password;
         public static string ASPXAUTH;
         public static bool LogInSuccess = false;
-        public static CookieContainer LoginCookie;
+        public static CookieContainer LoginCookie= new CookieContainer();
 
         public static Guid UserKey = Guid.Empty;
 

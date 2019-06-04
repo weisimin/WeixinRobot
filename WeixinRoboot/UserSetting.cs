@@ -84,7 +84,7 @@ namespace WeixinRoboot
                         newGameResultSend.ImageTopText = fd_ImageTopText.Text;
                         newGameResultSend.ImageEndText = fd_ImageEndText.Text; ;
 
-
+                        newGameResultSend.OpenMode = (Cb_OpenMode.SelectedItem == null ? "" : Cb_OpenMode.SelectedItem.ToString());
 
                         Linq.Util_Services.SaveServicesSetting(newGameResultSend);
                         Linq.Game_BasicRatio[] CopyRatio = (Linq.Game_BasicRatio[])JsonConvert.DeserializeObject(usrws.GetTemplateRatios(), typeof(Linq.Game_BasicRatio[]));
@@ -210,6 +210,7 @@ namespace WeixinRoboot
                             newGameResultSend.BlockEndHour = 7;
                             newGameResultSend.BlockEndMinute = 9;
 
+                            newGameResultSend.OpenMode = (Cb_OpenMode.SelectedItem == null ? "" : Cb_OpenMode.SelectedItem.ToString());
                             Linq.Util_Services.SaveServicesSetting(newGameResultSend);
 
 
@@ -245,16 +246,15 @@ namespace WeixinRoboot
 
                             finds.ImageTopText = fd_ImageTopText.Text;
                             finds.ImageEndText = fd_ImageEndText.Text; ;
+                            finds.OpenMode = (Cb_OpenMode.SelectedItem == null ? "" : Cb_OpenMode.SelectedItem.ToString());
 
-
+                            Linq.Util_Services.SaveServicesSetting(finds);
                         }
 
                         fd_SendTimeStart1.Enabled = false;
                         fd_SendTimeEnd1.Enabled = false;
 
-                        Linq.Util_Services.SaveServicesSetting(finds);
 
-                        db.SubmitChanges();
 
                         #endregion
 
@@ -377,6 +377,7 @@ namespace WeixinRoboot
                     fd_EndDate.Enabled = true;
                     Btn_Build.Visible = true;
                     Btn_Build.Enabled = false;
+                    Cb_OpenMode.Enabled = true;
                     break;
                 case "Modify":
                     fd_password.Enabled = false;
@@ -384,6 +385,7 @@ namespace WeixinRoboot
                     btn_Save.Enabled = false;
                     fd_EndDate.Enabled = true;
                     Btn_Build.Visible = true;
+                    Cb_OpenMode.Enabled = true;
                     break;
                 case "MyData":
                     fd_username.Enabled = false;
@@ -405,6 +407,7 @@ namespace WeixinRoboot
                     FD_SendPIC.Visible = false;
                     FD_ReceiveOrder.Visible = false;
                     fd_MaxPlayerCount.Visible = false;
+                    Cb_OpenMode.Enabled = false;
                     break;
                 default:
                     break;
@@ -432,8 +435,7 @@ namespace WeixinRoboot
                 }
                 else
                 {
-                    var source = adws.GetAllUsers();
-                    BS_UserList.DataSource = source;
+                    Juser = Newtonsoft.Json.Linq.JObject.Parse(adws.GetUserInfo(fd_username.Text));
                 }
 
 
@@ -496,6 +498,8 @@ namespace WeixinRoboot
 
                         fd_ImageTopText.Text = Object2Str(newgs.ImageTopText);
                         fd_ImageEndText.Text = Object2Str(newgs.ImageEndText);
+
+                        Cb_OpenMode.SelectedItem = newgs.OpenMode;
                     }
 
                 }
@@ -528,18 +532,33 @@ namespace WeixinRoboot
 
         }
 
+        private class UserInfoQ
+        {
+            public string UserId { get; set; }
+            public string UserName { get; set; }
+            public string IsLockedOut { get; set; }
+        }
+
         private void UserSetting_Load(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            //db.ObjectTrackingEnabled = false;
+
+            RobotWebAdmin.SysadminServices adws = new RobotWebAdmin.SysadminServices();
+            adws.CookieContainer = GlobalParam.LoginCookie;
+            RobootWeb.WebService usrws = new RobootWeb.WebService();
+            if (_Mode != "MyData")
+            {
+                string Users = adws.GetAllUsers();
+                var source = JsonConvert.DeserializeObject(Users, typeof(UserInfoQ[]));
+                BS_UserList.DataSource = source;
+            }
+
 
         }
 
         private void Btn_Build_Click(object sender, EventArgs e)
         {
             RobotWebAdmin.SysadminServices adws = new RobotWebAdmin.SysadminServices();
-            adws.CookieContainer = new System.Net.CookieContainer();
+            adws.CookieContainer = GlobalParam.LoginCookie;
             JObject Juser = JObject.Parse(adws.GetUserInfo(fd_username.Text));
             fd_activecode.Text = adws.BuidMD5ActiveCode(fd_EndDate.Value, Guid.Parse(Juser["ProviderUserKey"].ToString()));
         }

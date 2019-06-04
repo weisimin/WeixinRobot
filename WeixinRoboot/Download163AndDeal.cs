@@ -29,7 +29,7 @@ namespace WeixinRoboot
 
 
             string LastPeriod = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderByDescending(t => t.GamePeriod).First().GamePeriod;
-            StartF.ShiShiCaiDealGameLogAndNotice(true);
+            StartF.ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩,true);
             db.SubmitChanges();
             Download163AndDeal_Load(null, null);
 
@@ -244,7 +244,7 @@ namespace WeixinRoboot
                 fd_Num1.Text + " " + fd_Num2.Text + " " + fd_Num3.Text + " " + fd_Num4.Text + " " + fd_Num5.Text, fd_day.Value.ToString("yyMMdd") + fd_Period.Text, ref Newdb, subm);
             if (Newdb)
             {
-                StartF.ShiShiCaiDealGameLogAndNotice();
+                StartF.ShiShiCaiDealGameLogAndNotice(subm);
             }
 
 
@@ -254,7 +254,7 @@ namespace WeixinRoboot
             StartF.DrawChongqingshishicai( subm);
             if (Newdb)
             {
-                StartF.ShiShiCaiDealGameLogAndNotice();
+                StartF.ShiShiCaiDealGameLogAndNotice(subm);
             }
             StartF.SendChongqingResultPic(subm);
 

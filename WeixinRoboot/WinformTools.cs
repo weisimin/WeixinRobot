@@ -29,6 +29,8 @@ namespace NetFramework
         public static bool? ValidateWebUser(string UserName, string Password,ref Guid ProviderUserKey,ref string AspxAuth,ref CookieContainer otscookie)
         {
             WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+            ws.CookieContainer= new CookieContainer();
+            
            string Result= ws.UserLogIn(UserName, Password);
            if (Result == "用户不存在")
            {

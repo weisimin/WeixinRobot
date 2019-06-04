@@ -120,6 +120,14 @@ namespace WeixinRoboot.Linq
             {
                 subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
             }
+            else if (dr.HeNeiWuFenMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
+            }
+            else if (dr.VRChongqing == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩;
+            }
             return subm;
         }
         public static bool TimeInDuring(Int32? StartHour, Int32? StartMinute, Int32? EndHour, Int32? EndMinute)
@@ -231,7 +239,7 @@ namespace WeixinRoboot.Linq
                 }
                 Game_Result gr = db.Game_Result.SingleOrDefault(t =>
                     t.aspnet_UserID == GlobalParam.UserKey
-                    && t.GamePeriod == ((gamelogitem.OpenMode == "澳洲幸运5") ? gamelogitem.GamePeriod : (gamelogitem.OpenMode == "腾讯十分" ? (gamelogitem.GamePeriod.Substring(0, 8) + "-0" + gamelogitem.GamePeriod.Substring(8, 3)) : gamelogitem.GamePeriod.Substring(2)))
+                    && t.GamePeriod == ((gamelogitem.OpenMode == "澳洲幸运5"||gamelogitem.OpenMode=="VR重庆时时彩") ? gamelogitem.GamePeriod : (gamelogitem.OpenMode == "腾讯十分" ? (gamelogitem.GamePeriod.Substring(0, 8) + "-0" + gamelogitem.GamePeriod.Substring(8, 3)) : gamelogitem.GamePeriod.Substring(2)))
                     && (t.GameName == gamelogitem.OpenMode || (gamelogitem.OpenMode == null && t.GameName == "重庆时时彩"))
 
                     );
@@ -10001,16 +10009,7 @@ namespace WeixinRoboot.Linq
 
         }
 
-        public string ShiShiModeGetName(ShiShiCaiMode subm)
-        {
-            switch (subm)
-            {
-                case ShiShiCaiMode.VR重庆时时彩:
-                    return "02";
-                default:
-                    return subm.ToString();
-            }
-        }
+       
 
 
     }

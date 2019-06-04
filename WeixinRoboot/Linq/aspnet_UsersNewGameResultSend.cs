@@ -103,6 +103,8 @@ namespace WeixinRoboot.Linq
 
         private System.Nullable<bool> _Thread_HeNeiWuFen;
 
+        private string _OpenMode;
+
         #region 可扩展性方法定义
         partial void OnLoaded();
         partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -193,6 +195,9 @@ namespace WeixinRoboot.Linq
         partial void OnThread_TengXunWuFenXinChanged();
         partial void OnThread_HeNeiWuFenChanging(System.Nullable<bool> value);
         partial void OnThread_HeNeiWuFenChanged();
+
+        partial void OnOpenModeChanging(string value);
+        partial void OnOpenModeChanged();
         #endregion
 
         public aspnet_UsersNewGameResultSend()
@@ -1059,7 +1064,25 @@ namespace WeixinRoboot.Linq
                 }
             }
         }
-
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_OpenMode", DbType = "NVarChar(50)")]
+        public string OpenMode
+        {
+            get
+            {
+                return this._OpenMode;
+            }
+            set
+            {
+                if ((this._OpenMode != value))
+                {
+                    this.OnOpenModeChanging(value);
+                    this.SendPropertyChanging();
+                    this._OpenMode = value;
+                    this.SendPropertyChanged("OpenMode");
+                    this.OnOpenModeChanged();
+                }
+            }
+        }
         public event PropertyChangingEventHandler PropertyChanging;
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_UserName = new System.Windows.Forms.Label();
             this.fd_username = new System.Windows.Forms.TextBox();
@@ -74,6 +74,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.fd_ImageTopText = new System.Windows.Forms.TextBox();
             this.fd_ImageEndText = new System.Windows.Forms.TextBox();
+            this.lbl_OpenMode = new System.Windows.Forms.Label();
+            this.Cb_OpenMode = new System.Windows.Forms.ComboBox();
             this.ep_wf = new System.Windows.Forms.ErrorProvider(this.components);
             this.TC_Main = new System.Windows.Forms.TabControl();
             this.TP_Data = new System.Windows.Forms.TabPage();
@@ -144,6 +146,8 @@
             this.tableLayoutPanel1.Controls.Add(this.label2, 3, 10);
             this.tableLayoutPanel1.Controls.Add(this.fd_ImageTopText, 4, 9);
             this.tableLayoutPanel1.Controls.Add(this.fd_ImageEndText, 4, 10);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_OpenMode, 3, 7);
+            this.tableLayoutPanel1.Controls.Add(this.Cb_OpenMode, 4, 7);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 23);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 14;
@@ -523,6 +527,35 @@
             this.fd_ImageEndText.Size = new System.Drawing.Size(187, 21);
             this.fd_ImageEndText.TabIndex = 42;
             // 
+            // lbl_OpenMode
+            // 
+            this.lbl_OpenMode.AutoSize = true;
+            this.lbl_OpenMode.Location = new System.Drawing.Point(383, 210);
+            this.lbl_OpenMode.Name = "lbl_OpenMode";
+            this.lbl_OpenMode.Size = new System.Drawing.Size(53, 12);
+            this.lbl_OpenMode.TabIndex = 43;
+            this.lbl_OpenMode.Text = "限定彩种";
+            // 
+            // Cb_OpenMode
+            // 
+            this.Cb_OpenMode.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Cb_OpenMode.FormattingEnabled = true;
+            this.Cb_OpenMode.Items.AddRange(new object[] {
+            "澳彩",
+            "重庆",
+            "腾十",
+            "腾十信",
+            "腾五",
+            "腾五信",
+            "五分",
+            "新疆",
+            "河五",
+            "VR"});
+            this.Cb_OpenMode.Location = new System.Drawing.Point(563, 213);
+            this.Cb_OpenMode.Name = "Cb_OpenMode";
+            this.Cb_OpenMode.Size = new System.Drawing.Size(83, 25);
+            this.Cb_OpenMode.TabIndex = 44;
+            // 
             // ep_wf
             // 
             this.ep_wf.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
@@ -566,40 +599,40 @@
             this.gv_UserList.AllowUserToDeleteRows = false;
             this.gv_UserList.AllowUserToOrderColumns = true;
             this.gv_UserList.AutoGenerateColumns = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_UserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_UserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.gv_UserList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_UserList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.UserID,
             this.UserName,
             this.IsLockedOut});
             this.gv_UserList.DataSource = this.BS_UserList;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_UserList.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_UserList.DefaultCellStyle = dataGridViewCellStyle8;
             this.gv_UserList.Location = new System.Drawing.Point(7, 7);
             this.gv_UserList.MultiSelect = false;
             this.gv_UserList.Name = "gv_UserList";
             this.gv_UserList.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_UserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_UserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.gv_UserList.RowHeadersVisible = false;
             this.gv_UserList.RowTemplate.Height = 23;
             this.gv_UserList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -704,6 +737,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox fd_ImageTopText;
         private System.Windows.Forms.TextBox fd_ImageEndText;
+        private System.Windows.Forms.Label lbl_OpenMode;
+        private System.Windows.Forms.ComboBox Cb_OpenMode;
 
     }
 }

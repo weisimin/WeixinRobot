@@ -270,14 +270,14 @@ namespace WeixinRoboot
 
             try
             {
-                this.Text = "会员号:" + GlobalParam.UserName + "版本:" + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
-                RunnerF.Text = "会员号:" + GlobalParam.UserName + "版本:" + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+                this.Text = "会员号:" + GlobalParam.UserName + "版本:" + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()+"数据源："+GlobalParam.DataSourceName;
+                RunnerF.Text = "会员号:" + GlobalParam.UserName + "版本:" + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString() + "数据源：" + GlobalParam.DataSourceName;
             }
             catch (Exception)
             {
 
-                this.Text = "会员号:" + GlobalParam.UserName + "版本:";
-                RunnerF.Text = "会员号:" + GlobalParam.UserName + "版本:";
+                this.Text = "会员号:" + GlobalParam.UserName + "版本:" + " 数据源：" + GlobalParam.DataSourceName;
+                RunnerF.Text = "会员号:" + GlobalParam.UserName + "版本:" + " 数据源：" + GlobalParam.DataSourceName;
             }
 
 
@@ -1749,11 +1749,7 @@ namespace WeixinRoboot
 
                                 }
 
-                                if (Content.Contains("期"))
-                                {
-                                    ShiShiCaiDealGameLogAndNotice(true, false);
-
-                                }
+                              
 
 
 
@@ -3212,7 +3208,7 @@ namespace WeixinRoboot
 
 
 
-        public void ShiShiCaiDealGameLogAndNotice(bool IgoreDataSettingSend = true, bool IgoreMemberGroup = false)
+        public void ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode subm,bool IgoreDataSettingSend = true, bool IgoreMemberGroup = false)
         {
 
 
@@ -3222,7 +3218,10 @@ namespace WeixinRoboot
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
            ////db.ObjectTrackingEnabled = false;
             Linq.aspnet_UsersNewGameResultSend checkus = Util_Services.GetServicesSetting();
-            string LastPeriod = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderByDescending(t => t.GamePeriod).First().GamePeriod;
+            string LastPeriod = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                &&t.GameName==subm.ToString()
+                
+                ).OrderByDescending(t => t.GamePeriod).First().GamePeriod;
 
             if ((checkus != null && checkus.IsNewSend == true) || (IgoreDataSettingSend == true))
             {
@@ -3234,7 +3233,7 @@ namespace WeixinRoboot
                     && ((_WeiXinOnLine == true && t.WX_SourceType == "微")
                       || (_YiXinOnline == true && t.WX_SourceType == "易")
                       || (t.WX_SourceType != "微" && t.WX_SourceType != "易")
-                      && (string.Compare(t.GamePeriod, (t.OpenMode == "澳洲幸运5" ? "" : "20") + LastPeriod) <= 0)
+                      && (string.Compare(t.GamePeriod, (t.OpenMode == "澳洲幸运5"||t.OpenMode=="VR重庆时时彩" ? "" : "20") + LastPeriod) <= 0)
                       )
 
                     ).Select(t => new { t.WX_UserName, t.WX_SourceType, t.MemberGroupName, t.GamePeriod }).Distinct().ToArray();
@@ -3274,7 +3273,7 @@ namespace WeixinRoboot
 
 
                     #region "PC端不一个个的发"
-                    if ((notice_item.WX_SourceType == "微" || notice_item.WX_SourceType == "易") || IgoreMemberGroup)
+                    //if ((notice_item.WX_SourceType == "微" || notice_item.WX_SourceType == "易") || IgoreMemberGroup)
                     {
 
                         if (IgoreMemberGroup == true && notice_item.WX_SourceType != "微" && notice_item.WX_SourceType != "易")
@@ -3337,7 +3336,7 @@ namespace WeixinRoboot
 
                     bool ShiShiCaiSuccess = false;
                     string ShiShiCaiErrorMessage = "";
-                    Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.GetMode(sets.First());
+                   // Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.GetMode(sets.First());
 
                     Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(DateTime.Now, "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, true, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm);
 
@@ -3520,7 +3519,11 @@ namespace WeixinRoboot
 
                     subm = Linq.ProgramLogic.GetMode(userr);
 
+                    if (ReceiveContent.Contains("期"))
+                    {
+                        ShiShiCaiDealGameLogAndNotice(subm,true, false);
 
+                    }
 
                     if (NewContent.StartsWith("六"))
                     {
@@ -3880,7 +3883,7 @@ namespace WeixinRoboot
                     {
                         if (gm == Linq.ProgramLogic.GameMode.时时彩)
                         {
-                            ShiShiCaiDealGameLogAndNotice(true, true);
+                            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩,true, true);
                         }
                         else if (gm == Linq.ProgramLogic.GameMode.六合彩)
                         {
@@ -5225,7 +5228,7 @@ namespace WeixinRoboot
             }//每行处理
             // NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------");
             //NetFramework.Console.WriteLine("163下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"));
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
 
             //Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
             //    && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
@@ -5296,7 +5299,7 @@ namespace WeixinRoboot
             }//每行处理
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("中彩网下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
                 ).Count();
@@ -5385,7 +5388,7 @@ namespace WeixinRoboot
             }//每行处理
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("500彩票网下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
 ).Count();
@@ -5466,7 +5469,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("腾讯十分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
 
 
 
@@ -5546,7 +5549,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("腾讯十分信下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.腾十信);
 
 
 
@@ -5620,7 +5623,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("腾讯十分信188下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.腾十信);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -5695,7 +5698,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("腾讯河内五分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.河内五分);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -5777,7 +5780,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("腾讯五分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -5860,7 +5863,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("腾讯五分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
 
 
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -5934,7 +5937,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("腾讯五分188下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.腾五信);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -6012,7 +6015,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("腾五信下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.腾五信);
 
 
 
@@ -6105,7 +6108,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("腾讯十分下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -6240,7 +6243,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -6342,7 +6345,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -6452,7 +6455,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -6859,7 +6862,7 @@ namespace WeixinRoboot
 
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -6902,7 +6905,7 @@ namespace WeixinRoboot
 
             #endregion
             NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -6966,7 +6969,7 @@ namespace WeixinRoboot
             }//每行处理
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("桃花下载器下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
             //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
             //).Count();
@@ -7046,7 +7049,7 @@ namespace WeixinRoboot
             }//每行处理
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("开奖网下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
             //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
             //).Count();
@@ -7127,7 +7130,7 @@ namespace WeixinRoboot
             }//每行处理
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("13322下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
             //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
             //).Count();
@@ -7215,7 +7218,7 @@ namespace WeixinRoboot
             }//每行处理
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("新疆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
             //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩)
             //).Count();
@@ -7321,7 +7324,7 @@ namespace WeixinRoboot
 
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("澳洲幸运5下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -7463,7 +7466,7 @@ namespace WeixinRoboot
 
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("澳洲幸运5下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -7565,7 +7568,7 @@ namespace WeixinRoboot
 
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("澳洲幸运5下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
 
 
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -7651,7 +7654,7 @@ namespace WeixinRoboot
             }//每行处理
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("cp22789下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                  && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
 ).Count();
@@ -7750,7 +7753,7 @@ namespace WeixinRoboot
             }//每行处理
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("1322下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
             //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
             //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
             //).Count();
@@ -7819,7 +7822,7 @@ namespace WeixinRoboot
             //}
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("1395p下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
 
 
 
@@ -7897,7 +7900,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("香港时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
 
 
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -7979,7 +7982,7 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
             NetFramework.Console.WriteLine("五分彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
-            ShiShiCaiDealGameLogAndNotice();
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
 
 
             Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey

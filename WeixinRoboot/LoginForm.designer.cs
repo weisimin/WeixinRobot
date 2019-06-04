@@ -36,7 +36,6 @@
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.lbl_data = new System.Windows.Forms.Label();
             this.cb_datasource = new System.Windows.Forms.ComboBox();
-            this.CB_GameType = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lbl_UserName
@@ -122,33 +121,11 @@
             this.cb_datasource.SelectedIndexChanged += new System.EventHandler(this.cb_datasource_SelectedIndexChanged);
             this.cb_datasource.SelectedValueChanged += new System.EventHandler(this.cb_datasource_SelectedValueChanged);
             // 
-            // CB_GameType
-            // 
-            this.CB_GameType.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CB_GameType.FormattingEnabled = true;
-            this.CB_GameType.Items.AddRange(new object[] {
-            "澳彩",
-            "重庆",
-            "腾十",
-            "腾十信",
-            "腾五",
-            "腾五信",
-            "五分",
-            "新疆",
-            "河五",
-            "VR"});
-            this.CB_GameType.Location = new System.Drawing.Point(336, 134);
-            this.CB_GameType.Name = "CB_GameType";
-            this.CB_GameType.Size = new System.Drawing.Size(83, 25);
-            this.CB_GameType.TabIndex = 8;
-            this.CB_GameType.Visible = false;
-            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(442, 228);
-            this.Controls.Add(this.CB_GameType);
             this.Controls.Add(this.cb_datasource);
             this.Controls.Add(this.lbl_data);
             this.Controls.Add(this.btn_Cancel);
@@ -176,6 +153,5 @@
         private System.Windows.Forms.Button btn_Cancel;
         private System.Windows.Forms.Label lbl_data;
         private System.Windows.Forms.ComboBox cb_datasource;
-        private System.Windows.Forms.ComboBox CB_GameType;
     }
 }

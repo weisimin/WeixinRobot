@@ -906,7 +906,7 @@ namespace WeixinRoboot
 
                 if (Newdb)
                 {
-                    StartF.ShiShiCaiDealGameLogAndNotice();
+                    StartF.ShiShiCaiDealGameLogAndNotice(subm);
                 }
                 StartF.DrawChongqingshishicai(subm);
                 StartF.SendChongqingResultPic(subm);
@@ -958,11 +958,12 @@ namespace WeixinRoboot
                 StartF.DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
                 StartF.DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
                 StartF.DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+                StartF.DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
 
 
 
+                StartF.ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
 
-                StartF.ShiShiCaiDealGameLogAndNotice();
                 StartF.SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
                 StartF.SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
                 StartF.SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
