@@ -41,7 +41,7 @@ namespace WeixinRoboot
         [STAThread]
         static void Main()
         {
-           
+
 
             if (File.Exists(Application.StartupPath + "\\EasyRoboot.mdf"))
             {
@@ -256,10 +256,10 @@ namespace WeixinRoboot
             }
             if (GlobalParam.DataSourceName == "Express")
             {
-
+                Linq.aspnet_UsersNewGameResultSend wsr = Linq.Util_Services.GetServicesSetting();
+                sf.SetMode("EasyRobot", wsr.OpenMode == null ? "" : wsr.OpenMode);
             }
-            Linq.aspnet_UsersNewGameResultSend wsr = Linq.Util_Services.GetServicesSetting();
-            sf.SetMode("EasyRobot", wsr.OpenMode == null ? "" : wsr.OpenMode);
+
 
 
             sf.Show();
