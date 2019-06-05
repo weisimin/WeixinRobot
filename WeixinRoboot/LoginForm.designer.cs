@@ -113,7 +113,8 @@
             this.cb_datasource.Items.AddRange(new object[] {
             "远程服务器",
             "本机",
-            "迷你本机"});
+            "迷你本机",
+            "迷你全本机"});
             this.cb_datasource.Location = new System.Drawing.Point(172, 134);
             this.cb_datasource.Name = "cb_datasource";
             this.cb_datasource.Size = new System.Drawing.Size(157, 29);

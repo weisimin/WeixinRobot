@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_UserName = new System.Windows.Forms.Label();
             this.fd_username = new System.Windows.Forms.TextBox();
@@ -76,6 +76,7 @@
             this.fd_ImageEndText = new System.Windows.Forms.TextBox();
             this.lbl_OpenMode = new System.Windows.Forms.Label();
             this.Cb_OpenMode = new System.Windows.Forms.ComboBox();
+            this.cb_SuperUser = new System.Windows.Forms.CheckBox();
             this.ep_wf = new System.Windows.Forms.ErrorProvider(this.components);
             this.TC_Main = new System.Windows.Forms.TabControl();
             this.TP_Data = new System.Windows.Forms.TabPage();
@@ -85,6 +86,28 @@
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsLockedOut = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BS_UserList = new System.Windows.Forms.BindingSource(this.components);
+            this.gb_gametype = new System.Windows.Forms.GroupBox();
+            this.T_HeNeiWuFen = new System.Windows.Forms.CheckBox();
+            this.T_TengXunWuFenXin = new System.Windows.Forms.CheckBox();
+            this.T_TengXunShiFenXin = new System.Windows.Forms.CheckBox();
+            this.T_chongqingshishicai = new System.Windows.Forms.CheckBox();
+            this.T_XinJiangShiShiCai = new System.Windows.Forms.CheckBox();
+            this.T_WuFenCai = new System.Windows.Forms.CheckBox();
+            this.T_TengXunWuFen = new System.Windows.Forms.CheckBox();
+            this.T_TengXunShiFen = new System.Windows.Forms.CheckBox();
+            this.T_VRChongQingShiShiCai = new System.Windows.Forms.CheckBox();
+            this.T_AoZhouCai = new System.Windows.Forms.CheckBox();
+            this.tb_fuliratio = new System.Windows.Forms.TextBox();
+            this.tb_liushuiratio = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cb_TwoTreeNotSingle = new System.Windows.Forms.CheckBox();
+            this.tb_EndMinute = new System.Windows.Forms.TextBox();
+            this.tb_EndHour = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tb_StartMinute = new System.Windows.Forms.TextBox();
+            this.tb_StartHour = new System.Windows.Forms.TextBox();
+            this.lbl_during = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ep_wf)).BeginInit();
             this.TC_Main.SuspendLayout();
@@ -92,6 +115,7 @@
             this.TP_UserList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gv_UserList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_UserList)).BeginInit();
+            this.gb_gametype.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -123,7 +147,6 @@
             this.tableLayoutPanel1.Controls.Add(this.Fd_IsBlock, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.fd_BossUserName, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.lbl_boss, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btn_Save, 0, 13);
             this.tableLayoutPanel1.Controls.Add(this.fd_MaxPlayerCount, 1, 11);
             this.tableLayoutPanel1.Controls.Add(this.lbl_tracecount, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.lbl_order, 0, 10);
@@ -148,9 +171,11 @@
             this.tableLayoutPanel1.Controls.Add(this.fd_ImageEndText, 4, 10);
             this.tableLayoutPanel1.Controls.Add(this.lbl_OpenMode, 3, 7);
             this.tableLayoutPanel1.Controls.Add(this.Cb_OpenMode, 4, 7);
+            this.tableLayoutPanel1.Controls.Add(this.cb_SuperUser, 5, 7);
+            this.tableLayoutPanel1.Controls.Add(this.btn_Save, 3, 11);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 23);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 14;
+            this.tableLayoutPanel1.RowCount = 12;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -163,9 +188,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(760, 429);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(760, 383);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // lbl_UserName
@@ -328,7 +351,7 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(3, 393);
+            this.btn_Save.Location = new System.Drawing.Point(383, 333);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(75, 23);
             this.btn_Save.TabIndex = 8;
@@ -556,6 +579,18 @@
             this.Cb_OpenMode.Size = new System.Drawing.Size(83, 25);
             this.Cb_OpenMode.TabIndex = 44;
             // 
+            // cb_SuperUser
+            // 
+            this.cb_SuperUser.AutoSize = true;
+            this.cb_SuperUser.Enabled = false;
+            this.cb_SuperUser.Location = new System.Drawing.Point(663, 213);
+            this.cb_SuperUser.Name = "cb_SuperUser";
+            this.cb_SuperUser.Size = new System.Drawing.Size(72, 16);
+            this.cb_SuperUser.TabIndex = 45;
+            this.cb_SuperUser.Text = "超级用户";
+            this.cb_SuperUser.UseVisualStyleBackColor = true;
+            this.cb_SuperUser.Visible = false;
+            // 
             // ep_wf
             // 
             this.ep_wf.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
@@ -573,6 +608,7 @@
             // 
             // TP_Data
             // 
+            this.TP_Data.Controls.Add(this.gb_gametype);
             this.TP_Data.Controls.Add(this.tableLayoutPanel1);
             this.TP_Data.Location = new System.Drawing.Point(4, 22);
             this.TP_Data.Name = "TP_Data";
@@ -599,40 +635,40 @@
             this.gv_UserList.AllowUserToDeleteRows = false;
             this.gv_UserList.AllowUserToOrderColumns = true;
             this.gv_UserList.AutoGenerateColumns = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_UserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle25.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_UserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
             this.gv_UserList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gv_UserList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.UserID,
             this.UserName,
             this.IsLockedOut});
             this.gv_UserList.DataSource = this.BS_UserList;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_UserList.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle26.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle26.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle26.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle26.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle26.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_UserList.DefaultCellStyle = dataGridViewCellStyle26;
             this.gv_UserList.Location = new System.Drawing.Point(7, 7);
             this.gv_UserList.MultiSelect = false;
             this.gv_UserList.Name = "gv_UserList";
             this.gv_UserList.ReadOnly = true;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_UserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_UserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle27;
             this.gv_UserList.RowHeadersVisible = false;
             this.gv_UserList.RowTemplate.Height = 23;
             this.gv_UserList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -663,6 +699,228 @@
             this.IsLockedOut.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.IsLockedOut.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
+            // gb_gametype
+            // 
+            this.gb_gametype.Controls.Add(this.tb_fuliratio);
+            this.gb_gametype.Controls.Add(this.tb_liushuiratio);
+            this.gb_gametype.Controls.Add(this.label6);
+            this.gb_gametype.Controls.Add(this.label5);
+            this.gb_gametype.Controls.Add(this.cb_TwoTreeNotSingle);
+            this.gb_gametype.Controls.Add(this.tb_EndMinute);
+            this.gb_gametype.Controls.Add(this.tb_EndHour);
+            this.gb_gametype.Controls.Add(this.label3);
+            this.gb_gametype.Controls.Add(this.tb_StartMinute);
+            this.gb_gametype.Controls.Add(this.tb_StartHour);
+            this.gb_gametype.Controls.Add(this.lbl_during);
+            this.gb_gametype.Controls.Add(this.T_HeNeiWuFen);
+            this.gb_gametype.Controls.Add(this.T_TengXunWuFenXin);
+            this.gb_gametype.Controls.Add(this.T_TengXunShiFenXin);
+            this.gb_gametype.Controls.Add(this.T_chongqingshishicai);
+            this.gb_gametype.Controls.Add(this.T_XinJiangShiShiCai);
+            this.gb_gametype.Controls.Add(this.T_WuFenCai);
+            this.gb_gametype.Controls.Add(this.T_TengXunWuFen);
+            this.gb_gametype.Controls.Add(this.T_TengXunShiFen);
+            this.gb_gametype.Controls.Add(this.T_VRChongQingShiShiCai);
+            this.gb_gametype.Controls.Add(this.T_AoZhouCai);
+            this.gb_gametype.Location = new System.Drawing.Point(11, 416);
+            this.gb_gametype.Name = "gb_gametype";
+            this.gb_gametype.Size = new System.Drawing.Size(750, 100);
+            this.gb_gametype.TabIndex = 1;
+            this.gb_gametype.TabStop = false;
+            this.gb_gametype.Text = "彩种";
+            // 
+            // T_HeNeiWuFen
+            // 
+            this.T_HeNeiWuFen.AutoSize = true;
+            this.T_HeNeiWuFen.Location = new System.Drawing.Point(198, 64);
+            this.T_HeNeiWuFen.Name = "T_HeNeiWuFen";
+            this.T_HeNeiWuFen.Size = new System.Drawing.Size(72, 16);
+            this.T_HeNeiWuFen.TabIndex = 85;
+            this.T_HeNeiWuFen.Text = "河内五分";
+            this.T_HeNeiWuFen.UseVisualStyleBackColor = true;
+            // 
+            // T_TengXunWuFenXin
+            // 
+            this.T_TengXunWuFenXin.AutoSize = true;
+            this.T_TengXunWuFenXin.Location = new System.Drawing.Point(96, 64);
+            this.T_TengXunWuFenXin.Name = "T_TengXunWuFenXin";
+            this.T_TengXunWuFenXin.Size = new System.Drawing.Size(84, 16);
+            this.T_TengXunWuFenXin.TabIndex = 84;
+            this.T_TengXunWuFenXin.Text = "腾讯五分信";
+            this.T_TengXunWuFenXin.UseVisualStyleBackColor = true;
+            // 
+            // T_TengXunShiFenXin
+            // 
+            this.T_TengXunShiFenXin.AutoSize = true;
+            this.T_TengXunShiFenXin.Location = new System.Drawing.Point(5, 64);
+            this.T_TengXunShiFenXin.Name = "T_TengXunShiFenXin";
+            this.T_TengXunShiFenXin.Size = new System.Drawing.Size(84, 16);
+            this.T_TengXunShiFenXin.TabIndex = 83;
+            this.T_TengXunShiFenXin.Text = "腾讯十分信";
+            this.T_TengXunShiFenXin.UseVisualStyleBackColor = true;
+            // 
+            // T_chongqingshishicai
+            // 
+            this.T_chongqingshishicai.AutoSize = true;
+            this.T_chongqingshishicai.Location = new System.Drawing.Point(6, 20);
+            this.T_chongqingshishicai.Name = "T_chongqingshishicai";
+            this.T_chongqingshishicai.Size = new System.Drawing.Size(84, 16);
+            this.T_chongqingshishicai.TabIndex = 82;
+            this.T_chongqingshishicai.Text = "重庆时时彩";
+            this.T_chongqingshishicai.UseVisualStyleBackColor = true;
+            // 
+            // T_XinJiangShiShiCai
+            // 
+            this.T_XinJiangShiShiCai.AutoSize = true;
+            this.T_XinJiangShiShiCai.Location = new System.Drawing.Point(6, 42);
+            this.T_XinJiangShiShiCai.Name = "T_XinJiangShiShiCai";
+            this.T_XinJiangShiShiCai.Size = new System.Drawing.Size(84, 16);
+            this.T_XinJiangShiShiCai.TabIndex = 81;
+            this.T_XinJiangShiShiCai.Text = "新疆时时彩";
+            this.T_XinJiangShiShiCai.UseVisualStyleBackColor = true;
+            // 
+            // T_WuFenCai
+            // 
+            this.T_WuFenCai.AutoSize = true;
+            this.T_WuFenCai.Location = new System.Drawing.Point(96, 20);
+            this.T_WuFenCai.Name = "T_WuFenCai";
+            this.T_WuFenCai.Size = new System.Drawing.Size(60, 16);
+            this.T_WuFenCai.TabIndex = 80;
+            this.T_WuFenCai.Text = "五分彩";
+            this.T_WuFenCai.UseVisualStyleBackColor = true;
+            // 
+            // T_TengXunWuFen
+            // 
+            this.T_TengXunWuFen.AutoSize = true;
+            this.T_TengXunWuFen.Location = new System.Drawing.Point(240, 20);
+            this.T_TengXunWuFen.Name = "T_TengXunWuFen";
+            this.T_TengXunWuFen.Size = new System.Drawing.Size(72, 16);
+            this.T_TengXunWuFen.TabIndex = 79;
+            this.T_TengXunWuFen.Text = "腾讯五分";
+            this.T_TengXunWuFen.UseVisualStyleBackColor = true;
+            // 
+            // T_TengXunShiFen
+            // 
+            this.T_TengXunShiFen.AutoSize = true;
+            this.T_TengXunShiFen.Location = new System.Drawing.Point(162, 20);
+            this.T_TengXunShiFen.Name = "T_TengXunShiFen";
+            this.T_TengXunShiFen.Size = new System.Drawing.Size(72, 16);
+            this.T_TengXunShiFen.TabIndex = 78;
+            this.T_TengXunShiFen.Text = "腾讯十分";
+            this.T_TengXunShiFen.UseVisualStyleBackColor = true;
+            // 
+            // T_VRChongQingShiShiCai
+            // 
+            this.T_VRChongQingShiShiCai.AutoSize = true;
+            this.T_VRChongQingShiShiCai.Location = new System.Drawing.Point(96, 42);
+            this.T_VRChongQingShiShiCai.Name = "T_VRChongQingShiShiCai";
+            this.T_VRChongQingShiShiCai.Size = new System.Drawing.Size(96, 16);
+            this.T_VRChongQingShiShiCai.TabIndex = 77;
+            this.T_VRChongQingShiShiCai.Text = "VR重庆时时彩";
+            this.T_VRChongQingShiShiCai.UseVisualStyleBackColor = true;
+            // 
+            // T_AoZhouCai
+            // 
+            this.T_AoZhouCai.AutoSize = true;
+            this.T_AoZhouCai.Location = new System.Drawing.Point(198, 42);
+            this.T_AoZhouCai.Name = "T_AoZhouCai";
+            this.T_AoZhouCai.Size = new System.Drawing.Size(60, 16);
+            this.T_AoZhouCai.TabIndex = 76;
+            this.T_AoZhouCai.Text = "澳洲彩";
+            this.T_AoZhouCai.UseVisualStyleBackColor = true;
+            // 
+            // tb_fuliratio
+            // 
+            this.tb_fuliratio.Location = new System.Drawing.Point(627, 37);
+            this.tb_fuliratio.Name = "tb_fuliratio";
+            this.tb_fuliratio.Size = new System.Drawing.Size(51, 21);
+            this.tb_fuliratio.TabIndex = 96;
+            // 
+            // tb_liushuiratio
+            // 
+            this.tb_liushuiratio.Location = new System.Drawing.Point(627, 12);
+            this.tb_liushuiratio.Name = "tb_liushuiratio";
+            this.tb_liushuiratio.Size = new System.Drawing.Size(51, 21);
+            this.tb_liushuiratio.TabIndex = 95;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(568, 15);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 94;
+            this.label6.Text = "流水比例";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(568, 40);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 93;
+            this.label5.Text = "福利比例";
+            // 
+            // cb_TwoTreeNotSingle
+            // 
+            this.cb_TwoTreeNotSingle.AutoSize = true;
+            this.cb_TwoTreeNotSingle.Location = new System.Drawing.Point(334, 52);
+            this.cb_TwoTreeNotSingle.Name = "cb_TwoTreeNotSingle";
+            this.cb_TwoTreeNotSingle.Size = new System.Drawing.Size(96, 16);
+            this.cb_TwoTreeNotSingle.TabIndex = 92;
+            this.cb_TwoTreeNotSingle.Text = "23不算单算和";
+            this.cb_TwoTreeNotSingle.UseVisualStyleBackColor = true;
+            // 
+            // tb_EndMinute
+            // 
+            this.tb_EndMinute.Location = new System.Drawing.Point(514, 17);
+            this.tb_EndMinute.Name = "tb_EndMinute";
+            this.tb_EndMinute.Size = new System.Drawing.Size(27, 21);
+            this.tb_EndMinute.TabIndex = 91;
+            this.tb_EndMinute.Text = "10";
+            // 
+            // tb_EndHour
+            // 
+            this.tb_EndHour.Location = new System.Drawing.Point(477, 17);
+            this.tb_EndHour.Name = "tb_EndHour";
+            this.tb_EndHour.Size = new System.Drawing.Size(23, 21);
+            this.tb_EndHour.TabIndex = 90;
+            this.tb_EndHour.Text = "7";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(460, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(11, 12);
+            this.label3.TabIndex = 89;
+            this.label3.Text = "~";
+            // 
+            // tb_StartMinute
+            // 
+            this.tb_StartMinute.Location = new System.Drawing.Point(427, 17);
+            this.tb_StartMinute.Name = "tb_StartMinute";
+            this.tb_StartMinute.Size = new System.Drawing.Size(27, 21);
+            this.tb_StartMinute.TabIndex = 88;
+            this.tb_StartMinute.Text = "10";
+            // 
+            // tb_StartHour
+            // 
+            this.tb_StartHour.Location = new System.Drawing.Point(390, 17);
+            this.tb_StartHour.Name = "tb_StartHour";
+            this.tb_StartHour.Size = new System.Drawing.Size(23, 21);
+            this.tb_StartHour.TabIndex = 87;
+            this.tb_StartHour.Text = "3";
+            // 
+            // lbl_during
+            // 
+            this.lbl_during.AutoSize = true;
+            this.lbl_during.Location = new System.Drawing.Point(324, 22);
+            this.lbl_during.Name = "lbl_during";
+            this.lbl_during.Size = new System.Drawing.Size(59, 12);
+            this.lbl_during.TabIndex = 86;
+            this.lbl_during.Text = "封盘时段:";
+            // 
             // UserSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -680,6 +938,8 @@
             this.TP_UserList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gv_UserList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_UserList)).EndInit();
+            this.gb_gametype.ResumeLayout(false);
+            this.gb_gametype.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -739,6 +999,30 @@
         private System.Windows.Forms.TextBox fd_ImageEndText;
         private System.Windows.Forms.Label lbl_OpenMode;
         private System.Windows.Forms.ComboBox Cb_OpenMode;
+        private System.Windows.Forms.CheckBox cb_SuperUser;
+        private System.Windows.Forms.GroupBox gb_gametype;
+        private System.Windows.Forms.CheckBox T_HeNeiWuFen;
+        private System.Windows.Forms.CheckBox T_TengXunWuFenXin;
+        private System.Windows.Forms.CheckBox T_TengXunShiFenXin;
+        private System.Windows.Forms.CheckBox T_chongqingshishicai;
+        private System.Windows.Forms.CheckBox T_XinJiangShiShiCai;
+        private System.Windows.Forms.CheckBox T_WuFenCai;
+        private System.Windows.Forms.CheckBox T_TengXunWuFen;
+        private System.Windows.Forms.CheckBox T_TengXunShiFen;
+        private System.Windows.Forms.CheckBox T_VRChongQingShiShiCai;
+        private System.Windows.Forms.CheckBox T_AoZhouCai;
+        private System.Windows.Forms.TextBox tb_fuliratio;
+        private System.Windows.Forms.TextBox tb_liushuiratio;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox cb_TwoTreeNotSingle;
+        private System.Windows.Forms.TextBox tb_EndMinute;
+        private System.Windows.Forms.TextBox tb_EndHour;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tb_StartMinute;
+        private System.Windows.Forms.TextBox tb_StartHour;
+        private System.Windows.Forms.Label lbl_during;
+
 
     }
 }

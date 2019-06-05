@@ -113,15 +113,19 @@ namespace WeixinRoboot
             {
                 case "本机":
                     GlobalParam.DataSourceName = "LocalSqlServer";
-                   
+                    GlobalParam.MemberSourceode = "Remote";
                     break;
                 case "远程服务器":
                     GlobalParam.DataSourceName = "RemoteSqlServer";
-                   
+                    GlobalParam.MemberSourceode = "Remote";
                     break;
                 case "迷你本机":
                     GlobalParam.DataSourceName = "Express";
-                   
+                    GlobalParam.MemberSourceode = "Remote";
+                    break;
+                case "迷你完全本机":
+                    GlobalParam.DataSourceName = "Express";
+                    GlobalParam.MemberSourceode = "Local";
                     break;
                 default:
                     break;

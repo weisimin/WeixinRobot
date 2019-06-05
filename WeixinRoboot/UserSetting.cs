@@ -86,6 +86,36 @@ namespace WeixinRoboot
 
                         newGameResultSend.OpenMode = (Cb_OpenMode.SelectedItem == null ? "" : Cb_OpenMode.SelectedItem.ToString());
 
+                        newGameResultSend.SuperUser = cb_SuperUser.Checked;
+
+
+
+                        newGameResultSend.BlockStartHour = Convert.ToInt32(tb_StartHour.Text);
+                        newGameResultSend.BlockStartMinute = Convert.ToInt32(tb_StartMinute.Text);
+                        newGameResultSend.BlockEndHour = Convert.ToInt32(tb_EndHour.Text);
+                        newGameResultSend.BlockEndMinute = Convert.ToInt32(tb_EndMinute.Text);
+
+
+
+                        newGameResultSend.TwoTreeNotSingle = cb_TwoTreeNotSingle.Checked;
+                        newGameResultSend.FuliRatio = Convert.ToDecimal(tb_fuliratio.Text);
+                        newGameResultSend.LiuShuiRatio = Convert.ToDecimal(tb_liushuiratio.Text);
+
+                        newGameResultSend.Thread_AoZhouCai = T_AoZhouCai.Checked;
+                        newGameResultSend.Thread_VRChongqing = T_VRChongQingShiShiCai.Checked;
+                        newGameResultSend.Thread_TengXunShiFen = T_TengXunShiFen.Checked;
+                        newGameResultSend.Thread_TengXunWuFen = T_TengXunWuFen.Checked;
+                        newGameResultSend.Thread_WuFen = T_WuFenCai.Checked;
+                        newGameResultSend.Thread_XinJiangShiShiCai = T_XinJiangShiShiCai.Checked;
+                        newGameResultSend.Thread_ChongQingShiShiCai = T_chongqingshishicai.Checked;
+
+                        newGameResultSend.Thread_TengXunShiFenXin = T_TengXunShiFenXin.Checked;
+                        newGameResultSend.Thread_TengXunWuFenXin = T_TengXunWuFenXin.Checked;
+                        newGameResultSend.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
+
+
+
+
                         Linq.Util_Services.SaveServicesSetting(newGameResultSend);
                         Linq.Game_BasicRatio[] CopyRatio = (Linq.Game_BasicRatio[])JsonConvert.DeserializeObject(usrws.GetTemplateRatios(), typeof(Linq.Game_BasicRatio[]));
 
@@ -211,6 +241,31 @@ namespace WeixinRoboot
                             newGameResultSend.BlockEndMinute = 9;
 
                             newGameResultSend.OpenMode = (Cb_OpenMode.SelectedItem == null ? "" : Cb_OpenMode.SelectedItem.ToString());
+                            newGameResultSend.SuperUser = cb_SuperUser.Checked;
+
+                            newGameResultSend.BlockStartHour = Convert.ToInt32(tb_StartHour.Text);
+                            newGameResultSend.BlockStartMinute = Convert.ToInt32(tb_StartMinute.Text);
+                            newGameResultSend.BlockEndHour = Convert.ToInt32(tb_EndHour.Text);
+                            newGameResultSend.BlockEndMinute = Convert.ToInt32(tb_EndMinute.Text);
+
+
+
+                            newGameResultSend.TwoTreeNotSingle = cb_TwoTreeNotSingle.Checked;
+                            newGameResultSend.FuliRatio = Convert.ToDecimal(tb_fuliratio.Text);
+                            newGameResultSend.LiuShuiRatio = Convert.ToDecimal(tb_liushuiratio.Text);
+
+                            newGameResultSend.Thread_AoZhouCai = T_AoZhouCai.Checked;
+                            newGameResultSend.Thread_VRChongqing = T_VRChongQingShiShiCai.Checked;
+                            newGameResultSend.Thread_TengXunShiFen = T_TengXunShiFen.Checked;
+                            newGameResultSend.Thread_TengXunWuFen = T_TengXunWuFen.Checked;
+                            newGameResultSend.Thread_WuFen = T_WuFenCai.Checked;
+                            newGameResultSend.Thread_XinJiangShiShiCai = T_XinJiangShiShiCai.Checked;
+                            newGameResultSend.Thread_ChongQingShiShiCai = T_chongqingshishicai.Checked;
+
+                            newGameResultSend.Thread_TengXunShiFenXin = T_TengXunShiFenXin.Checked;
+                            newGameResultSend.Thread_TengXunWuFenXin = T_TengXunWuFenXin.Checked;
+                            newGameResultSend.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
+
                             Linq.Util_Services.SaveServicesSetting(newGameResultSend);
 
 
@@ -247,7 +302,31 @@ namespace WeixinRoboot
                             finds.ImageTopText = fd_ImageTopText.Text;
                             finds.ImageEndText = fd_ImageEndText.Text; ;
                             finds.OpenMode = (Cb_OpenMode.SelectedItem == null ? "" : Cb_OpenMode.SelectedItem.ToString());
+                            finds.SuperUser = cb_SuperUser.Checked;
 
+
+                            finds.BlockStartHour = Convert.ToInt32(tb_StartHour.Text);
+                            finds.BlockStartMinute = Convert.ToInt32(tb_StartMinute.Text);
+                            finds.BlockEndHour = Convert.ToInt32(tb_EndHour.Text);
+                            finds.BlockEndMinute = Convert.ToInt32(tb_EndMinute.Text);
+
+
+
+                            finds.TwoTreeNotSingle = cb_TwoTreeNotSingle.Checked;
+                            finds.FuliRatio = Convert.ToDecimal(tb_fuliratio.Text);
+                            finds.LiuShuiRatio = Convert.ToDecimal(tb_liushuiratio.Text);
+
+                            finds.Thread_AoZhouCai = T_AoZhouCai.Checked;
+                            finds.Thread_VRChongqing = T_VRChongQingShiShiCai.Checked;
+                            finds.Thread_TengXunShiFen = T_TengXunShiFen.Checked;
+                            finds.Thread_TengXunWuFen = T_TengXunWuFen.Checked;
+                            finds.Thread_WuFen = T_WuFenCai.Checked;
+                            finds.Thread_XinJiangShiShiCai = T_XinJiangShiShiCai.Checked;
+                            finds.Thread_ChongQingShiShiCai = T_chongqingshishicai.Checked;
+
+                            finds.Thread_TengXunShiFenXin = T_TengXunShiFenXin.Checked;
+                            finds.Thread_TengXunWuFenXin = T_TengXunWuFenXin.Checked;
+                            finds.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
                             Linq.Util_Services.SaveServicesSetting(finds);
                         }
 
@@ -314,6 +393,8 @@ namespace WeixinRoboot
                         newGameResultSend.BlockEndHour = 7;
                         newGameResultSend.BlockEndMinute = 9;
 
+
+
                         Linq.Util_Services.SaveServicesSetting(newGameResultSend);
 
 
@@ -378,6 +459,7 @@ namespace WeixinRoboot
                     Btn_Build.Visible = true;
                     Btn_Build.Enabled = false;
                     Cb_OpenMode.Enabled = true;
+                    cb_SuperUser.Enabled = true;
                     break;
                 case "Modify":
                     fd_password.Enabled = false;
@@ -386,6 +468,7 @@ namespace WeixinRoboot
                     fd_EndDate.Enabled = true;
                     Btn_Build.Visible = true;
                     Cb_OpenMode.Enabled = true;
+                    cb_SuperUser.Enabled = true;
                     break;
                 case "MyData":
                     fd_username.Enabled = false;
@@ -408,6 +491,11 @@ namespace WeixinRoboot
                     FD_ReceiveOrder.Visible = false;
                     fd_MaxPlayerCount.Visible = false;
                     Cb_OpenMode.Enabled = false;
+                    cb_SuperUser.Enabled = false;
+
+
+
+
                     break;
                 default:
                     break;
@@ -500,6 +588,34 @@ namespace WeixinRoboot
                         fd_ImageEndText.Text = Object2Str(newgs.ImageEndText);
 
                         Cb_OpenMode.SelectedItem = newgs.OpenMode;
+
+                        cb_SuperUser.Checked = newgs.SuperUser.HasValue?newgs.SuperUser.Value:false;
+
+
+                        tb_StartHour.Text = newgs.BlockStartHour.HasValue ? newgs.BlockStartHour.Value.ToString() : "";
+                        tb_StartMinute.Text = newgs.BlockStartMinute.HasValue ? newgs.BlockStartMinute.Value.ToString() : "";
+                        tb_EndHour.Text = newgs.BlockEndHour.HasValue ? newgs.BlockEndHour.Value.ToString() : "";
+                        tb_EndMinute.Text = newgs.BlockEndMinute.HasValue ? newgs.BlockEndMinute.Value.ToString() : "";
+
+                        cb_TwoTreeNotSingle.Checked = newgs.TwoTreeNotSingle.HasValue ? newgs.TwoTreeNotSingle.Value : false;
+
+                        tb_liushuiratio.Text = newgs.LiuShuiRatio.HasValue ? newgs.LiuShuiRatio.Value.ToString("0.000") : "0.024";
+                        tb_fuliratio.Text = newgs.FuliRatio.HasValue ? newgs.FuliRatio.Value.ToString("0.000") : "0.02";
+
+
+                        T_AoZhouCai.Checked = newgs.Thread_AoZhouCai.HasValue ? newgs.Thread_AoZhouCai.Value : true;
+                        T_VRChongQingShiShiCai.Checked = newgs.Thread_VRChongqing.HasValue ? newgs.Thread_VRChongqing.Value : true;
+                        T_TengXunShiFen.Checked = newgs.Thread_TengXunShiFen.HasValue ? newgs.Thread_TengXunShiFen.Value : true;
+                        T_TengXunWuFen.Checked = newgs.Thread_TengXunWuFen.HasValue ? newgs.Thread_TengXunWuFen.Value : true;
+                        T_WuFenCai.Checked = newgs.Thread_WuFen.HasValue ? newgs.Thread_WuFen.Value : true;
+                        T_XinJiangShiShiCai.Checked = newgs.Thread_XinJiangShiShiCai.HasValue ? newgs.Thread_XinJiangShiShiCai.Value : true;
+                        T_chongqingshishicai.Checked = newgs.Thread_ChongQingShiShiCai.HasValue ? newgs.Thread_ChongQingShiShiCai.Value : true;
+
+                        T_TengXunShiFenXin.Checked = newgs.Thread_TengXunShiFenXin.HasValue ? newgs.Thread_TengXunShiFenXin.Value : true;
+                        T_TengXunWuFenXin.Checked = newgs.Thread_TengXunWuFenXin.HasValue ? newgs.Thread_TengXunWuFenXin.Value : true;
+
+                        T_HeNeiWuFen.Checked = newgs.Thread_HeNeiWuFen.HasValue ? newgs.Thread_HeNeiWuFen.Value : true;
+
                     }
 
                 }

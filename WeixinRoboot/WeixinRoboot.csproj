@@ -28,7 +28,7 @@
     <InstallUrl>http://13828081978.qicp.vip/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>61</ApplicationRevision>
+    <ApplicationRevision>62</ApplicationRevision>
     <ApplicationVersion>2.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -161,6 +161,12 @@
     </Compile>
     <Compile Include="QQWin32.cs" />
     <Compile Include="QQWindowHelper.cs" />
+    <Compile Include="StartFormSettingOnly.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartFormSettingOnly.Designer.cs">
+      <DependentUpon>StartFormSettingOnly.cs</DependentUpon>
+    </Compile>
     <Compile Include="Web References\RobootWeb\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -326,6 +332,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SendMessage.resx">
       <DependentUpon>SendMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartFormSettingOnly.resx">
+      <DependentUpon>StartFormSettingOnly.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateActiveCode.resx">
       <DependentUpon>UpdateActiveCode.cs</DependentUpon>

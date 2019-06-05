@@ -85,7 +85,8 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
+
             switch (Mode)
             {
                 case "Admin":
@@ -96,48 +97,57 @@ namespace WeixinRoboot
                 case "EasyRobot":
                     PicBarCode_yixin.Visible = false;
 
-                    Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
-                    T_AoZhouCai.Checked = (GameMode == "澳彩" ? true : false);
-                    T_chongqingshishicai.Checked = (GameMode == "重庆" ? true : false);
-                    T_TengXunShiFen.Checked = (GameMode == "腾十" ? true : false);
-                    T_TengXunShiFenXin.Checked = (GameMode == "腾十信" ? true : false);
-                    T_TengXunWuFen.Checked = (GameMode == "腾五" ? true : false);
-                    T_TengXunWuFenXin.Checked = (GameMode == "腾五信" ? true : false);
-                    T_WuFenCai.Checked = (GameMode == "五分" ? true : false);
-                    T_XinJiangShiShiCai.Checked = (GameMode == "新疆" ? true : false);
-                    T_HeNeiWuFen.Checked = (GameMode == "河内" ? true : false);
-                    T_VRChongQingShiShiCai.Checked = (GameMode == "VR" ? true : false);
-
-                    T_AoZhouCai.Visible = (GameMode == "澳彩" ? true : false);
-                    T_chongqingshishicai.Visible = (GameMode == "重庆" ? true : false);
-                    T_TengXunShiFen.Visible = (GameMode == "腾十" ? true : false);
-                    T_TengXunShiFenXin.Visible = (GameMode == "腾十信" ? true : false);
-                    T_TengXunWuFen.Visible = (GameMode == "腾五" ? true : false);
-                    T_TengXunWuFenXin.Visible = (GameMode == "腾五信" ? true : false);
-                    T_WuFenCai.Visible = (GameMode == "五分" ? true : false);
-                    T_XinJiangShiShiCai.Visible = (GameMode == "新疆" ? true : false);
-                    T_HeNeiWuFen.Visible = (GameMode == "河五" ? true : false);
-                    T_VRChongQingShiShiCai.Visible = (GameMode == "VR" ? true : false);
-
-
-                    loadset.Thread_AoZhouCai = (GameMode == "澳彩" ? true : false);
-                    loadset.Thread_ChongQingShiShiCai = (GameMode == "重庆" ? true : false);
-
-                    loadset.Thread_HeNeiWuFen = (GameMode == "河五" ? true : false);
-                    loadset.Thread_TengXunShiFen = (GameMode == "腾十" ? true : false);
-                    loadset.Thread_TengXunShiFenXin = (GameMode == "腾十信" ? true : false);
-                    loadset.Thread_TengXunWuFen = (GameMode == "腾五" ? true : false);
-                    loadset.Thread_TengXunWuFenXin = (GameMode == "腾五信" ? true : false);
-
-                    loadset.Thread_WuFen = (GameMode == "五分" ? true : false);
-                    loadset.Thread_XinJiangShiShiCai = (GameMode == "新疆" ? true : false);
-                    loadset.Thread_VRChongqing = (GameMode == "VR" ? true : false);
-
-
-                    Util_Services.SaveServicesSetting(loadset);
                     if (GameMode != "")
                     {
+                        Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
+
+
+
+                        T_AoZhouCai.Checked = (GameMode == "澳彩" ? true : false);
+                        T_chongqingshishicai.Checked = (GameMode == "重庆" ? true : false);
+                        T_TengXunShiFen.Checked = (GameMode == "腾十" ? true : false);
+                        T_TengXunShiFenXin.Checked = (GameMode == "腾十信" ? true : false);
+                        T_TengXunWuFen.Checked = (GameMode == "腾五" ? true : false);
+                        T_TengXunWuFenXin.Checked = (GameMode == "腾五信" ? true : false);
+                        T_WuFenCai.Checked = (GameMode == "五分" ? true : false);
+                        T_XinJiangShiShiCai.Checked = (GameMode == "新疆" ? true : false);
+                        T_HeNeiWuFen.Checked = (GameMode == "河内" ? true : false);
+                        T_VRChongQingShiShiCai.Checked = (GameMode == "VR" ? true : false);
+
+                        T_AoZhouCai.Visible = (GameMode == "澳彩" ? true : false);
+                        T_chongqingshishicai.Visible = (GameMode == "重庆" ? true : false);
+                        T_TengXunShiFen.Visible = (GameMode == "腾十" ? true : false);
+                        T_TengXunShiFenXin.Visible = (GameMode == "腾十信" ? true : false);
+                        T_TengXunWuFen.Visible = (GameMode == "腾五" ? true : false);
+                        T_TengXunWuFenXin.Visible = (GameMode == "腾五信" ? true : false);
+                        T_WuFenCai.Visible = (GameMode == "五分" ? true : false);
+                        T_XinJiangShiShiCai.Visible = (GameMode == "新疆" ? true : false);
+                        T_HeNeiWuFen.Visible = (GameMode == "河五" ? true : false);
+                        T_VRChongQingShiShiCai.Visible = (GameMode == "VR" ? true : false);
+
+
+                        loadset.Thread_AoZhouCai = (GameMode == "澳彩" ? true : false);
+                        loadset.Thread_ChongQingShiShiCai = (GameMode == "重庆" ? true : false);
+
+                        loadset.Thread_HeNeiWuFen = (GameMode == "河五" ? true : false);
+                        loadset.Thread_TengXunShiFen = (GameMode == "腾十" ? true : false);
+                        loadset.Thread_TengXunShiFenXin = (GameMode == "腾十信" ? true : false);
+                        loadset.Thread_TengXunWuFen = (GameMode == "腾五" ? true : false);
+                        loadset.Thread_TengXunWuFenXin = (GameMode == "腾五信" ? true : false);
+
+                        loadset.Thread_WuFen = (GameMode == "五分" ? true : false);
+                        loadset.Thread_XinJiangShiShiCai = (GameMode == "新疆" ? true : false);
+                        loadset.Thread_VRChongqing = (GameMode == "VR" ? true : false);
+
+
+
+
+
+
+
+
+                        Util_Services.SaveServicesSetting(loadset);
                         RunnerF.SetMode(GameMode);
                     }
 
@@ -270,7 +280,7 @@ namespace WeixinRoboot
 
             try
             {
-                this.Text = "会员号:" + GlobalParam.UserName + "版本:" + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()+"数据源："+GlobalParam.DataSourceName;
+                this.Text = "会员号:" + GlobalParam.UserName + "版本:" + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString() + "数据源：" + GlobalParam.DataSourceName;
                 RunnerF.Text = "会员号:" + GlobalParam.UserName + "版本:" + System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString() + "数据源：" + GlobalParam.DataSourceName;
             }
             catch (Exception)
@@ -284,20 +294,18 @@ namespace WeixinRoboot
             Thread EndNoticeBoss = new Thread(new ThreadStart(RepeatSendBossReport));
             EndNoticeBoss.Start();
 
-
-            wb_ballgame = new EO.WinForm.WebControl();
-            // wb_ballgame.ScriptErrorsSuppressed = true;
-            wb_ballgame.WebView = new EO.WebBrowser.WebView();
-
-            wb_ballgame.Dock = DockStyle.Fill;
-            wb_ballgame.Name = "wb_football";
-
-            gb_football.Controls.Add(wb_ballgame);
+            if (GlobalParam.DataSourceName != "Express" || Util_Services.GetServicesSetting().SuperUser == true)
+            {
 
 
+                wb_ballgame = new EO.WinForm.WebControl();
+                // wb_ballgame.ScriptErrorsSuppressed = true;
+                wb_ballgame.WebView = new EO.WebBrowser.WebView();
 
+                wb_ballgame.Dock = DockStyle.Fill;
+                wb_ballgame.Name = "wb_football";
 
-
+                gb_football.Controls.Add(wb_ballgame);
 
 
 
@@ -307,56 +315,61 @@ namespace WeixinRoboot
 
 
 
-            wb_other = new EO.WinForm.WebControl();
-            //wb_other.ScriptErrorsSuppressed = true;
-            // wb_other.Dock = DockStyle.Fill;
-            // wb_other.Name = "wb_other";
-            wb_other.WebView = new EO.WebBrowser.WebView();
-            gb_other.Controls.Add(wb_other);
-
-
-
-            wb_refresh = new EO.WinForm.WebControl();
-            wb_refresh.WebView = new EO.WebBrowser.WebView();
-            //wb_refresh.ScriptErrorsSuppressed = true;
-            wb_refresh.Dock = DockStyle.Fill;
-            wb_refresh.Name = "wb_refresh";
-
-            gb_refresh.Controls.Add(wb_refresh);
 
 
 
 
 
-
-            wb_balllivepoint = new EO.WinForm.WebControl();
-            wb_balllivepoint.WebView = new EO.WebBrowser.WebView();
-            //wb_balllivepoint.ScriptErrorsSuppressed = true;
-            wb_balllivepoint.Dock = DockStyle.Fill;
-            wb_balllivepoint.Name = "wb_balllivepoint";
-
-            gb_point.Controls.Add(wb_balllivepoint);
+                wb_other = new EO.WinForm.WebControl();
+                //wb_other.ScriptErrorsSuppressed = true;
+                // wb_other.Dock = DockStyle.Fill;
+                // wb_other.Name = "wb_other";
+                wb_other.WebView = new EO.WebBrowser.WebView();
+                gb_other.Controls.Add(wb_other);
 
 
 
+                wb_refresh = new EO.WinForm.WebControl();
+                wb_refresh.WebView = new EO.WebBrowser.WebView();
+                //wb_refresh.ScriptErrorsSuppressed = true;
+                wb_refresh.Dock = DockStyle.Fill;
+                wb_refresh.Name = "wb_refresh";
 
-            wb_pointlog = new EO.WinForm.WebControl();
-            wb_pointlog.WebView = new EO.WebBrowser.WebView();
-            //wb_pointlog.ScriptErrorsSuppressed = true;
-            wb_pointlog.Dock = DockStyle.Fill;
-            wb_pointlog.Name = "wb_pointlog";
-
-            gb_pointlog.Controls.Add(wb_pointlog);
+                gb_refresh.Controls.Add(wb_refresh);
 
 
-            wb_vrchongqing = new EO.WinForm.WebControl();
-            wb_vrchongqing.WebView = new EO.WebBrowser.WebView();
-            //wb_vrchongqing.ScriptErrorsSuppressed = true;
-            wb_vrchongqing.Dock = DockStyle.Fill;
-            wb_vrchongqing.Name = "wb_vrchongqing";
 
-            gb_vrchongqingshishicai.Controls.Add(wb_vrchongqing);
 
+
+
+                wb_balllivepoint = new EO.WinForm.WebControl();
+                wb_balllivepoint.WebView = new EO.WebBrowser.WebView();
+                //wb_balllivepoint.ScriptErrorsSuppressed = true;
+                wb_balllivepoint.Dock = DockStyle.Fill;
+                wb_balllivepoint.Name = "wb_balllivepoint";
+
+                gb_point.Controls.Add(wb_balllivepoint);
+
+
+
+
+                wb_pointlog = new EO.WinForm.WebControl();
+                wb_pointlog.WebView = new EO.WebBrowser.WebView();
+                //wb_pointlog.ScriptErrorsSuppressed = true;
+                wb_pointlog.Dock = DockStyle.Fill;
+                wb_pointlog.Name = "wb_pointlog";
+
+                gb_pointlog.Controls.Add(wb_pointlog);
+
+
+                wb_vrchongqing = new EO.WinForm.WebControl();
+                wb_vrchongqing.WebView = new EO.WebBrowser.WebView();
+                //wb_vrchongqing.ScriptErrorsSuppressed = true;
+                wb_vrchongqing.Dock = DockStyle.Fill;
+                wb_vrchongqing.Name = "wb_vrchongqing";
+
+                gb_vrchongqingshishicai.Controls.Add(wb_vrchongqing);
+            }
 
             tm_refresh.Start();
 
@@ -1469,7 +1482,7 @@ namespace WeixinRoboot
                     {
                         Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                         //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                       ////db.ObjectTrackingEnabled = false;
+                        ////db.ObjectTrackingEnabled = false;
                         JObject AddMsgList = eachMessage["r"][1]["body"][0] as JObject;
                         if (AddMsgList == null)
                         {
@@ -1589,7 +1602,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
 
 
 
@@ -1749,7 +1762,7 @@ namespace WeixinRoboot
 
                                 }
 
-                              
+
 
 
 
@@ -1887,9 +1900,18 @@ namespace WeixinRoboot
 
                                     if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep && (MyOutResult == ""))
                                     {
-                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                        SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
+                                        if (GlobalParam.DataSourceName != "Express" || Util_Services.GetServicesSetting().SuperUser == true)
+                                        {
+
+                                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                            SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
+                                        }
+                                        else
+                                        {
+                                            SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + "迷你单机模式不能切换彩种", Tocontacts, SourceType);
+
+                                        }
                                     }
                                     if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop && (MyOutResult == ""))
                                     {
@@ -2722,7 +2744,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
                 log.aspnet_Userid = GlobalParam.UserKey;
                 log.SendTime = DateTime.Now;
@@ -2790,7 +2812,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
                 log.aspnet_Userid = GlobalParam.UserKey;
                 log.SendTime = DateTime.Now;
@@ -2900,7 +2922,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
                 log.aspnet_Userid = GlobalParam.UserKey;
                 log.SendTime = DateTime.Now;
@@ -3147,7 +3169,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.WX_PicErrorLog log = new Linq.WX_PicErrorLog();
                 log.aspnet_Userid = GlobalParam.UserKey;
                 log.SendTime = DateTime.Now;
@@ -3208,7 +3230,7 @@ namespace WeixinRoboot
 
 
 
-        public void ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode subm,bool IgoreDataSettingSend = true, bool IgoreMemberGroup = false)
+        public void ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode subm, bool IgoreDataSettingSend = true, bool IgoreMemberGroup = false)
         {
 
 
@@ -3216,11 +3238,11 @@ namespace WeixinRoboot
             NetFramework.Console.WriteLine("正在开奖" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"), false);
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             Linq.aspnet_UsersNewGameResultSend checkus = Util_Services.GetServicesSetting();
             string LastPeriod = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
-                &&t.GameName==subm.ToString()
-                
+                && t.GameName == subm.ToString()
+
                 ).OrderByDescending(t => t.GamePeriod).First().GamePeriod;
 
             if ((checkus != null && checkus.IsNewSend == true) || (IgoreDataSettingSend == true))
@@ -3233,7 +3255,7 @@ namespace WeixinRoboot
                     && ((_WeiXinOnLine == true && t.WX_SourceType == "微")
                       || (_YiXinOnline == true && t.WX_SourceType == "易")
                       || (t.WX_SourceType != "微" && t.WX_SourceType != "易")
-                      && (string.Compare(t.GamePeriod, (t.OpenMode == "澳洲幸运5"||t.OpenMode=="VR重庆时时彩" ? "" : "20") + LastPeriod) <= 0)
+                      && (string.Compare(t.GamePeriod, (t.OpenMode == "澳洲幸运5" || t.OpenMode == "VR重庆时时彩" ? "" : "20") + LastPeriod) <= 0)
                       )
 
                     ).Select(t => new { t.WX_UserName, t.WX_SourceType, t.MemberGroupName, t.GamePeriod }).Distinct().ToArray();
@@ -3336,7 +3358,7 @@ namespace WeixinRoboot
 
                     bool ShiShiCaiSuccess = false;
                     string ShiShiCaiErrorMessage = "";
-                   // Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.GetMode(sets.First());
+                    // Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.GetMode(sets.First());
 
                     Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(DateTime.Now, "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, true, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm);
 
@@ -3432,7 +3454,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.WX_UserReplyLog log = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                                               && t.WX_UserName == userr.Field<string>("User_ContactID")
                                               && t.WX_SourceType == userr.Field<string>("User_SourceType")
@@ -3521,7 +3543,7 @@ namespace WeixinRoboot
 
                     if (ReceiveContent.Contains("期"))
                     {
-                        ShiShiCaiDealGameLogAndNotice(subm,true, false);
+                        ShiShiCaiDealGameLogAndNotice(subm, true, false);
 
                     }
 
@@ -3883,7 +3905,7 @@ namespace WeixinRoboot
                     {
                         if (gm == Linq.ProgramLogic.GameMode.时时彩)
                         {
-                            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩,true, true);
+                            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩, true, true);
                         }
                         else if (gm == Linq.ProgramLogic.GameMode.六合彩)
                         {
@@ -4338,7 +4360,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 try
                 {
@@ -4389,7 +4411,7 @@ namespace WeixinRoboot
             {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 if (loadset.Thread_VRChongqing == true)
@@ -4462,7 +4484,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 try
                 {
@@ -4504,7 +4526,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 try
                 {
@@ -4565,7 +4587,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
@@ -4632,7 +4654,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
@@ -4696,7 +4718,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
@@ -4746,7 +4768,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
                 try
@@ -4788,7 +4810,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
 
@@ -4866,7 +4888,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
 
@@ -4933,7 +4955,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             Linq.aspnet_UsersNewGameResultSend myconfig = Util_Services.GetServicesSetting();
             if (
                 (DateTime.Now.Hour >= myconfig.SendImageStart && DateTime.Now.Hour <= myconfig.SendImageEnd)
@@ -5170,7 +5192,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://caipiao.163.com/award/cqssc/20180413.html
 
@@ -5257,7 +5279,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://caipiao.163.com/award/cqssc/20180413.html
 
@@ -5323,7 +5345,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://m.500.com/info/kaijiang/ssc/2018-05-11.shtml
 
@@ -5415,7 +5437,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -5503,7 +5525,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -5582,7 +5604,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -5656,7 +5678,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -5732,7 +5754,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.honze88.com/api/v1/lotteries/17/issuos
 
@@ -5812,7 +5834,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.honze88.com/api/v1/lotteries/17/issuos
             //https://api.honze88.com/api/v1/lotteries/17/opencodes?limit=288
@@ -5896,7 +5918,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -5969,7 +5991,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -6052,7 +6074,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -6142,7 +6164,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -6274,7 +6296,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -6381,7 +6403,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
@@ -6790,7 +6812,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             Int32 LocalGameResultCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
 ).Count();
@@ -6885,7 +6907,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             var OtherUsers = db.Game_Result.Where(t => t.GameName == "VR重庆时时彩").OrderByDescending(t => t.GamePeriod);
 
             #region 补充历史开奖
@@ -6931,7 +6953,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://m.500.com/info/kaijiang/ssc/2018-05-11.shtml
 
@@ -6997,7 +7019,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
 
@@ -7081,7 +7103,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
 
@@ -7163,7 +7185,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10004
 
@@ -7252,7 +7274,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://ssc.zzk3.cn/index.php?s=/home/record/index/yes/1.html
 
@@ -7357,7 +7379,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://ssc.zzk3.cn/index.php?s=/home/record/index/yes/1.html
 
@@ -7497,7 +7519,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://ssc.zzk3.cn/index.php?s=/home/record/index/yes/1.html
 
@@ -7600,7 +7622,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
 
@@ -7687,7 +7709,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
 
@@ -7786,7 +7808,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //https://api.api68.com/CQShiCai/getBaseCQShiCaiList.do?date=2018-05-24&lotCode=10002
 
@@ -7856,7 +7878,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://ssc.zzk3.cn/index.php?s=/home/record/index/yes/1.html
 
@@ -7934,7 +7956,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 下载彩票结果
             //http://cp98881.com/draw-wfc-20190216.html
 
@@ -8014,7 +8036,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             DateTime Localday = DateTime.Now;
 
             if (subm == Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩 == false)
@@ -9683,7 +9705,7 @@ namespace WeixinRoboot
             {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 lbl_six.Text = "六下期：" + (GetNextPreriodHKSix(db) == null ? "" : GetNextPreriodHKSix(db).GamePeriod);
                 lbl_qqthread.Text = "(ALT+O)采集:" + (StopQQ == true ? "停止" : "运行");
                 tm_refresh.Enabled = false;
@@ -9691,8 +9713,12 @@ namespace WeixinRoboot
 
                 if (FirstRun == true)
                 {
-                    wb_ballgame.WebView.LoadUrl("http://odds.gooooal.com/company.html?type=1001");
-                    wb_balllivepoint.WebView.LoadUrl("http://live.gooooal.com");
+                    if (GlobalParam.DataSourceName != "Express" || Util_Services.GetServicesSetting().SuperUser == true)
+                    {
+                        wb_ballgame.WebView.LoadUrl("http://odds.gooooal.com/company.html?type=1001");
+                        wb_balllivepoint.WebView.LoadUrl("http://live.gooooal.com");
+
+                    }
 
                     Thread startdo = new Thread(new ThreadStart(ThreadStartGetBallRatioV2));
                     startdo.Start();
@@ -10132,7 +10158,7 @@ namespace WeixinRoboot
 
                         Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                         //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                       ////db.ObjectTrackingEnabled = false;
+                        ////db.ObjectTrackingEnabled = false;
                         var Rows = RunnerF.MemberSource.Select("User_IsBoss='true'");
                         foreach (var Bossitem in Rows)
                         {
@@ -10236,8 +10262,8 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             StringBuilder sb = new StringBuilder(512);
             NetFramework.WindowsApi.GetClassNameW(hwnd, sb, sb.Capacity);
             if (sb.ToString() == "ChatWnd" || (sb.ToString() == "StandardFrame_DingTalk") || (sb.ToString() == "LDPlayerMainFrame") || (sb.ToString() == "TXGuiFoundation")
@@ -10407,7 +10433,7 @@ namespace WeixinRoboot
             {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 //foreach (Linq.WX_PCSendPicSetting wins in InjectWins)
                 //{
                 //    StringBuilder RAW = new StringBuilder(512);
@@ -11587,7 +11613,7 @@ namespace WeixinRoboot
                     //整点停止下注
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                   ////db.ObjectTrackingEnabled = false;
+                    ////db.ObjectTrackingEnabled = false;
                     Linq.Game_ChongqingshishicaiPeriodMinute testmin = db.Game_ChongqingshishicaiPeriodMinute.SingleOrDefault(t => t.TimeMinute == DateTime.Now.ToString("HH:mm"));
                     if (testmin != null && GlobalParam.HaveSend.ContainsKey(DateTime.Today.ToString("yyyyMMdd") + testmin.PeriodIndex) == false)
                     {
@@ -11791,7 +11817,7 @@ namespace WeixinRoboot
             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾五信);
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
 
             Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
@@ -12007,7 +12033,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             #region 整点发送下单情况和余下分数
 
 
@@ -12866,7 +12892,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
 
 
 
@@ -13326,7 +13352,7 @@ namespace WeixinRoboot
                     }
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                   ////db.ObjectTrackingEnabled = false;
+                    ////db.ObjectTrackingEnabled = false;
                     var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                         // && (t.LastAliveTime == null || t.LastAliveTime >= DateTime.Today.AddDays(-3))
                          && t.Jobid == GlobalParam.JobID
@@ -13367,7 +13393,7 @@ namespace WeixinRoboot
                 #region 分联赛发图
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
                     // && (t.LastAliveTime == null || t.LastAliveTime >= DateTime.Today.AddDays(-3))
                      && t.Jobid == GlobalParam.JobID
@@ -13565,7 +13591,7 @@ namespace WeixinRoboot
 
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             foreach (Match cmpitem in companys)
             {
                 MatchCollection data_td = findtds.Matches(cmpitem.Value);
@@ -13993,7 +14019,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             string html = "";
 
             this.Invoke(new Action(() =>
@@ -14491,7 +14517,7 @@ namespace WeixinRoboot
                 {
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                   ////db.ObjectTrackingEnabled = false;
+                    ////db.ObjectTrackingEnabled = false;
                     DataRow[] rows = new DataRow[] { };
                     this.Invoke(new Action(() =>
                     {
@@ -14649,7 +14675,7 @@ namespace WeixinRoboot
                 {
                     Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                   ////db.ObjectTrackingEnabled = false;
+                    ////db.ObjectTrackingEnabled = false;
                     CookieCollection cookhk = new CookieCollection();
                     //https://1680660.com/smallSix/findSmallSixInfo.do
                     //只支持HTTPS
@@ -14920,7 +14946,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-           ////db.ObjectTrackingEnabled = false;
+            ////db.ObjectTrackingEnabled = false;
             Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
             try
             {
@@ -14952,7 +14978,7 @@ namespace WeixinRoboot
 
 
                 Linq.Util_Services.SaveServicesSetting(loadset);
-              
+
                 if (sender != null)
                 {
                     MessageBox.Show("保存成功");
@@ -15235,7 +15261,7 @@ namespace WeixinRoboot
 
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
                 tb_StartHour.Text = loadset.BlockStartHour.HasValue ? loadset.BlockStartHour.Value.ToString() : "";
                 tb_StartMinute.Text = loadset.BlockStartMinute.HasValue ? loadset.BlockStartMinute.Value.ToString() : "";
@@ -15345,7 +15371,7 @@ namespace WeixinRoboot
                 }
 
                 db.SubmitChanges();
-               ////db.ObjectTrackingEnabled = false;
+                ////db.ObjectTrackingEnabled = false;
 
                 gv_NoxEnums.DataSource = SourceNoxList;
                 gv_LeidianEnums.DataSource = SourceLeidianList;

@@ -45,6 +45,7 @@ namespace WeixinRoboot
 
         public static string DataSourceName = "";
 
+        public static string MemberSourceode { get; set; }
 
 
     }
