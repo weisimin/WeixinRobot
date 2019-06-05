@@ -34,6 +34,9 @@ public class WebService : System.Web.Services.WebService
         MembershipUser msr = Membership.GetUser(UserName);
         if (r == true)
         {
+            FormsAuthentication.SetAuthCookie(UserName, true);
+            string Cookie = FormsAuthentication.GetAuthCookie(UserName, true).Value;
+
             return (msr.ProviderUserKey.ToString());
         }
         else if (msr == null)
@@ -66,16 +69,18 @@ public class WebService : System.Web.Services.WebService
     [WebMethod]
     public string SaveSetting(string UserName, string Password, string jaspnet_UsersNewGameResultSend)
     {
-        MembershipUser msr = Membership.GetUser(UserName);
+        //MembershipUser msr = Membership.GetUser(UserName);
         dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
        // db.ObjectTrackingEnabled = false;
         aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(aspnet_UsersNewGameResultSend));
 
-        aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)msr.ProviderUserKey);
+        aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == tins_sets.aspnet_UserID);
         if (save_sets == null)
         {
+         
             save_sets = new aspnet_UsersNewGameResultSend();
-            save_sets.aspnet_UserID = (Guid)msr.ProviderUserKey;
+            save_sets.aspnet_UserID = tins_sets.aspnet_UserID;
+            db.aspnet_UsersNewGameResultSend.InsertOnSubmit(save_sets);
         }
         save_sets.ActiveCode = tins_sets.ActiveCode;
 
@@ -162,6 +167,9 @@ public class WebService : System.Web.Services.WebService
         save_sets.Thread_TengXunWuFenXin = tins_sets.Thread_TengXunWuFenXin;
 
         save_sets.Thread_HeNeiWuFen = tins_sets.Thread_HeNeiWuFen;
+
+        save_sets.OpenMode = tins_sets.OpenMode;
+
         try
         {
             db.SubmitChanges();
