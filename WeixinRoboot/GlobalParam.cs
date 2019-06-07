@@ -47,6 +47,7 @@ namespace WeixinRoboot
 
         public static string MemberSourceode { get; set; }
 
+        public static Linq.dbDataContext glodb = new Linq.dbDataContext();
 
     }
 

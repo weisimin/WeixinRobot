@@ -266,6 +266,7 @@ namespace WeixinRoboot
                             newGameResultSend.Thread_TengXunWuFenXin = T_TengXunWuFenXin.Checked;
                             newGameResultSend.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
 
+                            
                             Linq.Util_Services.SaveServicesSetting(newGameResultSend);
 
 
@@ -327,6 +328,8 @@ namespace WeixinRoboot
                             finds.Thread_TengXunShiFenXin = T_TengXunShiFenXin.Checked;
                             finds.Thread_TengXunWuFenXin = T_TengXunWuFenXin.Checked;
                             finds.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
+
+
                             Linq.Util_Services.SaveServicesSetting(finds);
 
                         }
@@ -734,6 +737,19 @@ namespace WeixinRoboot
         {
 
             return param == null ? NullValue : param.ToString();
+        }
+
+        private void cb_SuperUser_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_SuperUser.Checked == true)
+            {
+                Cb_OpenMode.SelectedItem = null;
+                Cb_OpenMode.Enabled = false;
+            }
+            else
+            {
+                Cb_OpenMode.Enabled = true;
+            }
         }
     }
 }

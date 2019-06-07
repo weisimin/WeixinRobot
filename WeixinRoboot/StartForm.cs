@@ -98,58 +98,7 @@ namespace WeixinRoboot
                     PicBarCode_yixin.Visible = false;
 
 
-                    if (GameMode != "")
-                    {
-                        Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
-
-
-                        T_AoZhouCai.Checked = (GameMode == "澳彩" ? true : false);
-                        T_chongqingshishicai.Checked = (GameMode == "重庆" ? true : false);
-                        T_TengXunShiFen.Checked = (GameMode == "腾十" ? true : false);
-                        T_TengXunShiFenXin.Checked = (GameMode == "腾十信" ? true : false);
-                        T_TengXunWuFen.Checked = (GameMode == "腾五" ? true : false);
-                        T_TengXunWuFenXin.Checked = (GameMode == "腾五信" ? true : false);
-                        T_WuFenCai.Checked = (GameMode == "五分" ? true : false);
-                        T_XinJiangShiShiCai.Checked = (GameMode == "新疆" ? true : false);
-                        T_HeNeiWuFen.Checked = (GameMode == "河内" ? true : false);
-                        T_VRChongQingShiShiCai.Checked = (GameMode == "VR" ? true : false);
-
-                        T_AoZhouCai.Visible = (GameMode == "澳彩" ? true : false);
-                        T_chongqingshishicai.Visible = (GameMode == "重庆" ? true : false);
-                        T_TengXunShiFen.Visible = (GameMode == "腾十" ? true : false);
-                        T_TengXunShiFenXin.Visible = (GameMode == "腾十信" ? true : false);
-                        T_TengXunWuFen.Visible = (GameMode == "腾五" ? true : false);
-                        T_TengXunWuFenXin.Visible = (GameMode == "腾五信" ? true : false);
-                        T_WuFenCai.Visible = (GameMode == "五分" ? true : false);
-                        T_XinJiangShiShiCai.Visible = (GameMode == "新疆" ? true : false);
-                        T_HeNeiWuFen.Visible = (GameMode == "河五" ? true : false);
-                        T_VRChongQingShiShiCai.Visible = (GameMode == "VR" ? true : false);
-
-
-                        loadset.Thread_AoZhouCai = (GameMode == "澳彩" ? true : false);
-                        loadset.Thread_ChongQingShiShiCai = (GameMode == "重庆" ? true : false);
-
-                        loadset.Thread_HeNeiWuFen = (GameMode == "河五" ? true : false);
-                        loadset.Thread_TengXunShiFen = (GameMode == "腾十" ? true : false);
-                        loadset.Thread_TengXunShiFenXin = (GameMode == "腾十信" ? true : false);
-                        loadset.Thread_TengXunWuFen = (GameMode == "腾五" ? true : false);
-                        loadset.Thread_TengXunWuFenXin = (GameMode == "腾五信" ? true : false);
-
-                        loadset.Thread_WuFen = (GameMode == "五分" ? true : false);
-                        loadset.Thread_XinJiangShiShiCai = (GameMode == "新疆" ? true : false);
-                        loadset.Thread_VRChongqing = (GameMode == "VR" ? true : false);
-
-
-
-
-
-
-
-
-                        Util_Services.SaveServicesSetting(loadset);
-                        RunnerF.SetMode(GameMode);
-                    }
 
 
 
@@ -159,6 +108,62 @@ namespace WeixinRoboot
                     break;
                 default:
                     break;
+            }
+            if (Mode != "Admin" && Mode != "User")
+            {
+
+                if (GameMode != "")
+                {
+                    Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
+
+
+
+                    T_AoZhouCai.Checked = (GameMode == "澳彩" ? true : false);
+                    T_chongqingshishicai.Checked = (GameMode == "重庆" ? true : false);
+                    T_TengXunShiFen.Checked = (GameMode == "腾十" ? true : false);
+                    T_TengXunShiFenXin.Checked = (GameMode == "腾十信" ? true : false);
+                    T_TengXunWuFen.Checked = (GameMode == "腾五" ? true : false);
+                    T_TengXunWuFenXin.Checked = (GameMode == "腾五信" ? true : false);
+                    T_WuFenCai.Checked = (GameMode == "五分" ? true : false);
+                    T_XinJiangShiShiCai.Checked = (GameMode == "新疆" ? true : false);
+                    T_HeNeiWuFen.Checked = (GameMode == "河内" ? true : false);
+                    T_VRChongQingShiShiCai.Checked = (GameMode == "VR" ? true : false);
+
+                    T_AoZhouCai.Visible = (GameMode == "澳彩" ? true : false);
+                    T_chongqingshishicai.Visible = (GameMode == "重庆" ? true : false);
+                    T_TengXunShiFen.Visible = (GameMode == "腾十" ? true : false);
+                    T_TengXunShiFenXin.Visible = (GameMode == "腾十信" ? true : false);
+                    T_TengXunWuFen.Visible = (GameMode == "腾五" ? true : false);
+                    T_TengXunWuFenXin.Visible = (GameMode == "腾五信" ? true : false);
+                    T_WuFenCai.Visible = (GameMode == "五分" ? true : false);
+                    T_XinJiangShiShiCai.Visible = (GameMode == "新疆" ? true : false);
+                    T_HeNeiWuFen.Visible = (GameMode == "河五" ? true : false);
+                    T_VRChongQingShiShiCai.Visible = (GameMode == "VR" ? true : false);
+
+
+                    loadset.Thread_AoZhouCai = (GameMode == "澳彩" ? true : false);
+                    loadset.Thread_ChongQingShiShiCai = (GameMode == "重庆" ? true : false);
+
+                    loadset.Thread_HeNeiWuFen = (GameMode == "河五" ? true : false);
+                    loadset.Thread_TengXunShiFen = (GameMode == "腾十" ? true : false);
+                    loadset.Thread_TengXunShiFenXin = (GameMode == "腾十信" ? true : false);
+                    loadset.Thread_TengXunWuFen = (GameMode == "腾五" ? true : false);
+                    loadset.Thread_TengXunWuFenXin = (GameMode == "腾五信" ? true : false);
+
+                    loadset.Thread_WuFen = (GameMode == "五分" ? true : false);
+                    loadset.Thread_XinJiangShiShiCai = (GameMode == "新疆" ? true : false);
+                    loadset.Thread_VRChongqing = (GameMode == "VR" ? true : false);
+
+
+
+
+
+
+
+
+                    Util_Services.SaveServicesSetting(loadset);
+                    RunnerF.SetMode(GameMode);
+                }
             }
             //复制赔率和福利到本地
 
@@ -294,7 +299,7 @@ namespace WeixinRoboot
             Thread EndNoticeBoss = new Thread(new ThreadStart(RepeatSendBossReport));
             EndNoticeBoss.Start();
 
-            if (GlobalParam.DataSourceName != "Express" || Util_Services.GetServicesSetting().SuperUser == true)
+            if (Util_Services.GetServicesSetting().SuperUser == true)
             {
 
 
@@ -362,15 +367,15 @@ namespace WeixinRoboot
                 gb_pointlog.Controls.Add(wb_pointlog);
 
 
-                wb_vrchongqing = new EO.WinForm.WebControl();
-                wb_vrchongqing.WebView = new EO.WebBrowser.WebView();
-                //wb_vrchongqing.ScriptErrorsSuppressed = true;
-                wb_vrchongqing.Dock = DockStyle.Fill;
-                wb_vrchongqing.Name = "wb_vrchongqing";
 
-                gb_vrchongqingshishicai.Controls.Add(wb_vrchongqing);
             }
+            wb_vrchongqing = new EO.WinForm.WebControl();
+            wb_vrchongqing.WebView = new EO.WebBrowser.WebView();
+            //wb_vrchongqing.ScriptErrorsSuppressed = true;
+            wb_vrchongqing.Dock = DockStyle.Fill;
+            wb_vrchongqing.Name = "wb_vrchongqing";
 
+            gb_vrchongqingshishicai.Controls.Add(wb_vrchongqing);
             tm_refresh.Start();
 
         }
@@ -1008,7 +1013,7 @@ namespace WeixinRoboot
 
                         //           newridata.LoadXml(Result2);
                         //goto MethodRestart;
-                        ReStartWeixin(false);
+                        ReStartWeixin(true);
                         return;
 
                     }
@@ -1021,7 +1026,7 @@ namespace WeixinRoboot
 
                         //            newridata.LoadXml(Result2);
                         //goto MethodRestart;
-                        ReStartWeixin(false);
+                        ReStartWeixin(true);
                         return;
                     }
                     else if (
@@ -1035,7 +1040,7 @@ namespace WeixinRoboot
                         //              newridata.LoadXml(Result2);
                         //ReStartWeixin();
                         //return;
-                        ReStartWeixin(false);
+                        ReStartWeixin(true);
                         return;
 
                     }
@@ -1073,7 +1078,7 @@ namespace WeixinRoboot
 
 
                         string AddMsgCount = Newmsg["AddMsgCount"].ToString();
-                        synckeys = (Newmsg["SyncKey"] as JObject);
+                        synckeys = (Newmsg["SyncCheckKey"] as JObject);
 
                         if (AddMsgCount != "0")
                         {
@@ -1900,18 +1905,19 @@ namespace WeixinRoboot
 
                                     if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep && (MyOutResult == ""))
                                     {
-                                        if (GlobalParam.DataSourceName != "Express" || Util_Services.GetServicesSetting().SuperUser == true)
+                                        if (Util_Services.GetServicesSetting().SuperUser == true)
                                         {
 
                                             MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
-                                            SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
                                         }
                                         else
                                         {
-                                            SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + "迷你单机模式不能切换彩种", Tocontacts, SourceType);
+                                            SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + "会员限制彩种,不能切换彩种", Tocontacts, SourceType);
 
                                         }
+                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? Tocontacts : Settingcontacts)[0], JavaSecondTime(Convert.ToInt64(msgTime)));
+                                        SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
+
                                     }
                                     if (KeepPic == Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop && (MyOutResult == ""))
                                     {
@@ -4448,7 +4454,7 @@ namespace WeixinRoboot
                             NetFramework.Console.WriteLine(AnyError.Message, true);
 
                         }
-                       
+
                         try
                         {
                             DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref TmpCheck, false);
@@ -4458,7 +4464,7 @@ namespace WeixinRoboot
                         {
                             NetFramework.Console.WriteLine(AnyError.Message, true);
                         }
-                       
+
                         if (TmpCheck)
                         {
                             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
@@ -4503,8 +4509,8 @@ namespace WeixinRoboot
                     Boolean TmpCheck = false;
 
                     {
-                      
-                       try
+
+                        try
                         {
                             DownLoad163CaiPiaoV_vrchongqingcai(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
 
@@ -4514,7 +4520,7 @@ namespace WeixinRoboot
                             NetFramework.Console.WriteLine(AnyError.Message, true);
 
                         }
-                         try
+                        try
                         {
                             DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
 
@@ -4524,7 +4530,7 @@ namespace WeixinRoboot
                             NetFramework.Console.WriteLine(AnyError.Message, true);
 
                         }
-                       
+
                         try
                         {
                             DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref TmpCheck, false);
@@ -4534,7 +4540,7 @@ namespace WeixinRoboot
                         {
                             NetFramework.Console.WriteLine(AnyError.Message, true);
                         }
-                       
+
                         if (TmpCheck)
                         {
                             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
@@ -9774,7 +9780,7 @@ namespace WeixinRoboot
 
                 if (FirstRun == true)
                 {
-                    if (GlobalParam.DataSourceName != "Express" || Util_Services.GetServicesSetting().SuperUser == true)
+                    if (Util_Services.GetServicesSetting().SuperUser == true)
                     {
                         wb_ballgame.WebView.LoadUrl("http://odds.gooooal.com/company.html?type=1001");
                         wb_balllivepoint.WebView.LoadUrl("http://live.gooooal.com");
@@ -9811,7 +9817,7 @@ namespace WeixinRoboot
                     }
                     if (wb_vrchongqing.WebView.Url.Contains("/Bet/Index/42") == false && wb_vrchongqing.WebView.Url.Contains("/Bet/Index") == true)
                     {
-                        // wb_vrchongqing.Load("http://huy.vrbetapi.com/Bet/Index/42");
+                        // wb_vrchongqing.Load("hfttp://huy.vrbetapi.com/Bet/Index/42");
                         wb_vrchongqing.WebView.LoadUrl("http://huy.vrbetapi.com/Bet/Index/42");
                     }
                     if (wb_vrchongqing.WebView.Url.Contains("ErrorHandle/Timeout")
@@ -10047,14 +10053,14 @@ namespace WeixinRoboot
 
             }
 
-            // wb_ballgame.Dispose();
+            wb_ballgame.Dispose();
 
-            //wb_other.Dispose();
-            //wb_refresh.Dispose();
+            wb_other.Dispose();
+            wb_refresh.Dispose();
 
-            //wb_balllivepoint.Dispose();
+            wb_balllivepoint.Dispose();
 
-
+            EO.Base.Runtime.Shutdown();
 
 
             //CefSharp.Cef.Shutdown();

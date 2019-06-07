@@ -39,22 +39,24 @@ namespace WeixinRoboot
             NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"), true);
             DateTime StartTime = DateTime.Now;
 
-            if (SetMemberRuning == true)
-            {
-                return;
-            }
+            //if (SetMemberRuning == true)
+            //{
+            //    return;
+            //}
 
             SetMemberRuning = true;
-
+            DateTime EachStart = DateTime.Now;
             this.Invoke(new Action(() =>
             {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-                //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                var MyUsers = db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.UserKey).ToList();
+                var MyUserSetss = db.WX_WebSendPICSetting.Where(t => t.aspnet_UserID == GlobalParam.UserKey).ToList();
                 //db.ObjectTrackingEnabled = false;
                 //this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
                 foreach (var item in (_Members["MemberList"]) as JArray)
                 {
-                    DateTime EachStart = DateTime.Now;
+                    EachStart = DateTime.Now;
                     string UserNametempID = "";
                     string NickName = "";
                     string RemarkName = "";
@@ -81,7 +83,7 @@ namespace WeixinRoboot
                         //    string[] Names = Seq.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         //    Seq = Names[Names.Length-1];
                         //}
-                        Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+                        Linq.WX_UserReply usrc = MyUsers.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
                         if (usrc == null)
                         {
                             Linq.WX_UserReply newusrc = new Linq.WX_UserReply();
@@ -101,8 +103,8 @@ namespace WeixinRoboot
                                 newusrc.IsReply = true;
                             }
                             db.WX_UserReply.InsertOnSubmit(newusrc);
-                            db.SubmitChanges();
-
+                            MyUsers.Add(newusrc);
+ ;
                         } //初始化，添加到数据库或同步数据库
                         else
                         {
@@ -119,7 +121,7 @@ namespace WeixinRoboot
                                 usrc.IsReply = true;
                             }
                         } //初始化，添加到数据库或同步数据库
-                        Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                        Linq.WX_WebSendPICSetting webpcset = MyUserSetss.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                            && t.WX_SourceType == "微"
                             && t.WX_UserName == Seq
                            );
@@ -165,12 +167,13 @@ namespace WeixinRoboot
                                 webpcset.Pic_EndMinute = 3;
                             }
                             db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
+                            MyUserSetss.Add(webpcset);
                         }
 
                         NetFramework.Console.WriteLine("准备提交,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
 
 
-                        usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+                        usrc = MyUsers.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
 
                         if (_GameMode != "")
                         {
@@ -186,11 +189,6 @@ namespace WeixinRoboot
                             usrc.TengXunShiFenXinMode = (_GameMode == "腾十信" ? true : false); ;
                             usrc.HeNeiWuFenMode = (_GameMode == "河内" ? true : false); ;
                         }
-                        db.SubmitChanges();
-
-
-
-                        NetFramework.Console.WriteLine("数据库,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
 
                         DataRow[] Lists = { MemberSource.Rows.Find(new object[] { UserNametempID, "微" }) }; //
                         //MemberSource.Select("User_ContactTEMPID='" + UserNametempID + "' and User_SourceType='微'");
@@ -261,7 +259,13 @@ namespace WeixinRoboot
                     Application.DoEvents();
 
                 }//成员列表循环
+                EachStart = DateTime.Now;
                 db.SubmitChanges();
+
+
+
+                NetFramework.Console.WriteLine("数据库,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
+
 
                 // BS_Contact.Sort = "User_Contact";
             }));//Invoke

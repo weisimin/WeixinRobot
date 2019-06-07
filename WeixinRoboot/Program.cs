@@ -254,7 +254,7 @@ namespace WeixinRoboot
             {
                 sf.SetMode("User", "");
             }
-            if (GlobalParam.DataSourceName == "Express")
+            if (GlobalParam.DataSourceName != "Admin" && GlobalParam.DataSourceName != "User")
             {
                 Linq.aspnet_UsersNewGameResultSend wsr = Linq.Util_Services.GetServicesSetting();
                 sf.SetMode("EasyRobot", wsr.OpenMode == null ? "" : wsr.OpenMode);
