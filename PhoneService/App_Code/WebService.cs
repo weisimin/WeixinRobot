@@ -170,6 +170,7 @@ public class WebService : System.Web.Services.WebService
 
         save_sets.OpenMode = tins_sets.OpenMode;
 
+        save_sets.SuperUser = tins_sets.SuperUser;
         try
         {
             db.SubmitChanges();
