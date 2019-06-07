@@ -114,7 +114,9 @@
             "远程服务器",
             "本机",
             "迷你本机",
-            "迷你全本机"});
+            "迷你全本机",
+            "无数据库15M",
+            "无数据库4M"});
             this.cb_datasource.Location = new System.Drawing.Point(172, 134);
             this.cb_datasource.Name = "cb_datasource";
             this.cb_datasource.Size = new System.Drawing.Size(157, 29);

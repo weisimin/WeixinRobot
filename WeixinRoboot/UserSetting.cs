@@ -328,15 +328,17 @@ namespace WeixinRoboot
                             finds.Thread_TengXunWuFenXin = T_TengXunWuFenXin.Checked;
                             finds.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
                             Linq.Util_Services.SaveServicesSetting(finds);
+
                         }
 
-                        fd_SendTimeStart1.Enabled = false;
-                        fd_SendTimeEnd1.Enabled = false;
+
 
 
 
                         #endregion
-
+                        fd_SendTimeStart1.Enabled = false;
+                        fd_SendTimeEnd1.Enabled = false;
+                       
 
                         MessageBox.Show("保存成功");
 
@@ -394,6 +396,28 @@ namespace WeixinRoboot
                         newGameResultSend.BlockEndMinute = 9;
 
 
+                        newGameResultSend.BlockStartHour = Convert.ToInt32(tb_StartHour.Text);
+                        newGameResultSend.BlockStartMinute = Convert.ToInt32(tb_StartMinute.Text);
+                        newGameResultSend.BlockEndHour = Convert.ToInt32(tb_EndHour.Text);
+                        newGameResultSend.BlockEndMinute = Convert.ToInt32(tb_EndMinute.Text);
+
+
+
+                        newGameResultSend.TwoTreeNotSingle = cb_TwoTreeNotSingle.Checked;
+                        newGameResultSend.FuliRatio = Convert.ToDecimal(tb_fuliratio.Text);
+                        newGameResultSend.LiuShuiRatio = Convert.ToDecimal(tb_liushuiratio.Text);
+
+                        newGameResultSend.Thread_AoZhouCai = T_AoZhouCai.Checked;
+                        newGameResultSend.Thread_VRChongqing = T_VRChongQingShiShiCai.Checked;
+                        newGameResultSend.Thread_TengXunShiFen = T_TengXunShiFen.Checked;
+                        newGameResultSend.Thread_TengXunWuFen = T_TengXunWuFen.Checked;
+                        newGameResultSend.Thread_WuFen = T_WuFenCai.Checked;
+                        newGameResultSend.Thread_XinJiangShiShiCai = T_XinJiangShiShiCai.Checked;
+                        newGameResultSend.Thread_ChongQingShiShiCai = T_chongqingshishicai.Checked;
+
+                        newGameResultSend.Thread_TengXunShiFenXin = T_TengXunShiFenXin.Checked;
+                        newGameResultSend.Thread_TengXunWuFenXin = T_TengXunWuFenXin.Checked;
+                        newGameResultSend.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
 
                         Linq.Util_Services.SaveServicesSetting(newGameResultSend);
 
@@ -424,11 +448,35 @@ namespace WeixinRoboot
 
 
                         findsmydata.ImageTopText = fd_ImageTopText.Text;
-                        findsmydata.ImageEndText = fd_ImageEndText.Text; ;
+                        findsmydata.ImageEndText = fd_ImageEndText.Text;
+
+
+                        findsmydata.BlockStartHour = Convert.ToInt32(tb_StartHour.Text);
+                        findsmydata.BlockStartMinute = Convert.ToInt32(tb_StartMinute.Text);
+                        findsmydata.BlockEndHour = Convert.ToInt32(tb_EndHour.Text);
+                        findsmydata.BlockEndMinute = Convert.ToInt32(tb_EndMinute.Text);
+
+
+
+                        findsmydata.TwoTreeNotSingle = cb_TwoTreeNotSingle.Checked;
+                        findsmydata.FuliRatio = Convert.ToDecimal(tb_fuliratio.Text);
+                        findsmydata.LiuShuiRatio = Convert.ToDecimal(tb_liushuiratio.Text);
+
+                        findsmydata.Thread_AoZhouCai = T_AoZhouCai.Checked;
+                        findsmydata.Thread_VRChongqing = T_VRChongQingShiShiCai.Checked;
+                        findsmydata.Thread_TengXunShiFen = T_TengXunShiFen.Checked;
+                        findsmydata.Thread_TengXunWuFen = T_TengXunWuFen.Checked;
+                        findsmydata.Thread_WuFen = T_WuFenCai.Checked;
+                        findsmydata.Thread_XinJiangShiShiCai = T_XinJiangShiShiCai.Checked;
+                        findsmydata.Thread_ChongQingShiShiCai = T_chongqingshishicai.Checked;
+
+                        findsmydata.Thread_TengXunShiFenXin = T_TengXunShiFenXin.Checked;
+                        findsmydata.Thread_TengXunWuFenXin = T_TengXunWuFenXin.Checked;
+                        findsmydata.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
                         Linq.Util_Services.SaveServicesSetting(findsmydata);
                     }
 
-
+                    sf.LoadUserSetting();
 
 
                     break;
@@ -496,13 +544,16 @@ namespace WeixinRoboot
 
 
 
+
+
+
                     break;
                 default:
                     break;
             }
         }
 
-
+        public StartForm sf;
 
         private void Btn_Load_Click(object sender, EventArgs e)
         {
@@ -589,7 +640,7 @@ namespace WeixinRoboot
 
                         Cb_OpenMode.SelectedItem = newgs.OpenMode;
 
-                        cb_SuperUser.Checked = newgs.SuperUser.HasValue?newgs.SuperUser.Value:false;
+                        cb_SuperUser.Checked = newgs.SuperUser.HasValue ? newgs.SuperUser.Value : false;
 
 
                         tb_StartHour.Text = newgs.BlockStartHour.HasValue ? newgs.BlockStartHour.Value.ToString() : "";

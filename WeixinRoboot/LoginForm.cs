@@ -127,6 +127,14 @@ namespace WeixinRoboot
                     GlobalParam.DataSourceName = "Express";
                     GlobalParam.MemberSourceode = "Local";
                     break;
+                case "无数据库15M":
+                    GlobalParam.DataSourceName = "NoSqlServer15M";
+                    GlobalParam.MemberSourceode = "Remote";
+                    break;
+                case "无数据库4M":
+                    GlobalParam.DataSourceName = "NoSqlServer4M";
+                    GlobalParam.MemberSourceode = "Remote";
+                    break;
                 default:
                     break;
             }

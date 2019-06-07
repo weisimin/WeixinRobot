@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_UserName = new System.Windows.Forms.Label();
             this.fd_username = new System.Windows.Forms.TextBox();
@@ -51,7 +51,6 @@
             this.Fd_IsBlock = new System.Windows.Forms.CheckBox();
             this.fd_BossUserName = new System.Windows.Forms.TextBox();
             this.lbl_boss = new System.Windows.Forms.Label();
-            this.btn_Save = new System.Windows.Forms.Button();
             this.fd_MaxPlayerCount = new System.Windows.Forms.TextBox();
             this.lbl_tracecount = new System.Windows.Forms.Label();
             this.lbl_order = new System.Windows.Forms.Label();
@@ -77,26 +76,11 @@
             this.lbl_OpenMode = new System.Windows.Forms.Label();
             this.Cb_OpenMode = new System.Windows.Forms.ComboBox();
             this.cb_SuperUser = new System.Windows.Forms.CheckBox();
+            this.btn_Save = new System.Windows.Forms.Button();
             this.ep_wf = new System.Windows.Forms.ErrorProvider(this.components);
             this.TC_Main = new System.Windows.Forms.TabControl();
             this.TP_Data = new System.Windows.Forms.TabPage();
-            this.TP_UserList = new System.Windows.Forms.TabPage();
-            this.gv_UserList = new System.Windows.Forms.DataGridView();
-            this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IsLockedOut = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.BS_UserList = new System.Windows.Forms.BindingSource(this.components);
             this.gb_gametype = new System.Windows.Forms.GroupBox();
-            this.T_HeNeiWuFen = new System.Windows.Forms.CheckBox();
-            this.T_TengXunWuFenXin = new System.Windows.Forms.CheckBox();
-            this.T_TengXunShiFenXin = new System.Windows.Forms.CheckBox();
-            this.T_chongqingshishicai = new System.Windows.Forms.CheckBox();
-            this.T_XinJiangShiShiCai = new System.Windows.Forms.CheckBox();
-            this.T_WuFenCai = new System.Windows.Forms.CheckBox();
-            this.T_TengXunWuFen = new System.Windows.Forms.CheckBox();
-            this.T_TengXunShiFen = new System.Windows.Forms.CheckBox();
-            this.T_VRChongQingShiShiCai = new System.Windows.Forms.CheckBox();
-            this.T_AoZhouCai = new System.Windows.Forms.CheckBox();
             this.tb_fuliratio = new System.Windows.Forms.TextBox();
             this.tb_liushuiratio = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -108,14 +92,30 @@
             this.tb_StartMinute = new System.Windows.Forms.TextBox();
             this.tb_StartHour = new System.Windows.Forms.TextBox();
             this.lbl_during = new System.Windows.Forms.Label();
+            this.T_HeNeiWuFen = new System.Windows.Forms.CheckBox();
+            this.T_TengXunWuFenXin = new System.Windows.Forms.CheckBox();
+            this.T_TengXunShiFenXin = new System.Windows.Forms.CheckBox();
+            this.T_chongqingshishicai = new System.Windows.Forms.CheckBox();
+            this.T_XinJiangShiShiCai = new System.Windows.Forms.CheckBox();
+            this.T_WuFenCai = new System.Windows.Forms.CheckBox();
+            this.T_TengXunWuFen = new System.Windows.Forms.CheckBox();
+            this.T_TengXunShiFen = new System.Windows.Forms.CheckBox();
+            this.T_VRChongQingShiShiCai = new System.Windows.Forms.CheckBox();
+            this.T_AoZhouCai = new System.Windows.Forms.CheckBox();
+            this.TP_UserList = new System.Windows.Forms.TabPage();
+            this.gv_UserList = new System.Windows.Forms.DataGridView();
+            this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsLockedOut = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.BS_UserList = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ep_wf)).BeginInit();
             this.TC_Main.SuspendLayout();
             this.TP_Data.SuspendLayout();
+            this.gb_gametype.SuspendLayout();
             this.TP_UserList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gv_UserList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_UserList)).BeginInit();
-            this.gb_gametype.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -349,16 +349,6 @@
             this.lbl_boss.TabIndex = 25;
             this.lbl_boss.Text = "老板号:";
             // 
-            // btn_Save
-            // 
-            this.btn_Save.Location = new System.Drawing.Point(383, 333);
-            this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(75, 23);
-            this.btn_Save.TabIndex = 8;
-            this.btn_Save.Text = "保存";
-            this.btn_Save.UseVisualStyleBackColor = true;
-            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
-            // 
             // fd_MaxPlayerCount
             // 
             this.fd_MaxPlayerCount.Location = new System.Drawing.Point(103, 333);
@@ -585,11 +575,21 @@
             this.cb_SuperUser.Enabled = false;
             this.cb_SuperUser.Location = new System.Drawing.Point(663, 213);
             this.cb_SuperUser.Name = "cb_SuperUser";
-            this.cb_SuperUser.Size = new System.Drawing.Size(72, 16);
+            this.cb_SuperUser.Size = new System.Drawing.Size(60, 16);
             this.cb_SuperUser.TabIndex = 45;
-            this.cb_SuperUser.Text = "超级用户";
+            this.cb_SuperUser.Text = "无限制";
             this.cb_SuperUser.UseVisualStyleBackColor = true;
             this.cb_SuperUser.Visible = false;
+            // 
+            // btn_Save
+            // 
+            this.btn_Save.Location = new System.Drawing.Point(383, 333);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(75, 23);
+            this.btn_Save.TabIndex = 8;
+            this.btn_Save.Text = "保存";
+            this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
             // ep_wf
             // 
@@ -617,87 +617,6 @@
             this.TP_Data.TabIndex = 0;
             this.TP_Data.Text = "资料";
             this.TP_Data.UseVisualStyleBackColor = true;
-            // 
-            // TP_UserList
-            // 
-            this.TP_UserList.Controls.Add(this.gv_UserList);
-            this.TP_UserList.Location = new System.Drawing.Point(4, 22);
-            this.TP_UserList.Name = "TP_UserList";
-            this.TP_UserList.Padding = new System.Windows.Forms.Padding(3);
-            this.TP_UserList.Size = new System.Drawing.Size(767, 512);
-            this.TP_UserList.TabIndex = 1;
-            this.TP_UserList.Text = "列表";
-            this.TP_UserList.UseVisualStyleBackColor = true;
-            // 
-            // gv_UserList
-            // 
-            this.gv_UserList.AllowUserToAddRows = false;
-            this.gv_UserList.AllowUserToDeleteRows = false;
-            this.gv_UserList.AllowUserToOrderColumns = true;
-            this.gv_UserList.AutoGenerateColumns = false;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_UserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
-            this.gv_UserList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gv_UserList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.UserID,
-            this.UserName,
-            this.IsLockedOut});
-            this.gv_UserList.DataSource = this.BS_UserList;
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle26.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle26.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle26.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle26.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle26.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gv_UserList.DefaultCellStyle = dataGridViewCellStyle26;
-            this.gv_UserList.Location = new System.Drawing.Point(7, 7);
-            this.gv_UserList.MultiSelect = false;
-            this.gv_UserList.Name = "gv_UserList";
-            this.gv_UserList.ReadOnly = true;
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gv_UserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle27;
-            this.gv_UserList.RowHeadersVisible = false;
-            this.gv_UserList.RowTemplate.Height = 23;
-            this.gv_UserList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gv_UserList.Size = new System.Drawing.Size(754, 499);
-            this.gv_UserList.TabIndex = 0;
-            this.gv_UserList.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gv_UserList_CellContentDoubleClick);
-            // 
-            // UserID
-            // 
-            this.UserID.DataPropertyName = "UserID";
-            this.UserID.HeaderText = "用户ID";
-            this.UserID.Name = "UserID";
-            this.UserID.ReadOnly = true;
-            // 
-            // UserName
-            // 
-            this.UserName.DataPropertyName = "UserName";
-            this.UserName.HeaderText = "用户名";
-            this.UserName.Name = "UserName";
-            this.UserName.ReadOnly = true;
-            // 
-            // IsLockedOut
-            // 
-            this.IsLockedOut.DataPropertyName = "IsLockedOut";
-            this.IsLockedOut.HeaderText = "锁定";
-            this.IsLockedOut.Name = "IsLockedOut";
-            this.IsLockedOut.ReadOnly = true;
-            this.IsLockedOut.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.IsLockedOut.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // gb_gametype
             // 
@@ -728,6 +647,98 @@
             this.gb_gametype.TabIndex = 1;
             this.gb_gametype.TabStop = false;
             this.gb_gametype.Text = "彩种";
+            // 
+            // tb_fuliratio
+            // 
+            this.tb_fuliratio.Location = new System.Drawing.Point(627, 37);
+            this.tb_fuliratio.Name = "tb_fuliratio";
+            this.tb_fuliratio.Size = new System.Drawing.Size(51, 21);
+            this.tb_fuliratio.TabIndex = 96;
+            // 
+            // tb_liushuiratio
+            // 
+            this.tb_liushuiratio.Location = new System.Drawing.Point(627, 12);
+            this.tb_liushuiratio.Name = "tb_liushuiratio";
+            this.tb_liushuiratio.Size = new System.Drawing.Size(51, 21);
+            this.tb_liushuiratio.TabIndex = 95;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(568, 15);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 94;
+            this.label6.Text = "流水比例";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(568, 40);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 93;
+            this.label5.Text = "福利比例";
+            // 
+            // cb_TwoTreeNotSingle
+            // 
+            this.cb_TwoTreeNotSingle.AutoSize = true;
+            this.cb_TwoTreeNotSingle.Location = new System.Drawing.Point(334, 52);
+            this.cb_TwoTreeNotSingle.Name = "cb_TwoTreeNotSingle";
+            this.cb_TwoTreeNotSingle.Size = new System.Drawing.Size(96, 16);
+            this.cb_TwoTreeNotSingle.TabIndex = 92;
+            this.cb_TwoTreeNotSingle.Text = "23不算单算和";
+            this.cb_TwoTreeNotSingle.UseVisualStyleBackColor = true;
+            // 
+            // tb_EndMinute
+            // 
+            this.tb_EndMinute.Location = new System.Drawing.Point(514, 17);
+            this.tb_EndMinute.Name = "tb_EndMinute";
+            this.tb_EndMinute.Size = new System.Drawing.Size(27, 21);
+            this.tb_EndMinute.TabIndex = 91;
+            this.tb_EndMinute.Text = "10";
+            // 
+            // tb_EndHour
+            // 
+            this.tb_EndHour.Location = new System.Drawing.Point(477, 17);
+            this.tb_EndHour.Name = "tb_EndHour";
+            this.tb_EndHour.Size = new System.Drawing.Size(23, 21);
+            this.tb_EndHour.TabIndex = 90;
+            this.tb_EndHour.Text = "7";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(460, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(11, 12);
+            this.label3.TabIndex = 89;
+            this.label3.Text = "~";
+            // 
+            // tb_StartMinute
+            // 
+            this.tb_StartMinute.Location = new System.Drawing.Point(427, 17);
+            this.tb_StartMinute.Name = "tb_StartMinute";
+            this.tb_StartMinute.Size = new System.Drawing.Size(27, 21);
+            this.tb_StartMinute.TabIndex = 88;
+            this.tb_StartMinute.Text = "10";
+            // 
+            // tb_StartHour
+            // 
+            this.tb_StartHour.Location = new System.Drawing.Point(390, 17);
+            this.tb_StartHour.Name = "tb_StartHour";
+            this.tb_StartHour.Size = new System.Drawing.Size(23, 21);
+            this.tb_StartHour.TabIndex = 87;
+            this.tb_StartHour.Text = "3";
+            // 
+            // lbl_during
+            // 
+            this.lbl_during.AutoSize = true;
+            this.lbl_during.Location = new System.Drawing.Point(324, 22);
+            this.lbl_during.Name = "lbl_during";
+            this.lbl_during.Size = new System.Drawing.Size(59, 12);
+            this.lbl_during.TabIndex = 86;
+            this.lbl_during.Text = "封盘时段:";
             // 
             // T_HeNeiWuFen
             // 
@@ -829,97 +840,86 @@
             this.T_AoZhouCai.Text = "澳洲彩";
             this.T_AoZhouCai.UseVisualStyleBackColor = true;
             // 
-            // tb_fuliratio
+            // TP_UserList
             // 
-            this.tb_fuliratio.Location = new System.Drawing.Point(627, 37);
-            this.tb_fuliratio.Name = "tb_fuliratio";
-            this.tb_fuliratio.Size = new System.Drawing.Size(51, 21);
-            this.tb_fuliratio.TabIndex = 96;
+            this.TP_UserList.Controls.Add(this.gv_UserList);
+            this.TP_UserList.Location = new System.Drawing.Point(4, 22);
+            this.TP_UserList.Name = "TP_UserList";
+            this.TP_UserList.Padding = new System.Windows.Forms.Padding(3);
+            this.TP_UserList.Size = new System.Drawing.Size(767, 512);
+            this.TP_UserList.TabIndex = 1;
+            this.TP_UserList.Text = "列表";
+            this.TP_UserList.UseVisualStyleBackColor = true;
             // 
-            // tb_liushuiratio
+            // gv_UserList
             // 
-            this.tb_liushuiratio.Location = new System.Drawing.Point(627, 12);
-            this.tb_liushuiratio.Name = "tb_liushuiratio";
-            this.tb_liushuiratio.Size = new System.Drawing.Size(51, 21);
-            this.tb_liushuiratio.TabIndex = 95;
+            this.gv_UserList.AllowUserToAddRows = false;
+            this.gv_UserList.AllowUserToDeleteRows = false;
+            this.gv_UserList.AllowUserToOrderColumns = true;
+            this.gv_UserList.AutoGenerateColumns = false;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_UserList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.gv_UserList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gv_UserList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.UserID,
+            this.UserName,
+            this.IsLockedOut});
+            this.gv_UserList.DataSource = this.BS_UserList;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gv_UserList.DefaultCellStyle = dataGridViewCellStyle5;
+            this.gv_UserList.Location = new System.Drawing.Point(7, 7);
+            this.gv_UserList.MultiSelect = false;
+            this.gv_UserList.Name = "gv_UserList";
+            this.gv_UserList.ReadOnly = true;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gv_UserList.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.gv_UserList.RowHeadersVisible = false;
+            this.gv_UserList.RowTemplate.Height = 23;
+            this.gv_UserList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gv_UserList.Size = new System.Drawing.Size(754, 499);
+            this.gv_UserList.TabIndex = 0;
+            this.gv_UserList.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gv_UserList_CellContentDoubleClick);
             // 
-            // label6
+            // UserID
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(568, 15);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 94;
-            this.label6.Text = "流水比例";
+            this.UserID.DataPropertyName = "UserID";
+            this.UserID.HeaderText = "用户ID";
+            this.UserID.Name = "UserID";
+            this.UserID.ReadOnly = true;
             // 
-            // label5
+            // UserName
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(568, 40);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 12);
-            this.label5.TabIndex = 93;
-            this.label5.Text = "福利比例";
+            this.UserName.DataPropertyName = "UserName";
+            this.UserName.HeaderText = "用户名";
+            this.UserName.Name = "UserName";
+            this.UserName.ReadOnly = true;
             // 
-            // cb_TwoTreeNotSingle
+            // IsLockedOut
             // 
-            this.cb_TwoTreeNotSingle.AutoSize = true;
-            this.cb_TwoTreeNotSingle.Location = new System.Drawing.Point(334, 52);
-            this.cb_TwoTreeNotSingle.Name = "cb_TwoTreeNotSingle";
-            this.cb_TwoTreeNotSingle.Size = new System.Drawing.Size(96, 16);
-            this.cb_TwoTreeNotSingle.TabIndex = 92;
-            this.cb_TwoTreeNotSingle.Text = "23不算单算和";
-            this.cb_TwoTreeNotSingle.UseVisualStyleBackColor = true;
-            // 
-            // tb_EndMinute
-            // 
-            this.tb_EndMinute.Location = new System.Drawing.Point(514, 17);
-            this.tb_EndMinute.Name = "tb_EndMinute";
-            this.tb_EndMinute.Size = new System.Drawing.Size(27, 21);
-            this.tb_EndMinute.TabIndex = 91;
-            this.tb_EndMinute.Text = "10";
-            // 
-            // tb_EndHour
-            // 
-            this.tb_EndHour.Location = new System.Drawing.Point(477, 17);
-            this.tb_EndHour.Name = "tb_EndHour";
-            this.tb_EndHour.Size = new System.Drawing.Size(23, 21);
-            this.tb_EndHour.TabIndex = 90;
-            this.tb_EndHour.Text = "7";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(460, 21);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(11, 12);
-            this.label3.TabIndex = 89;
-            this.label3.Text = "~";
-            // 
-            // tb_StartMinute
-            // 
-            this.tb_StartMinute.Location = new System.Drawing.Point(427, 17);
-            this.tb_StartMinute.Name = "tb_StartMinute";
-            this.tb_StartMinute.Size = new System.Drawing.Size(27, 21);
-            this.tb_StartMinute.TabIndex = 88;
-            this.tb_StartMinute.Text = "10";
-            // 
-            // tb_StartHour
-            // 
-            this.tb_StartHour.Location = new System.Drawing.Point(390, 17);
-            this.tb_StartHour.Name = "tb_StartHour";
-            this.tb_StartHour.Size = new System.Drawing.Size(23, 21);
-            this.tb_StartHour.TabIndex = 87;
-            this.tb_StartHour.Text = "3";
-            // 
-            // lbl_during
-            // 
-            this.lbl_during.AutoSize = true;
-            this.lbl_during.Location = new System.Drawing.Point(324, 22);
-            this.lbl_during.Name = "lbl_during";
-            this.lbl_during.Size = new System.Drawing.Size(59, 12);
-            this.lbl_during.TabIndex = 86;
-            this.lbl_during.Text = "封盘时段:";
+            this.IsLockedOut.DataPropertyName = "IsLockedOut";
+            this.IsLockedOut.HeaderText = "锁定";
+            this.IsLockedOut.Name = "IsLockedOut";
+            this.IsLockedOut.ReadOnly = true;
+            this.IsLockedOut.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IsLockedOut.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // UserSetting
             // 
@@ -935,11 +935,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.ep_wf)).EndInit();
             this.TC_Main.ResumeLayout(false);
             this.TP_Data.ResumeLayout(false);
+            this.gb_gametype.ResumeLayout(false);
+            this.gb_gametype.PerformLayout();
             this.TP_UserList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gv_UserList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_UserList)).EndInit();
-            this.gb_gametype.ResumeLayout(false);
-            this.gb_gametype.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -539,8 +539,8 @@ namespace WeixinRoboot
 
             MemberSource.Columns.Add("User_VR", typeof(Boolean));
 
-            //DataColumn[] dcs = { MemberSource.Columns["User_ContactTEMPID"], MemberSource.Columns["User_SourceType"] };
-            //MemberSource.PrimaryKey = dcs;
+            DataColumn[] dcs = { MemberSource.Columns["User_ContactTEMPID"], MemberSource.Columns["User_SourceType"] };
+            MemberSource.PrimaryKey = dcs;
 
             BS_ReceiveReply.DataSource = ReplySource;
 

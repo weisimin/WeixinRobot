@@ -1133,15 +1133,18 @@ namespace WeixinRoboot.Linq
     {
         public static aspnet_UsersNewGameResultSend GetServicesSetting()
         {
+
             return GetServicesSetting(GlobalParam.UserKey);
 
         }
+
         public static aspnet_UsersNewGameResultSend GetServicesSetting(Guid key)
         {
+
             RobootWeb.WebService ws = new RobootWeb.WebService();
             string jaspnet_UsersNewGameResultSend = ws.GetSetting(key.ToString());
-            aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(aspnet_UsersNewGameResultSend));
-            return tins_sets;
+            return (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(aspnet_UsersNewGameResultSend));
+
 
         }
 
