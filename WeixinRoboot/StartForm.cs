@@ -4174,6 +4174,25 @@ namespace WeixinRoboot
 
             }
         }
+        private void DownLoad163ThreadDo_VrHK()
+        {
+            while (true)
+            {
+                try
+                {
+                    DownloadResult_VrHK(false);
+                    System.Threading.Thread.Sleep(500);
+                }
+                catch (Exception anyerror)
+                {
+
+
+                    System.Threading.Thread.Sleep(500);
+                }
+
+
+            }
+        }
         private void DownLoad163ThreadDo_Aoz()
         {
             while (true)
@@ -4421,7 +4440,7 @@ namespace WeixinRoboot
                     {
                         try
                         {
-                            DownLoad163CaiPiaoV_vrchongqingcaislimWeb(ref TmpCheck, false);
+                            DownLoad163CaiPiaoV_vrchongqingcaislimapp(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
                         }
 
                         catch (Exception AnyError)
@@ -4429,16 +4448,7 @@ namespace WeixinRoboot
                             NetFramework.Console.WriteLine(AnyError.Message, true);
 
                         }
-                        try
-                        {
-                            DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
-                        }
-
-                        catch (Exception AnyError)
-                        {
-                            NetFramework.Console.WriteLine(AnyError.Message, true);
-
-                        }
+                       
                         try
                         {
                             DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref TmpCheck, false);
@@ -4448,7 +4458,53 @@ namespace WeixinRoboot
                         {
                             NetFramework.Console.WriteLine(AnyError.Message, true);
                         }
-                        try
+                       
+                        if (TmpCheck)
+                        {
+                            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+                            SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+                        }
+                    }
+
+
+
+                    //DownLoadTest();
+                }
+
+            }
+            catch (Exception AnyError)
+            {
+                NetFramework.Console.WriteLine(AnyError.Message, true);
+                NetFramework.Console.WriteLine(AnyError.StackTrace, true);
+            }
+
+
+
+
+
+
+        }
+        private void DownloadResult_VrHK(bool IsOpwnNow)
+        {
+
+
+
+
+
+            try
+            {
+                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+                ////db.ObjectTrackingEnabled = false;
+                Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
+
+                if (loadset.Thread_VRChongqing == true)
+                {
+                    Boolean TmpCheck = false;
+
+                    {
+                      
+                       try
                         {
                             DownLoad163CaiPiaoV_vrchongqingcai(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
 
@@ -4458,6 +4514,27 @@ namespace WeixinRoboot
                             NetFramework.Console.WriteLine(AnyError.Message, true);
 
                         }
+                         try
+                        {
+                            DownLoad163CaiPiaoV_vrchongqingcaislim(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
+
+                        }
+                        catch (Exception AnyError)
+                        {
+                            NetFramework.Console.WriteLine(AnyError.Message, true);
+
+                        }
+                       
+                        try
+                        {
+                            DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref TmpCheck, false);
+                        }
+
+                        catch (Exception AnyError)
+                        {
+                            NetFramework.Console.WriteLine(AnyError.Message, true);
+                        }
+                       
                         if (TmpCheck)
                         {
                             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
@@ -6704,223 +6781,7 @@ namespace WeixinRoboot
         }
 
 
-        public void DownLoadTest()
-        {
 
-            //authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQxMjA4LCJuYW1lIjoieGwxMjM0NTYiLCJpYXQiOjE1NTM5MTkyODYsImV4cCI6MTU1NTEyODg4Nn0.hM6rvGXgkIPZjqef18hvld550zYLzSWX0nyTX6f9AII
-            //https://api.honze88.com/api/v1/lotteries/12/issuos
-            //http://huy.vrbetapi.com//Account/LoginValidate?id=HUY&version=1.0&data=lVrOheZew4NAFwFkJmkk6HTItGzRs4S1jzGjGJy%2BSlwUkFsZeDyb%2BtJQGJrYcktDNDPHLEJzr2UhYt27PQDoQwSZNsSvsfyen5EhhV%2F4QqnDJHjHvshxLWpiZdHdVzgK
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            ServicePointManager.DefaultConnectionLimit = 512;
-            ServicePointManager.Expect100Continue = true;
-            //1
-            //12
-            //801
-            //102
-            // WebRequest LoginPage = HttpWebRequest.Create("https://api.honze88.com/api/v1/lotteries/601/issuos");
-            //WebRequest LoginPage = HttpWebRequest.Create("https://hb15jh7.60ap1facai.in/rest/member/lastResult?lottery=AULUCKY5");
-            WebRequest LoginPage = HttpWebRequest.Create("https://hb15jal.60ap1facai.in/rest/configs");
-            //WebRequest LoginPage = HttpWebRequest.Create("https://hb15jal.60ap1facai.in/rest/member/promoIn");
-            ((HttpWebRequest)LoginPage).AllowAutoRedirect = true;
-            //((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
-            //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
-            ((HttpWebRequest)LoginPage).Timeout = 10000;
-            ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
-
-            //System.Net.ServicePointManager.ServerCertificateValidationCallback = NetFramework.Util_WEB.CheckValidationResult;
-            ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
-
-
-            CookieCollection BrowCookie = new CookieCollection();
-            // ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
-            ((HttpWebRequest)LoginPage).Accept = "*/*";
-            ((HttpWebRequest)LoginPage).UserAgent = "Dalvik/2.1.0 (Linux; U; Android 5.1.1; xiaomi 6 Build/LMY49I)";
-            LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
-            LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
-            LoginPage.Headers.Add("x-user-agent", "AndroidOS");
-            //LoginPage.Headers.Add("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQxMjA4LCJuYW1lIjoieGwxMjM0NTYiLCJpYXQiOjE1NTM5MTkyODYsImV4cCI6MTU1NTEyODg4Nn0.hM6rvGXgkIPZjqef18hvld550zYLzSWX0nyTX6f9AII");
-
-            LoginPage.Headers.Add("token", "57cb79675c28180872ebc0dd4b3e8d0093e077e0");
-            //LoginPage.Headers.Add("User-Agent", "Dalvik/2.1.0 (Linux; U; Android 5.1.1; xiaomi 6 Build/LMY49I)");
-            // LoginPage.hos("Host", "hb15jal.60ap1facai.in");
-            LoginPage.Method = "POST";
-            ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
-            ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
-            //System.GC.Collect();
-            System.Threading.Thread.Sleep(100);
-            HttpWebResponse LoginPage_Return = null;
-            LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
-            //((HttpWebRequest)LoginPage).Connection = "KeepAlive,Close";
-            string responseBody = string.Empty;
-            try
-            {
-
-
-                if (LoginPage_Return.ContentEncoding.ToLower().Contains("gzip"))
-                {
-                    using (GZipStream stream = new GZipStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
-                    {
-
-                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-                        {
-                            responseBody = reader.ReadToEnd();
-                            stream.Close();
-                        }
-                    }
-                }
-                else if (LoginPage_Return.ContentEncoding.ToLower().Contains("deflate"))
-                {
-                    using (DeflateStream stream = new DeflateStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
-                    {
-                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-                        {
-                            responseBody = reader.ReadToEnd();
-                            stream.Close();
-                        }
-                    }
-                }
-                else if (LoginPage_Return.ContentEncoding.ToLower().Contains("br"))
-                {
-                    using (Brotli.BrotliStream stream = new Brotli.BrotliStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
-                    {
-                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-                        {
-                            responseBody = reader.ReadToEnd();
-                            stream.Close();
-                        }
-                    }
-                }
-                else
-                {
-                    using (Stream stream = LoginPage_Return.GetResponseStream())
-                    {
-                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-                        {
-                            responseBody = reader.ReadToEnd();
-                            stream.Close();
-                        }
-                    }
-                }
-            }
-            catch (Exception AnyError)
-            {
-                LoginPage.Abort();
-                LoginPage = null;
-                //System.GC.Collect();
-
-
-            }
-            LoginPage.Abort();
-
-        }
-        public void DownLoadTest2()
-        {
-
-            //authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQxMjA4LCJuYW1lIjoieGwxMjM0NTYiLCJpYXQiOjE1NTM5MTkyODYsImV4cCI6MTU1NTEyODg4Nn0.hM6rvGXgkIPZjqef18hvld550zYLzSWX0nyTX6f9AII
-            //https://api.honze88.com/api/v1/lotteries/12/issuos
-            //http://huy.vrbetapi.com//Account/LoginValidate?id=HUY&version=1.0&data=lVrOheZew4NAFwFkJmkk6HTItGzRs4S1jzGjGJy%2BSlwUkFsZeDyb%2BtJQGJrYcktDNDPHLEJzr2UhYt27PQDoQwSZNsSvsfyen5EhhV%2F4QqnDJHjHvshxLWpiZdHdVzgK
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            ServicePointManager.DefaultConnectionLimit = 512;
-            ServicePointManager.Expect100Continue = true;
-            //1
-            //12
-            //801
-            //102
-            // WebRequest LoginPage = HttpWebRequest.Create("https://api.honze88.com/api/v1/lotteries/601/issuos");
-            //WebRequest LoginPage = HttpWebRequest.Create("https://hb15jh7.60ap1facai.in/rest/member/lastResult?lottery=AULUCKY5");
-            WebRequest LoginPage = HttpWebRequest.Create("https://hb15jal.60ap1facai.in/rest/publicConfigs");
-            ((HttpWebRequest)LoginPage).AllowAutoRedirect = true;
-            //((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
-            //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
-            ((HttpWebRequest)LoginPage).Timeout = 15000;
-            ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
-
-            //System.Net.ServicePointManager.ServerCertificateValidationCallback = NetFramework.Util_WEB.CheckValidationResult;
-            ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
-
-
-            CookieCollection BrowCookie = new CookieCollection();
-            // ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
-            ((HttpWebRequest)LoginPage).Accept = "*/*";
-            ((HttpWebRequest)LoginPage).UserAgent = "Dalvik/2.1.0 (Linux; U; Android 5.1.1; xiaomi 6 Build/LMY49I)";
-            LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
-            LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
-            LoginPage.Headers.Add("x-user-agent", "AndroidOS");
-            //LoginPage.Headers.Add("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQxMjA4LCJuYW1lIjoieGwxMjM0NTYiLCJpYXQiOjE1NTM5MTkyODYsImV4cCI6MTU1NTEyODg4Nn0.hM6rvGXgkIPZjqef18hvld550zYLzSWX0nyTX6f9AII");
-
-            LoginPage.Headers.Add("token", "57cb79675c28180872ebc0dd4b3e8d0093e077e0");
-            //LoginPage.Headers.Add("User-Agent", "Dalvik/2.1.0 (Linux; U; Android 5.1.1; xiaomi 6 Build/LMY49I)");
-            // LoginPage.hos("Host", "hb15jal.60ap1facai.in");
-            LoginPage.Method = "POST";
-            ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
-            ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
-            //System.GC.Collect();
-            System.Threading.Thread.Sleep(100);
-            HttpWebResponse LoginPage_Return = null;
-            LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
-            //((HttpWebRequest)LoginPage).Connection = "KeepAlive,Close";
-            string responseBody = string.Empty;
-            try
-            {
-
-
-                if (LoginPage_Return.ContentEncoding.ToLower().Contains("gzip"))
-                {
-                    using (GZipStream stream = new GZipStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
-                    {
-
-                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-                        {
-                            responseBody = reader.ReadToEnd();
-                            stream.Close();
-                        }
-                    }
-                }
-                else if (LoginPage_Return.ContentEncoding.ToLower().Contains("deflate"))
-                {
-                    using (DeflateStream stream = new DeflateStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
-                    {
-                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-                        {
-                            responseBody = reader.ReadToEnd();
-                            stream.Close();
-                        }
-                    }
-                }
-                else if (LoginPage_Return.ContentEncoding.ToLower().Contains("br"))
-                {
-                    using (Brotli.BrotliStream stream = new Brotli.BrotliStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
-                    {
-                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-                        {
-                            responseBody = reader.ReadToEnd();
-                            stream.Close();
-                        }
-                    }
-                }
-                else
-                {
-                    using (Stream stream = LoginPage_Return.GetResponseStream())
-                    {
-                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-                        {
-                            responseBody = reader.ReadToEnd();
-                            stream.Close();
-                        }
-                    }
-                }
-            }
-            catch (Exception AnyError)
-            {
-                LoginPage.Abort();
-                LoginPage = null;
-                //System.GC.Collect();
-
-
-            }
-            LoginPage.Abort();
-
-        }
         //        public void DownLoad163CaiPiaoV_vrchongqingcaislimWebDOM(ref Boolean NewResult, bool ReDrawGdi)
         //        {
         //            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
@@ -10257,6 +10118,7 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_Vr(true);
+
                     DownloadResult_Aoz(true);
                     DownloadResult_tengshi(true);
                     DownloadResult_tengwu(true);
@@ -10266,7 +10128,7 @@ namespace WeixinRoboot
                     DownloadResult_tengshi_xin(true);
                     DownloadResult_tengwu_xin(true);
                     DownloadResult_HeNeiWuFen(true);
-
+                    DownloadResult_VrHK(true);
                 }
                 catch (Exception)
                 {
@@ -15227,6 +15089,7 @@ namespace WeixinRoboot
             {
 
                 DownloadResult_Vr(true);
+                DownloadResult_VrHK(true);
                 DownloadResult_Aoz(true);
                 DownloadResult_tengshi(true);
                 DownloadResult_tengwu(true);
@@ -15413,9 +15276,14 @@ namespace WeixinRoboot
         {
             if (FirstShow)
             {
+                Thread DownLoad163_VrHK = new Thread(new ThreadStart(DownLoad163ThreadDo_VrHK));
+                DownLoad163_VrHK.SetApartmentState(ApartmentState.STA);
+                DownLoad163_VrHK.Start();
+
                 Thread DownLoad163_Vr = new Thread(new ThreadStart(DownLoad163ThreadDo_Vr));
                 DownLoad163_Vr.SetApartmentState(ApartmentState.STA);
                 DownLoad163_Vr.Start();
+
 
                 Thread DownLoad163_Aoz = new Thread(new ThreadStart(DownLoad163ThreadDo_Aoz));
                 DownLoad163_Aoz.SetApartmentState(ApartmentState.STA);
