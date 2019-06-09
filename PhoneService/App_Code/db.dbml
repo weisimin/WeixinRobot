@@ -1,28 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Weixinroboot" Class="dbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=superserver,9125;Initial Catalog=Weixinroboot;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="WeixinrobootConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.WX_UserReply" Member="WX_UserReply">
-    <Type Name="WX_UserReply">
-      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsReply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="NickName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
-      <Column Name="RemarkName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
-      <Column Name="IsReceiveTransfer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsCaculateFuli" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="WeChatID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsBoss" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsBallPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsAdmin" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="FiveMinuteMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="HkMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="AozcMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ChongqingMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="TengXunShiFenMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="XinJiangMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="TengXunWuFenMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-    </Type>
-  </Table>
+  <Connection Mode="WebSettings" ConnectionString="Data Source=103.117.138.222,9125;Initial Catalog=Weixinroboot;Persist Security Info=True;User ID=ssaa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="WeixinrobootConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.WX_UserReplyLog" Member="WX_UserReplyLog">
     <Type Name="WX_UserReplyLog">
       <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -152,6 +129,66 @@
       <Column Name="Thread_HeNeiWuFen" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="OpenMode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="SuperUser" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_WebSendPICSetting" Member="WX_WebSendPICSetting">
+    <Type Name="WX_WebSendPICSetting">
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="footballPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="bassketballpic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="balluclink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ballinterval" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="card" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="cardname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="shishicailink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NumberPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="dragonpic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="numericlink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="dragonlink" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LastBallSendTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NumberAndDragonPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ballstart" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ballend" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="balllivepoint" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HKSixResult" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NiuNiuPic" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NoBigSmallSingleDoublePIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NumberDragonTxt" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsSendPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PIC_EndHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Pic_EndMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PIC_StartHour" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PIC_StartMinute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PreSendGameType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WX_UserReply" Member="WX_UserReply">
+    <Type Name="WX_UserReply">
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(350) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsReply" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="aspnet_UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NickName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="RemarkName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="IsReceiveTransfer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsCaculateFuli" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="WeChatID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="WX_SourceType" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsBoss" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsBallPIC" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsAdmin" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FiveMinuteMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HkMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="AozcMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ChongqingMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="TengXunShiFenMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="XinJiangMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="TengXunWuFenMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VRMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="TengXunShiFenXinMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="TengXunWuFenXinMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="HeNeiWuFenMode" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

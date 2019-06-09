@@ -7,6 +7,9 @@ using System.Web.Security;
 using System.Xml;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Data;
 /// <summary>
 /// WebService 的摘要说明
 /// </summary>
@@ -61,8 +64,16 @@ public class WebService : System.Web.Services.WebService
         Guid aspnetUserid = Guid.Parse(saspnetUserid);
         dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         //db.ObjectTrackingEnabled = false;
-        aspnet_UsersNewGameResultSend sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == aspnetUserid);
-        return (JsonConvert.SerializeObject(sets));
+        aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == aspnetUserid);
+        if (save_sets == null)
+        {
+
+            save_sets = new aspnet_UsersNewGameResultSend();
+            save_sets.aspnet_UserID = aspnetUserid;
+            db.aspnet_UsersNewGameResultSend.InsertOnSubmit(save_sets);
+            db.SubmitChanges();
+        }
+        return (JsonConvert.SerializeObject(save_sets));
 
 
     }
@@ -71,13 +82,13 @@ public class WebService : System.Web.Services.WebService
     {
         //MembershipUser msr = Membership.GetUser(UserName);
         dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
-       // db.ObjectTrackingEnabled = false;
+        // db.ObjectTrackingEnabled = false;
         aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(aspnet_UsersNewGameResultSend));
 
         aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == tins_sets.aspnet_UserID);
         if (save_sets == null)
         {
-         
+
             save_sets = new aspnet_UsersNewGameResultSend();
             save_sets.aspnet_UserID = tins_sets.aspnet_UserID;
             db.aspnet_UsersNewGameResultSend.InsertOnSubmit(save_sets);
@@ -191,7 +202,7 @@ public class WebService : System.Web.Services.WebService
     public List<Guid> GetBossUsers(string bossaspnetuserid)
     {
         dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
-       // db.ObjectTrackingEnabled = false;
+        // db.ObjectTrackingEnabled = false;
         List<Guid> takeusers = ((from ds in db.aspnet_UsersNewGameResultSend
                                  where ds.bossaspnet_UserID == Guid.Parse(bossaspnetuserid)
 
@@ -224,7 +235,7 @@ public class WebService : System.Web.Services.WebService
     [WebMethod]
     public void ChangePassword(Guid userid, String NewPassord)
     {
-        
+
         MembershipUser user = Membership.GetUser(userid);
         string tmpPassword = user.ResetPassword();
         user.ChangePassword(tmpPassword, NewPassord);
@@ -239,7 +250,7 @@ public class WebService : System.Web.Services.WebService
     [WebMethod]
     public string GetTemplateRatios()
     {
-        Guid CopySourceID =(Guid) System.Web.Security.Membership.GetUser("sysadmin").ProviderUserKey;
+        Guid CopySourceID = (Guid)System.Web.Security.Membership.GetUser("sysadmin").ProviderUserKey;
         dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         var CopyRatio = db.Game_BasicRatio.Where(t => t.aspnet_UserID == CopySourceID);
         return JsonConvert.SerializeObject(CopyRatio);
@@ -252,4 +263,281 @@ public class WebService : System.Web.Services.WebService
         var CopyRatio = db.WX_BounsConfig.Where(t => t.aspnet_UserID == CopySourceID);
         return JsonConvert.SerializeObject(CopyRatio);
     }
+    public static string CleanHtml(string strHtml)
+    {
+        if (string.IsNullOrEmpty(strHtml)) return strHtml;
+        //删除脚本
+        //Regex.Replace(strHtml, @"<script[^>]*?>.*?</script>", "", RegexOptions.IgnoreCase)
+        strHtml = Regex.Replace(strHtml, "(<script(.+?)</script>)|(<style(.+?)</style>)", "", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        //删除标签
+        var r = new Regex(@"</?[^>]*>", RegexOptions.IgnoreCase);
+        Match m;
+        for (m = r.Match(strHtml); m.Success; m = m.NextMatch())
+        {
+            strHtml = strHtml.Replace(m.Groups[0].ToString(), "");
+        }
+        return strHtml.Trim().Replace("&nbsp;", "");
+    }
+    [WebMethod]
+    public string SetMembers(String Members, Guid UserKey, string _GameMode)
+    {
+        DateTime StartTime = DateTime.Now;
+
+
+        DataTable MemberSource = new DataTable();
+        MemberSource.Columns.Add("User_Contact");
+        MemberSource.Columns.Add("User_ContactType");
+        MemberSource.Columns.Add("User_ContactID");
+        MemberSource.Columns.Add("User_ContactTEMPID");
+        MemberSource.Columns.Add("User_IsReply", typeof(Boolean));
+        MemberSource.Columns.Add("User_IsSendPic", typeof(Boolean));
+        MemberSource.Columns.Add("User_IsReceiveTransfer", typeof(Boolean));
+        MemberSource.Columns.Add("User_IsCaculateFuli", typeof(Boolean));
+        MemberSource.Columns.Add("User_SourceType");
+        MemberSource.Columns.Add("User_IsBoss", typeof(Boolean));
+
+        MemberSource.Columns.Add("User_IsBallPIC", typeof(Boolean));
+        MemberSource.Columns.Add("User_ISSendCard", typeof(Boolean));
+        MemberSource.Columns.Add("User_IsAdmin", typeof(Boolean));
+
+        MemberSource.Columns.Add("User_FiveMinuteMode", typeof(Boolean));
+        MemberSource.Columns.Add("User_HkMode", typeof(Boolean));
+        MemberSource.Columns.Add("User_AozcMode", typeof(Boolean));
+
+        MemberSource.Columns.Add("User_ChongqingMode", typeof(Boolean));
+
+
+        MemberSource.Columns.Add("User_TengXunShiFen", typeof(Boolean));
+        MemberSource.Columns.Add("User_TengXunWuFen", typeof(Boolean));
+        MemberSource.Columns.Add("User_HeNeiWuFen", typeof(Boolean));
+
+
+        MemberSource.Columns.Add("User_TengXunShiFenXin", typeof(Boolean));
+        MemberSource.Columns.Add("User_TengXunWuFenXin", typeof(Boolean));
+
+        MemberSource.Columns.Add("User_XinJiangShiShiCai", typeof(Boolean));
+
+        MemberSource.Columns.Add("User_VR", typeof(Boolean));
+
+        DataColumn[] dcs = { MemberSource.Columns["User_ContactTEMPID"], MemberSource.Columns["User_SourceType"] };
+        MemberSource.PrimaryKey = dcs;
+
+
+        DateTime EachStart = DateTime.Now;
+        JObject _Members = JObject.Parse(Members);
+        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+        //db.ObjectTrackingEnabled = false;
+        //this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
+        foreach (var item in (_Members["MemberList"]) as JArray)
+        {
+            EachStart = DateTime.Now;
+            string UserNametempID = "";
+            string NickName = "";
+            string RemarkName = "";
+            string HeadImgUrl = "";
+
+
+            UserNametempID = (item["UserName"] as JValue).Value.ToString();
+            NickName = (item["NickName"] as JValue).Value.ToString();
+            RemarkName = (item["RemarkName"] as JValue).Value.ToString();
+            HeadImgUrl = (item["HeadImgUrl"] as JValue).Value.ToString();
+
+            //NetFramework.Console.WriteLine("更新联系人" + NickName);
+            //Application.DoEvents();
+
+            System.Text.RegularExpressions.Regex FindSeq = new System.Text.RegularExpressions.Regex("seq=([0-9])+");
+
+            string Seq = FindSeq.Match(HeadImgUrl).Value;
+            //Seq = Seq.Substring(Seq.IndexOf("=") + 1);
+
+            Seq = RemarkName == "" ? CleanHtml(NickName) : RemarkName;
+            //if (Seq.Contains("-"))
+            //{
+            //    string[] Names = Seq.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            //    Seq = Names[Names.Length-1];
+            //}
+            WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+            if (usrc == null)
+            {
+                WX_UserReply newusrc = new WX_UserReply();
+                newusrc.aspnet_UserID = UserKey;
+                newusrc.WX_UserName = Seq;
+                newusrc.WX_SourceType = "微";
+                newusrc.RemarkName = RemarkName;
+                newusrc.NickName = CleanHtml(NickName);
+
+                newusrc.IsCaculateFuli = true;
+                if (UserNametempID.StartsWith("@@") == false)
+                {
+                    newusrc.IsReply = true;
+                }
+                else
+                {
+                    newusrc.IsReply = true;
+                }
+                db.WX_UserReply.InsertOnSubmit(newusrc);
+                db.SubmitChanges();
+                ;
+            } //初始化，添加到数据库或同步数据库
+            else
+            {
+                if ((usrc.RemarkName != RemarkName) || (usrc.NickName != CleanHtml(NickName))
+                    )
+                {
+
+                    usrc.RemarkName = RemarkName;
+                    usrc.NickName = CleanHtml(NickName);
+
+                }
+                //if (UserNametempID.StartsWith("@@") == false && Seq != "0")
+                {
+                    usrc.IsReply = true;
+                }
+            } //初始化，添加到数据库或同步数据库
+            WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == UserKey
+               && t.WX_SourceType == "微"
+                && t.WX_UserName == Seq
+               );
+            if (webpcset == null)
+            {
+                webpcset = new WX_WebSendPICSetting();
+
+                webpcset.aspnet_UserID = UserKey;
+
+                webpcset.WX_SourceType = "微";
+                webpcset.WX_UserName = Seq;
+
+                webpcset.ballinterval = 120;
+                webpcset.footballPIC = false;
+                webpcset.bassketballpic = false;
+                webpcset.balluclink = false;
+
+                webpcset.card = false;
+                webpcset.cardname = "";
+                webpcset.shishicailink = false;
+                webpcset.NumberPIC = false;
+                webpcset.dragonpic = false;
+                webpcset.numericlink = false;
+                webpcset.dragonlink = false;
+
+                webpcset.IsSendPIC = false;
+                webpcset.NiuNiuPic = false;
+                webpcset.NoBigSmallSingleDoublePIC = false;
+                webpcset.NumberDragonTxt = true;
+                webpcset.NumberPIC = false;
+                webpcset.dragonpic = false;
+
+                {
+                    webpcset.PIC_StartHour = 8;
+                }
+                {
+                    webpcset.PIC_StartMinute = 58;
+                }
+                {
+                    webpcset.PIC_EndHour = 2;
+                }
+                {
+                    webpcset.Pic_EndMinute = 3;
+                }
+                db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
+                db.SubmitChanges();
+            }
+
+
+
+            usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+
+            if (_GameMode != "")
+            {
+                usrc.ChongqingMode = (_GameMode == "重庆" ? true : false);
+                usrc.VRMode = (_GameMode == "VR" ? true : false); ;
+                usrc.AozcMode = (_GameMode == "澳彩" ? true : false); ;
+                usrc.HkMode = (_GameMode == "香港" ? true : false);
+                usrc.XinJiangMode = (_GameMode == "新疆" ? true : false);
+                usrc.FiveMinuteMode = (_GameMode == "五分" ? true : false); ;
+                usrc.TengXunWuFenMode = (_GameMode == "腾五" ? true : false); ;
+                usrc.TengXunWuFenXinMode = (_GameMode == "腾五信" ? true : false); ;
+                usrc.TengXunShiFenMode = (_GameMode == "腾十" ? true : false); ;
+                usrc.TengXunShiFenXinMode = (_GameMode == "腾十信" ? true : false); ;
+                usrc.HeNeiWuFenMode = (_GameMode == "河内" ? true : false); ;
+            }
+
+            DataRow[] Lists = { MemberSource.Rows.Find(new object[] { UserNametempID, "微" }) }; //
+            //MemberSource.Select("User_ContactTEMPID='" + UserNametempID + "' and User_SourceType='微'");
+            DataRow newr = null;
+            if (Lists.Length == 0 || Lists[0] == null)
+            {
+                newr = MemberSource.NewRow();
+                newr.SetField("User_ContactTEMPID", UserNametempID);
+                newr.SetField("User_SourceType", "微");
+
+                MemberSource.Rows.Add(newr);
+            }
+            else
+            {
+                newr = Lists[0];
+            }
+            newr.SetField("User_ContactID", Seq);
+
+            newr.SetField("User_Contact", NickName);
+            newr.SetField("User_ContactType", UserNametempID.StartsWith("@@") ? "群" : "个人");
+
+
+            newr.SetField("User_IsReply", usrc.IsReply);
+            newr.SetField("User_IsSendPic", webpcset.IsSendPIC);
+            newr.SetField("User_IsAdmin", usrc.IsAdmin);
+            newr.SetField("User_IsBallPIC", usrc.IsBallPIC);
+
+            //if (UserNametempID.StartsWith("@@") == false && Seq != "0")
+            {
+                newr.SetField("User_IsReply", usrc == null ? false : usrc.IsReply);
+            }
+
+
+            newr.SetField("User_IsReceiveTransfer", usrc == null ? false : usrc.IsReceiveTransfer);
+            newr.SetField("User_IsCaculateFuli", usrc == null ? false : usrc.IsCaculateFuli);
+            newr.SetField("User_IsBoss", usrc == null ? false : (usrc.IsBoss == null ? false : usrc.IsBoss));
+
+            newr.SetField("User_FiveMinuteMode", usrc == null ? false : (usrc.FiveMinuteMode == null ? false : usrc.FiveMinuteMode));
+            newr.SetField("User_HkMode", usrc == null ? false : (usrc.HkMode == null ? false : usrc.HkMode));
+            newr.SetField("User_AozcMode", usrc == null ? false : (usrc.AozcMode == null ? false : usrc.AozcMode));
+            newr.SetField("User_ChongqingMode", usrc == null ? false : (usrc.ChongqingMode == null ? false : usrc.ChongqingMode));
+            newr.SetField("User_TengXunShiFen", usrc == null ? false : (usrc.TengXunShiFenMode == null ? false : usrc.TengXunShiFenMode));
+            newr.SetField("User_TengXunWuFen", usrc == null ? false : (usrc.TengXunWuFenMode == null ? false : usrc.TengXunWuFenMode));
+            newr.SetField("User_TengXunShiFenXin", usrc == null ? false : (usrc.TengXunShiFenXinMode == null ? false : usrc.TengXunShiFenXinMode));
+            newr.SetField("User_TengXunWuFenXin", usrc == null ? false : (usrc.TengXunWuFenXinMode == null ? false : usrc.TengXunWuFenXinMode));
+            newr.SetField("User_XinJiangShiShiCai", usrc == null ? false : (usrc.XinJiangMode == null ? false : usrc.XinJiangMode));
+            newr.SetField("User_VR", usrc == null ? false : (usrc.VRMode == null ? false : usrc.VRMode));
+            newr.SetField("User_HeNeiWuFen", usrc == null ? false : (usrc.HeNeiWuFenMode == null ? false : usrc.HeNeiWuFenMode));
+
+
+
+            //var UpdateLogs = ReplySource.AsEnumerable().Where(t => t.Field<string>("Reply_ContactID") == Seq);
+            //foreach (var logitem in UpdateLogs)
+            //{
+            //    logitem.SetField("Reply_ContactTEMPID", UserNametempID);
+            //    logitem.SetField("Reply_Contact", RemarkName == "" ? NickName : RemarkName);
+            //}
+            EachStart = DateTime.Now;
+            db.SubmitChanges();
+
+
+
+
+        }//成员列表循环
+
+
+
+        return JsonConvert.SerializeObject(MemberSource);
+
+
+        // BS_Contact.Sort = "User_Contact";
+
+
+
+
+
+    }
+
 }
