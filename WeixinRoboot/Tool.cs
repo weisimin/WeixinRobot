@@ -165,7 +165,7 @@ namespace NetFramework
                         string[] SplitDomain = cookieitem.Domain.Split((".").ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         Int32 Length = SplitDomain.Length;
                         cookieitem.Domain = "." + SplitDomain[Length - 2] + "." + SplitDomain[Length - 1];
-                        cookieitem.Expires = cookieitem.Expires == null ? DateTime.Now.AddHours(6) : cookieitem.Expires.AddHours(4);
+                        cookieitem.Expires = cookieitem.Expires == null ? DateTime.Now.AddHours(168) : cookieitem.Expires.AddHours(168);
                         BrowCookie.Add(cookieitem);
                     }
 
@@ -183,7 +183,7 @@ namespace NetFramework
             {
 
                 LoginPage = null;
-                //System.GC.Collect();
+                System.GC.Collect();
 
                 NetFramework.Console.WriteLine("网址打开失败" + TargetURL, false);
                 NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message, false);
@@ -261,7 +261,7 @@ namespace NetFramework
             LoginPage_Return.Close();
             LoginPage_Return = null;
             LoginPage = null;
-            //System.GC.Collect();
+            System.GC.Collect();
 
 
             return responseBody;

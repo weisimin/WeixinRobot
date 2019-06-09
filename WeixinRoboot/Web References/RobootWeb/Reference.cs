@@ -23,10 +23,10 @@ namespace WeixinRoboot.RobootWeb {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="WebServiceSoap", Namespace="http://13828081978.zicp.vip/")]
+    [System.Web.Services.WebServiceBindingAttribute(Name = "WebServiceSoap", Namespace = "http://13828081978.zicp.vip/")]
     public partial class WebService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback UserLogInOperationCompleted;
@@ -46,6 +46,8 @@ namespace WeixinRoboot.RobootWeb {
         private System.Threading.SendOrPostCallback GetTemplateRatiosOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetTemplateBonusOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SetMembersOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -111,6 +113,9 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         public event GetTemplateBonusCompletedEventHandler GetTemplateBonusCompleted;
+        
+        /// <remarks/>
+        public event SetMembersCompletedEventHandler SetMembersCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogIn", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -379,6 +384,39 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/SetMembers", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SetMembers(string Members, System.Guid UserKey, string _GameMode) {
+            object[] results = this.Invoke("SetMembers", new object[] {
+                        Members,
+                        UserKey,
+                        _GameMode});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SetMembersAsync(string Members, System.Guid UserKey, string _GameMode) {
+            this.SetMembersAsync(Members, UserKey, _GameMode, null);
+        }
+        
+        /// <remarks/>
+        public void SetMembersAsync(string Members, System.Guid UserKey, string _GameMode, object userState) {
+            if ((this.SetMembersOperationCompleted == null)) {
+                this.SetMembersOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetMembersOperationCompleted);
+            }
+            this.InvokeAsync("SetMembers", new object[] {
+                        Members,
+                        UserKey,
+                        _GameMode}, this.SetMembersOperationCompleted, userState);
+        }
+        
+        private void OnSetMembersOperationCompleted(object arg) {
+            if ((this.SetMembersCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SetMembersCompleted(this, new SetMembersCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -398,11 +436,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     public delegate void UserLogInCompletedEventHandler(object sender, UserLogInCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class UserLogInCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -424,11 +462,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     public delegate void GetSettingCompletedEventHandler(object sender, GetSettingCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetSettingCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -450,11 +488,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     public delegate void SaveSettingCompletedEventHandler(object sender, SaveSettingCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class SaveSettingCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -476,11 +514,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     public delegate void GetBossUsersCompletedEventHandler(object sender, GetBossUsersCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetBossUsersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -502,11 +540,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     public delegate void GetUserTokenCompletedEventHandler(object sender, GetUserTokenCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetUserTokenCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -528,15 +566,15 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     public delegate void ChangePasswordCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     public delegate void GetUserInfoCompletedEventHandler(object sender, GetUserInfoCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetUserInfoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -558,11 +596,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     public delegate void GetTemplateRatiosCompletedEventHandler(object sender, GetTemplateRatiosCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetTemplateRatiosCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -584,11 +622,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     public delegate void GetTemplateBonusCompletedEventHandler(object sender, GetTemplateBonusCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetTemplateBonusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -596,6 +634,32 @@ namespace WeixinRoboot.RobootWeb {
         private object[] results;
         
         internal GetTemplateBonusCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    public delegate void SetMembersCompletedEventHandler(object sender, SetMembersCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SetMembersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SetMembersCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

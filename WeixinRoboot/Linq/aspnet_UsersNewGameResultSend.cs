@@ -1141,15 +1141,31 @@ namespace WeixinRoboot.Linq
         public static aspnet_UsersNewGameResultSend GetServicesSetting(Guid key)
         {
 
-            RobootWeb.WebService ws = new RobootWeb.WebService();
+            if (buffers.ContainsKey(key) == false)
+            {
+RobootWeb.WebService ws = new RobootWeb.WebService();
             string jaspnet_UsersNewGameResultSend = ws.GetSetting(key.ToString());
-            return (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(aspnet_UsersNewGameResultSend));
-
+            buffers.Add( key,(aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(aspnet_UsersNewGameResultSend)));
+            aspnet_UsersNewGameResultSend outs = null;
+            buffers.TryGetValue(key, out outs);
+            return outs;
+            }
+            else
+            {
+                aspnet_UsersNewGameResultSend outs = null;
+                buffers.TryGetValue(key, out outs);
+                return outs;
+            }
+            
 
         }
-
+       private static  Dictionary<Guid, aspnet_UsersNewGameResultSend> buffers = new Dictionary<Guid, aspnet_UsersNewGameResultSend>();
         public static string SaveServicesSetting(aspnet_UsersNewGameResultSend tosaves)
         {
+            if (buffers.ContainsKey(tosaves.aspnet_UserID))
+            {
+                buffers[tosaves.aspnet_UserID] = tosaves;
+            }
 
             RobootWeb.WebService ws = new RobootWeb.WebService();
             string Jresult = ws.SaveSetting(GlobalParam.UserName, GlobalParam.Password, JsonConvert.SerializeObject(tosaves));

@@ -197,8 +197,9 @@ namespace WeixinRoboot
 
                         newr.OrderIndex = item.OrderIndex;
                         db.Game_BasicRatio.InsertOnSubmit(newr);
-                        db.SubmitChanges();
-                    }
+
+                    } 
+                    db.SubmitChanges(System.Data.Linq.ConflictMode.FailOnFirstConflict);
                 }
             }
 
@@ -224,8 +225,9 @@ namespace WeixinRoboot
                         newr.IfDivousPercent = item.IfDivousPercent;
 
                         db.WX_BounsConfig.InsertOnSubmit(newr);
-                        db.SubmitChanges();
+                       
                     }
+                    db.SubmitChanges();
                 }
             }
 
@@ -1094,8 +1096,9 @@ namespace WeixinRoboot
                                 //Thread MessageThread = new Thread(new ParameterizedThreadStart(StartMessageThread));
                                 //MessageThread.ApartmentState = ApartmentState.STA;
                                 //MessageThread.Start(new object[] { "微", FromUserNameTEMPID, ToUserNameTEMPID, Content, msgTime, msgType, (FromUserNameTEMPID.StartsWith("@@")) });
-
+                                DateTime EachStart = DateTime.Now;
                                 MessageRobotDo("微", FromUserNameTEMPID, ToUserNameTEMPID, Content, msgTime, msgType, (FromUserNameTEMPID.StartsWith("@@")));
+                                NetFramework.Console.WriteLine("收到消息,处理耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
 
                                 //MessageRobotDo("微", db, FromUserNameTEMPID, ToUserNameTEMPID, Content, msgTime, msgType, (FromUserNameTEMPID.StartsWith("@@")));
 
@@ -4168,13 +4171,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_Vr(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4187,13 +4190,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_VrHK(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4206,13 +4209,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_Aoz(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4225,13 +4228,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_tengshi(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4244,13 +4247,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_tengshi_xin(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4263,13 +4266,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_tengwu(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4283,13 +4286,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_tengwu_xin(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4303,13 +4306,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_wufen(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4322,13 +4325,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_xiangjiang(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4341,13 +4344,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_chongqing(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4361,13 +4364,13 @@ namespace WeixinRoboot
                 try
                 {
                     DownloadResult_HeNeiWuFen(false);
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
                 catch (Exception anyerror)
                 {
 
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1000);
                 }
 
 
@@ -4387,30 +4390,36 @@ namespace WeixinRoboot
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                 ////db.ObjectTrackingEnabled = false;
                 Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
-                try
+
+                if (loadset.Thread_AoZhouCai == true)
                 {
-                    if (loadset.Thread_AoZhouCai == true)
+                    Boolean TmpCheck = false;
+                    //DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today, false, IsOpwnNow, true);
+                    try
                     {
-                        Boolean TmpCheck = false;
-                        //DownLoad163CaiPiaoV_aozc(ref TmpCheck, DateTime.Today, false, IsOpwnNow, true);
-
                         DownLoad163CaiPiaoV_aozc888888(ref TmpCheck, DateTime.Today, false, IsOpwnNow, true);
-
-                        DownLoad163CaiPiaoV_aozcAPI168(ref TmpCheck, DateTime.Today, false, IsOpwnNow, true);
-
-                        if (TmpCheck)
-                        {
-                            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-                            SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-                        }
-
                     }
+                    catch (Exception AnyError)
+                    {
+                        NetFramework.Console.WriteLine(AnyError.Message, true);
+                        NetFramework.Console.WriteLine(AnyError.StackTrace, true);
+                    } try
+                    {
+                        DownLoad163CaiPiaoV_aozcAPI168(ref TmpCheck, DateTime.Today, false, IsOpwnNow, true);
+                    }
+                    catch (Exception AnyError)
+                    {
+                        NetFramework.Console.WriteLine(AnyError.Message, true);
+                        NetFramework.Console.WriteLine(AnyError.StackTrace, true);
+                    }
+                    if (TmpCheck)
+                    {
+                        DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+                        SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+                    }
+
                 }
-                catch (Exception AnyError)
-                {
-                    NetFramework.Console.WriteLine(AnyError.Message, true);
-                    NetFramework.Console.WriteLine(AnyError.StackTrace, true);
-                }
+
 
 
 

@@ -28,7 +28,7 @@
     <InstallUrl>http://103.117.138.222:8080/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>72</ApplicationRevision>
+    <ApplicationRevision>75</ApplicationRevision>
     <ApplicationVersion>2.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -549,10 +549,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://13828081978.zicp.vip/SysadminServices.asmx">
+    <WebReferenceUrl Include="http://103.117.138.222/SysadminServices.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\RobotWebAdmin\</RelPath>
-      <UpdateFromURL>http://13828081978.zicp.vip/SysadminServices.asmx</UpdateFromURL>
+      <UpdateFromURL>http://103.117.138.222/SysadminServices.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -560,10 +560,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WeixinRoboot_RobotWebAdmin_SysadminServices</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://13828081978.zicp.vip/WebService.asmx%3fwsdl">
+    <WebReferenceUrl Include="http://103.117.138.222/WebService.asmx%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\RobootWeb\</RelPath>
-      <UpdateFromURL>http://13828081978.zicp.vip/WebService.asmx%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>http://103.117.138.222/WebService.asmx%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

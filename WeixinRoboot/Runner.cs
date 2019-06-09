@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 namespace WeixinRoboot
 {
     public partial class RunnerForm : Form
@@ -50,8 +51,6 @@ namespace WeixinRoboot
             {
                 Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                var MyUsers = db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.UserKey).ToList();
-                var MyUserSetss = db.WX_WebSendPICSetting.Where(t => t.aspnet_UserID == GlobalParam.UserKey).ToList();
                 //db.ObjectTrackingEnabled = false;
                 //this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
                 foreach (var item in (_Members["MemberList"]) as JArray)
@@ -83,7 +82,7 @@ namespace WeixinRoboot
                         //    string[] Names = Seq.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         //    Seq = Names[Names.Length-1];
                         //}
-                        Linq.WX_UserReply usrc = MyUsers.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+                        Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
                         if (usrc == null)
                         {
                             Linq.WX_UserReply newusrc = new Linq.WX_UserReply();
@@ -103,8 +102,8 @@ namespace WeixinRoboot
                                 newusrc.IsReply = true;
                             }
                             db.WX_UserReply.InsertOnSubmit(newusrc);
-                            MyUsers.Add(newusrc);
- ;
+                            db.SubmitChanges();
+                            ;
                         } //初始化，添加到数据库或同步数据库
                         else
                         {
@@ -121,7 +120,7 @@ namespace WeixinRoboot
                                 usrc.IsReply = true;
                             }
                         } //初始化，添加到数据库或同步数据库
-                        Linq.WX_WebSendPICSetting webpcset = MyUserSetss.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                        Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                            && t.WX_SourceType == "微"
                             && t.WX_UserName == Seq
                            );
@@ -167,13 +166,13 @@ namespace WeixinRoboot
                                 webpcset.Pic_EndMinute = 3;
                             }
                             db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
-                            MyUserSetss.Add(webpcset);
+                            db.SubmitChanges();
                         }
 
                         NetFramework.Console.WriteLine("准备提交,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
 
 
-                        usrc = MyUsers.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+                        usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
 
                         if (_GameMode != "")
                         {
@@ -247,6 +246,9 @@ namespace WeixinRoboot
                         //    logitem.SetField("Reply_ContactTEMPID", UserNametempID);
                         //    logitem.SetField("Reply_Contact", RemarkName == "" ? NickName : RemarkName);
                         //}
+                        EachStart = DateTime.Now;
+                        db.SubmitChanges();
+                        NetFramework.Console.WriteLine("数据库,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
 
                     }
                     catch (Exception AnyError)
@@ -259,12 +261,10 @@ namespace WeixinRoboot
                     Application.DoEvents();
 
                 }//成员列表循环
-                EachStart = DateTime.Now;
-                db.SubmitChanges();
 
 
 
-                NetFramework.Console.WriteLine("数据库,耗时:" + (DateTime.Now - EachStart).TotalSeconds.ToString(), true);
+
 
 
                 // BS_Contact.Sort = "User_Contact";
@@ -282,6 +282,18 @@ namespace WeixinRoboot
         public JObject RoomMembers = null;
         public DataTable RoomMerbersSource = null;
 
+        private void SetMembersFast()
+        {
+            RobootWeb.WebService ws = new RobootWeb.WebService();
+            ws.CookieContainer = GlobalParam.LoginCookie;
+            string Tables= ws.SetMembers(_Members.ToString(), GlobalParam.UserKey, _GameMode);
+            NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"), false);
+            this.Invoke(new Action(() =>
+              {
+                  MemberSource = (DataTable)JsonConvert.DeserializeObject(Tables, typeof(DataTable));
+                  BS_Contact.DataSource = MemberSource;
+              }));
+        }
 
         public void SetYixinMembers(List<StartForm.YixinContact> contact, List<StartForm.YixinContactInfo> contactinf)
         {
