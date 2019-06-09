@@ -4451,12 +4451,13 @@ namespace WeixinRoboot
                 if (loadset.Thread_VRChongqing == true)
                 {
                     Boolean TmpCheck = false;
-
+                    DateTime PreTime = DateTime.Now;
                     {
                         try
                         {
                             DownLoad163CaiPiaoV_vrchongqingcaislimFromHK(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
-                      
+                            NetFramework.Console.WriteLine("HK,耗时:" + (DateTime.Now - PreTime).TotalSeconds.ToString(), true);
+
                         }
                         catch (Exception)
                         {
@@ -4466,6 +4467,8 @@ namespace WeixinRoboot
                         try
                         {
                             DownLoad163CaiPiaoV_vrchongqingcaislimapp(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
+                            NetFramework.Console.WriteLine("华娱,耗时:" + (DateTime.Now - PreTime).TotalSeconds.ToString(), true);
+
                         }
 
                         catch (Exception AnyError)
@@ -4476,13 +4479,14 @@ namespace WeixinRoboot
 
                         try
                         {
-                            DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref TmpCheck, false);
+                           // DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref TmpCheck, false);
                         }
 
                         catch (Exception AnyError)
                         {
                             NetFramework.Console.WriteLine(AnyError.Message, true);
                         }
+                        NetFramework.Console.WriteLine("VR下载,耗时:" + (DateTime.Now - PreTime).TotalSeconds.ToString(), true);
 
                         if (TmpCheck)
                         {
