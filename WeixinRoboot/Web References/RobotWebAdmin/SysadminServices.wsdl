@@ -231,10 +231,10 @@
   </wsdl:binding>
   <wsdl:service name="SysadminServices">
     <wsdl:port name="SysadminServicesSoap" binding="tns:SysadminServicesSoap">
-      <soap:address location="http://13828081978.zicp.vip/SysadminServices.asmx" />
+      <soap:address location="http://103.117.138.220/SysadminServices.asmx" />
     </wsdl:port>
     <wsdl:port name="SysadminServicesSoap12" binding="tns:SysadminServicesSoap12">
-      <soap12:address location="http://13828081978.zicp.vip/SysadminServices.asmx" />
+      <soap12:address location="http://103.117.138.220/SysadminServices.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

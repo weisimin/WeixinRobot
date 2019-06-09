@@ -26,7 +26,7 @@ namespace WeixinRoboot.RobootWeb {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name = "WebServiceSoap", Namespace = "http://13828081978.zicp.vip/")]
+    [System.Web.Services.WebServiceBindingAttribute(Name="WebServiceSoap", Namespace="http://13828081978.zicp.vip/")]
     public partial class WebService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback UserLogInOperationCompleted;
@@ -48,6 +48,8 @@ namespace WeixinRoboot.RobootWeb {
         private System.Threading.SendOrPostCallback GetTemplateBonusOperationCompleted;
         
         private System.Threading.SendOrPostCallback SetMembersOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback OpenUrlOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -116,6 +118,9 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         public event SetMembersCompletedEventHandler SetMembersCompleted;
+        
+        /// <remarks/>
+        public event OpenUrlCompletedEventHandler OpenUrlCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogIn", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -417,6 +422,51 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/OpenUrl", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string OpenUrl(string TargetURL, string RefURL, string Body, string Method, string S_BrowCookie, bool AllowRedirect, bool KeepAlive, string ContentType, string authorization) {
+            object[] results = this.Invoke("OpenUrl", new object[] {
+                        TargetURL,
+                        RefURL,
+                        Body,
+                        Method,
+                        S_BrowCookie,
+                        AllowRedirect,
+                        KeepAlive,
+                        ContentType,
+                        authorization});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void OpenUrlAsync(string TargetURL, string RefURL, string Body, string Method, string S_BrowCookie, bool AllowRedirect, bool KeepAlive, string ContentType, string authorization) {
+            this.OpenUrlAsync(TargetURL, RefURL, Body, Method, S_BrowCookie, AllowRedirect, KeepAlive, ContentType, authorization, null);
+        }
+        
+        /// <remarks/>
+        public void OpenUrlAsync(string TargetURL, string RefURL, string Body, string Method, string S_BrowCookie, bool AllowRedirect, bool KeepAlive, string ContentType, string authorization, object userState) {
+            if ((this.OpenUrlOperationCompleted == null)) {
+                this.OpenUrlOperationCompleted = new System.Threading.SendOrPostCallback(this.OnOpenUrlOperationCompleted);
+            }
+            this.InvokeAsync("OpenUrl", new object[] {
+                        TargetURL,
+                        RefURL,
+                        Body,
+                        Method,
+                        S_BrowCookie,
+                        AllowRedirect,
+                        KeepAlive,
+                        ContentType,
+                        authorization}, this.OpenUrlOperationCompleted, userState);
+        }
+        
+        private void OnOpenUrlOperationCompleted(object arg) {
+            if ((this.OpenUrlCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.OpenUrlCompleted(this, new OpenUrlCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -660,6 +710,32 @@ namespace WeixinRoboot.RobootWeb {
         private object[] results;
         
         internal SetMembersCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    public delegate void OpenUrlCompletedEventHandler(object sender, OpenUrlCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class OpenUrlCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal OpenUrlCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
