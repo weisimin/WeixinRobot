@@ -10,6 +10,9 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Data;
+using System.Net;
+using System.IO;
+using System.IO.Compression;
 /// <summary>
 /// WebService 的摘要说明
 /// </summary>
@@ -539,5 +542,262 @@ public class WebService : System.Web.Services.WebService
 
 
     }
+    [WebMethod]
+    public   string OpenUrl(string TargetURL, string RefURL, string Body, string Method, string S_BrowCookie, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8", string authorization = "")
+    {
+        System.Net.CookieCollection BrowCookie = new CookieCollection();
+        // (System.Net.CookieCollection)JsonConvert.DeserializeObject(S_BrowCookie, typeof(System.Net.CookieCollection));
+        DateTime Pre = DateTime.Now;
+        string Result = OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.UTF8, AllowRedirect, KeepAlive, ContentType, authorization);
+        //NetFramework.Console.WriteLine("--------------网站下载总时间：" + (DateTime.Now - Pre).TotalSeconds.ToString(), false);
+        return Result;
+    }
+
+    public static bool CheckValidationResult(object sender
+        , System.Security.Cryptography.X509Certificates.X509Certificate certificate
+        , System.Security.Cryptography.X509Certificates.X509Chain chain
+        , System.Net.Security.SslPolicyErrors errors)
+    {
+        return true;
+    }
+
+    public static void SetHeaderValue(WebHeaderCollection header, string name, string value)
+    {
+        var property = typeof(WebHeaderCollection).GetProperty("InnerCollection",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+        if (property != null)
+        {
+            var collection = property.GetValue(header, null) as System.Collections.Specialized.NameValueCollection;
+            collection[name] = value;
+        }
+    }
+
+    public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = false, bool KeepAlive = true, string ContentType = "application/json;charset=UTF-8", string authorization = "")
+    {
+
+        //System.Net.ServicePointManager.MaxServicePoints=20;
+
+        System.Net.ServicePointManager.DefaultConnectionLimit = 500;
+
+        System.Net.ServicePointManager.SetTcpKeepAlive(true, 15000, 15000);
+        //HttpWebRequest LoginPage = null;
+        //    GetHttpWebResponseNoRedirect(TargetURL,"","",out LoginPage);
+
+        WebRequest LoginPage = HttpWebRequest.Create(TargetURL);
+        ((HttpWebRequest)LoginPage).AllowAutoRedirect = AllowRedirect;
+        //((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
+        //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
+        ((HttpWebRequest)LoginPage).Timeout = 15000;
+        ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
+        if (authorization != "")
+        {
+            LoginPage.Headers.Add("Authorization", authorization);
+
+        }
+
+        LoginPage.Method = Method;
+        if (TargetURL.ToLower().StartsWith("https"))
+        {
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
+
+            //System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
+            ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
+        }
+
+        switch (Method)
+        {
+            case "GET":
+                // ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
+                ((HttpWebRequest)LoginPage).Accept = "*/*";
+                ((HttpWebRequest)LoginPage).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36 OPR/52.0.2871.40";
+                LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+                LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
+                ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
+                ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
+
+                //((HttpWebRequest)LoginPage).Connection = "KeepAlive,Close";
+                ((HttpWebRequest)LoginPage).Referer = RefURL;
+
+                break;
+            case "POST":
+                ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
+                ((HttpWebRequest)LoginPage).Referer = RefURL;
+                ((HttpWebRequest)LoginPage).UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)";
+                LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+                LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
+                ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
+                ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
+                ((HttpWebRequest)LoginPage).ContentType = ContentType;
+                //((HttpWebRequest)LoginPage).ServicePoint.Expect100Continue = true;
+                //((HttpWebRequest)LoginPage).Connection = "KeepAlive";
+                if (((HttpWebRequest)LoginPage).Referer != null)
+                {
+                    LoginPage.Headers.Add("Origin", ((HttpWebRequest)LoginPage).Referer.Substring(0, ((HttpWebRequest)LoginPage).Referer.Length - 1));
+
+                }
+
+                if (Body != "")
+                {
+                    Stream bodys = LoginPage.GetRequestStream();
+
+                    byte[] text = ContactEncoding.GetBytes(Body);
+
+                    bodys.Write(text, 0, text.Length);
+
+                    bodys.Flush();
+                    bodys.Close();
+                }
+                break;
+            case "OPTIONS":
+                // ((HttpWebRequest)LoginPage).Accept = "application/x-ms-application, image/jpeg, application/xaml+xml, image/gif, image/pjpeg, application/x-ms-xbap, application/vnd.ms-powerpoint, application/msword, application/vnd.ms-excel,application/json, text/plain, */*";
+                ((HttpWebRequest)LoginPage).Accept = "*/*";
+                ((HttpWebRequest)LoginPage).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36 OPR/52.0.2871.40";
+                LoginPage.Headers.Add("Accept-Encoding", "gzip, deflate,br");
+                LoginPage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
+                ((HttpWebRequest)LoginPage).CookieContainer = new CookieContainer();
+                ((HttpWebRequest)LoginPage).CookieContainer.Add(BrowCookie);
+
+                //((HttpWebRequest)LoginPage).Connection = "KeepAlive";
+                ((HttpWebRequest)LoginPage).Referer = RefURL;
+                LoginPage.Headers.Add("Origin", RefURL);
+
+                break;
+            default:
+                break;
+        }
+        //((HttpWebRequest)LoginPage).KeepAlive = true;
+        SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
+        LoginPage.Timeout = 15000;
+        if (RefURL.ToLower().StartsWith("https"))
+        {
+            //System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
+            ((HttpWebRequest)LoginPage).ProtocolVersion = System.Net.HttpVersion.Version11;
+        }
+        //System.GC.Collect();
+        System.Threading.Thread.Sleep(100);
+        HttpWebResponse LoginPage_Return = null;
+        try
+        {
+            //CurrentUrl = "正在下载" + TargetURL;
+            //System.GC.Collect();
+
+            // NetFramework.Console.WriteLine("下载URL" + LoginPage.RequestUri.AbsoluteUri + Environment.NewLine);
+            LoginPage_Return = (HttpWebResponse)LoginPage.GetResponse();
+
+            //CurrentUrl = "已下载" + TargetURL;
+
+            if (((HttpWebResponse)LoginPage_Return).Headers["Set-Cookie"] != null)
+            {
+                string Start = LoginPage.RequestUri.Host.Substring(0, LoginPage.RequestUri.Host.LastIndexOf("."));
+                string Host = LoginPage.RequestUri.Host.Substring(LoginPage.RequestUri.Host.LastIndexOf("."));
+
+                foreach (Cookie cookieitem in ((HttpWebResponse)LoginPage_Return).Cookies)
+                {
+                    string[] SplitDomain = cookieitem.Domain.Split((".").ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    Int32 Length = SplitDomain.Length;
+                    cookieitem.Domain = "." + SplitDomain[Length - 2] + "." + SplitDomain[Length - 1];
+                    cookieitem.Expires = cookieitem.Expires == null ? DateTime.Now.AddHours(168) : cookieitem.Expires.AddHours(168);
+                    BrowCookie.Add(cookieitem);
+                }
+
+
+                //CookieContainer NC = new CookieContainer();
+                //NC.SetCookies(((HttpWebResponse)LoginPage_Return).ResponseUri, ((HttpWebResponse)LoginPage_Return).Headers["Set-Cookie"]);
+                //BrowCookie.Add(NC.GetCookies(((HttpWebResponse)LoginPage_Return).ResponseUri));
+
+                // Host = Start.Substring(Start.LastIndexOf(".")) + Host;
+                // AddCookieWithCookieHead(tmpcookie, ((HttpWebResponse)LoginPage_Return).Headers["Set-Cookie"].Replace("Secure,", ""), Host);
+            }
+
+        }
+        catch (Exception AnyError)
+        {
+
+            LoginPage = null;
+            System.GC.Collect();
+
+            //NetFramework.Console.WriteLine("网址打开失败" + TargetURL, false);
+            //NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message, false);
+            //NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace, false);
+            return "";
+        }
+
+        string responseBody = string.Empty;
+        try
+        {
+
+
+            if (LoginPage_Return.ContentEncoding.ToLower().Contains("gzip"))
+            {
+                using (GZipStream stream = new GZipStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
+                {
+
+                    using (StreamReader reader = new StreamReader(stream, ContactEncoding))
+                    {
+                        responseBody = reader.ReadToEnd();
+                        stream.Close();
+                    }
+                }
+            }
+            else if (LoginPage_Return.ContentEncoding.ToLower().Contains("deflate"))
+            {
+                using (DeflateStream stream = new DeflateStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
+                {
+                    using (StreamReader reader = new StreamReader(stream, ContactEncoding))
+                    {
+                        responseBody = reader.ReadToEnd();
+                        stream.Close();
+                    }
+                }
+            }
+            else if (LoginPage_Return.ContentEncoding.ToLower().Contains("br"))
+            {
+                using (Brotli.BrotliStream stream = new Brotli.BrotliStream(LoginPage_Return.GetResponseStream(), CompressionMode.Decompress))
+                {
+                    using (StreamReader reader = new StreamReader(stream, ContactEncoding))
+                    {
+                        responseBody = reader.ReadToEnd();
+                        stream.Close();
+                    }
+                }
+            }
+            else
+            {
+                using (Stream stream = LoginPage_Return.GetResponseStream())
+                {
+                    using (StreamReader reader = new StreamReader(stream, ContactEncoding))
+                    {
+                        responseBody = reader.ReadToEnd();
+                        stream.Close();
+                    }
+                }
+            }
+        }
+        catch (Exception AnyError)
+        {
+            LoginPage.Abort();
+            LoginPage = null;
+            //System.GC.Collect();
+
+            //NetFramework.Console.WriteLine("网址打开失败" + TargetURL, true);
+            //NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message, true);
+            //NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace, true);
+            return "";
+        }
+        LoginPage.Abort();
+
+
+        //  NetFramework.Console.WriteLine("下载完成" + LoginPage_Return.ResponseUri.AbsoluteUri + Environment.NewLine);
+
+        LoginPage_Return.Close();
+        LoginPage_Return = null;
+        LoginPage = null;
+        System.GC.Collect();
+
+
+        return responseBody;
+
+    }
+
 
 }
