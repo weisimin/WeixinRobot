@@ -119,11 +119,7 @@ namespace WeixinRoboot.Linq
     partial void DeleteWX_PCSendPicSetting(WX_PCSendPicSetting instance);
     #endregion
 		
-		public dbDataContext() : 
-				base(global::WeixinRoboot.Properties.Settings.Default.WeixinRobootConnectionString2, mappingSource)
-		{
-			OnCreated();
-		}
+	
 		
 		public dbDataContext(string connection) : 
 				base(connection, mappingSource)
