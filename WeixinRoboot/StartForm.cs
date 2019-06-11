@@ -10890,6 +10890,12 @@ namespace WeixinRoboot
                                 continue;
                             }
                             break;
+                        case WeixinRoboot.Linq.ProgramLogic.ShiShiCaiMode.河内五分:
+                            if (wins.HeNeiWuFenMode == false || wins.HeNeiWuFenMode == null)
+                            {
+                                continue;
+                            }
+                            break;
                         default:
                             continue;
                             break;
@@ -12154,6 +12160,7 @@ namespace WeixinRoboot
 
             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾十信);
             DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾五信);
+            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.河内五分);
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             ////db.ObjectTrackingEnabled = false;
@@ -12207,6 +12214,10 @@ namespace WeixinRoboot
             if (loadset.Thread_XinJiangShiShiCai == true)
             {
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
+            }
+            if (loadset.Thread_HeNeiWuFen == true)
+            {
+                SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.河内五分);
             }
         }
         private static bool StopQQ = false;
