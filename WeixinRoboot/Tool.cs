@@ -14,10 +14,10 @@ namespace NetFramework
     public class Util_WEB
     {
         public static string CurrentUrl = "";
-        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8", string authorization = "")
+        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8", string authorization = "",Int32 TimeOut=15000)
         {
             DateTime Pre = DateTime.Now;
-            string Result = OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.UTF8, AllowRedirect, KeepAlive, ContentType, authorization);
+            string Result = OpenUrl(TargetURL, RefURL, Body, Method, BrowCookie, Encoding.UTF8, AllowRedirect, KeepAlive, ContentType, authorization, TimeOut);
             NetFramework.Console.WriteLine("--------------网站下载总时间：" + (DateTime.Now - Pre).TotalSeconds.ToString(), false);
             return Result;
         }
@@ -41,7 +41,7 @@ namespace NetFramework
             }
         }
 
-        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = false, bool KeepAlive = true, string ContentType = "application/json;charset=UTF-8", string authorization = "")
+        public static string OpenUrl(string TargetURL, string RefURL, string Body, string Method, System.Net.CookieCollection BrowCookie, Encoding ContactEncoding, bool AllowRedirect = false, bool KeepAlive = true, string ContentType = "application/json;charset=UTF-8", string authorization = "",Int32 TimeOut=15000)
         {
 
             //System.Net.ServicePointManager.MaxServicePoints=20;
@@ -56,7 +56,7 @@ namespace NetFramework
             ((HttpWebRequest)LoginPage).AllowAutoRedirect = AllowRedirect;
             //((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
             //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
-            ((HttpWebRequest)LoginPage).Timeout = 15000;
+            ((HttpWebRequest)LoginPage).Timeout = TimeOut;
             ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
              if (authorization != "")
             {
@@ -136,7 +136,7 @@ namespace NetFramework
             }
             //((HttpWebRequest)LoginPage).KeepAlive = true;
             SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
-            LoginPage.Timeout = 15000;
+            LoginPage.Timeout = TimeOut;
             if (RefURL.ToLower().StartsWith("https"))
             {
                 //System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
