@@ -587,7 +587,7 @@ public class WebService : System.Web.Services.WebService
         ((HttpWebRequest)LoginPage).AllowAutoRedirect = AllowRedirect;
         //((HttpWebRequest)LoginPage).KeepAlive = KeepAlive;
         //SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
-        ((HttpWebRequest)LoginPage).Timeout = 15000;
+        ((HttpWebRequest)LoginPage).Timeout = 6000;
         ((HttpWebRequest)LoginPage).Credentials = CredentialCache.DefaultCredentials;
         if (authorization != "")
         {
@@ -667,7 +667,7 @@ public class WebService : System.Web.Services.WebService
         }
         //((HttpWebRequest)LoginPage).KeepAlive = true;
         SetHeaderValue(((HttpWebRequest)LoginPage).Headers, "Connection", "Keep-Alive");
-        LoginPage.Timeout = 15000;
+        LoginPage.Timeout = 6000;
         if (RefURL.ToLower().StartsWith("https"))
         {
             //System.Net.ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
