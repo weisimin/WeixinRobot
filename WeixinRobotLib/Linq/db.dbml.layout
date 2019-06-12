@@ -183,5 +183,11 @@
         <classShapeMoniker Id="a289782a-1aa0-4136-8606-6306fc2e0338" />
       </nodes>
     </associationConnector>
+    <classShape Id="fc12d18d-7895-4ed0-b8e7-2f5da7586de2" isExpanded="false" absoluteBounds="3.25, 0.875, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/aspnet_UsersNewGameResultSend" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2e62d382-4128-499b-a655-ba6d46875de3" absoluteBounds="3.265, 1.335, 1.9700000000000002, 8.6523335774739571" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>
