@@ -198,7 +198,7 @@ namespace WeixinRoboot
                         newr.OrderIndex = item.OrderIndex;
                         db.Game_BasicRatio.InsertOnSubmit(newr);
 
-                    } 
+                    }
                     db.SubmitChanges(System.Data.Linq.ConflictMode.FailOnFirstConflict);
                 }
             }
@@ -225,7 +225,7 @@ namespace WeixinRoboot
                         newr.IfDivousPercent = item.IfDivousPercent;
 
                         db.WX_BounsConfig.InsertOnSubmit(newr);
-                       
+
                     }
                     db.SubmitChanges();
                 }
@@ -4455,14 +4455,25 @@ namespace WeixinRoboot
                     {
                         try
                         {
+                            DownLoad163CaiPiaoV_vrchongqingcaislimFromHKJSON(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
+                            NetFramework.Console.WriteLine("VideoRacingHK,耗时:" + (DateTime.Now - PreTime).TotalSeconds.ToString(), true);
+
+                        }
+                        catch (Exception anyerror)
+                        {
+
+
+                        }
+                        try
+                        {
                             DownLoad163CaiPiaoV_vrchongqingcaislimFromHK(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
                             NetFramework.Console.WriteLine("HK,耗时:" + (DateTime.Now - PreTime).TotalSeconds.ToString(), true);
 
                         }
-                        catch (Exception)
+                        catch (Exception anyerror)
                         {
-                            
-                            
+
+
                         }
                         try
                         {
@@ -4479,7 +4490,7 @@ namespace WeixinRoboot
 
                         try
                         {
-                           // DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref TmpCheck, false);
+                            // DownLoad163CaiPiaoV_vrchongqingcais_CopyFromOtherUsers(ref TmpCheck, false);
                         }
 
                         catch (Exception AnyError)
@@ -4535,12 +4546,12 @@ namespace WeixinRoboot
                         try
                         {
                             DownLoad163CaiPiaoV_vrchongqingcaiFromHK(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
-                   
+
                         }
                         catch (Exception)
                         {
-                            
-                           
+
+
                         }
 
                         try
@@ -6617,7 +6628,7 @@ namespace WeixinRoboot
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
 
-            
+
 
 
 
@@ -6627,9 +6638,9 @@ namespace WeixinRoboot
             NetFramework.Console.WriteLine("正在刷新VR重庆时时彩网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
 
             RobootWeb.WebService ws = new RobootWeb.WebService();
-            
 
-            string Result =ws.OpenUrl(URL, "", "", "GET", JsonConvert.SerializeObject( wufencai), true, true, "application/x-www-form-urlencoded; charset=UTF-8","");
+
+            string Result = ws.OpenUrl(URL, "", "", "GET", JsonConvert.SerializeObject(wufencai), true, true, "application/x-www-form-urlencoded; charset=UTF-8", "");
 
             // "<div class="css_table">"
 
@@ -6738,7 +6749,7 @@ namespace WeixinRoboot
             //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
 
         }
-     
+
         public void DownLoad163CaiPiaoV_vrchongqingcaislim(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
         {
             //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
@@ -6854,7 +6865,7 @@ namespace WeixinRoboot
             //http://pay4.hbcchy.com/lotterytrend/getsscchart
 
 
-          
+
 
 
 
@@ -6863,7 +6874,8 @@ namespace WeixinRoboot
             NetFramework.Console.WriteLine("正在刷新VR重庆时时彩网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
 
             RobootWeb.WebService ws = new RobootWeb.WebService();
-            string Result = ws.OpenUrl(URL, "", "", "GET", JsonConvert.SerializeObject( wufencai), true, true, "application/x-www-form-urlencoded; charset=UTF-8","");
+            ws.Timeout = 6000;
+            string Result = ws.OpenUrl(URL, "", "", "GET", JsonConvert.SerializeObject(wufencai), true, true, "application/x-www-form-urlencoded; charset=UTF-8", "");
 
             // "<div class="css_table">"
 
@@ -6897,7 +6909,7 @@ namespace WeixinRoboot
 
                         );
                     str_dataperiod = str_dataperiod.Replace("第", "").Replace("期号码", "");
-                    Oldstr_Win = Oldstr_Win.Replace(Environment.NewLine, ",");
+                    Oldstr_Win = Oldstr_Win.Replace(Environment.NewLine, ",").Replace("\n","");
                     string str_Win = Oldstr_Win;
                     //if (Oldstr_Win.Length >= 5)
                     //{
@@ -6908,6 +6920,92 @@ namespace WeixinRoboot
                     //           + Oldstr_Win.Substring(4, 1) + ",";
                     //}
                     //str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
+                    ////str_Win = str_Win.Substring(0, 9);
+                    //str_dataperiod = str_dataperiod.Substring(2, 9);
+
+                    Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+                }
+                #endregion
+            }
+            NetFramework.Console.WriteLine("处理用时间" + (DateTime.Now - PreTime).TotalSeconds.ToString() + "-----------------------------------------------", false);
+            NetFramework.Console.WriteLine("VR重庆时时彩下载完成，准备开奖" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+            ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+
+            //            Int32 AfterCheckCount = db.Game_Result.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+            //                 && t.GameName == Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+            //).Count();
+            //            if (LocalGameResultCount != AfterCheckCount || ReDrawGdi == true)
+            //            {
+            //                NewResult = true;
+
+
+            //                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+
+            //            }
+
+            //            if (LocalGameResultCount != AfterCheckCount)
+            //            {
+            //                SendChongqingResultPic(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+            //            }
+
+            #endregion
+
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载完毕开奖网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+        }
+        public void DownLoad163CaiPiaoV_vrchongqingcaislimFromHKJSON(ref Boolean NewResult, DateTime SelectDate, bool ReDrawGdi, bool IsOpenNow)
+        {
+            //NetFramework.Console.Write(GlobalParam.UserName + "下载1395.com网" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine);
+
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            ////db.ObjectTrackingEnabled = false;
+            #region 下载彩票结果
+            //http://pay4.hbcchy.com/lotterytrend/getsscchart
+
+
+
+
+
+
+            string URL = "https://s.videoracing.com/lot/vrssc";
+
+            NetFramework.Console.WriteLine("正在刷新VR重庆时时彩网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
+
+            RobootWeb.WebService ws = new RobootWeb.WebService();
+            ws.Timeout = 6000;
+            string Result = ws.OpenUrl(URL, "", "", "GET", JsonConvert.SerializeObject(wufencai), true, true, "application/x-www-form-urlencoded; charset=UTF-8", "");
+
+            // "<div class="css_table">"
+
+            DateTime PreTime = DateTime.Now;
+            Result = Result.Substring(Result.IndexOf("["));
+            Result = Result.Substring(0,Result.LastIndexOf("]"));
+            string[] Rows=Result.Split("<br>".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            {
+
+                #region 每期处理
+                foreach (var jitem in Rows)
+                {
+
+                    string Oldstr_Win =
+                        jitem.Substring(39);
+                    Oldstr_Win = Oldstr_Win.Replace("'", "").Replace("]", "").Replace("\t", "").Replace(" ", "");
+
+                    string str_dataperiod = jitem.Substring(25, 11);
+                    str_dataperiod = str_dataperiod.Replace("'", "").Replace("]", "").Replace("\t", "").Replace(" ", "");
+                    string str_Win = Oldstr_Win.Replace(",","");
+                    //if (Oldstr_Win.Length >= 5)
+                    //{
+                    //    str_Win = Oldstr_Win.Substring(0, 1) + ","
+                    //        + Oldstr_Win.Substring(1, 1) + ","
+                    //         + Oldstr_Win.Substring(2, 1) + ","
+                    //          + Oldstr_Win.Substring(3, 1) + ","
+                    //           + Oldstr_Win.Substring(4, 1) + ",";
+                    //}
+                    str_Win = str_Win.Replace(" ", "").Replace("\t", "").Replace(",", " ");
                     ////str_Win = str_Win.Substring(0, 9);
                     //str_dataperiod = str_dataperiod.Substring(2, 9);
 

@@ -28,7 +28,7 @@
     <InstallUrl>http://103.117.138.220:8080/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>80</ApplicationRevision>
+    <ApplicationRevision>81</ApplicationRevision>
     <ApplicationVersion>2.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -153,6 +153,8 @@
     </Compile>
     <Compile Include="HotKey.cs" />
     <Compile Include="Linq\aspnet_UsersNewGameResultSend.cs" />
+    <Compile Include="Linq\db.designer.cs" />
+    <Compile Include="Linq\ProgramLogic.cs" />
     <Compile Include="LogForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,12 +203,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="JSPromptForm.Designer.cs" />
-    <Compile Include="Linq\db.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>db.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="Linq\ProgramLogic.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -312,6 +308,9 @@
       <DependentUpon>F_WX_BounsRatio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JSPromptForm.resx" />
+    <None Include="Linq\db.dbml.layout">
+      <DependentUpon>db.dbml</DependentUpon>
+    </None>
     <EmbeddedResource Include="LogForm.resx">
       <DependentUpon>LogForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -391,6 +390,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.manifest" />
+    <None Include="Linq\db.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>db1.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Newtonsoft.Json.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -403,9 +407,6 @@
     <Content Include="Template_football.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Linq\db.dbml.layout">
-      <DependentUpon>db.dbml</DependentUpon>
-    </None>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -427,11 +428,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Linq\db.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>db.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <Content Include="jquery-1.2.6.pack.js">
