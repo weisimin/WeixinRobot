@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinRoboot", "WeixinRoboot\WeixinRoboot.csproj", "{9DB21E37-B8E8-45EA-B366-0164F8541AE0}"
 EndProject
@@ -38,7 +38,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PhoneService", "http://localhost:54819", "{7BFDFB27-F8B3-42B0-A7AA-5D63EA09CB23}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.1"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_54819"
 		Debug.AspNetCompiler.PhysicalPath = "PhoneService\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54819\"

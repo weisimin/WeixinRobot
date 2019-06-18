@@ -51,6 +51,8 @@ namespace WeixinRoboot.RobootWeb {
         
         private System.Threading.SendOrPostCallback OpenUrlOperationCompleted;
         
+        private System.Threading.SendOrPostCallback OpenLongTimeUrlOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -121,6 +123,9 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         public event OpenUrlCompletedEventHandler OpenUrlCompleted;
+        
+        /// <remarks/>
+        public event OpenLongTimeUrlCompletedEventHandler OpenLongTimeUrlCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogIn", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -467,6 +472,51 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/OpenLongTimeUrl", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string OpenLongTimeUrl(string TargetURL, string RefURL, string Body, string Method, string S_BrowCookie, bool AllowRedirect, bool KeepAlive, string ContentType, string authorization) {
+            object[] results = this.Invoke("OpenLongTimeUrl", new object[] {
+                        TargetURL,
+                        RefURL,
+                        Body,
+                        Method,
+                        S_BrowCookie,
+                        AllowRedirect,
+                        KeepAlive,
+                        ContentType,
+                        authorization});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void OpenLongTimeUrlAsync(string TargetURL, string RefURL, string Body, string Method, string S_BrowCookie, bool AllowRedirect, bool KeepAlive, string ContentType, string authorization) {
+            this.OpenLongTimeUrlAsync(TargetURL, RefURL, Body, Method, S_BrowCookie, AllowRedirect, KeepAlive, ContentType, authorization, null);
+        }
+        
+        /// <remarks/>
+        public void OpenLongTimeUrlAsync(string TargetURL, string RefURL, string Body, string Method, string S_BrowCookie, bool AllowRedirect, bool KeepAlive, string ContentType, string authorization, object userState) {
+            if ((this.OpenLongTimeUrlOperationCompleted == null)) {
+                this.OpenLongTimeUrlOperationCompleted = new System.Threading.SendOrPostCallback(this.OnOpenLongTimeUrlOperationCompleted);
+            }
+            this.InvokeAsync("OpenLongTimeUrl", new object[] {
+                        TargetURL,
+                        RefURL,
+                        Body,
+                        Method,
+                        S_BrowCookie,
+                        AllowRedirect,
+                        KeepAlive,
+                        ContentType,
+                        authorization}, this.OpenLongTimeUrlOperationCompleted, userState);
+        }
+        
+        private void OnOpenLongTimeUrlOperationCompleted(object arg) {
+            if ((this.OpenLongTimeUrlCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.OpenLongTimeUrlCompleted(this, new OpenLongTimeUrlCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -736,6 +786,32 @@ namespace WeixinRoboot.RobootWeb {
         private object[] results;
         
         internal OpenUrlCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    public delegate void OpenLongTimeUrlCompletedEventHandler(object sender, OpenLongTimeUrlCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class OpenLongTimeUrlCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal OpenLongTimeUrlCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

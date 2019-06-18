@@ -165,6 +165,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="OpenLongTimeUrl">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TargetURL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RefURL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Method" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="S_BrowCookie" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="AllowRedirect" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="KeepAlive" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="ContentType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authorization" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenLongTimeUrlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OpenLongTimeUrlResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -240,6 +262,12 @@
   <wsdl:message name="OpenUrlSoapOut">
     <wsdl:part name="parameters" element="tns:OpenUrlResponse" />
   </wsdl:message>
+  <wsdl:message name="OpenLongTimeUrlSoapIn">
+    <wsdl:part name="parameters" element="tns:OpenLongTimeUrl" />
+  </wsdl:message>
+  <wsdl:message name="OpenLongTimeUrlSoapOut">
+    <wsdl:part name="parameters" element="tns:OpenLongTimeUrlResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceSoap">
     <wsdl:operation name="UserLogIn">
       <wsdl:input message="tns:UserLogInSoapIn" />
@@ -284,6 +312,10 @@
     <wsdl:operation name="OpenUrl">
       <wsdl:input message="tns:OpenUrlSoapIn" />
       <wsdl:output message="tns:OpenUrlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenLongTimeUrl">
+      <wsdl:input message="tns:OpenLongTimeUrlSoapIn" />
+      <wsdl:output message="tns:OpenLongTimeUrlSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
@@ -387,6 +419,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="OpenLongTimeUrl">
+      <soap:operation soapAction="http://13828081978.zicp.vip/OpenLongTimeUrl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -482,6 +523,15 @@
     </wsdl:operation>
     <wsdl:operation name="OpenUrl">
       <soap12:operation soapAction="http://13828081978.zicp.vip/OpenUrl" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenLongTimeUrl">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/OpenLongTimeUrl" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
