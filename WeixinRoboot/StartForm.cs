@@ -4461,7 +4461,7 @@ namespace WeixinRoboot
                         }
                         catch (Exception anyerror)
                         {
-
+                            NetFramework.Console.WriteLine("VRVideoRacingHK下载失败" + anyerror.Message, true);
 
                         }
                         try
@@ -4472,7 +4472,7 @@ namespace WeixinRoboot
                         }
                         catch (Exception anyerror)
                         {
-
+                            NetFramework.Console.WriteLine("VRHK下载失败" + anyerror.Message, true);
 
                         }
                         try
@@ -4482,9 +4482,9 @@ namespace WeixinRoboot
 
                         }
 
-                        catch (Exception AnyError)
+                        catch (Exception anyerror)
                         {
-                            NetFramework.Console.WriteLine(AnyError.Message, true);
+                            NetFramework.Console.WriteLine("VR华娱下载失败" + anyerror.Message,true);
 
                         }
 
@@ -4556,9 +4556,10 @@ namespace WeixinRoboot
 
                         try
                         {
-                            DownLoad163CaiPiaoV_vrchongqingcai(ref TmpCheck, DateTime.Today.AddDays(1), false, IsOpwnNow);
+                            DownLoad163CaiPiaoV_vrchongqingcai(ref TmpCheck, DateTime.Today, false, IsOpwnNow);
 
                         }
+
                         catch (Exception AnyError)
                         {
                             NetFramework.Console.WriteLine(AnyError.Message, true);
@@ -6874,7 +6875,7 @@ namespace WeixinRoboot
             NetFramework.Console.WriteLine("正在刷新VR重庆时时彩网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
 
             RobootWeb.WebService ws = new RobootWeb.WebService();
-            ws.Timeout = 6000;
+            ws.Timeout = 8000;
             string Result = ws.OpenUrl(URL, "", "", "GET", JsonConvert.SerializeObject(wufencai), true, true, "application/x-www-form-urlencoded; charset=UTF-8", "");
 
             // "<div class="css_table">"
@@ -6974,9 +6975,8 @@ namespace WeixinRoboot
 
             NetFramework.Console.WriteLine("正在刷新VR重庆时时彩网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
 
-            RobootWeb.WebService ws = new RobootWeb.WebService();
-            ws.Timeout = 6000;
-            string Result = ws.OpenUrl(URL, "", "", "GET", JsonConvert.SerializeObject(wufencai), true, true, "application/x-www-form-urlencoded; charset=UTF-8", "");
+
+            string Result = NetFramework.Util_WEB.OpenUrl(URL, "", "", "GET", wufencai, true, true, "application/x-www-form-urlencoded; charset=UTF-8", "");
 
             // "<div class="css_table">"
 
