@@ -1,0 +1,1380 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:esun>
+<head>
+    <!-- 配合升级HTTPS -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- Google Analytics 追加锚点跟踪代码  线上正式版 放在所有页面 <head>和</head>之间 -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-129370839-1', 'auto');
+        ga('send', 'pageview', location.pathname + location.hash);
+        ga('send', 'pageview', location.pathname + location.search + location.hash);
+    </script>
+    <!-- End Google Analytics -->
+    <script type='text/javascript'>
+        var cid = '';
+        var domain = '.13322.com';
+        function getChidParam() {
+            if (!!cid) return "?" + cid;
+            return '';
+        }
+        $(function () {
+            /**广告*/
+            var _URL = window.location.href, _type = null;
+            if (_URL.indexOf('_') > 0) {
+                var _a = _URL.split('/');
+                if (_a && _a.length > 0) {
+                    var _b = _a[3];
+                    if ((_b.indexOf('x115') == 0) || (_b.indexOf('ssc') == 0) || (_b.indexOf('kl10') == 0) || (_b.indexOf('k3') == 0) || (_b.indexOf('sscRoadBead') == 0) || (_b.indexOf('happy10') == 0) || (_b.indexOf('pl3') == 0)) {
+                        _type = _b.split('.').length > 0 ? _b[0] + '_' + _b[1] : null;
+                        if (_b.split('.').length > 0) {
+                            var _b_child = _b.split('.')[0],
+                                _b_s = _b_child.split('_');
+                            if (_b_s && _b_s.length > 0) {
+                                _type = _b_s[0] + '_' + _b_s[1]
+                            }
+                        }
+                    } else {
+                        var _c = _b.split('_');
+                        if (_c && _c.length > 0) {
+                            _type = _c[0]
+                        }
+                    }
+                }
+            } else {
+                _type = 'index'
+            }
+            var renderAd = function (data) {
+                var arr1 = null, arr2 = null, arr3 = null, arr4 = null, arr5 = null, arr6 = null;
+                for (i in data) {
+                    // 横幅
+                    arr1 = data[0];
+                    // 左侧
+                    arr2 = data[1];
+                    // 右侧
+                    arr3 = data[2];
+                    // 右下角
+                    arr4 = data[3];
+                    // 左下角
+                    arr5 = data[4];
+                    // 中间
+                    arr6 = data[5];
+                }
+                if (arr1 && arr1.length > 0) {
+                    var str = '';
+                    for (var i = 0; i < arr1.length; i++) {
+                        str += arr1[i].adScript;
+                    }
+                    if (_type == 'index') {
+                        $('.header').after('<div class="w1000 mt8" style="position:relative" id="ad_top">' + str + '</div>')
+                    } else {
+                        $('.header').after('<div class="w1200 mt8" style="position:relative" id="ad_top">' + str + '</div>')
+                    }
+                    $('#ad_top').each(function (i) {
+                        $(this).append('<span>广告</span>');
+                        $(this).find('span').css({
+                            'top': '0',
+                            'left': '0'
+                        })
+                    })
+                }
+                if (arr2 && arr2.length > 0) {
+                    var str = '';
+                    for (var i = 0; i < arr2.length; i++) {
+                        str += arr2[i].adScript;
+                    }
+                    $('body').append('<div class="ad_couplet_left">' + str + '</div>');
+                    $('.ad_couplet_left').each(function (i) {
+                        $(this).append('<span>广告</span>');
+                        $(this).find('span').css({
+                            'top': '0',
+                            'left': '0'
+                        })
+                    });
+                    $('.ad_couplet_left').append('<i class="exitIcon"></i>');
+                    $('.ad_couplet_left').find('i').css({
+                        'top': '0',
+                        'right': '0'
+                    }).click(function () {
+                        $(this).parent().hide()
+                    })
+                }
+                if (arr3 && arr3.length > 0) {
+                    var str = '';
+                    for (var i = 0; i < arr3.length; i++) {
+                        str += arr3[i].adScript;
+                    }
+                    $('body').append('<div class="ad_couplet_right">' + str + '</div>');
+                    $('.ad_couplet_right').each(function (i) {
+                        $(this).append('<span>广告</span>');
+                        $(this).find('span').css({
+                            'top': '0',
+                            'right': '0'
+                        })
+                    });
+                    $('.ad_couplet_right').append('<i class="exitIcon"></i>');
+                    $('.ad_couplet_right').find('i').css({
+                        'top': '0',
+                        'left': '0'
+                    }).click(function () {
+                        $(this).parent().hide()
+                    })
+
+                }
+                if (arr4 && arr4.length > 0) {
+                    var str = '';
+                    for (var i = 0; i < arr4.length; i++) {
+                        str += arr4[i].adScript;
+                    }
+                    $('body').append('<div class="ad_right">' + str + '</div>');
+                    $('.ad_right').each(function (i) {
+                        $(this).append('<span>广告</span>');
+                        $(this).find('span').css({
+                            'top': '0',
+                            'right': '0'
+                        })
+                    });
+                    $('.ad_right').append('<i class="exitIcon"></i>');
+                    $('.ad_right').find('i').css({
+                        'top': '0',
+                        'left': '0'
+                    }).click(function () {
+                        $(this).parent().hide()
+                    })
+                }
+                if (arr5 && arr5.length > 0) {
+                    var str = '';
+                    for (var i = 0; i < arr5.length; i++) {
+                        str += arr5[i].adScript;
+                    }
+                    $('body').append('<div class="ad_left">' + str + '</div>');
+                    $('.ad_left').each(function (i) {
+                        $(this).append('<span>广告</span>');
+                        $(this).find('span').css({
+                            'top': '0',
+                            'left': '0'
+                        })
+                    });
+                    $('.ad_left').append('<i class="exitIcon"></i>');
+                    $('.ad_left').find('i').css({
+                        'top': '0',
+                        'right': '0'
+                    }).click(function () {
+                        $(this).parent().hide()
+                    })
+                }
+                if (arr6 && arr6.length > 0) {
+                    var str = '';
+                    for (var i = 0; i < arr6.length; i++) {
+                        str += arr6[i].adScript;
+                    }
+                    if (_type == 'index') {
+                        $('.subnav_main').after('<div class="w1000 mt8" id="ad_center">' + str + '</div>')
+                    } else {
+                        $('.subnav_main').after('<div class="w1200" id="ad_center">' + str + '</div>')
+                    }
+                    $('#ad_center').find('a').each(function (i) {
+                        $(this).css({
+                            'position': 'relative',
+                            'display': 'inline-block'
+                        });
+                        $(this).append('<span>广告</span>');
+                        $(this).find('span').css({
+                            'top': '0',
+                            'left': '0'
+                        })
+                    });
+                    $('#ad_center').append('<i class="exitIcon"></i>');
+                    $('#ad_center').find('i').css({
+                        'top': '0',
+                        'right': '0'
+                    }).click(function () {
+                        $(this).parent().hide()
+                    })
+                }
+            };
+            var getData = function () {
+                $.ajax({
+                    url: 'trend/kjad.findAdByPageNew.do',
+                    type: "post",
+                    data: {
+                        'pageUrl': _type
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            $('#ad_top').remove();
+                            $('.ad_couplet_left').remove();
+                            $('.ad_couplet_right').remove();
+                            $('.ad_right').remove();
+                            $('.ad_left').remove();
+                            $('#ad_center').remove();
+                            renderAd(data)
+                        }
+                    }
+                })
+            };
+            getData();
+            setInterval(getData, 1 * 60 * 1000);
+            $(window).scroll(function () {
+                if ($(this).scrollTop() >= 105) {
+                    $(".ad_couplet_left").stop().animate({ "top": "20px" });
+                    $(".ad_couplet_right").stop().animate({ "top": "20px" });
+                } else {
+                    $(".ad_couplet_left").stop().animate({ "top": "125px" });
+                    $(".ad_couplet_right").stop().animate({ "top": "125px" });
+                }
+            })
+        })
+    </script>
+
+    <base href="https://kj.13322.com/">
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+    <title>重庆时时彩开奖记录_重庆时时彩历史开奖_一比分</title>
+    <meta name="description" content="一比分彩票开奖频道提供重庆时时彩开奖记录，重庆时时彩历史开奖，重庆时时彩开奖号码，重庆时时彩历史数据，并且提供重庆时时彩历史开奖号码和重庆时时彩中奖号码的查询。" />
+    <meta name="keywords" content="重庆时时彩历史开奖,重庆时时彩开奖记录，重庆时时彩开奖号码,重庆时时彩历史数据,重庆时时彩历史开奖号码,重庆时时彩中奖号码" />
+    <meta name="renderer" content="we" />
+    <script src="js/util/require.js" type="text/javascript" defer async="true" data-main="js/requireJs/ssc/history"></script>
+</head>
+
+<body class="eden">
+    <span id="page" title="cqssc_history"></span>
+    <!-- 整个页面头部 -->
+    <!-- 整个页面头部 -->
+
+    <link rel="stylesheet" type="text/css" href="css/header.css" />
+    <link rel="stylesheet" type="text/css" href="css/flat-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/wny.css">
+    <link rel="stylesheet" type="text/css" href="css/common/publicFc.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <script type="text/javascript" src="js/util/html5.js"></script>
+    <script type="text/javascript">
+        function changeLanguage(language) {
+            $.ajax({
+                type: "POST",
+                url: "trend/lottery.changeLang.do",
+                data: "lang=" + language,
+                async: false,
+                success: function (data) {
+                    window.location.reload();
+                }
+            })
+        }
+        var i18n = {
+            setHome_error: "抱歉，此操作被浏览器拒绝！\n\n请在浏览器地址栏输入“about:config”并回车然后将[signed.applets.codebase_principal_support]设置为true",
+            setHome_manual: "抱歉，您所使用的浏览器无法完成此操作。\n\n您需要手动将【" + window.location.host + "】设置为首页。"
+        }
+
+        $(function () {
+            //判断是否在iframe中
+            if (self == top) {
+                //显示头部
+                $(".header").show();
+                //显示头部广告
+                //$(".w1200.mt8").show();
+                //显示温馨提示
+                $(".w1000.mar_t10").show();
+                //显示尾部
+                $(".mar_t10").show();
+                //通知
+                //$("#marquee1").show();
+                $(".Switch").show();
+            }
+        });
+    </script>
+
+    <header class="header">
+        <div class="header_top">
+            <div class="h_top_center">
+                <ul class="header_top_l" style="float:left">
+                    <li class="sel_home">
+                        <a rel="nofollow" id="setHome" href="javascript:void(0)"><span class="home_icon"></span>设为首页</a>
+                    </li>
+                    <li class="drop_list">
+                        <a class="hd_phones"><span class="phone_icon"></span><span class="drop_right"></span>手机版</a>
+                        <dl class="ph_layer">
+                            <dt style=" text-align:center; padding:5px 0 0;">
+                                <img src="images/kaijian/m13322.png" />
+                            </dt>
+                            <dt style=" text-align:center; color:#333; padding:0 0 5px">手机看比分,消息最先知</dt>
+                        </dl>
+                    </li>
+                </ul>
+
+
+
+                <ul class="header_top_r" style="float:right">
+                    <li class="drop_list">
+                        <a class="hd_language flag_zh" href="javascript:void(0)">
+                            <span class="drop_right"></span>
+
+                            简体中文
+                        </a>
+                        <dl class="ph_layer">
+                            <dd><a class="flag_zh" rel="nofollow" onclick="changeLanguage('zh');return false">简体中文</a></dd>
+                            <dd><a class="flag_tw" rel="nofollow" onclick="changeLanguage('tw');return false">繁體中文</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+
+                <div class="login-register" id="isLogin" style="display: none">
+                    <span class="users">欢迎您:</span>
+                    <a rel="nofollow" class="users" href="https://www.13322.com/user/tocenter.html"></a>
+                    <span class="userexit"><a href="javascript:void(0);" onclick="exitLogin()">【退出】</a></span>
+                </div>
+                <div class="login-register" id="unLogin" style="display: none">
+                    <a href="javascript:void(0)" onclick="login()" class="login">登录</a>
+                    <a href="javascript:void(0)" onclick="register()" class="register">注册</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="header_nav">
+            <div class="menu">
+
+                <a class="logo" href="https://www.13322.com/">
+
+                    <img src="img/logo.png?v20151210">
+                </a>
+
+
+
+
+
+
+                <div class="nav">
+                    <ul>
+                        <li>
+
+                            <a target="_blank" href="https://www.13322.com">首页</a>
+                        </li>
+
+                        <li>
+                            <i style="width:17px;height:19px;position:absolute; top:-8px;right:-12px; background:url(https://basket.13322.com/basket/images/sin.png)"></i>
+
+
+                            <a target="_blank" href="https://live.13322.com">即时比分</a>
+                            <div class="supnav" style="padding: 0;">
+                                <div class="nav_drop"></div>
+                                <dl>
+                                    <dd>
+
+                                        <a href="https://live.13322.com" addresstag="live/" target="_blank">足球比分</a>
+                                    </dd>
+                                    <dd>
+
+                                        <a target="_blank" href="https://basket.13322.com/">篮球比分</a>
+                                    </dd>
+                                    <dd>
+
+                                        <a target="_blank" href="https://snooker.13322.com">斯诺克比分</a>
+                                    </dd>
+                                    <dd>
+
+                                        <a target="_blank" href="https://tennis.13322.com/">网球比分</a>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </li>
+                        <li>
+
+
+                            <a target="_blank" href="https://odds.13322.com">指数中心</a>
+                            <div class="supnav" style="padding: 0;">
+                                <div class="nav_drop"></div>
+                                <dl>
+                                    <dd>
+
+                                        <a target="_blank" href="https://odds.13322.com">足球指数</a>
+                                    </dd>
+                                    <dd>
+
+                                        <a target="_blank" href="https://odds.13322.com/snooker">斯诺克指数</a>
+                                    </dd>
+                                    <dd>
+
+                                        <a target="_blank" href="https://odds.13322.com/tennis">网球指数</a>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </li>
+                        <li>
+
+
+                            <a target="_blank" href="https://data.13322.com">资料库</a>
+
+                            <div class="supnav supnav1">
+                                <div class="nav_drop nav_drop1"></div>
+                                <dl>
+                                    <dd>
+
+                                        <a href="https://data.13322.com" addresstag="data/" target="_blank">足球资料库</a>
+                                    </dd>
+                                    <dd>
+
+                                        <a href="https://data.13322.com/basket/database.html" target="_blank">篮球资料库</a>
+                                    </dd>
+                                    <dd>
+
+                                        <a target="_blank" href="https://data.13322.com/snooker">斯诺克资料库</a>
+                                    </dd>
+                                    <dd>
+
+                                        <a target="_blank" href="https://data.13322.com/tennis">网球资料库</a>
+                                    </dd>
+                                    <dd>
+
+                                        <a target="_blank" href="https://data.13322.com/esport/index.html">电竞资料库</a>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </li>
+                        <li>
+
+
+                            <a target="_blank" href="https://tj.13322.com/ ">专家推荐</a>
+                            <i style="width:17px;height:19px;position:absolute; top:-8px;right:-12px; background:url(images/tuijian.png)"></i>
+
+                        </li>
+                        <li>
+
+
+                            <a target="_blank" href="https://tv.13322.com">视频直播</a>
+
+                        </li>
+
+                        <li><a href="/">开奖结果</a></li>
+
+                        <li><a href="/zixun/" class="nvcur" target="_blank">彩票资讯</a></li>
+
+                        <li><a href="trend.html" class='nvcur'>走势图表</a></li>
+
+
+                        <li><a href="https://www.13322.com/aboutUs/aboutUs.html" target="_blank">联系我们</a></li>
+                    </ul>
+                </div>
+
+
+                <div class="tel_online" style="display:none;">
+                    <i class="Telephone"></i><span>客服电话：400-6776-550</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="marquee_ad_bg" id="notice" style="display:none">
+            <div class="marquee_ad">
+                <div style="float:left; margin:5px 0 0 5px;"><img width="30px" height="20px" src="img/laba.gif"></div>
+                <div class="marquee" id="marquee">
+                    <div class="qimo">
+                        <div id="marquee2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+
+
+            function login() {
+                location.href = "https://www.13322.com/user/login.html";
+            }
+            function register() {
+                location.href = "https://www.13322.com/user/register.html";
+            }
+
+            var lang;
+            if (true) {
+                lang = "zh";
+            } else {
+                lang = '';
+            }
+
+
+            var appShare = "";
+            var siteNums = 0;
+            if (lang != "zh") {
+                appShare = "twitter,digg,fb,googleplus,linkedin,delicious";
+                siteNums = 6;
+            } else {
+                appShare = "qzone,tsina,weixin,tqq";
+                siteNums = 4;
+            }
+            var urlName = document.URL;
+            var jiathis_config = {
+                data_track_clickback: true,
+                siteNum: siteNums,
+                sm: appShare,
+                url: urlName,
+                summary: "#",
+                title: document.title,
+                boldNum: 0,
+                shortUrl: false,
+                hideMore: true
+            };
+
+            function getCookie(name) {
+                var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+                if (arr = document.cookie.match(reg))
+                    return arr[2];
+                else
+                    return null;
+            }
+
+            function deleteCookie(name) {
+                var domain = '';
+                var date = new Date();
+                date.setTime(date.getTime() - 10000);
+                document.cookie = name + "=; expire=" + date.toGMTString() + "; path=/;domain=." + domain.substr(0, domain.length - 1);
+            }
+            function deleteCookie_new(name1, name2) {
+                var idx = location.hostname.indexOf('.');
+                var domain = '';
+                if (idx >= 0) {
+                    domain = location.hostname.substr(idx)
+                } else {
+                    domain = location.hostname;
+                }
+                var date = new Date();
+                date.setTime(date.getTime() - 10000);
+                document.cookie = name1 + "=;" +
+                    "expire=" + date.toGMTString() + "; path=/;domain=" + domain;
+                document.cookie = name2 + "=;" +
+                    "expire=" + date.toGMTString() + "; path=/;domain=" + domain;
+            }
+
+            function exitLogin() {
+                $.ajax({
+                    url: 'https://www.13322.com/user/logout',
+                    type: 'POST',
+                    dataType: 'json',
+                    async: false,
+                    success: function (obj, textStatus) {
+                        deleteCookie_new('uid', 'token');
+                        deleteCookie("passport_lyy_com");
+                        deleteCookie("permanent_token_id");
+                        // 新浪微博注销
+                        /* if (lang == "zh") {
+    //	                                    QC.Login.signOut();
+                            WB2.logout();
+                        } */
+                        $("#unLogin").show();
+                        $("#isLogin").hide();
+                    }
+                });
+            }
+            function getUserCookie() {
+                if (getCookie("uid") == null || getCookie("uid") == "") {
+                    $("#unLogin").show();
+                    $("#isLogin").hide();
+                } else {
+                    $("#isLogin .users:eq(1)").html(decodeURIComponent(getCookie("nickname")));
+                    $("#unLogin").hide();
+                    $("#isLogin").show();
+                }
+            }
+            $(function () {
+                getUserCookie();
+            });
+
+        </script>
+    </header>
+
+    <script type="text/javascript">
+        function exitLogin() {
+            //QC.Login.signOut();
+            location.href = "trend/vipLogin.loginOut.do"
+        }
+
+        function login() {
+            location.href = "https://www.13322.com/user/login.html";
+        }
+        function register() {
+            location.href = "https://www.13322.com/user/register.html";
+        }
+    </script>
+    </header><div class="subnav_main">
+
+
+        <!-- 时时彩头部 -->
+        <link rel="stylesheet" type="text/css" href="css/common/common.css" />
+        <link rel="stylesheet" type="text/css" href="css/ssc/shishicai_.css" />
+        <style>
+            .mtres {
+                display: inline-block;
+                width: 24px; /*border:1px solid #c0c0c8;*/
+                margin-top: 7px;
+                margin-right: 10px;
+                float: right;
+                height: 24px;
+                background-repeat: no-repeat;
+                background: url('/images/public/refresh.png');
+                background-size: cover;
+                background-position: 100%;
+            }
+        </style>
+        <script type="text/javascript">
+            var cqssc_text = '重庆时时彩';
+            var jxssc_text = '江西时时彩';
+            var ynssc_text = '云南时时彩';
+            var xjssc_text = '新疆时时彩';
+            var tjssc_text = '天津时时彩';
+        </script>
+
+        <div class="subnav_top">
+
+            <!-- 福彩链接区头部 -->
+            <!-- 福彩链接区头部 -->
+            <!--
+            <div class="subnav1">
+              <div class="w100"><b class="subnav_h3">彩票走势图：</b></div>
+              <ul class="w1100">
+                  <li><a name="lhc" href="lhc_history_30.html">香港开奖</a></li>
+                  <li><a name="qxc" href="qxc_history.html">七星彩</a></li>
+                  <li><a name="pk10" href="pk10_history_dtoday.html">北京赛车</a></li>
+                  <li><a name="cqssc" href="ssc_cqssc_history_dtoday.html">重庆时时彩</a></li>
+                  <li><a name="jxssc" href="ssc_jxssc_history_dtoday.html">江西时时彩</a></li>
+                  <li><a name="xjssc" href="ssc_xjssc_history_dtoday.html">新疆时时彩</a></li>
+                  <li><a name="ynssc" href="ssc_ynssc_history_dtoday.html">云南时时彩</a></li>
+                  <li><a name="tjssc" href="ssc_tjssc_history_dtoday.html">天津时时彩</a></li>
+                  <li><a name="dkl10" href="kl10_dkl10_history_dtoday.html">广东快乐十分</a></li>
+                  <li><a name="cqkl10" href="kl10_cqkl10_history_dtoday.html">重庆幸运农场</a></li>
+                  <li><a name="hnkl10" href="kl10_hnkl10_history_dtoday.html">湖南快乐十分</a></li>
+                  <li><a name="d11x5" href="x115_d11x5_history_dtoday.html">广东十一选五</a></li>
+                  <li><a name="js11x5" href="x115_js11x5_history_dtoday.html">江苏十一选五</a></li>
+                  <li><a name="sd11x5" href="x115_sd11x5_history_dtoday.html">山东十一选五</a></li>
+                  <li><a name="jsk3" href="k3_jsk3_history_dtoday.html">江苏快3</a></li>
+                  <li><a name="ahk3" href="k3_ahk3_history_dtoday.html">安徽快3</a></li>
+                  <li><a name="gxk3" href="k3_gxk3_history_dtoday.html">广西快3</a></li>
+              </ul>
+            </div> -->
+
+
+
+
+            <div class="subnav1">
+                <div class="sub_1">
+                    <p class="sub_tit">热门</p>
+                    <ul class="sublis">
+                        <li><a name="lhc" href="lhc_history_30.html">香港开奖</a></li>
+                        <li><a name="qxc" href="qxc_history.html">七星彩</a></li>
+                        <li><a name="ssq" href="ssq_history_30.html">双色球</a></li>
+                        <li><a name="cqssc" href="ssc_cqssc_history_dtoday.html">重庆时时彩</a></li>
+                        <li><a name="pk10" href="pk10_history_dtoday.html">北京赛车</a></li>
+                        <li><a name="dlt" href="dlt_history_30.html">大乐透</a></li>
+
+
+                    </ul>
+                </div>
+                <div class="sub_2">
+                    <p class="sub_tit">高频</p>
+                    <ul class="sublis">
+                        <li><a name="cqssc" href="ssc_cqssc_history_dtoday.html">重庆时时彩</a></li>
+                        <li><a name="xjssc" href="ssc_xjssc_history_dtoday.html">新疆时时彩</a></li>
+                        <!--
+                        <li><a name="jxssc" href="ssc_jxssc_history_dtoday.html">江西时时彩</a></li>
+                         -->
+                        <li><a name="ynssc" href="ssc_ynssc_history_dtoday.html">云南时时彩</a></li>
+                        <li><a name="tjssc" href="ssc_tjssc_history_dtoday.html">天津时时彩</a></li>
+                        <li><a name="cqkl10" href="kl10_cqkl10_history_dtoday.html">重庆幸运农场</a></li>
+                        <li><a name="dkl10" href="kl10_dkl10_history_dtoday.html">广东快乐十分</a></li>
+                        <li><a name="hnkl10" href="kl10_hnkl10_history_dtoday.html">湖南快乐十分</a></li>
+                        <li><a name="d11x5" href="x115_d11x5_history_dtoday.html">广东十一选五</a></li>
+                        <li><a name="js11x5" href="x115_js11x5_history_dtoday.html">江苏十一选五</a></li>
+                        <li><a name="sd11x5" href="x115_sd11x5_history_dtoday.html">山东十一选五</a></li>
+                        <li><a name="gxk3" href="k3_gxk3_history_dtoday.html">广西快3</a></li>
+                        <li><a name="ahk3" href="k3_ahk3_history_dtoday.html">安徽快3</a></li>
+                        <li><a name="jsk3" href="k3_jsk3_history_dtoday.html">江苏快3</a></li>
+                        <li><a name="ssl" href="ssl_ssl_history_dtoday.html">时时乐</a></li>
+                    </ul>
+                </div>
+                <div class="sub_3">
+                    <p class="sub_tit">低频</p>
+                    <ul class="sublis">
+                        <li><a name="lhc" href="lhc_history_30.html">香港开奖</a></li>
+                        <li><a name="ssq" href="ssq_history_30.html">双色球</a></li>
+                        <li><a name="pl5" href="pl5_history_30.html">排列五</a></li>
+                        <li><a name="dlt" href="dlt_history_30.html">大乐透</a></li>
+                        <li><a name="qxc" href="qxc_history.html">七星彩</a></li>
+                        <li><a name="qlc" href="qlc_history_30.html">七乐彩</a></li>
+                        <li><a name="pl3" href="pl5_pl3_history_30.html">排列三</a></li>
+                        <li><a name="f3d" href="f3d_history_30.html">福彩3D</a></li>
+                    </ul>
+                </div>
+                <div class="sub_4">
+                    <p class="sub_tit">竞技彩</p>
+                    <ul class="sublis">
+                        <li><a name="zc6" href="zc6_history.html">六场半全场</a></li>
+                        <li><a name="sfc" href="sfc_history.html">十四场胜负彩</a></li>
+                        <li><a name="jq4" href="jq4_history.html">四场进球彩</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="subnav_foat" id="kj_area" style="display:none;">
+                <div class="sf_l">
+                    <p class="w60p25"><span class=""></span></p>
+                    <p class="sfbt"><b class="subnav_h3_c"></b></p>
+                </div>
+                <div class="sf_m">
+                    <p class="grey">
+                        <span id="top_issue_preffix"></span><font class="red" id="top_issue_suffix"></font>期开奖
+                        <span class="ml10 grey">每日销售<font class="red" id="top_total"></font>期，今日剩余<font class="red" id="top_remain"></font>期</span>
+                    </p>
+                    <p class="sfq">
+                        <span class="hidden" id="top_djs">
+                            <img src="images/ssc/actionQ.gif" width="215" height="35" alt="" title="" />
+                        </span>
+                        <span class="hidden" id="top_drawcode"></span>
+                    </p>
+                </div>
+                <div class="sf_r" style="position: relative">
+                    <b class="sfrbt">第<span id="top_issue_suffix1"></span>期</b>
+                    <span class="hidden" id="top_djs_kaijiang"><img src="images/public/lottery.gif" alt="" title="" /></span>
+                    <span class="hidden" id="top_djs_time">
+                        开奖倒计时：
+                        <span class="blue_k hidden" id="top_djs_hour">00</span><span class="hidden">时</span>
+                        <span class="blue_k" id="top_djs_min">00</span>分
+                        <span class="blue_k" id="top_djs_sec">00</span>秒
+                    </span>
+                    <p style="position: absolute;top: 45px;right: 115px">
+                        <input type="checkbox" name="check" id="check_refresh" style="position: absolute;top: 35px;right: 103px" />
+                        <span style="position: absolute;top: 0px;right: 15px;width: 85px">关闭自动刷新</span>
+                        <button class="mtres" id="toRefresh" title="立即刷新" style="position: absolute;top: 17px;right: -45px;"></button>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mnav1">
+            <a name="history" href="ssc_cqssc_history_dtoday.html">历史开奖</a>
+            <a name="baseTrend" href="ssc_cqssc_BaseTrend_30_sY.html">基本走势</a>
+            <a name="distributionTrend" href="ssc_cqssc_DistributionTrend_30_sY.html">开奖分布</a>
+            <a name="sumTrend" href="ssc_cqssc_SumTrend_30_sdesc.html">总分走势</a>
+            <a name="dragonTiger" href="ssc_cqssc_DragonTiger_30_sdesc.html">龙虎走势</a>
+            <a name="positionTrend" href="ssc_cqssc_PositionTrend_p1_30_sY.html">定位走势</a>
+            <a name="roadBead" href="sscRoadBead_cqssc_RoadBeadInfo_p1.html">路珠走势</a>
+            <a name="compositeTrend" href="ssc_cqssc_CompositeTrend_p1_30_sdesc.html">综合走势</a>
+            <a name="stateSpan" href="ssc_cqssc_StateTrend_p1_30_sdesc.html">形态跨度</a>
+            <a name="statistics" href="ssc_cqssc_statistics.html">数据统计</a>
+            <a name="dailyStatistics" href="ssc_cqssc_DailyStatistic.html">每日统计</a>
+            <a name="substCount" href="ssc_cqssc_SubstCount_p1.html">分段统计</a>
+            <a name="hotCold" href="ssc_cqssc_HotColdCount.html">冷热号分析</a>
+        </div>
+
+        <div class="mnav1 hidden">
+            <b>走势：</b>
+            <a href="ssc_cqssc_PositionTrend_p1.html" class="mncur">第一位走势</a>
+            <a href="ssc_cqssc_PositionTrend_p2.html">第二位走势</a>
+            <a href="ssc_cqssc_PositionTrend_p3.html">第三位走势</a>
+            <a href="ssc_cqssc_PositionTrend_p4.html">第四位走势</a>
+            <a href="ssc_cqssc_PositionTrend_p5.html">第五位走势</a>
+        </div>
+    </div>
+    <div class="bastren w1200">
+        <div class="pbt">
+            <span class="float_l">
+                历史开奖：
+                <a id="dayToday" href="ssc_cqssc_history_dtoday.html" hreflink="ssc_cqssc_history_dtoday.html">今天</a>
+                <a id="dayYesterday" href="ssc_cqssc_history_dyesterday.html" hreflink="ssc_cqssc_history_dyesterday.html">昨天</a>
+                <a id="dayBeforeYesterday" href="ssc_cqssc_history_dbeforeYesterday.html" hreflink="ssc_cqssc_history_dbeforeYesterday.html">前天</a>
+            </span>
+            <div class="float_l ml10 pl10">
+                <span class="dwz">按日期查询</span>
+                <span class="dinp">
+                    <!---->
+                    <!---->
+                    <input id="undefinedDay" type="text" value="today" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyyMMdd',onpicking:changeData})" />
+                    <input type="hidden" value="http://kj.13322.com:80/" id="basePath" />
+                    <input type="hidden" value="30" id="staticNumber" />
+                    <input type="hidden" value="today" id="currentDay" />
+                    <input type="hidden" value="cqssc" id="lottery" />
+                </span>
+            </div>
+            <!--
+             <div class="dmvfr">
+                <a class="dSwitch">全屏查看</a>
+                <a class="dSwitch_w">返回标准屏</a>
+              </div>
+             -->
+        </div>
+    </div>
+    <div class="bastren w1200">
+        <table id="trend_table" width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <th width="11%">开奖日期</th>
+                <th width="10%"><strong>期号</strong></th>
+                <th width="23%">开奖号码</th>
+                <th width="12%">总和</th>
+                <th width="11%">龙虎</th>
+                <th width="11%">前三</th>
+                <th width="11%">中三</th>
+                <th width="11%">后三</th>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401016</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">8</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">2</td>
+                            <td width="40" class="Ballsc_blue">1</td>
+                            <td width="40" class="Ballsc_blue">1</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 19</td>
+                            <td width="25">小
+                            <td width="25">单
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">龙</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb">对子</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401015</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">6</td>
+                            <td width="40" class="Ballsc_blue">4</td>
+                            <td width="40" class="Ballsc_blue">9</td>
+                            <td width="40" class="Ballsc_blue">8</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 34</td>
+                            <td width="25">大
+                            <td width="25">双
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">虎</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb tdbr">杂六</td>
+                <td class="tdbb">半顺</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401014</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">6</td>
+                            <td width="40" class="Ballsc_blue">9</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">2</td>
+                            <td width="40" class="Ballsc_blue">8</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 32</td>
+                            <td width="25">大
+                            <td width="25">双
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">虎</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb tdbr">杂六</td>
+                <td class="tdbb">半顺</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401013</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">3</td>
+                            <td width="40" class="Ballsc_blue">1</td>
+                            <td width="40" class="Ballsc_blue">2</td>
+                            <td width="40" class="Ballsc_blue">4</td>
+                            <td width="40" class="Ballsc_blue">3</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 13</td>
+                            <td width="25">小
+                            <td width="25">单
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">和</td>
+                <td class="tdbb tdbr">顺子</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb">顺子</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401012</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">8</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">9</td>
+                            <td width="40" class="Ballsc_blue">1</td>
+                            <td width="40" class="Ballsc_blue">6</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 31</td>
+                            <td width="25">大
+                            <td width="25">单
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">龙</td>
+                <td class="tdbb tdbr">顺子</td>
+                <td class="tdbb tdbr">杂六</td>
+                <td class="tdbb">杂六</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401011</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">3</td>
+                            <td width="40" class="Ballsc_blue">5</td>
+                            <td width="40" class="Ballsc_blue">0</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">6</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 21</td>
+                            <td width="25">小
+                            <td width="25">单
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">虎</td>
+                <td class="tdbb tdbr">杂六</td>
+                <td class="tdbb tdbr">杂六</td>
+                <td class="tdbb">半顺</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401010</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">4</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">3</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 28</td>
+                            <td width="25">大
+                            <td width="25">双
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">龙</td>
+                <td class="tdbb tdbr">对子</td>
+                <td class="tdbb tdbr">对子</td>
+                <td class="tdbb">半顺</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401009</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">9</td>
+                            <td width="40" class="Ballsc_blue">1</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">9</td>
+                            <td width="40" class="Ballsc_blue">8</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 34</td>
+                            <td width="25">大
+                            <td width="25">双
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">龙</td>
+                <td class="tdbb tdbr">杂六</td>
+                <td class="tdbb tdbr">杂六</td>
+                <td class="tdbb">顺子</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401008</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">3</td>
+                            <td width="40" class="Ballsc_blue">5</td>
+                            <td width="40" class="Ballsc_blue">5</td>
+                            <td width="40" class="Ballsc_blue">0</td>
+                            <td width="40" class="Ballsc_blue">2</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 15</td>
+                            <td width="25">小
+                            <td width="25">单
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">龙</td>
+                <td class="tdbb tdbr">对子</td>
+                <td class="tdbb tdbr">对子</td>
+                <td class="tdbb">杂六</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401007</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">0</td>
+                            <td width="40" class="Ballsc_blue">8</td>
+                            <td width="40" class="Ballsc_blue">0</td>
+                            <td width="40" class="Ballsc_blue">0</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 15</td>
+                            <td width="25">小
+                            <td width="25">单
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">龙</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb tdbr">对子</td>
+                <td class="tdbb">对子</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401006</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">1</td>
+                            <td width="40" class="Ballsc_blue">5</td>
+                            <td width="40" class="Ballsc_blue">6</td>
+                            <td width="40" class="Ballsc_blue">4</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 23</td>
+                            <td width="25">大
+                            <td width="25">单
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">虎</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb tdbr">顺子</td>
+                <td class="tdbb">半顺</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401005</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">9</td>
+                            <td width="40" class="Ballsc_blue">0</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">1</td>
+                            <td width="40" class="Ballsc_blue">9</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 26</td>
+                            <td width="25">大
+                            <td width="25">双
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">和</td>
+                <td class="tdbb tdbr">杂六</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb">杂六</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401004</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">9</td>
+                            <td width="40" class="Ballsc_blue">8</td>
+                            <td width="40" class="Ballsc_blue">0</td>
+                            <td width="40" class="Ballsc_blue">9</td>
+                            <td width="40" class="Ballsc_blue">3</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 29</td>
+                            <td width="25">大
+                            <td width="25">单
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">龙</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb">杂六</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401003</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">9</td>
+                            <td width="40" class="Ballsc_blue">0</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">6</td>
+                            <td width="40" class="Ballsc_blue">4</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 26</td>
+                            <td width="25">大
+                            <td width="25">双
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">龙</td>
+                <td class="tdbb tdbr">杂六</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb">半顺</td>
+            </tr>
+            <tr>
+                <td class="tdbbs tdbrs">2019-04-01</td>
+                <td class="tdbbs tdbrs">20190401002</td>
+                <td class="tdbb tdbrs" align="center">
+                    <table width="200" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                            <td width="40" class="Ballsc_blue">6</td>
+                            <td width="40" class="Ballsc_blue">3</td>
+                            <td width="40" class="Ballsc_blue">7</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr" align="center">
+                    <table width="75" border="0" cellpadding="0" cellspacing="0" class="subtab">
+                        <tr>
+                            <td width="25"> 30</td>
+                            <td width="25">大
+                            <td width="25">双
+                        </tr>
+                    </table>
+                </td>
+                <td class="tdbb tdbr">和</td>
+                <td class="tdbb tdbr">对子</td>
+                <td class="tdbb tdbr">半顺</td>
+                <td class="tdbb">半顺</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 尾部 -->
+    <!--footer开始-->
+    <div class="clear"></div>
+
+
+    <div class="w1200 mar_t10" style="display:none">
+        <div class="alignl">
+            声明：本网资讯仅供体育爱好者浏览、购买中国足彩参考之用。任何人不得用于非法用途，否则责任自负。本网所登载广告均为广告客户的个人意
+            见及表达方式，和本网无任何关系。链接的广告不得违反国家法律规定，如有违者，本网有权随时予以删除，并保留与有关部门合作追究的权利。
+        </div>
+    </div>
+    <footer class="mar_t10" id="footer">
+        <div class="linkbox">
+            <div class="w1200">
+                <h2 class="link_tit"><span>友情链接</span></h2>
+
+            </div>
+        </div>
+        <div class="foot_btm" style="padding:0;height:140px;">
+            <div class="w1200">
+
+
+
+
+                <nav style="margin-top:15px;">
+
+
+                    <a target="_blank" href="https://www.13322.com">首页</a> |
+                    <a target="_blank" href="https://live.13322.com">足球比分</a> |
+                    <a target="_blank" href="https://basket.13322.com/">篮球比分</a> |
+                    <a target="_blank" href="https://odds.13322.com">指数中心</a> |
+                    <a target="_blank" href="https://data.13322.com">资料库</a> |
+                    <a target="_blank" href="https://tv.13322.com">视频直播</a> |
+
+
+                    <a href="">开奖结果</a> |
+                    <a href="trend.html">走势图表</a> |
+                    <a href="https://www.13322.com/aboutUs/aboutUs.html" rel="nofollow" target="_blank">联系我们</a>|
+
+
+                    <a target="_blank" href="http://www.huahaileying.com" rel="nofollow">关于乐盈</a>
+
+                </nav>
+
+                <div class="icp">
+                    ICP主体备案号:
+                    <a target="_blank" rel="nofollow" href="http://www.miitbeian.gov.cn">粤ICP备15041803号-2;</a>&nbsp;&nbsp;
+                    增值电信业务许可证:
+                    <a target="_blank" rel="nofollow" href="https://www.13322.com/telecomBuss.html">粤B2-20160345;</a>&nbsp;&nbsp;
+                    版权所有:深圳华海乐盈网络科技有限公司
+                    </p>
+                    广播电视节目制作经营许可证:
+                    <a target="_blank" rel="nofollow" href="https://gd.13322.com/gd.html">粤字 第01837号</a>&nbsp;&nbsp;
+                </div>
+                <div class="renzheng">
+                    <a target="_blank" href="https://www.13322.com/identification.htm" alt="可信网站身份验证" rel="nofollow"><img src="images/cert/kx.jpg"></a>
+                    <a target="_blank" href="https://ec.eqixin.com/?sn=QX1172830231601453886313" alt="企业信用网站验证" rel="nofollow"><img src="images/cert/qx.jpg"></a>
+                    <a target="_blank" href="http://www.itrust.org.cn/Home/Index/itrust_certifi?wm=1266776797" alt="网信认证-企业信用评级" rel="nofollow"><img src="images/cert/wx.jpg"></a>
+                    <script id="ebsgovicon" src="https://szcert.ebs.org.cn/govicon.js?id=c5185776-4ece-45e1-afa9-ae61b25bd835&width=105&height=39&type=2" type="text/javascript" charset="utf-8"></script>
+                </div>
+
+
+                <script type='text/javascript'>
+                    function replace_url() {
+                        if (!cid) return;
+                        var tds = document.getElementsByTagName("a");
+                        var len = tds.length;
+                        for (var i = 0; i < len; i++) {
+                            if (!!tds[i].href && tds[i].href.indexOf(domain) > -1) {
+                                tds[i].href += '?' + cid;
+                            }
+                        }
+                    }
+                    window.onload = function () {
+                        replace_url();
+                        //判断是否在iframe中
+                        if (self != top) {
+                            //在iframe中
+                            $("a[target='_blank']").removeAttr("target");
+                            //部分a标签加载延迟，定时处理
+                            setTimeout(function () { $("a[target='_blank']").removeAttr("target"); }, 100);
+                        }
+                    };
+
+                </script>
+
+                <!--渠道统计-->
+                <script>
+                    /*(function() {
+                        var hm_t = document.createElement("script");
+                        hm_t.setAttribute('id', 'hmw3g9kd4kx8yqgo');
+                        hm_t.src = "http://union.13322.com/traffic/scripts/traffic.js?v=2&vnp56ams";
+                        var s_t = document.getElementsByTagName("script")[0];
+                        s_t.parentNode.insertBefore(hm_t, s_t);
+                    })();*/
+                </script>
+
+
+
+                <!-- baidu统计-->
+                <script>
+                    var _hmt = _hmt || [];
+                    (function () {
+                        var hm = document.createElement("script");
+                        hm.src = "//hm.baidu.com/hm.js?5e51ba2d33101e40a067e10db90e7a51";
+                        var s = document.getElementsByTagName("script")[0];
+                        s.parentNode.insertBefore(hm, s);
+                    })();
+                </script>
+                <script src="https://s11.cnzz.com/z_stat.php?id=1261364627&web_id=1261364627" language="JavaScript"></script>
+                <script src="https://s13.cnzz.com/z_stat.php?id=1259082966&web_id=1259082966" language="JavaScript"></script>
+
+                <script>$("a[title=站长统计]").hide();</script>
+
+            </div>
+        </div>
+
+
+    </footer>
+    <!--footer结束-->
+</body>
+</html>

@@ -5,9 +5,29 @@ using System.Text;
 using System.Data;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
+using System.Net;
 
 namespace WeixinRobotLib.Linq
 {
+    public class UserParam
+    {
+        public string UserName;
+        public string Password;
+        public string ASPXAUTH;
+        public bool LogInSuccess = false;
+        public CookieContainer LoginCookie = new CookieContainer();
+
+        public Guid UserKey = Guid.Empty;
+        public Guid JobID = Guid.Empty;
+
+
+        public string DataSourceName = "";
+
+        public static string MemberSourceode { get; set; }
+
+
+
+    }
     public class VersonFunctions
     {
         public DateTime EndTime;
@@ -1316,7 +1336,7 @@ namespace WeixinRobotLib.Linq
                         }
                     }
                     db.SubmitChanges();
-                    string Buys = GetUserUpOpenBallGame(db, WX_UserName, WX_SourceType,usrpar,loadaset);
+                    string Buys = GetUserUpOpenBallGame(db, WX_UserName, WX_SourceType,usrpar,db.aspnet_UsersNewGameResultSend.SingleOrDefault(t=>t.aspnet_UserID==usrpar.UserKey));
                     return Buys + ",余" + WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType, usrpar);
                     #endregion
 
@@ -1453,7 +1473,7 @@ namespace WeixinRobotLib.Linq
                 string GameFullLocalPeriod = "";
                 bool ShiShiCaiSuccess = false;
                 string ShiShiCaiErrorMessage = "";
-                ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out GameFullPeriod, out GameFullLocalPeriod, adminmode, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm);
+                ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out GameFullPeriod, out GameFullLocalPeriod, adminmode, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm,usrpar);
 
 
                 string ToCalcel = GameContent;
@@ -2974,7 +2994,7 @@ namespace WeixinRobotLib.Linq
                 string BallBuyType = "";
                 string BallBuyMoney = "";
                 string[] q_Teams = new string[] { };
-                Linq.Game_FootBall_VS[] AllTeams = (Linq.Game_FootBall_VS[])Linq.ProgramLogic.ReceiveContentFormat(GameContent, out BallState, out BallType, Linq.ProgramLogic.FormatResultDirection.MemoryMatchList, out BallBuyType, out BallBuyMoney, out q_Teams);
+                Linq.Game_FootBall_VS[] AllTeams = (Linq.Game_FootBall_VS[])Linq.ProgramLogic.ReceiveContentFormat(GameContent, out BallState, out BallType, Linq.ProgramLogic.FormatResultDirection.MemoryMatchList, out BallBuyType, out BallBuyMoney, out q_Teams,usrpar);
 
 
 
@@ -3203,7 +3223,7 @@ namespace WeixinRobotLib.Linq
                         string Res = "";
                         foreach (var cancelitem in ToCalcel)
                         {
-                            Res = WX_UserGameLog_Cancel(db, RequestTime, RequestPeriod, "取消" + cancelitem.Buy_Value + cancelitem.Buy_Point.ToString(), WX_UserName, WX_SourceType, MemberSource, adminmode, gm, subm);
+                            Res = WX_UserGameLog_Cancel(db, RequestTime, RequestPeriod, "取消" + cancelitem.Buy_Value + cancelitem.Buy_Point.ToString(), WX_UserName, WX_SourceType, MemberSource, adminmode, gm, subm,usrpar);
                         }
                         return Res;
                     }
@@ -3290,7 +3310,7 @@ namespace WeixinRobotLib.Linq
                         Remainder = WXUserChangeLog_GetRemainder(WX_UserName, WX_SourceType, usrpar);
 
 
-                        string rtsfb = GetUserUpOpenBallGame(db, WX_UserName, WX_SourceType,usrpar,loadaset);
+                        string rtsfb = GetUserUpOpenBallGame(db, WX_UserName, WX_SourceType, usrpar, db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey));
 
                         return rtsfb + ",余" + Remainder.ToString("N0");
 
@@ -3331,7 +3351,7 @@ namespace WeixinRobotLib.Linq
 
                     if (RequestPeriod == "" || RequestPeriod == null)
                     {
-                        Linq.Game_TimeHKSix hkf = GetNextPreriodHKSix(db);
+                        Linq.Game_TimeHKSix hkf = GetNextPreriodHKSix(db,usrpar);
                         if (hkf == null)
                         {
                             return "下一期号采集失败";
@@ -3983,7 +4003,7 @@ namespace WeixinRobotLib.Linq
 
                                         if (ComboString.ContainsKey(BuyType3))
                                         {
-                                            Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
+                                            Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey); ;
                                             if (myset.IsBlock == true)
                                             {
                                                 return "封盘";
@@ -4158,7 +4178,7 @@ namespace WeixinRobotLib.Linq
 
                                 if (ComboString.ContainsKey(BuyType2))
                                 {
-                                    Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
+                                    Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey); 
                                     if (myset.IsBlock == true)
                                     {
                                         return "封盘";
@@ -5667,13 +5687,13 @@ namespace WeixinRobotLib.Linq
 
 
                     case "封盘":
-                        Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
+                        Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t=>t.aspnet_UserID==usrpar.UserKey);;
                         myset.IsBlock = true;
                         db.SubmitChanges();
                         return "已封盘";
 
                     case "解封":
-                        Linq.aspnet_UsersNewGameResultSend myset2 = Util_Services.GetServicesSetting();
+                        Linq.aspnet_UsersNewGameResultSend myset2 =  db.aspnet_UsersNewGameResultSend.SingleOrDefault(t=>t.aspnet_UserID==usrpar.UserKey);;
                         myset2.IsBlock = false;
                         db.SubmitChanges();
                         return "已解封";
@@ -5729,7 +5749,20 @@ namespace WeixinRobotLib.Linq
         {
 
         }
-
+        public static Linq.Game_TimeHKSix GetNextPreriodHKSix(Linq.dbDataContext db,UserParam usrpar)
+        {
+            var canbuys = db.Game_TimeHKSix.Where(t => t.aspnet_UserID == usrpar.UserKey
+                && t.OpenTime >= DateTime.Now.AddMinutes(2)
+                ).OrderBy(t => t.OpenTime);
+            if (canbuys.Count() > 0)
+            {
+                return canbuys.First();
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// 下单记录数据补充（比率等）和验证
@@ -6062,10 +6095,13 @@ namespace WeixinRobotLib.Linq
         //VR重庆时时彩
         //https://numbers.videoracing.com/open_13_2.aspx
 
-        public static void ChongQingShiShiCaiCaculatePeriod(DateTime RequestTime, string RequestPeriod, dbDataContext db, string WX_UserName, string WX_SourceType, out string GameFullPeriod, out string GameFullLocalPeriod, Boolean adminmode, out Boolean Success, out string ErrorMessage, ShiShiCaiMode SpecMode, string MaxAozcPeriod, UserParam usrpar, Boolean NoBlock = false, string MaxAozcTime = "")
+
+        static string MaxAozcPeriod = "";
+        static string MaxAozcTime = "";
+        public static void ChongQingShiShiCaiCaculatePeriod(DateTime RequestTime, string RequestPeriod, dbDataContext db, string WX_UserName, string WX_SourceType, out string GameFullPeriod, out string GameFullLocalPeriod, Boolean adminmode, out Boolean Success, out string ErrorMessage, ShiShiCaiMode SpecMode,   UserParam usrpar, Boolean NoBlock = false)
         {
 
-            Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
+            Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t=>t.aspnet_UserID==usrpar.UserKey);
             if (myset.IsBlock == true && adminmode == false && NoBlock == false)
             {
                 Success = false;
@@ -8846,7 +8882,7 @@ namespace WeixinRobotLib.Linq
 
             if (RequestPeriod == "" || RequestPeriod == null)
             {
-                Linq.Game_TimeHKSix hkf = GetNextPreriodHKSix(db);
+                Linq.Game_TimeHKSix hkf = GetNextPreriodHKSix(db,usrpar);
                 if (hkf == null)
                 {
                     Success = false;
@@ -9348,7 +9384,7 @@ namespace WeixinRobotLib.Linq
 
             }
 
-            Result += Environment.NewLine + "下期" + (GetNextPreriodHKSix(db) == null ? "" : GetNextPreriodHKSix(db).OpenTime.Value.ToString("yyyy-MM-dd HH:mm"));
+            Result += Environment.NewLine + "下期" + (GetNextPreriodHKSix(db,usrpar) == null ? "" : GetNextPreriodHKSix(db,usrpar).OpenTime.Value.ToString("yyyy-MM-dd HH:mm"));
 
             return Result;
         }

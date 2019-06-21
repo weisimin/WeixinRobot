@@ -51,7 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GlobalParam.cs" />
     <Compile Include="Linq\db.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

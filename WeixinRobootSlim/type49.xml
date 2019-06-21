@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<msg>
+  <appmsg appid="wx020a535dccd46c11" sdkver="0">
+
+    <title>雪缘园赔率 --- 赛事指数 ---- 篮球赔率公司</title>
+    <des>
+      我正在看【雪缘园赔率 --- 赛事指数 ---- 篮球赔率公司】，分享给你，一起看吧！
+    </des>
+    <username />
+    <action>view</action>
+    <type>5</type>
+    <showtype>0</showtype>
+    <content />
+    <url>http://odds.gooooal.com/bkscompany.html?type=1001</url>
+    <lowurl />
+    <dataurl />
+    <lowdataurl />
+    <contentattr>0</contentattr>
+    <streamvideo>
+      <streamvideourl />
+      <streamvideototaltime>0</streamvideototaltime>
+      <streamvideotitle />
+      <streamvideowording />
+      <streamvideoweburl />
+      <streamvideothumburl />
+      <streamvideoaduxinfo />
+      <streamvideopublishid />
+    </streamvideo>
+    <canvasPageItem>
+      <canvasPageXml>
+        <![CDATA[]]>
+      </canvasPageXml>
+    </canvasPageItem>
+    <appattach>
+      <attachid />
+      <cdnthumburl>305c0201000455305302010002048f3a969202033d14b902044de503b702045befafec042e6175706170706d73675f643530623232616330663532633035335f313534323433343739353638355f33333334320204010800030201000400</cdnthumburl>
+      <cdnthumbmd5>fb631a851b5062fe42c1f8ba8a0483e1</cdnthumbmd5>
+      <cdnthumblength>14714</cdnthumblength>
+      <cdnthumbheight>120</cdnthumbheight>
+      <cdnthumbwidth>60</cdnthumbwidth>
+      <cdnthumbaeskey>ace23b36b3784ab1b4928582eb952064</cdnthumbaeskey>
+      <aeskey>ace23b36b3784ab1b4928582eb952064</aeskey>
+      <encryver>1</encryver>
+      <fileext />
+      <islargefilemsg>0</islargefilemsg>
+    </appattach>
+    <extinfo />
+    <androidsource>3</androidsource>
+    <thumburl />
+    <mediatagname />
+    <messageaction><![CDATA[]]></messageaction>
+    <messageext>
+      <![CDATA[]]>
+    </messageext>
+    <emoticongift>
+      <packageflag>0</packageflag>
+      <packageid />
+    </emoticongift>
+    <emoticonshared>
+      <packageflag>0</packageflag>
+      <packageid />
+    </emoticonshared>
+    <designershared>
+      <designeruin>0</designeruin>
+      <designername>null</designername>
+      <designerrediretcturl>null</designerrediretcturl>
+    </designershared>
+    <emotionpageshared>
+      <tid>0</tid>
+      <title>null</title>
+      <desc>null</desc>
+      <iconUrl>null</iconUrl>
+      <secondUrl>null</secondUrl>
+      <pageType>0</pageType>
+    </emotionpageshared>
+    <webviewshared>
+      <shareUrlOriginal />
+      <shareUrlOpen />
+      <jsAppId />
+      <publisherId />
+    </webviewshared>
+    <template_id />
+    <md5>fb631a851b5062fe42c1f8ba8a0483e1</md5>
+    <weappinfo>
+      <username />
+      <appid />
+      <appservicetype>0</appservicetype>
+    </weappinfo>
+    <statextstr>GhQKEnd4MDIwYTUzNWRjY2Q0NmMxMQ==</statextstr>
+    <websearch>
+      <rec_category>0</rec_category>
+    </websearch>
+  </appmsg>
+  <fromusername></fromusername>
+  <scene>0</scene>
+  <appinfo>
+    <version>2</version>
+    <appname>UC浏览器</appname>
+  </appinfo>
+  <commenturl></commenturl>
+</msg>
