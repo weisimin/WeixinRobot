@@ -165,6 +165,340 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="OpenLongTimeUrl">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TargetURL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RefURL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Method" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="S_BrowCookie" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="AllowRedirect" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="KeepAlive" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="ContentType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="authorization" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenLongTimeUrlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OpenLongTimeUrlResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WX_UserReplyLog_Create">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JMemberSource" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="gm" type="tns:GameMode" />
+            <s:element minOccurs="1" maxOccurs="1" name="subm" type="tns:ShiShiCaiMode" />
+            <s:element minOccurs="0" maxOccurs="1" name="RequestPeriod" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="RequestTime" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="GameContent" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WX_UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WX_SourceType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jloadset" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="adminmode" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="MemberGroupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="GameMode">
+        <s:restriction base="s:string">
+          <s:enumeration value="时时彩" />
+          <s:enumeration value="球赛" />
+          <s:enumeration value="六合彩" />
+          <s:enumeration value="非玩法" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ShiShiCaiMode">
+        <s:restriction base="s:string">
+          <s:enumeration value="重庆时时彩" />
+          <s:enumeration value="五分彩" />
+          <s:enumeration value="香港时时彩" />
+          <s:enumeration value="澳洲幸运5" />
+          <s:enumeration value="腾讯十分" />
+          <s:enumeration value="腾讯五分" />
+          <s:enumeration value="北京赛车PK10" />
+          <s:enumeration value="VR重庆时时彩" />
+          <s:enumeration value="新疆时时彩" />
+          <s:enumeration value="未知" />
+          <s:enumeration value="腾五信" />
+          <s:enumeration value="腾十信" />
+          <s:enumeration value="全彩" />
+          <s:enumeration value="河内五分" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="WX_UserReplyLog_CreateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WX_UserReplyLog_CreateResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WX_UserReplyLog_MySendCreate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Content" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jUserRow" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ReceiveTime" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="takeusers" type="tns:ArrayOfGuid" />
+            <s:element minOccurs="0" maxOccurs="1" name="jloadset" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WX_UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WX_SourceType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WX_UserReplyLog_MySendCreateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WX_UserReplyLog_MySendCreateResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChongQingShiShiCaiCaculatePeriod">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RequestTime" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="RequestPeriod" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WX_UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WX_SourceType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="adminmode" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="SpecMode" type="tns:ShiShiCaiMode" />
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="NoBlock" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChongQingShiShiCaiCaculatePeriodResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ChongQingShiShiCaiCaculatePeriodResult" type="tns:ChongQingShiShiCaiCaculatePeriodResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ChongQingShiShiCaiCaculatePeriodResult">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="GameFullPeriod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GameFullLocalPeriod" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Success" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="WX_UserGameLog_Deal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ContactID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SourceType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WX_UserGameLog_DealResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="WX_UserGameLog_DealResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WXUserChangeLog_GetRemainder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserContactID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SourceType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WXUserChangeLog_GetRemainderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="WXUserChangeLog_GetRemainderResult" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBossReportSource">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SourceType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="QueryTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBossReportSourceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBossReportSourceResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBounsConfig">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBounsConfigResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBounsConfigResult" type="tns:ArrayOfWX_BounsConfig" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfWX_BounsConfig">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="WX_BounsConfig" nillable="true" type="tns:WX_BounsConfig" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="WX_BounsConfig">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="aspnet_UserID" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="RowNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="StartBuyPeriod" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="EndBuyPeriod" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="StartBuyAverage" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="EndBuyAverage" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="FixNumber" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="FlowPercent" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="IfDivousPercent" nillable="true" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SaveBounsConfig">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JDatas" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveBounsConfigResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveBounsConfigResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBasicRatio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBasicRatioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBasicRatioResult" type="tns:ArrayOfGame_BasicRatio" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfGame_BasicRatio">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Game_BasicRatio" nillable="true" type="tns:Game_BasicRatio" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Game_BasicRatio">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="aspnet_UserID" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="GameType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BuyType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BuyValue" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="MinBuy" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxBuy" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="BasicRatio" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderIndex" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="IncludeMin" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="BonusBuyValueCondition" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="WX_SourceType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Enable" nillable="true" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SaveBasicRatio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jDatas" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveBasicRatioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveBasicRatioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReminder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SourceType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReminderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetReminderResult" type="tns:ArrayOfReminderType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfReminderType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ReminderType" nillable="true" type="tns:ReminderType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ReminderType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="玩家" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="余" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="WX_UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="WX_SourceType" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUserChangeLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jUserRow" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserChangeLogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserChangeLogResult" type="tns:ArrayOfUserChangeLogType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfUserChangeLogType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="UserChangeLogType" nillable="true" type="tns:UserChangeLogType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UserChangeLogType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remark" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RemarkType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ChangePoint" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ChangeTime" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="GamePeriod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceType" type="s:string" />
+        </s:sequence>
+      </s:complexType>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -240,6 +574,84 @@
   <wsdl:message name="OpenUrlSoapOut">
     <wsdl:part name="parameters" element="tns:OpenUrlResponse" />
   </wsdl:message>
+  <wsdl:message name="OpenLongTimeUrlSoapIn">
+    <wsdl:part name="parameters" element="tns:OpenLongTimeUrl" />
+  </wsdl:message>
+  <wsdl:message name="OpenLongTimeUrlSoapOut">
+    <wsdl:part name="parameters" element="tns:OpenLongTimeUrlResponse" />
+  </wsdl:message>
+  <wsdl:message name="WX_UserReplyLog_CreateSoapIn">
+    <wsdl:part name="parameters" element="tns:WX_UserReplyLog_Create" />
+  </wsdl:message>
+  <wsdl:message name="WX_UserReplyLog_CreateSoapOut">
+    <wsdl:part name="parameters" element="tns:WX_UserReplyLog_CreateResponse" />
+  </wsdl:message>
+  <wsdl:message name="WX_UserReplyLog_MySendCreateSoapIn">
+    <wsdl:part name="parameters" element="tns:WX_UserReplyLog_MySendCreate" />
+  </wsdl:message>
+  <wsdl:message name="WX_UserReplyLog_MySendCreateSoapOut">
+    <wsdl:part name="parameters" element="tns:WX_UserReplyLog_MySendCreateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChongQingShiShiCaiCaculatePeriodSoapIn">
+    <wsdl:part name="parameters" element="tns:ChongQingShiShiCaiCaculatePeriod" />
+  </wsdl:message>
+  <wsdl:message name="ChongQingShiShiCaiCaculatePeriodSoapOut">
+    <wsdl:part name="parameters" element="tns:ChongQingShiShiCaiCaculatePeriodResponse" />
+  </wsdl:message>
+  <wsdl:message name="WX_UserGameLog_DealSoapIn">
+    <wsdl:part name="parameters" element="tns:WX_UserGameLog_Deal" />
+  </wsdl:message>
+  <wsdl:message name="WX_UserGameLog_DealSoapOut">
+    <wsdl:part name="parameters" element="tns:WX_UserGameLog_DealResponse" />
+  </wsdl:message>
+  <wsdl:message name="WXUserChangeLog_GetRemainderSoapIn">
+    <wsdl:part name="parameters" element="tns:WXUserChangeLog_GetRemainder" />
+  </wsdl:message>
+  <wsdl:message name="WXUserChangeLog_GetRemainderSoapOut">
+    <wsdl:part name="parameters" element="tns:WXUserChangeLog_GetRemainderResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBossReportSourceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBossReportSource" />
+  </wsdl:message>
+  <wsdl:message name="GetBossReportSourceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBossReportSourceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBounsConfigSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBounsConfig" />
+  </wsdl:message>
+  <wsdl:message name="GetBounsConfigSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBounsConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveBounsConfigSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveBounsConfig" />
+  </wsdl:message>
+  <wsdl:message name="SaveBounsConfigSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveBounsConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBasicRatioSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBasicRatio" />
+  </wsdl:message>
+  <wsdl:message name="GetBasicRatioSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBasicRatioResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveBasicRatioSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveBasicRatio" />
+  </wsdl:message>
+  <wsdl:message name="SaveBasicRatioSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveBasicRatioResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetReminderSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReminder" />
+  </wsdl:message>
+  <wsdl:message name="GetReminderSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReminderResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserChangeLogSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserChangeLog" />
+  </wsdl:message>
+  <wsdl:message name="GetUserChangeLogSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserChangeLogResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceSoap">
     <wsdl:operation name="UserLogIn">
       <wsdl:input message="tns:UserLogInSoapIn" />
@@ -284,6 +696,58 @@
     <wsdl:operation name="OpenUrl">
       <wsdl:input message="tns:OpenUrlSoapIn" />
       <wsdl:output message="tns:OpenUrlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenLongTimeUrl">
+      <wsdl:input message="tns:OpenLongTimeUrlSoapIn" />
+      <wsdl:output message="tns:OpenLongTimeUrlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WX_UserReplyLog_Create">
+      <wsdl:input message="tns:WX_UserReplyLog_CreateSoapIn" />
+      <wsdl:output message="tns:WX_UserReplyLog_CreateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WX_UserReplyLog_MySendCreate">
+      <wsdl:input message="tns:WX_UserReplyLog_MySendCreateSoapIn" />
+      <wsdl:output message="tns:WX_UserReplyLog_MySendCreateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChongQingShiShiCaiCaculatePeriod">
+      <wsdl:input message="tns:ChongQingShiShiCaiCaculatePeriodSoapIn" />
+      <wsdl:output message="tns:ChongQingShiShiCaiCaculatePeriodSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WX_UserGameLog_Deal">
+      <wsdl:input message="tns:WX_UserGameLog_DealSoapIn" />
+      <wsdl:output message="tns:WX_UserGameLog_DealSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WXUserChangeLog_GetRemainder">
+      <wsdl:input message="tns:WXUserChangeLog_GetRemainderSoapIn" />
+      <wsdl:output message="tns:WXUserChangeLog_GetRemainderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBossReportSource">
+      <wsdl:input message="tns:GetBossReportSourceSoapIn" />
+      <wsdl:output message="tns:GetBossReportSourceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBounsConfig">
+      <wsdl:input message="tns:GetBounsConfigSoapIn" />
+      <wsdl:output message="tns:GetBounsConfigSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBounsConfig">
+      <wsdl:input message="tns:SaveBounsConfigSoapIn" />
+      <wsdl:output message="tns:SaveBounsConfigSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBasicRatio">
+      <wsdl:input message="tns:GetBasicRatioSoapIn" />
+      <wsdl:output message="tns:GetBasicRatioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBasicRatio">
+      <wsdl:input message="tns:SaveBasicRatioSoapIn" />
+      <wsdl:output message="tns:SaveBasicRatioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReminder">
+      <wsdl:input message="tns:GetReminderSoapIn" />
+      <wsdl:output message="tns:GetReminderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserChangeLog">
+      <wsdl:input message="tns:GetUserChangeLogSoapIn" />
+      <wsdl:output message="tns:GetUserChangeLogSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
@@ -387,6 +851,123 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="OpenLongTimeUrl">
+      <soap:operation soapAction="http://13828081978.zicp.vip/OpenLongTimeUrl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WX_UserReplyLog_Create">
+      <soap:operation soapAction="http://13828081978.zicp.vip/WX_UserReplyLog_Create" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WX_UserReplyLog_MySendCreate">
+      <soap:operation soapAction="http://13828081978.zicp.vip/WX_UserReplyLog_MySendCreate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChongQingShiShiCaiCaculatePeriod">
+      <soap:operation soapAction="http://13828081978.zicp.vip/ChongQingShiShiCaiCaculatePeriod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WX_UserGameLog_Deal">
+      <soap:operation soapAction="http://13828081978.zicp.vip/WX_UserGameLog_Deal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WXUserChangeLog_GetRemainder">
+      <soap:operation soapAction="http://13828081978.zicp.vip/WXUserChangeLog_GetRemainder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBossReportSource">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetBossReportSource" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBounsConfig">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetBounsConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBounsConfig">
+      <soap:operation soapAction="http://13828081978.zicp.vip/SaveBounsConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBasicRatio">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetBasicRatio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBasicRatio">
+      <soap:operation soapAction="http://13828081978.zicp.vip/SaveBasicRatio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReminder">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetReminder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserChangeLog">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetUserChangeLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -482,6 +1063,123 @@
     </wsdl:operation>
     <wsdl:operation name="OpenUrl">
       <soap12:operation soapAction="http://13828081978.zicp.vip/OpenUrl" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenLongTimeUrl">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/OpenLongTimeUrl" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WX_UserReplyLog_Create">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/WX_UserReplyLog_Create" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WX_UserReplyLog_MySendCreate">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/WX_UserReplyLog_MySendCreate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChongQingShiShiCaiCaculatePeriod">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/ChongQingShiShiCaiCaculatePeriod" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WX_UserGameLog_Deal">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/WX_UserGameLog_Deal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WXUserChangeLog_GetRemainder">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/WXUserChangeLog_GetRemainder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBossReportSource">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetBossReportSource" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBounsConfig">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetBounsConfig" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBounsConfig">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/SaveBounsConfig" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBasicRatio">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetBasicRatio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBasicRatio">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/SaveBasicRatio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReminder">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetReminder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserChangeLog">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetUserChangeLog" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -39,6 +39,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PhoneService", "http://loca
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.1"
+		ProjectReferences = "{7b148ab2-c2ef-47b8-b1e9-50f49b705e76}|WeixinRobotLib.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_54819"
 		Debug.AspNetCompiler.PhysicalPath = "PhoneService\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54819\"

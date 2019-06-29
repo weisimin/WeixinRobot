@@ -21,7 +21,8 @@ namespace WeixinRoboot
         private void btn_Save_Click(object sender, EventArgs e)
         {
            
-            Linq.aspnet_UsersNewGameResultSend updatecode = Linq.Util_Services.GetServicesSetting();
+
+            WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend updatecode = Linq.Util_Services.GetServicesSetting();
             updatecode.ActiveCode = fd_activecode.Text;
             RobootWeb.WebService ws = new RobootWeb.WebService();
             string Res=ws.SaveSetting(GlobalParam.UserName, GlobalParam.Password, JsonConvert.SerializeObject(updatecode));

@@ -19,7 +19,7 @@ namespace WeixinRoboot
         public static string Password;
         public static string ASPXAUTH;
         public static bool LogInSuccess = false;
-        public static CookieContainer LoginCookie= new CookieContainer();
+        public static CookieContainer LoginCookie = new CookieContainer();
 
         public static Guid UserKey = Guid.Empty;
 
@@ -47,7 +47,18 @@ namespace WeixinRoboot
 
         public static string MemberSourceode { get; set; }
 
-      
+        public static string GetUserParam()
+        {
+            WeixinRobotLib.Linq.UserParam result = new WeixinRobotLib.Linq.UserParam();
+            result.UserName = GlobalParam.UserName;
+            result.Password = GlobalParam.Password;
+            result.ASPXAUTH = GlobalParam.ASPXAUTH;
+            result.LoginCookie = GlobalParam.LoginCookie;
+            result.UserKey = GlobalParam.UserKey;
+            result.JobID = GlobalParam.JobID;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(result);
+
+        }
 
     }
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="WeixinRoboot" Class="dbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=E:\EasyRoboot.mdf;Initial Catalog=WeixinRoboot;Integrated Security=True" SettingsObjectName="WeixinRobotLib.Properties.Settings" SettingsPropertyName="WeixinRobootConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost,9125;Initial Catalog=WeixinRoboot;Persist Security Info=True;User ID=sa" SettingsObjectName="WeixinRobotLib.Properties.Settings" SettingsPropertyName="WeixinRobootConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Game_Result" Member="Game_Result">
     <Type Name="Game_Result">
       <Column Name="GameName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -632,6 +632,7 @@
       <Column Name="Thread_TengXunWuFenXin" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="Thread_HeNeiWuFen" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="OpenMode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SuperUser" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

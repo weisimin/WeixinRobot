@@ -44,5 +44,16 @@ namespace WeixinRobotLib.Properties {
                 return ((string)(this["WeixinRobootConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost,9125;Initial Catalog=WeixinRoboot;Persist Security Info=Tru" +
+            "e;User ID=sa;Password=liangwguang")]
+        public string WeixinRobootConnectionString1 {
+            get {
+                return ((string)(this["WeixinRobootConnectionString1"]));
+            }
+        }
     }
 }

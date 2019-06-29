@@ -140,6 +140,7 @@
       <DependentUpon>BallOpen.cs</DependentUpon>
     </Compile>
     <Compile Include="HotKey.cs" />
+    <Compile Include="Linq\Util_Service.cs" />
     <Compile Include="LogForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,12 +166,6 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="WebSnapshotsHelper.cs" />
-    <Compile Include="Download163AndDeal.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Download163AndDeal.Designer.cs">
-      <DependentUpon>Download163AndDeal.cs</DependentUpon>
-    </Compile>
     <Compile Include="F_Game_BasicRatio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -282,9 +277,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BallOpen.resx">
       <DependentUpon>BallOpen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Download163AndDeal.resx">
-      <DependentUpon>Download163AndDeal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F_Game_BasicRatio.resx">
       <DependentUpon>F_Game_BasicRatio.cs</DependentUpon>
@@ -398,11 +390,26 @@
     <Content Include="Template_shishicai.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Web References\RobootWeb\ChongQingShiShiCaiCaculatePeriodResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\RobootWeb\Game_BasicRatio.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\RobootWeb\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Web References\RobootWeb\ReminderType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\RobootWeb\UserChangeLogType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\RobootWeb\WebService.wsdl" />
+    <None Include="Web References\RobootWeb\WX_BounsConfig.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\RobotWebAdmin\MembershipUser.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -524,9 +531,7 @@
       <Name>WeixinRobotLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Linq\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -34,9 +34,7 @@ namespace WeixinRoboot
 
         private void SendManulOrder_Load(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            //db.ObjectTrackingEnabled = false;
+
             if (dtp_StartDate.Value == null || dtp_EndDate.Value == null || RunnerF == null || _UserRow == null)
             {
                 return;
@@ -102,9 +100,7 @@ namespace WeixinRoboot
 
         private void MI_Delete_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            //db.ObjectTrackingEnabled = false;
+           
             ep_sql.Clear();
             DataGridViewRow dr = GV_GameLog.SelectedRows[0];
             string aspnet_UserID = dr.Cells["aspnet_UserID"].Value.ToString();

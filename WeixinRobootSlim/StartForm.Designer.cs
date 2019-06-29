@@ -57,17 +57,11 @@
             this.MI_BallMatch = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_BallOpenManul = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_BallGames = new System.Windows.Forms.ToolStripMenuItem();
-            this.Btn_Draw = new System.Windows.Forms.Button();
-            this.Btn_StartDownLoad = new System.Windows.Forms.Button();
-            this.btn_TestOrder = new System.Windows.Forms.Button();
             this.OpenBlack = new System.Windows.Forms.Button();
             this.codeweixin = new System.Windows.Forms.Label();
             this.codeyixin = new System.Windows.Forms.Label();
             this.btn_refreshyixin = new System.Windows.Forms.Button();
             this.btn_bossreport = new System.Windows.Forms.Button();
-            this.btn_InjectAndDo = new System.Windows.Forms.Button();
-            this.Btn_ManulSend = new System.Windows.Forms.Button();
-            this.btn_runtest = new System.Windows.Forms.Button();
             this.PicBarCode_yixin = new System.Windows.Forms.PictureBox();
             this.PicBarCode = new System.Windows.Forms.PictureBox();
             this.cb_refreshball = new System.Windows.Forms.CheckBox();
@@ -82,27 +76,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tb_EndHour = new System.Windows.Forms.TextBox();
             this.btn_Save = new System.Windows.Forms.Button();
-            this.lbl_Nox = new System.Windows.Forms.Label();
-            this.lbl_Leidian = new System.Windows.Forms.Label();
-            this.tb_NoxPath = new System.Windows.Forms.TextBox();
-            this.tb_LeidianPath = new System.Windows.Forms.TextBox();
-            this.tb_noxsharepath = new System.Windows.Forms.TextBox();
-            this.lbl_nox_sharepath = new System.Windows.Forms.Label();
-            this.tb_leidiansharepath = new System.Windows.Forms.TextBox();
-            this.lbl_leidiansharepath = new System.Windows.Forms.Label();
-            this.cb_adbnoxmode = new System.Windows.Forms.CheckBox();
-            this.cb_adbleidianmode = new System.Windows.Forms.CheckBox();
-            this.gv_NoxEnums = new System.Windows.Forms.DataGridView();
-            this.NoxEnumName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NoxState = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gv_LeidianEnums = new System.Windows.Forms.DataGridView();
-            this.LeidianEnumName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LeiDianState = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lbl_noxs = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lbl_waringadb = new System.Windows.Forms.Label();
             this.cb_TwoTreeNotSingle = new System.Windows.Forms.CheckBox();
-            this.btn_Redownload = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tb_liushuiratio = new System.Windows.Forms.TextBox();
@@ -114,11 +88,6 @@
             this.T_WuFenCai = new System.Windows.Forms.CheckBox();
             this.T_XinJiangShiShiCai = new System.Windows.Forms.CheckBox();
             this.T_chongqingshishicai = new System.Windows.Forms.CheckBox();
-            this.btn_relogin = new System.Windows.Forms.Button();
-            this.btn_installapk = new System.Windows.Forms.Button();
-            this.btn_active = new System.Windows.Forms.Button();
-            this.Btn_Restore = new System.Windows.Forms.Button();
-            this.btn_query = new System.Windows.Forms.Button();
             this.T_TengXunWuFenXin = new System.Windows.Forms.CheckBox();
             this.T_TengXunShiFenXin = new System.Windows.Forms.CheckBox();
             this.cb_robotstop = new System.Windows.Forms.CheckBox();
@@ -127,8 +96,6 @@
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gv_NoxEnums)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gv_LeidianEnums)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_msg
@@ -161,7 +128,7 @@
             this.SI_url,
             this.lbl_ShowError,
             this.SI_ShowError});
-            this.Botton_Status.Location = new System.Drawing.Point(0, 672);
+            this.Botton_Status.Location = new System.Drawing.Point(0, 397);
             this.Botton_Status.Name = "Botton_Status";
             this.Botton_Status.Size = new System.Drawing.Size(1008, 22);
             this.Botton_Status.TabIndex = 4;
@@ -268,19 +235,12 @@
             this.MI_GameLog.Name = "MI_GameLog";
             this.MI_GameLog.Size = new System.Drawing.Size(68, 21);
             this.MI_GameLog.Text = "人工操作";
-            // 
-            // MI_GameLogManulDeal
-            // 
-            this.MI_GameLogManulDeal.Enabled = false;
-            this.MI_GameLogManulDeal.Name = "MI_GameLogManulDeal";
-            this.MI_GameLogManulDeal.Size = new System.Drawing.Size(124, 22);
-            this.MI_GameLogManulDeal.Text = "人工开奖";
-            this.MI_GameLogManulDeal.Click += new System.EventHandler(this.MI_GameLogManulDeal_Click);
+           
             // 
             // MI_Bouns_Manul
             // 
             this.MI_Bouns_Manul.Name = "MI_Bouns_Manul";
-            this.MI_Bouns_Manul.Size = new System.Drawing.Size(124, 22);
+            this.MI_Bouns_Manul.Size = new System.Drawing.Size(152, 22);
             this.MI_Bouns_Manul.Text = "人工福利";
             this.MI_Bouns_Manul.Click += new System.EventHandler(this.MI_Bouns_Manul_Click);
             // 
@@ -361,38 +321,6 @@
             this.MI_BallGames.Text = "赛事查看";
             this.MI_BallGames.Click += new System.EventHandler(this.MI_BallGames_Click);
             // 
-            // Btn_Draw
-            // 
-            this.Btn_Draw.Location = new System.Drawing.Point(798, 254);
-            this.Btn_Draw.Name = "Btn_Draw";
-            this.Btn_Draw.Size = new System.Drawing.Size(75, 23);
-            this.Btn_Draw.TabIndex = 6;
-            this.Btn_Draw.Text = "画图";
-            this.Btn_Draw.UseVisualStyleBackColor = true;
-            this.Btn_Draw.Click += new System.EventHandler(this.BtnDrawGdi_Click);
-            // 
-            // Btn_StartDownLoad
-            // 
-            this.Btn_StartDownLoad.Location = new System.Drawing.Point(798, 221);
-            this.Btn_StartDownLoad.Name = "Btn_StartDownLoad";
-            this.Btn_StartDownLoad.Size = new System.Drawing.Size(75, 23);
-            this.Btn_StartDownLoad.TabIndex = 7;
-            this.Btn_StartDownLoad.Text = "启动下载";
-            this.Btn_StartDownLoad.UseVisualStyleBackColor = true;
-            this.Btn_StartDownLoad.Visible = false;
-            this.Btn_StartDownLoad.Click += new System.EventHandler(this.Btn_StartDownLoad_Click);
-            // 
-            // btn_TestOrder
-            // 
-            this.btn_TestOrder.Location = new System.Drawing.Point(798, 185);
-            this.btn_TestOrder.Name = "btn_TestOrder";
-            this.btn_TestOrder.Size = new System.Drawing.Size(75, 23);
-            this.btn_TestOrder.TabIndex = 8;
-            this.btn_TestOrder.Text = "测试下单";
-            this.btn_TestOrder.UseVisualStyleBackColor = true;
-            this.btn_TestOrder.Visible = false;
-            this.btn_TestOrder.Click += new System.EventHandler(this.btn_TestOrder_Click);
-            // 
             // OpenBlack
             // 
             this.OpenBlack.Location = new System.Drawing.Point(5, 221);
@@ -442,36 +370,6 @@
             this.btn_bossreport.Visible = false;
             this.btn_bossreport.Click += new System.EventHandler(this.btn_bossreport_Click);
             // 
-            // btn_InjectAndDo
-            // 
-            this.btn_InjectAndDo.Location = new System.Drawing.Point(5, 99);
-            this.btn_InjectAndDo.Name = "btn_InjectAndDo";
-            this.btn_InjectAndDo.Size = new System.Drawing.Size(80, 33);
-            this.btn_InjectAndDo.TabIndex = 16;
-            this.btn_InjectAndDo.Text = "1.注入发图";
-            this.btn_InjectAndDo.UseVisualStyleBackColor = true;
-            this.btn_InjectAndDo.Click += new System.EventHandler(this.btn_InjectAndDo_Click);
-            // 
-            // Btn_ManulSend
-            // 
-            this.Btn_ManulSend.Location = new System.Drawing.Point(4, 185);
-            this.Btn_ManulSend.Name = "Btn_ManulSend";
-            this.Btn_ManulSend.Size = new System.Drawing.Size(80, 27);
-            this.Btn_ManulSend.TabIndex = 17;
-            this.Btn_ManulSend.Text = "PC手工发图";
-            this.Btn_ManulSend.UseVisualStyleBackColor = true;
-            this.Btn_ManulSend.Click += new System.EventHandler(this.Btn_ManulSend_Click);
-            // 
-            // btn_runtest
-            // 
-            this.btn_runtest.Location = new System.Drawing.Point(798, 156);
-            this.btn_runtest.Name = "btn_runtest";
-            this.btn_runtest.Size = new System.Drawing.Size(75, 23);
-            this.btn_runtest.TabIndex = 18;
-            this.btn_runtest.Text = "执行测试 ";
-            this.btn_runtest.UseVisualStyleBackColor = true;
-            this.btn_runtest.Click += new System.EventHandler(this.btn_runtest_Click);
-            // 
             // PicBarCode_yixin
             // 
             this.PicBarCode_yixin.Location = new System.Drawing.Point(524, 99);
@@ -499,7 +397,6 @@
             this.cb_refreshball.TabIndex = 25;
             this.cb_refreshball.Text = "采集球赛";
             this.cb_refreshball.UseVisualStyleBackColor = true;
-            this.cb_refreshball.CheckedChanged += new System.EventHandler(this.cb_refreshball_CheckedChanged);
             // 
             // lbl_six
             // 
@@ -597,184 +494,6 @@
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
-            // lbl_Nox
-            // 
-            this.lbl_Nox.AutoSize = true;
-            this.lbl_Nox.Location = new System.Drawing.Point(83, 606);
-            this.lbl_Nox.Name = "lbl_Nox";
-            this.lbl_Nox.Size = new System.Drawing.Size(95, 12);
-            this.lbl_Nox.TabIndex = 37;
-            this.lbl_Nox.Text = "夜神模拟器目录:";
-            // 
-            // lbl_Leidian
-            // 
-            this.lbl_Leidian.AutoSize = true;
-            this.lbl_Leidian.Location = new System.Drawing.Point(83, 635);
-            this.lbl_Leidian.Name = "lbl_Leidian";
-            this.lbl_Leidian.Size = new System.Drawing.Size(95, 12);
-            this.lbl_Leidian.TabIndex = 38;
-            this.lbl_Leidian.Text = "雷电模拟器目录:";
-            // 
-            // tb_NoxPath
-            // 
-            this.tb_NoxPath.Location = new System.Drawing.Point(187, 601);
-            this.tb_NoxPath.Name = "tb_NoxPath";
-            this.tb_NoxPath.Size = new System.Drawing.Size(311, 21);
-            this.tb_NoxPath.TabIndex = 39;
-            this.tb_NoxPath.Text = "c:\\Program Files\\Nox\\bin\\Nox.exe";
-            // 
-            // tb_LeidianPath
-            // 
-            this.tb_LeidianPath.Location = new System.Drawing.Point(187, 635);
-            this.tb_LeidianPath.Name = "tb_LeidianPath";
-            this.tb_LeidianPath.Size = new System.Drawing.Size(311, 21);
-            this.tb_LeidianPath.TabIndex = 40;
-            this.tb_LeidianPath.Text = "c:\\Changzhi\\dnplayer2\\dnplayer.exe";
-            // 
-            // tb_noxsharepath
-            // 
-            this.tb_noxsharepath.Location = new System.Drawing.Point(606, 599);
-            this.tb_noxsharepath.Name = "tb_noxsharepath";
-            this.tb_noxsharepath.Size = new System.Drawing.Size(303, 21);
-            this.tb_noxsharepath.TabIndex = 42;
-            // 
-            // lbl_nox_sharepath
-            // 
-            this.lbl_nox_sharepath.AutoSize = true;
-            this.lbl_nox_sharepath.Location = new System.Drawing.Point(504, 604);
-            this.lbl_nox_sharepath.Name = "lbl_nox_sharepath";
-            this.lbl_nox_sharepath.Size = new System.Drawing.Size(83, 12);
-            this.lbl_nox_sharepath.TabIndex = 41;
-            this.lbl_nox_sharepath.Text = "夜神中转目录:";
-            // 
-            // tb_leidiansharepath
-            // 
-            this.tb_leidiansharepath.Location = new System.Drawing.Point(608, 635);
-            this.tb_leidiansharepath.Name = "tb_leidiansharepath";
-            this.tb_leidiansharepath.Size = new System.Drawing.Size(301, 21);
-            this.tb_leidiansharepath.TabIndex = 44;
-            // 
-            // lbl_leidiansharepath
-            // 
-            this.lbl_leidiansharepath.AutoSize = true;
-            this.lbl_leidiansharepath.Location = new System.Drawing.Point(504, 635);
-            this.lbl_leidiansharepath.Name = "lbl_leidiansharepath";
-            this.lbl_leidiansharepath.Size = new System.Drawing.Size(83, 12);
-            this.lbl_leidiansharepath.TabIndex = 43;
-            this.lbl_leidiansharepath.Text = "雷电中转目录:";
-            // 
-            // cb_adbnoxmode
-            // 
-            this.cb_adbnoxmode.AutoSize = true;
-            this.cb_adbnoxmode.Location = new System.Drawing.Point(13, 605);
-            this.cb_adbnoxmode.Name = "cb_adbnoxmode";
-            this.cb_adbnoxmode.Size = new System.Drawing.Size(66, 16);
-            this.cb_adbnoxmode.TabIndex = 45;
-            this.cb_adbnoxmode.Text = "adb夜神";
-            this.cb_adbnoxmode.UseVisualStyleBackColor = true;
-            // 
-            // cb_adbleidianmode
-            // 
-            this.cb_adbleidianmode.AutoSize = true;
-            this.cb_adbleidianmode.Location = new System.Drawing.Point(11, 631);
-            this.cb_adbleidianmode.Name = "cb_adbleidianmode";
-            this.cb_adbleidianmode.Size = new System.Drawing.Size(66, 16);
-            this.cb_adbleidianmode.TabIndex = 46;
-            this.cb_adbleidianmode.Text = "adb雷电";
-            this.cb_adbleidianmode.UseVisualStyleBackColor = true;
-            // 
-            // gv_NoxEnums
-            // 
-            this.gv_NoxEnums.AllowUserToAddRows = false;
-            this.gv_NoxEnums.AllowUserToDeleteRows = false;
-            this.gv_NoxEnums.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gv_NoxEnums.ColumnHeadersVisible = false;
-            this.gv_NoxEnums.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.NoxEnumName,
-            this.NoxState});
-            this.gv_NoxEnums.Location = new System.Drawing.Point(13, 506);
-            this.gv_NoxEnums.Name = "gv_NoxEnums";
-            this.gv_NoxEnums.ReadOnly = true;
-            this.gv_NoxEnums.RowHeadersVisible = false;
-            this.gv_NoxEnums.RowTemplate.Height = 23;
-            this.gv_NoxEnums.Size = new System.Drawing.Size(153, 89);
-            this.gv_NoxEnums.TabIndex = 47;
-            // 
-            // NoxEnumName
-            // 
-            this.NoxEnumName.DataPropertyName = "EnumName";
-            this.NoxEnumName.HeaderText = "模拟器名称";
-            this.NoxEnumName.Name = "NoxEnumName";
-            this.NoxEnumName.ReadOnly = true;
-            this.NoxEnumName.Width = 250;
-            // 
-            // NoxState
-            // 
-            this.NoxState.DataPropertyName = "EnumState";
-            this.NoxState.HeaderText = "状态";
-            this.NoxState.Name = "NoxState";
-            this.NoxState.ReadOnly = true;
-            // 
-            // gv_LeidianEnums
-            // 
-            this.gv_LeidianEnums.AllowUserToAddRows = false;
-            this.gv_LeidianEnums.AllowUserToDeleteRows = false;
-            this.gv_LeidianEnums.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gv_LeidianEnums.ColumnHeadersVisible = false;
-            this.gv_LeidianEnums.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.LeidianEnumName,
-            this.LeiDianState});
-            this.gv_LeidianEnums.Location = new System.Drawing.Point(178, 506);
-            this.gv_LeidianEnums.Name = "gv_LeidianEnums";
-            this.gv_LeidianEnums.ReadOnly = true;
-            this.gv_LeidianEnums.RowHeadersVisible = false;
-            this.gv_LeidianEnums.RowTemplate.Height = 23;
-            this.gv_LeidianEnums.Size = new System.Drawing.Size(124, 89);
-            this.gv_LeidianEnums.TabIndex = 48;
-            // 
-            // LeidianEnumName
-            // 
-            this.LeidianEnumName.DataPropertyName = "EnumName";
-            this.LeidianEnumName.HeaderText = "模拟器名称";
-            this.LeidianEnumName.Name = "LeidianEnumName";
-            this.LeidianEnumName.ReadOnly = true;
-            this.LeidianEnumName.Width = 250;
-            // 
-            // LeiDianState
-            // 
-            this.LeiDianState.DataPropertyName = "EnumState";
-            this.LeiDianState.HeaderText = "状态";
-            this.LeiDianState.Name = "LeiDianState";
-            this.LeiDianState.ReadOnly = true;
-            // 
-            // lbl_noxs
-            // 
-            this.lbl_noxs.AutoSize = true;
-            this.lbl_noxs.Location = new System.Drawing.Point(14, 486);
-            this.lbl_noxs.Name = "lbl_noxs";
-            this.lbl_noxs.Size = new System.Drawing.Size(65, 12);
-            this.lbl_noxs.TabIndex = 49;
-            this.lbl_noxs.Text = "夜神模拟器";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(173, 486);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 12);
-            this.label4.TabIndex = 50;
-            this.label4.Text = "雷电模拟器";
-            // 
-            // lbl_waringadb
-            // 
-            this.lbl_waringadb.AutoSize = true;
-            this.lbl_waringadb.ForeColor = System.Drawing.Color.Red;
-            this.lbl_waringadb.Location = new System.Drawing.Point(13, 654);
-            this.lbl_waringadb.Name = "lbl_waringadb";
-            this.lbl_waringadb.Size = new System.Drawing.Size(131, 12);
-            this.lbl_waringadb.TabIndex = 51;
-            this.lbl_waringadb.Text = "adb同时勾上会互相踢飞";
-            // 
             // cb_TwoTreeNotSingle
             // 
             this.cb_TwoTreeNotSingle.AutoSize = true;
@@ -784,17 +503,6 @@
             this.cb_TwoTreeNotSingle.TabIndex = 52;
             this.cb_TwoTreeNotSingle.Text = "23不算单算和";
             this.cb_TwoTreeNotSingle.UseVisualStyleBackColor = true;
-            // 
-            // btn_Redownload
-            // 
-            this.btn_Redownload.Location = new System.Drawing.Point(91, 185);
-            this.btn_Redownload.Name = "btn_Redownload";
-            this.btn_Redownload.Size = new System.Drawing.Size(75, 27);
-            this.btn_Redownload.TabIndex = 53;
-            this.btn_Redownload.Text = "重新下载";
-            this.btn_Redownload.UseVisualStyleBackColor = true;
-            this.btn_Redownload.Visible = false;
-            this.btn_Redownload.Click += new System.EventHandler(this.btn_Redownload_Click);
             // 
             // label5
             // 
@@ -898,56 +606,6 @@
             this.T_chongqingshishicai.Text = "重庆时时彩";
             this.T_chongqingshishicai.UseVisualStyleBackColor = true;
             // 
-            // btn_relogin
-            // 
-            this.btn_relogin.Location = new System.Drawing.Point(915, 506);
-            this.btn_relogin.Name = "btn_relogin";
-            this.btn_relogin.Size = new System.Drawing.Size(67, 55);
-            this.btn_relogin.TabIndex = 66;
-            this.btn_relogin.Text = "重登";
-            this.btn_relogin.UseVisualStyleBackColor = true;
-            this.btn_relogin.Click += new System.EventHandler(this.btn_relogin_Click);
-            // 
-            // btn_installapk
-            // 
-            this.btn_installapk.Location = new System.Drawing.Point(89, 99);
-            this.btn_installapk.Name = "btn_installapk";
-            this.btn_installapk.Size = new System.Drawing.Size(75, 33);
-            this.btn_installapk.TabIndex = 67;
-            this.btn_installapk.Text = "2.重装中继";
-            this.btn_installapk.UseVisualStyleBackColor = true;
-            this.btn_installapk.Click += new System.EventHandler(this.btn_installapk_Click);
-            // 
-            // btn_active
-            // 
-            this.btn_active.Location = new System.Drawing.Point(5, 139);
-            this.btn_active.Name = "btn_active";
-            this.btn_active.Size = new System.Drawing.Size(79, 33);
-            this.btn_active.TabIndex = 68;
-            this.btn_active.Text = "3.激活输入";
-            this.btn_active.UseVisualStyleBackColor = true;
-            this.btn_active.Click += new System.EventHandler(this.btn_active_Click);
-            // 
-            // Btn_Restore
-            // 
-            this.Btn_Restore.Location = new System.Drawing.Point(89, 138);
-            this.Btn_Restore.Name = "Btn_Restore";
-            this.Btn_Restore.Size = new System.Drawing.Size(75, 33);
-            this.Btn_Restore.TabIndex = 69;
-            this.Btn_Restore.Text = "X.还原输入";
-            this.Btn_Restore.UseVisualStyleBackColor = true;
-            this.Btn_Restore.Click += new System.EventHandler(this.Btn_Restore_Click);
-            // 
-            // btn_query
-            // 
-            this.btn_query.Location = new System.Drawing.Point(90, 218);
-            this.btn_query.Name = "btn_query";
-            this.btn_query.Size = new System.Drawing.Size(74, 29);
-            this.btn_query.TabIndex = 70;
-            this.btn_query.Text = "?设备在线";
-            this.btn_query.UseVisualStyleBackColor = true;
-            this.btn_query.Click += new System.EventHandler(this.btn_query_Click);
-            // 
             // T_TengXunWuFenXin
             // 
             this.T_TengXunWuFenXin.AutoSize = true;
@@ -977,7 +635,6 @@
             this.cb_robotstop.TabIndex = 74;
             this.cb_robotstop.Text = "机器人停止";
             this.cb_robotstop.UseVisualStyleBackColor = true;
-            this.cb_robotstop.CheckedChanged += new System.EventHandler(this.cb_robotstop_CheckedChanged);
             // 
             // T_HeNeiWuFen
             // 
@@ -993,16 +650,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 694);
+            this.ClientSize = new System.Drawing.Size(1008, 419);
             this.Controls.Add(this.T_HeNeiWuFen);
             this.Controls.Add(this.cb_robotstop);
             this.Controls.Add(this.T_TengXunWuFenXin);
             this.Controls.Add(this.T_TengXunShiFenXin);
-            this.Controls.Add(this.btn_query);
-            this.Controls.Add(this.Btn_Restore);
-            this.Controls.Add(this.btn_active);
-            this.Controls.Add(this.btn_installapk);
-            this.Controls.Add(this.btn_relogin);
             this.Controls.Add(this.T_chongqingshishicai);
             this.Controls.Add(this.T_XinJiangShiShiCai);
             this.Controls.Add(this.T_WuFenCai);
@@ -1014,23 +666,7 @@
             this.Controls.Add(this.tb_liushuiratio);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.btn_Redownload);
             this.Controls.Add(this.cb_TwoTreeNotSingle);
-            this.Controls.Add(this.lbl_waringadb);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.lbl_noxs);
-            this.Controls.Add(this.gv_LeidianEnums);
-            this.Controls.Add(this.gv_NoxEnums);
-            this.Controls.Add(this.cb_adbleidianmode);
-            this.Controls.Add(this.cb_adbnoxmode);
-            this.Controls.Add(this.tb_leidiansharepath);
-            this.Controls.Add(this.lbl_leidiansharepath);
-            this.Controls.Add(this.tb_noxsharepath);
-            this.Controls.Add(this.lbl_nox_sharepath);
-            this.Controls.Add(this.tb_LeidianPath);
-            this.Controls.Add(this.tb_NoxPath);
-            this.Controls.Add(this.lbl_Leidian);
-            this.Controls.Add(this.lbl_Nox);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.tb_EndMinute);
             this.Controls.Add(this.label3);
@@ -1043,18 +679,12 @@
             this.Controls.Add(this.lbl_qqthread);
             this.Controls.Add(this.lbl_six);
             this.Controls.Add(this.cb_refreshball);
-            this.Controls.Add(this.btn_runtest);
-            this.Controls.Add(this.Btn_ManulSend);
-            this.Controls.Add(this.btn_InjectAndDo);
             this.Controls.Add(this.btn_bossreport);
             this.Controls.Add(this.btn_refreshyixin);
             this.Controls.Add(this.codeyixin);
             this.Controls.Add(this.codeweixin);
             this.Controls.Add(this.PicBarCode_yixin);
             this.Controls.Add(this.OpenBlack);
-            this.Controls.Add(this.btn_TestOrder);
-            this.Controls.Add(this.Btn_StartDownLoad);
-            this.Controls.Add(this.Btn_Draw);
             this.Controls.Add(this.lbl_waring);
             this.Controls.Add(this.Botton_Status);
             this.Controls.Add(this.btn_resfresh);
@@ -1075,8 +705,6 @@
             this.TopMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gv_NoxEnums)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gv_LeidianEnums)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1107,20 +735,14 @@
         private System.Windows.Forms.ToolStripMenuItem MI_Query;
         private System.Windows.Forms.ToolStripMenuItem MI_OpenQuery;
         private System.Windows.Forms.MenuStrip TopMenu;
-        private System.Windows.Forms.Button Btn_Draw;
-        private System.Windows.Forms.Button Btn_StartDownLoad;
-        private System.Windows.Forms.Button btn_TestOrder;
         private System.Windows.Forms.Button OpenBlack;
         private System.Windows.Forms.PictureBox PicBarCode_yixin;
         private System.Windows.Forms.Label codeweixin;
         private System.Windows.Forms.Label codeyixin;
         private System.Windows.Forms.Button btn_refreshyixin;
         private System.Windows.Forms.Button btn_bossreport;
-        private System.Windows.Forms.Button btn_InjectAndDo;
         private System.Windows.Forms.ToolStripMenuItem MI_PCWechatSend;
         private System.Windows.Forms.ToolStripMenuItem MI_PCWechatSendSetting;
-        private System.Windows.Forms.Button Btn_ManulSend;
-        private System.Windows.Forms.Button btn_runtest;
         private System.Windows.Forms.ToolStripMenuItem mi_reminderquery;
         private System.Windows.Forms.ToolStripMenuItem MI_BallMatch;
         private System.Windows.Forms.ToolStripMenuItem MI_BallOpenManul;
@@ -1137,27 +759,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tb_EndHour;
         private System.Windows.Forms.Button btn_Save;
-        private System.Windows.Forms.Label lbl_Nox;
-        private System.Windows.Forms.Label lbl_Leidian;
-        private System.Windows.Forms.TextBox tb_NoxPath;
-        private System.Windows.Forms.TextBox tb_LeidianPath;
-        private System.Windows.Forms.TextBox tb_noxsharepath;
-        private System.Windows.Forms.Label lbl_nox_sharepath;
-        private System.Windows.Forms.TextBox tb_leidiansharepath;
-        private System.Windows.Forms.Label lbl_leidiansharepath;
-        private System.Windows.Forms.CheckBox cb_adbnoxmode;
-        private System.Windows.Forms.CheckBox cb_adbleidianmode;
-        private System.Windows.Forms.DataGridView gv_NoxEnums;
-        private System.Windows.Forms.DataGridView gv_LeidianEnums;
-        private System.Windows.Forms.Label lbl_noxs;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label lbl_waringadb;
         private System.Windows.Forms.CheckBox cb_TwoTreeNotSingle;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NoxEnumName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NoxState;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LeidianEnumName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LeiDianState;
-        private System.Windows.Forms.Button btn_Redownload;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox tb_liushuiratio;
@@ -1169,11 +771,6 @@
         private System.Windows.Forms.CheckBox T_WuFenCai;
         private System.Windows.Forms.CheckBox T_XinJiangShiShiCai;
         private System.Windows.Forms.CheckBox T_chongqingshishicai;
-        private System.Windows.Forms.Button btn_relogin;
-        private System.Windows.Forms.Button btn_installapk;
-        private System.Windows.Forms.Button btn_active;
-        private System.Windows.Forms.Button Btn_Restore;
-        private System.Windows.Forms.Button btn_query;
         private System.Windows.Forms.CheckBox T_TengXunWuFenXin;
         private System.Windows.Forms.CheckBox T_TengXunShiFenXin;
         private System.Windows.Forms.CheckBox cb_robotstop;

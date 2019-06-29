@@ -60,8 +60,6 @@ namespace WeixinRoboot
                 AddSecurityControll2File("E:\\EasyRoboot.mdf");
                 AddSecurityControll2File("E:\\EasyRoboot_log.ldf");
             }
-            EO.Base.Runtime.EnableEOWP = true;
-            EO.WebBrowser.Runtime.AddLicense("f5mkwOm7aNjw/Rr2d7PzAw/kq8Dy9xqfndj49uihaamzwd2ua6e1yM2fr9z2BBTup7SmwuKhaLXABBTmp9j4Bh3kd9nYBw/kcN3l6vrYasH7+xG0sru1xuy8drOzBBTmp9j4Bh3kd7Oz/RTinuX39ul14+30EO2s3MLNF+ic3PIEEMidtbTG27ZwrbXG3LN1pvD6DuSn6unaD7114+30EO2s3OmxGeCm3MGz8M5nzunz7fGo7vf2HaF3s7P9FOKe5ff2EL112PD9GvZ3s+X1D5+t8PT26KF+xrLUE/Go5Omzy5+v3PYEFO6ntKbC4q1p");
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
             AppDomain.CurrentDomain.SetData("DataDirectory", Application.StartupPath);
             Action run = () =>
@@ -217,7 +215,7 @@ namespace WeixinRoboot
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             //db.ObjectTrackingEnabled = false;
 
-            string ActiveCode = WeixinRobotLib.Linq.Util_Services.GetServicesSetting().ActiveCode;
+            string ActiveCode =Linq.Util_Services.GetServicesSetting().ActiveCode;
 
             DateTime? EndDate = null;
             bool Success = NetFramework.Util_MD5.MD5Success(ActiveCode, out EndDate, GlobalParam.UserKey);
@@ -256,7 +254,7 @@ namespace WeixinRoboot
             }
             if (GlobalParam.DataSourceName != "Admin" && GlobalParam.DataSourceName != "User")
             {
-                WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend wsr = WeixinRobotLib.Linq.Util_Services.GetServicesSetting();
+                WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend wsr =Linq.Util_Services.GetServicesSetting();
                 sf.SetMode("EasyRobot", wsr.OpenMode == null ? "" : wsr.OpenMode);
             }
 

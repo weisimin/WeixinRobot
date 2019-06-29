@@ -36,9 +36,7 @@ namespace WeixinRoboot
 
         private void Btn_Send_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            //db.ObjectTrackingEnabled = false;
+            RobootWeb.WebService ws = new RobootWeb.WebService();
             try
             {
                 ep_sql.Clear();
@@ -48,7 +46,7 @@ namespace WeixinRoboot
                     case "Charge":
 
 
-                        string Result = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("上分" + tb_ChargeMoney.Text, _UserRow, DateTime.Now);
+                        string Result = ws.WX_UserReplyLog_MySendCreate("上分" + tb_ChargeMoney.Text, _UserRow, DateTime.Now,  GlobalParam.GetUserParam(), new Guid[] { },WeixinRoboot.Linq.Util_Services.GetServicesSetting(), "", "");
 
                         string WXSend = StartF.SendRobotContent(Result
                             , UserRow.Field<string>("User_ContactTEMPID")
@@ -65,9 +63,9 @@ namespace WeixinRoboot
 
                         break;
                     case "CleanUp":
-                        string Result2 = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("下分" + tb_ChargeMoney.Text, _UserRow, DateTime.Now);
+                        string Result2 = ws.WX_UserReplyLog_MySendCreate("下分" + tb_ChargeMoney.Text, _UserRow, DateTime.Now,  GlobalParam.GetUserParam(), new Guid[] { },WeixinRoboot.Linq.Util_Services.GetServicesSetting(), "", "");
 
-                        decimal? TotalPointClean = Linq.ProgramLogic.WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactTEMPID"), UserRow.Field<string>("User_SourceType"));
+                        decimal? TotalPointClean = ws.WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactTEMPID"), UserRow.Field<string>("User_SourceType"), GlobalParam.GetUserParam());
 
                         string WXSendClean = StartF.SendRobotContent(Result2
                             , UserRow.Field<string>("User_ContactTEMPID")
@@ -103,9 +101,7 @@ namespace WeixinRoboot
 
         private void SendCharge_Load(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            //db.ObjectTrackingEnabled = false;
+          
             var data = from dsl in db.WX_UserChangeLog
                        join dsu in db.WX_UserReply
                        on new { dsl.WX_UserName, dsl.aspnet_UserID ,dsl.WX_SourceType} equals new { dsu.WX_UserName, dsu.aspnet_UserID ,dsu.WX_SourceType}

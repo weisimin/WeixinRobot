@@ -123,7 +123,7 @@ namespace WeixinRobotLib.Linq
     #endregion
 		
 		public dbDataContext() : 
-				base(global::WeixinRobotLib.Properties.Settings.Default.WeixinRobootConnectionString, mappingSource)
+				base(global::WeixinRobotLib.Properties.Settings.Default.WeixinRobootConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -12902,6 +12902,8 @@ namespace WeixinRobotLib.Linq
 		
 		private string _OpenMode;
 		
+		private System.Nullable<bool> _SuperUser;
+		
     #region 可扩展性方法定义
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -12994,6 +12996,8 @@ namespace WeixinRobotLib.Linq
     partial void OnThread_HeNeiWuFenChanged();
     partial void OnOpenModeChanging(string value);
     partial void OnOpenModeChanged();
+    partial void OnSuperUserChanging(System.Nullable<bool> value);
+    partial void OnSuperUserChanged();
     #endregion
 		
 		public aspnet_UsersNewGameResultSend()
@@ -13877,6 +13881,26 @@ namespace WeixinRobotLib.Linq
 					this._OpenMode = value;
 					this.SendPropertyChanged("OpenMode");
 					this.OnOpenModeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SuperUser", DbType="Bit")]
+		public System.Nullable<bool> SuperUser
+		{
+			get
+			{
+				return this._SuperUser;
+			}
+			set
+			{
+				if ((this._SuperUser != value))
+				{
+					this.OnSuperUserChanging(value);
+					this.SendPropertyChanging();
+					this._SuperUser = value;
+					this.SendPropertyChanged("SuperUser");
+					this.OnSuperUserChanged();
 				}
 			}
 		}

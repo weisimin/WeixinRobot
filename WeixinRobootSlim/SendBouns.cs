@@ -41,23 +41,9 @@ namespace WeixinRoboot
         private void BTN_SEND_Click(object sender, EventArgs e)
         {
 
-            //Result.Columns.Add("aspnet_UserID", typeof(Guid));
-            //Result.Columns.Add("WX_UserName");
-            //Result.Columns.Add("NickNameRemarkName");
-            //Result.Columns.Add("LocalPeriodDay");
-            //Result.Columns.Add("PeriodCount", typeof(decimal));
-            //Result.Columns.Add("TotalBuy", typeof(decimal));
-            //Result.Columns.Add("TotalResult", typeof(decimal));
-            //Result.Columns.Add("AverageBuy", typeof(decimal));
-            //Result.Columns.Add("FixNumber", typeof(decimal));
-            //Result.Columns.Add("FlowPercent", typeof(decimal));
-            //Result.Columns.Add("IfDivousPercent", typeof(decimal));
-            //Result.Columns.Add("BounsCount", typeof(decimal));
-            //Result.Columns.Add("Remark");
+           
 
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-            //db.ObjectTrackingEnabled = false;
+        
 
             DataTable ToSend = (DataTable)BS_DataSource.DataSource;
             var SendList = ToSend.AsEnumerable().Where(t => t.Field<decimal?>("BounsCount") > 10);

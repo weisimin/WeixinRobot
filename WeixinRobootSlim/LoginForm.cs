@@ -19,7 +19,7 @@ namespace WeixinRoboot
         {
             InitializeComponent();
             OnLoginSuccess += new LoginSuccess(Login_OnLoginSuccess);
-            cb_datasource.SelectedItem = "远程服务器";
+
         }
 
         void Login_OnLoginSuccess(string UserName )
@@ -103,44 +103,6 @@ namespace WeixinRoboot
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void cb_datasource_SelectedValueChanged(object sender, EventArgs e)
-        {
-
-
-            switch (cb_datasource.SelectedItem.ToString())
-            {
-                case "本机":
-                    GlobalParam.DataSourceName = "LocalSqlServer";
-                    GlobalParam.MemberSourceode = "Remote";
-                    break;
-                case "远程服务器":
-                    GlobalParam.DataSourceName = "RemoteSqlServer";
-                    GlobalParam.MemberSourceode = "Remote";
-                    break;
-                case "迷你本机":
-                    GlobalParam.DataSourceName = "Express";
-                    GlobalParam.MemberSourceode = "Remote";
-                    break;
-                case "迷你完全本机":
-                    GlobalParam.DataSourceName = "Express";
-                    GlobalParam.MemberSourceode = "Local";
-                    break;
-                case "无数据库15M":
-                    GlobalParam.DataSourceName = "NoSqlServer15M";
-                    GlobalParam.MemberSourceode = "Remote";
-                    break;
-                case "无数据库4M":
-                    GlobalParam.DataSourceName = "NoSqlServer4M";
-                    GlobalParam.MemberSourceode = "Remote";
-                    break;
-                default:
-                    break;
-            }
-
-
-            SetProviderConnectionString(ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
         }
         /// <summary>
         /// Sets the provider connection string.

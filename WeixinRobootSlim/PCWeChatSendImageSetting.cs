@@ -31,7 +31,7 @@ namespace WeixinRoboot
         {
             BS_GV_PicSendSetting.DataSource = SF.InjectWins;
            
-            foreach (Linq.WX_PCSendPicSetting loadset in SF.InjectWins.Where(t => t.Is_Reply == true))
+            foreach (WeixinRobotLib.Linq.WX_PCSendPicSetting loadset in SF.InjectWins.Where(t => t.Is_Reply == true))
             {
                 if (loadset.GroupOwner != null && loadset.GroupOwner != "")
                 {
@@ -55,7 +55,7 @@ namespace WeixinRoboot
         {
             if (GV_PicSendSetting.SelectedRows.Count > 0)
             {
-                Linq.WX_PCSendPicSetting data = ((Linq.WX_PCSendPicSetting)GV_PicSendSetting.SelectedRows[0].DataBoundItem);
+                WeixinRobotLib.Linq.WX_PCSendPicSetting data = ((WeixinRobotLib.Linq.WX_PCSendPicSetting)GV_PicSendSetting.SelectedRows[0].DataBoundItem);
 
                
             }//有选择才执行新加

@@ -34,6 +34,29 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gv_contact = new System.Windows.Forms.DataGridView();
+            this.User_SourceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContactID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsSendPic = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsCaculateFuli = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.会 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsBoss = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.User_IsBallPIC = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.重 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.五 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.港 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.澳 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.腾十 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.腾五 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.河五 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.腾十信 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.腾五信 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.疆 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.VR = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BS_Contact = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.gv_ReceiveReply = new System.Windows.Forms.DataGridView();
@@ -81,6 +104,7 @@
             this.MI_vRMode = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_TengXunShiFenXinMode = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_TengXunWuFenXinMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_HeNeiWuFenMode = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_ContactFilter = new System.Windows.Forms.TextBox();
             this.dtp_EndDate = new System.Windows.Forms.DateTimePicker();
             this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
@@ -99,43 +123,8 @@
             this.Buy_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GameResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Result_Point = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fd_day = new System.Windows.Forms.DateTimePicker();
-            this.fd_Num5 = new System.Windows.Forms.TextBox();
-            this.fd_Num4 = new System.Windows.Forms.TextBox();
-            this.fd_Num3 = new System.Windows.Forms.TextBox();
-            this.fd_Num2 = new System.Windows.Forms.TextBox();
-            this.BtnSaveAndDeal = new System.Windows.Forms.Button();
-            this.fd_Num1 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.fd_Period = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.Btn_Resend = new System.Windows.Forms.Button();
             this.btn_resendballl = new System.Windows.Forms.Button();
-            this.cb_gamemode = new System.Windows.Forms.ComboBox();
-            this.User_SourceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContactID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.User_IsSendPic = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.User_IsCaculateFuli = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.会 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.User_IsBoss = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.User_IsBallPIC = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.重 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.五 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.港 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.澳 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.腾十 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.腾五 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.河五 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.腾十信 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.腾五信 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.疆 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.VR = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.MI_HeNeiWuFenMode = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -206,6 +195,203 @@
             this.gv_contact.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_contact_DataError);
             this.gv_contact.SelectionChanged += new System.EventHandler(this.gv_contact_SelectionChanged);
             this.gv_contact.Leave += new System.EventHandler(this.gv_contact_Leave);
+            // 
+            // User_SourceType
+            // 
+            this.User_SourceType.DataPropertyName = "User_SourceType";
+            this.User_SourceType.HeaderText = "源";
+            this.User_SourceType.Name = "User_SourceType";
+            this.User_SourceType.ReadOnly = true;
+            this.User_SourceType.Width = 25;
+            // 
+            // User_ContactType
+            // 
+            this.User_ContactType.DataPropertyName = "User_ContactType";
+            this.User_ContactType.HeaderText = "类";
+            this.User_ContactType.Name = "User_ContactType";
+            this.User_ContactType.ReadOnly = true;
+            this.User_ContactType.Width = 25;
+            // 
+            // User_Contact
+            // 
+            this.User_Contact.DataPropertyName = "User_Contact";
+            this.User_Contact.HeaderText = "联系人";
+            this.User_Contact.Name = "User_Contact";
+            this.User_Contact.ReadOnly = true;
+            this.User_Contact.Width = 75;
+            // 
+            // User_ContactID
+            // 
+            this.User_ContactID.DataPropertyName = "User_ContactID";
+            this.User_ContactID.HeaderText = "玩家";
+            this.User_ContactID.Name = "User_ContactID";
+            this.User_ContactID.ReadOnly = true;
+            this.User_ContactID.Width = 80;
+            // 
+            // User_ContactTMPID
+            // 
+            this.User_ContactTMPID.DataPropertyName = "User_ContactTMPID";
+            this.User_ContactTMPID.HeaderText = "联系人临时ID";
+            this.User_ContactTMPID.Name = "User_ContactTMPID";
+            this.User_ContactTMPID.ReadOnly = true;
+            this.User_ContactTMPID.Visible = false;
+            // 
+            // User_IsReply
+            // 
+            this.User_IsReply.DataPropertyName = "User_IsReply";
+            this.User_IsReply.HeaderText = "跟";
+            this.User_IsReply.Name = "User_IsReply";
+            this.User_IsReply.ReadOnly = true;
+            this.User_IsReply.Width = 25;
+            // 
+            // User_IsSendPic
+            // 
+            this.User_IsSendPic.DataPropertyName = "User_IsSendPic";
+            this.User_IsSendPic.HeaderText = "图";
+            this.User_IsSendPic.Name = "User_IsSendPic";
+            this.User_IsSendPic.ReadOnly = true;
+            this.User_IsSendPic.Width = 25;
+            // 
+            // User_IsReceiveTransfer
+            // 
+            this.User_IsReceiveTransfer.DataPropertyName = "User_IsReceiveTransfer";
+            this.User_IsReceiveTransfer.HeaderText = "转";
+            this.User_IsReceiveTransfer.Name = "User_IsReceiveTransfer";
+            this.User_IsReceiveTransfer.ReadOnly = true;
+            this.User_IsReceiveTransfer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.User_IsReceiveTransfer.Width = 25;
+            // 
+            // User_IsCaculateFuli
+            // 
+            this.User_IsCaculateFuli.DataPropertyName = "User_IsCaculateFuli";
+            this.User_IsCaculateFuli.HeaderText = "福";
+            this.User_IsCaculateFuli.Name = "User_IsCaculateFuli";
+            this.User_IsCaculateFuli.ReadOnly = true;
+            this.User_IsCaculateFuli.Width = 25;
+            // 
+            // 会
+            // 
+            this.会.DataPropertyName = "User_IsAdmin";
+            this.会.HeaderText = "会";
+            this.会.Name = "会";
+            this.会.ReadOnly = true;
+            this.会.Width = 25;
+            // 
+            // User_IsBoss
+            // 
+            this.User_IsBoss.DataPropertyName = "User_IsBoss";
+            this.User_IsBoss.HeaderText = "查";
+            this.User_IsBoss.Name = "User_IsBoss";
+            this.User_IsBoss.ReadOnly = true;
+            this.User_IsBoss.Width = 25;
+            // 
+            // User_IsBallPIC
+            // 
+            this.User_IsBallPIC.DataPropertyName = "User_IsBallPIC";
+            this.User_IsBallPIC.HeaderText = "球";
+            this.User_IsBallPIC.Name = "User_IsBallPIC";
+            this.User_IsBallPIC.ReadOnly = true;
+            this.User_IsBallPIC.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.User_IsBallPIC.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.User_IsBallPIC.Width = 25;
+            // 
+            // 重
+            // 
+            this.重.DataPropertyName = "User_ChongqingMode";
+            this.重.HeaderText = "重";
+            this.重.Name = "重";
+            this.重.ReadOnly = true;
+            this.重.Width = 25;
+            // 
+            // 五
+            // 
+            this.五.DataPropertyName = "User_FiveMinuteMode";
+            this.五.HeaderText = "五";
+            this.五.Name = "五";
+            this.五.ReadOnly = true;
+            this.五.Width = 25;
+            // 
+            // 港
+            // 
+            this.港.DataPropertyName = "User_HkMode";
+            this.港.HeaderText = "港";
+            this.港.Name = "港";
+            this.港.ReadOnly = true;
+            this.港.Width = 25;
+            // 
+            // 澳
+            // 
+            this.澳.DataPropertyName = "User_AozcMode";
+            this.澳.HeaderText = "澳";
+            this.澳.Name = "澳";
+            this.澳.ReadOnly = true;
+            this.澳.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.澳.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.澳.Width = 25;
+            // 
+            // 腾十
+            // 
+            this.腾十.DataPropertyName = "User_TengXunShiFen";
+            this.腾十.HeaderText = "腾十";
+            this.腾十.Name = "腾十";
+            this.腾十.ReadOnly = true;
+            this.腾十.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.腾十.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.腾十.Width = 45;
+            // 
+            // 腾五
+            // 
+            this.腾五.DataPropertyName = "User_TengXunWuFen";
+            this.腾五.HeaderText = "腾五";
+            this.腾五.Name = "腾五";
+            this.腾五.ReadOnly = true;
+            this.腾五.Width = 45;
+            // 
+            // 河五
+            // 
+            this.河五.DataPropertyName = "User_HeNeiWuFen";
+            this.河五.HeaderText = "河五";
+            this.河五.Name = "河五";
+            this.河五.ReadOnly = true;
+            this.河五.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.河五.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.河五.Width = 45;
+            // 
+            // 腾十信
+            // 
+            this.腾十信.DataPropertyName = "User_TengXunShiFenXin";
+            this.腾十信.HeaderText = "腾十信";
+            this.腾十信.Name = "腾十信";
+            this.腾十信.ReadOnly = true;
+            this.腾十信.Width = 60;
+            // 
+            // 腾五信
+            // 
+            this.腾五信.DataPropertyName = "User_TengXunWuFenXin";
+            this.腾五信.HeaderText = "腾五信";
+            this.腾五信.Name = "腾五信";
+            this.腾五信.ReadOnly = true;
+            this.腾五信.Width = 60;
+            // 
+            // 疆
+            // 
+            this.疆.DataPropertyName = "User_XinJiangShiShiCai";
+            this.疆.HeaderText = "疆";
+            this.疆.Name = "疆";
+            this.疆.ReadOnly = true;
+            this.疆.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.疆.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.疆.Width = 25;
+            // 
+            // VR
+            // 
+            this.VR.DataPropertyName = "User_VR";
+            this.VR.HeaderText = "VR";
+            this.VR.Name = "VR";
+            this.VR.ReadOnly = true;
+            this.VR.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.VR.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.VR.Width = 45;
             // 
             // label1
             // 
@@ -366,7 +552,7 @@
             this.非好友会员设置ToolStripMenuItem,
             this.MI_赔付模式});
             this.MouseMenuReply.Name = "MouseMenuReply";
-            this.MouseMenuReply.Size = new System.Drawing.Size(161, 466);
+            this.MouseMenuReply.Size = new System.Drawing.Size(161, 444);
             // 
             // MI_IsReply
             // 
@@ -587,6 +773,13 @@
             this.MI_TengXunWuFenXinMode.Text = "腾讯五分信模式";
             this.MI_TengXunWuFenXinMode.Click += new System.EventHandler(this.MI_TengXunWuFenXinMode_Click);
             // 
+            // MI_HeNeiWuFenMode
+            // 
+            this.MI_HeNeiWuFenMode.Name = "MI_HeNeiWuFenMode";
+            this.MI_HeNeiWuFenMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_HeNeiWuFenMode.Text = "河内五分模式";
+            this.MI_HeNeiWuFenMode.Click += new System.EventHandler(this.MI_HeNeiWuFenXinMode_Click);
+            // 
             // tb_ContactFilter
             // 
             this.tb_ContactFilter.Location = new System.Drawing.Point(59, 33);
@@ -752,84 +945,6 @@
             this.Result_Point.Name = "Result_Point";
             this.Result_Point.ReadOnly = true;
             // 
-            // fd_day
-            // 
-            this.fd_day.CustomFormat = "yyyy-MM-dd";
-            this.fd_day.Location = new System.Drawing.Point(370, 72);
-            this.fd_day.Name = "fd_day";
-            this.fd_day.Size = new System.Drawing.Size(101, 21);
-            this.fd_day.TabIndex = 26;
-            // 
-            // fd_Num5
-            // 
-            this.fd_Num5.Location = new System.Drawing.Point(575, 101);
-            this.fd_Num5.Name = "fd_Num5";
-            this.fd_Num5.Size = new System.Drawing.Size(26, 21);
-            this.fd_Num5.TabIndex = 25;
-            // 
-            // fd_Num4
-            // 
-            this.fd_Num4.Location = new System.Drawing.Point(540, 101);
-            this.fd_Num4.Name = "fd_Num4";
-            this.fd_Num4.Size = new System.Drawing.Size(26, 21);
-            this.fd_Num4.TabIndex = 24;
-            // 
-            // fd_Num3
-            // 
-            this.fd_Num3.Location = new System.Drawing.Point(505, 101);
-            this.fd_Num3.Name = "fd_Num3";
-            this.fd_Num3.Size = new System.Drawing.Size(26, 21);
-            this.fd_Num3.TabIndex = 23;
-            // 
-            // fd_Num2
-            // 
-            this.fd_Num2.Location = new System.Drawing.Point(470, 101);
-            this.fd_Num2.Name = "fd_Num2";
-            this.fd_Num2.Size = new System.Drawing.Size(26, 21);
-            this.fd_Num2.TabIndex = 22;
-            // 
-            // BtnSaveAndDeal
-            // 
-            this.BtnSaveAndDeal.Location = new System.Drawing.Point(691, 75);
-            this.BtnSaveAndDeal.Name = "BtnSaveAndDeal";
-            this.BtnSaveAndDeal.Size = new System.Drawing.Size(76, 44);
-            this.BtnSaveAndDeal.TabIndex = 21;
-            this.BtnSaveAndDeal.Text = "保存并开奖";
-            this.BtnSaveAndDeal.UseVisualStyleBackColor = true;
-            this.BtnSaveAndDeal.Click += new System.EventHandler(this.BtnSaveAndDeal_Click);
-            // 
-            // fd_Num1
-            // 
-            this.fd_Num1.Location = new System.Drawing.Point(435, 101);
-            this.fd_Num1.Name = "fd_Num1";
-            this.fd_Num1.Size = new System.Drawing.Size(26, 21);
-            this.fd_Num1.TabIndex = 20;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(370, 104);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 12);
-            this.label5.TabIndex = 19;
-            this.label5.Text = "开奖结果:";
-            // 
-            // fd_Period
-            // 
-            this.fd_Period.Location = new System.Drawing.Point(538, 72);
-            this.fd_Period.Name = "fd_Period";
-            this.fd_Period.Size = new System.Drawing.Size(33, 21);
-            this.fd_Period.TabIndex = 18;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(478, 75);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 17;
-            this.label6.Text = "3位期号:";
-            // 
             // Btn_Resend
             // 
             this.Btn_Resend.Location = new System.Drawing.Point(971, 39);
@@ -850,241 +965,13 @@
             this.btn_resendballl.UseVisualStyleBackColor = true;
             this.btn_resendballl.Click += new System.EventHandler(this.btn_resendballl_Click);
             // 
-            // cb_gamemode
-            // 
-            this.cb_gamemode.FormattingEnabled = true;
-            this.cb_gamemode.Items.AddRange(new object[] {
-            "重庆时时彩",
-            "五分彩",
-            "香港时时彩",
-            "澳洲幸运5"});
-            this.cb_gamemode.Location = new System.Drawing.Point(588, 72);
-            this.cb_gamemode.Name = "cb_gamemode";
-            this.cb_gamemode.Size = new System.Drawing.Size(81, 20);
-            this.cb_gamemode.TabIndex = 29;
-            // 
-            // User_SourceType
-            // 
-            this.User_SourceType.DataPropertyName = "User_SourceType";
-            this.User_SourceType.HeaderText = "源";
-            this.User_SourceType.Name = "User_SourceType";
-            this.User_SourceType.ReadOnly = true;
-            this.User_SourceType.Width = 25;
-            // 
-            // User_ContactType
-            // 
-            this.User_ContactType.DataPropertyName = "User_ContactType";
-            this.User_ContactType.HeaderText = "类";
-            this.User_ContactType.Name = "User_ContactType";
-            this.User_ContactType.ReadOnly = true;
-            this.User_ContactType.Width = 25;
-            // 
-            // User_Contact
-            // 
-            this.User_Contact.DataPropertyName = "User_Contact";
-            this.User_Contact.HeaderText = "联系人";
-            this.User_Contact.Name = "User_Contact";
-            this.User_Contact.ReadOnly = true;
-            this.User_Contact.Width = 75;
-            // 
-            // User_ContactID
-            // 
-            this.User_ContactID.DataPropertyName = "User_ContactID";
-            this.User_ContactID.HeaderText = "玩家";
-            this.User_ContactID.Name = "User_ContactID";
-            this.User_ContactID.ReadOnly = true;
-            this.User_ContactID.Width = 80;
-            // 
-            // User_ContactTMPID
-            // 
-            this.User_ContactTMPID.DataPropertyName = "User_ContactTMPID";
-            this.User_ContactTMPID.HeaderText = "联系人临时ID";
-            this.User_ContactTMPID.Name = "User_ContactTMPID";
-            this.User_ContactTMPID.ReadOnly = true;
-            this.User_ContactTMPID.Visible = false;
-            // 
-            // User_IsReply
-            // 
-            this.User_IsReply.DataPropertyName = "User_IsReply";
-            this.User_IsReply.HeaderText = "跟";
-            this.User_IsReply.Name = "User_IsReply";
-            this.User_IsReply.ReadOnly = true;
-            this.User_IsReply.Width = 25;
-            // 
-            // User_IsSendPic
-            // 
-            this.User_IsSendPic.DataPropertyName = "User_IsSendPic";
-            this.User_IsSendPic.HeaderText = "图";
-            this.User_IsSendPic.Name = "User_IsSendPic";
-            this.User_IsSendPic.ReadOnly = true;
-            this.User_IsSendPic.Width = 25;
-            // 
-            // User_IsReceiveTransfer
-            // 
-            this.User_IsReceiveTransfer.DataPropertyName = "User_IsReceiveTransfer";
-            this.User_IsReceiveTransfer.HeaderText = "转";
-            this.User_IsReceiveTransfer.Name = "User_IsReceiveTransfer";
-            this.User_IsReceiveTransfer.ReadOnly = true;
-            this.User_IsReceiveTransfer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.User_IsReceiveTransfer.Width = 25;
-            // 
-            // User_IsCaculateFuli
-            // 
-            this.User_IsCaculateFuli.DataPropertyName = "User_IsCaculateFuli";
-            this.User_IsCaculateFuli.HeaderText = "福";
-            this.User_IsCaculateFuli.Name = "User_IsCaculateFuli";
-            this.User_IsCaculateFuli.ReadOnly = true;
-            this.User_IsCaculateFuli.Width = 25;
-            // 
-            // 会
-            // 
-            this.会.DataPropertyName = "User_IsAdmin";
-            this.会.HeaderText = "会";
-            this.会.Name = "会";
-            this.会.ReadOnly = true;
-            this.会.Width = 25;
-            // 
-            // User_IsBoss
-            // 
-            this.User_IsBoss.DataPropertyName = "User_IsBoss";
-            this.User_IsBoss.HeaderText = "查";
-            this.User_IsBoss.Name = "User_IsBoss";
-            this.User_IsBoss.ReadOnly = true;
-            this.User_IsBoss.Width = 25;
-            // 
-            // User_IsBallPIC
-            // 
-            this.User_IsBallPIC.DataPropertyName = "User_IsBallPIC";
-            this.User_IsBallPIC.HeaderText = "球";
-            this.User_IsBallPIC.Name = "User_IsBallPIC";
-            this.User_IsBallPIC.ReadOnly = true;
-            this.User_IsBallPIC.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.User_IsBallPIC.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.User_IsBallPIC.Width = 25;
-            // 
-            // 重
-            // 
-            this.重.DataPropertyName = "User_ChongqingMode";
-            this.重.HeaderText = "重";
-            this.重.Name = "重";
-            this.重.ReadOnly = true;
-            this.重.Width = 25;
-            // 
-            // 五
-            // 
-            this.五.DataPropertyName = "User_FiveMinuteMode";
-            this.五.HeaderText = "五";
-            this.五.Name = "五";
-            this.五.ReadOnly = true;
-            this.五.Width = 25;
-            // 
-            // 港
-            // 
-            this.港.DataPropertyName = "User_HkMode";
-            this.港.HeaderText = "港";
-            this.港.Name = "港";
-            this.港.ReadOnly = true;
-            this.港.Width = 25;
-            // 
-            // 澳
-            // 
-            this.澳.DataPropertyName = "User_AozcMode";
-            this.澳.HeaderText = "澳";
-            this.澳.Name = "澳";
-            this.澳.ReadOnly = true;
-            this.澳.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.澳.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.澳.Width = 25;
-            // 
-            // 腾十
-            // 
-            this.腾十.DataPropertyName = "User_TengXunShiFen";
-            this.腾十.HeaderText = "腾十";
-            this.腾十.Name = "腾十";
-            this.腾十.ReadOnly = true;
-            this.腾十.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.腾十.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.腾十.Width = 45;
-            // 
-            // 腾五
-            // 
-            this.腾五.DataPropertyName = "User_TengXunWuFen";
-            this.腾五.HeaderText = "腾五";
-            this.腾五.Name = "腾五";
-            this.腾五.ReadOnly = true;
-            this.腾五.Width = 45;
-            // 
-            // 河五
-            // 
-            this.河五.DataPropertyName = "User_HeNeiWuFen";
-            this.河五.HeaderText = "河五";
-            this.河五.Name = "河五";
-            this.河五.ReadOnly = true;
-            this.河五.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.河五.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.河五.Width = 45;
-            // 
-            // 腾十信
-            // 
-            this.腾十信.DataPropertyName = "User_TengXunShiFenXin";
-            this.腾十信.HeaderText = "腾十信";
-            this.腾十信.Name = "腾十信";
-            this.腾十信.ReadOnly = true;
-            this.腾十信.Width = 60;
-            // 
-            // 腾五信
-            // 
-            this.腾五信.DataPropertyName = "User_TengXunWuFenXin";
-            this.腾五信.HeaderText = "腾五信";
-            this.腾五信.Name = "腾五信";
-            this.腾五信.ReadOnly = true;
-            this.腾五信.Width = 60;
-            // 
-            // 疆
-            // 
-            this.疆.DataPropertyName = "User_XinJiangShiShiCai";
-            this.疆.HeaderText = "疆";
-            this.疆.Name = "疆";
-            this.疆.ReadOnly = true;
-            this.疆.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.疆.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.疆.Width = 25;
-            // 
-            // VR
-            // 
-            this.VR.DataPropertyName = "User_VR";
-            this.VR.HeaderText = "VR";
-            this.VR.Name = "VR";
-            this.VR.ReadOnly = true;
-            this.VR.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.VR.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.VR.Width = 45;
-            // 
-            // MI_HeNeiWuFenMode
-            // 
-            this.MI_HeNeiWuFenMode.Name = "MI_HeNeiWuFenMode";
-            this.MI_HeNeiWuFenMode.Size = new System.Drawing.Size(160, 22);
-            this.MI_HeNeiWuFenMode.Text = "河内五分模式";
-            this.MI_HeNeiWuFenMode.Click += new System.EventHandler(this.MI_HeNeiWuFenXinMode_Click);
-            // 
             // RunnerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 662);
-            this.Controls.Add(this.cb_gamemode);
             this.Controls.Add(this.btn_resendballl);
             this.Controls.Add(this.Btn_Resend);
-            this.Controls.Add(this.fd_day);
-            this.Controls.Add(this.fd_Num5);
-            this.Controls.Add(this.fd_Num4);
-            this.Controls.Add(this.fd_Num3);
-            this.Controls.Add(this.fd_Num2);
-            this.Controls.Add(this.BtnSaveAndDeal);
-            this.Controls.Add(this.fd_Num1);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.fd_Period);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.GV_GameLog);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dtp_StartDate);
@@ -1138,16 +1025,6 @@
         private System.Windows.Forms.ToolStripMenuItem MI_CancelIsReply;
         private System.Windows.Forms.ToolStripMenuItem MI_ReceiveTrans;
         private System.Windows.Forms.ToolStripMenuItem MI_CancelReceiveTrans;
-        private System.Windows.Forms.DateTimePicker fd_day;
-        private System.Windows.Forms.TextBox fd_Num5;
-        private System.Windows.Forms.TextBox fd_Num4;
-        private System.Windows.Forms.TextBox fd_Num3;
-        private System.Windows.Forms.TextBox fd_Num2;
-        private System.Windows.Forms.Button BtnSaveAndDeal;
-        private System.Windows.Forms.TextBox fd_Num1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox fd_Period;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStripMenuItem MI_CheckFuli;
         private System.Windows.Forms.ToolStripMenuItem MI_CancelCheckFuli;
         private System.Windows.Forms.Button Btn_Resend;
@@ -1184,7 +1061,6 @@
         private System.Windows.Forms.ToolStripMenuItem MI_ChongQingMode;
         private System.Windows.Forms.ToolStripMenuItem MI_FiveMinuteMode;
         private System.Windows.Forms.ToolStripMenuItem MI_HkMode;
-        private System.Windows.Forms.ComboBox cb_gamemode;
         private System.Windows.Forms.ToolStripMenuItem MI_AozcMode;
         private System.Windows.Forms.ToolStripMenuItem MI_XinJiangShiShiCaiMode;
         private System.Windows.Forms.ToolStripMenuItem MI_TengXunShiFenMode;

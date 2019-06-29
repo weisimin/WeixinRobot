@@ -25,9 +25,7 @@ namespace WeixinRoboot
         {
             try
             {
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-                //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                //db.ObjectTrackingEnabled = false;
+
                 var data = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                      && t.WX_SourceType == WX_SourceType
                      && t.WX_UserName == WX_UserName
@@ -69,7 +67,7 @@ namespace WeixinRoboot
                 }
                 else
                 {
-                    Linq.WX_WebSendPICSetting newd = new Linq.WX_WebSendPICSetting();
+                    WeixinRobotLib.Linq.WX_WebSendPICSetting newd = new WeixinRobotLib.Linq.WX_WebSendPICSetting();
 
                     newd.aspnet_UserID = GlobalParam.UserKey;
                     newd.WX_UserName = WX_UserName;
@@ -133,7 +131,7 @@ namespace WeixinRoboot
                     }
                     else
                     {
-                        Linq.WX_WebSendPICSettingMatchClass newsub = new Linq.WX_WebSendPICSettingMatchClass();
+                        WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass newsub = new WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass();
 
                         newsub.SendAny = item.SendAny;
 
@@ -161,7 +159,7 @@ namespace WeixinRoboot
         }
 
 
-        List<Linq.WX_WebSendPICSettingMatchClass> subsource = new List<Linq.WX_WebSendPICSettingMatchClass>();
+        List<WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass> subsource = new List<WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass>();
 
         public string WX_UserName
         {
@@ -176,7 +174,7 @@ namespace WeixinRoboot
                 {
                     return;
                 }
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                 //db.ObjectTrackingEnabled = false;
                 var data = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
@@ -251,7 +249,7 @@ namespace WeixinRoboot
                 foreach (var item in source)
                 {
 
-                    Linq.WX_WebSendPICSettingMatchClass subset = db.WX_WebSendPICSettingMatchClass.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                    WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass subset = db.WX_WebSendPICSettingMatchClass.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                        && t.WX_SourceType == WX_SourceType
                        && t.WX_UserName == value
                        && t.MatchBallType == item.GameType
@@ -260,7 +258,7 @@ namespace WeixinRoboot
                        );
                     if (subset == null)
                     {
-                        subset = new Linq.WX_WebSendPICSettingMatchClass();
+                        subset = new WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass();
                         subset.aspnet_UserID = GlobalParam.UserKey;
                         subset.WX_SourceType = WX_SourceType;
                         subset.WX_UserName = value;

@@ -20,22 +20,16 @@ namespace WeixinRoboot
         {
             try
             {
-                
-                //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                //db.ObjectTrackingEnabled = false;
-                db.SubmitChanges();
-                BS_GV_DATA.DataSource = db.WX_BounsConfig.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderBy(t => t.RowNumber); ;
+
+                RobootWeb.WebService ws = new RobootWeb.WebService();
+                ws.SaveBounsConfig(GlobalParam.GetUserParam(), Newtonsoft.Json.JsonConvert.SerializeObject( (WeixinRobotLib.Linq.WX_BounsConfig[])BS_GV_DATA.DataSource));
+               
                 MessageBox.Show("保存成功");
             }
             catch (Exception AnyError)
             {
                 MessageBox.Show(AnyError.Message);
-                System.Data.Linq.ChangeSet cs = db.GetChangeSet();
-                cs.Inserts.Clear();
-                cs.Deletes.Clear();
-                db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, cs.Updates);
-                BS_GV_DATA.DataSource = db.WX_BounsConfig.Where(t => t.aspnet_UserID == GlobalParam.UserKey);
-
+               
 
             }
 
@@ -49,7 +43,8 @@ namespace WeixinRoboot
        
         private void F_WX_BounsRatio_Load(object sender, EventArgs e)
         {
-            BS_GV_DATA.DataSource = db.WX_BounsConfig.Where(t => t.aspnet_UserID == GlobalParam.UserKey).OrderBy(t=>t.RowNumber);
+             RobootWeb.WebService ws = new RobootWeb.WebService();
+            BS_GV_DATA.DataSource = ws.GetBounsConfig(GlobalParam.GetUserParam());
         
         }
     }

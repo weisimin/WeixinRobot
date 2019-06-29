@@ -20,7 +20,7 @@ namespace WeixinRoboot
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             //db.ObjectTrackingEnabled = false;
             ep_wf.Clear();
@@ -43,7 +43,7 @@ namespace WeixinRoboot
                     try
                     {
                         JObject usr = JObject.Parse(adws.CreateUser(fd_username.Text, fd_password.Text));
-                        Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
+                        WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend newGameResultSend = new WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend();
                         newGameResultSend.aspnet_UserID = Guid.Parse(usr["ProviderUserKey"].ToString());
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
 
@@ -117,13 +117,13 @@ namespace WeixinRoboot
 
 
                         Linq.Util_Services.SaveServicesSetting(newGameResultSend);
-                        Linq.Game_BasicRatio[] CopyRatio = (Linq.Game_BasicRatio[])JsonConvert.DeserializeObject(usrws.GetTemplateRatios(), typeof(Linq.Game_BasicRatio[]));
+                        WeixinRobotLib.Linq.Game_BasicRatio[] CopyRatio = (WeixinRobotLib.Linq.Game_BasicRatio[])JsonConvert.DeserializeObject(usrws.GetTemplateRatios(), typeof(WeixinRobotLib.Linq.Game_BasicRatio[]));
 
                         if (CopyRatio.Count() != 0)
                         {
                             foreach (var item in CopyRatio)
                             {
-                                Linq.Game_BasicRatio newr = new Linq.Game_BasicRatio();
+                                WeixinRobotLib.Linq.Game_BasicRatio newr = new WeixinRobotLib.Linq.Game_BasicRatio();
                                 newr.aspnet_UserID = Guid.Parse(usr["ProviderUserKey"].ToString());
                                 newr.BasicRatio = item.BasicRatio;
                                 newr.BuyType = item.BuyType;
@@ -144,13 +144,13 @@ namespace WeixinRoboot
                         }
 
 
-                        Linq.WX_BounsConfig[] BounsConfig = (Linq.WX_BounsConfig[])JsonConvert.DeserializeObject(usrws.GetTemplateBonus(), typeof(Linq.WX_BounsConfig[]));
+                        WeixinRobotLib.Linq.WX_BounsConfig[] BounsConfig = (WeixinRobotLib.Linq.WX_BounsConfig[])JsonConvert.DeserializeObject(usrws.GetTemplateBonus(), typeof(WeixinRobotLib.Linq.WX_BounsConfig[]));
 
                         if (BounsConfig.Count() != 0)
                         {
                             foreach (var item in BounsConfig)
                             {
-                                Linq.WX_BounsConfig newr = new Linq.WX_BounsConfig();
+                                WeixinRobotLib.Linq.WX_BounsConfig newr = new WeixinRobotLib.Linq.WX_BounsConfig();
                                 newr.aspnet_UserID = Guid.Parse(usr["ProviderUserKey"].ToString());
                                 newr.RowNumber = item.RowNumber;
                                 newr.StartBuyPeriod = item.StartBuyPeriod;
@@ -199,17 +199,17 @@ namespace WeixinRoboot
                         //System.Web.Security.Membership.UpdateUser(user);
                         if (fd_IsLock.Checked == true)
                         {
-                            //Linq.aspnet_Users aspnet_Users = db.aspnet_Users.SingleOrDefault(t => t.UserId == new Guid(user.ProviderUserKey.ToString()));
+                            //WeixinRobotLib.Linq.aspnet_Users aspnet_Users = db.aspnet_Users.SingleOrDefault(t => t.UserId == new Guid(user.ProviderUserKey.ToString()));
                             //aspnet_Users.aspnet_Membership.IsLockedOut = true;
                             //db.SubmitChanges();
                             success &= adws.SetUserLock(fd_username.Text, true);
                         }
 
                         #region 开奖立即发送设置
-                        Linq.aspnet_UsersNewGameResultSend finds = Linq.Util_Services.GetServicesSetting(Guid.Parse(juser["ProviderUserKey"].ToString()));
+                        WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend finds = Linq.Util_Services.GetServicesSetting(Guid.Parse(juser["ProviderUserKey"].ToString()));
                         if (finds == null)
                         {
-                            Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
+                            WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend newGameResultSend = new WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend();
                             newGameResultSend.aspnet_UserID = Guid.Parse(juser["ProviderUserKey"].ToString()); //(Guid)userguid.ProviderUserKey;
                             newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
                             newGameResultSend.ActiveCode = fd_activecode.Text;
@@ -267,7 +267,7 @@ namespace WeixinRoboot
                             newGameResultSend.Thread_HeNeiWuFen = T_HeNeiWuFen.Checked;
 
                             
-                            Linq.Util_Services.SaveServicesSetting(newGameResultSend);
+                               Linq. Util_Services.SaveServicesSetting(newGameResultSend);
 
 
                         }
@@ -362,10 +362,10 @@ namespace WeixinRoboot
                         usrws.ChangePassword(GlobalParam.UserKey, fd_password.Text);
                     }
                     // System.Web.Security.Membership.UpdateUser(usermydata);
-                    Linq.aspnet_UsersNewGameResultSend findsmydata = Linq.Util_Services.GetServicesSetting(GlobalParam.UserKey);
+                    WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend findsmydata = Linq.Util_Services.GetServicesSetting(GlobalParam.UserKey);
                     if (findsmydata == null)
                     {
-                        Linq.aspnet_UsersNewGameResultSend newGameResultSend = new Linq.aspnet_UsersNewGameResultSend();
+                        WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend newGameResultSend = new WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend();
                         newGameResultSend.aspnet_UserID = GlobalParam.UserKey;
                         newGameResultSend.IsNewSend = fd_NewGameSend.Checked;
                         newGameResultSend.ActiveCode = fd_activecode.Text;
@@ -560,7 +560,7 @@ namespace WeixinRoboot
 
         private void Btn_Load_Click(object sender, EventArgs e)
         {
-            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             //db.ObjectTrackingEnabled = false;
             fd_SendTimeEnd1.Enabled = true;
@@ -595,7 +595,7 @@ namespace WeixinRoboot
                     fd_ImageEndText.Enabled = true;
                     fd_ImageTopText.Enabled = true;
 
-                    Linq.aspnet_UsersNewGameResultSend newgs = Linq.Util_Services.GetServicesSetting(Guid.Parse(Juser["ProviderUserKey"].ToString()));
+                    WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend newgs = Linq.Util_Services.GetServicesSetting(Guid.Parse(Juser["ProviderUserKey"].ToString()));
                     if (newgs == null)
                     {
                         fd_NewGameSend.Checked = false;

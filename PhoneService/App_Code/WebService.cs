@@ -13,6 +13,7 @@ using System.Data;
 using System.Net;
 using System.IO;
 using System.IO.Compression;
+using WeixinRobotLib.Linq;
 /// <summary>
 /// WebService 的摘要说明
 /// </summary>
@@ -543,7 +544,7 @@ public class WebService : System.Web.Services.WebService
 
     }
     [WebMethod]
-    public   string OpenUrl(string TargetURL, string RefURL, string Body, string Method, string S_BrowCookie, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8", string authorization = "")
+    public string OpenUrl(string TargetURL, string RefURL, string Body, string Method, string S_BrowCookie, bool AllowRedirect = true, bool KeepAlive = false, string ContentType = "application/json;charset=UTF-8", string authorization = "")
     {
         System.Net.CookieCollection BrowCookie = new CookieCollection();
         // (System.Net.CookieCollection)JsonConvert.DeserializeObject(S_BrowCookie, typeof(System.Net.CookieCollection));
@@ -1034,6 +1035,258 @@ public class WebService : System.Web.Services.WebService
 
         return responseBody;
 
+    }
+
+    [WebMethod]
+    public string WX_UserReplyLog_Create(string JMemberSource, ProgramLogic.GameMode gm, ProgramLogic.ShiShiCaiMode subm, string RequestPeriod, DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, string Jusrpar, string Jloadset, bool adminmode = false, string MemberGroupName = "")
+    {
+        DataTable MemberSource = JsonConvert.DeserializeObject<DataTable>(JMemberSource);
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(Jusrpar);
+        WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend loadset = JsonConvert.DeserializeObject<WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend>(Jusrpar);
+
+        return WeixinRobotLib.Linq.ProgramLogic.WX_UserReplyLog_Create(MemberSource, gm, subm, RequestPeriod, RequestTime, GameContent, WX_UserName, WX_SourceType, usrpar, loadset, adminmode, MemberGroupName);
+    }
+    [WebMethod]
+    public string WX_UserReplyLog_MySendCreate(string Content, string jUserRow, DateTime ReceiveTime, string jusrpar, List<Guid> takeusers, string jloadset, string WX_UserName = "", string WX_SourceType = "")
+    {
+        DataRow UserRow = JsonConvert.DeserializeObject<DataRow>(jUserRow);
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend loadset = JsonConvert.DeserializeObject<WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend>(jloadset);
+        return WeixinRobotLib.Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Content, UserRow, ReceiveTime, usrpar, takeusers, loadset, WX_UserName, WX_SourceType);
+    }
+    [WebMethod]
+    public ChongQingShiShiCaiCaculatePeriodResult ChongQingShiShiCaiCaculatePeriod(DateTime RequestTime, string RequestPeriod, string WX_UserName, string WX_SourceType, Boolean adminmode, WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode SpecMode, string jusrpar, Boolean NoBlock = false)
+    {
+        ChongQingShiShiCaiCaculatePeriodResult r = new ChongQingShiShiCaiCaculatePeriodResult();
+        string GameFullPeriod = "";
+        string GameFullLocalPeriod = "";
+        Boolean Success = false;
+        string ErrorMessage = "";
+
+        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out  GameFullPeriod, out  GameFullLocalPeriod, adminmode, out  Success, out  ErrorMessage, SpecMode, usrpar, NoBlock);
+        r.GameFullPeriod = GameFullPeriod;
+        r.GameFullLocalPeriod = GameFullLocalPeriod;
+        r.Success = Success;
+        r.ErrorMessage = ErrorMessage;
+
+        return r;
+    }
+    [WebMethod]
+    public Int32 WX_UserGameLog_Deal(string ContactID, string SourceType, string jusrpar)
+    {
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        return WeixinRobotLib.Linq.ProgramLogic.WX_UserGameLog_Deal(ContactID, SourceType, usrpar);
+    }
+    [WebMethod]
+    public decimal WXUserChangeLog_GetRemainder(string UserContactID, string SourceType, string jusrpar)
+    {
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        return WeixinRobotLib.Linq.ProgramLogic.WXUserChangeLog_GetRemainder(UserContactID, SourceType, usrpar);
+    }
+    [WebMethod]
+    public DataTable GetBossReportSource(string SourceType, string QueryTime, string jusrpar)
+    {
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        return WeixinRobotLib.Linq.ProgramLogic.GetBossReportSource(SourceType, QueryTime, usrpar);
+    }
+
+
+
+
+    public class ChongQingShiShiCaiCaculatePeriodResult
+    {
+        public string GameFullPeriod { get; set; }
+        public string GameFullLocalPeriod { get; set; }
+        public Boolean Success { get; set; }
+        public string ErrorMessage { get; set; }
+    }
+
+    [WebMethod]
+    public WeixinRobotLib.Linq.WX_BounsConfig[] GetBounsConfig(string jusrpar)
+    {
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        return db.WX_BounsConfig.Where(t => t.aspnet_UserID == usrpar.UserKey).OrderBy(t => t.RowNumber).ToArray();
+    }
+    [WebMethod]
+    public string SaveBounsConfig(string jusrpar, string JDatas)
+    {
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Linq.WX_BounsConfig[] Datas = JsonConvert.DeserializeObject<WeixinRobotLib.Linq.WX_BounsConfig[]>(JDatas);
+        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        foreach (var item in Datas)
+        {
+
+            var toupd = db.WX_BounsConfig.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey && t.RowNumber == item.RowNumber);
+            if (toupd != null)
+            {
+                toupd.StartBuyPeriod = item.StartBuyPeriod;
+                toupd.EndBuyPeriod = item.EndBuyPeriod;
+                toupd.StartBuyAverage = item.StartBuyAverage;
+                toupd.EndBuyAverage = item.EndBuyAverage;
+                toupd.FixNumber = item.FixNumber;
+                toupd.FlowPercent = item.FlowPercent;
+                toupd.IfDivousPercent = item.IfDivousPercent;
+
+            }
+            else
+            {
+                WeixinRobotLib.Linq.WX_BounsConfig toins = new WeixinRobotLib.Linq.WX_BounsConfig();
+                toins.aspnet_UserID = usrpar.UserKey;
+                toins.RowNumber = item.RowNumber;
+                toins.StartBuyPeriod = item.StartBuyPeriod;
+                toins.EndBuyPeriod = item.EndBuyPeriod;
+                toins.StartBuyAverage = item.StartBuyAverage;
+                toins.EndBuyAverage = item.EndBuyAverage;
+                toins.FixNumber = item.FixNumber;
+                toins.FlowPercent = item.FlowPercent;
+                toins.IfDivousPercent = item.IfDivousPercent;
+                db.WX_BounsConfig.InsertOnSubmit(toins);
+
+            }
+
+        }//行循环
+        db.SubmitChanges();
+        return "保存成功";
+    }
+    [WebMethod]
+    public WeixinRobotLib.Linq.Game_BasicRatio[] GetBasicRatio(string jusrpar)
+    {
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        return db.Game_BasicRatio.Where(t => t.aspnet_UserID == usrpar.UserKey).ToArray();
+    }
+
+    [WebMethod]
+    public string SaveBasicRatio(string jusrpar, string jDatas)
+    {
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Linq.Game_BasicRatio[] Datas = JsonConvert.DeserializeObject<WeixinRobotLib.Linq.Game_BasicRatio[]>(jDatas);
+        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        foreach (var item in Datas)
+        {
+            var toupd = db.Game_BasicRatio.SingleOrDefault(t =>
+                t.aspnet_UserID == usrpar.UserKey
+                && t.GameType == item.GameType
+                     && t.BuyType == item.BuyType
+                     && t.BuyValue == item.BuyValue
+ && t.IncludeMin == item.IncludeMin
+ && t.BonusBuyValueCondition == item.BonusBuyValueCondition
+     && t.WX_SourceType == item.WX_SourceType
+
+                );
+            if (toupd != null)
+            {
+                toupd.MinBuy = item.MinBuy;
+                toupd.MaxBuy = item.MaxBuy;
+                toupd.BasicRatio = item.BasicRatio;
+                toupd.OrderIndex = item.OrderIndex;
+                toupd.Enable = item.Enable;
+
+
+            }
+            else
+            {
+                WeixinRobotLib.Linq.Game_BasicRatio toins = new WeixinRobotLib.Linq.Game_BasicRatio();
+
+                toins.MinBuy = item.MinBuy;
+                toins.MaxBuy = item.MaxBuy;
+                toins.BasicRatio = item.BasicRatio;
+                toins.OrderIndex = item.OrderIndex;
+                toins.Enable = item.Enable;
+                toins.aspnet_UserID = usrpar.UserKey;
+                toins.GameType = item.GameType;
+                toins.BuyType = item.BuyType;
+                toins.BuyValue = item.BuyValue;
+                toins.IncludeMin = item.IncludeMin;
+                toins.BonusBuyValueCondition = item.BonusBuyValueCondition;
+                toins.WX_SourceType = item.WX_SourceType;
+                db.Game_BasicRatio.InsertOnSubmit(toins);
+
+
+            }
+
+        }//行循环
+        db.SubmitChanges();
+        return "保存成功";
+    }//函数结束
+
+    [WebMethod]
+    public ReminderType[] GetReminder(string jusrpar, string SourceType)
+    {
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var datasource = (from ds in db.WX_UserChangeLog
+                          group ds by new { ds.WX_UserName, ds.WX_SourceType, ds.aspnet_UserID } into g
+                          join dm in db.WX_UserReply on new { g.Key.aspnet_UserID, g.Key.WX_UserName, g.Key.WX_SourceType } equals new { dm.aspnet_UserID, dm.WX_UserName, dm.WX_SourceType }
+
+                          where g.Key.aspnet_UserID == usrpar.UserKey
+                          && g.Key.WX_SourceType == SourceType
+
+
+                          select new ReminderType
+                          {
+                              玩家 = dm.NickName + "(" + dm.RemarkName + ")"
+                              ,
+                              余 = g.Sum(t => t.ChangePoint)
+                              ,
+                              WX_UserName = g.Key.WX_UserName
+                              ,
+                              WX_SourceType = g.Key.WX_SourceType
+                          }).ToArray();
+        return datasource;
+    }
+    public class ReminderType
+    {
+        public string 玩家 { get; set; }
+        public decimal? 余 { get; set; }
+        public string WX_UserName { get; set; }
+        public string WX_SourceType { get; set; }
+    }
+    [WebMethod]
+    public UserChangeLogType[] GetUserChangeLog(string jusrpar, string jUserRow)
+    {
+        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        DataRow UserRow = JsonConvert.DeserializeObject<DataRow>(jUserRow);
+
+        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var data =( from dsl in db.WX_UserChangeLog
+                   join dsu in db.WX_UserReply
+                   on new { dsl.WX_UserName, dsl.aspnet_UserID, dsl.WX_SourceType } equals new { dsu.WX_UserName, dsu.aspnet_UserID, dsu.WX_SourceType }
+                   where dsl.aspnet_UserID == usrpar.UserKey
+                             && dsl.WX_UserName == UserRow.Field<string>("User_ContactID")
+                             && dsl.WX_SourceType == UserRow.Field<string>("User_SourceType")
+                   select new UserChangeLogType
+                   {
+                       UserName = dsu.WX_UserName
+                       ,
+                      Remark= dsl.Remark
+                       ,
+                      RemarkType= dsl.RemarkType
+                       ,
+                      ChangePoint= dsl.ChangePoint
+                       ,
+                      ChangeTime= dsl.ChangeTime
+                       ,
+                      GamePeriod= dsl.GamePeriod
+                       ,
+                       SourceType = dsu.WX_SourceType
+                   }).ToArray();
+        return data;
+    }
+    public class UserChangeLogType
+    {
+        public string UserName { get; set; }
+        public string Remark { get; set; }
+        public string RemarkType { get; set; }
+        public decimal? ChangePoint { get; set; }
+        public DateTime? ChangeTime { get; set; }
+        public string GamePeriod { get; set; }
+        public string SourceType { get; set; }
     }
 
 }
