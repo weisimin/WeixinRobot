@@ -66,13 +66,13 @@ public class WebService : System.Web.Services.WebService
     public string GetSetting(string saspnetUserid)
     {
         Guid aspnetUserid = Guid.Parse(saspnetUserid);
-        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         //db.ObjectTrackingEnabled = false;
-        aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == aspnetUserid);
+        WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == aspnetUserid);
         if (save_sets == null)
         {
 
-            save_sets = new aspnet_UsersNewGameResultSend();
+            save_sets = new WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend();
             save_sets.aspnet_UserID = aspnetUserid;
             db.aspnet_UsersNewGameResultSend.InsertOnSubmit(save_sets);
             db.SubmitChanges();
@@ -85,15 +85,15 @@ public class WebService : System.Web.Services.WebService
     public string SaveSetting(string UserName, string Password, string jaspnet_UsersNewGameResultSend)
     {
         //MembershipUser msr = Membership.GetUser(UserName);
-        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         // db.ObjectTrackingEnabled = false;
-        aspnet_UsersNewGameResultSend tins_sets = (aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(aspnet_UsersNewGameResultSend));
+        WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend tins_sets = (WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend)JsonConvert.DeserializeObject(jaspnet_UsersNewGameResultSend, typeof(WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend));
 
-        aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == tins_sets.aspnet_UserID);
+        WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == tins_sets.aspnet_UserID);
         if (save_sets == null)
         {
 
-            save_sets = new aspnet_UsersNewGameResultSend();
+            save_sets = new WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend();
             save_sets.aspnet_UserID = tins_sets.aspnet_UserID;
             db.aspnet_UsersNewGameResultSend.InsertOnSubmit(save_sets);
         }
@@ -205,7 +205,7 @@ public class WebService : System.Web.Services.WebService
     [WebMethod]
     public List<Guid> GetBossUsers(string bossaspnetuserid)
     {
-        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         // db.ObjectTrackingEnabled = false;
         List<Guid> takeusers = ((from ds in db.aspnet_UsersNewGameResultSend
                                  where ds.bossaspnet_UserID == Guid.Parse(bossaspnetuserid)
@@ -255,7 +255,7 @@ public class WebService : System.Web.Services.WebService
     public string GetTemplateRatios()
     {
         Guid CopySourceID = (Guid)System.Web.Security.Membership.GetUser("sysadmin").ProviderUserKey;
-        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         var CopyRatio = db.Game_BasicRatio.Where(t => t.aspnet_UserID == CopySourceID);
         return JsonConvert.SerializeObject(CopyRatio);
     }
@@ -263,7 +263,7 @@ public class WebService : System.Web.Services.WebService
     public string GetTemplateBonus()
     {
         Guid CopySourceID = (Guid)System.Web.Security.Membership.GetUser("sysadmin").ProviderUserKey;
-        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         var CopyRatio = db.WX_BounsConfig.Where(t => t.aspnet_UserID == CopySourceID);
         return JsonConvert.SerializeObject(CopyRatio);
     }
@@ -329,7 +329,7 @@ public class WebService : System.Web.Services.WebService
 
         DateTime EachStart = DateTime.Now;
         JObject _Members = JObject.Parse(Members);
-        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
         //db.ObjectTrackingEnabled = false;
         //this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
@@ -361,10 +361,10 @@ public class WebService : System.Web.Services.WebService
             //    string[] Names = Seq.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             //    Seq = Names[Names.Length-1];
             //}
-            WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+            WeixinRobotLib.Entity.Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
             if (usrc == null)
             {
-                WX_UserReply newusrc = new WX_UserReply();
+                WeixinRobotLib.Entity.Linq.WX_UserReply newusrc = new WeixinRobotLib.Entity.Linq.WX_UserReply();
                 newusrc.aspnet_UserID = UserKey;
                 newusrc.WX_UserName = Seq;
                 newusrc.WX_SourceType = "微";
@@ -399,13 +399,13 @@ public class WebService : System.Web.Services.WebService
                     usrc.IsReply = true;
                 }
             } //初始化，添加到数据库或同步数据库
-            WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == UserKey
+            WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == UserKey
                && t.WX_SourceType == "微"
                 && t.WX_UserName == Seq
                );
             if (webpcset == null)
             {
-                webpcset = new WX_WebSendPICSetting();
+                webpcset = new WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting();
 
                 webpcset.aspnet_UserID = UserKey;
 
@@ -1038,11 +1038,13 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public string WX_UserReplyLog_Create(string JMemberSource, ProgramLogic.GameMode gm, ProgramLogic.ShiShiCaiMode subm, string RequestPeriod, DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, string Jusrpar, string Jloadset, bool adminmode = false, string MemberGroupName = "")
+    public string WX_UserReplyLog_Create(string JMemberSource, string sgm, string ssubm, string RequestPeriod, DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, string Jusrpar, string Jloadset, bool adminmode = false, string MemberGroupName = "")
     {
         DataTable MemberSource = JsonConvert.DeserializeObject<DataTable>(JMemberSource);
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(Jusrpar);
-        WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend loadset = JsonConvert.DeserializeObject<WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend>(Jusrpar);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.GameMode gm = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.GameMode>(sgm);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode subm = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode>(ssubm);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
+        WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend loadset = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend>(Jusrpar);
 
         return WeixinRobotLib.Linq.ProgramLogic.WX_UserReplyLog_Create(MemberSource, gm, subm, RequestPeriod, RequestTime, GameContent, WX_UserName, WX_SourceType, usrpar, loadset, adminmode, MemberGroupName);
     }
@@ -1050,12 +1052,12 @@ public class WebService : System.Web.Services.WebService
     public string WX_UserReplyLog_MySendCreate(string Content, string jUserRow, DateTime ReceiveTime, string jusrpar, List<Guid> takeusers, string jloadset, string WX_UserName = "", string WX_SourceType = "")
     {
         DataRow UserRow = JsonConvert.DeserializeObject<DataRow>(jUserRow);
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
-        WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend loadset = JsonConvert.DeserializeObject<WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend>(jloadset);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend loadset = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend>(jloadset);
         return WeixinRobotLib.Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Content, UserRow, ReceiveTime, usrpar, takeusers, loadset, WX_UserName, WX_SourceType);
     }
     [WebMethod]
-    public ChongQingShiShiCaiCaculatePeriodResult ChongQingShiShiCaiCaculatePeriod(DateTime RequestTime, string RequestPeriod, string WX_UserName, string WX_SourceType, Boolean adminmode, WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode SpecMode, string jusrpar, Boolean NoBlock = false)
+    public ChongQingShiShiCaiCaculatePeriodResult ChongQingShiShiCaiCaculatePeriod(DateTime RequestTime, string RequestPeriod, string WX_UserName, string WX_SourceType, Boolean adminmode, string JSpecMode, string jusrpar, Boolean NoBlock = false)
     {
         ChongQingShiShiCaiCaculatePeriodResult r = new ChongQingShiShiCaiCaculatePeriodResult();
         string GameFullPeriod = "";
@@ -1063,8 +1065,10 @@ public class WebService : System.Web.Services.WebService
         Boolean Success = false;
         string ErrorMessage = "";
 
-        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode SpecMode = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode>(JSpecMode);
+
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
         WeixinRobotLib.Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out  GameFullPeriod, out  GameFullLocalPeriod, adminmode, out  Success, out  ErrorMessage, SpecMode, usrpar, NoBlock);
         r.GameFullPeriod = GameFullPeriod;
         r.GameFullLocalPeriod = GameFullLocalPeriod;
@@ -1076,19 +1080,19 @@ public class WebService : System.Web.Services.WebService
     [WebMethod]
     public Int32 WX_UserGameLog_Deal(string ContactID, string SourceType, string jusrpar)
     {
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
         return WeixinRobotLib.Linq.ProgramLogic.WX_UserGameLog_Deal(ContactID, SourceType, usrpar);
     }
     [WebMethod]
     public decimal WXUserChangeLog_GetRemainder(string UserContactID, string SourceType, string jusrpar)
     {
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
         return WeixinRobotLib.Linq.ProgramLogic.WXUserChangeLog_GetRemainder(UserContactID, SourceType, usrpar);
     }
     [WebMethod]
     public DataTable GetBossReportSource(string SourceType, string QueryTime, string jusrpar)
     {
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
         return WeixinRobotLib.Linq.ProgramLogic.GetBossReportSource(SourceType, QueryTime, usrpar);
     }
 
@@ -1104,18 +1108,18 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public WeixinRobotLib.Linq.WX_BounsConfig[] GetBounsConfig(string jusrpar)
+    public WeixinRobotLib.Entity.Linq.WX_BounsConfig[] GetBounsConfig(string jusrpar)
     {
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
-        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         return db.WX_BounsConfig.Where(t => t.aspnet_UserID == usrpar.UserKey).OrderBy(t => t.RowNumber).ToArray();
     }
     [WebMethod]
     public string SaveBounsConfig(string jusrpar, string JDatas)
     {
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
-        WeixinRobotLib.Linq.WX_BounsConfig[] Datas = JsonConvert.DeserializeObject<WeixinRobotLib.Linq.WX_BounsConfig[]>(JDatas);
-        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.WX_BounsConfig[] Datas = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.WX_BounsConfig[]>(JDatas);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         foreach (var item in Datas)
         {
 
@@ -1133,7 +1137,7 @@ public class WebService : System.Web.Services.WebService
             }
             else
             {
-                WeixinRobotLib.Linq.WX_BounsConfig toins = new WeixinRobotLib.Linq.WX_BounsConfig();
+                WeixinRobotLib.Entity.Linq.WX_BounsConfig toins = new WeixinRobotLib.Entity.Linq.WX_BounsConfig();
                 toins.aspnet_UserID = usrpar.UserKey;
                 toins.RowNumber = item.RowNumber;
                 toins.StartBuyPeriod = item.StartBuyPeriod;
@@ -1152,19 +1156,19 @@ public class WebService : System.Web.Services.WebService
         return "保存成功";
     }
     [WebMethod]
-    public WeixinRobotLib.Linq.Game_BasicRatio[] GetBasicRatio(string jusrpar)
+    public WeixinRobotLib.Entity.Linq.Game_BasicRatio[] GetBasicRatio(string jusrpar)
     {
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
-        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         return db.Game_BasicRatio.Where(t => t.aspnet_UserID == usrpar.UserKey).ToArray();
     }
 
     [WebMethod]
     public string SaveBasicRatio(string jusrpar, string jDatas)
     {
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
-        WeixinRobotLib.Linq.Game_BasicRatio[] Datas = JsonConvert.DeserializeObject<WeixinRobotLib.Linq.Game_BasicRatio[]>(jDatas);
-        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.Game_BasicRatio[] Datas = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.Game_BasicRatio[]>(jDatas);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         foreach (var item in Datas)
         {
             var toupd = db.Game_BasicRatio.SingleOrDefault(t =>
@@ -1189,7 +1193,7 @@ public class WebService : System.Web.Services.WebService
             }
             else
             {
-                WeixinRobotLib.Linq.Game_BasicRatio toins = new WeixinRobotLib.Linq.Game_BasicRatio();
+                WeixinRobotLib.Entity.Linq.Game_BasicRatio toins = new WeixinRobotLib.Entity.Linq.Game_BasicRatio();
 
                 toins.MinBuy = item.MinBuy;
                 toins.MaxBuy = item.MaxBuy;
@@ -1216,8 +1220,8 @@ public class WebService : System.Web.Services.WebService
     [WebMethod]
     public ReminderType[] GetReminder(string jusrpar, string SourceType)
     {
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
-        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
 
         var datasource = (from ds in db.WX_UserChangeLog
                           group ds by new { ds.WX_UserName, ds.WX_SourceType, ds.aspnet_UserID } into g
@@ -1249,35 +1253,36 @@ public class WebService : System.Web.Services.WebService
     [WebMethod]
     public UserChangeLogType[] GetUserChangeLog(string jusrpar, string jUserRow)
     {
-        UserParam usrpar = JsonConvert.DeserializeObject<UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
         DataRow UserRow = JsonConvert.DeserializeObject<DataRow>(jUserRow);
 
-        WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
 
-        var data =( from dsl in db.WX_UserChangeLog
-                   join dsu in db.WX_UserReply
-                   on new { dsl.WX_UserName, dsl.aspnet_UserID, dsl.WX_SourceType } equals new { dsu.WX_UserName, dsu.aspnet_UserID, dsu.WX_SourceType }
-                   where dsl.aspnet_UserID == usrpar.UserKey
-                             && dsl.WX_UserName == UserRow.Field<string>("User_ContactID")
-                             && dsl.WX_SourceType == UserRow.Field<string>("User_SourceType")
-                   select new UserChangeLogType
-                   {
-                       UserName = dsu.WX_UserName
-                       ,
-                      Remark= dsl.Remark
-                       ,
-                      RemarkType= dsl.RemarkType
-                       ,
-                      ChangePoint= dsl.ChangePoint
-                       ,
-                      ChangeTime= dsl.ChangeTime
-                       ,
-                      GamePeriod= dsl.GamePeriod
-                       ,
-                       SourceType = dsu.WX_SourceType
-                   }).ToArray();
+        var data = (from dsl in db.WX_UserChangeLog
+                    join dsu in db.WX_UserReply
+                    on new { dsl.WX_UserName, dsl.aspnet_UserID, dsl.WX_SourceType } equals new { dsu.WX_UserName, dsu.aspnet_UserID, dsu.WX_SourceType }
+                    where dsl.aspnet_UserID == usrpar.UserKey
+                              && dsl.WX_UserName == UserRow.Field<string>("User_ContactID")
+                              && dsl.WX_SourceType == UserRow.Field<string>("User_SourceType")
+                    select new UserChangeLogType
+                    {
+                        UserName = dsu.WX_UserName
+                        ,
+                        Remark = dsl.Remark
+                        ,
+                        RemarkType = dsl.RemarkType
+                        ,
+                        ChangePoint = dsl.ChangePoint
+                        ,
+                        ChangeTime = dsl.ChangeTime
+                        ,
+                        GamePeriod = dsl.GamePeriod
+                        ,
+                        SourceType = dsu.WX_SourceType
+                    }).ToArray();
         return data;
     }
+
     public class UserChangeLogType
     {
         public string UserName { get; set; }
@@ -1289,4 +1294,1287 @@ public class WebService : System.Web.Services.WebService
         public string SourceType { get; set; }
     }
 
-}
+    [WebMethod]
+    public string GetHKSixLast16(string jusrpar)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        return WeixinRobotLib.Linq.ProgramLogic.GetHKSixLast16(usrpar);
+    }
+    [WebMethod]
+    public RemindQuery_GetReplyLogClass[] RemindQuery_GetReplyLog(string WX_UserName, string WX_SourceType, string jusrpar)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var ReplyLog = (from ds in db.WX_UserReplyLog
+                        join user in db.WX_UserReply on new { ds.aspnet_UserID, ds.WX_UserName, ds.WX_SourceType } equals new { user.aspnet_UserID, user.WX_UserName, user.WX_SourceType }
+
+                        where ds.aspnet_UserID == usrpar.UserKey
+                        && ds.WX_UserName == WX_UserName
+                        && ds.WX_SourceType == WX_SourceType
+                        orderby ds.ReceiveTime ascending
+                        select
+                        new RemindQuery_GetReplyLogClass
+                        {
+                            玩家 = (ds.SourceType == "微" || ds.SourceType == "易" ? user.NickName + "(" + user.RemarkName + ")" : "我")
+                            ,
+                            内容 = ds.ReceiveContent
+                            ,
+                            时间 = ds.ReceiveTime
+
+                        }).ToArray();
+
+        return ReplyLog;
+
+
+    }//fun end
+    public class RemindQuery_GetReplyLogClass
+    {
+        public string 玩家 { get; set; }
+        public string 内容 { get; set; }
+        public DateTime? 时间 { get; set; }
+    }
+    [WebMethod]
+    public RemindQuery_GetChangePointClass[] RemindQuery_GetChangePoint(string WX_UserName, string WX_SourceType, string jusrpar)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+
+
+        var ChangePoint = (from ds in db.WX_UserChangeLog
+                           join user in db.WX_UserReply on new { ds.aspnet_UserID, ds.WX_UserName, ds.WX_SourceType } equals new { user.aspnet_UserID, user.WX_UserName, user.WX_SourceType }
+                           where ds.aspnet_UserID == usrpar.UserKey
+                           && ds.WX_UserName == WX_UserName
+                           && ds.WX_SourceType == WX_SourceType
+                           orderby ds.ChangeTime ascending
+                           select new RemindQuery_GetChangePointClass
+                          {
+
+                              分数变动 = ds.ChangePoint
+                              ,
+                              时间 = ds.ChangeTime
+                              ,
+                              期号 = ds.GamePeriod
+                              ,
+                              类型 = ds.RemarkType
+                              ,
+                              下注 = ds.BuyValue
+
+
+                          }).ToArray();
+
+        return ChangePoint;
+
+    }//fun end
+    public class RemindQuery_GetChangePointClass
+    {
+        public decimal? 分数变动 { get; set; }
+        public DateTime? 时间 { get; set; }
+        public string 期号 { get; set; }
+        public string 类型 { get; set; }
+        public string 下注 { get; set; }
+    }//fun end
+    [WebMethod]
+    public string GetWebSendPicSetting(Guid UserKey, string Row_WX_SourceType, string Row_WX_UserName)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var data = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == UserKey
+            && t.WX_SourceType == Row_WX_SourceType
+            && t.WX_UserName == Row_WX_UserName
+            );
+        if (data != null)
+        {
+            return JsonConvert.SerializeObject(data);
+        }
+        else
+        {
+            WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting newd = new WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting();
+            newd.aspnet_UserID = UserKey;
+            newd.WX_SourceType = Row_WX_SourceType;
+            newd.WX_UserName = Row_WX_UserName;
+            return JsonConvert.SerializeObject(newd); ;
+        }
+
+    }//fun end
+    [WebMethod]
+    public string SaveWebSendPicSetting(string jusrpar, string JWebSendPicSetting)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting picset = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting>(JWebSendPicSetting);
+
+        var data = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == picset.aspnet_UserID
+     && t.WX_SourceType == picset.WX_SourceType
+     && t.WX_UserName == picset.WX_UserName
+     );
+        if (data != null)
+        {
+            data.ballinterval = Convert.ToInt32(picset.ballinterval);
+            data.footballPIC = picset.footballPIC;
+            data.bassketballpic = picset.bassketballpic;
+            data.balluclink = picset.balluclink;
+
+            data.card = picset.card;
+            data.cardname = picset.cardname;
+            data.shishicailink = picset.shishicailink;
+            data.NumberPIC = picset.NumberPIC;
+            data.dragonpic = picset.dragonpic;
+            data.numericlink = picset.numericlink;
+            data.dragonlink = picset.dragonlink;
+            data.NumberAndDragonPIC = picset.NumberAndDragonPIC;
+
+            data.ballstart = picset.ballstart;
+            data.ballend = picset.ballend;
+
+            data.balllivepoint = picset.balllivepoint;
+            data.HKSixResult = picset.HKSixResult;
+
+
+            data.NumberDragonTxt = picset.NumberDragonTxt;
+            data.NiuNiuPic = picset.NiuNiuPic;
+            data.NoBigSmallSingleDoublePIC = picset.NoBigSmallSingleDoublePIC;
+
+            data.IsSendPIC = picset.IsSendPIC;
+
+            data.PIC_StartHour = Convert.ToInt32(picset.PIC_StartHour);
+            data.PIC_StartMinute = Convert.ToInt32(picset.PIC_StartMinute);
+            data.PIC_EndHour = Convert.ToInt32(picset.PIC_EndHour);
+            data.Pic_EndMinute = Convert.ToInt32(picset.Pic_EndMinute);
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception AnyError)
+            {
+                return AnyError.Message;
+
+            }
+
+        }
+        else
+        {
+            WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting newd = new WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting();
+
+            newd.aspnet_UserID = picset.aspnet_UserID;
+            newd.WX_UserName = picset.WX_UserName;
+            newd.WX_SourceType = picset.WX_SourceType;
+
+
+            newd.ballinterval = Convert.ToInt32(picset.ballinterval);
+            newd.footballPIC = picset.footballPIC;
+            newd.bassketballpic = picset.bassketballpic;
+            newd.balluclink = picset.balluclink;
+
+            newd.card = picset.card;
+            newd.cardname = picset.cardname;
+            newd.shishicailink = picset.shishicailink;
+            newd.NumberPIC = picset.NumberPIC;
+            newd.dragonpic = picset.dragonpic;
+            newd.numericlink = picset.numericlink;
+            newd.dragonlink = picset.dragonlink;
+            newd.balllivepoint = picset.balllivepoint;
+
+            newd.NumberAndDragonPIC = picset.NumberAndDragonPIC;
+
+            newd.ballstart = picset.ballstart;
+            newd.ballend = picset.ballend;
+            newd.HKSixResult = picset.HKSixResult;
+
+
+            newd.NumberDragonTxt = picset.NumberDragonTxt;
+            newd.NiuNiuPic = picset.NiuNiuPic;
+            newd.NoBigSmallSingleDoublePIC = picset.NoBigSmallSingleDoublePIC;
+
+            newd.IsSendPIC = picset.IsSendPIC;
+
+            newd.PIC_StartHour = Convert.ToInt32(picset.PIC_StartHour);
+            newd.PIC_StartMinute = Convert.ToInt32(picset.PIC_StartMinute);
+            newd.PIC_EndHour = Convert.ToInt32(picset.PIC_EndHour);
+            newd.Pic_EndMinute = Convert.ToInt32(picset.Pic_EndMinute);
+
+            db.WX_WebSendPICSetting.InsertOnSubmit(newd);
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception AnyError)
+            {
+                return AnyError.Message;
+
+            }
+        }
+        return "保存成功";
+    }//fun end
+
+    [WebMethod]
+    public string ReceiveContentFormat(string ReceiveContent, out string jState, out string jModeType, string jdirect, out string BuyType, out string BuyMoney, out string[] ContextTeams, string jusrpar)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.FormatResultDirection direct = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.FormatResultDirection>(jdirect);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        WeixinRobotLib.Entity.Linq.ProgramLogic.FormatResultState State = WeixinRobotLib.Entity.Linq.ProgramLogic.FormatResultState.Initialize;
+        WeixinRobotLib.Entity.Linq.ProgramLogic.FormatResultType ModeType = WeixinRobotLib.Entity.Linq.ProgramLogic.FormatResultType.Initialize;
+
+        var res = WeixinRobotLib.Linq.ProgramLogic.ReceiveContentFormat(ReceiveContent, out State, out   ModeType, direct, out  BuyType, out  BuyMoney, out  ContextTeams, usrpar);
+        jState = JsonConvert.SerializeObject(State);
+        jModeType = JsonConvert.SerializeObject(ModeType);
+        return JsonConvert.SerializeObject(res);
+
+    }
+    [WebMethod]
+    public decimal GetUserPeriodInOut(string GamePeriod, string WX_UserName, string WX_SourceType, string jusrpar)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        return WeixinRobotLib.Linq.ProgramLogic.GetUserPeriodInOut(GamePeriod, WX_UserName, WX_SourceType, db, usrpar);
+    }
+    [WebMethod]
+    public DataTable GetBounsSource(DateTime QueryDate, string SourceType, string jusrpar)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        return WeixinRobotLib.Linq.ProgramLogic.GetBounsSource(QueryDate, SourceType, usrpar);
+
+    }
+    [WebMethod]
+    public SendCharge_GetSourceClass[] SendCharge_GetSource(string jusrpar, string WX_UserName, string WX_SourceType)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var data = (from dsl in db.WX_UserChangeLog
+                    join dsu in db.WX_UserReply
+                    on new { dsl.WX_UserName, dsl.aspnet_UserID, dsl.WX_SourceType } equals new { dsu.WX_UserName, dsu.aspnet_UserID, dsu.WX_SourceType }
+                    where dsl.aspnet_UserID == usrpar.UserKey
+                    && dsl.WX_UserName == WX_UserName
+                    && dsl.WX_SourceType == WX_SourceType
+                    select new SendCharge_GetSourceClass
+                    {
+                        UserName = dsu.WX_UserName
+                        ,
+                        Remark = dsl.Remark
+                        ,
+                        RemarkType = dsl.RemarkType
+                        ,
+                        ChangePoint = dsl.ChangePoint
+                        ,
+                        ChangeTime = dsl.ChangeTime
+                        ,
+                        GamePeriod = dsl.GamePeriod
+                        ,
+                        SourceType = dsu.WX_SourceType
+                    }).ToArray();
+        return data;
+    }
+    public class SendCharge_GetSourceClass
+    {
+        public string UserName { get; set; }
+        public string Remark { get; set; }
+        public string RemarkType { get; set; }
+        public decimal? ChangePoint { get; set; }
+        public DateTime? ChangeTime { get; set; }
+        public string GamePeriod { get; set; }
+        public string SourceType { get; set; }
+    }
+    [WebMethod]
+    public string GameVSGetRatios(string jVS)
+    {
+        WeixinRobotLib.Entity.Linq.Game_FootBall_VS VS = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.Game_FootBall_VS>(jVS);
+
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        return JsonConvert.SerializeObject(WeixinRobotLib.Linq.ProgramLogic.GameVSGetRatios(db, VS).ToArray());
+    }
+    [WebMethod]
+    public string VSGetCurRatio(string jVS)
+    {
+        WeixinRobotLib.Entity.Linq.Game_FootBall_VS VS = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.Game_FootBall_VS>(jVS);
+
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        return JsonConvert.SerializeObject(WeixinRobotLib.Linq.ProgramLogic.VSGetCurRatio(VS, db));
+
+    }
+    [WebMethod]
+    public BallOpen_GetUpPaySourceClass[] BallOpen_GetUpPaySource(string GameID, string WX_SourceType, Guid UserKey)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var unplaysource = (from ds in db.WX_UserGameLog_Football
+                            join urname in db.WX_UserReply on new { ds.aspnet_UserID, ds.WX_UserName, ds.WX_SourceType } equals new { urname.aspnet_UserID, urname.WX_UserName, urname.WX_SourceType } into urnamr_emp
+                            from urnamr_emp_d in urnamr_emp.DefaultIfEmpty()
+
+                            where ds.HaveOpen == false
+                            && ds.GameKey == GameID
+                             && ds.WX_SourceType == WX_SourceType
+                             && ds.aspnet_UserID == UserKey
+                            select new BallOpen_GetUpPaySourceClass
+                            {
+                                WX_UserNameOrRemark = urnamr_emp_d.NickName + "(" + urnamr_emp_d.RemarkName + ")"
+                                ,
+                                aspnet_UserID = ds.aspnet_UserID
+                                ,
+                                transtime = ds.transtime
+                                ,
+                                GameID = ds.GameKey
+                                ,
+                                GameVS = ds.GameVS
+                                ,
+                                BuyType = ds.BuyType
+                                ,
+                                BuyRatio = ds.BuyRatio
+                                ,
+                                BuyMoney = ds.BuyMoney
+                                ,
+                                HaveOpen = ds.HaveOpen
+                                ,
+                                ResultMoney = ds.ResultMoney
+                                ,
+                                A_WIN = ds.A_WIN
+                                ,
+                                Winless = ds.Winless
+                                ,
+                                B_Win = ds.B_WIN
+                                ,
+                                BigWin = ds.BIGWIN
+                                ,
+                                Total = ds.Total
+                                ,
+                                SmallWin = ds.SMALLWIN
+                                ,
+                                R_A_A = ds.R_A_A
+                                ,
+                                R_A_SAME = ds.R_A_SAME
+                                ,
+                                R_A_B = ds.R_A_B
+                                ,
+                                R_SAME_A = ds.R_SAME_A
+                                ,
+                                R_SAME_SAME = ds.R_SAME_SAME
+                                ,
+                                R_SAME_B = ds.R_SAME_B
+                                ,
+                                R_B_A = ds.R_B_A
+                                ,
+                                R_B_SAME = ds.R_B_SAME
+                                ,
+                                R_B_B = ds.R_B_B
+                                ,
+                                R1_0_A = ds.R1_0_A
+                                ,
+                                R1_0_B = ds.R1_0_B
+                                ,
+                                R2_0_A = ds.R2_0_A
+                                ,
+                                R2_0_B = ds.R2_0_B
+                                ,
+                                R2_1_A = ds.R2_1_A
+                                ,
+                                R2_1_B = ds.R2_1_B
+                                ,
+                                R3_0_A = ds.R3_0_A
+                                ,
+                                R3_0_B = ds.R3_0_B
+                                ,
+                                R3_1_A = ds.R3_1_A
+                                ,
+                                R3_1_B = ds.R3_1_B
+                                ,
+                                R3_2_A = ds.R3_2_A
+                                ,
+                                R3_2_B = ds.R3_2_B
+                                ,
+                                R4_0_A = ds.R4_0_A
+                                ,
+                                R4_0_B = ds.R4_0_B
+                                ,
+                                R4_1_A = ds.R4_1_A
+                                ,
+                                R4_1_B = ds.R4_1_B
+                                ,
+                                R4_2_A = ds.R4_2_A
+                                ,
+                                R4_2_B = ds.R4_2_B
+                                ,
+                                R4_3_A = ds.R4_3_A
+                                ,
+                                R4_3_B = ds.R4_3_B
+                                ,
+                                R0_0 = ds.R0_0
+                                ,
+                                R1_1 = ds.R1_1
+                                ,
+                                R2_2 = ds.R2_2
+                                ,
+                                R3_3 = ds.R3_3
+                                ,
+                                R4_4 = ds.R4_4
+                                ,
+                                Rother = ds.ROTHER
+                                ,
+                                WX_SourceType = ds.WX_SourceType
+                                ,
+                                A_Team = ds.A_Team
+                                ,
+                                B_Team = ds.B_Team
+
+
+                            }).ToArray();
+        return unplaysource;
+    }
+
+    public class BallOpen_GetUpPaySourceClass
+    {
+        public string WX_UserNameOrRemark { get; set; }
+        public Guid? aspnet_UserID { get; set; }
+        public DateTime? transtime { get; set; }
+        public string GameID { get; set; }
+        public string GameVS { get; set; }
+        public string BuyType { get; set; }
+        public decimal? BuyRatio { get; set; }
+        public decimal? BuyMoney { get; set; }
+        public bool? HaveOpen { get; set; }
+        public decimal? ResultMoney { get; set; }
+        public decimal? A_WIN { get; set; }
+        public string Winless { get; set; }
+        public decimal? B_Win { get; set; }
+        public decimal? BigWin { get; set; }
+        public string Total { get; set; }
+        public decimal? SmallWin { get; set; }
+        public decimal? R_A_A { get; set; }
+        public decimal? R_A_SAME { get; set; }
+        public decimal? R_A_B { get; set; }
+        public decimal? R_SAME_A { get; set; }
+        public decimal? R_SAME_SAME { get; set; }
+        public decimal? R_SAME_B { get; set; }
+        public decimal? R_B_A { get; set; }
+        public decimal? R_B_SAME { get; set; }
+        public decimal? R_B_B { get; set; }
+        public decimal? R1_0_A { get; set; }
+        public decimal? R1_0_B { get; set; }
+        public decimal? R2_0_A { get; set; }
+        public decimal? R2_0_B { get; set; }
+        public decimal? R2_1_A { get; set; }
+        public decimal? R2_1_B { get; set; }
+        public decimal? R3_0_A { get; set; }
+        public decimal? R3_0_B { get; set; }
+        public decimal? R3_1_A { get; set; }
+        public decimal? R3_1_B { get; set; }
+        public decimal? R3_2_A { get; set; }
+        public decimal? R3_2_B { get; set; }
+        public decimal? R4_0_A { get; set; }
+        public decimal? R4_0_B { get; set; }
+        public decimal? R4_1_A { get; set; }
+        public decimal? R4_1_B { get; set; }
+        public decimal? R4_2_A { get; set; }
+        public decimal? R4_2_B { get; set; }
+        public decimal? R4_3_A { get; set; }
+        public decimal? R4_3_B { get; set; }
+        public decimal? R0_0 { get; set; }
+        public decimal? R1_1 { get; set; }
+        public decimal? R2_2 { get; set; }
+        public decimal? R3_3 { get; set; }
+        public decimal? R4_4 { get; set; }
+        public decimal? Rother { get; set; }
+        public string WX_SourceType { get; set; }
+        public string A_Team { get; set; }
+        public string B_Team { get; set; }
+    }
+
+    [WebMethod]
+    public SendManulOrder_GetOrderSourceClass[] SendManulOrder_GetOrderSource(DateTime dtp_StartDate, DateTime dtp_EndDate, Guid UserKey, string WX_UserName, string WX_SourceType)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var datasource = (from ds in db.WX_UserReplyLog
+                          join dsgame in db.WX_UserGameLog
+                          on new { ds.aspnet_UserID, ds.WX_UserName, ds.ReceiveTime, ds.WX_SourceType } equals new { dsgame.aspnet_UserID, dsgame.WX_UserName, ReceiveTime = dsgame.TransTime, dsgame.WX_SourceType }
+                          into leftdsggame
+                          from dsgame2 in leftdsggame.DefaultIfEmpty()
+                          where ds.ReceiveTime >= dtp_StartDate
+                          && ds.ReceiveTime < dtp_EndDate
+                          && ds.aspnet_UserID == UserKey
+                          && ds.WX_UserName == WX_UserName
+                          && ds.WX_SourceType == WX_SourceType
+                          select new SendManulOrder_GetOrderSourceClass
+                          {
+                              ReceiveTime = ds.ReceiveTime,
+                              ReceiveContent = ds.ReceiveContent,
+                              aspnet_UserID = ds.aspnet_UserID,
+                              WX_UserName = ds.WX_UserName,
+                              WX_SourceType = ds.WX_SourceType,
+                              TransTime = (DateTime?)dsgame2.TransTime,
+                              GamePeriod = dsgame2.GamePeriod
+                              ,
+                              GameLocalPeriod = dsgame2.GameLocalPeriod
+                              ,
+                              GameResult = dsgame2.GameResult
+                              ,
+                              Buy_Value = dsgame2.Buy_Value
+                              ,
+                              Buy_Type = dsgame2.Buy_Type
+
+                              ,
+                              Buy_Point = dsgame2.Buy_Point,
+                              Result_Point = dsgame2.Result_Point
+
+                          }).ToArray();
+        return datasource;
+    }//fun end
+    public class SendManulOrder_GetOrderSourceClass
+    {
+        public DateTime ReceiveTime { get; set; }
+        public string ReceiveContent { get; set; }
+        public Guid? aspnet_UserID { get; set; }
+        public string WX_UserName { get; set; }
+        public string WX_SourceType { get; set; }
+        public DateTime? TransTime { get; set; }
+        public string GamePeriod { get; set; }
+        public string GameLocalPeriod { get; set; }
+        public string GameResult { get; set; }
+        public string Buy_Value { get; set; }
+        public string Buy_Type { get; set; }
+
+        public decimal? Buy_Point { get; set; }
+        public decimal? Result_Point { get; set; }
+    }
+    [WebMethod]
+    public string SendManulOrder_Delete(string aspnet_UserID, string WX_UserName, string WX_SourceType, DateTime DT)
+    {
+        try
+        {
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+
+            WeixinRobotLib.Entity.Linq.WX_UserGameLog testg = db.WX_UserGameLog.SingleOrDefault(t => t.aspnet_UserID == new Guid(aspnet_UserID)
+                   && t.WX_UserName == WX_UserName
+                   && t.WX_SourceType == WX_SourceType
+                   && t.TransTime == DT);
+            if (testg != null && testg.Result_HaveProcess != false)
+            {
+                return "已开或已处理,不能删除";
+            }
+            WeixinRobotLib.Entity.Linq.WX_UserReplyLog testrg = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == new Guid(aspnet_UserID)
+                      && t.WX_UserName == WX_UserName
+                      && t.WX_SourceType == WX_SourceType
+                      && t.ReceiveTime == DT);
+            if (testg != null)
+            {
+                db.WX_UserGameLog.DeleteOnSubmit(testg);
+            }
+            if (testrg != null)
+            {
+                db.WX_UserReplyLog.DeleteOnSubmit(testrg);
+            }
+            db.SubmitChanges();
+            return "删除成功";
+        }
+        catch (Exception AnyError)
+        {
+
+            return AnyError.Message;
+        }
+
+    }
+    [WebMethod]
+    public string WX_UserReply_Where(Guid aspnet_UserID)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var Result = db.WX_UserReply.Where(t => t.aspnet_UserID == aspnet_UserID
+                                && t.IsAdmin == true).ToArray();
+        return JsonConvert.SerializeObject(Result);
+    }
+    [WebMethod]
+    public string WX_UserReply_SingleOrDefault(Guid aspnet_UserID, string WX_UserName, string WX_SourceType)
+    {
+
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var Result = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == aspnet_UserID
+            && t.WX_UserName == WX_UserName
+            && t.WX_SourceType == WX_SourceType);
+        return JsonConvert.SerializeObject(Result);
+    }//fun end
+    [WebMethod]
+    public string Game_FootBall_VS_Where(Guid aspnet_UserID, Guid JobID)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var Result = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == aspnet_UserID
+            //&& (t.LastAliveTime == null || t.LastAliveTime >= DateTime.Today.AddDays(-3))
+                    && t.Jobid == JobID
+                    );
+        return JsonConvert.SerializeObject(Result);
+    }
+    [WebMethod]
+    public string BallOpen_Reload(string WX_SourceType, Guid UserKey)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var source = ((from ds in db.WX_UserGameLog_Football
+                       where ds.HaveOpen == false
+                       && ds.WX_SourceType == WX_SourceType
+                       && ds.aspnet_UserID == UserKey
+                       select new GameFormat(ds.GameKey, ds.GameVS)).Distinct()).ToArray();
+        return JsonConvert.SerializeObject(source);
+    }
+    public class GameFormat
+    {
+        public GameFormat(string p_gameid, string p_gamevs)
+        {
+            GameID = p_gameid;
+            GameVS = p_gamevs;
+
+        }
+        public string GameID { get; set; }
+        public string GameVS { get; set; }
+    }
+
+    [WebMethod]
+    public string WX_WebSendPICSettingMatchClassSave(string jsubsource, string jusrpar, string WX_SourceType, string WX_UserName)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+
+        List<WeixinRobotLib.Entity.Linq.WX_WebSendPICSettingMatchClass> subsource = JsonConvert.DeserializeObject<List<WeixinRobotLib.Entity.Linq.WX_WebSendPICSettingMatchClass>>(jsubsource);
+        foreach (var item in subsource)
+        {
+            var datasub = db.WX_WebSendPICSettingMatchClass.SingleOrDefault(t =>
+                t.aspnet_UserID == usrpar.UserKey
+              && t.WX_SourceType == WX_SourceType
+              && t.WX_UserName == WX_UserName
+              && t.MatchBallType == item.MatchBallType
+              && t.MatchClassName == item.MatchClassName
+              );
+            if (datasub != null)
+            {
+                datasub.SendAny = item.SendAny;
+                db.SubmitChanges();
+            }
+            else
+            {
+                WeixinRobotLib.Entity.Linq.WX_WebSendPICSettingMatchClass newsub = new WeixinRobotLib.Entity.Linq.WX_WebSendPICSettingMatchClass();
+
+                newsub.SendAny = item.SendAny;
+
+                newsub.aspnet_UserID = usrpar.UserKey;
+                newsub.WX_SourceType = WX_SourceType;
+                newsub.WX_UserName = WX_UserName;
+                newsub.MatchBallType = item.MatchBallType;
+                newsub.MatchClassName = item.MatchClassName;
+
+
+                db.WX_WebSendPICSettingMatchClass.InsertOnSubmit(newsub);
+                db.SubmitChanges();
+
+            }
+
+        }
+        return "保存成功";
+    }
+    [WebMethod]
+    public string BallOpen_Open(string jDataSource, Guid UserKey, string jGameFormat)
+    {
+        try
+        {
+
+
+            List<GameHalfResult> DataSource = JsonConvert.DeserializeObject<List<GameHalfResult>>(jDataSource);
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+            WeixinRobotLib.Entity.Linq.Game_ResultFootBall newgr = new WeixinRobotLib.Entity.Linq.Game_ResultFootBall();
+
+            WeixinRobotLib.Entity.Linq.Game_ResultFootBall findgr = db.Game_ResultFootBall.SingleOrDefault(t => t.GameID == DataSource.First().OpenGameID);
+
+            GameFormat gf = JsonConvert.DeserializeObject<GameFormat>(jGameFormat);
+            if (findgr == null)
+            {
+
+                foreach (GameHalfResult item in DataSource)
+                {
+                    newgr.GameID = item.OpenGameID;
+                    newgr.aspnet_UserID = UserKey;
+                    newgr.GameVS = gf.GameVS;
+                    if (item.TimeType == "上半场")
+                    {
+                        newgr.A_FrontHalf = item.TeamA;
+                        newgr.B_FrontHalf = item.TeamB;
+                    }
+                    if (item.TimeType == "下半场")
+                    {
+                        newgr.A_EndHalf = item.TeamA;
+                        newgr.B_EndHalf = item.TeamB;
+                    }
+
+                }
+
+
+                db.Game_ResultFootBall.InsertOnSubmit(newgr);
+                db.SubmitChanges();
+            }
+
+            else
+            {
+                foreach (GameHalfResult item in DataSource)
+                {
+                    findgr.GameID = item.OpenGameID;
+                    findgr.aspnet_UserID = UserKey;
+                    findgr.GameVS = gf.GameVS;
+                    if (item.TimeType == "上半场")
+                    {
+                        findgr.A_FrontHalf = item.TeamA;
+                        findgr.B_FrontHalf = item.TeamB;
+                    }
+                    if (item.TimeType == "下半场")
+                    {
+                        findgr.A_EndHalf = item.TeamA;
+                        findgr.B_EndHalf = item.TeamB;
+                    }
+
+                }
+                db.SubmitChanges();
+
+            }
+            return "保存成功";
+        }
+        catch (Exception AnyError)
+        {
+
+            return "保存失败" + AnyError.Message;
+        }
+    }
+
+    public class GameHalfResult
+    {
+        public string TimeType { get; set; }
+
+        public Int32? TeamA { get; set; }
+
+        public Int32? TeamB { get; set; }
+
+        public string OpenGameID { get; set; }
+
+    }
+    [WebMethod]
+    public string Game_ResultFootBall_SingleOrDefault(string GameID)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        return JsonConvert.SerializeObject(db.Game_ResultFootBall.SingleOrDefault(t => t.GameID == GameID));
+    }
+    [WebMethod]
+    public string WX_UserGameLog_Football_Where(string GameID, Guid UserKey)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        return JsonConvert.SerializeObject(db.WX_UserGameLog_Football.Where(t => (t.GameKey == GameID)
+                    && (t.HaveOpen == false || t.HaveOpen == null)
+                    && t.aspnet_UserID == UserKey
+                    ).ToArray());
+    }
+    [WebMethod]
+    public string OpenBallGameLog(string jgl, Int32 fronthalf_A, Int32 fronthalf_B, Int32 endhalf_A, Int32 endhalf_B, string jusrpar)
+    {
+
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+        WeixinRobotLib.Entity.Linq.WX_UserGameLog_Football gl = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.WX_UserGameLog_Football>(jgl);
+
+        return WeixinRobotLib.Linq.ProgramLogic.OpenBallGameLog(gl, db, fronthalf_A, fronthalf_B, endhalf_A, endhalf_B, usrpar);
+
+    }
+    [WebMethod]
+    public string WX_UserGameLog_Where(Guid UserKey, string WX_SourceType, DateTime dtp_startdate, DateTime dtp_enddate)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+
+        var dats = (from ds in
+                       db.WX_UserGameLog
+                   where
+                        ds.aspnet_UserID == UserKey
+                       && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_startdate.ToString("yyyyMMdd")) >= 0
+                       && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_enddate.ToString("yyyyMMdd")) <= 0
+                       && ds.WX_SourceType == WX_SourceType
+                   select ds).ToArray();
+        return JsonConvert.SerializeObject(dats);
+
+    }
+    [WebMethod]
+    public DataTable OpenQuery_Query(Guid UserKey, DateTime dtp_startdate, DateTime dtp_enddate, string cb_SourceType, string jur)
+    {
+
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+        //db.ObjectTrackingEnabled = false;
+
+
+
+        DataTable Result = new DataTable();
+        Result.Columns.Add("类别");
+        //DataGridViewColumn dc = new DataGridViewColumn();
+        //dc.HeaderText = "类别";
+        //dc.Name = "类别";
+        //dc.DataPropertyName = "类别";
+        //dc.CellTemplate = new DataGridViewTextBoxCell();
+        //dc.Frozen = true;
+        //gv_result.Columns.Add(dc);
+
+
+
+        var buys = (from ds in db.WX_UserGameLog
+                    where
+                    ds.aspnet_UserID == UserKey
+    && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_startdate.ToString("yyyyMMdd")) >= 0
+    && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_enddate.ToString("yyyyMMdd")) <= 0
+    && ds.WX_SourceType == cb_SourceType
+                    select ds).ToList();
+
+        NetFramework.Console.WriteLine("########################################################################", false);
+        NetFramework.Console.WriteLine("查询日期" + dtp_startdate.ToString("yyyyMMdd"), false);
+        NetFramework.Console.WriteLine("查询日期" + dtp_enddate.ToString("yyyyMMdd"), false);
+        NetFramework.Console.WriteLine("########################################################################", false);
+
+        var myWXUSERS = buys.Select(t => t.WX_UserName).Distinct();
+
+        foreach (var item in myWXUSERS)
+        {
+
+            DataColumn uc = new DataColumn();
+            uc.ColumnName = item;
+
+            //DataGridViewColumn dcc = new DataGridViewColumn();
+
+            //dcc.Name = item;
+            //dcc.DataPropertyName = item;
+            //dcc.CellTemplate = new DataGridViewTextBoxCell();
+
+            //gv_result.Columns.Add(dcc);
+
+
+
+            DataRow[] ur = JsonConvert.DeserializeObject<DataRow[]>(jur); //RunnerF.MemberSource.Select("User_ContactID='" + item.Replace("'", "''") + "' and User_SourceType='" + cb_SourceType + "'");
+            if (ur.Count() != 0)
+            {
+                uc.Caption = ur[0].Field<string>("user_Contact");
+            }
+            else
+            {
+                var FidnUser = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == UserKey && t.WX_UserName == item && t.WX_SourceType == cb_SourceType);
+
+                uc.Caption = (FidnUser == null ? item : (FidnUser.RemarkName != "" && FidnUser.RemarkName != null ? FidnUser.RemarkName + "@#" + FidnUser.NickName : FidnUser.NickName));
+
+            }
+            //dcc.HeaderText = uc.Caption;
+            Result.Columns.Add(uc);
+
+        }
+
+        //DataColumn ucfull = new DataColumn();
+        //ucfull.ColumnName = "全部玩家";
+
+        //Result.Columns.Add(ucfull);
+
+        //DataGridViewColumn dccful = new DataGridViewColumn();
+
+        //dccful.Name = "全部玩家";
+        //dccful.DataPropertyName = "全部玩家";
+        //dccful.CellTemplate = new DataGridViewTextBoxCell();
+        //gv_result.Columns.Add(dccful);
+
+        var BuyDays = buys.Select(t => t.GameLocalPeriod.Substring(0, 8)).Distinct().OrderBy(t => t);
+        NetFramework.Console.WriteLine("########################################################################", false);
+        NetFramework.Console.WriteLine("获得天数" + BuyDays.Count(), false);
+
+        NetFramework.Console.WriteLine("########################################################################", false);
+
+        #region "天数"
+        foreach (var item in BuyDays)
+        {
+            DataRow newr = Result.NewRow();
+
+            newr.SetField("类别", item + "下注");
+            foreach (var usritem in myWXUSERS)
+            {
+                newr.SetField(usritem, NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                    t.WX_UserName == usritem
+                    && t.WX_SourceType == cb_SourceType
+                    && t.aspnet_UserID == UserKey
+                    && t.GameLocalPeriod.StartsWith(item)).Sum(t => t.Buy_Point)));
+            }
+            newr.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                     t.GameLocalPeriod.StartsWith(item)
+                        && t.aspnet_UserID == UserKey
+                     ).Sum(t => t.Buy_Point)));
+
+
+
+
+            DataRow newr2 = Result.NewRow();
+            newr2.SetField("类别", item + "得分");
+            foreach (var usritem in myWXUSERS)
+            {
+                newr2.SetField(usritem, NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                    t.WX_UserName == usritem
+                    && t.WX_SourceType == cb_SourceType
+                       && t.aspnet_UserID == UserKey
+                     && t.GameLocalPeriod.StartsWith(item)
+                    ).Sum(t => t.Result_Point)));
+            }
+            newr2.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                    t.GameLocalPeriod.StartsWith(item)
+                     && t.aspnet_UserID == UserKey
+                    ).Sum(t => t.Result_Point)));
+
+
+
+            DataRow newr6 = Result.NewRow();
+            newr6.SetField("类别", item + "福利");
+            foreach (var usritem in myWXUSERS)
+            {
+                newr6.SetField(usritem, NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                    t.WX_UserName == usritem
+                      && t.WX_SourceType == cb_SourceType
+                     && t.RemarkType == "福利"
+                        && t.aspnet_UserID == UserKey
+                     && t.ChangeLocalDay.StartsWith(item)
+                    ).Sum(t => t.ChangePoint)));
+            }
+            newr6.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                 t.RemarkType == "福利"
+                                    && t.aspnet_UserID == UserKey
+                     && t.ChangeLocalDay.StartsWith(item)
+                    ).Sum(t => t.ChangePoint)));
+
+
+
+            DataRow newr3 = Result.NewRow();
+            newr3.SetField("类别", item + "合计");
+            foreach (var usritem in myWXUSERS)
+            {
+                newr3.SetField(usritem,
+
+                    NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                    t.WX_UserName == usritem
+                      && t.WX_SourceType == cb_SourceType
+                       && t.aspnet_UserID == UserKey
+                     && t.GameLocalPeriod.StartsWith(item)
+                    ).Sum(t => t.Buy_Point))
+
+                                        - NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                    t.WX_UserName == usritem
+                      && t.WX_SourceType == cb_SourceType
+                       && t.aspnet_UserID == UserKey
+                     && t.GameLocalPeriod.StartsWith(item)
+                    ).Sum(t => t.Result_Point))
+
+
+                   - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                 t.RemarkType == "福利"
+                                 && t.WX_UserName == usritem
+                                   && t.WX_SourceType == cb_SourceType
+                                    && t.aspnet_UserID == UserKey
+                     && t.ChangeLocalDay.StartsWith(item)
+                    ).Sum(t => t.ChangePoint))
+
+
+                    );
+            }
+            newr3.SetField("全部玩家",
+
+                    NetFramework.Util_Math.NullToZero(buys.Where(t =>
+
+                     t.GameLocalPeriod.StartsWith(item)
+                        && t.aspnet_UserID == UserKey
+                    ).Sum(t => t.Buy_Point))
+
+                                        - NetFramework.Util_Math.NullToZero(buys.Where(t =>
+
+                     t.GameLocalPeriod.StartsWith(item)
+                        && t.aspnet_UserID == UserKey
+                    ).Sum(t => t.Result_Point))
+
+                    - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                                 t.RemarkType == "福利"
+                                    && t.aspnet_UserID == UserKey
+                     && t.ChangeLocalDay.StartsWith(item)
+                    ).Sum(t => t.ChangePoint))
+
+                    );
+
+
+
+
+            #region 总期数
+
+            DataRow newr8 = Result.NewRow();
+            newr8.SetField("类别", item + "期数");
+            foreach (var usritem in myWXUSERS)
+            {
+                newr8.SetField(usritem, NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
+                    t.WX_UserName == usritem
+                      && t.WX_SourceType == cb_SourceType
+                        && t.aspnet_UserID == UserKey
+                     && t.GameLocalPeriod.StartsWith(item)
+                    ).Select(t => t.GamePeriod).Distinct().Count()));
+            }
+            newr8.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
+                          t.aspnet_UserID == UserKey
+                     && t.GameLocalPeriod.StartsWith(item)
+                    ).Select(t => new { t.GamePeriod, t.WX_UserName, t.WX_SourceType }).Distinct().Count()));
+
+            #endregion
+
+            #region "平均值"
+
+            DataRow newr7 = Result.NewRow();
+            newr7.SetField("类别", item + "平均");
+            foreach (var usritem in myWXUSERS)
+            {
+
+                decimal e_TotalBuy = NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                     t.WX_UserName == usritem
+                        && t.GameLocalPeriod.StartsWith(item)
+                          && t.WX_SourceType == cb_SourceType
+                           && t.aspnet_UserID == UserKey
+                       ).Sum(t => t.Buy_Point));
+
+                decimal e_TotalPeriod = NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
+                    t.WX_UserName == usritem
+                      && t.WX_SourceType == cb_SourceType
+                        && t.aspnet_UserID == UserKey
+                     && t.GameLocalPeriod.StartsWith(item)
+                    ).Select(t => t.GamePeriod).Distinct().Count());
+
+
+                newr7.SetField(usritem, (e_TotalPeriod == 0 ? 0 : e_TotalBuy / e_TotalPeriod));
+            }
+
+            decimal TotalBuy = NetFramework.Util_Math.NullToZero(buys.Where(t =>
+
+                    t.GameLocalPeriod.StartsWith(item)
+                       && t.aspnet_UserID == UserKey
+                   ).Sum(t => t.Buy_Point));
+
+            decimal TotalPeriod = NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
+
+                     t.aspnet_UserID == UserKey
+                 && t.GameLocalPeriod.StartsWith(item)
+                ).Select(t => t.GamePeriod).Distinct().Count());
+
+            newr7.SetField("全部玩家", (TotalPeriod == 0 ? 0 : TotalBuy / TotalPeriod));
+
+
+            #endregion
+
+            Result.Rows.Add(newr);
+            Result.Rows.Add(newr2);
+            Result.Rows.Add(newr6);
+            Result.Rows.Add(newr3);
+            Result.Rows.Add(newr8);
+            Result.Rows.Add(newr7);
+
+        }//每日循环
+
+        #endregion
+        #region 所有天数
+        DataRow newr_alldays = Result.NewRow();
+
+        newr_alldays.SetField("类别", "所有天数下注");
+        foreach (var usritem in myWXUSERS)
+        {
+            newr_alldays.SetField(usritem, NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                t.WX_UserName == usritem
+                  && t.WX_SourceType == cb_SourceType
+                && t.aspnet_UserID == UserKey
+
+                ).Sum(t => t.Buy_Point)));
+        }
+        newr_alldays.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                     t.aspnet_UserID == UserKey
+                 ).Sum(t => t.Buy_Point)));
+
+
+
+
+        DataRow newr2_alldays = Result.NewRow();
+        newr2_alldays.SetField("类别", "所有天数得分");
+        foreach (var usritem in myWXUSERS)
+        {
+            newr2_alldays.SetField(usritem, NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                t.WX_UserName == usritem
+                  && t.WX_SourceType == cb_SourceType
+                   && t.aspnet_UserID == UserKey
+
+                ).Sum(t => t.Result_Point)));
+        }
+        newr2_alldays.SetField("全部玩家", NetFramework.Util_Math.NullToZero(buys.Where(t =>
+
+                  t.aspnet_UserID == UserKey
+                ).Sum(t => t.Result_Point)));
+
+
+
+        DataRow newr6_alldays = Result.NewRow();
+        newr6_alldays.SetField("类别", "所有天数福利");
+        foreach (var usritem in myWXUSERS)
+        {
+            newr6_alldays.SetField(usritem, NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                t.WX_UserName == usritem
+                  && t.WX_SourceType == cb_SourceType
+                 && t.RemarkType == "福利"
+                    && t.aspnet_UserID == UserKey
+                     && (string.Compare(t.ChangeLocalDay, dtp_startdate.ToString("yyyyMMdd")) >= 0)
+                                && (string.Compare(dtp_enddate.ToString("yyyyMMdd"), t.ChangeLocalDay) >= 0)
+      ).Sum(t => t.ChangePoint)));
+        }
+        newr6_alldays.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                             t.RemarkType == "福利"
+                                && t.aspnet_UserID == UserKey
+
+                                && (string.Compare(t.ChangeLocalDay, dtp_startdate.ToString("yyyyMMdd")) >= 0)
+                                && (string.Compare(dtp_enddate.ToString("yyyyMMdd"), t.ChangeLocalDay) >= 0)
+
+                ).Sum(t => t.ChangePoint)));
+
+
+
+        DataRow newr3_alldays = Result.NewRow();
+        newr3_alldays.SetField("类别", "所有天数合计");
+        foreach (var usritem in myWXUSERS)
+        {
+            newr3_alldays.SetField(usritem,
+
+                NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                t.WX_UserName == usritem
+                  && t.WX_SourceType == cb_SourceType
+                   && t.aspnet_UserID == UserKey
+
+                ).Sum(t => t.Buy_Point))
+
+                                    - NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                t.WX_UserName == usritem
+                  && t.WX_SourceType == cb_SourceType
+                   && t.aspnet_UserID == UserKey
+
+                ).Sum(t => t.Result_Point))
+
+
+               - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                             t.RemarkType == "福利"
+
+                             && t.WX_UserName == usritem
+                               && t.WX_SourceType == cb_SourceType
+                                && t.aspnet_UserID == UserKey
+                                 && (string.Compare(t.ChangeLocalDay, dtp_startdate.ToString("yyyyMMdd")) >= 0)
+                                && (string.Compare(dtp_enddate.ToString("yyyyMMdd"), t.ChangeLocalDay) >= 0)
+).Sum(t => t.ChangePoint))
+
+
+                );
+        }
+        newr3_alldays.SetField("全部玩家",
+
+                NetFramework.Util_Math.NullToZero(buys.Where(t =>
+
+
+                     t.aspnet_UserID == UserKey
+                ).Sum(t => t.Buy_Point))
+
+                                    - NetFramework.Util_Math.NullToZero(buys.Where(t =>
+
+
+                     t.aspnet_UserID == UserKey
+                ).Sum(t => t.Result_Point))
+
+                - NetFramework.Util_Math.NullToZero(db.WX_UserChangeLog.Where(t =>
+                             t.RemarkType == "福利"
+                                && t.aspnet_UserID == UserKey
+ && (string.Compare(t.ChangeLocalDay, dtp_startdate.ToString("yyyyMMdd")) >= 0)
+                                && (string.Compare(dtp_enddate.ToString("yyyyMMdd"), t.ChangeLocalDay) >= 0)
+                ).Sum(t => t.ChangePoint))
+
+                );
+
+
+
+        #region 总期数
+
+        DataRow newr8_alldays = Result.NewRow();
+        newr8_alldays.SetField("类别", "所有天数期数");
+        foreach (var usritem in myWXUSERS)
+        {
+            newr8_alldays.SetField(usritem, NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
+                t.WX_UserName == usritem
+                  && t.WX_SourceType == cb_SourceType.ToString()
+                    && t.aspnet_UserID == UserKey
+                    && (string.Compare(t.GameLocalPeriod, dtp_startdate.ToString("yyyyMMdd")) >= 1)
+                      && (string.Compare(t.GameLocalPeriod, dtp_enddate.ToString("yyyyMMdd")) <= 1)
+                ).Select(t => t.GamePeriod).Distinct().Count()));
+        }
+        newr8_alldays.SetField("全部玩家", NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
+                     t.aspnet_UserID == UserKey
+                      && (string.Compare(t.GameLocalPeriod, dtp_startdate.ToString("yyyyMMdd")) >= 1)
+                      && (string.Compare(t.GameLocalPeriod, dtp_enddate.ToString("yyyyMMdd")) <= 1)
+                ).Select(t => t.GamePeriod).Distinct().Count()));
+
+        #endregion
+
+        #region "平均值"
+
+        DataRow newr7_alldays = Result.NewRow();
+        newr7_alldays.SetField("类别", "所有天数平均");
+        foreach (var usritem in myWXUSERS)
+        {
+
+            decimal e_TotalBuy = NetFramework.Util_Math.NullToZero(buys.Where(t =>
+                 t.WX_UserName == usritem
+                   && t.WX_SourceType == cb_SourceType
+                       && t.aspnet_UserID == UserKey
+                   ).Sum(t => t.Buy_Point));
+
+            decimal e_TotalPeriod = NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
+                t.WX_UserName == usritem
+                  && t.WX_SourceType == cb_SourceType
+                    && t.aspnet_UserID == UserKey
+                     && (string.Compare(t.GameLocalPeriod, dtp_startdate.ToString("yyyyMMdd")) >= 1)
+                      && (string.Compare(t.GameLocalPeriod, dtp_enddate.ToString("yyyyMMdd")) <= 1)
+                ).Select(t => t.GamePeriod).Distinct().Count());
+
+
+            newr7_alldays.SetField(usritem, (e_TotalPeriod == 0 ? 0 : e_TotalBuy / e_TotalPeriod));
+        }
+
+        decimal TotalBuy_alldays = NetFramework.Util_Math.NullToZero(buys.Where(t =>
+
+
+                    t.aspnet_UserID == UserKey
+               ).Sum(t => t.Buy_Point));
+
+        decimal TotalPeriod_alldays = NetFramework.Util_Math.NullToZero(db.WX_UserGameLog.Where(t =>
+
+                 t.aspnet_UserID == UserKey
+
+            ).Select(t => t.GamePeriod).Distinct().Count());
+
+        newr7_alldays.SetField("全部玩家", (TotalPeriod_alldays == 0 ? 0 : TotalBuy_alldays / TotalPeriod_alldays));
+
+
+        #endregion
+
+        Result.Rows.Add(newr_alldays);
+        Result.Rows.Add(newr2_alldays);
+        Result.Rows.Add(newr6_alldays);
+        Result.Rows.Add(newr3_alldays);
+        Result.Rows.Add(newr8_alldays);
+        Result.Rows.Add(newr7_alldays);
+
+        #endregion
+        return Result;
+    }
+
+
+}//class end 
+

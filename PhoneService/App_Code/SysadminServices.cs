@@ -32,7 +32,7 @@ public class SysadminServices : System.Web.Services.WebService
     [WebMethod]
     public string GetAllUsers()
     {
-        dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
        // db.ObjectTrackingEnabled = false;
         var source = (from ms in db.aspnet_Membership
                       join us in db.aspnet_Users on ms.UserId equals us.UserId
@@ -57,9 +57,9 @@ public class SysadminServices : System.Web.Services.WebService
         }
         else
         {
-            dbDataContext db = new dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
             //db.ObjectTrackingEnabled = false;
-            aspnet_Users aspnet_Users = db.aspnet_Users.SingleOrDefault(t => t.UserId == new Guid(usr.ProviderUserKey.ToString()));
+            WeixinRobotLib.Entity.Linq.aspnet_Users aspnet_Users = db.aspnet_Users.SingleOrDefault(t => t.UserId == new Guid(usr.ProviderUserKey.ToString()));
             aspnet_Users.aspnet_Membership.IsLockedOut = true;
             db.SubmitChanges();
             return true;
