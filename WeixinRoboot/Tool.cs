@@ -185,9 +185,9 @@ namespace NetFramework
                 LoginPage = null;
                 System.GC.Collect();
 
-                NetFramework.Console.WriteLine("网址打开失败" + TargetURL, false);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message, false);
-                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace, false);
+                NetFramework.Console.WriteLine("网址打开失败" + TargetURL, true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.Message, true);
+                NetFramework.Console.WriteLine("网址打开失败" + AnyError.StackTrace, true);
                 return "";
             }
 

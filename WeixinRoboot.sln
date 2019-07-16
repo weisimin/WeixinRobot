@@ -39,7 +39,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PhoneService", "http://loca
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.1"
-		ProjectReferences = "{7b148ab2-c2ef-47b8-b1e9-50f49b705e76}|WeixinRobotLib.dll;"
+		ProjectReferences = "{7b148ab2-c2ef-47b8-b1e9-50f49b705e76}|WeixinRobotLib.dll;{A79357B4-4242-46BE-8AAC-9B03C080D086}|WeixinRobotLib.Entity.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_54819"
 		Debug.AspNetCompiler.PhysicalPath = "PhoneService\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54819\"
@@ -59,6 +59,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PhoneService", "http://loca
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinRobootSlim", "WeixinRobootSlim\WeixinRobootSlim.csproj", "{9F911007-843D-461F-9D12-DBC4B16A4CCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinRobotLib.Entity", "WeixinRobotLib.Entity\WeixinRobotLib.Entity.csproj", "{A79357B4-4242-46BE-8AAC-9B03C080D086}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -202,6 +204,20 @@ Global
 		{9F911007-843D-461F-9D12-DBC4B16A4CCB}.Release|x64.Build.0 = Release|x64
 		{9F911007-843D-461F-9D12-DBC4B16A4CCB}.Release|x86.ActiveCfg = Release|x86
 		{9F911007-843D-461F-9D12-DBC4B16A4CCB}.Release|x86.Build.0 = Release|x86
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Release|x64.ActiveCfg = Release|Any CPU
+		{A79357B4-4242-46BE-8AAC-9B03C080D086}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

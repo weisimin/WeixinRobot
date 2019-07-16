@@ -20,13 +20,15 @@ namespace WeixinRoboot.RobootWeb {
     using System.Web.Services.Protocols;
     using System.Xml.Serialization;
     using System.ComponentModel;
+    using System.Data;
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebServiceSoap", Namespace="http://13828081978.zicp.vip/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(object[]))]
     public partial class WebService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback UserLogInOperationCompleted;
@@ -52,6 +54,54 @@ namespace WeixinRoboot.RobootWeb {
         private System.Threading.SendOrPostCallback OpenUrlOperationCompleted;
         
         private System.Threading.SendOrPostCallback OpenLongTimeUrlOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback WX_UserReplyLog_CreateOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback WX_UserReplyLog_MySendCreateOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ChongQingShiShiCaiCaculatePeriodOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback WX_UserGameLog_DealOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback WXUserChangeLog_GetRemainderOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetBossReportSourceOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetBounsConfigOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SaveBounsConfigOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetBasicRatioOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SaveBasicRatioOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetReminderOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetUserChangeLogOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetHKSixLast16OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RemindQuery_GetReplyLogOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RemindQuery_GetChangePointOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetWebSendPicSettingOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SaveWebSendPicSettingOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ReceiveContentFormatOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetUserPeriodInOutOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetBounsSourceOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SendCharge_GetSourceOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GameVSGetRatiosOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback VSGetCurRatioOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback BallOpen_GetUpPaySourceOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -126,6 +176,78 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         public event OpenLongTimeUrlCompletedEventHandler OpenLongTimeUrlCompleted;
+        
+        /// <remarks/>
+        public event WX_UserReplyLog_CreateCompletedEventHandler WX_UserReplyLog_CreateCompleted;
+        
+        /// <remarks/>
+        public event WX_UserReplyLog_MySendCreateCompletedEventHandler WX_UserReplyLog_MySendCreateCompleted;
+        
+        /// <remarks/>
+        public event ChongQingShiShiCaiCaculatePeriodCompletedEventHandler ChongQingShiShiCaiCaculatePeriodCompleted;
+        
+        /// <remarks/>
+        public event WX_UserGameLog_DealCompletedEventHandler WX_UserGameLog_DealCompleted;
+        
+        /// <remarks/>
+        public event WXUserChangeLog_GetRemainderCompletedEventHandler WXUserChangeLog_GetRemainderCompleted;
+        
+        /// <remarks/>
+        public event GetBossReportSourceCompletedEventHandler GetBossReportSourceCompleted;
+        
+        /// <remarks/>
+        public event GetBounsConfigCompletedEventHandler GetBounsConfigCompleted;
+        
+        /// <remarks/>
+        public event SaveBounsConfigCompletedEventHandler SaveBounsConfigCompleted;
+        
+        /// <remarks/>
+        public event GetBasicRatioCompletedEventHandler GetBasicRatioCompleted;
+        
+        /// <remarks/>
+        public event SaveBasicRatioCompletedEventHandler SaveBasicRatioCompleted;
+        
+        /// <remarks/>
+        public event GetReminderCompletedEventHandler GetReminderCompleted;
+        
+        /// <remarks/>
+        public event GetUserChangeLogCompletedEventHandler GetUserChangeLogCompleted;
+        
+        /// <remarks/>
+        public event GetHKSixLast16CompletedEventHandler GetHKSixLast16Completed;
+        
+        /// <remarks/>
+        public event RemindQuery_GetReplyLogCompletedEventHandler RemindQuery_GetReplyLogCompleted;
+        
+        /// <remarks/>
+        public event RemindQuery_GetChangePointCompletedEventHandler RemindQuery_GetChangePointCompleted;
+        
+        /// <remarks/>
+        public event GetWebSendPicSettingCompletedEventHandler GetWebSendPicSettingCompleted;
+        
+        /// <remarks/>
+        public event SaveWebSendPicSettingCompletedEventHandler SaveWebSendPicSettingCompleted;
+        
+        /// <remarks/>
+        public event ReceiveContentFormatCompletedEventHandler ReceiveContentFormatCompleted;
+        
+        /// <remarks/>
+        public event GetUserPeriodInOutCompletedEventHandler GetUserPeriodInOutCompleted;
+        
+        /// <remarks/>
+        public event GetBounsSourceCompletedEventHandler GetBounsSourceCompleted;
+        
+        /// <remarks/>
+        public event SendCharge_GetSourceCompletedEventHandler SendCharge_GetSourceCompleted;
+        
+        /// <remarks/>
+        public event GameVSGetRatiosCompletedEventHandler GameVSGetRatiosCompleted;
+        
+        /// <remarks/>
+        public event VSGetCurRatioCompletedEventHandler VSGetCurRatioCompleted;
+        
+        /// <remarks/>
+        public event BallOpen_GetUpPaySourceCompletedEventHandler BallOpen_GetUpPaySourceCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogIn", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -517,6 +639,813 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_UserReplyLog_Create", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string WX_UserReplyLog_Create(string JMemberSource, string sgm, string ssubm, string RequestPeriod, System.DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, string Jusrpar, string Jloadset, bool adminmode, string MemberGroupName) {
+            object[] results = this.Invoke("WX_UserReplyLog_Create", new object[] {
+                        JMemberSource,
+                        sgm,
+                        ssubm,
+                        RequestPeriod,
+                        RequestTime,
+                        GameContent,
+                        WX_UserName,
+                        WX_SourceType,
+                        Jusrpar,
+                        Jloadset,
+                        adminmode,
+                        MemberGroupName});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WX_UserReplyLog_CreateAsync(string JMemberSource, string sgm, string ssubm, string RequestPeriod, System.DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, string Jusrpar, string Jloadset, bool adminmode, string MemberGroupName) {
+            this.WX_UserReplyLog_CreateAsync(JMemberSource, sgm, ssubm, RequestPeriod, RequestTime, GameContent, WX_UserName, WX_SourceType, Jusrpar, Jloadset, adminmode, MemberGroupName, null);
+        }
+        
+        /// <remarks/>
+        public void WX_UserReplyLog_CreateAsync(string JMemberSource, string sgm, string ssubm, string RequestPeriod, System.DateTime RequestTime, string GameContent, string WX_UserName, string WX_SourceType, string Jusrpar, string Jloadset, bool adminmode, string MemberGroupName, object userState) {
+            if ((this.WX_UserReplyLog_CreateOperationCompleted == null)) {
+                this.WX_UserReplyLog_CreateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_UserReplyLog_CreateOperationCompleted);
+            }
+            this.InvokeAsync("WX_UserReplyLog_Create", new object[] {
+                        JMemberSource,
+                        sgm,
+                        ssubm,
+                        RequestPeriod,
+                        RequestTime,
+                        GameContent,
+                        WX_UserName,
+                        WX_SourceType,
+                        Jusrpar,
+                        Jloadset,
+                        adminmode,
+                        MemberGroupName}, this.WX_UserReplyLog_CreateOperationCompleted, userState);
+        }
+        
+        private void OnWX_UserReplyLog_CreateOperationCompleted(object arg) {
+            if ((this.WX_UserReplyLog_CreateCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WX_UserReplyLog_CreateCompleted(this, new WX_UserReplyLog_CreateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_UserReplyLog_MySendCreate", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string WX_UserReplyLog_MySendCreate(string Content, string jUserRow, System.DateTime ReceiveTime, string jusrpar, System.Guid[] takeusers, string jloadset, string WX_UserName, string WX_SourceType) {
+            object[] results = this.Invoke("WX_UserReplyLog_MySendCreate", new object[] {
+                        Content,
+                        jUserRow,
+                        ReceiveTime,
+                        jusrpar,
+                        takeusers,
+                        jloadset,
+                        WX_UserName,
+                        WX_SourceType});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WX_UserReplyLog_MySendCreateAsync(string Content, string jUserRow, System.DateTime ReceiveTime, string jusrpar, System.Guid[] takeusers, string jloadset, string WX_UserName, string WX_SourceType) {
+            this.WX_UserReplyLog_MySendCreateAsync(Content, jUserRow, ReceiveTime, jusrpar, takeusers, jloadset, WX_UserName, WX_SourceType, null);
+        }
+        
+        /// <remarks/>
+        public void WX_UserReplyLog_MySendCreateAsync(string Content, string jUserRow, System.DateTime ReceiveTime, string jusrpar, System.Guid[] takeusers, string jloadset, string WX_UserName, string WX_SourceType, object userState) {
+            if ((this.WX_UserReplyLog_MySendCreateOperationCompleted == null)) {
+                this.WX_UserReplyLog_MySendCreateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_UserReplyLog_MySendCreateOperationCompleted);
+            }
+            this.InvokeAsync("WX_UserReplyLog_MySendCreate", new object[] {
+                        Content,
+                        jUserRow,
+                        ReceiveTime,
+                        jusrpar,
+                        takeusers,
+                        jloadset,
+                        WX_UserName,
+                        WX_SourceType}, this.WX_UserReplyLog_MySendCreateOperationCompleted, userState);
+        }
+        
+        private void OnWX_UserReplyLog_MySendCreateOperationCompleted(object arg) {
+            if ((this.WX_UserReplyLog_MySendCreateCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WX_UserReplyLog_MySendCreateCompleted(this, new WX_UserReplyLog_MySendCreateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/ChongQingShiShiCaiCaculatePeriod", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public ChongQingShiShiCaiCaculatePeriodResult ChongQingShiShiCaiCaculatePeriod(System.DateTime RequestTime, string RequestPeriod, string WX_UserName, string WX_SourceType, bool adminmode, string JSpecMode, string jusrpar, bool NoBlock) {
+            object[] results = this.Invoke("ChongQingShiShiCaiCaculatePeriod", new object[] {
+                        RequestTime,
+                        RequestPeriod,
+                        WX_UserName,
+                        WX_SourceType,
+                        adminmode,
+                        JSpecMode,
+                        jusrpar,
+                        NoBlock});
+            return ((ChongQingShiShiCaiCaculatePeriodResult)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ChongQingShiShiCaiCaculatePeriodAsync(System.DateTime RequestTime, string RequestPeriod, string WX_UserName, string WX_SourceType, bool adminmode, string JSpecMode, string jusrpar, bool NoBlock) {
+            this.ChongQingShiShiCaiCaculatePeriodAsync(RequestTime, RequestPeriod, WX_UserName, WX_SourceType, adminmode, JSpecMode, jusrpar, NoBlock, null);
+        }
+        
+        /// <remarks/>
+        public void ChongQingShiShiCaiCaculatePeriodAsync(System.DateTime RequestTime, string RequestPeriod, string WX_UserName, string WX_SourceType, bool adminmode, string JSpecMode, string jusrpar, bool NoBlock, object userState) {
+            if ((this.ChongQingShiShiCaiCaculatePeriodOperationCompleted == null)) {
+                this.ChongQingShiShiCaiCaculatePeriodOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChongQingShiShiCaiCaculatePeriodOperationCompleted);
+            }
+            this.InvokeAsync("ChongQingShiShiCaiCaculatePeriod", new object[] {
+                        RequestTime,
+                        RequestPeriod,
+                        WX_UserName,
+                        WX_SourceType,
+                        adminmode,
+                        JSpecMode,
+                        jusrpar,
+                        NoBlock}, this.ChongQingShiShiCaiCaculatePeriodOperationCompleted, userState);
+        }
+        
+        private void OnChongQingShiShiCaiCaculatePeriodOperationCompleted(object arg) {
+            if ((this.ChongQingShiShiCaiCaculatePeriodCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ChongQingShiShiCaiCaculatePeriodCompleted(this, new ChongQingShiShiCaiCaculatePeriodCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_UserGameLog_Deal", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int WX_UserGameLog_Deal(string ContactID, string SourceType, string jusrpar) {
+            object[] results = this.Invoke("WX_UserGameLog_Deal", new object[] {
+                        ContactID,
+                        SourceType,
+                        jusrpar});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WX_UserGameLog_DealAsync(string ContactID, string SourceType, string jusrpar) {
+            this.WX_UserGameLog_DealAsync(ContactID, SourceType, jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void WX_UserGameLog_DealAsync(string ContactID, string SourceType, string jusrpar, object userState) {
+            if ((this.WX_UserGameLog_DealOperationCompleted == null)) {
+                this.WX_UserGameLog_DealOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_UserGameLog_DealOperationCompleted);
+            }
+            this.InvokeAsync("WX_UserGameLog_Deal", new object[] {
+                        ContactID,
+                        SourceType,
+                        jusrpar}, this.WX_UserGameLog_DealOperationCompleted, userState);
+        }
+        
+        private void OnWX_UserGameLog_DealOperationCompleted(object arg) {
+            if ((this.WX_UserGameLog_DealCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WX_UserGameLog_DealCompleted(this, new WX_UserGameLog_DealCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WXUserChangeLog_GetRemainder", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public decimal WXUserChangeLog_GetRemainder(string UserContactID, string SourceType, string jusrpar) {
+            object[] results = this.Invoke("WXUserChangeLog_GetRemainder", new object[] {
+                        UserContactID,
+                        SourceType,
+                        jusrpar});
+            return ((decimal)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WXUserChangeLog_GetRemainderAsync(string UserContactID, string SourceType, string jusrpar) {
+            this.WXUserChangeLog_GetRemainderAsync(UserContactID, SourceType, jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void WXUserChangeLog_GetRemainderAsync(string UserContactID, string SourceType, string jusrpar, object userState) {
+            if ((this.WXUserChangeLog_GetRemainderOperationCompleted == null)) {
+                this.WXUserChangeLog_GetRemainderOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWXUserChangeLog_GetRemainderOperationCompleted);
+            }
+            this.InvokeAsync("WXUserChangeLog_GetRemainder", new object[] {
+                        UserContactID,
+                        SourceType,
+                        jusrpar}, this.WXUserChangeLog_GetRemainderOperationCompleted, userState);
+        }
+        
+        private void OnWXUserChangeLog_GetRemainderOperationCompleted(object arg) {
+            if ((this.WXUserChangeLog_GetRemainderCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WXUserChangeLog_GetRemainderCompleted(this, new WXUserChangeLog_GetRemainderCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetBossReportSource", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataTable GetBossReportSource(string SourceType, string QueryTime, string jusrpar) {
+            object[] results = this.Invoke("GetBossReportSource", new object[] {
+                        SourceType,
+                        QueryTime,
+                        jusrpar});
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBossReportSourceAsync(string SourceType, string QueryTime, string jusrpar) {
+            this.GetBossReportSourceAsync(SourceType, QueryTime, jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void GetBossReportSourceAsync(string SourceType, string QueryTime, string jusrpar, object userState) {
+            if ((this.GetBossReportSourceOperationCompleted == null)) {
+                this.GetBossReportSourceOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBossReportSourceOperationCompleted);
+            }
+            this.InvokeAsync("GetBossReportSource", new object[] {
+                        SourceType,
+                        QueryTime,
+                        jusrpar}, this.GetBossReportSourceOperationCompleted, userState);
+        }
+        
+        private void OnGetBossReportSourceOperationCompleted(object arg) {
+            if ((this.GetBossReportSourceCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBossReportSourceCompleted(this, new GetBossReportSourceCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetBounsConfig", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public WX_BounsConfig[] GetBounsConfig(string jusrpar) {
+            object[] results = this.Invoke("GetBounsConfig", new object[] {
+                        jusrpar});
+            return ((WX_BounsConfig[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBounsConfigAsync(string jusrpar) {
+            this.GetBounsConfigAsync(jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void GetBounsConfigAsync(string jusrpar, object userState) {
+            if ((this.GetBounsConfigOperationCompleted == null)) {
+                this.GetBounsConfigOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBounsConfigOperationCompleted);
+            }
+            this.InvokeAsync("GetBounsConfig", new object[] {
+                        jusrpar}, this.GetBounsConfigOperationCompleted, userState);
+        }
+        
+        private void OnGetBounsConfigOperationCompleted(object arg) {
+            if ((this.GetBounsConfigCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBounsConfigCompleted(this, new GetBounsConfigCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/SaveBounsConfig", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SaveBounsConfig(string jusrpar, string JDatas) {
+            object[] results = this.Invoke("SaveBounsConfig", new object[] {
+                        jusrpar,
+                        JDatas});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SaveBounsConfigAsync(string jusrpar, string JDatas) {
+            this.SaveBounsConfigAsync(jusrpar, JDatas, null);
+        }
+        
+        /// <remarks/>
+        public void SaveBounsConfigAsync(string jusrpar, string JDatas, object userState) {
+            if ((this.SaveBounsConfigOperationCompleted == null)) {
+                this.SaveBounsConfigOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSaveBounsConfigOperationCompleted);
+            }
+            this.InvokeAsync("SaveBounsConfig", new object[] {
+                        jusrpar,
+                        JDatas}, this.SaveBounsConfigOperationCompleted, userState);
+        }
+        
+        private void OnSaveBounsConfigOperationCompleted(object arg) {
+            if ((this.SaveBounsConfigCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SaveBounsConfigCompleted(this, new SaveBounsConfigCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetBasicRatio", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Game_BasicRatio[] GetBasicRatio(string jusrpar) {
+            object[] results = this.Invoke("GetBasicRatio", new object[] {
+                        jusrpar});
+            return ((Game_BasicRatio[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBasicRatioAsync(string jusrpar) {
+            this.GetBasicRatioAsync(jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void GetBasicRatioAsync(string jusrpar, object userState) {
+            if ((this.GetBasicRatioOperationCompleted == null)) {
+                this.GetBasicRatioOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBasicRatioOperationCompleted);
+            }
+            this.InvokeAsync("GetBasicRatio", new object[] {
+                        jusrpar}, this.GetBasicRatioOperationCompleted, userState);
+        }
+        
+        private void OnGetBasicRatioOperationCompleted(object arg) {
+            if ((this.GetBasicRatioCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBasicRatioCompleted(this, new GetBasicRatioCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/SaveBasicRatio", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SaveBasicRatio(string jusrpar, string jDatas) {
+            object[] results = this.Invoke("SaveBasicRatio", new object[] {
+                        jusrpar,
+                        jDatas});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SaveBasicRatioAsync(string jusrpar, string jDatas) {
+            this.SaveBasicRatioAsync(jusrpar, jDatas, null);
+        }
+        
+        /// <remarks/>
+        public void SaveBasicRatioAsync(string jusrpar, string jDatas, object userState) {
+            if ((this.SaveBasicRatioOperationCompleted == null)) {
+                this.SaveBasicRatioOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSaveBasicRatioOperationCompleted);
+            }
+            this.InvokeAsync("SaveBasicRatio", new object[] {
+                        jusrpar,
+                        jDatas}, this.SaveBasicRatioOperationCompleted, userState);
+        }
+        
+        private void OnSaveBasicRatioOperationCompleted(object arg) {
+            if ((this.SaveBasicRatioCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SaveBasicRatioCompleted(this, new SaveBasicRatioCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetReminder", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public ReminderType[] GetReminder(string jusrpar, string SourceType) {
+            object[] results = this.Invoke("GetReminder", new object[] {
+                        jusrpar,
+                        SourceType});
+            return ((ReminderType[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetReminderAsync(string jusrpar, string SourceType) {
+            this.GetReminderAsync(jusrpar, SourceType, null);
+        }
+        
+        /// <remarks/>
+        public void GetReminderAsync(string jusrpar, string SourceType, object userState) {
+            if ((this.GetReminderOperationCompleted == null)) {
+                this.GetReminderOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetReminderOperationCompleted);
+            }
+            this.InvokeAsync("GetReminder", new object[] {
+                        jusrpar,
+                        SourceType}, this.GetReminderOperationCompleted, userState);
+        }
+        
+        private void OnGetReminderOperationCompleted(object arg) {
+            if ((this.GetReminderCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetReminderCompleted(this, new GetReminderCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetUserChangeLog", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public UserChangeLogType[] GetUserChangeLog(string jusrpar, string jUserRow) {
+            object[] results = this.Invoke("GetUserChangeLog", new object[] {
+                        jusrpar,
+                        jUserRow});
+            return ((UserChangeLogType[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetUserChangeLogAsync(string jusrpar, string jUserRow) {
+            this.GetUserChangeLogAsync(jusrpar, jUserRow, null);
+        }
+        
+        /// <remarks/>
+        public void GetUserChangeLogAsync(string jusrpar, string jUserRow, object userState) {
+            if ((this.GetUserChangeLogOperationCompleted == null)) {
+                this.GetUserChangeLogOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetUserChangeLogOperationCompleted);
+            }
+            this.InvokeAsync("GetUserChangeLog", new object[] {
+                        jusrpar,
+                        jUserRow}, this.GetUserChangeLogOperationCompleted, userState);
+        }
+        
+        private void OnGetUserChangeLogOperationCompleted(object arg) {
+            if ((this.GetUserChangeLogCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetUserChangeLogCompleted(this, new GetUserChangeLogCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetHKSixLast16", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetHKSixLast16(string jusrpar) {
+            object[] results = this.Invoke("GetHKSixLast16", new object[] {
+                        jusrpar});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetHKSixLast16Async(string jusrpar) {
+            this.GetHKSixLast16Async(jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void GetHKSixLast16Async(string jusrpar, object userState) {
+            if ((this.GetHKSixLast16OperationCompleted == null)) {
+                this.GetHKSixLast16OperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetHKSixLast16OperationCompleted);
+            }
+            this.InvokeAsync("GetHKSixLast16", new object[] {
+                        jusrpar}, this.GetHKSixLast16OperationCompleted, userState);
+        }
+        
+        private void OnGetHKSixLast16OperationCompleted(object arg) {
+            if ((this.GetHKSixLast16Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetHKSixLast16Completed(this, new GetHKSixLast16CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/RemindQuery_GetReplyLog", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public RemindQuery_GetReplyLogClass[] RemindQuery_GetReplyLog(string WX_UserName, string WX_SourceType, string jusrpar) {
+            object[] results = this.Invoke("RemindQuery_GetReplyLog", new object[] {
+                        WX_UserName,
+                        WX_SourceType,
+                        jusrpar});
+            return ((RemindQuery_GetReplyLogClass[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RemindQuery_GetReplyLogAsync(string WX_UserName, string WX_SourceType, string jusrpar) {
+            this.RemindQuery_GetReplyLogAsync(WX_UserName, WX_SourceType, jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void RemindQuery_GetReplyLogAsync(string WX_UserName, string WX_SourceType, string jusrpar, object userState) {
+            if ((this.RemindQuery_GetReplyLogOperationCompleted == null)) {
+                this.RemindQuery_GetReplyLogOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRemindQuery_GetReplyLogOperationCompleted);
+            }
+            this.InvokeAsync("RemindQuery_GetReplyLog", new object[] {
+                        WX_UserName,
+                        WX_SourceType,
+                        jusrpar}, this.RemindQuery_GetReplyLogOperationCompleted, userState);
+        }
+        
+        private void OnRemindQuery_GetReplyLogOperationCompleted(object arg) {
+            if ((this.RemindQuery_GetReplyLogCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RemindQuery_GetReplyLogCompleted(this, new RemindQuery_GetReplyLogCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/RemindQuery_GetChangePoint", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public RemindQuery_GetChangePointClass[] RemindQuery_GetChangePoint(string WX_UserName, string WX_SourceType, string jusrpar) {
+            object[] results = this.Invoke("RemindQuery_GetChangePoint", new object[] {
+                        WX_UserName,
+                        WX_SourceType,
+                        jusrpar});
+            return ((RemindQuery_GetChangePointClass[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RemindQuery_GetChangePointAsync(string WX_UserName, string WX_SourceType, string jusrpar) {
+            this.RemindQuery_GetChangePointAsync(WX_UserName, WX_SourceType, jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void RemindQuery_GetChangePointAsync(string WX_UserName, string WX_SourceType, string jusrpar, object userState) {
+            if ((this.RemindQuery_GetChangePointOperationCompleted == null)) {
+                this.RemindQuery_GetChangePointOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRemindQuery_GetChangePointOperationCompleted);
+            }
+            this.InvokeAsync("RemindQuery_GetChangePoint", new object[] {
+                        WX_UserName,
+                        WX_SourceType,
+                        jusrpar}, this.RemindQuery_GetChangePointOperationCompleted, userState);
+        }
+        
+        private void OnRemindQuery_GetChangePointOperationCompleted(object arg) {
+            if ((this.RemindQuery_GetChangePointCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RemindQuery_GetChangePointCompleted(this, new RemindQuery_GetChangePointCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetWebSendPicSetting", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetWebSendPicSetting(System.Guid UserKey, string Row_WX_SourceType, string Row_WX_UserName) {
+            object[] results = this.Invoke("GetWebSendPicSetting", new object[] {
+                        UserKey,
+                        Row_WX_SourceType,
+                        Row_WX_UserName});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetWebSendPicSettingAsync(System.Guid UserKey, string Row_WX_SourceType, string Row_WX_UserName) {
+            this.GetWebSendPicSettingAsync(UserKey, Row_WX_SourceType, Row_WX_UserName, null);
+        }
+        
+        /// <remarks/>
+        public void GetWebSendPicSettingAsync(System.Guid UserKey, string Row_WX_SourceType, string Row_WX_UserName, object userState) {
+            if ((this.GetWebSendPicSettingOperationCompleted == null)) {
+                this.GetWebSendPicSettingOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetWebSendPicSettingOperationCompleted);
+            }
+            this.InvokeAsync("GetWebSendPicSetting", new object[] {
+                        UserKey,
+                        Row_WX_SourceType,
+                        Row_WX_UserName}, this.GetWebSendPicSettingOperationCompleted, userState);
+        }
+        
+        private void OnGetWebSendPicSettingOperationCompleted(object arg) {
+            if ((this.GetWebSendPicSettingCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetWebSendPicSettingCompleted(this, new GetWebSendPicSettingCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/SaveWebSendPicSetting", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SaveWebSendPicSetting(string jusrpar, string JWebSendPicSetting) {
+            object[] results = this.Invoke("SaveWebSendPicSetting", new object[] {
+                        jusrpar,
+                        JWebSendPicSetting});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SaveWebSendPicSettingAsync(string jusrpar, string JWebSendPicSetting) {
+            this.SaveWebSendPicSettingAsync(jusrpar, JWebSendPicSetting, null);
+        }
+        
+        /// <remarks/>
+        public void SaveWebSendPicSettingAsync(string jusrpar, string JWebSendPicSetting, object userState) {
+            if ((this.SaveWebSendPicSettingOperationCompleted == null)) {
+                this.SaveWebSendPicSettingOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSaveWebSendPicSettingOperationCompleted);
+            }
+            this.InvokeAsync("SaveWebSendPicSetting", new object[] {
+                        jusrpar,
+                        JWebSendPicSetting}, this.SaveWebSendPicSettingOperationCompleted, userState);
+        }
+        
+        private void OnSaveWebSendPicSettingOperationCompleted(object arg) {
+            if ((this.SaveWebSendPicSettingCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SaveWebSendPicSettingCompleted(this, new SaveWebSendPicSettingCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/ReceiveContentFormat", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public object[] ReceiveContentFormat(string ReceiveContent, string jdirect, string jusrpar, out FormatResultState State, out FormatResultType ModeType, out string BuyType, out string BuyMoney, out string[] ContextTeams) {
+            object[] results = this.Invoke("ReceiveContentFormat", new object[] {
+                        ReceiveContent,
+                        jdirect,
+                        jusrpar});
+            State = ((FormatResultState)(results[1]));
+            ModeType = ((FormatResultType)(results[2]));
+            BuyType = ((string)(results[3]));
+            BuyMoney = ((string)(results[4]));
+            ContextTeams = ((string[])(results[5]));
+            return ((object[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ReceiveContentFormatAsync(string ReceiveContent, string jdirect, string jusrpar) {
+            this.ReceiveContentFormatAsync(ReceiveContent, jdirect, jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void ReceiveContentFormatAsync(string ReceiveContent, string jdirect, string jusrpar, object userState) {
+            if ((this.ReceiveContentFormatOperationCompleted == null)) {
+                this.ReceiveContentFormatOperationCompleted = new System.Threading.SendOrPostCallback(this.OnReceiveContentFormatOperationCompleted);
+            }
+            this.InvokeAsync("ReceiveContentFormat", new object[] {
+                        ReceiveContent,
+                        jdirect,
+                        jusrpar}, this.ReceiveContentFormatOperationCompleted, userState);
+        }
+        
+        private void OnReceiveContentFormatOperationCompleted(object arg) {
+            if ((this.ReceiveContentFormatCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ReceiveContentFormatCompleted(this, new ReceiveContentFormatCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetUserPeriodInOut", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public decimal GetUserPeriodInOut(string GamePeriod, string WX_UserName, string WX_SourceType, string jusrpar) {
+            object[] results = this.Invoke("GetUserPeriodInOut", new object[] {
+                        GamePeriod,
+                        WX_UserName,
+                        WX_SourceType,
+                        jusrpar});
+            return ((decimal)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetUserPeriodInOutAsync(string GamePeriod, string WX_UserName, string WX_SourceType, string jusrpar) {
+            this.GetUserPeriodInOutAsync(GamePeriod, WX_UserName, WX_SourceType, jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void GetUserPeriodInOutAsync(string GamePeriod, string WX_UserName, string WX_SourceType, string jusrpar, object userState) {
+            if ((this.GetUserPeriodInOutOperationCompleted == null)) {
+                this.GetUserPeriodInOutOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetUserPeriodInOutOperationCompleted);
+            }
+            this.InvokeAsync("GetUserPeriodInOut", new object[] {
+                        GamePeriod,
+                        WX_UserName,
+                        WX_SourceType,
+                        jusrpar}, this.GetUserPeriodInOutOperationCompleted, userState);
+        }
+        
+        private void OnGetUserPeriodInOutOperationCompleted(object arg) {
+            if ((this.GetUserPeriodInOutCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetUserPeriodInOutCompleted(this, new GetUserPeriodInOutCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetBounsSource", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataTable GetBounsSource(System.DateTime QueryDate, string SourceType, string jusrpar) {
+            object[] results = this.Invoke("GetBounsSource", new object[] {
+                        QueryDate,
+                        SourceType,
+                        jusrpar});
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBounsSourceAsync(System.DateTime QueryDate, string SourceType, string jusrpar) {
+            this.GetBounsSourceAsync(QueryDate, SourceType, jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void GetBounsSourceAsync(System.DateTime QueryDate, string SourceType, string jusrpar, object userState) {
+            if ((this.GetBounsSourceOperationCompleted == null)) {
+                this.GetBounsSourceOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBounsSourceOperationCompleted);
+            }
+            this.InvokeAsync("GetBounsSource", new object[] {
+                        QueryDate,
+                        SourceType,
+                        jusrpar}, this.GetBounsSourceOperationCompleted, userState);
+        }
+        
+        private void OnGetBounsSourceOperationCompleted(object arg) {
+            if ((this.GetBounsSourceCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBounsSourceCompleted(this, new GetBounsSourceCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/SendCharge_GetSource", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public SendCharge_GetSourceClass[] SendCharge_GetSource(string jusrpar, string WX_UserName, string WX_SourceType) {
+            object[] results = this.Invoke("SendCharge_GetSource", new object[] {
+                        jusrpar,
+                        WX_UserName,
+                        WX_SourceType});
+            return ((SendCharge_GetSourceClass[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SendCharge_GetSourceAsync(string jusrpar, string WX_UserName, string WX_SourceType) {
+            this.SendCharge_GetSourceAsync(jusrpar, WX_UserName, WX_SourceType, null);
+        }
+        
+        /// <remarks/>
+        public void SendCharge_GetSourceAsync(string jusrpar, string WX_UserName, string WX_SourceType, object userState) {
+            if ((this.SendCharge_GetSourceOperationCompleted == null)) {
+                this.SendCharge_GetSourceOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSendCharge_GetSourceOperationCompleted);
+            }
+            this.InvokeAsync("SendCharge_GetSource", new object[] {
+                        jusrpar,
+                        WX_UserName,
+                        WX_SourceType}, this.SendCharge_GetSourceOperationCompleted, userState);
+        }
+        
+        private void OnSendCharge_GetSourceOperationCompleted(object arg) {
+            if ((this.SendCharge_GetSourceCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SendCharge_GetSourceCompleted(this, new SendCharge_GetSourceCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GameVSGetRatios", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GameVSGetRatios(string jVS) {
+            object[] results = this.Invoke("GameVSGetRatios", new object[] {
+                        jVS});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GameVSGetRatiosAsync(string jVS) {
+            this.GameVSGetRatiosAsync(jVS, null);
+        }
+        
+        /// <remarks/>
+        public void GameVSGetRatiosAsync(string jVS, object userState) {
+            if ((this.GameVSGetRatiosOperationCompleted == null)) {
+                this.GameVSGetRatiosOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGameVSGetRatiosOperationCompleted);
+            }
+            this.InvokeAsync("GameVSGetRatios", new object[] {
+                        jVS}, this.GameVSGetRatiosOperationCompleted, userState);
+        }
+        
+        private void OnGameVSGetRatiosOperationCompleted(object arg) {
+            if ((this.GameVSGetRatiosCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GameVSGetRatiosCompleted(this, new GameVSGetRatiosCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/VSGetCurRatio", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string VSGetCurRatio(string jVS) {
+            object[] results = this.Invoke("VSGetCurRatio", new object[] {
+                        jVS});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void VSGetCurRatioAsync(string jVS) {
+            this.VSGetCurRatioAsync(jVS, null);
+        }
+        
+        /// <remarks/>
+        public void VSGetCurRatioAsync(string jVS, object userState) {
+            if ((this.VSGetCurRatioOperationCompleted == null)) {
+                this.VSGetCurRatioOperationCompleted = new System.Threading.SendOrPostCallback(this.OnVSGetCurRatioOperationCompleted);
+            }
+            this.InvokeAsync("VSGetCurRatio", new object[] {
+                        jVS}, this.VSGetCurRatioOperationCompleted, userState);
+        }
+        
+        private void OnVSGetCurRatioOperationCompleted(object arg) {
+            if ((this.VSGetCurRatioCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.VSGetCurRatioCompleted(this, new VSGetCurRatioCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/BallOpen_GetUpPaySource", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public BallOpen_GetUpPaySourceClass[] BallOpen_GetUpPaySource(string GameID, string WX_SourceType, System.Guid UserKey) {
+            object[] results = this.Invoke("BallOpen_GetUpPaySource", new object[] {
+                        GameID,
+                        WX_SourceType,
+                        UserKey});
+            return ((BallOpen_GetUpPaySourceClass[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void BallOpen_GetUpPaySourceAsync(string GameID, string WX_SourceType, System.Guid UserKey) {
+            this.BallOpen_GetUpPaySourceAsync(GameID, WX_SourceType, UserKey, null);
+        }
+        
+        /// <remarks/>
+        public void BallOpen_GetUpPaySourceAsync(string GameID, string WX_SourceType, System.Guid UserKey, object userState) {
+            if ((this.BallOpen_GetUpPaySourceOperationCompleted == null)) {
+                this.BallOpen_GetUpPaySourceOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBallOpen_GetUpPaySourceOperationCompleted);
+            }
+            this.InvokeAsync("BallOpen_GetUpPaySource", new object[] {
+                        GameID,
+                        WX_SourceType,
+                        UserKey}, this.BallOpen_GetUpPaySourceOperationCompleted, userState);
+        }
+        
+        private void OnBallOpen_GetUpPaySourceOperationCompleted(object arg) {
+            if ((this.BallOpen_GetUpPaySourceCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.BallOpen_GetUpPaySourceCompleted(this, new BallOpen_GetUpPaySourceCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -536,11 +1465,1459 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public partial class ChongQingShiShiCaiCaculatePeriodResult {
+        
+        private string gameFullPeriodField;
+        
+        private string gameFullLocalPeriodField;
+        
+        private bool successField;
+        
+        private string errorMessageField;
+        
+        /// <remarks/>
+        public string GameFullPeriod {
+            get {
+                return this.gameFullPeriodField;
+            }
+            set {
+                this.gameFullPeriodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string GameFullLocalPeriod {
+            get {
+                return this.gameFullLocalPeriodField;
+            }
+            set {
+                this.gameFullLocalPeriodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Success {
+            get {
+                return this.successField;
+            }
+            set {
+                this.successField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ErrorMessage {
+            get {
+                return this.errorMessageField;
+            }
+            set {
+                this.errorMessageField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public partial class BallOpen_GetUpPaySourceClass {
+        
+        private string wX_UserNameOrRemarkField;
+        
+        private System.Nullable<System.Guid> aspnet_UserIDField;
+        
+        private System.Nullable<System.DateTime> transtimeField;
+        
+        private string gameIDField;
+        
+        private string gameVSField;
+        
+        private string buyTypeField;
+        
+        private System.Nullable<decimal> buyRatioField;
+        
+        private System.Nullable<decimal> buyMoneyField;
+        
+        private System.Nullable<bool> haveOpenField;
+        
+        private System.Nullable<decimal> resultMoneyField;
+        
+        private System.Nullable<decimal> a_WINField;
+        
+        private string winlessField;
+        
+        private System.Nullable<decimal> b_WinField;
+        
+        private System.Nullable<decimal> bigWinField;
+        
+        private string totalField;
+        
+        private System.Nullable<decimal> smallWinField;
+        
+        private System.Nullable<decimal> r_A_AField;
+        
+        private System.Nullable<decimal> r_A_SAMEField;
+        
+        private System.Nullable<decimal> r_A_BField;
+        
+        private System.Nullable<decimal> r_SAME_AField;
+        
+        private System.Nullable<decimal> r_SAME_SAMEField;
+        
+        private System.Nullable<decimal> r_SAME_BField;
+        
+        private System.Nullable<decimal> r_B_AField;
+        
+        private System.Nullable<decimal> r_B_SAMEField;
+        
+        private System.Nullable<decimal> r_B_BField;
+        
+        private System.Nullable<decimal> r1_0_AField;
+        
+        private System.Nullable<decimal> r1_0_BField;
+        
+        private System.Nullable<decimal> r2_0_AField;
+        
+        private System.Nullable<decimal> r2_0_BField;
+        
+        private System.Nullable<decimal> r2_1_AField;
+        
+        private System.Nullable<decimal> r2_1_BField;
+        
+        private System.Nullable<decimal> r3_0_AField;
+        
+        private System.Nullable<decimal> r3_0_BField;
+        
+        private System.Nullable<decimal> r3_1_AField;
+        
+        private System.Nullable<decimal> r3_1_BField;
+        
+        private System.Nullable<decimal> r3_2_AField;
+        
+        private System.Nullable<decimal> r3_2_BField;
+        
+        private System.Nullable<decimal> r4_0_AField;
+        
+        private System.Nullable<decimal> r4_0_BField;
+        
+        private System.Nullable<decimal> r4_1_AField;
+        
+        private System.Nullable<decimal> r4_1_BField;
+        
+        private System.Nullable<decimal> r4_2_AField;
+        
+        private System.Nullable<decimal> r4_2_BField;
+        
+        private System.Nullable<decimal> r4_3_AField;
+        
+        private System.Nullable<decimal> r4_3_BField;
+        
+        private System.Nullable<decimal> r0_0Field;
+        
+        private System.Nullable<decimal> r1_1Field;
+        
+        private System.Nullable<decimal> r2_2Field;
+        
+        private System.Nullable<decimal> r3_3Field;
+        
+        private System.Nullable<decimal> r4_4Field;
+        
+        private System.Nullable<decimal> rotherField;
+        
+        private string wX_SourceTypeField;
+        
+        private string a_TeamField;
+        
+        private string b_TeamField;
+        
+        /// <remarks/>
+        public string WX_UserNameOrRemark {
+            get {
+                return this.wX_UserNameOrRemarkField;
+            }
+            set {
+                this.wX_UserNameOrRemarkField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.Guid> aspnet_UserID {
+            get {
+                return this.aspnet_UserIDField;
+            }
+            set {
+                this.aspnet_UserIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> transtime {
+            get {
+                return this.transtimeField;
+            }
+            set {
+                this.transtimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string GameID {
+            get {
+                return this.gameIDField;
+            }
+            set {
+                this.gameIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string GameVS {
+            get {
+                return this.gameVSField;
+            }
+            set {
+                this.gameVSField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BuyType {
+            get {
+                return this.buyTypeField;
+            }
+            set {
+                this.buyTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> BuyRatio {
+            get {
+                return this.buyRatioField;
+            }
+            set {
+                this.buyRatioField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> BuyMoney {
+            get {
+                return this.buyMoneyField;
+            }
+            set {
+                this.buyMoneyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<bool> HaveOpen {
+            get {
+                return this.haveOpenField;
+            }
+            set {
+                this.haveOpenField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> ResultMoney {
+            get {
+                return this.resultMoneyField;
+            }
+            set {
+                this.resultMoneyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> A_WIN {
+            get {
+                return this.a_WINField;
+            }
+            set {
+                this.a_WINField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Winless {
+            get {
+                return this.winlessField;
+            }
+            set {
+                this.winlessField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> B_Win {
+            get {
+                return this.b_WinField;
+            }
+            set {
+                this.b_WinField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> BigWin {
+            get {
+                return this.bigWinField;
+            }
+            set {
+                this.bigWinField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Total {
+            get {
+                return this.totalField;
+            }
+            set {
+                this.totalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> SmallWin {
+            get {
+                return this.smallWinField;
+            }
+            set {
+                this.smallWinField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R_A_A {
+            get {
+                return this.r_A_AField;
+            }
+            set {
+                this.r_A_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R_A_SAME {
+            get {
+                return this.r_A_SAMEField;
+            }
+            set {
+                this.r_A_SAMEField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R_A_B {
+            get {
+                return this.r_A_BField;
+            }
+            set {
+                this.r_A_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R_SAME_A {
+            get {
+                return this.r_SAME_AField;
+            }
+            set {
+                this.r_SAME_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R_SAME_SAME {
+            get {
+                return this.r_SAME_SAMEField;
+            }
+            set {
+                this.r_SAME_SAMEField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R_SAME_B {
+            get {
+                return this.r_SAME_BField;
+            }
+            set {
+                this.r_SAME_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R_B_A {
+            get {
+                return this.r_B_AField;
+            }
+            set {
+                this.r_B_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R_B_SAME {
+            get {
+                return this.r_B_SAMEField;
+            }
+            set {
+                this.r_B_SAMEField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R_B_B {
+            get {
+                return this.r_B_BField;
+            }
+            set {
+                this.r_B_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R1_0_A {
+            get {
+                return this.r1_0_AField;
+            }
+            set {
+                this.r1_0_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R1_0_B {
+            get {
+                return this.r1_0_BField;
+            }
+            set {
+                this.r1_0_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R2_0_A {
+            get {
+                return this.r2_0_AField;
+            }
+            set {
+                this.r2_0_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R2_0_B {
+            get {
+                return this.r2_0_BField;
+            }
+            set {
+                this.r2_0_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R2_1_A {
+            get {
+                return this.r2_1_AField;
+            }
+            set {
+                this.r2_1_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R2_1_B {
+            get {
+                return this.r2_1_BField;
+            }
+            set {
+                this.r2_1_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R3_0_A {
+            get {
+                return this.r3_0_AField;
+            }
+            set {
+                this.r3_0_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R3_0_B {
+            get {
+                return this.r3_0_BField;
+            }
+            set {
+                this.r3_0_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R3_1_A {
+            get {
+                return this.r3_1_AField;
+            }
+            set {
+                this.r3_1_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R3_1_B {
+            get {
+                return this.r3_1_BField;
+            }
+            set {
+                this.r3_1_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R3_2_A {
+            get {
+                return this.r3_2_AField;
+            }
+            set {
+                this.r3_2_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R3_2_B {
+            get {
+                return this.r3_2_BField;
+            }
+            set {
+                this.r3_2_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R4_0_A {
+            get {
+                return this.r4_0_AField;
+            }
+            set {
+                this.r4_0_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R4_0_B {
+            get {
+                return this.r4_0_BField;
+            }
+            set {
+                this.r4_0_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R4_1_A {
+            get {
+                return this.r4_1_AField;
+            }
+            set {
+                this.r4_1_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R4_1_B {
+            get {
+                return this.r4_1_BField;
+            }
+            set {
+                this.r4_1_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R4_2_A {
+            get {
+                return this.r4_2_AField;
+            }
+            set {
+                this.r4_2_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R4_2_B {
+            get {
+                return this.r4_2_BField;
+            }
+            set {
+                this.r4_2_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R4_3_A {
+            get {
+                return this.r4_3_AField;
+            }
+            set {
+                this.r4_3_AField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R4_3_B {
+            get {
+                return this.r4_3_BField;
+            }
+            set {
+                this.r4_3_BField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R0_0 {
+            get {
+                return this.r0_0Field;
+            }
+            set {
+                this.r0_0Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R1_1 {
+            get {
+                return this.r1_1Field;
+            }
+            set {
+                this.r1_1Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R2_2 {
+            get {
+                return this.r2_2Field;
+            }
+            set {
+                this.r2_2Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R3_3 {
+            get {
+                return this.r3_3Field;
+            }
+            set {
+                this.r3_3Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> R4_4 {
+            get {
+                return this.r4_4Field;
+            }
+            set {
+                this.r4_4Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> Rother {
+            get {
+                return this.rotherField;
+            }
+            set {
+                this.rotherField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string WX_SourceType {
+            get {
+                return this.wX_SourceTypeField;
+            }
+            set {
+                this.wX_SourceTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string A_Team {
+            get {
+                return this.a_TeamField;
+            }
+            set {
+                this.a_TeamField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string B_Team {
+            get {
+                return this.b_TeamField;
+            }
+            set {
+                this.b_TeamField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public partial class SendCharge_GetSourceClass {
+        
+        private string userNameField;
+        
+        private string remarkField;
+        
+        private string remarkTypeField;
+        
+        private System.Nullable<decimal> changePointField;
+        
+        private System.Nullable<System.DateTime> changeTimeField;
+        
+        private string gamePeriodField;
+        
+        private string sourceTypeField;
+        
+        /// <remarks/>
+        public string UserName {
+            get {
+                return this.userNameField;
+            }
+            set {
+                this.userNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Remark {
+            get {
+                return this.remarkField;
+            }
+            set {
+                this.remarkField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string RemarkType {
+            get {
+                return this.remarkTypeField;
+            }
+            set {
+                this.remarkTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> ChangePoint {
+            get {
+                return this.changePointField;
+            }
+            set {
+                this.changePointField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> ChangeTime {
+            get {
+                return this.changeTimeField;
+            }
+            set {
+                this.changeTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string GamePeriod {
+            get {
+                return this.gamePeriodField;
+            }
+            set {
+                this.gamePeriodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string SourceType {
+            get {
+                return this.sourceTypeField;
+            }
+            set {
+                this.sourceTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public partial class RemindQuery_GetChangePointClass {
+        
+        private System.Nullable<decimal> 分数变动Field;
+        
+        private System.Nullable<System.DateTime> 时间Field;
+        
+        private string 期号Field;
+        
+        private string 类型Field;
+        
+        private string 下注Field;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> 分数变动 {
+            get {
+                return this.分数变动Field;
+            }
+            set {
+                this.分数变动Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> 时间 {
+            get {
+                return this.时间Field;
+            }
+            set {
+                this.时间Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string 期号 {
+            get {
+                return this.期号Field;
+            }
+            set {
+                this.期号Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string 类型 {
+            get {
+                return this.类型Field;
+            }
+            set {
+                this.类型Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string 下注 {
+            get {
+                return this.下注Field;
+            }
+            set {
+                this.下注Field = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public partial class RemindQuery_GetReplyLogClass {
+        
+        private string 玩家Field;
+        
+        private string 内容Field;
+        
+        private System.Nullable<System.DateTime> 时间Field;
+        
+        /// <remarks/>
+        public string 玩家 {
+            get {
+                return this.玩家Field;
+            }
+            set {
+                this.玩家Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string 内容 {
+            get {
+                return this.内容Field;
+            }
+            set {
+                this.内容Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> 时间 {
+            get {
+                return this.时间Field;
+            }
+            set {
+                this.时间Field = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public partial class UserChangeLogType {
+        
+        private string userNameField;
+        
+        private string remarkField;
+        
+        private string remarkTypeField;
+        
+        private System.Nullable<decimal> changePointField;
+        
+        private System.Nullable<System.DateTime> changeTimeField;
+        
+        private string gamePeriodField;
+        
+        private string sourceTypeField;
+        
+        /// <remarks/>
+        public string UserName {
+            get {
+                return this.userNameField;
+            }
+            set {
+                this.userNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Remark {
+            get {
+                return this.remarkField;
+            }
+            set {
+                this.remarkField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string RemarkType {
+            get {
+                return this.remarkTypeField;
+            }
+            set {
+                this.remarkTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> ChangePoint {
+            get {
+                return this.changePointField;
+            }
+            set {
+                this.changePointField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> ChangeTime {
+            get {
+                return this.changeTimeField;
+            }
+            set {
+                this.changeTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string GamePeriod {
+            get {
+                return this.gamePeriodField;
+            }
+            set {
+                this.gamePeriodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string SourceType {
+            get {
+                return this.sourceTypeField;
+            }
+            set {
+                this.sourceTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public partial class ReminderType {
+        
+        private string 玩家Field;
+        
+        private System.Nullable<decimal> 余Field;
+        
+        private string wX_UserNameField;
+        
+        private string wX_SourceTypeField;
+        
+        /// <remarks/>
+        public string 玩家 {
+            get {
+                return this.玩家Field;
+            }
+            set {
+                this.玩家Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> 余 {
+            get {
+                return this.余Field;
+            }
+            set {
+                this.余Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string WX_UserName {
+            get {
+                return this.wX_UserNameField;
+            }
+            set {
+                this.wX_UserNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string WX_SourceType {
+            get {
+                return this.wX_SourceTypeField;
+            }
+            set {
+                this.wX_SourceTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public partial class Game_BasicRatio {
+        
+        private System.Guid aspnet_UserIDField;
+        
+        private string gameTypeField;
+        
+        private string buyTypeField;
+        
+        private string buyValueField;
+        
+        private decimal minBuyField;
+        
+        private decimal maxBuyField;
+        
+        private System.Nullable<decimal> basicRatioField;
+        
+        private System.Nullable<decimal> orderIndexField;
+        
+        private bool includeMinField;
+        
+        private string bonusBuyValueConditionField;
+        
+        private string wX_SourceTypeField;
+        
+        private System.Nullable<bool> enableField;
+        
+        /// <remarks/>
+        public System.Guid aspnet_UserID {
+            get {
+                return this.aspnet_UserIDField;
+            }
+            set {
+                this.aspnet_UserIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string GameType {
+            get {
+                return this.gameTypeField;
+            }
+            set {
+                this.gameTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BuyType {
+            get {
+                return this.buyTypeField;
+            }
+            set {
+                this.buyTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BuyValue {
+            get {
+                return this.buyValueField;
+            }
+            set {
+                this.buyValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal MinBuy {
+            get {
+                return this.minBuyField;
+            }
+            set {
+                this.minBuyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal MaxBuy {
+            get {
+                return this.maxBuyField;
+            }
+            set {
+                this.maxBuyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> BasicRatio {
+            get {
+                return this.basicRatioField;
+            }
+            set {
+                this.basicRatioField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> OrderIndex {
+            get {
+                return this.orderIndexField;
+            }
+            set {
+                this.orderIndexField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IncludeMin {
+            get {
+                return this.includeMinField;
+            }
+            set {
+                this.includeMinField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BonusBuyValueCondition {
+            get {
+                return this.bonusBuyValueConditionField;
+            }
+            set {
+                this.bonusBuyValueConditionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string WX_SourceType {
+            get {
+                return this.wX_SourceTypeField;
+            }
+            set {
+                this.wX_SourceTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<bool> Enable {
+            get {
+                return this.enableField;
+            }
+            set {
+                this.enableField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public partial class WX_BounsConfig {
+        
+        private System.Guid aspnet_UserIDField;
+        
+        private int rowNumberField;
+        
+        private System.Nullable<decimal> startBuyPeriodField;
+        
+        private System.Nullable<decimal> endBuyPeriodField;
+        
+        private System.Nullable<decimal> startBuyAverageField;
+        
+        private System.Nullable<decimal> endBuyAverageField;
+        
+        private System.Nullable<decimal> fixNumberField;
+        
+        private System.Nullable<decimal> flowPercentField;
+        
+        private System.Nullable<decimal> ifDivousPercentField;
+        
+        /// <remarks/>
+        public System.Guid aspnet_UserID {
+            get {
+                return this.aspnet_UserIDField;
+            }
+            set {
+                this.aspnet_UserIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int RowNumber {
+            get {
+                return this.rowNumberField;
+            }
+            set {
+                this.rowNumberField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> StartBuyPeriod {
+            get {
+                return this.startBuyPeriodField;
+            }
+            set {
+                this.startBuyPeriodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> EndBuyPeriod {
+            get {
+                return this.endBuyPeriodField;
+            }
+            set {
+                this.endBuyPeriodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> StartBuyAverage {
+            get {
+                return this.startBuyAverageField;
+            }
+            set {
+                this.startBuyAverageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> EndBuyAverage {
+            get {
+                return this.endBuyAverageField;
+            }
+            set {
+                this.endBuyAverageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> FixNumber {
+            get {
+                return this.fixNumberField;
+            }
+            set {
+                this.fixNumberField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> FlowPercent {
+            get {
+                return this.flowPercentField;
+            }
+            set {
+                this.flowPercentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> IfDivousPercent {
+            get {
+                return this.ifDivousPercentField;
+            }
+            set {
+                this.ifDivousPercentField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public enum FormatResultState {
+        
+        /// <remarks/>
+        Initialize,
+        
+        /// <remarks/>
+        Fail,
+        
+        /// <remarks/>
+        Multi,
+        
+        /// <remarks/>
+        SingleSuccess,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public enum FormatResultType {
+        
+        /// <remarks/>
+        Initialize,
+        
+        /// <remarks/>
+        QueryTxt,
+        
+        /// <remarks/>
+        QueryImage,
+        
+        /// <remarks/>
+        QueryResult,
+        
+        /// <remarks/>
+        OrderModify,
+        
+        /// <remarks/>
+        CancelOrderModify,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void UserLogInCompletedEventHandler(object sender, UserLogInCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class UserLogInCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -562,11 +2939,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void GetSettingCompletedEventHandler(object sender, GetSettingCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetSettingCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -588,11 +2965,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void SaveSettingCompletedEventHandler(object sender, SaveSettingCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class SaveSettingCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -614,11 +2991,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void GetBossUsersCompletedEventHandler(object sender, GetBossUsersCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetBossUsersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -640,11 +3017,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void GetUserTokenCompletedEventHandler(object sender, GetUserTokenCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetUserTokenCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -666,15 +3043,15 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void ChangePasswordCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void GetUserInfoCompletedEventHandler(object sender, GetUserInfoCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetUserInfoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -696,11 +3073,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void GetTemplateRatiosCompletedEventHandler(object sender, GetTemplateRatiosCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetTemplateRatiosCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -722,11 +3099,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void GetTemplateBonusCompletedEventHandler(object sender, GetTemplateBonusCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetTemplateBonusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -748,11 +3125,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void SetMembersCompletedEventHandler(object sender, SetMembersCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class SetMembersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -774,11 +3151,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void OpenUrlCompletedEventHandler(object sender, OpenUrlCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class OpenUrlCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -800,11 +3177,11 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void OpenLongTimeUrlCompletedEventHandler(object sender, OpenLongTimeUrlCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class OpenLongTimeUrlCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -821,6 +3198,670 @@ namespace WeixinRoboot.RobootWeb {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WX_UserReplyLog_CreateCompletedEventHandler(object sender, WX_UserReplyLog_CreateCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WX_UserReplyLog_CreateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WX_UserReplyLog_CreateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WX_UserReplyLog_MySendCreateCompletedEventHandler(object sender, WX_UserReplyLog_MySendCreateCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WX_UserReplyLog_MySendCreateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WX_UserReplyLog_MySendCreateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void ChongQingShiShiCaiCaculatePeriodCompletedEventHandler(object sender, ChongQingShiShiCaiCaculatePeriodCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ChongQingShiShiCaiCaculatePeriodCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ChongQingShiShiCaiCaculatePeriodCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public ChongQingShiShiCaiCaculatePeriodResult Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((ChongQingShiShiCaiCaculatePeriodResult)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WX_UserGameLog_DealCompletedEventHandler(object sender, WX_UserGameLog_DealCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WX_UserGameLog_DealCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WX_UserGameLog_DealCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WXUserChangeLog_GetRemainderCompletedEventHandler(object sender, WXUserChangeLog_GetRemainderCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WXUserChangeLog_GetRemainderCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WXUserChangeLog_GetRemainderCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public decimal Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((decimal)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetBossReportSourceCompletedEventHandler(object sender, GetBossReportSourceCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBossReportSourceCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBossReportSourceCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataTable Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataTable)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetBounsConfigCompletedEventHandler(object sender, GetBounsConfigCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBounsConfigCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBounsConfigCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public WX_BounsConfig[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((WX_BounsConfig[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void SaveBounsConfigCompletedEventHandler(object sender, SaveBounsConfigCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SaveBounsConfigCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SaveBounsConfigCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetBasicRatioCompletedEventHandler(object sender, GetBasicRatioCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBasicRatioCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBasicRatioCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Game_BasicRatio[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Game_BasicRatio[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void SaveBasicRatioCompletedEventHandler(object sender, SaveBasicRatioCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SaveBasicRatioCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SaveBasicRatioCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetReminderCompletedEventHandler(object sender, GetReminderCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetReminderCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetReminderCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public ReminderType[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((ReminderType[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetUserChangeLogCompletedEventHandler(object sender, GetUserChangeLogCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetUserChangeLogCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetUserChangeLogCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public UserChangeLogType[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((UserChangeLogType[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetHKSixLast16CompletedEventHandler(object sender, GetHKSixLast16CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetHKSixLast16CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetHKSixLast16CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void RemindQuery_GetReplyLogCompletedEventHandler(object sender, RemindQuery_GetReplyLogCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RemindQuery_GetReplyLogCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RemindQuery_GetReplyLogCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public RemindQuery_GetReplyLogClass[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((RemindQuery_GetReplyLogClass[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void RemindQuery_GetChangePointCompletedEventHandler(object sender, RemindQuery_GetChangePointCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RemindQuery_GetChangePointCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RemindQuery_GetChangePointCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public RemindQuery_GetChangePointClass[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((RemindQuery_GetChangePointClass[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetWebSendPicSettingCompletedEventHandler(object sender, GetWebSendPicSettingCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetWebSendPicSettingCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetWebSendPicSettingCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void SaveWebSendPicSettingCompletedEventHandler(object sender, SaveWebSendPicSettingCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SaveWebSendPicSettingCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SaveWebSendPicSettingCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void ReceiveContentFormatCompletedEventHandler(object sender, ReceiveContentFormatCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ReceiveContentFormatCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ReceiveContentFormatCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public object[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((object[])(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public FormatResultState State {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((FormatResultState)(this.results[1]));
+            }
+        }
+        
+        /// <remarks/>
+        public FormatResultType ModeType {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((FormatResultType)(this.results[2]));
+            }
+        }
+        
+        /// <remarks/>
+        public string BuyType {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[3]));
+            }
+        }
+        
+        /// <remarks/>
+        public string BuyMoney {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[4]));
+            }
+        }
+        
+        /// <remarks/>
+        public string[] ContextTeams {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string[])(this.results[5]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetUserPeriodInOutCompletedEventHandler(object sender, GetUserPeriodInOutCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetUserPeriodInOutCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetUserPeriodInOutCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public decimal Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((decimal)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetBounsSourceCompletedEventHandler(object sender, GetBounsSourceCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBounsSourceCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBounsSourceCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataTable Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataTable)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void SendCharge_GetSourceCompletedEventHandler(object sender, SendCharge_GetSourceCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SendCharge_GetSourceCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SendCharge_GetSourceCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public SendCharge_GetSourceClass[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((SendCharge_GetSourceClass[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GameVSGetRatiosCompletedEventHandler(object sender, GameVSGetRatiosCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GameVSGetRatiosCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GameVSGetRatiosCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void VSGetCurRatioCompletedEventHandler(object sender, VSGetCurRatioCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class VSGetCurRatioCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal VSGetCurRatioCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void BallOpen_GetUpPaySourceCompletedEventHandler(object sender, BallOpen_GetUpPaySourceCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class BallOpen_GetUpPaySourceCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal BallOpen_GetUpPaySourceCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public BallOpen_GetUpPaySourceClass[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((BallOpen_GetUpPaySourceClass[])(this.results[0]));
             }
         }
     }
