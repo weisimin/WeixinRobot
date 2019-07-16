@@ -12,7 +12,7 @@ using System.Net;
 using System.Security.AccessControl;
 //xl1234567密码123456
 //http://down.1goubao.com/hy-android-new/
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     static class Program
     {
@@ -73,7 +73,7 @@ namespace WeixinRoboot
                 try
                 {
 
-                    string ConfigFile = Application.StartupPath + "\\WeixinRoboot.exe.config";
+                    string ConfigFile = Application.StartupPath + "\\WeixinRobootSlim.exe.config";
                     string TempFileName = Application.StartupPath + "\\web.config";
                     if (System.IO.File.Exists(TempFileName))
                     {
@@ -157,7 +157,7 @@ namespace WeixinRoboot
                 //局部线程，不能及时结束会造成没相应
                 //全局LINQ数据库，会频繁出现SQLDATAREADER已打开或关闭的问题
 
-                WeixinRobotLib.Linq.ProgramLogic.ComboStringInit();
+               
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -211,7 +211,7 @@ namespace WeixinRoboot
         {
             loginf.Hide();
             #region
-            WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             //db.ObjectTrackingEnabled = false;
 
@@ -254,7 +254,7 @@ namespace WeixinRoboot
             }
             if (GlobalParam.DataSourceName != "Admin" && GlobalParam.DataSourceName != "User")
             {
-                WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend wsr =Linq.Util_Services.GetServicesSetting();
+                WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend wsr = Linq.Util_Services.GetServicesSetting();
                 sf.SetMode("EasyRobot", wsr.OpenMode == null ? "" : wsr.OpenMode);
             }
 

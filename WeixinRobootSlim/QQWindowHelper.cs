@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     /// <summary>
     /// 对Messenger窗口进行操作
@@ -309,14 +309,14 @@ namespace WeixinRoboot
 
         object FindOwner;
         IAccessible FindOwnerParent;
-        public void ReloadMembers(string GroupOwnerName, DataTable ToJoinIn, string WX_SourceType, WeixinRobotLib.Linq.dbDataContext db, IntPtr hwnd)
+        public void ReloadMembers(string GroupOwnerName, DataTable ToJoinIn, string WX_SourceType,  IntPtr hwnd)
         {
             XmlDocument doc = new XmlDocument();
             StartGetAccessibleObjects(_QqWindowHandle, out FindOwner, out FindOwnerParent, GroupOwnerName, out doc);
 
             object[] CHILDS = GetAccessibleChildren(FindOwnerParent);
 
-            WeixinRobotLib.Linq.WX_PCSendPicSetting pcset = db.WX_PCSendPicSetting.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
+            WeixinRobotLib.Entity.Linq.WX_PCSendPicSetting pcset = db.WX_PCSendPicSetting.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
 
             foreach (var CHILDITEM in CHILDS)
             {
@@ -332,7 +332,7 @@ namespace WeixinRoboot
                 if (testexit.Length == 0)
                 {
 
-                    WeixinRobotLib.Linq.WX_UserReply userreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                    WeixinRobotLib.Entity.Linq.WX_UserReply userreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                                                                                                && t.WX_UserName == NewName
                                                                                                && t.WX_SourceType == WX_SourceType
                                                                                                );
@@ -344,7 +344,7 @@ namespace WeixinRoboot
 
                     if (userreply == null)
                     {
-                        WeixinRobotLib.Linq.WX_UserReply newr = new WeixinRobotLib.Linq.WX_UserReply();
+                        WeixinRobotLib.Entity.Linq.WX_UserReply newr = new WeixinRobotLib.Entity.Linq.WX_UserReply();
                         newr.aspnet_UserID = GlobalParam.UserKey;
                         newr.WX_SourceType = WX_SourceType;
                         newr.WX_UserName = NewName;

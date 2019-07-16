@@ -11,7 +11,7 @@ using System.Xml;
 //using System.Web.Security;
 using System.Reflection;
 using System.Web.Profile;
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     public partial class LoginForm : Form
     {

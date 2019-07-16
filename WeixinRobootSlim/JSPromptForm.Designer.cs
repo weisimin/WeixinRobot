@@ -1,4 +1,4 @@
-﻿namespace WeixinRoboot
+﻿namespace WeixinRobootSlim
 {
     partial class JSPromptForm
     {

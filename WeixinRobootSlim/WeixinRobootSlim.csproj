@@ -140,7 +140,7 @@
       <DependentUpon>BallOpen.cs</DependentUpon>
     </Compile>
     <Compile Include="HotKey.cs" />
-    <Compile Include="Linq\Util_Service.cs" />
+    <Compile Include="Linq\Util_Services.cs" />
     <Compile Include="LogForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -390,24 +390,39 @@
     <Content Include="Template_shishicai.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Web References\RobootWeb\ChongQingShiShiCaiCaculatePeriodResult.datasource">
+    <None Include="Web References\RobootWeb\BallOpen_GetUpPaySourceClass.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\RobootWeb\Game_BasicRatio.datasource">
+    <None Include="Web References\RobootWeb\ChongQingShiShiCaiCaculatePeriodResult1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\RobootWeb\Game_BasicRatio1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\RobootWeb\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\RobootWeb\ReminderType.datasource">
+    <None Include="Web References\RobootWeb\ReminderType1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\RobootWeb\UserChangeLogType.datasource">
+    <None Include="Web References\RobootWeb\RemindQuery_GetChangePointClass.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\RobootWeb\RemindQuery_GetReplyLogClass.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\RobootWeb\SendCharge_GetSourceClass.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\RobootWeb\SendManulOrder_GetOrderSourceClass.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\RobootWeb\UserChangeLogType1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\RobootWeb\WebService.wsdl" />
-    <None Include="Web References\RobootWeb\WX_BounsConfig.datasource">
+    <None Include="Web References\RobootWeb\WX_BounsConfig1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\RobotWebAdmin\MembershipUser.datasource">
@@ -526,12 +541,11 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WeixinRobotLib\WeixinRobotLib.csproj">
-      <Project>{7b148ab2-c2ef-47b8-b1e9-50f49b705e76}</Project>
-      <Name>WeixinRobotLib</Name>
+    <ProjectReference Include="..\WeixinRobotLib.Entity\WeixinRobotLib.Entity.csproj">
+      <Project>{a79357b4-4242-46be-8aac-9b03c080d086}</Project>
+      <Name>WeixinRobotLib.Entity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

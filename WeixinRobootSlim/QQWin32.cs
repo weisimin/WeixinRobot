@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 using Accessibility;
 
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     /// <summary>
     /// 调用Window API

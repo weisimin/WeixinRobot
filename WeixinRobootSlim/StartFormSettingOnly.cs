@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     public partial class StartFormSettingOnly : Form
     {

@@ -6,8 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
-namespace WeixinRoboot
+using Newtonsoft.Json;
+namespace WeixinRobootSlim
 {
     public partial class SendBouns : Form
     {
@@ -33,7 +33,8 @@ namespace WeixinRoboot
 
         private void BTN_QUERY_Click(object sender, EventArgs e)
         {
-            BS_DataSource.DataSource = Linq.ProgramLogic.GetBounsSource(dtp_querydate.Value, cb_SourceType.SelectedItem.ToString());
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+            BS_DataSource.DataSource = ws.GetBounsSource(dtp_querydate.Value, cb_SourceType.SelectedItem.ToString(),GlobalParam.GetUserParam());
 
 
         }
@@ -41,7 +42,7 @@ namespace WeixinRoboot
         private void BTN_SEND_Click(object sender, EventArgs e)
         {
 
-           
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
         
 
@@ -52,13 +53,13 @@ namespace WeixinRoboot
             {
                 DataRow[] usrrow = StartF.RunnerF.MemberSource.Select("User_ContactID='" + Senditem.Field<string>("WX_UserName").Replace("'", "''") + "' and User_SourceType='" + cb_SourceType.SelectedItem.ToString() + "'");
 
-                var fcl = db.WX_UserChangeLog.Where(t =>
-                    t.aspnet_UserID == GlobalParam.UserKey
-                    && t.WX_UserName == Senditem.Field<string>("WX_UserName")
-                    && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                    && t.RemarkType == "福利"
-                    && t.ChangeLocalDay == Senditem.Field<String>("LocalPeriodDay")
-                    );
+                //var fcl = db.WX_UserChangeLog.Where(t =>
+                //    t.aspnet_UserID == GlobalParam.UserKey
+                //    && t.WX_UserName == Senditem.Field<string>("WX_UserName")
+                //    && t.WX_SourceType == cb_SourceType.SelectedItem.ToString()
+                //    && t.RemarkType == "福利"
+                //    && t.ChangeLocalDay == Senditem.Field<String>("LocalPeriodDay")
+                //    );
                 //取消禁止多次发放
                 // if (fcl.Count() == 0 && usrrow.Length != 0)
                 if (Senditem.Field<decimal?>("BounsCount").HasValue==false)
@@ -72,9 +73,11 @@ namespace WeixinRoboot
                     continue;
                 }
 
-                String Returnstr = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(
+                String Returnstr = ws.WX_UserReplyLog_MySendCreate(
                      "福利" + NetFramework.Util_Math.NullToZero(Senditem.Field<decimal?>("BounsCount"))
-                     , null, DateTime.Now, Senditem.Field<string>("WX_UserName"), cb_SourceType.SelectedItem.ToString());
+                     , null, DateTime.Now,GlobalParam.GetUserParam(), null
+                     ,JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting() )
+                     ,Senditem.Field<string>("WX_UserName"), cb_SourceType.SelectedItem.ToString());
                 if (Returnstr != "")
                 {
                     if (usrrow.Length != 0)

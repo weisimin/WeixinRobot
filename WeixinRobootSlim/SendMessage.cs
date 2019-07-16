@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     public partial class SendMessage : Form
     {

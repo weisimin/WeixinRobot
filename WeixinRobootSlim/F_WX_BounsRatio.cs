@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using WeixinRobotLib;
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     public partial class F_WX_BounsRatio : Form
     {
@@ -21,8 +21,8 @@ namespace WeixinRoboot
             try
             {
 
-                RobootWeb.WebService ws = new RobootWeb.WebService();
-                ws.SaveBounsConfig(GlobalParam.GetUserParam(), Newtonsoft.Json.JsonConvert.SerializeObject( (WeixinRobotLib.Linq.WX_BounsConfig[])BS_GV_DATA.DataSource));
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                ws.SaveBounsConfig(GlobalParam.GetUserParam(), Newtonsoft.Json.JsonConvert.SerializeObject((WeixinRobotLib.Entity.Linq.WX_BounsConfig[])BS_GV_DATA.DataSource));
                
                 MessageBox.Show("保存成功");
             }
@@ -43,7 +43,7 @@ namespace WeixinRoboot
        
         private void F_WX_BounsRatio_Load(object sender, EventArgs e)
         {
-             RobootWeb.WebService ws = new RobootWeb.WebService();
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
             BS_GV_DATA.DataSource = ws.GetBounsConfig(GlobalParam.GetUserParam());
         
         }

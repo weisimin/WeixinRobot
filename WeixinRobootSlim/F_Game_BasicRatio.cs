@@ -6,8 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
-namespace WeixinRoboot
+using Newtonsoft.Json;
+namespace WeixinRobootSlim
 {
     public partial class F_Game_BasicRatio : Form
     {
@@ -26,8 +26,8 @@ namespace WeixinRoboot
                 ep_gridview.Clear();
                 try
                 {
-                    RobootWeb.WebService ws = new RobootWeb.WebService();
-                    ws.SaveBasicRatio(GlobalParam.GetUserParam(),)
+                    WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                    ws.SaveBasicRatio(GlobalParam.GetUserParam(),JsonConvert.SerializeObject((WeixinRobotLib.Entity.Linq.Game_BasicRatio[])BS_Game_BasicRatio.DataSource ));
                 }
                 catch (Exception AnyError)
                 {
@@ -68,7 +68,7 @@ namespace WeixinRoboot
         private void F_Game_BasicRatio_Load(object sender, EventArgs e)
         {
 
-            RobootWeb.WebService ws = new RobootWeb.WebService();
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
             BS_Game_BasicRatio.DataSource =ws.GetBasicRatio(GlobalParam.GetUserParam());
 
         }

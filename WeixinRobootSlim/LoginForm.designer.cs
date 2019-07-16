@@ -1,4 +1,4 @@
-﻿namespace WeixinRoboot
+﻿namespace WeixinRobootSlim
 {
     public partial class LoginForm
     {

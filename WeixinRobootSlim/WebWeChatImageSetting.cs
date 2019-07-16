@@ -6,8 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
-namespace WeixinRoboot
+using WeixinRobotLib.Entity.Linq;
+using Newtonsoft.Json;
+namespace WeixinRobootSlim
 {
     public partial class WebWeChatImageSetting : Form
     {
@@ -25,13 +26,12 @@ namespace WeixinRoboot
         {
             try
             {
-
-                var data = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
-                     && t.WX_SourceType == WX_SourceType
-                     && t.WX_UserName == WX_UserName
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                var data = WeixinRobootSlim.Linq.Util_Services.GetWebSendPicSetting( GlobalParam.UserKey
+                    ,WX_SourceType
+                    , WX_UserName
                      );
-                if (data != null)
-                {
+              
                     data.ballinterval = Convert.ToInt32(tb_ballinterval.Text);
                     data.footballPIC = cb_footballPIC.Checked;
                     data.bassketballpic = cb_bassketballpic.Checked;
@@ -63,91 +63,15 @@ namespace WeixinRoboot
                     data.PIC_StartMinute = Convert.ToInt32(tb_StartMinute.Text);
                     data.PIC_EndHour = Convert.ToInt32(tb_EndHour.Text);
                     data.Pic_EndMinute = Convert.ToInt32(tb_EndMinute.Text);
-                    db.SubmitChanges();
-                }
-                else
-                {
-                    WeixinRobotLib.Linq.WX_WebSendPICSetting newd = new WeixinRobotLib.Linq.WX_WebSendPICSetting();
-
-                    newd.aspnet_UserID = GlobalParam.UserKey;
-                    newd.WX_UserName = WX_UserName;
-                    newd.WX_SourceType = WX_SourceType;
-
-
-                    newd.ballinterval = Convert.ToInt32(tb_ballinterval.Text);
-                    newd.footballPIC = cb_footballPIC.Checked;
-                    newd.bassketballpic = cb_bassketballpic.Checked;
-                    newd.balluclink = cb_balluclink.Checked;
-
-                    newd.card = cb_card.Checked;
-                    newd.cardname = tb_cardname.Text;
-                    newd.shishicailink = cb_shishicailink.Checked;
-                    newd.NumberPIC = cb_NumberPIC.Checked;
-                    newd.dragonpic = cb_dragonpic.Checked;
-                    newd.numericlink = cb_numericlink.Checked;
-                    newd.dragonlink = cb_dragonlink.Checked;
-                    newd.balllivepoint = cb_balllivepoint.Checked;
-
-                    newd.NumberAndDragonPIC = cb_numericanddragon.Checked;
-
-                    newd.ballstart = cb_ballstart.Checked;
-                    newd.ballend = cb_ballend.Checked;
-                    newd.HKSixResult = cb_SixResult.Checked;
-
-
-                    newd.NumberDragonTxt = cb_NumberDragonTxt.Checked;
-                    newd.NiuNiuPic = cb_NiuNiuPic.Checked;
-                    newd.NoBigSmallSingleDoublePIC = cb_NoBigSmallSingleDoublePIC.Checked;
-
-                    newd.IsSendPIC = cb_IsSendPIC.Checked;
-
-                    newd.PIC_StartHour = Convert.ToInt32(tb_StartHour.Text);
-                    newd.PIC_StartMinute = Convert.ToInt32(tb_StartMinute.Text);
-                    newd.PIC_EndHour = Convert.ToInt32(tb_EndHour.Text);
-                    newd.Pic_EndMinute = Convert.ToInt32(tb_EndMinute.Text);
-
-                    db.WX_WebSendPICSetting.InsertOnSubmit(newd);
-                    db.SubmitChanges();
-                }
+                    WeixinRobootSlim.Linq.Util_Services.SaveWebSendPicSetting(data);
+               
                 DataRow[] list = RunnerF.MemberSource.Select("User_ContactID='"+WX_UserName+"'");
                 foreach (var rowitem in list)
                 {
                     rowitem.SetField<Boolean?>("User_IsSendPic", cb_IsSendPIC.Checked);
                 }
 
-                foreach (var item in subsource)
-                {
-                    var datasub = db.WX_WebSendPICSettingMatchClass.SingleOrDefault(t =>
-                        t.aspnet_UserID == GlobalParam.UserKey
-                      && t.WX_SourceType == WX_SourceType
-                      && t.WX_UserName == WX_UserName
-                      && t.MatchBallType == item.MatchBallType
-                      && t.MatchClassName == item.MatchClassName
-                      );
-                    if (datasub != null)
-                    {
-                        datasub.SendAny = item.SendAny;
-                        db.SubmitChanges();
-                    }
-                    else
-                    {
-                        WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass newsub = new WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass();
-
-                        newsub.SendAny = item.SendAny;
-
-                        newsub.aspnet_UserID = GlobalParam.UserKey;
-                        newsub.WX_SourceType = WX_SourceType;
-                        newsub.WX_UserName = WX_UserName;
-                        newsub.MatchBallType = item.MatchBallType;
-                        newsub.MatchClassName = item.MatchClassName;
-
-
-                        db.WX_WebSendPICSettingMatchClass.InsertOnSubmit(newsub);
-                        db.SubmitChanges();
-
-                    }
-
-                }
+                ws.WX_WebSendPICSettingMatchClassSave(JsonConvert.SerializeObject( subsource),GlobalParam.GetUserParam(),WX_SourceType,_WX_UserName);
 
                 MessageBox.Show("保存成功");
             }
@@ -159,7 +83,7 @@ namespace WeixinRoboot
         }
 
 
-        List<WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass> subsource = new List<WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass>();
+        List<WX_WebSendPICSettingMatchClass> subsource = new List<WX_WebSendPICSettingMatchClass>();
 
         public string WX_UserName
         {
@@ -170,16 +94,15 @@ namespace WeixinRoboot
             set
             {
                 _WX_UserName = value;
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
                 if (WX_SourceType == "" || WX_SourceType == null || _WX_UserName == "" || _WX_UserName == null)
                 {
                     return;
                 }
-                WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
-                //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
-                //db.ObjectTrackingEnabled = false;
-                var data = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
-                     && t.WX_SourceType == WX_SourceType
-                     && t.WX_UserName == value
+
+                var data = WeixinRobootSlim.Linq.Util_Services.GetWebSendPicSetting( GlobalParam.UserKey
+                     ,WX_SourceType
+                     , value
                      );
                 if (data != null)
                 {
@@ -234,7 +157,7 @@ namespace WeixinRoboot
                     {
                         data.Pic_EndMinute = 3;
                     }
-                    db.SubmitChanges();
+                    WeixinRobootSlim.Linq.Util_Services.SaveWebSendPicSetting(data);
                 }
                 else
                 {
@@ -242,14 +165,14 @@ namespace WeixinRoboot
                 }
 
 
-                var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey
+                var source = JsonConvert.DeserializeObject<Game_FootBall_VS[]>(ws.Game_FootBall_VS_Where(GlobalParam.UserKey
                     //&&   (t.LastAliveTime==null||t.LastAliveTime>=DateTime.Today.AddDays(-3))
-                     && t.Jobid == GlobalParam.JobID
-                    );
+                    , GlobalParam.JobID
+                    ));
                 foreach (var item in source)
                 {
 
-                    WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass subset = db.WX_WebSendPICSettingMatchClass.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                    WX_WebSendPICSettingMatchClass subset = ws.WX_WebSendPICSettingMatchClass_SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                        && t.WX_SourceType == WX_SourceType
                        && t.WX_UserName == value
                        && t.MatchBallType == item.GameType
@@ -258,7 +181,7 @@ namespace WeixinRoboot
                        );
                     if (subset == null)
                     {
-                        subset = new WeixinRobotLib.Linq.WX_WebSendPICSettingMatchClass();
+                        subset = new WX_WebSendPICSettingMatchClass();
                         subset.aspnet_UserID = GlobalParam.UserKey;
                         subset.WX_SourceType = WX_SourceType;
                         subset.WX_UserName = value;

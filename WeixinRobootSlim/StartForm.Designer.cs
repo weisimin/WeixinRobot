@@ -1,4 +1,4 @@
-﻿namespace WeixinRoboot
+﻿namespace WeixinRobootSlim
 {
     partial class StartForm
     {
@@ -52,11 +52,6 @@
             this.MI_OpenQuery = new System.Windows.Forms.ToolStripMenuItem();
             this.mi_reminderquery = new System.Windows.Forms.ToolStripMenuItem();
             this.TopMenu = new System.Windows.Forms.MenuStrip();
-            this.MI_PCWechatSend = new System.Windows.Forms.ToolStripMenuItem();
-            this.MI_PCWechatSendSetting = new System.Windows.Forms.ToolStripMenuItem();
-            this.MI_BallMatch = new System.Windows.Forms.ToolStripMenuItem();
-            this.MI_BallOpenManul = new System.Windows.Forms.ToolStripMenuItem();
-            this.MI_BallGames = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenBlack = new System.Windows.Forms.Button();
             this.codeweixin = new System.Windows.Forms.Label();
             this.codeyixin = new System.Windows.Forms.Label();
@@ -180,7 +175,7 @@
             this.新用户ToolStripMenuItem,
             this.MI_ModifyUser});
             this.MI_UserSetting.Name = "MI_UserSetting";
-            this.MI_UserSetting.Size = new System.Drawing.Size(124, 22);
+            this.MI_UserSetting.Size = new System.Drawing.Size(152, 22);
             this.MI_UserSetting.Text = "用户设置";
             // 
             // 新用户ToolStripMenuItem
@@ -200,7 +195,7 @@
             // MI_MyData
             // 
             this.MI_MyData.Name = "MI_MyData";
-            this.MI_MyData.Size = new System.Drawing.Size(124, 22);
+            this.MI_MyData.Size = new System.Drawing.Size(152, 22);
             this.MI_MyData.Text = "我的资料";
             this.MI_MyData.Click += new System.EventHandler(this.MI_MyData_Click);
             // 
@@ -216,14 +211,14 @@
             // MI_Ratio_Setting
             // 
             this.MI_Ratio_Setting.Name = "MI_Ratio_Setting";
-            this.MI_Ratio_Setting.Size = new System.Drawing.Size(124, 22);
+            this.MI_Ratio_Setting.Size = new System.Drawing.Size(152, 22);
             this.MI_Ratio_Setting.Text = "赔率设置";
             this.MI_Ratio_Setting.Click += new System.EventHandler(this.MI_Ratio_Setting_Click);
             // 
             // MI_Bouns_Setting
             // 
             this.MI_Bouns_Setting.Name = "MI_Bouns_Setting";
-            this.MI_Bouns_Setting.Size = new System.Drawing.Size(124, 22);
+            this.MI_Bouns_Setting.Size = new System.Drawing.Size(152, 22);
             this.MI_Bouns_Setting.Text = "福利设置";
             this.MI_Bouns_Setting.Click += new System.EventHandler(this.MI_Bouns_Setting_Click);
             // 
@@ -235,7 +230,12 @@
             this.MI_GameLog.Name = "MI_GameLog";
             this.MI_GameLog.Size = new System.Drawing.Size(68, 21);
             this.MI_GameLog.Text = "人工操作";
-           
+            // 
+            // MI_GameLogManulDeal
+            // 
+            this.MI_GameLogManulDeal.Name = "MI_GameLogManulDeal";
+            this.MI_GameLogManulDeal.Size = new System.Drawing.Size(152, 22);
+            this.MI_GameLogManulDeal.Text = "人工开奖";
             // 
             // MI_Bouns_Manul
             // 
@@ -256,14 +256,14 @@
             // MI_OpenQuery
             // 
             this.MI_OpenQuery.Name = "MI_OpenQuery";
-            this.MI_OpenQuery.Size = new System.Drawing.Size(124, 22);
+            this.MI_OpenQuery.Size = new System.Drawing.Size(152, 22);
             this.MI_OpenQuery.Text = "开奖统计";
             this.MI_OpenQuery.Click += new System.EventHandler(this.MI_OpenQuery_Click);
             // 
             // mi_reminderquery
             // 
             this.mi_reminderquery.Name = "mi_reminderquery";
-            this.mi_reminderquery.Size = new System.Drawing.Size(124, 22);
+            this.mi_reminderquery.Size = new System.Drawing.Size(152, 22);
             this.mi_reminderquery.Text = "余分查询";
             this.mi_reminderquery.Click += new System.EventHandler(this.mi_reminderquery_Click);
             // 
@@ -273,53 +273,13 @@
             this.MI_Yonghu,
             this.MI_Ratio,
             this.MI_GameLog,
-            this.MI_Query,
-            this.MI_PCWechatSend,
-            this.MI_BallMatch});
+            this.MI_Query});
             this.TopMenu.Location = new System.Drawing.Point(0, 0);
             this.TopMenu.Name = "TopMenu";
             this.TopMenu.Size = new System.Drawing.Size(1008, 25);
             this.TopMenu.TabIndex = 3;
             this.TopMenu.Text = "menuStrip1";
             this.TopMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.TopMenu_ItemClicked);
-            // 
-            // MI_PCWechatSend
-            // 
-            this.MI_PCWechatSend.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MI_PCWechatSendSetting});
-            this.MI_PCWechatSend.Name = "MI_PCWechatSend";
-            this.MI_PCWechatSend.Size = new System.Drawing.Size(68, 21);
-            this.MI_PCWechatSend.Text = "注入发图";
-            // 
-            // MI_PCWechatSendSetting
-            // 
-            this.MI_PCWechatSendSetting.Name = "MI_PCWechatSendSetting";
-            this.MI_PCWechatSendSetting.Size = new System.Drawing.Size(100, 22);
-            this.MI_PCWechatSendSetting.Text = "设置";
-            this.MI_PCWechatSendSetting.Click += new System.EventHandler(this.MI_PCWechatSendSetting_Click);
-            // 
-            // MI_BallMatch
-            // 
-            this.MI_BallMatch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MI_BallOpenManul,
-            this.MI_BallGames});
-            this.MI_BallMatch.Name = "MI_BallMatch";
-            this.MI_BallMatch.Size = new System.Drawing.Size(44, 21);
-            this.MI_BallMatch.Text = "球赛";
-            // 
-            // MI_BallOpenManul
-            // 
-            this.MI_BallOpenManul.Name = "MI_BallOpenManul";
-            this.MI_BallOpenManul.Size = new System.Drawing.Size(124, 22);
-            this.MI_BallOpenManul.Text = "人工开奖";
-            this.MI_BallOpenManul.Click += new System.EventHandler(this.MI_BallOpenManul_Click);
-            // 
-            // MI_BallGames
-            // 
-            this.MI_BallGames.Name = "MI_BallGames";
-            this.MI_BallGames.Size = new System.Drawing.Size(124, 22);
-            this.MI_BallGames.Text = "赛事查看";
-            this.MI_BallGames.Click += new System.EventHandler(this.MI_BallGames_Click);
             // 
             // OpenBlack
             // 
@@ -741,12 +701,7 @@
         private System.Windows.Forms.Label codeyixin;
         private System.Windows.Forms.Button btn_refreshyixin;
         private System.Windows.Forms.Button btn_bossreport;
-        private System.Windows.Forms.ToolStripMenuItem MI_PCWechatSend;
-        private System.Windows.Forms.ToolStripMenuItem MI_PCWechatSendSetting;
         private System.Windows.Forms.ToolStripMenuItem mi_reminderquery;
-        private System.Windows.Forms.ToolStripMenuItem MI_BallMatch;
-        private System.Windows.Forms.ToolStripMenuItem MI_BallOpenManul;
-        private System.Windows.Forms.ToolStripMenuItem MI_BallGames;
         private System.Windows.Forms.CheckBox cb_refreshball;
         private System.Windows.Forms.Label lbl_six;
         private System.Windows.Forms.Label lbl_qqthread;

@@ -7,7 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Threading;
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     public class WebSnapshotsHelper
     {

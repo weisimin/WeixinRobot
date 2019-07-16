@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     public partial class RunnerForm : Form
     {
@@ -49,7 +49,7 @@ namespace WeixinRoboot
             DateTime EachStart = DateTime.Now;
             this.Invoke(new Action(() =>
             {
-                WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                 db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                 //db.ObjectTrackingEnabled = false;
                 //this.Invoke(new Action(() => { BS_Contact.DataSource = null; }));
@@ -82,10 +82,10 @@ namespace WeixinRoboot
                         //    string[] Names = Seq.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         //    Seq = Names[Names.Length-1];
                         //}
-                        WeixinRobotLib.Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+                        WeixinRobotLib.Entity.Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
                         if (usrc == null)
                         {
-                            WeixinRobotLib.Linq.WX_UserReply newusrc = new WeixinRobotLib.Linq.WX_UserReply();
+                            WeixinRobotLib.Entity.Linq.WX_UserReply newusrc = new WeixinRobotLib.Entity.Linq.WX_UserReply();
                             newusrc.aspnet_UserID = GlobalParam.UserKey;
                             newusrc.WX_UserName = Seq;
                             newusrc.WX_SourceType = "微";
@@ -120,13 +120,13 @@ namespace WeixinRoboot
                                 usrc.IsReply = true;
                             }
                         } //初始化，添加到数据库或同步数据库
-                        WeixinRobotLib.Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                        WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                            && t.WX_SourceType == "微"
                             && t.WX_UserName == Seq
                            );
                         if (webpcset == null)
                         {
-                            webpcset = new WeixinRobotLib.Linq.WX_WebSendPICSetting();
+                            webpcset = new WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting();
 
                             webpcset.aspnet_UserID = GlobalParam.UserKey;
 
@@ -284,7 +284,7 @@ namespace WeixinRoboot
 
         private void SetMembersFast()
         {
-            RobootWeb.WebService ws = new RobootWeb.WebService();
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
             ws.CookieContainer = GlobalParam.LoginCookie;
             string Tables = ws.SetMembers(_Members.ToString(), GlobalParam.UserKey, _GameMode);
             NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"), false);
@@ -307,7 +307,7 @@ namespace WeixinRoboot
                 }
                 this.Invoke(new Action(() =>
                 {
-                    WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+                    WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
                     //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                     //db.ObjectTrackingEnabled = false;
                     BS_Contact.DataSource = null;
@@ -332,10 +332,10 @@ namespace WeixinRoboot
 
 
 
-                        WeixinRobotLib.Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == item.ContactID && t.WX_SourceType == "易");
+                        WeixinRobotLib.Entity.Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == item.ContactID && t.WX_SourceType == "易");
                         if (usrc == null)
                         {
-                            WeixinRobotLib.Linq.WX_UserReply newusrc = new WeixinRobotLib.Linq.WX_UserReply();
+                            WeixinRobotLib.Entity.Linq.WX_UserReply newusrc = new WeixinRobotLib.Entity.Linq.WX_UserReply();
                             newusrc.aspnet_UserID = GlobalParam.UserKey;
                             newusrc.WX_UserName = item.ContactID;
                             newusrc.RemarkName = RemarkName;
@@ -376,13 +376,13 @@ namespace WeixinRoboot
 
                         } //初始化，添加到数据库或同步数据库
                         db.SubmitChanges();
-                        WeixinRobotLib.Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                        WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                       && t.WX_SourceType == "易"
                        && t.WX_UserName == item.ContactID
                       );
                         if (webpcset == null)
                         {
-                            webpcset = new WeixinRobotLib.Linq.WX_WebSendPICSetting();
+                            webpcset = new WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting();
 
                             webpcset.aspnet_UserID = GlobalParam.UserKey;
 
@@ -500,7 +500,7 @@ namespace WeixinRoboot
         public RunnerForm()
         {
             InitializeComponent();
-            WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             //db.ObjectTrackingEnabled = false;
 
@@ -574,7 +574,7 @@ namespace WeixinRoboot
         private void LoadReplyLog(string SelectUser, string SourceType)
         {
 
-            WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             //db.ObjectTrackingEnabled = false;
             //ReplySource.Columns.Add("Reply_Contact");
@@ -676,20 +676,20 @@ namespace WeixinRoboot
 
         void RelySource_TableNewRow(object sender, DataTableNewRowEventArgs e)
         {
-            WeixinRobotLib.Linq.dbDataContext db = new WeixinRobotLib.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             //db.ObjectTrackingEnabled = false;
             if (e.Row != null)
             {
                 return;
             }
-            WeixinRobotLib.Linq.WX_UserReply checkreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == e.Row.Field<string>("Reply_ContactID") && t.WX_SourceType == e.Row.Field<string>("Reply_SourceType"));
+            WeixinRobotLib.Entity.Linq.WX_UserReply checkreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_UserName == e.Row.Field<string>("Reply_ContactID") && t.WX_SourceType == e.Row.Field<string>("Reply_SourceType"));
             if (checkreply.IsReply == true)
             {
                 string Reply_ContactID = e.Row.Field<string>("Reply_ContactID");
                 string Reply_SourceType = e.Row.Field<string>("Reply_SourceType");
                 string Reply_ReceiveTime = e.Row.Field<string>("Reply_ReceiveTime");
-                WeixinRobotLib.Linq.WX_UserReplyLog log = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                WeixinRobotLib.Entity.Linq.WX_UserReplyLog log = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
                      && t.WX_UserName == Reply_ContactID
                      && t.WX_SourceType == Reply_SourceType
                      && t.ReceiveTime == Convert.ToDateTime(Reply_ReceiveTime)
@@ -844,8 +844,8 @@ namespace WeixinRoboot
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
 
-                RobootWeb.WebService ws = new RobootWeb.WebService();
-                string Result = ws.WX_UserReplyLog_MySendCreate("自动", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                string Result = ws.WX_UserReplyLog_MySendCreate("自动", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
                 if (Result != "")
@@ -862,8 +862,8 @@ namespace WeixinRoboot
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
-                RobootWeb.WebService ws = new RobootWeb.WebService();
-                ws.WX_UserReplyLog_MySendCreate("取消自动", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                ws.WX_UserReplyLog_MySendCreate("取消自动", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -874,9 +874,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("转发", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("转发", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -888,8 +888,8 @@ namespace WeixinRoboot
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
-                RobootWeb.WebService ws = new RobootWeb.WebService();
-                ws.WX_UserReplyLog_MySendCreate("取消转发", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                ws.WX_UserReplyLog_MySendCreate("取消转发", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -901,9 +901,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("福利", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("福利", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -915,9 +915,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("取消福利", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("取消福利", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -928,20 +928,20 @@ namespace WeixinRoboot
             try
             {
 
-                StartF.DrawChongqingshishicai(WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                StartF.DrawChongqingshishicai(WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-                StartF.DrawChongqingshishicai(WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-                StartF.DrawChongqingshishicai(WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-                StartF.DrawChongqingshishicai(WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+                StartF.DrawChongqingshishicai(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                StartF.DrawChongqingshishicai(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+                StartF.DrawChongqingshishicai(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+                StartF.DrawChongqingshishicai(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+                StartF.DrawChongqingshishicai(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
 
 
 
-                StartF.ShiShiCaiDealGameLogAndNotice(WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                StartF.ShiShiCaiDealGameLogAndNotice(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
 
-                StartF.SendChongqingResultPic(WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-                StartF.SendChongqingResultPic(WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-                StartF.SendChongqingResultPic(WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-                StartF.SendChongqingResultPic(WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+                StartF.SendChongqingResultPic(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+                StartF.SendChongqingResultPic(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+                StartF.SendChongqingResultPic(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+                StartF.SendChongqingResultPic(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
             }
             catch (Exception AnyError)
             {
@@ -956,8 +956,8 @@ namespace WeixinRoboot
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
-                RobootWeb.WebService ws = new RobootWeb.WebService();
-                ws.WX_UserReplyLog_MySendCreate("老板查询", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                ws.WX_UserReplyLog_MySendCreate("老板查询", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -968,9 +968,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("取消老板查询", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("取消老板查询", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -991,9 +991,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("球赛图片", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("球赛图片", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1004,9 +1004,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("取消球赛图片", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("取消球赛图片", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1039,9 +1039,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("会员", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("会员", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1052,9 +1052,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("取消会员", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("取消会员", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1065,9 +1065,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("重庆模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("重庆模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
 
@@ -1080,9 +1080,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("五分模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("五分模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1093,9 +1093,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("香港模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("香港模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1106,9 +1106,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("澳彩模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("澳彩模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1119,9 +1119,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("新疆模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("新疆模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1132,9 +1132,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("腾十模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("腾十模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1146,9 +1146,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("腾五模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("腾五模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1159,9 +1159,9 @@ namespace WeixinRoboot
             if (gv_contact.SelectedRows.Count != 0)
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
-                RobootWeb.WebService ws = new RobootWeb.WebService();
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                ws.WX_UserReplyLog_MySendCreate("VR模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                ws.WX_UserReplyLog_MySendCreate("VR模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
                 ((ToolStripMenuItem)sender).Checked = true;
 
 
@@ -1174,8 +1174,8 @@ namespace WeixinRoboot
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
-                RobootWeb.WebService ws = new RobootWeb.WebService();
-                ws.WX_UserReplyLog_MySendCreate("腾十信模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                ws.WX_UserReplyLog_MySendCreate("腾十信模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1187,8 +1187,8 @@ namespace WeixinRoboot
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
-                RobootWeb.WebService ws = new RobootWeb.WebService();
-                ws.WX_UserReplyLog_MySendCreate("腾五信模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                ws.WX_UserReplyLog_MySendCreate("腾五信模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }
@@ -1199,8 +1199,8 @@ namespace WeixinRoboot
             {
                 DataRow editrow = ((DataRowView)gv_contact.SelectedRows[0].DataBoundItem).Row;
 
-                RobootWeb.WebService ws = new RobootWeb.WebService();
-                ws.WX_UserReplyLog_MySendCreate("河五模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRoboot.Linq.Util_Services.GetServicesSetting()), "", "");
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                ws.WX_UserReplyLog_MySendCreate("河五模式", JsonConvert.SerializeObject(editrow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
 
             }

@@ -6,8 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
-namespace WeixinRoboot
+using Newtonsoft.Json;
+namespace WeixinRobootSlim
 {
     public partial class SendCharge : Form
     {
@@ -36,34 +36,34 @@ namespace WeixinRoboot
 
         private void Btn_Send_Click(object sender, EventArgs e)
         {
-            RobootWeb.WebService ws = new RobootWeb.WebService();
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
             try
             {
                 ep_sql.Clear();
-               
+
                 switch (_Mode)
                 {
                     case "Charge":
 
 
-                        string Result = ws.WX_UserReplyLog_MySendCreate("上分" + tb_ChargeMoney.Text, _UserRow, DateTime.Now,  GlobalParam.GetUserParam(), new Guid[] { },WeixinRoboot.Linq.Util_Services.GetServicesSetting(), "", "");
+                        string Result = ws.WX_UserReplyLog_MySendCreate("上分" + tb_ChargeMoney.Text, JsonConvert.SerializeObject(_UserRow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
                         string WXSend = StartF.SendRobotContent(Result
                             , UserRow.Field<string>("User_ContactTEMPID")
                              , UserRow.Field<string>("User_SourceType")
                             );
 
-                     //   string Result = "";
+                        //   string Result = "";
                         //  db.Logic_WX_UserReplyLog_MySendCreate("上分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), _UserRow.Field<string>("User_SourceType"), GlobalParam.Key, DateTime.Now, ref Result);
-                       
-                     //string WXResult=   StartF.SendWXContent(Result
-                     //      , UserRow.Field<string>("User_ContactTEMPID")
-                     //      );
+
+                        //string WXResult=   StartF.SendWXContent(Result
+                        //      , UserRow.Field<string>("User_ContactTEMPID")
+                        //      );
 
 
                         break;
                     case "CleanUp":
-                        string Result2 = ws.WX_UserReplyLog_MySendCreate("下分" + tb_ChargeMoney.Text, _UserRow, DateTime.Now,  GlobalParam.GetUserParam(), new Guid[] { },WeixinRoboot.Linq.Util_Services.GetServicesSetting(), "", "");
+                        string Result2 = ws.WX_UserReplyLog_MySendCreate("下分" + tb_ChargeMoney.Text, JsonConvert.SerializeObject(_UserRow), DateTime.Now, GlobalParam.GetUserParam(), new Guid[] { }, JsonConvert.SerializeObject(WeixinRobootSlim.Linq.Util_Services.GetServicesSetting()), "", "");
 
                         decimal? TotalPointClean = ws.WXUserChangeLog_GetRemainder(UserRow.Field<string>("User_ContactTEMPID"), UserRow.Field<string>("User_SourceType"), GlobalParam.GetUserParam());
 
@@ -71,12 +71,12 @@ namespace WeixinRoboot
                             , UserRow.Field<string>("User_ContactTEMPID")
                             , UserRow.Field<string>("User_SourceType")
                             );
-                       //    string Result2 = "";
+                        //    string Result2 = "";
                         //db.Logic_WX_UserReplyLog_MySendCreate("下分"+tb_ChargeMoney.Text, _UserRow.Field<string>("User_ContactID"), _UserRow.Field<string>("User_SourceType"), GlobalParam.Key, DateTime.Now, ref Result2);
 
-                       //string WXResult2 = StartF.SendWXContent(Result2
-                       //    , UserRow.Field<string>("User_ContactTEMPID")
-                       //    );
+                        //string WXResult2 = StartF.SendWXContent(Result2
+                        //    , UserRow.Field<string>("User_ContactTEMPID")
+                        //    );
 
                         break;
                     default:
@@ -101,26 +101,12 @@ namespace WeixinRoboot
 
         private void SendCharge_Load(object sender, EventArgs e)
         {
-          
-            var data = from dsl in db.WX_UserChangeLog
-                       join dsu in db.WX_UserReply
-                       on new { dsl.WX_UserName, dsl.aspnet_UserID ,dsl.WX_SourceType} equals new { dsu.WX_UserName, dsu.aspnet_UserID ,dsu.WX_SourceType}
-                       where dsl.aspnet_UserID == GlobalParam.UserKey
-                        && dsl.WX_UserName == UserRow.Field<string>("User_ContactID")
-                        && dsl.WX_SourceType == UserRow.Field<string>("User_SourceType")
-                       select new
-                       {
-                           UserName = dsu.WX_UserName
-                           ,
-                           dsl.Remark
-                           ,
-                           dsl.RemarkType
-                           ,
-                           dsl.ChangePoint
-                           ,dsl.ChangeTime
-                           ,dsl.GamePeriod
-                           ,SourceType=dsu.WX_SourceType
-                       };
+
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+
+            var data = ws.SendCharge_GetSource(GlobalParam.GetUserParam()
+                       , UserRow.Field<string>("User_ContactID")
+                       , UserRow.Field<string>("User_SourceType"));
             BS_TransLog.DataSource = data;
 
 

@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     public partial class SendManulOrder : Form
     {
@@ -39,40 +39,14 @@ namespace WeixinRoboot
             {
                 return;
             }
-
-            var datasource = from ds in db.WX_UserReplyLog
-                             join dsgame in db.WX_UserGameLog
-                             on new { ds.aspnet_UserID, ds.WX_UserName, ds.ReceiveTime,ds.WX_SourceType } equals new { dsgame.aspnet_UserID, dsgame.WX_UserName, ReceiveTime = dsgame.TransTime,dsgame.WX_SourceType }
-                             into leftdsggame
-                             from dsgame2 in leftdsggame.DefaultIfEmpty()
-                             where ds.ReceiveTime >= dtp_StartDate.Value
-                             && ds.ReceiveTime < dtp_EndDate.Value
-                             && ds.aspnet_UserID == GlobalParam.UserKey
-                             && ds.WX_UserName == _UserRow.Field<string>("User_ContactID")
-                             && ds.WX_SourceType == _UserRow.Field<string>("User_SourceType")
-                             select new
-                             {
-                                 ds.ReceiveTime,
-                                 ds.ReceiveContent,
-                                 ds.aspnet_UserID,
-                                 ds.WX_UserName,
-                                 ds.WX_SourceType,
-                                 TransTime = (DateTime?)dsgame2.TransTime,
-                                 dsgame2.GamePeriod
-                                 ,
-                                 GameLocalPeriod = dsgame2.GameLocalPeriod
-                                 ,
-                                 dsgame2.GameResult
-                                 ,
-                                 dsgame2.Buy_Value
-                                 ,
-                                 dsgame2.Buy_Type
-
-                                 ,
-                                 dsgame2.Buy_Point,
-                                 dsgame2.Result_Point
-
-                             };
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+            var datasource = ws.SendManulOrder_GetOrderSource(
+                              dtp_StartDate.Value
+                            , dtp_EndDate.Value
+                            , GlobalParam.UserKey
+                            ,_UserRow.Field<string>("User_ContactID")
+                             , _UserRow.Field<string>("User_SourceType")
+                            ) ;
             GV_GameLog.DataSource = datasource;
 
         }
@@ -118,30 +92,15 @@ namespace WeixinRoboot
 
                 throw;
             }
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+
+            string Result = ws.SendManulOrder_Delete(aspnet_UserID
+                 , WX_UserName
+                  , WX_SourceType
+                  , DT.Value);
 
 
-            Linq.WX_UserGameLog testg = db.WX_UserGameLog.SingleOrDefault(t => t.aspnet_UserID == new Guid(aspnet_UserID)
-                  && t.WX_UserName == WX_UserName
-                  && t.WX_SourceType == WX_SourceType
-                  && t.TransTime == DT);
-            if (testg != null && testg.Result_HaveProcess != false)
-            {
-                ep_sql.SetError(GV_GameLog, "已开或已处理,不能删除");
-            }
-            Linq.WX_UserReplyLog testrg = db.WX_UserReplyLog.SingleOrDefault(t => t.aspnet_UserID == new Guid(aspnet_UserID)
-                      && t.WX_UserName == WX_UserName
-                      &&t.WX_SourceType==WX_SourceType
-                      && t.ReceiveTime == DT);
-            if (testg != null)
-            {
-                db.WX_UserGameLog.DeleteOnSubmit(testg);
-            }
-            if (testrg != null)
-            {
-                db.WX_UserReplyLog.DeleteOnSubmit(testrg);
-            }
-            db.SubmitChanges();
-            MessageBox.Show("删除成功");
+           MessageBox.Show(Result);
             SendManulOrder_Load(null, null);
         }
 

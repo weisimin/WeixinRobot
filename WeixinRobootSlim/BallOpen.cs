@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WeixinRobotLib.Linq;
-using WeixinRoboot;
-namespace WeixinRoboot
+using WeixinRobotLib.Entity.Linq;
+using Newtonsoft.Json;
+namespace WeixinRobootSlim
 {
 
 
@@ -58,12 +58,12 @@ namespace WeixinRoboot
         }
         private void Reload()
         {
-           
-            var source = (from ds in db.WX_UserGameLog_Football
-                          where ds.HaveOpen == false
-                          && ds.WX_SourceType == cb_wxsourcetype.SelectedItem.ToString()
-                          &&ds.aspnet_UserID==GlobalParam.UserKey
-                          select new GameFormat(ds.GameKey, ds.GameVS)).Distinct();
+
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+            var source = JsonConvert.DeserializeObject<GameFormat[]>( ws.BallOpen_Reload(
+                        cb_wxsourcetype.SelectedItem.ToString()
+                         ,GlobalParam.UserKey)
+            );
             gv_balls.DataSource = source;
         }
         private void GV_BallUnOpen_SelectionChanged(object sender, EventArgs e)
@@ -77,12 +77,12 @@ namespace WeixinRoboot
             else if (gv_balls.SelectedRows.Count == 1)
             {
 
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-                Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[ GlobalParam.DataSourceName].ConnectionString);
-
+               
                 //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
                 //db.ObjectTrackingEnabled = false;
-                Linq.Game_ResultFootBall gr_fb = db.Game_ResultFootBall.SingleOrDefault(t => t.GameID == ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID);
+                Game_ResultFootBall gr_fb = JsonConvert.DeserializeObject<Game_ResultFootBall>(ws.Game_ResultFootBall_SingleOrDefault(((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID));
 
                 if (gr_fb == null)
                 {
@@ -123,131 +123,13 @@ namespace WeixinRoboot
                     gv_result.DataSource = gr;
                 }
 
-
-
-
-                var unplaysource = (from ds in db.WX_UserGameLog_Football
-                                    join urname in db.WX_UserReply on new { ds.aspnet_UserID, ds.WX_UserName, ds.WX_SourceType } equals new { urname.aspnet_UserID, urname.WX_UserName, urname.WX_SourceType } into urnamr_emp
-                                    from urnamr_emp_d in urnamr_emp.DefaultIfEmpty()
-
-                                    where ds.HaveOpen == false
-                                    && ds.GameKey == ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID
-                                     && ds.WX_SourceType == cb_wxsourcetype.SelectedItem.ToString()
-                                     &&ds.aspnet_UserID==GlobalParam.UserKey
-                                    select new
-                                    {
-                                        WX_UserNameOrRemark = urnamr_emp_d.NickName + "(" + urnamr_emp_d.RemarkName + ")"
-                                        ,
-                                        aspnet_UserID = ds.aspnet_UserID
-                                        ,
-                                        transtime = ds.transtime
-                                        ,
-                                        GameID = ds.GameKey
-                                        ,
-                                        GameVS = ds.GameVS
-                                        ,
-                                        BuyType = ds.BuyType
-                                        ,
-                                        BuyRatio = ds.BuyRatio
-                                        ,
-                                        BuyMoney = ds.BuyMoney
-                                        ,
-                                        HaveOpen = ds.HaveOpen
-                                        ,
-                                        ResultMoney = ds.ResultMoney
-                                        ,
-                                        A_WIN = ds.A_WIN
-                                        ,
-                                        Winless = ds.Winless
-                                        ,
-                                        B_Win = ds.B_WIN
-                                        ,
-                                        BigWin = ds.BIGWIN
-                                        ,
-                                        Total = ds.Total
-                                        ,
-                                        SmallWin = ds.SMALLWIN
-                                        ,
-                                        R_A_A = ds.R_A_A
-                                        ,
-                                        R_A_SAME = ds.R_A_SAME
-                                        ,
-                                        R_A_B = ds.R_A_B
-                                        ,
-                                        R_SAME_A = ds.R_SAME_A
-                                        ,
-                                        R_SAME_SAME = ds.R_SAME_SAME
-                                        ,
-                                        R_SAME_B = ds.R_SAME_B
-                                        ,
-                                        R_B_A = ds.R_B_A
-                                        ,
-                                        R_B_SAME = ds.R_B_SAME
-                                        ,
-                                        R_B_B = ds.R_B_B
-                                        ,
-                                        R1_0_A = ds.R1_0_A
-                                        ,
-                                        R1_0_B = ds.R1_0_B
-                                        ,
-                                        R2_0_A = ds.R2_0_A
-                                        ,
-                                        R2_0_B = ds.R2_0_B
-                                        ,
-                                        R2_1_A = ds.R2_1_A
-                                        ,
-                                        R2_1_B = ds.R2_1_B
-                                        ,
-                                        R3_0_A = ds.R3_0_A
-                                        ,
-                                        R3_0_B = ds.R3_0_B
-                                        ,
-                                        R3_1_A = ds.R3_1_A
-                                        ,
-                                        R3_1_B = ds.R3_1_B
-                                        ,
-                                        R3_2_A = ds.R3_2_A
-                                        ,
-                                        R3_2_B = ds.R3_2_B
-                                        ,
-                                        R4_0_A = ds.R4_0_A
-                                        ,
-                                        R4_0_B = ds.R4_0_B
-                                        ,
-                                        R4_1_A = ds.R4_1_A
-                                        ,
-                                        R4_1_B = ds.R4_1_B
-                                        ,
-                                        R4_2_A = ds.R4_2_A
-                                        ,
-                                        R4_2_B = ds.R4_2_B
-                                        ,
-                                        R4_3_A = ds.R4_3_A
-                                        ,
-                                        R4_3_B = ds.R4_3_B
-                                        ,
-                                        R0_0 = ds.R0_0
-                                        ,
-                                        R1_1 = ds.R1_1
-                                        ,
-                                        R2_2 = ds.R2_2
-                                        ,
-                                        R3_3 = ds.R3_3
-                                        ,
-                                        R4_4 = ds.R4_4
-                                        ,
-                                        Rother = ds.ROTHER
-                                        ,
-                                        WX_SourceType = ds.WX_SourceType
-                                        ,
-                                        A_Team = ds.A_Team
-                                        ,
-                                        B_Team = ds.B_Team
-
-
-                                    });
+                var unplaysource = ws.BallOpen_GetUpPaySource(
+                                    ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameID
+                                     , cb_wxsourcetype.SelectedItem.ToString()
+                                    ,GlobalParam.UserKey
+                                   );
                 gv_playersbuys.DataSource = unplaysource;
-            }
+            }//没选择
             else
             {
                 gv_result.DataSource = null;
@@ -261,74 +143,76 @@ namespace WeixinRoboot
         private void btn_open_Click(object sender, EventArgs e)
         {
            
-            Linq.Game_ResultFootBall newgr = new Linq.Game_ResultFootBall();
+            Game_ResultFootBall newgr = new Game_ResultFootBall();
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+           Game_ResultFootBall findgr = JsonConvert.DeserializeObject<Game_ResultFootBall>(ws.Game_ResultFootBall_SingleOrDefault(((List<GameHalfResult>)gv_result.DataSource).First().OpenGameID));
 
-            Linq.Game_ResultFootBall findgr = db.Game_ResultFootBall.SingleOrDefault(t => t.GameID == ((List<GameHalfResult>)gv_result.DataSource).First().OpenGameID);
+            //if (findgr == null)
+            //{
 
-            if (findgr == null)
-            {
+            //    foreach (GameHalfResult item in ((List<GameHalfResult>)gv_result.DataSource))
+            //    {
+            //        newgr.GameID = item.OpenGameID;
+            //        newgr.aspnet_UserID  = GlobalParam.UserKey;
+            //        newgr.GameVS = ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameVS;
+            //        if (item.TimeType == "上半场")
+            //        {
+            //            newgr.A_FrontHalf = item.TeamA;
+            //            newgr.B_FrontHalf = item.TeamB;
+            //        }
+            //        if (item.TimeType == "下半场")
+            //        {
+            //            newgr.A_EndHalf = item.TeamA;
+            //            newgr.B_EndHalf = item.TeamB;
+            //        }
 
-                foreach (GameHalfResult item in ((List<GameHalfResult>)gv_result.DataSource))
-                {
-                    newgr.GameID = item.OpenGameID;
-                    newgr.aspnet_UserID  = GlobalParam.UserKey;
-                    newgr.GameVS = ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameVS;
-                    if (item.TimeType == "上半场")
-                    {
-                        newgr.A_FrontHalf = item.TeamA;
-                        newgr.B_FrontHalf = item.TeamB;
-                    }
-                    if (item.TimeType == "下半场")
-                    {
-                        newgr.A_EndHalf = item.TeamA;
-                        newgr.B_EndHalf = item.TeamB;
-                    }
-
-                }
+            //    }
 
 
-                db.Game_ResultFootBall.InsertOnSubmit(newgr);
-                db.SubmitChanges();
-            }
+            //    db.Game_ResultFootBall.InsertOnSubmit(newgr);
+            //    db.SubmitChanges();
+            //}
 
-            else
-            {
-                foreach (GameHalfResult item in ((List<GameHalfResult>)gv_result.DataSource))
-                {
-                    findgr.GameID = item.OpenGameID;
-                    findgr.aspnet_UserID = GlobalParam.UserKey;
-                    findgr.GameVS = ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameVS;
-                    if (item.TimeType == "上半场")
-                    {
-                        findgr.A_FrontHalf = item.TeamA;
-                        findgr.B_FrontHalf = item.TeamB;
-                    }
-                    if (item.TimeType == "下半场")
-                    {
-                        findgr.A_EndHalf = item.TeamA;
-                        findgr.B_EndHalf = item.TeamB;
-                    }
+            //else
+            //{
+            //    foreach (GameHalfResult item in ((List<GameHalfResult>)gv_result.DataSource))
+            //    {
+            //        findgr.GameID = item.OpenGameID;
+            //        findgr.aspnet_UserID = GlobalParam.UserKey;
+            //        findgr.GameVS = ((GameFormat)gv_balls.SelectedRows[0].DataBoundItem).GameVS;
+            //        if (item.TimeType == "上半场")
+            //        {
+            //            findgr.A_FrontHalf = item.TeamA;
+            //            findgr.B_FrontHalf = item.TeamB;
+            //        }
+            //        if (item.TimeType == "下半场")
+            //        {
+            //            findgr.A_EndHalf = item.TeamA;
+            //            findgr.B_EndHalf = item.TeamB;
+            //        }
 
-                }
-                db.SubmitChanges();
+            //    }
+            //    db.SubmitChanges();
 
-            }
-            var ToOpenList = db.WX_UserGameLog_Football.Where(t => t.GameKey == (findgr == null ? newgr.GameID : findgr.GameID)
-                &&(t.HaveOpen==false||t.HaveOpen==null)
-                &&t.aspnet_UserID==GlobalParam.UserKey
-                );
+            //}
+           
+            ws.BallOpen_Open(JsonConvert.SerializeObject( gv_result.DataSource),GlobalParam.UserKey, JsonConvert.SerializeObject( gv_balls.SelectedRows[0].DataBoundItem));
 
-            foreach (Linq.WX_UserGameLog_Football item in ToOpenList)
+            var ToOpenList = JsonConvert.DeserializeObject<WX_UserGameLog_Football[]> (ws.WX_UserGameLog_Football_Where((findgr == null ? newgr.GameID : findgr.GameID)
+               ,GlobalParam.UserKey
+                ));
+
+            foreach (WeixinRobotLib.Entity.Linq. WX_UserGameLog_Football item in ToOpenList)
             {
                 string ToSend = "";
                 if (findgr == null)
                 {
-                    ToSend=Linq.ProgramLogic.OpenBallGameLog(item, db, newgr.A_FrontHalf.Value, newgr.B_FrontHalf.Value, newgr.A_EndHalf.Value, newgr.B_EndHalf.Value);
+                    ToSend=ws.OpenBallGameLog(JsonConvert.SerializeObject( item),  newgr.A_FrontHalf.Value, newgr.B_FrontHalf.Value, newgr.A_EndHalf.Value, newgr.B_EndHalf.Value,GlobalParam.GetUserParam());
          
                 }
                 else
                 {
-                   ToSend= Linq.ProgramLogic.OpenBallGameLog(item, db, findgr.A_FrontHalf.Value, findgr.B_FrontHalf.Value, findgr.A_EndHalf.Value, findgr.B_EndHalf.Value);
+                    ToSend = ws.OpenBallGameLog(JsonConvert.SerializeObject(item), findgr.A_FrontHalf.Value, findgr.B_FrontHalf.Value, findgr.A_EndHalf.Value, findgr.B_EndHalf.Value, GlobalParam.GetUserParam());
                 }
                 DataRow findcontact = sf.RunnerF.MemberSource.AsEnumerable().SingleOrDefault(t => NetFramework.Util_Convert.ToString(t.Field<object>("User_SourceType")) == item.WX_SourceType
                       && NetFramework.Util_Convert.ToString(t.Field<object>("User_ContactID")) == item.WX_UserName
@@ -344,14 +228,14 @@ namespace WeixinRoboot
 
 
                         sf.SendRobotContent(newgr.GameVS + Environment.NewLine + "上半场:" + newgr.A_FrontHalf + "-" + newgr.B_FrontHalf + "下半场" + newgr.A_EndHalf + "-" + newgr.B_EndHalf
-                            + Environment.NewLine + Linq.ProgramLogic.BallBuyTypeToChinseFrontShow(item.BuyType) + ",赔率" + item.BuyRatio.ToString() 
+                            + Environment.NewLine + WeixinRobotLib.Entity. Linq.ProgramLogic.BallBuyTypeToChinseFrontShow(item.BuyType) + ",赔率" + item.BuyRatio.ToString() 
                             + ((item.BuyType == "A_WIN" || item.BuyType == "B_Win") ?("让球"+item.Winless):"")
                             + ((item.BuyType == "BigWin" || item.BuyType == "SmallWin") ? ("总球"+item.Total) : "")
                             + ToSend, findcontact.Field<object>("User_ContactTEMPID").ToString(), item.WX_SourceType);
                     }
                     else  {
                         sf.SendRobotContent(findgr.GameVS + Environment.NewLine + "上半场:" + findgr.A_FrontHalf + "-" + findgr.B_FrontHalf + "下半场" + findgr.A_EndHalf + "-" + findgr.B_EndHalf
-                    + Environment.NewLine + Linq.ProgramLogic.BallBuyTypeToChinseFrontShow(item.BuyType) + ",赔率" + item.BuyRatio.ToString() 
+                    + Environment.NewLine + WeixinRobotLib.Entity.Linq.ProgramLogic.BallBuyTypeToChinseFrontShow(item.BuyType) + ",赔率" + item.BuyRatio.ToString() 
                     + ((item.BuyType == "A_WIN" || item.BuyType == "B_Win") ? ("让球" + item.Winless) : "")
                     + ((item.BuyType == "BigWin" || item.BuyType == "SmallWin") ? ("总球" + item.Total) : "")
                     + ToSend, findcontact.Field<object>("User_ContactTEMPID").ToString(), item.WX_SourceType);

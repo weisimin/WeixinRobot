@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     public partial class RemindQuery : Form
     {
@@ -24,7 +24,7 @@ namespace WeixinRoboot
         private void WX_GetReminder()
         {
 
-            RobootWeb.WebService ws = new RobootWeb.WebService();
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
             gv_data.DataSource = ws.GetReminder(GlobalParam.GetUserParam(),cb_wxsourcetype.SelectedItem.ToString()) ;
 
@@ -43,46 +43,11 @@ namespace WeixinRoboot
                 string WX_UserName = gv_data.SelectedRows[0].Cells["WX_UserName"].Value.ToString();
                 string WX_SourceType = gv_data.SelectedRows[0].Cells["WX_SourceType"].Value.ToString();
 
-                var ReplyLog = from ds in db.WX_UserReplyLog
-                               join user in db.WX_UserReply on new { ds.aspnet_UserID, ds.WX_UserName, ds.WX_SourceType } equals new { user.aspnet_UserID, user.WX_UserName, user.WX_SourceType }
-                         
-                               where ds.aspnet_UserID == GlobalParam.UserKey
-                               && ds.WX_UserName == WX_UserName
-                               && ds.WX_SourceType == WX_SourceType
-                               orderby ds.ReceiveTime ascending
-                               select
-                               new
-                               {
-                                   玩家 = (ds.SourceType=="微"||ds.SourceType=="易"? user.NickName + "(" + user.RemarkName + ")":"我")
-                                   ,
-                                   内容 = ds.ReceiveContent
-                                   ,
-                                   时间 = ds.ReceiveTime
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
-
-                               };
+                var ReplyLog = ws.RemindQuery_GetReplyLog(WX_UserName, WX_SourceType, GlobalParam.GetUserParam());
                 gv_talk.DataSource = ReplyLog;
-                var changepoint = from ds in db.WX_UserChangeLog
-                                  join user in db.WX_UserReply on new { ds.aspnet_UserID, ds.WX_UserName, ds.WX_SourceType } equals new { user.aspnet_UserID, user.WX_UserName, user.WX_SourceType }
-                                  where ds.aspnet_UserID == GlobalParam.UserKey
-                                  && ds.WX_UserName == WX_UserName
-                                  && ds.WX_SourceType == WX_SourceType
-                                  orderby ds.ChangeTime ascending
-                                  select new
-                                  {
-
-                                      分数变动 = ds.ChangePoint
-                                      ,
-                                      时间 = ds.ChangeTime
-                                      ,
-                                      期号 = ds.GamePeriod
-                                      ,
-                                      类型 = ds.RemarkType
-                                      ,
-                                      下注 = ds.BuyValue
-
-
-                                  };
+                var changepoint = ws.RemindQuery_GetChangePoint(WX_UserName, WX_SourceType, GlobalParam.GetUserParam());
                 gv_changepoint.DataSource = changepoint;
 
 

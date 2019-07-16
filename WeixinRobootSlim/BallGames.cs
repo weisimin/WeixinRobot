@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WeixinRobotLib.Linq;
-using WeixinRobotLib;
-
-namespace WeixinRoboot
+using WeixinRobotLib.Entity.Linq;
+using Newtonsoft.Json;
+namespace WeixinRobootSlim
 {
     public partial class BallGames : Form
     {
@@ -27,9 +26,10 @@ namespace WeixinRoboot
         {
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             //db.ObjectTrackingEnabled = false;
-            var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == GlobalParam.UserKey 
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+            var source = ws.Game_FootBall_VS_Where( GlobalParam.UserKey 
                 //&& (t.LastAliveTime == null || t.LastAliveTime >= DateTime.Today.AddDays(-3))
-                &&t.Jobid==GlobalParam.JobID
+                ,GlobalParam.JobID
                 );
             // var classsource = (from ds in source
             //select new { ds.GameType, ds.MatchClass }).Distinct();
@@ -40,18 +40,21 @@ namespace WeixinRoboot
         {
             if (gv_GameList.SelectedRows.Count != 0)
             {
-              
-                IQueryable<WeixinRobotLib.Linq.Game_FootBall_VSRatios> DbRatios = WeixinRobotLib.Linq.ProgramLogic.GameVSGetRatios(db, ((WeixinRobotLib.Linq.Game_FootBall_VS)gv_GameList.SelectedRows[0].DataBoundItem));
+                WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+                Game_FootBall_VSRatios[] DbRatios =JsonConvert.DeserializeObject<Game_FootBall_VSRatios[]>(  ws.GameVSGetRatios(  JsonConvert.SerializeObject( (Game_FootBall_VS)gv_GameList.SelectedRows[0].DataBoundItem)));
                 bs_ratios.DataSource = DbRatios;
 
-                bs_ratiocurrent.DataSource = RatioConvertToGridData((WeixinRobotLib.Linq.Game_FootBall_VS)gv_GameList.SelectedRows[0].DataBoundItem, db);
-                bs_ratiocurrent2.DataSource = WeixinRobotLib.Linq.ProgramLogic.VSGetCurRatio((WeixinRobotLib.Linq.Game_FootBall_VS)gv_GameList.SelectedRows[0].DataBoundItem, db);
+                bs_ratiocurrent.DataSource = RatioConvertToGridData((Game_FootBall_VS)gv_GameList.SelectedRows[0].DataBoundItem);
+                bs_ratiocurrent2.DataSource = ws.VSGetCurRatio(  JsonConvert.SerializeObject((Game_FootBall_VS)gv_GameList.SelectedRows[0].DataBoundItem));
 
             }
         }
         //public List<TeamRowFormat> RatioConvertToGridDataSource = new List<TeamRowFormat>();
-        public List<TeamRowFormat> RatioConvertToGridData(WeixinRobotLib.Linq.Game_FootBall_VS toc, WeixinRobotLib.Linq.dbDataContext db)
+        public List<TeamRowFormat> RatioConvertToGridData(Game_FootBall_VS toc)
         {
+
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
+
             List<TeamRowFormat> RatioConvertToGridDataSource = new List<TeamRowFormat>();
 
             TeamRowFormat ATEAM = new TeamRowFormat();
@@ -60,7 +63,7 @@ namespace WeixinRoboot
 
 
 
-            WeixinRobotLib.Linq.Game_FootBall_VSRatios cr = WeixinRobotLib.Linq.ProgramLogic.VSGetCurRatio(toc, db);
+            Game_FootBall_VSRatios cr = JsonConvert.DeserializeObject<Game_FootBall_VSRatios>(ws.VSGetCurRatio(JsonConvert.SerializeObject(toc)));
 
             if (cr==null)
             {

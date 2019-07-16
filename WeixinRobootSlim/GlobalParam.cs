@@ -11,7 +11,7 @@ using System.Reflection;
 using System.Net;
 using System.Xml;
 
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     public class GlobalParam
     {
@@ -49,7 +49,7 @@ namespace WeixinRoboot
 
         public static string GetUserParam()
         {
-            WeixinRobotLib.Linq.UserParam result = new WeixinRobotLib.Linq.UserParam();
+            WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam result = new WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam();
             result.UserName = GlobalParam.UserName;
             result.Password = GlobalParam.Password;
             result.ASPXAUTH = GlobalParam.ASPXAUTH;

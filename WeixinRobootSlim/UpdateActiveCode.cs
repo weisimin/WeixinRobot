@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
-namespace WeixinRoboot
+namespace WeixinRobootSlim
 {
     public partial class UpdateActiveCode : Form
     {
@@ -20,11 +20,11 @@ namespace WeixinRoboot
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-           
 
-            WeixinRobotLib.Linq.aspnet_UsersNewGameResultSend updatecode = Linq.Util_Services.GetServicesSetting();
+
+            WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend updatecode = Linq.Util_Services.GetServicesSetting();
             updatecode.ActiveCode = fd_activecode.Text;
-            RobootWeb.WebService ws = new RobootWeb.WebService();
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
             string Res=ws.SaveSetting(GlobalParam.UserName, GlobalParam.Password, JsonConvert.SerializeObject(updatecode));
             MessageBox.Show(Res);
             this.Close ();
