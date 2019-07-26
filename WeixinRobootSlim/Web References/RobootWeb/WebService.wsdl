@@ -18,6 +18,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="UserLogInUsrpar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UserLogInUsrparResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserLogInUsrparResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetSetting">
         <s:complexType>
           <s:sequence>
@@ -1021,6 +1036,97 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="WX_PCSendPicSetting_SingleOrDefault">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="hwnd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WX_PCSendPicSetting_SingleOrDefaultResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WX_PCSendPicSetting_SingleOrDefaultResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MessageRobootDo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="RawContent" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WX_SourceType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserNameOrRemark" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FromUserNameTEMPID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToUserNameTEMPID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JavaMsgTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="msgType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="IsTalkGroup" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="MyUserTEMPID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MessageRobootDoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MessageRobootDoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastGamePeriod">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JShiShiCaiMode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastGamePeriodResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLastGamePeriodResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastGamePIC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JShiShiCaiMode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pPICType" type="tns:PicType" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="PicType">
+        <s:restriction base="s:string">
+          <s:enumeration value="龙虎图" />
+          <s:enumeration value="龙虎图_易信" />
+          <s:enumeration value="龙虎图_QQ" />
+          <s:enumeration value="龙虎图_钉钉" />
+          <s:enumeration value="数字图" />
+          <s:enumeration value="数字龙虎图" />
+          <s:enumeration value="数字文本" />
+          <s:enumeration value="龙虎数字文本" />
+          <s:enumeration value="龙虎数字文本_易信" />
+          <s:enumeration value="龙虎数字文本_QQ" />
+          <s:enumeration value="龙虎数字文本_钉钉" />
+          <s:enumeration value="龙虎数字大单牛牛文本" />
+          <s:enumeration value="龙虎数字大单牛牛文本_易信" />
+          <s:enumeration value="龙虎数字大单牛牛文本_QQ" />
+          <s:enumeration value="龙虎数字大单牛牛文本_钉钉" />
+          <s:enumeration value="龙虎数字无大单文本" />
+          <s:enumeration value="龙虎数字无大单文本_易信" />
+          <s:enumeration value="龙虎数字无大单文本_QQ" />
+          <s:enumeration value="龙虎数字无大单文本_钉钉" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetLastGamePICResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLastGamePICResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -1035,6 +1141,12 @@
   </wsdl:message>
   <wsdl:message name="UserLogInSoapOut">
     <wsdl:part name="parameters" element="tns:UserLogInResponse" />
+  </wsdl:message>
+  <wsdl:message name="UserLogInUsrparSoapIn">
+    <wsdl:part name="parameters" element="tns:UserLogInUsrpar" />
+  </wsdl:message>
+  <wsdl:message name="UserLogInUsrparSoapOut">
+    <wsdl:part name="parameters" element="tns:UserLogInUsrparResponse" />
   </wsdl:message>
   <wsdl:message name="GetSettingSoapIn">
     <wsdl:part name="parameters" element="tns:GetSetting" />
@@ -1324,10 +1436,38 @@
   <wsdl:message name="OpenQuery_QuerySoapOut">
     <wsdl:part name="parameters" element="tns:OpenQuery_QueryResponse" />
   </wsdl:message>
+  <wsdl:message name="WX_PCSendPicSetting_SingleOrDefaultSoapIn">
+    <wsdl:part name="parameters" element="tns:WX_PCSendPicSetting_SingleOrDefault" />
+  </wsdl:message>
+  <wsdl:message name="WX_PCSendPicSetting_SingleOrDefaultSoapOut">
+    <wsdl:part name="parameters" element="tns:WX_PCSendPicSetting_SingleOrDefaultResponse" />
+  </wsdl:message>
+  <wsdl:message name="MessageRobootDoSoapIn">
+    <wsdl:part name="parameters" element="tns:MessageRobootDo" />
+  </wsdl:message>
+  <wsdl:message name="MessageRobootDoSoapOut">
+    <wsdl:part name="parameters" element="tns:MessageRobootDoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLastGamePeriodSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLastGamePeriod" />
+  </wsdl:message>
+  <wsdl:message name="GetLastGamePeriodSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLastGamePeriodResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLastGamePICSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLastGamePIC" />
+  </wsdl:message>
+  <wsdl:message name="GetLastGamePICSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLastGamePICResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceSoap">
     <wsdl:operation name="UserLogIn">
       <wsdl:input message="tns:UserLogInSoapIn" />
       <wsdl:output message="tns:UserLogInSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UserLogInUsrpar">
+      <wsdl:input message="tns:UserLogInUsrparSoapIn" />
+      <wsdl:output message="tns:UserLogInUsrparSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetSetting">
       <wsdl:input message="tns:GetSettingSoapIn" />
@@ -1521,11 +1661,36 @@
       <wsdl:input message="tns:OpenQuery_QuerySoapIn" />
       <wsdl:output message="tns:OpenQuery_QuerySoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="WX_PCSendPicSetting_SingleOrDefault">
+      <wsdl:input message="tns:WX_PCSendPicSetting_SingleOrDefaultSoapIn" />
+      <wsdl:output message="tns:WX_PCSendPicSetting_SingleOrDefaultSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MessageRobootDo">
+      <wsdl:input message="tns:MessageRobootDoSoapIn" />
+      <wsdl:output message="tns:MessageRobootDoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastGamePeriod">
+      <wsdl:input message="tns:GetLastGamePeriodSoapIn" />
+      <wsdl:output message="tns:GetLastGamePeriodSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastGamePIC">
+      <wsdl:input message="tns:GetLastGamePICSoapIn" />
+      <wsdl:output message="tns:GetLastGamePICSoapOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="UserLogIn">
       <soap:operation soapAction="http://13828081978.zicp.vip/UserLogIn" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserLogInUsrpar">
+      <soap:operation soapAction="http://13828081978.zicp.vip/UserLogInUsrpar" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1965,11 +2130,56 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="WX_PCSendPicSetting_SingleOrDefault">
+      <soap:operation soapAction="http://13828081978.zicp.vip/WX_PCSendPicSetting_SingleOrDefault" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MessageRobootDo">
+      <soap:operation soapAction="http://13828081978.zicp.vip/MessageRobootDo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastGamePeriod">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetLastGamePeriod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastGamePIC">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetLastGamePIC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="UserLogIn">
       <soap12:operation soapAction="http://13828081978.zicp.vip/UserLogIn" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserLogInUsrpar">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/UserLogInUsrpar" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -2402,6 +2612,42 @@
     </wsdl:operation>
     <wsdl:operation name="OpenQuery_Query">
       <soap12:operation soapAction="http://13828081978.zicp.vip/OpenQuery_Query" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WX_PCSendPicSetting_SingleOrDefault">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/WX_PCSendPicSetting_SingleOrDefault" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MessageRobootDo">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/MessageRobootDo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastGamePeriod">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetLastGamePeriod" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastGamePIC">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetLastGamePIC" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -33,7 +33,7 @@ public class SysadminServices : System.Web.Services.WebService
     public string GetAllUsers()
     {
         WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
-       // db.ObjectTrackingEnabled = false;
+        // db.ObjectTrackingEnabled = false;
         var source = (from ms in db.aspnet_Membership
                       join us in db.aspnet_Users on ms.UserId equals us.UserId
                       select new { us.UserId, us.UserName, ms.IsLockedOut }).ToList();
@@ -74,7 +74,7 @@ public class SysadminServices : System.Web.Services.WebService
         return JsonConvert.SerializeObject(usr);
     }
     [WebMethod]
-    public  string BuidMD5ActiveCode(DateTime EndDate, Guid MyGuid)
+    public string BuidMD5ActiveCode(DateTime EndDate, Guid MyGuid)
     {
         string ToConvert = MyGuid.ToString() + EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff");
         ToConvert = GetStrMd5X2(ToConvert) + ToConvert;
@@ -87,5 +87,36 @@ public class SysadminServices : System.Web.Services.WebService
         string t2 = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(ConvertString)));
         t2 = t2.Replace("-", "");
         return t2;
+    }
+    [WebMethod]
+    public string NewGameResult(String str_Win, String str_dataperiod, ref bool NewResult, String JShiShiCaiMode, String jusrpar, String GameTime)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode ssm = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode>(JShiShiCaiMode);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
+
+        try
+        {
+            WeixinRobotLib.Linq.ProgramLogic.NewGameResult(str_Win, str_dataperiod, ref NewResult, ssm, usrpar, GameTime);
+            //if (NewResult == true)
+            //{
+
+            //    var AllUsers = Membership.GetAllUsers();
+            //    foreach (MembershipUser itemuser in AllUsers)
+            //    {
+            //        WeixinRobotLib.Linq.ProgramLogic.DrawChongqingshishicai(ssm, (Guid)itemuser.ProviderUserKey);
+            //    }
+
+            //}
+
+
+            return "OK";
+        }
+        catch (Exception AnyError)
+        {
+
+            return AnyError.Message;
+        }
+
+
     }
 }

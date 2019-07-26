@@ -63,6 +63,45 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod]
+    public string UserLogInUsrpar(string UserName, string Password)
+    {
+
+        bool r = Membership.ValidateUser(UserName, Password);
+        MembershipUser msr = Membership.GetUser(UserName);
+        if (r == true)
+        {
+            FormsAuthentication.SetAuthCookie(UserName, true);
+            string Cookie = FormsAuthentication.GetAuthCookie(UserName, true).Value;
+
+            WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam result = new WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam();
+            result.UserName = UserName;
+            result.Password = Password;
+
+            result.ASPXAUTH = GetUserToken(UserName,Password);
+            result.LoginCookie = null;
+            result.UserKey =(Guid)msr.ProviderUserKey;
+            result.JobID = Guid.Empty;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(result);
+
+
+        }
+        else if (msr == null)
+        {
+            return ("用户不存在");
+        }
+        else if (msr.IsLockedOut)
+        {
+            return ("密码错误次数太多,已停用");
+        }
+        else
+        {
+            return ("密码错误");
+        }
+
+
+    }
+
+    [WebMethod]
     public string GetSetting(string saspnetUserid)
     {
         Guid aspnetUserid = Guid.Parse(saspnetUserid);
@@ -1046,12 +1085,12 @@ public class WebService : System.Web.Services.WebService
         WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
         WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend loadset = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend>(Jusrpar);
 
-        return WeixinRobotLib.Linq.ProgramLogic.WX_UserReplyLog_Create(MemberSource, gm, subm, RequestPeriod, RequestTime, GameContent, WX_UserName, WX_SourceType, usrpar, loadset, adminmode, MemberGroupName);
+        return WeixinRobotLib.Linq.ProgramLogic.WX_UserReplyLog_Create( gm, subm, RequestPeriod, RequestTime, GameContent, WX_UserName, WX_SourceType, usrpar, loadset, adminmode, MemberGroupName);
     }
     [WebMethod]
     public string WX_UserReplyLog_MySendCreate(string Content, string jUserRow, DateTime ReceiveTime, string jusrpar, List<Guid> takeusers, string jloadset, string WX_UserName = "", string WX_SourceType = "")
     {
-        DataRow UserRow = JsonConvert.DeserializeObject<DataRow>(jUserRow);
+        WeixinRobotLib.Entity.Linq.WX_UserReply UserRow = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.WX_UserReply>(jUserRow);
         WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
         WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend loadset = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend>(jloadset);
         return WeixinRobotLib.Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Content, UserRow, ReceiveTime, usrpar, takeusers, loadset, WX_UserName, WX_SourceType);
@@ -2575,6 +2614,128 @@ public class WebService : System.Web.Services.WebService
         return Result;
     }
 
+    [WebMethod]
+    public string WX_PCSendPicSetting_SingleOrDefault(string hwnd)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        WeixinRobotLib.Entity.Linq.WX_PCSendPicSetting pcset = db.WX_PCSendPicSetting.SingleOrDefault(t => t.WX_UserTMPID == hwnd);
+        return JsonConvert.SerializeObject(hwnd);
+    }
+    [WebMethod]
+    public string MessageRobootDo(Guid UserID, String RawContent, String WX_SourceType, String UserNameOrRemark, String FromUserNameTEMPID, String ToUserNameTEMPID, string JavaMsgTime, string msgType, Boolean IsTalkGroup, String MyUserTEMPID, string Jusrpar)
+    {
+        String SavePath= HttpContext.Current.Server.MapPath("../PIC");
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
+      
+        return WeixinRobotLib.Linq.ProgramLogic.MessageRobotDo(WX_SourceType, FromUserNameTEMPID, ToUserNameTEMPID, RawContent, JavaMsgTime, msgType, IsTalkGroup, UserID, MyUserTEMPID,usrpar, SavePath);
 
+    }
+    [WebMethod]
+    public string GetLastGamePeriod(String JShiShiCaiMode)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode ssm = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode>(JShiShiCaiMode);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+        return db.Game_Result.Where(t => t.GameName == JShiShiCaiMode).OrderByDescending(t => t.GameTime).First().GamePeriod;
+
+    }
+    public enum PicType
+    {
+        龙虎图, 龙虎图_易信, 龙虎图_QQ, 龙虎图_钉钉, 数字图, 数字龙虎图,
+        数字文本
+        ,龙虎数字文本,龙虎数字文本_易信,龙虎数字文本_QQ,龙虎数字文本_钉钉
+        ,龙虎数字大单牛牛文本,龙虎数字大单牛牛文本_易信,龙虎数字大单牛牛文本_QQ,龙虎数字大单牛牛文本_钉钉
+        ,龙虎数字无大单文本,龙虎数字无大单文本_易信,龙虎数字无大单文本_QQ,龙虎数字无大单文本_钉钉
+    }
+    [WebMethod]
+    public string GetLastGamePIC(String JShiShiCaiMode, PicType pPICType, Guid UserID)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode subm = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode>(JShiShiCaiMode);
+        string UserName = Membership.GetUser(UserID).UserName;
+        WeixinRobotLib.Linq.ProgramLogic.DrawChongqingshishicai(subm, UserID);
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+     
+        switch (pPICType)
+        {
+            case PicType.龙虎图:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt",  db, UserID);
+
+                
+            case PicType.龙虎图_易信:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3_yixin" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            case PicType.龙虎图_QQ:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3_QQ" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            case PicType.龙虎图_钉钉:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3_dingding" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            case PicType.数字图:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".jpg", db, UserID);
+     
+                
+            case PicType.数字龙虎图:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + "_v3.jpg", db, UserID);
+      
+                
+            case PicType.数字文本:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + "V7.txt", db, UserID);
+
+                
+            case PicType.龙虎数字文本:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            case PicType.龙虎数字文本_易信:
+                return "未知图类型";
+             
+                
+            case PicType.龙虎数字文本_QQ:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎qq" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            case PicType.龙虎数字文本_钉钉:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎dingding" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+        
+                
+            case PicType.龙虎数字大单牛牛文本:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎_五分龙虎Vr牛牛" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            case PicType.龙虎数字大单牛牛文本_易信:
+                return "未知图类型_易信图类型";
+                
+            case PicType.龙虎数字大单牛牛文本_QQ:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎qq_五分龙虎Vr牛牛" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            case PicType.龙虎数字大单牛牛文本_钉钉:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎dingding_五分龙虎Vr牛牛" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            case PicType.龙虎数字无大单文本:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎_五分龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            case PicType.龙虎数字无大单文本_易信:
+                return "未知图类型";
+                
+            case PicType.龙虎数字无大单文本_QQ:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎qq_五分龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            case PicType.龙虎数字无大单文本_钉钉:
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎dingding_五分龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+
+                
+            default:
+                return "未知图类型";
+                
+        }
+
+    }
 }//class end 
 

@@ -32,6 +32,8 @@ namespace WeixinRoboot.RobootWeb {
         
         private System.Threading.SendOrPostCallback UserLogInOperationCompleted;
         
+        private System.Threading.SendOrPostCallback UserLogInUsrparOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetSettingOperationCompleted;
         
         private System.Threading.SendOrPostCallback SaveSettingOperationCompleted;
@@ -128,6 +130,14 @@ namespace WeixinRoboot.RobootWeb {
         
         private System.Threading.SendOrPostCallback OpenQuery_QueryOperationCompleted;
         
+        private System.Threading.SendOrPostCallback WX_PCSendPicSetting_SingleOrDefaultOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback MessageRobootDoOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetLastGamePeriodOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetLastGamePICOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -168,6 +178,9 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         public event UserLogInCompletedEventHandler UserLogInCompleted;
+        
+        /// <remarks/>
+        public event UserLogInUsrparCompletedEventHandler UserLogInUsrparCompleted;
         
         /// <remarks/>
         public event GetSettingCompletedEventHandler GetSettingCompleted;
@@ -314,6 +327,18 @@ namespace WeixinRoboot.RobootWeb {
         public event OpenQuery_QueryCompletedEventHandler OpenQuery_QueryCompleted;
         
         /// <remarks/>
+        public event WX_PCSendPicSetting_SingleOrDefaultCompletedEventHandler WX_PCSendPicSetting_SingleOrDefaultCompleted;
+        
+        /// <remarks/>
+        public event MessageRobootDoCompletedEventHandler MessageRobootDoCompleted;
+        
+        /// <remarks/>
+        public event GetLastGamePeriodCompletedEventHandler GetLastGamePeriodCompleted;
+        
+        /// <remarks/>
+        public event GetLastGamePICCompletedEventHandler GetLastGamePICCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogIn", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string UserLogIn(string UserName, string Password) {
             object[] results = this.Invoke("UserLogIn", new object[] {
@@ -341,6 +366,37 @@ namespace WeixinRoboot.RobootWeb {
             if ((this.UserLogInCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.UserLogInCompleted(this, new UserLogInCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogInUsrpar", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string UserLogInUsrpar(string UserName, string Password) {
+            object[] results = this.Invoke("UserLogInUsrpar", new object[] {
+                        UserName,
+                        Password});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UserLogInUsrparAsync(string UserName, string Password) {
+            this.UserLogInUsrparAsync(UserName, Password, null);
+        }
+        
+        /// <remarks/>
+        public void UserLogInUsrparAsync(string UserName, string Password, object userState) {
+            if ((this.UserLogInUsrparOperationCompleted == null)) {
+                this.UserLogInUsrparOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUserLogInUsrparOperationCompleted);
+            }
+            this.InvokeAsync("UserLogInUsrpar", new object[] {
+                        UserName,
+                        Password}, this.UserLogInUsrparOperationCompleted, userState);
+        }
+        
+        private void OnUserLogInUsrparOperationCompleted(object arg) {
+            if ((this.UserLogInUsrparCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UserLogInUsrparCompleted(this, new UserLogInUsrparCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1945,6 +2001,146 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_PCSendPicSetting_SingleOrDefault", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string WX_PCSendPicSetting_SingleOrDefault(string hwnd) {
+            object[] results = this.Invoke("WX_PCSendPicSetting_SingleOrDefault", new object[] {
+                        hwnd});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WX_PCSendPicSetting_SingleOrDefaultAsync(string hwnd) {
+            this.WX_PCSendPicSetting_SingleOrDefaultAsync(hwnd, null);
+        }
+        
+        /// <remarks/>
+        public void WX_PCSendPicSetting_SingleOrDefaultAsync(string hwnd, object userState) {
+            if ((this.WX_PCSendPicSetting_SingleOrDefaultOperationCompleted == null)) {
+                this.WX_PCSendPicSetting_SingleOrDefaultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_PCSendPicSetting_SingleOrDefaultOperationCompleted);
+            }
+            this.InvokeAsync("WX_PCSendPicSetting_SingleOrDefault", new object[] {
+                        hwnd}, this.WX_PCSendPicSetting_SingleOrDefaultOperationCompleted, userState);
+        }
+        
+        private void OnWX_PCSendPicSetting_SingleOrDefaultOperationCompleted(object arg) {
+            if ((this.WX_PCSendPicSetting_SingleOrDefaultCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WX_PCSendPicSetting_SingleOrDefaultCompleted(this, new WX_PCSendPicSetting_SingleOrDefaultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/MessageRobootDo", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string MessageRobootDo(System.Guid UserID, string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
+            object[] results = this.Invoke("MessageRobootDo", new object[] {
+                        UserID,
+                        RawContent,
+                        WX_SourceType,
+                        UserNameOrRemark,
+                        FromUserNameTEMPID,
+                        ToUserNameTEMPID,
+                        JavaMsgTime,
+                        msgType,
+                        IsTalkGroup,
+                        MyUserTEMPID,
+                        Jusrpar});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void MessageRobootDoAsync(System.Guid UserID, string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
+            this.MessageRobootDoAsync(UserID, RawContent, WX_SourceType, UserNameOrRemark, FromUserNameTEMPID, ToUserNameTEMPID, JavaMsgTime, msgType, IsTalkGroup, MyUserTEMPID, Jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void MessageRobootDoAsync(System.Guid UserID, string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar, object userState) {
+            if ((this.MessageRobootDoOperationCompleted == null)) {
+                this.MessageRobootDoOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMessageRobootDoOperationCompleted);
+            }
+            this.InvokeAsync("MessageRobootDo", new object[] {
+                        UserID,
+                        RawContent,
+                        WX_SourceType,
+                        UserNameOrRemark,
+                        FromUserNameTEMPID,
+                        ToUserNameTEMPID,
+                        JavaMsgTime,
+                        msgType,
+                        IsTalkGroup,
+                        MyUserTEMPID,
+                        Jusrpar}, this.MessageRobootDoOperationCompleted, userState);
+        }
+        
+        private void OnMessageRobootDoOperationCompleted(object arg) {
+            if ((this.MessageRobootDoCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MessageRobootDoCompleted(this, new MessageRobootDoCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetLastGamePeriod", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetLastGamePeriod(string JShiShiCaiMode) {
+            object[] results = this.Invoke("GetLastGamePeriod", new object[] {
+                        JShiShiCaiMode});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetLastGamePeriodAsync(string JShiShiCaiMode) {
+            this.GetLastGamePeriodAsync(JShiShiCaiMode, null);
+        }
+        
+        /// <remarks/>
+        public void GetLastGamePeriodAsync(string JShiShiCaiMode, object userState) {
+            if ((this.GetLastGamePeriodOperationCompleted == null)) {
+                this.GetLastGamePeriodOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetLastGamePeriodOperationCompleted);
+            }
+            this.InvokeAsync("GetLastGamePeriod", new object[] {
+                        JShiShiCaiMode}, this.GetLastGamePeriodOperationCompleted, userState);
+        }
+        
+        private void OnGetLastGamePeriodOperationCompleted(object arg) {
+            if ((this.GetLastGamePeriodCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetLastGamePeriodCompleted(this, new GetLastGamePeriodCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetLastGamePIC", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetLastGamePIC(string JShiShiCaiMode, PicType pPICType, System.Guid UserID) {
+            object[] results = this.Invoke("GetLastGamePIC", new object[] {
+                        JShiShiCaiMode,
+                        pPICType,
+                        UserID});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetLastGamePICAsync(string JShiShiCaiMode, PicType pPICType, System.Guid UserID) {
+            this.GetLastGamePICAsync(JShiShiCaiMode, pPICType, UserID, null);
+        }
+        
+        /// <remarks/>
+        public void GetLastGamePICAsync(string JShiShiCaiMode, PicType pPICType, System.Guid UserID, object userState) {
+            if ((this.GetLastGamePICOperationCompleted == null)) {
+                this.GetLastGamePICOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetLastGamePICOperationCompleted);
+            }
+            this.InvokeAsync("GetLastGamePIC", new object[] {
+                        JShiShiCaiMode,
+                        pPICType,
+                        UserID}, this.GetLastGamePICOperationCompleted, userState);
+        }
+        
+        private void OnGetLastGamePICOperationCompleted(object arg) {
+            if ((this.GetLastGamePICCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetLastGamePICCompleted(this, new GetLastGamePICCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -3537,6 +3733,70 @@ namespace WeixinRoboot.RobootWeb {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public enum PicType {
+        
+        /// <remarks/>
+        龙虎图,
+        
+        /// <remarks/>
+        龙虎图_易信,
+        
+        /// <remarks/>
+        龙虎图_QQ,
+        
+        /// <remarks/>
+        龙虎图_钉钉,
+        
+        /// <remarks/>
+        数字图,
+        
+        /// <remarks/>
+        数字龙虎图,
+        
+        /// <remarks/>
+        数字文本,
+        
+        /// <remarks/>
+        龙虎数字文本,
+        
+        /// <remarks/>
+        龙虎数字文本_易信,
+        
+        /// <remarks/>
+        龙虎数字文本_QQ,
+        
+        /// <remarks/>
+        龙虎数字文本_钉钉,
+        
+        /// <remarks/>
+        龙虎数字大单牛牛文本,
+        
+        /// <remarks/>
+        龙虎数字大单牛牛文本_易信,
+        
+        /// <remarks/>
+        龙虎数字大单牛牛文本_QQ,
+        
+        /// <remarks/>
+        龙虎数字大单牛牛文本_钉钉,
+        
+        /// <remarks/>
+        龙虎数字无大单文本,
+        
+        /// <remarks/>
+        龙虎数字无大单文本_易信,
+        
+        /// <remarks/>
+        龙虎数字无大单文本_QQ,
+        
+        /// <remarks/>
+        龙虎数字无大单文本_钉钉,
+    }
+    
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void UserLogInCompletedEventHandler(object sender, UserLogInCompletedEventArgs e);
     
@@ -3549,6 +3809,32 @@ namespace WeixinRoboot.RobootWeb {
         private object[] results;
         
         internal UserLogInCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void UserLogInUsrparCompletedEventHandler(object sender, UserLogInUsrparCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UserLogInUsrparCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UserLogInUsrparCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -4824,6 +5110,110 @@ namespace WeixinRoboot.RobootWeb {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataTable)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WX_PCSendPicSetting_SingleOrDefaultCompletedEventHandler(object sender, WX_PCSendPicSetting_SingleOrDefaultCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WX_PCSendPicSetting_SingleOrDefaultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WX_PCSendPicSetting_SingleOrDefaultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void MessageRobootDoCompletedEventHandler(object sender, MessageRobootDoCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class MessageRobootDoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal MessageRobootDoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetLastGamePeriodCompletedEventHandler(object sender, GetLastGamePeriodCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetLastGamePeriodCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetLastGamePeriodCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetLastGamePICCompletedEventHandler(object sender, GetLastGamePICCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetLastGamePICCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetLastGamePICCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
             }
         }
     }

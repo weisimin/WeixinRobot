@@ -30,6 +30,7 @@ namespace WeixinRobootSlim
                 ((DataTable)BS_GVResult.DataSource).Rows.Clear();
             }
 
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
 
             gv_result.Columns.Clear();
 
@@ -43,13 +44,13 @@ namespace WeixinRobootSlim
 
 
 
-            var buys = (from ds in db.WX_UserGameLog
-                        where
-                        ds.aspnet_UserID == GlobalParam.UserKey
-        && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_startdate.Value.ToString("yyyyMMdd")) >= 0
-        && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_enddate.Value.ToString("yyyyMMdd")) <= 0
-        && ds.WX_SourceType == cb_SourceType.SelectedItem.ToString()
-                        select ds).ToList();
+            var buys = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.WX_UserGameLog[]>(ws.WX_UserGameLog_Where(
+                        GlobalParam.UserKey
+, cb_SourceType.SelectedItem.ToString()
+       , dtp_startdate.Value
+       , dtp_enddate.Value
+       ));
+
 
             NetFramework.Console.WriteLine("########################################################################", false);
             NetFramework.Console.WriteLine("查询日期" + dtp_startdate.Value.ToString("yyyyMMdd"), false);
@@ -86,8 +87,12 @@ namespace WeixinRobootSlim
             dccful.CellTemplate = new DataGridViewTextBoxCell();
             gv_result.Columns.Add(dccful);
 
-           
-  
+
+            var Result = ws.OpenQuery_Query(GlobalParam.UserKey
+                 , dtp_startdate.Value
+                 , dtp_enddate.Value
+                  , cb_SourceType.SelectedItem.ToString()
+            , GlobalParam.GetUserParam());
 
 
             BS_GVResult.DataSource = Result;

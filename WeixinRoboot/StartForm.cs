@@ -8603,10 +8603,16 @@ namespace WeixinRoboot
                 Sql += "   GamePrivatePeriod like '" + Localday.ToString("yyyyMMdd")
                  + "%' and ";
             }
-            if (subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯十分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾十信 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾五信)
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯十分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾十信 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾五信 )
             {
 
                 Sql += "   GamePeriod like '" + Localday.ToString("yyyyMMdd")
+                 + "%' and ";
+            }
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩)
+            {
+
+                Sql += "   GamePeriod like '" + Localday.ToString("yyMMdd")
                  + "%' and ";
             }
             Sql += " aspnet_Userid='" + GlobalParam.UserKey.ToString()

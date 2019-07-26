@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 namespace WeixinRobootSlim
 {
     /// <summary>
@@ -311,12 +312,13 @@ namespace WeixinRobootSlim
         IAccessible FindOwnerParent;
         public void ReloadMembers(string GroupOwnerName, DataTable ToJoinIn, string WX_SourceType,  IntPtr hwnd)
         {
+            WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
             XmlDocument doc = new XmlDocument();
             StartGetAccessibleObjects(_QqWindowHandle, out FindOwner, out FindOwnerParent, GroupOwnerName, out doc);
 
             object[] CHILDS = GetAccessibleChildren(FindOwnerParent);
 
-            WeixinRobotLib.Entity.Linq.WX_PCSendPicSetting pcset = db.WX_PCSendPicSetting.SingleOrDefault(t => t.WX_UserTMPID == hwnd.ToString());
+            WeixinRobotLib.Entity.Linq.WX_PCSendPicSetting pcset = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.WX_PCSendPicSetting>(ws.WX_PCSendPicSetting_SingleOrDefault(hwnd.ToString()));
 
             foreach (var CHILDITEM in CHILDS)
             {
@@ -332,10 +334,10 @@ namespace WeixinRobootSlim
                 if (testexit.Length == 0)
                 {
 
-                    WeixinRobotLib.Entity.Linq.WX_UserReply userreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
-                                                                                               && t.WX_UserName == NewName
-                                                                                               && t.WX_SourceType == WX_SourceType
-                                                                                               );
+                    WeixinRobotLib.Entity.Linq.WX_UserReply userreply = JsonConvert.DeserializeObject <WeixinRobotLib.Entity.Linq.WX_UserReply>( ws.WX_UserReply_SingleOrDefault(GlobalParam.UserKey
+                                                                                               ,  NewName
+                                                                                               ,WX_SourceType
+                                                                                               ));
                     DataRow usr = ToJoinIn.AsEnumerable().SingleOrDefault
                              (t => t.Field<object>("User_ContactID").ToString() == NewName
                              && t.Field<object>("User_SourceType").ToString() == WX_SourceType
@@ -349,8 +351,9 @@ namespace WeixinRobootSlim
                         newr.WX_SourceType = WX_SourceType;
                         newr.WX_UserName = NewName;
                         newr.IsCaculateFuli = true;
-                        db.WX_UserReply.InsertOnSubmit(newr);
-                        db.SubmitChanges();
+
+                        ws.WX_UserReply.InsertOnSubmit(newr);
+                       
 
 
                     }

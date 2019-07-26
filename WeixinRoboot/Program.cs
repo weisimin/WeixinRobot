@@ -10,6 +10,7 @@ using System.Security.Principal;
 using System.Web;
 using System.Net;
 using System.Security.AccessControl;
+using Newtonsoft.Json;
 //xl1234567密码123456
 //http://down.1goubao.com/hy-android-new/
 namespace WeixinRoboot

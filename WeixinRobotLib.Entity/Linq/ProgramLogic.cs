@@ -78,6 +78,56 @@ namespace WeixinRobotLib.Entity.Linq
 
        }
 
+       public static WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode GetMode(WX_UserReply dr)
+       {
+           WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.未知;
+           if (dr.ChongqingMode == true
+               )
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
+           }
+           else if (dr.FiveMinuteMode== true)
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.五分彩;
+           }
+           else if (dr.HkMode == true)
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.香港时时彩;
+           }
+           else if (dr.AozcMode == true)
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
+           }
+           else if (dr.TengXunWuFenMode == true)
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
+           }
+           else if (dr.TengXunShiFenMode == true)
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
+           }
+           else if (dr.VRMode == true)
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩;
+           }
+           else if (dr.XinJiangMode == true)
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩;
+           }
+           else if (dr.TengXunShiFenXinMode == true)
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.腾十信;
+           }
+           else if (dr.TengXunWuFenXinMode == true)
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.腾五信;
+           }
+           else if (dr.HeNeiWuFenMode == true)
+           {
+               subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.河内五分;
+           }
+           return subm;
+       }
        public static WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode GetMode(DataRow dr)
        {
            WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.未知;
@@ -718,5 +768,8 @@ namespace WeixinRobotLib.Entity.Linq
                    return "";
            }
        }
+
+
+
     }
 }
