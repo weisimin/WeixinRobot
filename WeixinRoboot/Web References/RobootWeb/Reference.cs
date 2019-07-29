@@ -28,10 +28,11 @@ namespace WeixinRoboot.RobootWeb {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebServiceSoap", Namespace="http://13828081978.zicp.vip/")]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(object[]))]
     public partial class WebService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback UserLogInOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UserLogInUsrparOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetSettingOperationCompleted;
         
@@ -103,6 +104,40 @@ namespace WeixinRoboot.RobootWeb {
         
         private System.Threading.SendOrPostCallback BallOpen_GetUpPaySourceOperationCompleted;
         
+        private System.Threading.SendOrPostCallback SendManulOrder_GetOrderSourceOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SendManulOrder_DeleteOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback WX_UserReply_WhereOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback WX_UserReply_SingleOrDefaultOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback Game_FootBall_VS_WhereOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback BallOpen_ReloadOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback WX_WebSendPICSettingMatchClassSaveOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback BallOpen_OpenOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback Game_ResultFootBall_SingleOrDefaultOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback WX_UserGameLog_Football_WhereOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback OpenBallGameLogOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback WX_UserGameLog_WhereOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback OpenQuery_QueryOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback WX_PCSendPicSetting_SingleOrDefaultOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback MessageRobootDoOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetLastGamePeriodOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetLastGamePICOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -143,6 +178,9 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         public event UserLogInCompletedEventHandler UserLogInCompleted;
+        
+        /// <remarks/>
+        public event UserLogInUsrparCompletedEventHandler UserLogInUsrparCompleted;
         
         /// <remarks/>
         public event GetSettingCompletedEventHandler GetSettingCompleted;
@@ -250,6 +288,57 @@ namespace WeixinRoboot.RobootWeb {
         public event BallOpen_GetUpPaySourceCompletedEventHandler BallOpen_GetUpPaySourceCompleted;
         
         /// <remarks/>
+        public event SendManulOrder_GetOrderSourceCompletedEventHandler SendManulOrder_GetOrderSourceCompleted;
+        
+        /// <remarks/>
+        public event SendManulOrder_DeleteCompletedEventHandler SendManulOrder_DeleteCompleted;
+        
+        /// <remarks/>
+        public event WX_UserReply_WhereCompletedEventHandler WX_UserReply_WhereCompleted;
+        
+        /// <remarks/>
+        public event WX_UserReply_SingleOrDefaultCompletedEventHandler WX_UserReply_SingleOrDefaultCompleted;
+        
+        /// <remarks/>
+        public event Game_FootBall_VS_WhereCompletedEventHandler Game_FootBall_VS_WhereCompleted;
+        
+        /// <remarks/>
+        public event BallOpen_ReloadCompletedEventHandler BallOpen_ReloadCompleted;
+        
+        /// <remarks/>
+        public event WX_WebSendPICSettingMatchClassSaveCompletedEventHandler WX_WebSendPICSettingMatchClassSaveCompleted;
+        
+        /// <remarks/>
+        public event BallOpen_OpenCompletedEventHandler BallOpen_OpenCompleted;
+        
+        /// <remarks/>
+        public event Game_ResultFootBall_SingleOrDefaultCompletedEventHandler Game_ResultFootBall_SingleOrDefaultCompleted;
+        
+        /// <remarks/>
+        public event WX_UserGameLog_Football_WhereCompletedEventHandler WX_UserGameLog_Football_WhereCompleted;
+        
+        /// <remarks/>
+        public event OpenBallGameLogCompletedEventHandler OpenBallGameLogCompleted;
+        
+        /// <remarks/>
+        public event WX_UserGameLog_WhereCompletedEventHandler WX_UserGameLog_WhereCompleted;
+        
+        /// <remarks/>
+        public event OpenQuery_QueryCompletedEventHandler OpenQuery_QueryCompleted;
+        
+        /// <remarks/>
+        public event WX_PCSendPicSetting_SingleOrDefaultCompletedEventHandler WX_PCSendPicSetting_SingleOrDefaultCompleted;
+        
+        /// <remarks/>
+        public event MessageRobootDoCompletedEventHandler MessageRobootDoCompleted;
+        
+        /// <remarks/>
+        public event GetLastGamePeriodCompletedEventHandler GetLastGamePeriodCompleted;
+        
+        /// <remarks/>
+        public event GetLastGamePICCompletedEventHandler GetLastGamePICCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogIn", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string UserLogIn(string UserName, string Password) {
             object[] results = this.Invoke("UserLogIn", new object[] {
@@ -277,6 +366,37 @@ namespace WeixinRoboot.RobootWeb {
             if ((this.UserLogInCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.UserLogInCompleted(this, new UserLogInCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogInUsrpar", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string UserLogInUsrpar(string UserName, string Password) {
+            object[] results = this.Invoke("UserLogInUsrpar", new object[] {
+                        UserName,
+                        Password});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UserLogInUsrparAsync(string UserName, string Password) {
+            this.UserLogInUsrparAsync(UserName, Password, null);
+        }
+        
+        /// <remarks/>
+        public void UserLogInUsrparAsync(string UserName, string Password, object userState) {
+            if ((this.UserLogInUsrparOperationCompleted == null)) {
+                this.UserLogInUsrparOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUserLogInUsrparOperationCompleted);
+            }
+            this.InvokeAsync("UserLogInUsrpar", new object[] {
+                        UserName,
+                        Password}, this.UserLogInUsrparOperationCompleted, userState);
+        }
+        
+        private void OnUserLogInUsrparOperationCompleted(object arg) {
+            if ((this.UserLogInUsrparCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UserLogInUsrparCompleted(this, new UserLogInUsrparCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1217,17 +1337,17 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/ReceiveContentFormat", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public object[] ReceiveContentFormat(string ReceiveContent, string jdirect, string jusrpar, out FormatResultState State, out FormatResultType ModeType, out string BuyType, out string BuyMoney, out string[] ContextTeams) {
+        public string ReceiveContentFormat(string ReceiveContent, string jdirect, string jusrpar, out string jState, out string jModeType, out string BuyType, out string BuyMoney, out string[] ContextTeams) {
             object[] results = this.Invoke("ReceiveContentFormat", new object[] {
                         ReceiveContent,
                         jdirect,
                         jusrpar});
-            State = ((FormatResultState)(results[1]));
-            ModeType = ((FormatResultType)(results[2]));
+            jState = ((string)(results[1]));
+            jModeType = ((string)(results[2]));
             BuyType = ((string)(results[3]));
             BuyMoney = ((string)(results[4]));
             ContextTeams = ((string[])(results[5]));
-            return ((object[])(results[0]));
+            return ((string)(results[0]));
         }
         
         /// <remarks/>
@@ -1446,6 +1566,579 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/SendManulOrder_GetOrderSource", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public SendManulOrder_GetOrderSourceClass[] SendManulOrder_GetOrderSource(System.DateTime dtp_StartDate, System.DateTime dtp_EndDate, System.Guid UserKey, string WX_UserName, string WX_SourceType) {
+            object[] results = this.Invoke("SendManulOrder_GetOrderSource", new object[] {
+                        dtp_StartDate,
+                        dtp_EndDate,
+                        UserKey,
+                        WX_UserName,
+                        WX_SourceType});
+            return ((SendManulOrder_GetOrderSourceClass[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SendManulOrder_GetOrderSourceAsync(System.DateTime dtp_StartDate, System.DateTime dtp_EndDate, System.Guid UserKey, string WX_UserName, string WX_SourceType) {
+            this.SendManulOrder_GetOrderSourceAsync(dtp_StartDate, dtp_EndDate, UserKey, WX_UserName, WX_SourceType, null);
+        }
+        
+        /// <remarks/>
+        public void SendManulOrder_GetOrderSourceAsync(System.DateTime dtp_StartDate, System.DateTime dtp_EndDate, System.Guid UserKey, string WX_UserName, string WX_SourceType, object userState) {
+            if ((this.SendManulOrder_GetOrderSourceOperationCompleted == null)) {
+                this.SendManulOrder_GetOrderSourceOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSendManulOrder_GetOrderSourceOperationCompleted);
+            }
+            this.InvokeAsync("SendManulOrder_GetOrderSource", new object[] {
+                        dtp_StartDate,
+                        dtp_EndDate,
+                        UserKey,
+                        WX_UserName,
+                        WX_SourceType}, this.SendManulOrder_GetOrderSourceOperationCompleted, userState);
+        }
+        
+        private void OnSendManulOrder_GetOrderSourceOperationCompleted(object arg) {
+            if ((this.SendManulOrder_GetOrderSourceCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SendManulOrder_GetOrderSourceCompleted(this, new SendManulOrder_GetOrderSourceCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/SendManulOrder_Delete", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SendManulOrder_Delete(string aspnet_UserID, string WX_UserName, string WX_SourceType, System.DateTime DT) {
+            object[] results = this.Invoke("SendManulOrder_Delete", new object[] {
+                        aspnet_UserID,
+                        WX_UserName,
+                        WX_SourceType,
+                        DT});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SendManulOrder_DeleteAsync(string aspnet_UserID, string WX_UserName, string WX_SourceType, System.DateTime DT) {
+            this.SendManulOrder_DeleteAsync(aspnet_UserID, WX_UserName, WX_SourceType, DT, null);
+        }
+        
+        /// <remarks/>
+        public void SendManulOrder_DeleteAsync(string aspnet_UserID, string WX_UserName, string WX_SourceType, System.DateTime DT, object userState) {
+            if ((this.SendManulOrder_DeleteOperationCompleted == null)) {
+                this.SendManulOrder_DeleteOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSendManulOrder_DeleteOperationCompleted);
+            }
+            this.InvokeAsync("SendManulOrder_Delete", new object[] {
+                        aspnet_UserID,
+                        WX_UserName,
+                        WX_SourceType,
+                        DT}, this.SendManulOrder_DeleteOperationCompleted, userState);
+        }
+        
+        private void OnSendManulOrder_DeleteOperationCompleted(object arg) {
+            if ((this.SendManulOrder_DeleteCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SendManulOrder_DeleteCompleted(this, new SendManulOrder_DeleteCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_UserReply_Where", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string WX_UserReply_Where(System.Guid aspnet_UserID) {
+            object[] results = this.Invoke("WX_UserReply_Where", new object[] {
+                        aspnet_UserID});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WX_UserReply_WhereAsync(System.Guid aspnet_UserID) {
+            this.WX_UserReply_WhereAsync(aspnet_UserID, null);
+        }
+        
+        /// <remarks/>
+        public void WX_UserReply_WhereAsync(System.Guid aspnet_UserID, object userState) {
+            if ((this.WX_UserReply_WhereOperationCompleted == null)) {
+                this.WX_UserReply_WhereOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_UserReply_WhereOperationCompleted);
+            }
+            this.InvokeAsync("WX_UserReply_Where", new object[] {
+                        aspnet_UserID}, this.WX_UserReply_WhereOperationCompleted, userState);
+        }
+        
+        private void OnWX_UserReply_WhereOperationCompleted(object arg) {
+            if ((this.WX_UserReply_WhereCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WX_UserReply_WhereCompleted(this, new WX_UserReply_WhereCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_UserReply_SingleOrDefault", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string WX_UserReply_SingleOrDefault(System.Guid aspnet_UserID, string WX_UserName, string WX_SourceType) {
+            object[] results = this.Invoke("WX_UserReply_SingleOrDefault", new object[] {
+                        aspnet_UserID,
+                        WX_UserName,
+                        WX_SourceType});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WX_UserReply_SingleOrDefaultAsync(System.Guid aspnet_UserID, string WX_UserName, string WX_SourceType) {
+            this.WX_UserReply_SingleOrDefaultAsync(aspnet_UserID, WX_UserName, WX_SourceType, null);
+        }
+        
+        /// <remarks/>
+        public void WX_UserReply_SingleOrDefaultAsync(System.Guid aspnet_UserID, string WX_UserName, string WX_SourceType, object userState) {
+            if ((this.WX_UserReply_SingleOrDefaultOperationCompleted == null)) {
+                this.WX_UserReply_SingleOrDefaultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_UserReply_SingleOrDefaultOperationCompleted);
+            }
+            this.InvokeAsync("WX_UserReply_SingleOrDefault", new object[] {
+                        aspnet_UserID,
+                        WX_UserName,
+                        WX_SourceType}, this.WX_UserReply_SingleOrDefaultOperationCompleted, userState);
+        }
+        
+        private void OnWX_UserReply_SingleOrDefaultOperationCompleted(object arg) {
+            if ((this.WX_UserReply_SingleOrDefaultCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WX_UserReply_SingleOrDefaultCompleted(this, new WX_UserReply_SingleOrDefaultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/Game_FootBall_VS_Where", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string Game_FootBall_VS_Where(System.Guid aspnet_UserID, System.Guid JobID) {
+            object[] results = this.Invoke("Game_FootBall_VS_Where", new object[] {
+                        aspnet_UserID,
+                        JobID});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void Game_FootBall_VS_WhereAsync(System.Guid aspnet_UserID, System.Guid JobID) {
+            this.Game_FootBall_VS_WhereAsync(aspnet_UserID, JobID, null);
+        }
+        
+        /// <remarks/>
+        public void Game_FootBall_VS_WhereAsync(System.Guid aspnet_UserID, System.Guid JobID, object userState) {
+            if ((this.Game_FootBall_VS_WhereOperationCompleted == null)) {
+                this.Game_FootBall_VS_WhereOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGame_FootBall_VS_WhereOperationCompleted);
+            }
+            this.InvokeAsync("Game_FootBall_VS_Where", new object[] {
+                        aspnet_UserID,
+                        JobID}, this.Game_FootBall_VS_WhereOperationCompleted, userState);
+        }
+        
+        private void OnGame_FootBall_VS_WhereOperationCompleted(object arg) {
+            if ((this.Game_FootBall_VS_WhereCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.Game_FootBall_VS_WhereCompleted(this, new Game_FootBall_VS_WhereCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/BallOpen_Reload", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string BallOpen_Reload(string WX_SourceType, System.Guid UserKey) {
+            object[] results = this.Invoke("BallOpen_Reload", new object[] {
+                        WX_SourceType,
+                        UserKey});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void BallOpen_ReloadAsync(string WX_SourceType, System.Guid UserKey) {
+            this.BallOpen_ReloadAsync(WX_SourceType, UserKey, null);
+        }
+        
+        /// <remarks/>
+        public void BallOpen_ReloadAsync(string WX_SourceType, System.Guid UserKey, object userState) {
+            if ((this.BallOpen_ReloadOperationCompleted == null)) {
+                this.BallOpen_ReloadOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBallOpen_ReloadOperationCompleted);
+            }
+            this.InvokeAsync("BallOpen_Reload", new object[] {
+                        WX_SourceType,
+                        UserKey}, this.BallOpen_ReloadOperationCompleted, userState);
+        }
+        
+        private void OnBallOpen_ReloadOperationCompleted(object arg) {
+            if ((this.BallOpen_ReloadCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.BallOpen_ReloadCompleted(this, new BallOpen_ReloadCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_WebSendPICSettingMatchClassSave", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string WX_WebSendPICSettingMatchClassSave(string jsubsource, string jusrpar, string WX_SourceType, string WX_UserName) {
+            object[] results = this.Invoke("WX_WebSendPICSettingMatchClassSave", new object[] {
+                        jsubsource,
+                        jusrpar,
+                        WX_SourceType,
+                        WX_UserName});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WX_WebSendPICSettingMatchClassSaveAsync(string jsubsource, string jusrpar, string WX_SourceType, string WX_UserName) {
+            this.WX_WebSendPICSettingMatchClassSaveAsync(jsubsource, jusrpar, WX_SourceType, WX_UserName, null);
+        }
+        
+        /// <remarks/>
+        public void WX_WebSendPICSettingMatchClassSaveAsync(string jsubsource, string jusrpar, string WX_SourceType, string WX_UserName, object userState) {
+            if ((this.WX_WebSendPICSettingMatchClassSaveOperationCompleted == null)) {
+                this.WX_WebSendPICSettingMatchClassSaveOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_WebSendPICSettingMatchClassSaveOperationCompleted);
+            }
+            this.InvokeAsync("WX_WebSendPICSettingMatchClassSave", new object[] {
+                        jsubsource,
+                        jusrpar,
+                        WX_SourceType,
+                        WX_UserName}, this.WX_WebSendPICSettingMatchClassSaveOperationCompleted, userState);
+        }
+        
+        private void OnWX_WebSendPICSettingMatchClassSaveOperationCompleted(object arg) {
+            if ((this.WX_WebSendPICSettingMatchClassSaveCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WX_WebSendPICSettingMatchClassSaveCompleted(this, new WX_WebSendPICSettingMatchClassSaveCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/BallOpen_Open", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string BallOpen_Open(string jDataSource, System.Guid UserKey, string jGameFormat) {
+            object[] results = this.Invoke("BallOpen_Open", new object[] {
+                        jDataSource,
+                        UserKey,
+                        jGameFormat});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void BallOpen_OpenAsync(string jDataSource, System.Guid UserKey, string jGameFormat) {
+            this.BallOpen_OpenAsync(jDataSource, UserKey, jGameFormat, null);
+        }
+        
+        /// <remarks/>
+        public void BallOpen_OpenAsync(string jDataSource, System.Guid UserKey, string jGameFormat, object userState) {
+            if ((this.BallOpen_OpenOperationCompleted == null)) {
+                this.BallOpen_OpenOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBallOpen_OpenOperationCompleted);
+            }
+            this.InvokeAsync("BallOpen_Open", new object[] {
+                        jDataSource,
+                        UserKey,
+                        jGameFormat}, this.BallOpen_OpenOperationCompleted, userState);
+        }
+        
+        private void OnBallOpen_OpenOperationCompleted(object arg) {
+            if ((this.BallOpen_OpenCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.BallOpen_OpenCompleted(this, new BallOpen_OpenCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/Game_ResultFootBall_SingleOrDefault", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string Game_ResultFootBall_SingleOrDefault(string GameID) {
+            object[] results = this.Invoke("Game_ResultFootBall_SingleOrDefault", new object[] {
+                        GameID});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void Game_ResultFootBall_SingleOrDefaultAsync(string GameID) {
+            this.Game_ResultFootBall_SingleOrDefaultAsync(GameID, null);
+        }
+        
+        /// <remarks/>
+        public void Game_ResultFootBall_SingleOrDefaultAsync(string GameID, object userState) {
+            if ((this.Game_ResultFootBall_SingleOrDefaultOperationCompleted == null)) {
+                this.Game_ResultFootBall_SingleOrDefaultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGame_ResultFootBall_SingleOrDefaultOperationCompleted);
+            }
+            this.InvokeAsync("Game_ResultFootBall_SingleOrDefault", new object[] {
+                        GameID}, this.Game_ResultFootBall_SingleOrDefaultOperationCompleted, userState);
+        }
+        
+        private void OnGame_ResultFootBall_SingleOrDefaultOperationCompleted(object arg) {
+            if ((this.Game_ResultFootBall_SingleOrDefaultCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.Game_ResultFootBall_SingleOrDefaultCompleted(this, new Game_ResultFootBall_SingleOrDefaultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_UserGameLog_Football_Where", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string WX_UserGameLog_Football_Where(string GameID, System.Guid UserKey) {
+            object[] results = this.Invoke("WX_UserGameLog_Football_Where", new object[] {
+                        GameID,
+                        UserKey});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WX_UserGameLog_Football_WhereAsync(string GameID, System.Guid UserKey) {
+            this.WX_UserGameLog_Football_WhereAsync(GameID, UserKey, null);
+        }
+        
+        /// <remarks/>
+        public void WX_UserGameLog_Football_WhereAsync(string GameID, System.Guid UserKey, object userState) {
+            if ((this.WX_UserGameLog_Football_WhereOperationCompleted == null)) {
+                this.WX_UserGameLog_Football_WhereOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_UserGameLog_Football_WhereOperationCompleted);
+            }
+            this.InvokeAsync("WX_UserGameLog_Football_Where", new object[] {
+                        GameID,
+                        UserKey}, this.WX_UserGameLog_Football_WhereOperationCompleted, userState);
+        }
+        
+        private void OnWX_UserGameLog_Football_WhereOperationCompleted(object arg) {
+            if ((this.WX_UserGameLog_Football_WhereCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WX_UserGameLog_Football_WhereCompleted(this, new WX_UserGameLog_Football_WhereCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/OpenBallGameLog", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string OpenBallGameLog(string jgl, int fronthalf_A, int fronthalf_B, int endhalf_A, int endhalf_B, string jusrpar) {
+            object[] results = this.Invoke("OpenBallGameLog", new object[] {
+                        jgl,
+                        fronthalf_A,
+                        fronthalf_B,
+                        endhalf_A,
+                        endhalf_B,
+                        jusrpar});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void OpenBallGameLogAsync(string jgl, int fronthalf_A, int fronthalf_B, int endhalf_A, int endhalf_B, string jusrpar) {
+            this.OpenBallGameLogAsync(jgl, fronthalf_A, fronthalf_B, endhalf_A, endhalf_B, jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void OpenBallGameLogAsync(string jgl, int fronthalf_A, int fronthalf_B, int endhalf_A, int endhalf_B, string jusrpar, object userState) {
+            if ((this.OpenBallGameLogOperationCompleted == null)) {
+                this.OpenBallGameLogOperationCompleted = new System.Threading.SendOrPostCallback(this.OnOpenBallGameLogOperationCompleted);
+            }
+            this.InvokeAsync("OpenBallGameLog", new object[] {
+                        jgl,
+                        fronthalf_A,
+                        fronthalf_B,
+                        endhalf_A,
+                        endhalf_B,
+                        jusrpar}, this.OpenBallGameLogOperationCompleted, userState);
+        }
+        
+        private void OnOpenBallGameLogOperationCompleted(object arg) {
+            if ((this.OpenBallGameLogCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.OpenBallGameLogCompleted(this, new OpenBallGameLogCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_UserGameLog_Where", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string WX_UserGameLog_Where(System.Guid UserKey, string WX_SourceType, System.DateTime dtp_startdate, System.DateTime dtp_enddate) {
+            object[] results = this.Invoke("WX_UserGameLog_Where", new object[] {
+                        UserKey,
+                        WX_SourceType,
+                        dtp_startdate,
+                        dtp_enddate});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WX_UserGameLog_WhereAsync(System.Guid UserKey, string WX_SourceType, System.DateTime dtp_startdate, System.DateTime dtp_enddate) {
+            this.WX_UserGameLog_WhereAsync(UserKey, WX_SourceType, dtp_startdate, dtp_enddate, null);
+        }
+        
+        /// <remarks/>
+        public void WX_UserGameLog_WhereAsync(System.Guid UserKey, string WX_SourceType, System.DateTime dtp_startdate, System.DateTime dtp_enddate, object userState) {
+            if ((this.WX_UserGameLog_WhereOperationCompleted == null)) {
+                this.WX_UserGameLog_WhereOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_UserGameLog_WhereOperationCompleted);
+            }
+            this.InvokeAsync("WX_UserGameLog_Where", new object[] {
+                        UserKey,
+                        WX_SourceType,
+                        dtp_startdate,
+                        dtp_enddate}, this.WX_UserGameLog_WhereOperationCompleted, userState);
+        }
+        
+        private void OnWX_UserGameLog_WhereOperationCompleted(object arg) {
+            if ((this.WX_UserGameLog_WhereCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WX_UserGameLog_WhereCompleted(this, new WX_UserGameLog_WhereCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/OpenQuery_Query", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataTable OpenQuery_Query(System.Guid UserKey, System.DateTime dtp_startdate, System.DateTime dtp_enddate, string cb_SourceType, string jur) {
+            object[] results = this.Invoke("OpenQuery_Query", new object[] {
+                        UserKey,
+                        dtp_startdate,
+                        dtp_enddate,
+                        cb_SourceType,
+                        jur});
+            return ((System.Data.DataTable)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void OpenQuery_QueryAsync(System.Guid UserKey, System.DateTime dtp_startdate, System.DateTime dtp_enddate, string cb_SourceType, string jur) {
+            this.OpenQuery_QueryAsync(UserKey, dtp_startdate, dtp_enddate, cb_SourceType, jur, null);
+        }
+        
+        /// <remarks/>
+        public void OpenQuery_QueryAsync(System.Guid UserKey, System.DateTime dtp_startdate, System.DateTime dtp_enddate, string cb_SourceType, string jur, object userState) {
+            if ((this.OpenQuery_QueryOperationCompleted == null)) {
+                this.OpenQuery_QueryOperationCompleted = new System.Threading.SendOrPostCallback(this.OnOpenQuery_QueryOperationCompleted);
+            }
+            this.InvokeAsync("OpenQuery_Query", new object[] {
+                        UserKey,
+                        dtp_startdate,
+                        dtp_enddate,
+                        cb_SourceType,
+                        jur}, this.OpenQuery_QueryOperationCompleted, userState);
+        }
+        
+        private void OnOpenQuery_QueryOperationCompleted(object arg) {
+            if ((this.OpenQuery_QueryCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.OpenQuery_QueryCompleted(this, new OpenQuery_QueryCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_PCSendPicSetting_SingleOrDefault", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string WX_PCSendPicSetting_SingleOrDefault(string hwnd) {
+            object[] results = this.Invoke("WX_PCSendPicSetting_SingleOrDefault", new object[] {
+                        hwnd});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void WX_PCSendPicSetting_SingleOrDefaultAsync(string hwnd) {
+            this.WX_PCSendPicSetting_SingleOrDefaultAsync(hwnd, null);
+        }
+        
+        /// <remarks/>
+        public void WX_PCSendPicSetting_SingleOrDefaultAsync(string hwnd, object userState) {
+            if ((this.WX_PCSendPicSetting_SingleOrDefaultOperationCompleted == null)) {
+                this.WX_PCSendPicSetting_SingleOrDefaultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_PCSendPicSetting_SingleOrDefaultOperationCompleted);
+            }
+            this.InvokeAsync("WX_PCSendPicSetting_SingleOrDefault", new object[] {
+                        hwnd}, this.WX_PCSendPicSetting_SingleOrDefaultOperationCompleted, userState);
+        }
+        
+        private void OnWX_PCSendPicSetting_SingleOrDefaultOperationCompleted(object arg) {
+            if ((this.WX_PCSendPicSetting_SingleOrDefaultCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.WX_PCSendPicSetting_SingleOrDefaultCompleted(this, new WX_PCSendPicSetting_SingleOrDefaultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/MessageRobootDo", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string MessageRobootDo(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
+            object[] results = this.Invoke("MessageRobootDo", new object[] {
+                        RawContent,
+                        WX_SourceType,
+                        UserNameOrRemark,
+                        FromUserNameTEMPID,
+                        ToUserNameTEMPID,
+                        JavaMsgTime,
+                        msgType,
+                        IsTalkGroup,
+                        MyUserTEMPID,
+                        Jusrpar});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void MessageRobootDoAsync(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
+            this.MessageRobootDoAsync(RawContent, WX_SourceType, UserNameOrRemark, FromUserNameTEMPID, ToUserNameTEMPID, JavaMsgTime, msgType, IsTalkGroup, MyUserTEMPID, Jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void MessageRobootDoAsync(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar, object userState) {
+            if ((this.MessageRobootDoOperationCompleted == null)) {
+                this.MessageRobootDoOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMessageRobootDoOperationCompleted);
+            }
+            this.InvokeAsync("MessageRobootDo", new object[] {
+                        RawContent,
+                        WX_SourceType,
+                        UserNameOrRemark,
+                        FromUserNameTEMPID,
+                        ToUserNameTEMPID,
+                        JavaMsgTime,
+                        msgType,
+                        IsTalkGroup,
+                        MyUserTEMPID,
+                        Jusrpar}, this.MessageRobootDoOperationCompleted, userState);
+        }
+        
+        private void OnMessageRobootDoOperationCompleted(object arg) {
+            if ((this.MessageRobootDoCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MessageRobootDoCompleted(this, new MessageRobootDoCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetLastGamePeriod", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetLastGamePeriod(string JShiShiCaiMode) {
+            object[] results = this.Invoke("GetLastGamePeriod", new object[] {
+                        JShiShiCaiMode});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetLastGamePeriodAsync(string JShiShiCaiMode) {
+            this.GetLastGamePeriodAsync(JShiShiCaiMode, null);
+        }
+        
+        /// <remarks/>
+        public void GetLastGamePeriodAsync(string JShiShiCaiMode, object userState) {
+            if ((this.GetLastGamePeriodOperationCompleted == null)) {
+                this.GetLastGamePeriodOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetLastGamePeriodOperationCompleted);
+            }
+            this.InvokeAsync("GetLastGamePeriod", new object[] {
+                        JShiShiCaiMode}, this.GetLastGamePeriodOperationCompleted, userState);
+        }
+        
+        private void OnGetLastGamePeriodOperationCompleted(object arg) {
+            if ((this.GetLastGamePeriodCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetLastGamePeriodCompleted(this, new GetLastGamePeriodCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetLastGamePIC", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetLastGamePIC(string JShiShiCaiMode, PicType pPICType, System.Guid UserID) {
+            object[] results = this.Invoke("GetLastGamePIC", new object[] {
+                        JShiShiCaiMode,
+                        pPICType,
+                        UserID});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetLastGamePICAsync(string JShiShiCaiMode, PicType pPICType, System.Guid UserID) {
+            this.GetLastGamePICAsync(JShiShiCaiMode, pPICType, UserID, null);
+        }
+        
+        /// <remarks/>
+        public void GetLastGamePICAsync(string JShiShiCaiMode, PicType pPICType, System.Guid UserID, object userState) {
+            if ((this.GetLastGamePICOperationCompleted == null)) {
+                this.GetLastGamePICOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetLastGamePICOperationCompleted);
+            }
+            this.InvokeAsync("GetLastGamePIC", new object[] {
+                        JShiShiCaiMode,
+                        pPICType,
+                        UserID}, this.GetLastGamePICOperationCompleted, userState);
+        }
+        
+        private void OnGetLastGamePICOperationCompleted(object arg) {
+            if ((this.GetLastGamePICCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetLastGamePICCompleted(this, new GetLastGamePICCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1517,6 +2210,175 @@ namespace WeixinRoboot.RobootWeb {
             }
             set {
                 this.errorMessageField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
+    public partial class SendManulOrder_GetOrderSourceClass {
+        
+        private System.DateTime receiveTimeField;
+        
+        private string receiveContentField;
+        
+        private System.Nullable<System.Guid> aspnet_UserIDField;
+        
+        private string wX_UserNameField;
+        
+        private string wX_SourceTypeField;
+        
+        private System.Nullable<System.DateTime> transTimeField;
+        
+        private string gamePeriodField;
+        
+        private string gameLocalPeriodField;
+        
+        private string gameResultField;
+        
+        private string buy_ValueField;
+        
+        private string buy_TypeField;
+        
+        private System.Nullable<decimal> buy_PointField;
+        
+        private System.Nullable<decimal> result_PointField;
+        
+        /// <remarks/>
+        public System.DateTime ReceiveTime {
+            get {
+                return this.receiveTimeField;
+            }
+            set {
+                this.receiveTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ReceiveContent {
+            get {
+                return this.receiveContentField;
+            }
+            set {
+                this.receiveContentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.Guid> aspnet_UserID {
+            get {
+                return this.aspnet_UserIDField;
+            }
+            set {
+                this.aspnet_UserIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string WX_UserName {
+            get {
+                return this.wX_UserNameField;
+            }
+            set {
+                this.wX_UserNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string WX_SourceType {
+            get {
+                return this.wX_SourceTypeField;
+            }
+            set {
+                this.wX_SourceTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.DateTime> TransTime {
+            get {
+                return this.transTimeField;
+            }
+            set {
+                this.transTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string GamePeriod {
+            get {
+                return this.gamePeriodField;
+            }
+            set {
+                this.gamePeriodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string GameLocalPeriod {
+            get {
+                return this.gameLocalPeriodField;
+            }
+            set {
+                this.gameLocalPeriodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string GameResult {
+            get {
+                return this.gameResultField;
+            }
+            set {
+                this.gameResultField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Buy_Value {
+            get {
+                return this.buy_ValueField;
+            }
+            set {
+                this.buy_ValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Buy_Type {
+            get {
+                return this.buy_TypeField;
+            }
+            set {
+                this.buy_TypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> Buy_Point {
+            get {
+                return this.buy_PointField;
+            }
+            set {
+                this.buy_PointField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> Result_Point {
+            get {
+                return this.result_PointField;
+            }
+            set {
+                this.result_PointField = value;
             }
         }
     }
@@ -2872,44 +3734,64 @@ namespace WeixinRoboot.RobootWeb {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
-    public enum FormatResultState {
+    public enum PicType {
         
         /// <remarks/>
-        Initialize,
+        龙虎图,
         
         /// <remarks/>
-        Fail,
+        龙虎图_易信,
         
         /// <remarks/>
-        Multi,
+        龙虎图_QQ,
         
         /// <remarks/>
-        SingleSuccess,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
-    public enum FormatResultType {
+        龙虎图_钉钉,
         
         /// <remarks/>
-        Initialize,
+        数字图,
         
         /// <remarks/>
-        QueryTxt,
+        数字龙虎图,
         
         /// <remarks/>
-        QueryImage,
+        数字文本,
         
         /// <remarks/>
-        QueryResult,
+        龙虎数字文本,
         
         /// <remarks/>
-        OrderModify,
+        龙虎数字文本_易信,
         
         /// <remarks/>
-        CancelOrderModify,
+        龙虎数字文本_QQ,
+        
+        /// <remarks/>
+        龙虎数字文本_钉钉,
+        
+        /// <remarks/>
+        龙虎数字大单牛牛文本,
+        
+        /// <remarks/>
+        龙虎数字大单牛牛文本_易信,
+        
+        /// <remarks/>
+        龙虎数字大单牛牛文本_QQ,
+        
+        /// <remarks/>
+        龙虎数字大单牛牛文本_钉钉,
+        
+        /// <remarks/>
+        龙虎数字无大单文本,
+        
+        /// <remarks/>
+        龙虎数字无大单文本_易信,
+        
+        /// <remarks/>
+        龙虎数字无大单文本_QQ,
+        
+        /// <remarks/>
+        龙虎数字无大单文本_钉钉,
     }
     
     /// <remarks/>
@@ -2925,6 +3807,32 @@ namespace WeixinRoboot.RobootWeb {
         private object[] results;
         
         internal UserLogInCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void UserLogInUsrparCompletedEventHandler(object sender, UserLogInUsrparCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UserLogInUsrparCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UserLogInUsrparCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -3662,26 +4570,26 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
-        public object[] Result {
+        public string Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((object[])(this.results[0]));
+                return ((string)(this.results[0]));
             }
         }
         
         /// <remarks/>
-        public FormatResultState State {
+        public string jState {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((FormatResultState)(this.results[1]));
+                return ((string)(this.results[1]));
             }
         }
         
         /// <remarks/>
-        public FormatResultType ModeType {
+        public string jModeType {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((FormatResultType)(this.results[2]));
+                return ((string)(this.results[2]));
             }
         }
         
@@ -3862,6 +4770,448 @@ namespace WeixinRoboot.RobootWeb {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((BallOpen_GetUpPaySourceClass[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void SendManulOrder_GetOrderSourceCompletedEventHandler(object sender, SendManulOrder_GetOrderSourceCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SendManulOrder_GetOrderSourceCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SendManulOrder_GetOrderSourceCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public SendManulOrder_GetOrderSourceClass[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((SendManulOrder_GetOrderSourceClass[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void SendManulOrder_DeleteCompletedEventHandler(object sender, SendManulOrder_DeleteCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SendManulOrder_DeleteCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SendManulOrder_DeleteCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WX_UserReply_WhereCompletedEventHandler(object sender, WX_UserReply_WhereCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WX_UserReply_WhereCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WX_UserReply_WhereCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WX_UserReply_SingleOrDefaultCompletedEventHandler(object sender, WX_UserReply_SingleOrDefaultCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WX_UserReply_SingleOrDefaultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WX_UserReply_SingleOrDefaultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void Game_FootBall_VS_WhereCompletedEventHandler(object sender, Game_FootBall_VS_WhereCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Game_FootBall_VS_WhereCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal Game_FootBall_VS_WhereCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void BallOpen_ReloadCompletedEventHandler(object sender, BallOpen_ReloadCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class BallOpen_ReloadCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal BallOpen_ReloadCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WX_WebSendPICSettingMatchClassSaveCompletedEventHandler(object sender, WX_WebSendPICSettingMatchClassSaveCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WX_WebSendPICSettingMatchClassSaveCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WX_WebSendPICSettingMatchClassSaveCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void BallOpen_OpenCompletedEventHandler(object sender, BallOpen_OpenCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class BallOpen_OpenCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal BallOpen_OpenCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void Game_ResultFootBall_SingleOrDefaultCompletedEventHandler(object sender, Game_ResultFootBall_SingleOrDefaultCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Game_ResultFootBall_SingleOrDefaultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal Game_ResultFootBall_SingleOrDefaultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WX_UserGameLog_Football_WhereCompletedEventHandler(object sender, WX_UserGameLog_Football_WhereCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WX_UserGameLog_Football_WhereCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WX_UserGameLog_Football_WhereCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void OpenBallGameLogCompletedEventHandler(object sender, OpenBallGameLogCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class OpenBallGameLogCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal OpenBallGameLogCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WX_UserGameLog_WhereCompletedEventHandler(object sender, WX_UserGameLog_WhereCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WX_UserGameLog_WhereCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WX_UserGameLog_WhereCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void OpenQuery_QueryCompletedEventHandler(object sender, OpenQuery_QueryCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class OpenQuery_QueryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal OpenQuery_QueryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataTable Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataTable)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void WX_PCSendPicSetting_SingleOrDefaultCompletedEventHandler(object sender, WX_PCSendPicSetting_SingleOrDefaultCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class WX_PCSendPicSetting_SingleOrDefaultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal WX_PCSendPicSetting_SingleOrDefaultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void MessageRobootDoCompletedEventHandler(object sender, MessageRobootDoCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class MessageRobootDoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal MessageRobootDoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetLastGamePeriodCompletedEventHandler(object sender, GetLastGamePeriodCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetLastGamePeriodCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetLastGamePeriodCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetLastGamePICCompletedEventHandler(object sender, GetLastGamePICCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetLastGamePICCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetLastGamePICCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
             }
         }
     }

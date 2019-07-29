@@ -48,7 +48,7 @@ public class WebService : System.Web.Services.WebService
         }
         else if (msr == null)
         {
-            return ("用户不存在");
+            return ("错误:用户不存在");
         }
         else if (msr.IsLockedOut)
         {
@@ -77,17 +77,31 @@ public class WebService : System.Web.Services.WebService
             result.UserName = UserName;
             result.Password = Password;
 
-            result.ASPXAUTH = GetUserToken(UserName,Password);
+            result.ASPXAUTH = GetUserToken(UserName, Password);
             result.LoginCookie = null;
-            result.UserKey =(Guid)msr.ProviderUserKey;
+            result.UserKey = (Guid)msr.ProviderUserKey;
             result.JobID = Guid.Empty;
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
+            //db.ObjectTrackingEnabled = false;
+            WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend save_sets = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)msr.ProviderUserKey);
+            if (save_sets == null)
+            {
+
+                save_sets = new WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend();
+                save_sets.aspnet_UserID = (Guid)msr.ProviderUserKey;
+                db.aspnet_UsersNewGameResultSend.InsertOnSubmit(save_sets);
+                db.SubmitChanges();
+            }
+            WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend loadset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)msr.ProviderUserKey);
+
+            result.Membersetting = loadset;
             return Newtonsoft.Json.JsonConvert.SerializeObject(result);
 
 
         }
         else if (msr == null)
         {
-            return ("用户不存在");
+            return ("错误:用户不存在");
         }
         else if (msr.IsLockedOut)
         {
@@ -1085,7 +1099,7 @@ public class WebService : System.Web.Services.WebService
         WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
         WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend loadset = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend>(Jusrpar);
 
-        return WeixinRobotLib.Linq.ProgramLogic.WX_UserReplyLog_Create( gm, subm, RequestPeriod, RequestTime, GameContent, WX_UserName, WX_SourceType, usrpar, loadset, adminmode, MemberGroupName);
+        return WeixinRobotLib.Linq.ProgramLogic.WX_UserReplyLog_Create(gm, subm, RequestPeriod, RequestTime, GameContent, WX_UserName, WX_SourceType, usrpar, loadset, adminmode, MemberGroupName);
     }
     [WebMethod]
     public string WX_UserReplyLog_MySendCreate(string Content, string jUserRow, DateTime ReceiveTime, string jusrpar, List<Guid> takeusers, string jloadset, string WX_UserName = "", string WX_SourceType = "")
@@ -2131,13 +2145,13 @@ public class WebService : System.Web.Services.WebService
         WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
 
         var dats = (from ds in
-                       db.WX_UserGameLog
-                   where
-                        ds.aspnet_UserID == UserKey
-                       && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_startdate.ToString("yyyyMMdd")) >= 0
-                       && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_enddate.ToString("yyyyMMdd")) <= 0
-                       && ds.WX_SourceType == WX_SourceType
-                   select ds).ToArray();
+                        db.WX_UserGameLog
+                    where
+                         ds.aspnet_UserID == UserKey
+                        && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_startdate.ToString("yyyyMMdd")) >= 0
+                        && String.Compare(ds.GameLocalPeriod.Substring(0, 8), dtp_enddate.ToString("yyyyMMdd")) <= 0
+                        && ds.WX_SourceType == WX_SourceType
+                    select ds).ToArray();
         return JsonConvert.SerializeObject(dats);
 
     }
@@ -2622,120 +2636,481 @@ public class WebService : System.Web.Services.WebService
         return JsonConvert.SerializeObject(hwnd);
     }
     [WebMethod]
-    public string MessageRobootDo(Guid UserID, String RawContent, String WX_SourceType, String UserNameOrRemark, String FromUserNameTEMPID, String ToUserNameTEMPID, string JavaMsgTime, string msgType, Boolean IsTalkGroup, String MyUserTEMPID, string Jusrpar)
+    public string MessageRobootDo(String RawContent, String WX_SourceType, String UserNameOrRemark, String FromUserNameTEMPID, String ToUserNameTEMPID, string JavaMsgTime, string msgType, Boolean IsTalkGroup, String MyUserTEMPID, string Jusrpar)
     {
-        String SavePath= HttpContext.Current.Server.MapPath("../PIC");
+        String SavePath = HttpContext.Current.Server.MapPath("../PIC");
         WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
-      
-        return WeixinRobotLib.Linq.ProgramLogic.MessageRobotDo(WX_SourceType, FromUserNameTEMPID, ToUserNameTEMPID, RawContent, JavaMsgTime, msgType, IsTalkGroup, UserID, MyUserTEMPID,usrpar, SavePath);
+
+        return WeixinRobotLib.Linq.ProgramLogic.MessageRobotDo(WX_SourceType, FromUserNameTEMPID, ToUserNameTEMPID, RawContent, JavaMsgTime, msgType, IsTalkGroup, MyUserTEMPID, usrpar, SavePath);
 
     }
     [WebMethod]
     public string GetLastGamePeriod(String JShiShiCaiMode)
     {
-        WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode ssm = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode>(JShiShiCaiMode);
+        WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode ssm = (WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode)Enum.Parse(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), JShiShiCaiMode);
         WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
-        return db.Game_Result.Where(t => t.GameName == JShiShiCaiMode).OrderByDescending(t => t.GameTime).First().GamePeriod;
+        return db.Game_Result.Where(t => t.GameName == Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), ssm)).OrderByDescending(t => t.GameTime).First().GamePeriod;
 
     }
     public enum PicType
     {
         龙虎图, 龙虎图_易信, 龙虎图_QQ, 龙虎图_钉钉, 数字图, 数字龙虎图,
         数字文本
-        ,龙虎数字文本,龙虎数字文本_易信,龙虎数字文本_QQ,龙虎数字文本_钉钉
-        ,龙虎数字大单牛牛文本,龙虎数字大单牛牛文本_易信,龙虎数字大单牛牛文本_QQ,龙虎数字大单牛牛文本_钉钉
-        ,龙虎数字无大单文本,龙虎数字无大单文本_易信,龙虎数字无大单文本_QQ,龙虎数字无大单文本_钉钉
+        , 龙虎数字文本, 龙虎数字文本_易信, 龙虎数字文本_QQ,
+        龙虎数字文本_钉钉
+            , 龙虎数字大单牛牛文本, 龙虎数字大单牛牛文本_易信, 龙虎数字大单牛牛文本_QQ,
+        龙虎数字大单牛牛文本_钉钉
+            , 龙虎数字无大单文本, 龙虎数字无大单文本_易信, 龙虎数字无大单文本_QQ, 龙虎数字无大单文本_钉钉
     }
     [WebMethod]
-    public string GetLastGamePIC(String JShiShiCaiMode, PicType pPICType, Guid UserID)
+    public string GetLastGamePIC(String JShiShiCaiMode, String JPICType, String Jusrpar)
     {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
+
+        PicType pPICType = (PicType)Enum.Parse(typeof(PicType), JPICType);
         WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode subm = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode>(JShiShiCaiMode);
-        string UserName = Membership.GetUser(UserID).UserName;
-        WeixinRobotLib.Linq.ProgramLogic.DrawChongqingshishicai(subm, UserID);
+        string UserName = Membership.GetUser(usrpar.UserKey).UserName;
+        WeixinRobotLib.Linq.ProgramLogic.DrawChongqingshishicai(subm, usrpar.UserKey);
         WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
-     
+
         switch (pPICType)
         {
             case PicType.龙虎图:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt",  db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎图_易信:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3_yixin" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3_yixin" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎图_QQ:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3_QQ" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3_QQ" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎图_钉钉:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3_dingding" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data3_dingding" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.数字图:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".jpg", db, UserID);
-     
-                
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".jpg", db, usrpar.UserKey);
+
+
             case PicType.数字龙虎图:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + "_v3.jpg", db, UserID);
-      
-                
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + "_v3.jpg", db, usrpar.UserKey);
+
+
             case PicType.数字文本:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + "V7.txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + "V7.txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎数字文本:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎数字文本_易信:
                 return "未知图类型";
-             
-                
+
+
             case PicType.龙虎数字文本_QQ:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎qq" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎qq" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎数字文本_钉钉:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎dingding" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎dingding" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-        
-                
+
+
             case PicType.龙虎数字大单牛牛文本:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎_五分龙虎Vr牛牛" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎_五分龙虎Vr牛牛" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎数字大单牛牛文本_易信:
                 return "未知图类型_易信图类型";
-                
+
             case PicType.龙虎数字大单牛牛文本_QQ:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎qq_五分龙虎Vr牛牛" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎qq_五分龙虎Vr牛牛" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎数字大单牛牛文本_钉钉:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎dingding_五分龙虎Vr牛牛" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎dingding_五分龙虎Vr牛牛" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎数字无大单文本:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎_五分龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎_五分龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎数字无大单文本_易信:
                 return "未知图类型";
-                
+
             case PicType.龙虎数字无大单文本_QQ:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎qq_五分龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎qq_五分龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             case PicType.龙虎数字无大单文本_钉钉:
-                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎dingding_五分龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, UserID);
+                return WeixinRobotLib.Linq.ProgramLogic.ReadVirtualFile("Data数字龙虎dingding_五分龙虎" + UserName + "_" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm)) + ".txt", db, usrpar.UserKey);
 
-                
+
             default:
                 return "未知图类型";
-                
+
         }
 
+    }
+    private class TMP_MemberGroup
+    {
+        public TMP_MemberGroup(string _MemberGroupName, string _WX_SourceType)
+        {
+
+            MemberGroupName = _MemberGroupName;
+            WX_SourceType = _WX_SourceType;
+        }
+
+        public string MemberGroupName { get; set; }
+
+        public string WX_SourceType { get; set; }
+
+        public string TMPID { get; set; }
+
+        public List<TMP_BuyUserPeriod> BuyUserInfos { get; set; }
+    }
+    private class TMP_BuyUserPeriod
+    {
+        public string WX_UserName { get; set; }
+        public string WX_SourceType { get; set; }
+
+        public string GameFullPeriod { get; set; }
+    }
+    [WebMethod]
+    public void ShiShiCaiDealGameLogSaveNotice(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode subm, bool IgoreDataSettingSend = true, bool IgoreMemberGroup = false, string Jusrpar = "")
+    {
+
+
+
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+        //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+        ////db.ObjectTrackingEnabled = false;
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
+
+        WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend checkus = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey);
+        string LastPeriod = db.Game_Result.Where(t => t.GameName == subm.ToString()
+
+            ).OrderByDescending(t => t.GamePeriod).First().GamePeriod;
+
+        if ((checkus != null && checkus.IsNewSend == true) || (IgoreDataSettingSend == true))
+        {
+
+
+            #region "发送余额"
+            var noticeChangelist = db.WX_UserGameLog.Where(t => t.Result_HaveProcess == false
+                && t.aspnet_UserID == usrpar.UserKey
+                && (t.WX_SourceType == "微安")
+               && (string.Compare(t.GamePeriod, (t.OpenMode == "澳洲幸运5" || t.OpenMode == "VR重庆时时彩" ? "" : "20") + LastPeriod) <= 0)
+
+                ).Select(t => new { t.WX_UserName, t.WX_SourceType, t.MemberGroupName, t.GamePeriod }).Distinct().ToArray();
+
+            var lst_membergroup = (from dssub in
+                                       (from ds in noticeChangelist
+                                        select new { ds.MemberGroupName, ds.WX_SourceType }).Distinct()
+                                   select new TMP_MemberGroup(dssub.MemberGroupName, dssub.WX_SourceType)).ToArray();
+
+
+
+            foreach (var notice_item in noticeChangelist)
+            {
+
+                Int32 TotalChanges = WeixinRobotLib.Linq.ProgramLogic.WX_UserGameLog_Deal(notice_item.WX_UserName, notice_item.WX_SourceType, usrpar);
+                if (TotalChanges == 0)
+                {
+                    continue;
+                }
+
+                decimal? ReminderMoney = WeixinRobotLib.Linq.ProgramLogic.WXUserChangeLog_GetRemainder(notice_item.WX_UserName, notice_item.WX_SourceType, usrpar);
+
+                var Rows = db.WX_UserReply.Where(t => t.WX_UserName == notice_item.WX_UserName.Replace("'", "''") && t.WX_SourceType == notice_item.WX_SourceType);
+
+                string TEMPUserName = Rows.First().WeChatID;
+                string SourceType = Rows.First().WX_SourceType;
+
+                if (notice_item.MemberGroupName != "")
+                {
+                    var memmbertmp = lst_membergroup.SingleOrDefault(t => t.MemberGroupName == notice_item.MemberGroupName);
+                    memmbertmp.TMPID = TEMPUserName;
+                }
+
+
+                #region "PC端不一个个的发"
+                //if ((notice_item.WX_SourceType == "微" || notice_item.WX_SourceType == "易") || IgoreMemberGroup)
+                {
+
+                    if (IgoreMemberGroup == true && notice_item.WX_SourceType != "微" && notice_item.WX_SourceType != "易")
+                    {
+
+                        var sets = db.WX_PCSendPicSetting.Where(t => t.aspnet_UserID == usrpar.UserKey
+                          && t.WX_SourceType == notice_item.WX_SourceType
+                          && t.WX_UserName == notice_item.MemberGroupName
+                          );
+                        foreach (var setitem in sets)
+                        {
+                            setitem.NextSendString = ("@" + notice_item.WX_UserName + "##") + "余" + (ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : "");
+                        }
+                        db.SubmitChanges();
+                    }
+                    else if (notice_item.WX_SourceType == "微" || notice_item.WX_SourceType == "易")
+                    {
+                        foreach (var noticeitem in Rows)
+                        {
+                            string noticeTEMPUserName = noticeitem.WeChatID;
+                            SendRobotContent("已开奖，可继续下注，余" + (ReminderMoney.HasValue ? ReminderMoney.Value.ToString("N0") : ""), noticeTEMPUserName, notice_item.WX_SourceType, usrpar);
+
+                        }
+
+                    }
+                }
+                #endregion
+                var updatechangelog = db.WX_UserChangeLog.Where(t => t.aspnet_UserID == usrpar.UserKey && t.WX_UserName == notice_item.WX_UserName && t.WX_SourceType == notice_item.WX_SourceType && t.NeedNotice == false);
+                db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, updatechangelog);
+                foreach (var updatechangeitem in updatechangelog)
+                {
+                    updatechangeitem.HaveNotice = true;
+                }
+
+
+                db.SubmitChanges();
+
+            }//循环开奖
+
+            #region 群整点发
+
+
+            foreach (var memberite in lst_membergroup)
+            {
+                if (memberite.MemberGroupName == "")
+                {
+                    continue;
+                }
+                var sets = db.WX_UserReply.Where(t => t.aspnet_UserID == usrpar.UserKey
+                      && t.WX_SourceType == memberite.WX_SourceType
+                      && t.WX_UserName == memberite.MemberGroupName
+                      );
+                string ReturnSend = "##" + Environment.NewLine;
+
+                string GameFullPeriod = "";
+                string GameFullLocalPeriod = "";
+                string NextSubPeriod = "";
+
+
+
+                bool ShiShiCaiSuccess = false;
+                string ShiShiCaiErrorMessage = "";
+                // Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.GetMode(sets.First());
+
+                WeixinRobotLib.Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(DateTime.Now, "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, true, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm, usrpar);
+
+                NextSubPeriod = GameFullPeriod.Substring(GameFullPeriod.Length - 3, 3);
+                ReturnSend += "战斗胜负数据如下：" + Environment.NewLine;
+
+                var buyusers = noticeChangelist.Where(t => t.MemberGroupName == memberite.MemberGroupName && t.WX_SourceType == memberite.WX_SourceType).Select(t => new { t.WX_UserName, t.WX_SourceType, t.GamePeriod }).Distinct();
+                foreach (var useritem in buyusers)
+                {
+
+
+                    decimal? ReminderMoney = WeixinRobotLib.Linq.ProgramLogic.WXUserChangeLog_GetRemainder(useritem.WX_UserName, useritem.WX_SourceType, usrpar);
+                    ReturnSend += "[" + useritem.WX_UserName + "]本期盈亏:"
+                        + WeixinRobotLib.Linq.ProgramLogic.GetUserPeriodInOut(useritem.GamePeriod, useritem.WX_UserName, useritem.WX_SourceType, db, usrpar).ToString("N0")
+                        + ",总分:" + (ReminderMoney.HasValue ? ReminderMoney.Value.ToString() : "0") + Environment.NewLine;
+                    ReturnSend += "---------------" + Environment.NewLine;
+
+
+
+                }
+
+                ReturnSend += "====================" + Environment.NewLine
+                    + Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm) + "【" + NextSubPeriod + "回合】" + Environment.NewLine
+                            + "开战！" + Environment.NewLine
+                            + "请各指挥官开始进攻！" + Environment.NewLine
+                            + "====================" + Environment.NewLine;
+
+                if (lst_membergroup.Count() != 0)
+                {
+                    SendRobotContent(ReturnSend, memberite.TMPID, memberite.WX_SourceType, usrpar);
+                    //foreach (var setitem in sets)
+                    //{
+                    //    setitem.NextSendString = ReturnSend;
+                    //}
+                    //winsdb.SubmitChanges();
+
+                }
+            }
+            #endregion
+
+
+            //var tonotice = db.Logic_WX_UserGameLog_Deal(GlobalParam.Key);
+            //foreach (var item in tonotice)
+            //{
+            //    DataRow[] user = RunnerF.MemberSource.Select("User_ContactID='" + item.WX_UserName + "' and User_SourceType='"+item.WX_SourceType+"'");
+            //    if (user.Length == 0)
+            //    {
+            //        continue;
+            //    }
+            //    SendWXContent((item.Remainder.HasValue ? item.Remainder.Value.ToString("N0") : "0"), user[0].Field<string>("User_ContactID"));
+            //}
+
+            #endregion
+
+            //NetFramework.Console.WriteLine("开奖完成" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"), false);
+        }
+    }
+
+    public void SendRobotContent(String ToSend, String WeChatID, String WXSourcetype, WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar)
+    {
+
+
+    }
+
+    [WebMethod]
+    public string UploadContacts(string Jcontacts, string Jusrpar, string WX_SourceType)
+    {
+        try
+        {
+
+
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            ////db.ObjectTrackingEnabled = false;
+            WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
+
+            AndroidContact[] contacts = JsonConvert.DeserializeObject<AndroidContact[]>(Jcontacts);
+            foreach (var item in contacts)
+            {
+                string Seq = item.conRemark == null ? item.nickname : item.conRemark;
+                WeixinRobotLib.Entity.Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey && t.WX_UserName == Seq && t.WX_SourceType == WX_SourceType);
+
+                if (usrc == null)
+                {
+
+                    WeixinRobotLib.Entity.Linq.WX_UserReply newusrc = new WeixinRobotLib.Entity.Linq.WX_UserReply();
+                    newusrc.aspnet_UserID = usrpar.UserKey;
+                    newusrc.WX_UserName = Seq;
+                    newusrc.WX_SourceType = WX_SourceType;
+                    newusrc.RemarkName = item.conRemark;
+                    newusrc.NickName = NetFramework.Util_WEB.CleanHtml(item.nickname);
+
+                    newusrc.IsCaculateFuli = true;
+                    if (Seq.EndsWith("@chatroom") == false)
+                    {
+                        newusrc.IsReply = true;
+                    }
+                    else
+                    {
+                        newusrc.IsReply = true;
+                    }
+                    db.WX_UserReply.InsertOnSubmit(newusrc);
+                    db.SubmitChanges();
+                    ;
+                } //初始化，添加到数据库或同步数据库
+                else
+                {
+                    if ((usrc.RemarkName != item.conRemark) || (usrc.NickName != NetFramework.Util_WEB.CleanHtml(item.nickname))
+                        )
+                    {
+
+                        usrc.RemarkName = item.conRemark;
+                        usrc.NickName = NetFramework.Util_WEB.CleanHtml(item.nickname);
+
+                    }
+                    //if (UserNametempID.StartsWith("@@") == false && Seq != "0")
+                    {
+                        usrc.IsReply = true;
+                    }
+                } //初始化，添加到数据库或同步数据库
+                WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey
+                   && t.WX_SourceType == "微"
+                    && t.WX_UserName == Seq
+                   );
+                if (webpcset == null)
+                {
+                    webpcset = new WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting();
+
+                    webpcset.aspnet_UserID = usrpar.UserKey;
+
+                    webpcset.WX_SourceType = "微";
+                    webpcset.WX_UserName = Seq;
+
+                    webpcset.ballinterval = 120;
+                    webpcset.footballPIC = false;
+                    webpcset.bassketballpic = false;
+                    webpcset.balluclink = false;
+
+                    webpcset.card = false;
+                    webpcset.cardname = "";
+                    webpcset.shishicailink = false;
+                    webpcset.NumberPIC = false;
+                    webpcset.dragonpic = false;
+                    webpcset.numericlink = false;
+                    webpcset.dragonlink = false;
+
+                    webpcset.IsSendPIC = false;
+                    webpcset.NiuNiuPic = false;
+                    webpcset.NoBigSmallSingleDoublePIC = false;
+                    webpcset.NumberDragonTxt = true;
+                    webpcset.NumberPIC = false;
+                    webpcset.dragonpic = false;
+
+                    {
+                        webpcset.PIC_StartHour = 8;
+                    }
+                    {
+                        webpcset.PIC_StartMinute = 58;
+                    }
+                    {
+                        webpcset.PIC_EndHour = 2;
+                    }
+                    {
+                        webpcset.Pic_EndMinute = 3;
+                    }
+                    db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
+                    db.SubmitChanges();
+                }
+
+
+
+                usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+            }
+            return "上传成功";
+        }//try
+        catch (Exception Anyerror)
+        {
+
+            return "错误:" + Anyerror.Message;
+        }//catch
+
+    }//fun end
+    public class AndroidContact
+    {
+        public string username { get; set; }
+        public string nickname { get; set; }
+        public string conRemark { get; set; }
+
+    }
+
+    [WebMethod]
+    public String GetAndroidWeChatContacts(string WX_Sourcetype, string Jusrpar)
+    {
+        try
+        {
+
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            ////db.ObjectTrackingEnabled = false;
+            WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
+            var datas = db.WX_UserReply.Where(t => t.aspnet_UserID == usrpar.UserKey && t.WX_SourceType == WX_Sourcetype).ToArray();
+            return JsonConvert.SerializeObject(datas);
+        }//try
+        catch (Exception Anyerror)
+        {
+
+            return "错误:" + Anyerror.Message;
+        }//catch
     }
 }//class end 
 

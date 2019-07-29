@@ -286,7 +286,7 @@ namespace WeixinRoboot
         {
             RobootWeb.WebService ws = new RobootWeb.WebService();
             ws.CookieContainer = GlobalParam.LoginCookie;
-            string Tables= ws.SetMembers(_Members.ToString(), GlobalParam.UserKey, _GameMode);
+            string Tables = ws.SetMembers(_Members.ToString(), GlobalParam.UserKey, _GameMode);
             NetFramework.Console.WriteLine("开始更新更新联系人" + DateTime.Now.ToString("yyyy-MM-dd HH::mm:ss:fff"), false);
             this.Invoke(new Action(() =>
               {
@@ -1278,6 +1278,63 @@ namespace WeixinRoboot
 
 
 
+
+        }
+
+        private void btn_download_Click(object sender, EventArgs e)
+        {
+            DataRow[] rows = MemberSource.Select("User_SourceType='安微' ");
+            foreach (var item in rows)
+            {
+                MemberSource.Rows.Remove(item);
+            }
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+            db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            var replys= db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.UserKey && t.WX_SourceType == "安微");
+           
+            foreach (var replyitem in replys)
+            {
+                DataRow newr = null;
+                Linq.WX_WebSendPICSetting picset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == replyitem.aspnet_UserID && t.WX_UserName == replyitem.WX_UserName && t.WX_SourceType == replyitem.WX_SourceType);
+                    newr = MemberSource.NewRow();
+                    newr.SetField("User_ContactTEMPID", replyitem.WeChatID);
+                    newr.SetField("User_SourceType", "安微");
+
+                    MemberSource.Rows.Add(newr);
+
+                    newr.SetField("User_ContactID", replyitem.WX_UserName);
+
+                    newr.SetField("User_Contact", (replyitem.RemarkName == null || replyitem.RemarkName=="") ? replyitem.NickName : replyitem.RemarkName);
+                    newr.SetField("User_ContactType", replyitem.WeChatID.EndsWith("@chatroom") ? "群" : "个人");
+
+
+                    newr.SetField("User_IsReply", replyitem.IsReply);
+                    newr.SetField("User_IsSendPic", picset.IsSendPIC);
+                    newr.SetField("User_IsAdmin", replyitem.IsAdmin);
+                    newr.SetField("User_IsBallPIC", replyitem.IsBallPIC);
+
+                //if (UserNametempID.StartsWith("@@") == false && Seq != "0")
+                {
+                    newr.SetField("User_IsReply", picset == null ? false : replyitem.IsReply);
+                }
+
+
+                newr.SetField("User_IsReceiveTransfer", replyitem == null ? false : replyitem.IsReceiveTransfer);
+                newr.SetField("User_IsCaculateFuli", replyitem == null ? false : replyitem.IsCaculateFuli);
+                newr.SetField("User_IsBoss", replyitem == null ? false : (replyitem.IsBoss == null ? false : replyitem.IsBoss));
+
+                newr.SetField("User_FiveMinuteMode", replyitem == null ? false : (replyitem.FiveMinuteMode == null ? false : replyitem.FiveMinuteMode));
+                newr.SetField("User_HkMode", replyitem == null ? false : (replyitem.HkMode == null ? false : replyitem.HkMode));
+                newr.SetField("User_AozcMode", replyitem == null ? false : (replyitem.AozcMode == null ? false : replyitem.AozcMode));
+                newr.SetField("User_ChongqingMode", replyitem == null ? false : (replyitem.ChongqingMode == null ? false : replyitem.ChongqingMode));
+                newr.SetField("User_TengXunShiFen", replyitem == null ? false : (replyitem.TengXunShiFenMode == null ? false : replyitem.TengXunShiFenMode));
+                newr.SetField("User_TengXunWuFen", replyitem == null ? false : (replyitem.TengXunWuFenMode == null ? false : replyitem.TengXunWuFenMode));
+                newr.SetField("User_TengXunShiFenXin", replyitem == null ? false : (replyitem.TengXunShiFenXinMode == null ? false : replyitem.TengXunShiFenXinMode));
+                newr.SetField("User_TengXunWuFenXin", replyitem == null ? false : (replyitem.TengXunWuFenXinMode == null ? false : replyitem.TengXunWuFenXinMode));
+                newr.SetField("User_XinJiangShiShiCai", replyitem == null ? false : (replyitem.XinJiangMode == null ? false : replyitem.XinJiangMode));
+                newr.SetField("User_VR", replyitem == null ? false : (replyitem.VRMode == null ? false : replyitem.VRMode));
+                newr.SetField("User_HeNeiWuFen", replyitem == null ? false : (replyitem.HeNeiWuFenMode == null ? false : replyitem.HeNeiWuFenMode));
+            }
 
         }
 

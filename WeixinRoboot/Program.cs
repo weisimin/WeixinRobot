@@ -25,6 +25,7 @@ namespace WeixinRoboot
         static void AddSecurityControll2File(string filePath)
         {
 
+           
             //获取文件信息
             FileInfo fileInfo = new FileInfo(filePath);
             //获得该文件的访问权限
@@ -43,7 +44,7 @@ namespace WeixinRoboot
         static void Main()
         {
 
-
+            //String js = JsonConvert.SerializeObject(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
             if (File.Exists(Application.StartupPath + "\\EasyRoboot.mdf"))
             {
                 File.Delete(Application.StartupPath + "\\EasyRoboot.mdf");

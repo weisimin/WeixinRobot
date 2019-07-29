@@ -3264,9 +3264,8 @@ namespace WeixinRoboot
                     && ((_WeiXinOnLine == true && t.WX_SourceType == "微")
                       || (_YiXinOnline == true && t.WX_SourceType == "易")
                       || (t.WX_SourceType != "微" && t.WX_SourceType != "易")
-                      && (string.Compare(t.GamePeriod, (t.OpenMode == "澳洲幸运5" || t.OpenMode == "VR重庆时时彩" ? "" : "20") + LastPeriod) <= 0)
                       )
-
+ && (string.Compare(t.GamePeriod, (t.OpenMode == "澳洲幸运5" || t.OpenMode == "VR重庆时时彩" ? "" : "20") + LastPeriod) <= 0)
                     ).Select(t => new { t.WX_UserName, t.WX_SourceType, t.MemberGroupName, t.GamePeriod }).Distinct().ToArray();
 
                 var lst_membergroup = (from dssub in
@@ -6447,7 +6446,7 @@ namespace WeixinRoboot
 
             Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(DateTime.Now, "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, false, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, ProgramLogic.ShiShiCaiMode.腾讯五分);
 
-            URL +=( Convert.ToInt64( GameFullPeriod.Substring(2))-1).ToString();
+            URL += (Convert.ToInt64(GameFullPeriod.Substring(2)) - 1).ToString();
 
             NetFramework.Console.WriteLine("正在刷新腾五小鹿网页" + DateTime.Now.ToString("HH:mm:ss fff"), false);
 
@@ -8603,7 +8602,7 @@ namespace WeixinRoboot
                 Sql += "   GamePrivatePeriod like '" + Localday.ToString("yyyyMMdd")
                  + "%' and ";
             }
-            if (subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯十分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾十信 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾五信 )
+            if (subm == Linq.ProgramLogic.ShiShiCaiMode.腾讯十分 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾十信 || subm == Linq.ProgramLogic.ShiShiCaiMode.腾五信)
             {
 
                 Sql += "   GamePeriod like '" + Localday.ToString("yyyyMMdd")

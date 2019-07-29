@@ -249,7 +249,7 @@ namespace WeixinRobotLib.Entity.Linq
 
            public static string MemberSourceode { get; set; }
 
-
+           public Linq.aspnet_UsersNewGameResultSend Membersetting {get;set;}
 
        }
 

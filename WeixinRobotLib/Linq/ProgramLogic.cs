@@ -11251,7 +11251,7 @@ namespace WeixinRobotLib.Linq
               string RawContent,
               string msgTime,
               string msgType,
-              bool IsTalkGroup, Guid UserID, string MyUserTEMPID,Entity.Linq.ProgramLogic.UserParam usrpar,String SavePath)
+              bool GroupPlayMode,  string MyUserTEMPID,Entity.Linq.ProgramLogic.UserParam usrpar,String SavePath)
         {
             try
             {
@@ -11270,7 +11270,7 @@ namespace WeixinRobotLib.Linq
            
 
                 #region 消息处理
-                aspnet_UsersNewGameResultSend membersetting = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t=>t.aspnet_UserID==UserID);
+                aspnet_UsersNewGameResultSend membersetting = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID ==(Guid) usrpar.UserKey);
                 
                 //string FromUserNameTEMPID = AddMsgList["FromUserName"].ToString();
                 //string ToUserNameTEMPID = AddMsgList["ToUserName"].ToString();
@@ -11403,7 +11403,7 @@ namespace WeixinRobotLib.Linq
                                 if (Tocontacts.First().IsReply == true)
                                 {
 
-                                    String TmpMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, Tocontacts.First(), "人工", UserID, usrpar, SavePath, true);
+                                    String TmpMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, Tocontacts.First(), "人工", (Guid)usrpar.UserKey, usrpar, SavePath, true);
                                     if (TmpMessage != "")
                                     {
                                         MyOutResult = TmpMessage;
@@ -11456,13 +11456,13 @@ namespace WeixinRobotLib.Linq
                                         if (StateType == Entity.Linq.ProgramLogic.FormatResultType.QueryImage)
                                         {
 
-                                            return (ReadVirtualFile(SavePath + "\\output\\" + matchitem.GameKey + ".jpg", db, UserID));
+                                            return (ReadVirtualFile(SavePath + "\\output\\" + matchitem.GameKey + ".jpg", db, (Guid)usrpar.UserKey));
 
                                         }
                                         else if (StateType == Entity.Linq.ProgramLogic.FormatResultType.QueryTxt)
                                         {
 
-                                            return ReadVirtualFile(SavePath + "\\output\\" + matchitem.GameKey + ".txt", db, UserID);
+                                            return ReadVirtualFile(SavePath + "\\output\\" + matchitem.GameKey + ".txt", db, (Guid)usrpar.UserKey);
 
                                         }
 
@@ -11470,7 +11470,7 @@ namespace WeixinRobotLib.Linq
                                     }
                                     if (StateType == Entity.Linq.ProgramLogic.FormatResultType.QueryResult)
                                     {
-                                        var LastPoints = db.Game_ResultFootBall_Last.Where(t => t.aspnet_UserID == UserID
+                                        var LastPoints = db.Game_ResultFootBall_Last.Where(t => t.aspnet_UserID == (Guid)usrpar.UserKey
                                              &&
                                              (
                                              (t.A_Team.Contains(q_Teams[0]) && t.B_Team.Contains(q_Teams[1]))
@@ -11643,7 +11643,7 @@ namespace WeixinRobotLib.Linq
                                 if (Content == "联赛")
                                 {
                                     string Reply = "";
-                                    var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == UserID
+                                    var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == (Guid)usrpar.UserKey
                                         );
                                     var classsource = (from ds in source
                                                        select new { ds.GameType, ds.MatchClass }).Distinct();
@@ -11669,7 +11669,7 @@ namespace WeixinRobotLib.Linq
                                 {
                                     if (item.Contains(Content) && item.Contains("txt") && Content != "" && Content != "联赛" && Content.Length >= 2 && Regex.Replace(Content, "[0-9]+", "", RegexOptions.IgnoreCase) != "")
                                     {
-                                        return ReadVirtualFile(item, db, UserID);
+                                        return ReadVirtualFile(item, db, (Guid)usrpar.UserKey);
                                         //SendRobotImage(item, MyUserName == FromUserNameTEMPID ? ToUserNameTEMPID : FromUserNameTEMPID, SourceType);
                                     }
 
@@ -11698,7 +11698,7 @@ namespace WeixinRobotLib.Linq
                             String OutMessage = "";
                             try
                             {
-                                OutMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, PlayerReply, SourceType, UserID, usrpar, SavePath, false);
+                                OutMessage = NewWXContent(JavaSecondTime(Convert.ToInt64(msgTime)), Content, PlayerReply, SourceType, (Guid)usrpar.UserKey, usrpar, SavePath, false);
                             }
                             catch (Exception mysenderror)
                             {
@@ -11719,7 +11719,7 @@ namespace WeixinRobotLib.Linq
                             if (Content == "联赛")
                             {
                                 string Reply = "";
-                                var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == UserID
+                                var source = db.Game_FootBall_VS.Where(t => t.aspnet_UserID == (Guid)usrpar.UserKey
                                     );
                                 var classsource = (from ds in source
                                                    select new { ds.GameType, ds.MatchClass }).Distinct();
@@ -11750,7 +11750,7 @@ namespace WeixinRobotLib.Linq
                                     && item.Contains("联赛")
                                     )
                                 {
-                                    return ReadVirtualFile(item, db, UserID);
+                                    return ReadVirtualFile(item, db, (Guid)usrpar.UserKey);
                                     //SendRobotImage(item, MyUserName == FromUserNameTEMPID ? ToUserNameTEMPID : FromUserNameTEMPID, SourceType);
                                 }
 
@@ -11773,10 +11773,10 @@ namespace WeixinRobotLib.Linq
                     {
                         if (Content == "00" && membersetting.RobotStop == false)
                         {
-                            foreach (WX_UserReply UserRow in db.WX_UserReply.Where(t => t.aspnet_UserID == UserID))
+                            foreach (WX_UserReply UserRow in db.WX_UserReply.Where(t => t.aspnet_UserID == (Guid)usrpar.UserKey))
                             {
 
-                                WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == UserID
+                                WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == (Guid)usrpar.UserKey
                                     && t.WX_UserName == UserRow.WX_UserName
                                     && t.WX_SourceType == UserRow.WX_SourceType);
                                 toupdate.IsReply = false;
@@ -11788,10 +11788,10 @@ namespace WeixinRobotLib.Linq
                         }
                         else if (Content == "99" && membersetting.RobotStop == false)
                         {
-                            foreach (WX_UserReply UserRow in db.WX_UserReply.Where(t => t.aspnet_UserID == UserID))
+                            foreach (WX_UserReply UserRow in db.WX_UserReply.Where(t => t.aspnet_UserID == (Guid)usrpar.UserKey))
                             {
 
-                                WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == UserID
+                                WX_UserReply toupdate = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == (Guid)usrpar.UserKey
                                     && t.WX_UserName == UserRow.WX_UserName
                                     && t.WX_SourceType == UserRow.WX_SourceType);
                                 toupdate.IsReply = true;
@@ -11804,10 +11804,10 @@ namespace WeixinRobotLib.Linq
                         }
                         else if (Content == "88" && membersetting.RobotStop == false)
                         {
-                            foreach (WX_UserReply UserRow in db.WX_UserReply.Where(t => t.aspnet_UserID == UserID))
+                            foreach (WX_UserReply UserRow in db.WX_UserReply.Where(t => t.aspnet_UserID == (Guid)usrpar.UserKey))
                             {
 
-                                WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == UserID
+                                WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == (Guid)usrpar.UserKey
                                    && t.WX_UserName == UserRow.WX_UserName
                                    && t.WX_SourceType == UserRow.WX_SourceType
                                     );

@@ -81,6 +81,7 @@
             this.MI_vRMode = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_TengXunShiFenXinMode = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_TengXunWuFenXinMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_HeNeiWuFenMode = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_ContactFilter = new System.Windows.Forms.TextBox();
             this.dtp_EndDate = new System.Windows.Forms.DateTimePicker();
             this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
@@ -112,6 +113,7 @@
             this.Btn_Resend = new System.Windows.Forms.Button();
             this.btn_resendballl = new System.Windows.Forms.Button();
             this.cb_gamemode = new System.Windows.Forms.ComboBox();
+            this.btn_download = new System.Windows.Forms.Button();
             this.User_SourceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -135,7 +137,6 @@
             this.腾五信 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.疆 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.VR = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.MI_HeNeiWuFenMode = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gv_contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BS_Contact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_ReceiveReply)).BeginInit();
@@ -193,14 +194,15 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gv_contact.DefaultCellStyle = dataGridViewCellStyle2;
-            this.gv_contact.Location = new System.Drawing.Point(12, 68);
+            this.gv_contact.Location = new System.Drawing.Point(16, 85);
+            this.gv_contact.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gv_contact.MultiSelect = false;
             this.gv_contact.Name = "gv_contact";
             this.gv_contact.ReadOnly = true;
             this.gv_contact.RowHeadersVisible = false;
             this.gv_contact.RowTemplate.Height = 23;
             this.gv_contact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gv_contact.Size = new System.Drawing.Size(328, 582);
+            this.gv_contact.Size = new System.Drawing.Size(451, 728);
             this.gv_contact.TabIndex = 0;
             this.gv_contact.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gv_contact_CellClick);
             this.gv_contact.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_contact_DataError);
@@ -210,9 +212,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 43);
+            this.label1.Location = new System.Drawing.Point(15, 54);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.Size = new System.Drawing.Size(52, 15);
             this.label1.TabIndex = 1;
             this.label1.Text = "联系人";
             // 
@@ -248,12 +251,13 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gv_ReceiveReply.DefaultCellStyle = dataGridViewCellStyle4;
-            this.gv_ReceiveReply.Location = new System.Drawing.Point(359, 166);
+            this.gv_ReceiveReply.Location = new System.Drawing.Point(479, 208);
+            this.gv_ReceiveReply.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gv_ReceiveReply.Name = "gv_ReceiveReply";
             this.gv_ReceiveReply.ReadOnly = true;
             this.gv_ReceiveReply.RowHeadersVisible = false;
             this.gv_ReceiveReply.RowTemplate.Height = 23;
-            this.gv_ReceiveReply.Size = new System.Drawing.Size(747, 235);
+            this.gv_ReceiveReply.Size = new System.Drawing.Size(996, 294);
             this.gv_ReceiveReply.TabIndex = 2;
             this.gv_ReceiveReply.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.gv_ReceiveReply_DataError);
             // 
@@ -322,18 +326,20 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(362, 141);
+            this.label2.Location = new System.Drawing.Point(483, 176);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 12);
+            this.label2.Size = new System.Drawing.Size(105, 15);
             this.label2.TabIndex = 3;
             this.label2.Text = "收到/自动回复";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(357, 417);
+            this.label3.Location = new System.Drawing.Point(476, 521);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 12);
+            this.label3.Size = new System.Drawing.Size(75, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "下单/开奖";
             // 
@@ -344,6 +350,7 @@
             // 
             // MouseMenuReply
             // 
+            this.MouseMenuReply.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MouseMenuReply.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MI_IsReply,
             this.MI_FasongXinxi,
@@ -366,137 +373,137 @@
             this.非好友会员设置ToolStripMenuItem,
             this.MI_赔付模式});
             this.MouseMenuReply.Name = "MouseMenuReply";
-            this.MouseMenuReply.Size = new System.Drawing.Size(161, 466);
+            this.MouseMenuReply.Size = new System.Drawing.Size(190, 524);
             // 
             // MI_IsReply
             // 
             this.MI_IsReply.Name = "MI_IsReply";
-            this.MI_IsReply.Size = new System.Drawing.Size(160, 22);
+            this.MI_IsReply.Size = new System.Drawing.Size(189, 26);
             this.MI_IsReply.Text = "自动跟踪";
             this.MI_IsReply.Click += new System.EventHandler(this.MI_IsReply_Click);
             // 
             // MI_FasongXinxi
             // 
             this.MI_FasongXinxi.Name = "MI_FasongXinxi";
-            this.MI_FasongXinxi.Size = new System.Drawing.Size(160, 22);
+            this.MI_FasongXinxi.Size = new System.Drawing.Size(189, 26);
             this.MI_FasongXinxi.Text = "发送消息";
             this.MI_FasongXinxi.Click += new System.EventHandler(this.MI_FasongXinxi_Click);
             // 
             // MI_ChongZhi
             // 
             this.MI_ChongZhi.Name = "MI_ChongZhi";
-            this.MI_ChongZhi.Size = new System.Drawing.Size(160, 22);
+            this.MI_ChongZhi.Size = new System.Drawing.Size(189, 26);
             this.MI_ChongZhi.Text = "充值";
             this.MI_ChongZhi.Click += new System.EventHandler(this.MI_ChongZhi_Click);
             // 
             // MI_FanXian
             // 
             this.MI_FanXian.Name = "MI_FanXian";
-            this.MI_FanXian.Size = new System.Drawing.Size(160, 22);
+            this.MI_FanXian.Size = new System.Drawing.Size(189, 26);
             this.MI_FanXian.Text = "返现";
             // 
             // MI_OrderManual
             // 
             this.MI_OrderManual.Name = "MI_OrderManual";
-            this.MI_OrderManual.Size = new System.Drawing.Size(160, 22);
+            this.MI_OrderManual.Size = new System.Drawing.Size(189, 26);
             this.MI_OrderManual.Text = "人工下单";
             this.MI_OrderManual.Click += new System.EventHandler(this.MI_OrderManual_Click);
             // 
             // MI_CleanUp
             // 
             this.MI_CleanUp.Name = "MI_CleanUp";
-            this.MI_CleanUp.Size = new System.Drawing.Size(160, 22);
+            this.MI_CleanUp.Size = new System.Drawing.Size(189, 26);
             this.MI_CleanUp.Text = "清算";
             this.MI_CleanUp.Click += new System.EventHandler(this.MI_CleanUp_Click);
             // 
             // MI_CancelIsReply
             // 
             this.MI_CancelIsReply.Name = "MI_CancelIsReply";
-            this.MI_CancelIsReply.Size = new System.Drawing.Size(160, 22);
+            this.MI_CancelIsReply.Size = new System.Drawing.Size(189, 26);
             this.MI_CancelIsReply.Text = "取消自动跟踪";
             this.MI_CancelIsReply.Click += new System.EventHandler(this.MI_CancelIsReply_Click);
             // 
             // MI_ReceiveTrans
             // 
             this.MI_ReceiveTrans.Name = "MI_ReceiveTrans";
-            this.MI_ReceiveTrans.Size = new System.Drawing.Size(160, 22);
+            this.MI_ReceiveTrans.Size = new System.Drawing.Size(189, 26);
             this.MI_ReceiveTrans.Text = "转发";
             this.MI_ReceiveTrans.Click += new System.EventHandler(this.MI_ReceiveTrans_Click);
             // 
             // MI_CancelReceiveTrans
             // 
             this.MI_CancelReceiveTrans.Name = "MI_CancelReceiveTrans";
-            this.MI_CancelReceiveTrans.Size = new System.Drawing.Size(160, 22);
+            this.MI_CancelReceiveTrans.Size = new System.Drawing.Size(189, 26);
             this.MI_CancelReceiveTrans.Text = "取消转发";
             this.MI_CancelReceiveTrans.Click += new System.EventHandler(this.MI_CancelReceiveTrans_Click);
             // 
             // MI_CheckFuli
             // 
             this.MI_CheckFuli.Name = "MI_CheckFuli";
-            this.MI_CheckFuli.Size = new System.Drawing.Size(160, 22);
+            this.MI_CheckFuli.Size = new System.Drawing.Size(189, 26);
             this.MI_CheckFuli.Text = "计算福利";
             this.MI_CheckFuli.Click += new System.EventHandler(this.MI_FuliCheck_Click);
             // 
             // MI_CancelCheckFuli
             // 
             this.MI_CancelCheckFuli.Name = "MI_CancelCheckFuli";
-            this.MI_CancelCheckFuli.Size = new System.Drawing.Size(160, 22);
+            this.MI_CancelCheckFuli.Size = new System.Drawing.Size(189, 26);
             this.MI_CancelCheckFuli.Text = "取消计算福利";
             this.MI_CancelCheckFuli.Click += new System.EventHandler(this.MI_CancelFuliCheck_Click);
             // 
             // 老板查询ToolStripMenuItem
             // 
             this.老板查询ToolStripMenuItem.Name = "老板查询ToolStripMenuItem";
-            this.老板查询ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.老板查询ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.老板查询ToolStripMenuItem.Text = "老板查询";
             this.老板查询ToolStripMenuItem.Click += new System.EventHandler(this.老板查询ToolStripMenuItem_Click);
             // 
             // 取消老板查询ToolStripMenuItem
             // 
             this.取消老板查询ToolStripMenuItem.Name = "取消老板查询ToolStripMenuItem";
-            this.取消老板查询ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.取消老板查询ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.取消老板查询ToolStripMenuItem.Text = "取消老板查询";
             this.取消老板查询ToolStripMenuItem.Click += new System.EventHandler(this.取消老板查询ToolStripMenuItem_Click);
             // 
             // MI_BALLPIC
             // 
             this.MI_BALLPIC.Name = "MI_BALLPIC";
-            this.MI_BALLPIC.Size = new System.Drawing.Size(160, 22);
+            this.MI_BALLPIC.Size = new System.Drawing.Size(189, 26);
             this.MI_BALLPIC.Text = "球赛图片";
             this.MI_BALLPIC.Click += new System.EventHandler(this.MI_BALLPIC_Click);
             // 
             // MI_CancelBALLPIC
             // 
             this.MI_CancelBALLPIC.Name = "MI_CancelBALLPIC";
-            this.MI_CancelBALLPIC.Size = new System.Drawing.Size(160, 22);
+            this.MI_CancelBALLPIC.Size = new System.Drawing.Size(189, 26);
             this.MI_CancelBALLPIC.Text = "取消球赛图片";
             this.MI_CancelBALLPIC.Click += new System.EventHandler(this.MI_CancelBALLPIC_Click);
             // 
             // MI_WebSendSetting
             // 
             this.MI_WebSendSetting.Name = "MI_WebSendSetting";
-            this.MI_WebSendSetting.Size = new System.Drawing.Size(160, 22);
+            this.MI_WebSendSetting.Size = new System.Drawing.Size(189, 26);
             this.MI_WebSendSetting.Text = "WEB发图设置";
             this.MI_WebSendSetting.Click += new System.EventHandler(this.MI_WebSendSetting_Click);
             // 
             // MI_HUIYAN
             // 
             this.MI_HUIYAN.Name = "MI_HUIYAN";
-            this.MI_HUIYAN.Size = new System.Drawing.Size(160, 22);
+            this.MI_HUIYAN.Size = new System.Drawing.Size(189, 26);
             this.MI_HUIYAN.Text = "会员";
             this.MI_HUIYAN.Click += new System.EventHandler(this.MI_HUIYAN_Click);
             // 
             // mi_cancelhuiyan
             // 
             this.mi_cancelhuiyan.Name = "mi_cancelhuiyan";
-            this.mi_cancelhuiyan.Size = new System.Drawing.Size(160, 22);
+            this.mi_cancelhuiyan.Size = new System.Drawing.Size(189, 26);
             this.mi_cancelhuiyan.Text = "取消会员";
             this.mi_cancelhuiyan.Click += new System.EventHandler(this.mi_cancelhuiyan_Click);
             // 
             // 非好友会员设置ToolStripMenuItem
             // 
             this.非好友会员设置ToolStripMenuItem.Name = "非好友会员设置ToolStripMenuItem";
-            this.非好友会员设置ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.非好友会员设置ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.非好友会员设置ToolStripMenuItem.Text = "非好友会员设置";
             // 
             // MI_赔付模式
@@ -514,109 +521,120 @@
             this.MI_TengXunWuFenXinMode,
             this.MI_HeNeiWuFenMode});
             this.MI_赔付模式.Name = "MI_赔付模式";
-            this.MI_赔付模式.Size = new System.Drawing.Size(160, 22);
+            this.MI_赔付模式.Size = new System.Drawing.Size(189, 26);
             this.MI_赔付模式.Text = "赔付模式";
             // 
             // MI_ChongQingMode
             // 
             this.MI_ChongQingMode.Name = "MI_ChongQingMode";
-            this.MI_ChongQingMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_ChongQingMode.Size = new System.Drawing.Size(189, 26);
             this.MI_ChongQingMode.Text = "重庆时时彩模式";
             this.MI_ChongQingMode.Click += new System.EventHandler(this.MI_ChongQingMode_Click);
             // 
             // MI_FiveMinuteMode
             // 
             this.MI_FiveMinuteMode.Name = "MI_FiveMinuteMode";
-            this.MI_FiveMinuteMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_FiveMinuteMode.Size = new System.Drawing.Size(189, 26);
             this.MI_FiveMinuteMode.Text = "五分彩模式";
             this.MI_FiveMinuteMode.Click += new System.EventHandler(this.MI_FiveMinuteMode_Click);
             // 
             // MI_HkMode
             // 
             this.MI_HkMode.Name = "MI_HkMode";
-            this.MI_HkMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_HkMode.Size = new System.Drawing.Size(189, 26);
             this.MI_HkMode.Text = "香港时时彩模式";
             this.MI_HkMode.Click += new System.EventHandler(this.MI_HkMode_Click);
             // 
             // MI_AozcMode
             // 
             this.MI_AozcMode.Name = "MI_AozcMode";
-            this.MI_AozcMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_AozcMode.Size = new System.Drawing.Size(189, 26);
             this.MI_AozcMode.Text = "澳洲幸运5模式";
             this.MI_AozcMode.Click += new System.EventHandler(this.澳洲幸运5模式ToolStripMenuItem_Click);
             // 
             // MI_XinJiangShiShiCaiMode
             // 
             this.MI_XinJiangShiShiCaiMode.Name = "MI_XinJiangShiShiCaiMode";
-            this.MI_XinJiangShiShiCaiMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_XinJiangShiShiCaiMode.Size = new System.Drawing.Size(189, 26);
             this.MI_XinJiangShiShiCaiMode.Text = "新疆时时彩模式";
             this.MI_XinJiangShiShiCaiMode.Click += new System.EventHandler(this.MI_XinJiangShiShiCai_Click);
             // 
             // MI_TengXunShiFenMode
             // 
             this.MI_TengXunShiFenMode.Name = "MI_TengXunShiFenMode";
-            this.MI_TengXunShiFenMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_TengXunShiFenMode.Size = new System.Drawing.Size(189, 26);
             this.MI_TengXunShiFenMode.Text = "腾讯十分模式";
             this.MI_TengXunShiFenMode.Click += new System.EventHandler(this.MI_TengXunShiFen_Click);
             // 
             // MI_TengXunWuFenMode
             // 
             this.MI_TengXunWuFenMode.Name = "MI_TengXunWuFenMode";
-            this.MI_TengXunWuFenMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_TengXunWuFenMode.Size = new System.Drawing.Size(189, 26);
             this.MI_TengXunWuFenMode.Text = "腾讯五分模式";
             this.MI_TengXunWuFenMode.Click += new System.EventHandler(this.MI_腾讯五分模式_Click);
             // 
             // MI_vRMode
             // 
             this.MI_vRMode.Name = "MI_vRMode";
-            this.MI_vRMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_vRMode.Size = new System.Drawing.Size(189, 26);
             this.MI_vRMode.Text = "VR模式";
             this.MI_vRMode.Click += new System.EventHandler(this.MI_vRMode_Click);
             // 
             // MI_TengXunShiFenXinMode
             // 
             this.MI_TengXunShiFenXinMode.Name = "MI_TengXunShiFenXinMode";
-            this.MI_TengXunShiFenXinMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_TengXunShiFenXinMode.Size = new System.Drawing.Size(189, 26);
             this.MI_TengXunShiFenXinMode.Text = "腾讯十分信模式";
             this.MI_TengXunShiFenXinMode.Click += new System.EventHandler(this.MI_TengXunShiFenXinMode_Click);
             // 
             // MI_TengXunWuFenXinMode
             // 
             this.MI_TengXunWuFenXinMode.Name = "MI_TengXunWuFenXinMode";
-            this.MI_TengXunWuFenXinMode.Size = new System.Drawing.Size(160, 22);
+            this.MI_TengXunWuFenXinMode.Size = new System.Drawing.Size(189, 26);
             this.MI_TengXunWuFenXinMode.Text = "腾讯五分信模式";
             this.MI_TengXunWuFenXinMode.Click += new System.EventHandler(this.MI_TengXunWuFenXinMode_Click);
             // 
+            // MI_HeNeiWuFenMode
+            // 
+            this.MI_HeNeiWuFenMode.Name = "MI_HeNeiWuFenMode";
+            this.MI_HeNeiWuFenMode.Size = new System.Drawing.Size(189, 26);
+            this.MI_HeNeiWuFenMode.Text = "河内五分模式";
+            this.MI_HeNeiWuFenMode.Click += new System.EventHandler(this.MI_HeNeiWuFenXinMode_Click);
+            // 
             // tb_ContactFilter
             // 
-            this.tb_ContactFilter.Location = new System.Drawing.Point(59, 33);
+            this.tb_ContactFilter.Location = new System.Drawing.Point(79, 41);
+            this.tb_ContactFilter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_ContactFilter.Name = "tb_ContactFilter";
-            this.tb_ContactFilter.Size = new System.Drawing.Size(100, 21);
+            this.tb_ContactFilter.Size = new System.Drawing.Size(132, 25);
             this.tb_ContactFilter.TabIndex = 6;
             this.tb_ContactFilter.TextChanged += new System.EventHandler(this.tb_ContactFilter_TextChanged);
             // 
             // dtp_EndDate
             // 
-            this.dtp_EndDate.Location = new System.Drawing.Point(942, 121);
+            this.dtp_EndDate.Location = new System.Drawing.Point(1256, 151);
+            this.dtp_EndDate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dtp_EndDate.Name = "dtp_EndDate";
-            this.dtp_EndDate.Size = new System.Drawing.Size(113, 21);
+            this.dtp_EndDate.Size = new System.Drawing.Size(149, 25);
             this.dtp_EndDate.TabIndex = 7;
             this.dtp_EndDate.ValueChanged += new System.EventHandler(this.dtp_End_ValueChanged);
             // 
             // dtp_StartDate
             // 
-            this.dtp_StartDate.Location = new System.Drawing.Point(805, 121);
+            this.dtp_StartDate.Location = new System.Drawing.Point(1073, 151);
+            this.dtp_StartDate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dtp_StartDate.Name = "dtp_StartDate";
-            this.dtp_StartDate.Size = new System.Drawing.Size(113, 21);
+            this.dtp_StartDate.Size = new System.Drawing.Size(149, 25);
             this.dtp_StartDate.TabIndex = 8;
             this.dtp_StartDate.ValueChanged += new System.EventHandler(this.dtp_Start_ValueChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(924, 125);
+            this.label4.Location = new System.Drawing.Point(1232, 156);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(11, 12);
+            this.label4.Size = new System.Drawing.Size(15, 15);
             this.label4.TabIndex = 9;
             this.label4.Text = "-";
             // 
@@ -642,14 +660,15 @@
             this.GameResult,
             this.Result_Point});
             this.GV_GameLog.DataSource = this.BS_GameLog;
-            this.GV_GameLog.Location = new System.Drawing.Point(357, 442);
+            this.GV_GameLog.Location = new System.Drawing.Point(476, 552);
+            this.GV_GameLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.GV_GameLog.MultiSelect = false;
             this.GV_GameLog.Name = "GV_GameLog";
             this.GV_GameLog.ReadOnly = true;
             this.GV_GameLog.RowHeadersVisible = false;
             this.GV_GameLog.RowTemplate.Height = 23;
             this.GV_GameLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.GV_GameLog.Size = new System.Drawing.Size(749, 208);
+            this.GV_GameLog.Size = new System.Drawing.Size(999, 260);
             this.GV_GameLog.TabIndex = 10;
             // 
             // ReceiveTime
@@ -755,44 +774,50 @@
             // fd_day
             // 
             this.fd_day.CustomFormat = "yyyy-MM-dd";
-            this.fd_day.Location = new System.Drawing.Point(370, 72);
+            this.fd_day.Location = new System.Drawing.Point(493, 90);
+            this.fd_day.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fd_day.Name = "fd_day";
-            this.fd_day.Size = new System.Drawing.Size(101, 21);
+            this.fd_day.Size = new System.Drawing.Size(133, 25);
             this.fd_day.TabIndex = 26;
             // 
             // fd_Num5
             // 
-            this.fd_Num5.Location = new System.Drawing.Point(575, 101);
+            this.fd_Num5.Location = new System.Drawing.Point(767, 126);
+            this.fd_Num5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fd_Num5.Name = "fd_Num5";
-            this.fd_Num5.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num5.Size = new System.Drawing.Size(33, 25);
             this.fd_Num5.TabIndex = 25;
             // 
             // fd_Num4
             // 
-            this.fd_Num4.Location = new System.Drawing.Point(540, 101);
+            this.fd_Num4.Location = new System.Drawing.Point(720, 126);
+            this.fd_Num4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fd_Num4.Name = "fd_Num4";
-            this.fd_Num4.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num4.Size = new System.Drawing.Size(33, 25);
             this.fd_Num4.TabIndex = 24;
             // 
             // fd_Num3
             // 
-            this.fd_Num3.Location = new System.Drawing.Point(505, 101);
+            this.fd_Num3.Location = new System.Drawing.Point(673, 126);
+            this.fd_Num3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fd_Num3.Name = "fd_Num3";
-            this.fd_Num3.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num3.Size = new System.Drawing.Size(33, 25);
             this.fd_Num3.TabIndex = 23;
             // 
             // fd_Num2
             // 
-            this.fd_Num2.Location = new System.Drawing.Point(470, 101);
+            this.fd_Num2.Location = new System.Drawing.Point(627, 126);
+            this.fd_Num2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fd_Num2.Name = "fd_Num2";
-            this.fd_Num2.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num2.Size = new System.Drawing.Size(33, 25);
             this.fd_Num2.TabIndex = 22;
             // 
             // BtnSaveAndDeal
             // 
-            this.BtnSaveAndDeal.Location = new System.Drawing.Point(691, 75);
+            this.BtnSaveAndDeal.Location = new System.Drawing.Point(921, 94);
+            this.BtnSaveAndDeal.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BtnSaveAndDeal.Name = "BtnSaveAndDeal";
-            this.BtnSaveAndDeal.Size = new System.Drawing.Size(76, 44);
+            this.BtnSaveAndDeal.Size = new System.Drawing.Size(101, 55);
             this.BtnSaveAndDeal.TabIndex = 21;
             this.BtnSaveAndDeal.Text = "保存并开奖";
             this.BtnSaveAndDeal.UseVisualStyleBackColor = true;
@@ -800,41 +825,46 @@
             // 
             // fd_Num1
             // 
-            this.fd_Num1.Location = new System.Drawing.Point(435, 101);
+            this.fd_Num1.Location = new System.Drawing.Point(580, 126);
+            this.fd_Num1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fd_Num1.Name = "fd_Num1";
-            this.fd_Num1.Size = new System.Drawing.Size(26, 21);
+            this.fd_Num1.Size = new System.Drawing.Size(33, 25);
             this.fd_Num1.TabIndex = 20;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(370, 104);
+            this.label5.Location = new System.Drawing.Point(493, 130);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 12);
+            this.label5.Size = new System.Drawing.Size(75, 15);
             this.label5.TabIndex = 19;
             this.label5.Text = "开奖结果:";
             // 
             // fd_Period
             // 
-            this.fd_Period.Location = new System.Drawing.Point(538, 72);
+            this.fd_Period.Location = new System.Drawing.Point(717, 90);
+            this.fd_Period.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fd_Period.Name = "fd_Period";
-            this.fd_Period.Size = new System.Drawing.Size(33, 21);
+            this.fd_Period.Size = new System.Drawing.Size(43, 25);
             this.fd_Period.TabIndex = 18;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(478, 75);
+            this.label6.Location = new System.Drawing.Point(637, 94);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.Size = new System.Drawing.Size(68, 15);
             this.label6.TabIndex = 17;
             this.label6.Text = "3位期号:";
             // 
             // Btn_Resend
             // 
-            this.Btn_Resend.Location = new System.Drawing.Point(971, 39);
+            this.Btn_Resend.Location = new System.Drawing.Point(1295, 49);
+            this.Btn_Resend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Btn_Resend.Name = "Btn_Resend";
-            this.Btn_Resend.Size = new System.Drawing.Size(84, 44);
+            this.Btn_Resend.Size = new System.Drawing.Size(112, 55);
             this.Btn_Resend.TabIndex = 27;
             this.Btn_Resend.Text = "重新发图";
             this.Btn_Resend.UseVisualStyleBackColor = true;
@@ -842,9 +872,10 @@
             // 
             // btn_resendballl
             // 
-            this.btn_resendballl.Location = new System.Drawing.Point(216, 33);
+            this.btn_resendballl.Location = new System.Drawing.Point(243, 38);
+            this.btn_resendballl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_resendballl.Name = "btn_resendballl";
-            this.btn_resendballl.Size = new System.Drawing.Size(75, 31);
+            this.btn_resendballl.Size = new System.Drawing.Size(100, 39);
             this.btn_resendballl.TabIndex = 28;
             this.btn_resendballl.Text = "重新发联赛";
             this.btn_resendballl.UseVisualStyleBackColor = true;
@@ -858,10 +889,22 @@
             "五分彩",
             "香港时时彩",
             "澳洲幸运5"});
-            this.cb_gamemode.Location = new System.Drawing.Point(588, 72);
+            this.cb_gamemode.Location = new System.Drawing.Point(784, 90);
+            this.cb_gamemode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cb_gamemode.Name = "cb_gamemode";
-            this.cb_gamemode.Size = new System.Drawing.Size(81, 20);
+            this.cb_gamemode.Size = new System.Drawing.Size(107, 23);
             this.cb_gamemode.TabIndex = 29;
+            // 
+            // btn_download
+            // 
+            this.btn_download.Location = new System.Drawing.Point(367, 41);
+            this.btn_download.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_download.Name = "btn_download";
+            this.btn_download.Size = new System.Drawing.Size(100, 39);
+            this.btn_download.TabIndex = 30;
+            this.btn_download.Text = "下载安卓微信通讯录";
+            this.btn_download.UseVisualStyleBackColor = true;
+            this.btn_download.Click += new System.EventHandler(this.btn_download_Click);
             // 
             // User_SourceType
             // 
@@ -901,7 +944,6 @@
             this.User_ContactTMPID.HeaderText = "联系人临时ID";
             this.User_ContactTMPID.Name = "User_ContactTMPID";
             this.User_ContactTMPID.ReadOnly = true;
-            this.User_ContactTMPID.Visible = false;
             // 
             // User_IsReply
             // 
@@ -1060,18 +1102,12 @@
             this.VR.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.VR.Width = 45;
             // 
-            // MI_HeNeiWuFenMode
-            // 
-            this.MI_HeNeiWuFenMode.Name = "MI_HeNeiWuFenMode";
-            this.MI_HeNeiWuFenMode.Size = new System.Drawing.Size(160, 22);
-            this.MI_HeNeiWuFenMode.Text = "河内五分模式";
-            this.MI_HeNeiWuFenMode.Click += new System.EventHandler(this.MI_HeNeiWuFenXinMode_Click);
-            // 
             // RunnerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 662);
+            this.ClientSize = new System.Drawing.Size(1579, 828);
+            this.Controls.Add(this.btn_download);
             this.Controls.Add(this.cb_gamemode);
             this.Controls.Add(this.btn_resendballl);
             this.Controls.Add(this.Btn_Resend);
@@ -1095,6 +1131,7 @@
             this.Controls.Add(this.gv_ReceiveReply);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gv_contact);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "RunnerForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1193,6 +1230,8 @@
         private System.Windows.Forms.ToolStripMenuItem MI_vRMode;
         private System.Windows.Forms.ToolStripMenuItem MI_TengXunShiFenXinMode;
         private System.Windows.Forms.ToolStripMenuItem MI_TengXunWuFenXinMode;
+        private System.Windows.Forms.ToolStripMenuItem MI_HeNeiWuFenMode;
+        private System.Windows.Forms.Button btn_download;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_SourceType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_Contact;
@@ -1216,6 +1255,5 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn 腾五信;
         private System.Windows.Forms.DataGridViewCheckBoxColumn 疆;
         private System.Windows.Forms.DataGridViewCheckBoxColumn VR;
-        private System.Windows.Forms.ToolStripMenuItem MI_HeNeiWuFenMode;
     }
 }

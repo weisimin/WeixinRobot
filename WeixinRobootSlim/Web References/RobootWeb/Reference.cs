@@ -138,6 +138,12 @@ namespace WeixinRoboot.RobootWeb {
         
         private System.Threading.SendOrPostCallback GetLastGamePICOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ShiShiCaiDealGameLogSaveNoticeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UploadContactsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAndroidWeChatContactsOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -337,6 +343,15 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         public event GetLastGamePICCompletedEventHandler GetLastGamePICCompleted;
+        
+        /// <remarks/>
+        public event ShiShiCaiDealGameLogSaveNoticeCompletedEventHandler ShiShiCaiDealGameLogSaveNoticeCompleted;
+        
+        /// <remarks/>
+        public event UploadContactsCompletedEventHandler UploadContactsCompleted;
+        
+        /// <remarks/>
+        public event GetAndroidWeChatContactsCompletedEventHandler GetAndroidWeChatContactsCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogIn", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -2031,9 +2046,8 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/MessageRobootDo", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string MessageRobootDo(System.Guid UserID, string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
+        public string MessageRobootDo(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
             object[] results = this.Invoke("MessageRobootDo", new object[] {
-                        UserID,
                         RawContent,
                         WX_SourceType,
                         UserNameOrRemark,
@@ -2048,17 +2062,16 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
-        public void MessageRobootDoAsync(System.Guid UserID, string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
-            this.MessageRobootDoAsync(UserID, RawContent, WX_SourceType, UserNameOrRemark, FromUserNameTEMPID, ToUserNameTEMPID, JavaMsgTime, msgType, IsTalkGroup, MyUserTEMPID, Jusrpar, null);
+        public void MessageRobootDoAsync(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
+            this.MessageRobootDoAsync(RawContent, WX_SourceType, UserNameOrRemark, FromUserNameTEMPID, ToUserNameTEMPID, JavaMsgTime, msgType, IsTalkGroup, MyUserTEMPID, Jusrpar, null);
         }
         
         /// <remarks/>
-        public void MessageRobootDoAsync(System.Guid UserID, string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar, object userState) {
+        public void MessageRobootDoAsync(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar, object userState) {
             if ((this.MessageRobootDoOperationCompleted == null)) {
                 this.MessageRobootDoOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMessageRobootDoOperationCompleted);
             }
             this.InvokeAsync("MessageRobootDo", new object[] {
-                        UserID,
                         RawContent,
                         WX_SourceType,
                         UserNameOrRemark,
@@ -2109,34 +2122,132 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetLastGamePIC", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetLastGamePIC(string JShiShiCaiMode, PicType pPICType, System.Guid UserID) {
+        public string GetLastGamePIC(string JShiShiCaiMode, string JPICType, string Jusrpar) {
             object[] results = this.Invoke("GetLastGamePIC", new object[] {
                         JShiShiCaiMode,
-                        pPICType,
-                        UserID});
+                        JPICType,
+                        Jusrpar});
             return ((string)(results[0]));
         }
         
         /// <remarks/>
-        public void GetLastGamePICAsync(string JShiShiCaiMode, PicType pPICType, System.Guid UserID) {
-            this.GetLastGamePICAsync(JShiShiCaiMode, pPICType, UserID, null);
+        public void GetLastGamePICAsync(string JShiShiCaiMode, string JPICType, string Jusrpar) {
+            this.GetLastGamePICAsync(JShiShiCaiMode, JPICType, Jusrpar, null);
         }
         
         /// <remarks/>
-        public void GetLastGamePICAsync(string JShiShiCaiMode, PicType pPICType, System.Guid UserID, object userState) {
+        public void GetLastGamePICAsync(string JShiShiCaiMode, string JPICType, string Jusrpar, object userState) {
             if ((this.GetLastGamePICOperationCompleted == null)) {
                 this.GetLastGamePICOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetLastGamePICOperationCompleted);
             }
             this.InvokeAsync("GetLastGamePIC", new object[] {
                         JShiShiCaiMode,
-                        pPICType,
-                        UserID}, this.GetLastGamePICOperationCompleted, userState);
+                        JPICType,
+                        Jusrpar}, this.GetLastGamePICOperationCompleted, userState);
         }
         
         private void OnGetLastGamePICOperationCompleted(object arg) {
             if ((this.GetLastGamePICCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetLastGamePICCompleted(this, new GetLastGamePICCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/ShiShiCaiDealGameLogSaveNotice", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void ShiShiCaiDealGameLogSaveNotice(ShiShiCaiMode subm, bool IgoreDataSettingSend, bool IgoreMemberGroup, string Jusrpar) {
+            this.Invoke("ShiShiCaiDealGameLogSaveNotice", new object[] {
+                        subm,
+                        IgoreDataSettingSend,
+                        IgoreMemberGroup,
+                        Jusrpar});
+        }
+        
+        /// <remarks/>
+        public void ShiShiCaiDealGameLogSaveNoticeAsync(ShiShiCaiMode subm, bool IgoreDataSettingSend, bool IgoreMemberGroup, string Jusrpar) {
+            this.ShiShiCaiDealGameLogSaveNoticeAsync(subm, IgoreDataSettingSend, IgoreMemberGroup, Jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void ShiShiCaiDealGameLogSaveNoticeAsync(ShiShiCaiMode subm, bool IgoreDataSettingSend, bool IgoreMemberGroup, string Jusrpar, object userState) {
+            if ((this.ShiShiCaiDealGameLogSaveNoticeOperationCompleted == null)) {
+                this.ShiShiCaiDealGameLogSaveNoticeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnShiShiCaiDealGameLogSaveNoticeOperationCompleted);
+            }
+            this.InvokeAsync("ShiShiCaiDealGameLogSaveNotice", new object[] {
+                        subm,
+                        IgoreDataSettingSend,
+                        IgoreMemberGroup,
+                        Jusrpar}, this.ShiShiCaiDealGameLogSaveNoticeOperationCompleted, userState);
+        }
+        
+        private void OnShiShiCaiDealGameLogSaveNoticeOperationCompleted(object arg) {
+            if ((this.ShiShiCaiDealGameLogSaveNoticeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ShiShiCaiDealGameLogSaveNoticeCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UploadContacts", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string UploadContacts(string Jcontacts, string Jusrpar, string WX_SourceType) {
+            object[] results = this.Invoke("UploadContacts", new object[] {
+                        Jcontacts,
+                        Jusrpar,
+                        WX_SourceType});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UploadContactsAsync(string Jcontacts, string Jusrpar, string WX_SourceType) {
+            this.UploadContactsAsync(Jcontacts, Jusrpar, WX_SourceType, null);
+        }
+        
+        /// <remarks/>
+        public void UploadContactsAsync(string Jcontacts, string Jusrpar, string WX_SourceType, object userState) {
+            if ((this.UploadContactsOperationCompleted == null)) {
+                this.UploadContactsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUploadContactsOperationCompleted);
+            }
+            this.InvokeAsync("UploadContacts", new object[] {
+                        Jcontacts,
+                        Jusrpar,
+                        WX_SourceType}, this.UploadContactsOperationCompleted, userState);
+        }
+        
+        private void OnUploadContactsOperationCompleted(object arg) {
+            if ((this.UploadContactsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UploadContactsCompleted(this, new UploadContactsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetAndroidWeChatContacts", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetAndroidWeChatContacts(string WX_Sourcetype, string Jusrpar) {
+            object[] results = this.Invoke("GetAndroidWeChatContacts", new object[] {
+                        WX_Sourcetype,
+                        Jusrpar});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAndroidWeChatContactsAsync(string WX_Sourcetype, string Jusrpar) {
+            this.GetAndroidWeChatContactsAsync(WX_Sourcetype, Jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void GetAndroidWeChatContactsAsync(string WX_Sourcetype, string Jusrpar, object userState) {
+            if ((this.GetAndroidWeChatContactsOperationCompleted == null)) {
+                this.GetAndroidWeChatContactsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAndroidWeChatContactsOperationCompleted);
+            }
+            this.InvokeAsync("GetAndroidWeChatContacts", new object[] {
+                        WX_Sourcetype,
+                        Jusrpar}, this.GetAndroidWeChatContactsOperationCompleted, userState);
+        }
+        
+        private void OnGetAndroidWeChatContactsOperationCompleted(object arg) {
+            if ((this.GetAndroidWeChatContactsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAndroidWeChatContactsCompleted(this, new GetAndroidWeChatContactsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -3736,64 +3847,49 @@ namespace WeixinRoboot.RobootWeb {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
-    public enum PicType {
+    public enum ShiShiCaiMode {
         
         /// <remarks/>
-        龙虎图,
+        重庆时时彩,
         
         /// <remarks/>
-        龙虎图_易信,
+        五分彩,
         
         /// <remarks/>
-        龙虎图_QQ,
+        香港时时彩,
         
         /// <remarks/>
-        龙虎图_钉钉,
+        澳洲幸运5,
         
         /// <remarks/>
-        数字图,
+        腾讯十分,
         
         /// <remarks/>
-        数字龙虎图,
+        腾讯五分,
         
         /// <remarks/>
-        数字文本,
+        北京赛车PK10,
         
         /// <remarks/>
-        龙虎数字文本,
+        VR重庆时时彩,
         
         /// <remarks/>
-        龙虎数字文本_易信,
+        新疆时时彩,
         
         /// <remarks/>
-        龙虎数字文本_QQ,
+        未知,
         
         /// <remarks/>
-        龙虎数字文本_钉钉,
+        腾五信,
         
         /// <remarks/>
-        龙虎数字大单牛牛文本,
+        腾十信,
         
         /// <remarks/>
-        龙虎数字大单牛牛文本_易信,
+        全彩,
         
         /// <remarks/>
-        龙虎数字大单牛牛文本_QQ,
-        
-        /// <remarks/>
-        龙虎数字大单牛牛文本_钉钉,
-        
-        /// <remarks/>
-        龙虎数字无大单文本,
-        
-        /// <remarks/>
-        龙虎数字无大单文本_易信,
-        
-        /// <remarks/>
-        龙虎数字无大单文本_QQ,
-        
-        /// <remarks/>
-        龙虎数字无大单文本_钉钉,
+        河内五分,
     }
     
     /// <remarks/>
@@ -5205,6 +5301,62 @@ namespace WeixinRoboot.RobootWeb {
         private object[] results;
         
         internal GetLastGamePICCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void ShiShiCaiDealGameLogSaveNoticeCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void UploadContactsCompletedEventHandler(object sender, UploadContactsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UploadContactsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UploadContactsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetAndroidWeChatContactsCompletedEventHandler(object sender, GetAndroidWeChatContactsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAndroidWeChatContactsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAndroidWeChatContactsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

@@ -454,12 +454,6 @@
     <None Include="Web References\RobootWeb\ChongQingShiShiCaiCaculatePeriodResult.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\RobootWeb\FormatResultState.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\RobootWeb\FormatResultType.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
     <None Include="Web References\RobootWeb\Game_BasicRatio.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -477,6 +471,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\RobootWeb\SendCharge_GetSourceClass.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\RobootWeb\SendManulOrder_GetOrderSourceClass.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\RobootWeb\UserChangeLogType.datasource">

@@ -1053,7 +1053,6 @@
       <s:element name="MessageRobootDo">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s1:guid" />
             <s:element minOccurs="0" maxOccurs="1" name="RawContent" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="WX_SourceType" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="UserNameOrRemark" type="s:string" />
@@ -1092,38 +1091,77 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="JShiShiCaiMode" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="pPICType" type="tns:PicType" />
-            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="JPICType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:simpleType name="PicType">
-        <s:restriction base="s:string">
-          <s:enumeration value="龙虎图" />
-          <s:enumeration value="龙虎图_易信" />
-          <s:enumeration value="龙虎图_QQ" />
-          <s:enumeration value="龙虎图_钉钉" />
-          <s:enumeration value="数字图" />
-          <s:enumeration value="数字龙虎图" />
-          <s:enumeration value="数字文本" />
-          <s:enumeration value="龙虎数字文本" />
-          <s:enumeration value="龙虎数字文本_易信" />
-          <s:enumeration value="龙虎数字文本_QQ" />
-          <s:enumeration value="龙虎数字文本_钉钉" />
-          <s:enumeration value="龙虎数字大单牛牛文本" />
-          <s:enumeration value="龙虎数字大单牛牛文本_易信" />
-          <s:enumeration value="龙虎数字大单牛牛文本_QQ" />
-          <s:enumeration value="龙虎数字大单牛牛文本_钉钉" />
-          <s:enumeration value="龙虎数字无大单文本" />
-          <s:enumeration value="龙虎数字无大单文本_易信" />
-          <s:enumeration value="龙虎数字无大单文本_QQ" />
-          <s:enumeration value="龙虎数字无大单文本_钉钉" />
-        </s:restriction>
-      </s:simpleType>
       <s:element name="GetLastGamePICResponse">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetLastGamePICResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ShiShiCaiDealGameLogSaveNotice">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="subm" type="tns:ShiShiCaiMode" />
+            <s:element minOccurs="1" maxOccurs="1" name="IgoreDataSettingSend" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="IgoreMemberGroup" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="ShiShiCaiMode">
+        <s:restriction base="s:string">
+          <s:enumeration value="重庆时时彩" />
+          <s:enumeration value="五分彩" />
+          <s:enumeration value="香港时时彩" />
+          <s:enumeration value="澳洲幸运5" />
+          <s:enumeration value="腾讯十分" />
+          <s:enumeration value="腾讯五分" />
+          <s:enumeration value="北京赛车PK10" />
+          <s:enumeration value="VR重庆时时彩" />
+          <s:enumeration value="新疆时时彩" />
+          <s:enumeration value="未知" />
+          <s:enumeration value="腾五信" />
+          <s:enumeration value="腾十信" />
+          <s:enumeration value="全彩" />
+          <s:enumeration value="河内五分" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="ShiShiCaiDealGameLogSaveNoticeResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="UploadContacts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Jcontacts" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WX_SourceType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadContactsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadContactsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAndroidWeChatContacts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WX_Sourcetype" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAndroidWeChatContactsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAndroidWeChatContactsResult" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -1460,6 +1498,24 @@
   <wsdl:message name="GetLastGamePICSoapOut">
     <wsdl:part name="parameters" element="tns:GetLastGamePICResponse" />
   </wsdl:message>
+  <wsdl:message name="ShiShiCaiDealGameLogSaveNoticeSoapIn">
+    <wsdl:part name="parameters" element="tns:ShiShiCaiDealGameLogSaveNotice" />
+  </wsdl:message>
+  <wsdl:message name="ShiShiCaiDealGameLogSaveNoticeSoapOut">
+    <wsdl:part name="parameters" element="tns:ShiShiCaiDealGameLogSaveNoticeResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadContactsSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadContacts" />
+  </wsdl:message>
+  <wsdl:message name="UploadContactsSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadContactsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAndroidWeChatContactsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAndroidWeChatContacts" />
+  </wsdl:message>
+  <wsdl:message name="GetAndroidWeChatContactsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAndroidWeChatContactsResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceSoap">
     <wsdl:operation name="UserLogIn">
       <wsdl:input message="tns:UserLogInSoapIn" />
@@ -1676,6 +1732,18 @@
     <wsdl:operation name="GetLastGamePIC">
       <wsdl:input message="tns:GetLastGamePICSoapIn" />
       <wsdl:output message="tns:GetLastGamePICSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ShiShiCaiDealGameLogSaveNotice">
+      <wsdl:input message="tns:ShiShiCaiDealGameLogSaveNoticeSoapIn" />
+      <wsdl:output message="tns:ShiShiCaiDealGameLogSaveNoticeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadContacts">
+      <wsdl:input message="tns:UploadContactsSoapIn" />
+      <wsdl:output message="tns:UploadContactsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAndroidWeChatContacts">
+      <wsdl:input message="tns:GetAndroidWeChatContactsSoapIn" />
+      <wsdl:output message="tns:GetAndroidWeChatContactsSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
@@ -2166,6 +2234,33 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ShiShiCaiDealGameLogSaveNotice">
+      <soap:operation soapAction="http://13828081978.zicp.vip/ShiShiCaiDealGameLogSaveNotice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadContacts">
+      <soap:operation soapAction="http://13828081978.zicp.vip/UploadContacts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAndroidWeChatContacts">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetAndroidWeChatContacts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -2648,6 +2743,33 @@
     </wsdl:operation>
     <wsdl:operation name="GetLastGamePIC">
       <soap12:operation soapAction="http://13828081978.zicp.vip/GetLastGamePIC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ShiShiCaiDealGameLogSaveNotice">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/ShiShiCaiDealGameLogSaveNotice" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadContacts">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/UploadContacts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAndroidWeChatContacts">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetAndroidWeChatContacts" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
