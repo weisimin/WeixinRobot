@@ -2636,13 +2636,22 @@ public class WebService : System.Web.Services.WebService
         return JsonConvert.SerializeObject(hwnd);
     }
     [WebMethod]
-    public string MessageRobootDo(String RawContent, String WX_SourceType, String UserNameOrRemark, String FromUserNameTEMPID, String ToUserNameTEMPID, string JavaMsgTime, string msgType, Boolean IsTalkGroup, String MyUserTEMPID, string Jusrpar)
+    public string MessageRobootDo(String RawContent, String WX_SourceType, String UserNameOrRemark, String FromUserNameTEMPID, String ToUserNameTEMPID, string JavaMsgTime, string msgType, Boolean IsTalkGroup, String MyUserTEMPID, string Jusrpar )
     {
-        String SavePath = HttpContext.Current.Server.MapPath("../PIC");
+        try
+        {
+
+        String SavePath = HttpContext.Current.Server.MapPath("~/PIC");
         WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
 
         return WeixinRobotLib.Linq.ProgramLogic.MessageRobotDo(WX_SourceType, FromUserNameTEMPID, ToUserNameTEMPID, RawContent, JavaMsgTime, msgType, IsTalkGroup, MyUserTEMPID, usrpar, SavePath);
 
+        }
+        catch (Exception AnyError)
+        {
+            return "服务器错误" + AnyError.Message; 
+           
+        }
     }
     [WebMethod]
     public string GetLastGamePeriod(String JShiShiCaiMode)
@@ -2982,7 +2991,7 @@ public class WebService : System.Web.Services.WebService
             AndroidContact[] contacts = JsonConvert.DeserializeObject<AndroidContact[]>(Jcontacts);
             foreach (var item in contacts)
             {
-                string Seq = item.conRemark == null ? item.nickname : item.conRemark;
+                string Seq = (item.conRemark == null || item.conRemark == "") ? item.nickname : item.conRemark;
                 WeixinRobotLib.Entity.Linq.WX_UserReply usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey && t.WX_UserName == Seq && t.WX_SourceType == WX_SourceType);
 
                 if (usrc == null)
@@ -2994,7 +3003,7 @@ public class WebService : System.Web.Services.WebService
                     newusrc.WX_SourceType = WX_SourceType;
                     newusrc.RemarkName = item.conRemark;
                     newusrc.NickName = NetFramework.Util_WEB.CleanHtml(item.nickname);
-
+                    newusrc.WeChatID = item.username;
                     newusrc.IsCaculateFuli = true;
                     if (Seq.EndsWith("@chatroom") == false)
                     {
@@ -3022,9 +3031,11 @@ public class WebService : System.Web.Services.WebService
                     {
                         usrc.IsReply = true;
                     }
+                    usrc.WeChatID = item.username;
+                    db.SubmitChanges();
                 } //初始化，添加到数据库或同步数据库
                 WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey
-                   && t.WX_SourceType == "微"
+                   && t.WX_SourceType == WX_SourceType
                     && t.WX_UserName == Seq
                    );
                 if (webpcset == null)
@@ -3033,7 +3044,7 @@ public class WebService : System.Web.Services.WebService
 
                     webpcset.aspnet_UserID = usrpar.UserKey;
 
-                    webpcset.WX_SourceType = "微";
+                    webpcset.WX_SourceType = WX_SourceType;
                     webpcset.WX_UserName = Seq;
 
                     webpcset.ballinterval = 120;
@@ -3074,7 +3085,7 @@ public class WebService : System.Web.Services.WebService
 
 
 
-                usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey && t.WX_UserName == Seq && t.WX_SourceType == "微");
+                usrc = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey && t.WX_UserName == Seq && t.WX_SourceType == WX_SourceType);
             }
             return "上传成功";
         }//try
