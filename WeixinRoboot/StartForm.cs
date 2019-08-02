@@ -2548,6 +2548,8 @@ namespace WeixinRoboot
 
                 case "微":
                     return SendWXContent(Content, TempToUserID);
+                case "安微":
+                    return SendAndroidWXContent(Content, TempToUserID);
                 default:
                     //ldconsole.exe action --name *** --key call.input --value ***
                     //NoxConsole.exe action –name *** –key call.input –value ***
@@ -2787,6 +2789,22 @@ namespace WeixinRoboot
             return "";
         }
 
+        public string SendAndroidWXContent(string Content, string TempToUserID)
+        {
+            Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
+
+           var replys= db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.UserKey && t.WeChatID == TempToUserID);
+
+            Linq.aspnet_UserSendJob newjob = new aspnet_UserSendJob();
+            newjob.aspnet_Userid = GlobalParam.UserKey;
+            newjob.ToSendMessage = Content;
+            newjob.WX_UserName = (replys.Count() == 0 ? "找不到" + TempToUserID : replys.First().WX_UserName);
+            newjob.WechatID = TempToUserID;
+            newjob.Status = "未发";
+            db.aspnet_UserSendJob.InsertOnSubmit(newjob);
+            db.SubmitChanges();
+            return "";
+        }
         public string SendWXContent(JObject weixinmsg, string TempToUserID)
         {
             Int32 TestCount = 1;
@@ -3319,7 +3337,7 @@ namespace WeixinRoboot
                             }
                             db.SubmitChanges();
                         }
-                        else if (notice_item.WX_SourceType == "微" || notice_item.WX_SourceType == "易")
+                        else if (notice_item.WX_SourceType.Contains( "微") || notice_item.WX_SourceType == "易")
                         {
                             foreach (var noticeitem in Rows)
                             {
@@ -5243,7 +5261,7 @@ namespace WeixinRoboot
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data3" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
-                            if (dr[0].Field<string>("User_SourceType") == "微")
+                            if (dr[0].Field<string>("User_SourceType").Contains( "微"))
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data3_yixin" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
@@ -5281,7 +5299,7 @@ namespace WeixinRoboot
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎dingding_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
-                            if (dr[0].Field<string>("User_SourceType") == "微")
+                            if (dr[0].Field<string>("User_SourceType").Contains("微"))
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎_五分龙虎Vr牛牛" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
@@ -5291,9 +5309,9 @@ namespace WeixinRoboot
                         {
                             if (dr[0].Field<string>("User_SourceType") == "易")
                             {
-                                SendRobotContent(StartForm.ReadVirtualFile("ata数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
+                                SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎dingding_五分龙虎" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
-                            if (dr[0].Field<string>("User_SourceType") == "微")
+                            if (dr[0].Field<string>("User_SourceType").Contains("微"))
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎_五分龙虎" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
@@ -5306,7 +5324,7 @@ namespace WeixinRoboot
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎dingding" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
-                            if (dr[0].Field<string>("User_SourceType") == "微")
+                            if (dr[0].Field<string>("User_SourceType").Contains("微"))
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data数字龙虎" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }

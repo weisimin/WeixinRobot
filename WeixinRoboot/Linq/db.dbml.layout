@@ -183,5 +183,11 @@
         <classShapeMoniker Id="a289782a-1aa0-4136-8606-6306fc2e0338" />
       </nodes>
     </associationConnector>
+    <classShape Id="0fa436ff-fa01-4b09-8413-da8f46e24ef4" isExpanded="false" absoluteBounds="3.75, 1.625, 2, 0.45">
+      <DataClassMoniker Name="/dbDataContext/aspnet_UserSendJob" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ce7a8990-3033-420b-83e4-e8ea73ee70d0" absoluteBounds="3.7649999999999997, 2.085, 1.9700000000000002, 1.5846048990885415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

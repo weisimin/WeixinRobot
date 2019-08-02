@@ -5962,6 +5962,7 @@ namespace WeixinRoboot.Linq
                     && t.BasicRatio != 0
                     && t.BasicRatio != null
                     && t.BonusBuyValueCondition == newgl.Buy_Value
+                    &&t.WX_SourceType==WX_SourceType
                     );
                 foreach (var subbonus in bonusratios)
                 {

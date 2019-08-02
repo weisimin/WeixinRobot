@@ -586,4 +586,15 @@
       <Association Name="WX_PCSendPicSetting_WX_PCSendPicSettingRandomTalk" Member="WX_PCSendPicSettingRandomTalk" ThisKey="aspnet_UserID,WX_UserName,WX_SourceType" OtherKey="aspnet_UserID,WX_UserName,WX_SourceType" Type="WX_PCSendPicSettingRandomTalk" />
     </Type>
   </Table>
+  <Table Name="dbo.aspnet_UserSendJob" Member="aspnet_UserSendJob">
+    <Type Name="aspnet_UserSendJob">
+      <Column Name="Joibid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="aspnet_Userid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="WechatID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Remark" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="ToSendMessage" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>

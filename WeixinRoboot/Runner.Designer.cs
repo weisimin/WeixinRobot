@@ -118,7 +118,7 @@
             this.User_ContactType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_Contact = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_ContactID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_ContactTMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.User_ContactTEMPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.User_IsReply = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.User_IsSendPic = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.User_IsReceiveTransfer = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -166,7 +166,7 @@
             this.User_ContactType,
             this.User_Contact,
             this.User_ContactID,
-            this.User_ContactTMPID,
+            this.User_ContactTEMPID,
             this.User_IsReply,
             this.User_IsSendPic,
             this.User_IsReceiveTransfer,
@@ -195,7 +195,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gv_contact.DefaultCellStyle = dataGridViewCellStyle2;
             this.gv_contact.Location = new System.Drawing.Point(16, 85);
-            this.gv_contact.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gv_contact.Margin = new System.Windows.Forms.Padding(4);
             this.gv_contact.MultiSelect = false;
             this.gv_contact.Name = "gv_contact";
             this.gv_contact.ReadOnly = true;
@@ -252,7 +252,7 @@
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gv_ReceiveReply.DefaultCellStyle = dataGridViewCellStyle4;
             this.gv_ReceiveReply.Location = new System.Drawing.Point(479, 208);
-            this.gv_ReceiveReply.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gv_ReceiveReply.Margin = new System.Windows.Forms.Padding(4);
             this.gv_ReceiveReply.Name = "gv_ReceiveReply";
             this.gv_ReceiveReply.ReadOnly = true;
             this.gv_ReceiveReply.RowHeadersVisible = false;
@@ -604,7 +604,7 @@
             // tb_ContactFilter
             // 
             this.tb_ContactFilter.Location = new System.Drawing.Point(79, 41);
-            this.tb_ContactFilter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_ContactFilter.Margin = new System.Windows.Forms.Padding(4);
             this.tb_ContactFilter.Name = "tb_ContactFilter";
             this.tb_ContactFilter.Size = new System.Drawing.Size(132, 25);
             this.tb_ContactFilter.TabIndex = 6;
@@ -613,7 +613,7 @@
             // dtp_EndDate
             // 
             this.dtp_EndDate.Location = new System.Drawing.Point(1256, 151);
-            this.dtp_EndDate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtp_EndDate.Margin = new System.Windows.Forms.Padding(4);
             this.dtp_EndDate.Name = "dtp_EndDate";
             this.dtp_EndDate.Size = new System.Drawing.Size(149, 25);
             this.dtp_EndDate.TabIndex = 7;
@@ -622,7 +622,7 @@
             // dtp_StartDate
             // 
             this.dtp_StartDate.Location = new System.Drawing.Point(1073, 151);
-            this.dtp_StartDate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtp_StartDate.Margin = new System.Windows.Forms.Padding(4);
             this.dtp_StartDate.Name = "dtp_StartDate";
             this.dtp_StartDate.Size = new System.Drawing.Size(149, 25);
             this.dtp_StartDate.TabIndex = 8;
@@ -661,7 +661,7 @@
             this.Result_Point});
             this.GV_GameLog.DataSource = this.BS_GameLog;
             this.GV_GameLog.Location = new System.Drawing.Point(476, 552);
-            this.GV_GameLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.GV_GameLog.Margin = new System.Windows.Forms.Padding(4);
             this.GV_GameLog.MultiSelect = false;
             this.GV_GameLog.Name = "GV_GameLog";
             this.GV_GameLog.ReadOnly = true;
@@ -775,7 +775,7 @@
             // 
             this.fd_day.CustomFormat = "yyyy-MM-dd";
             this.fd_day.Location = new System.Drawing.Point(493, 90);
-            this.fd_day.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fd_day.Margin = new System.Windows.Forms.Padding(4);
             this.fd_day.Name = "fd_day";
             this.fd_day.Size = new System.Drawing.Size(133, 25);
             this.fd_day.TabIndex = 26;
@@ -783,7 +783,7 @@
             // fd_Num5
             // 
             this.fd_Num5.Location = new System.Drawing.Point(767, 126);
-            this.fd_Num5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fd_Num5.Margin = new System.Windows.Forms.Padding(4);
             this.fd_Num5.Name = "fd_Num5";
             this.fd_Num5.Size = new System.Drawing.Size(33, 25);
             this.fd_Num5.TabIndex = 25;
@@ -791,7 +791,7 @@
             // fd_Num4
             // 
             this.fd_Num4.Location = new System.Drawing.Point(720, 126);
-            this.fd_Num4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fd_Num4.Margin = new System.Windows.Forms.Padding(4);
             this.fd_Num4.Name = "fd_Num4";
             this.fd_Num4.Size = new System.Drawing.Size(33, 25);
             this.fd_Num4.TabIndex = 24;
@@ -799,7 +799,7 @@
             // fd_Num3
             // 
             this.fd_Num3.Location = new System.Drawing.Point(673, 126);
-            this.fd_Num3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fd_Num3.Margin = new System.Windows.Forms.Padding(4);
             this.fd_Num3.Name = "fd_Num3";
             this.fd_Num3.Size = new System.Drawing.Size(33, 25);
             this.fd_Num3.TabIndex = 23;
@@ -807,7 +807,7 @@
             // fd_Num2
             // 
             this.fd_Num2.Location = new System.Drawing.Point(627, 126);
-            this.fd_Num2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fd_Num2.Margin = new System.Windows.Forms.Padding(4);
             this.fd_Num2.Name = "fd_Num2";
             this.fd_Num2.Size = new System.Drawing.Size(33, 25);
             this.fd_Num2.TabIndex = 22;
@@ -815,7 +815,7 @@
             // BtnSaveAndDeal
             // 
             this.BtnSaveAndDeal.Location = new System.Drawing.Point(921, 94);
-            this.BtnSaveAndDeal.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnSaveAndDeal.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSaveAndDeal.Name = "BtnSaveAndDeal";
             this.BtnSaveAndDeal.Size = new System.Drawing.Size(101, 55);
             this.BtnSaveAndDeal.TabIndex = 21;
@@ -826,7 +826,7 @@
             // fd_Num1
             // 
             this.fd_Num1.Location = new System.Drawing.Point(580, 126);
-            this.fd_Num1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fd_Num1.Margin = new System.Windows.Forms.Padding(4);
             this.fd_Num1.Name = "fd_Num1";
             this.fd_Num1.Size = new System.Drawing.Size(33, 25);
             this.fd_Num1.TabIndex = 20;
@@ -844,7 +844,7 @@
             // fd_Period
             // 
             this.fd_Period.Location = new System.Drawing.Point(717, 90);
-            this.fd_Period.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fd_Period.Margin = new System.Windows.Forms.Padding(4);
             this.fd_Period.Name = "fd_Period";
             this.fd_Period.Size = new System.Drawing.Size(43, 25);
             this.fd_Period.TabIndex = 18;
@@ -862,7 +862,7 @@
             // Btn_Resend
             // 
             this.Btn_Resend.Location = new System.Drawing.Point(1295, 49);
-            this.Btn_Resend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_Resend.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Resend.Name = "Btn_Resend";
             this.Btn_Resend.Size = new System.Drawing.Size(112, 55);
             this.Btn_Resend.TabIndex = 27;
@@ -873,7 +873,7 @@
             // btn_resendballl
             // 
             this.btn_resendballl.Location = new System.Drawing.Point(243, 38);
-            this.btn_resendballl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_resendballl.Margin = new System.Windows.Forms.Padding(4);
             this.btn_resendballl.Name = "btn_resendballl";
             this.btn_resendballl.Size = new System.Drawing.Size(100, 39);
             this.btn_resendballl.TabIndex = 28;
@@ -890,7 +890,7 @@
             "香港时时彩",
             "澳洲幸运5"});
             this.cb_gamemode.Location = new System.Drawing.Point(784, 90);
-            this.cb_gamemode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cb_gamemode.Margin = new System.Windows.Forms.Padding(4);
             this.cb_gamemode.Name = "cb_gamemode";
             this.cb_gamemode.Size = new System.Drawing.Size(107, 23);
             this.cb_gamemode.TabIndex = 29;
@@ -938,12 +938,12 @@
             this.User_ContactID.ReadOnly = true;
             this.User_ContactID.Width = 80;
             // 
-            // User_ContactTMPID
+            // User_ContactTEMPID
             // 
-            this.User_ContactTMPID.DataPropertyName = "User_ContactTMPID";
-            this.User_ContactTMPID.HeaderText = "联系人临时ID";
-            this.User_ContactTMPID.Name = "User_ContactTMPID";
-            this.User_ContactTMPID.ReadOnly = true;
+            this.User_ContactTEMPID.DataPropertyName = "User_ContactTEMPID";
+            this.User_ContactTEMPID.HeaderText = "联系人临时ID";
+            this.User_ContactTEMPID.Name = "User_ContactTEMPID";
+            this.User_ContactTEMPID.ReadOnly = true;
             // 
             // User_IsReply
             // 
@@ -1131,7 +1131,7 @@
             this.Controls.Add(this.gv_ReceiveReply);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gv_contact);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "RunnerForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1236,7 +1236,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactType;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_Contact;
         private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactTMPID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn User_ContactTEMPID;
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReply;
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsSendPic;
         private System.Windows.Forms.DataGridViewCheckBoxColumn User_IsReceiveTransfer;

@@ -28,7 +28,7 @@
     <InstallUrl>http://103.117.138.220:8080/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>94</ApplicationRevision>
+    <ApplicationRevision>95</ApplicationRevision>
     <ApplicationVersion>2.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -153,7 +153,11 @@
     </Compile>
     <Compile Include="HotKey.cs" />
     <Compile Include="Linq\aspnet_UsersNewGameResultSend.cs" />
-    <Compile Include="Linq\db.designer.cs" />
+    <Compile Include="Linq\db.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Linq\ProgramLogic.cs" />
     <Compile Include="LogForm.cs">
       <SubType>Form</SubType>
@@ -392,7 +396,7 @@
     <None Include="app.manifest" />
     <None Include="Linq\db.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>db1.designer.cs</LastGenOutput>
+      <LastGenOutput>db.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="Newtonsoft.Json.dll">

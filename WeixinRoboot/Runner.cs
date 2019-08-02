@@ -1297,7 +1297,7 @@ namespace WeixinRoboot
                 DataRow newr = null;
                 Linq.WX_WebSendPICSetting picset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == replyitem.aspnet_UserID && t.WX_UserName == replyitem.WX_UserName && t.WX_SourceType == replyitem.WX_SourceType);
                     newr = MemberSource.NewRow();
-                    newr.SetField("User_ContactTEMPID", replyitem.WeChatID);
+                    newr.SetField("User_ContactTEMPID", (replyitem.WeChatID == null ? Guid.NewGuid().ToString() : replyitem.WeChatID));
                     newr.SetField("User_SourceType", "安微");
 
                     MemberSource.Rows.Add(newr);
@@ -1305,7 +1305,7 @@ namespace WeixinRoboot
                     newr.SetField("User_ContactID", replyitem.WX_UserName);
 
                     newr.SetField("User_Contact", (replyitem.RemarkName == null || replyitem.RemarkName=="") ? replyitem.NickName : replyitem.RemarkName);
-                    newr.SetField("User_ContactType", replyitem.WeChatID.EndsWith("@chatroom") ? "群" : "个人");
+                newr.SetField("User_ContactType", (replyitem.WeChatID==null?"未知":(replyitem.WeChatID.EndsWith("@chatroom") ? "群" : "个人")));
 
 
                     newr.SetField("User_IsReply", replyitem.IsReply);

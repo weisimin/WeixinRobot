@@ -117,6 +117,9 @@ namespace WeixinRoboot.Linq
     partial void InsertWX_PCSendPicSetting(WX_PCSendPicSetting instance);
     partial void UpdateWX_PCSendPicSetting(WX_PCSendPicSetting instance);
     partial void DeleteWX_PCSendPicSetting(WX_PCSendPicSetting instance);
+    partial void Insertaspnet_UserSendJob(aspnet_UserSendJob instance);
+    partial void Updateaspnet_UserSendJob(aspnet_UserSendJob instance);
+    partial void Deleteaspnet_UserSendJob(aspnet_UserSendJob instance);
     #endregion
 		
 		public dbDataContext() : 
@@ -378,6 +381,14 @@ namespace WeixinRoboot.Linq
 			get
 			{
 				return this.GetTable<WX_PCSendPicSetting>();
+			}
+		}
+		
+		public System.Data.Linq.Table<aspnet_UserSendJob> aspnet_UserSendJob
+		{
+			get
+			{
+				return this.GetTable<aspnet_UserSendJob>();
 			}
 		}
 	}
@@ -12794,6 +12805,212 @@ namespace WeixinRoboot.Linq
 		{
 			this.SendPropertyChanging();
 			entity.WX_PCSendPicSetting = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.aspnet_UserSendJob")]
+	public partial class aspnet_UserSendJob : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Joibid;
+		
+		private System.Nullable<System.Guid> _aspnet_Userid;
+		
+		private string _WechatID;
+		
+		private string _WX_UserName;
+		
+		private string _Remark;
+		
+		private string _ToSendMessage;
+		
+		private string _Status;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnJoibidChanging(int value);
+    partial void OnJoibidChanged();
+    partial void Onaspnet_UseridChanging(System.Nullable<System.Guid> value);
+    partial void Onaspnet_UseridChanged();
+    partial void OnWechatIDChanging(string value);
+    partial void OnWechatIDChanged();
+    partial void OnWX_UserNameChanging(string value);
+    partial void OnWX_UserNameChanged();
+    partial void OnRemarkChanging(string value);
+    partial void OnRemarkChanged();
+    partial void OnToSendMessageChanging(string value);
+    partial void OnToSendMessageChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public aspnet_UserSendJob()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Joibid", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Joibid
+		{
+			get
+			{
+				return this._Joibid;
+			}
+			set
+			{
+				if ((this._Joibid != value))
+				{
+					this.OnJoibidChanging(value);
+					this.SendPropertyChanging();
+					this._Joibid = value;
+					this.SendPropertyChanged("Joibid");
+					this.OnJoibidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_aspnet_Userid", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> aspnet_Userid
+		{
+			get
+			{
+				return this._aspnet_Userid;
+			}
+			set
+			{
+				if ((this._aspnet_Userid != value))
+				{
+					this.Onaspnet_UseridChanging(value);
+					this.SendPropertyChanging();
+					this._aspnet_Userid = value;
+					this.SendPropertyChanged("aspnet_Userid");
+					this.Onaspnet_UseridChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WechatID", DbType="NVarChar(50)")]
+		public string WechatID
+		{
+			get
+			{
+				return this._WechatID;
+			}
+			set
+			{
+				if ((this._WechatID != value))
+				{
+					this.OnWechatIDChanging(value);
+					this.SendPropertyChanging();
+					this._WechatID = value;
+					this.SendPropertyChanged("WechatID");
+					this.OnWechatIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WX_UserName", DbType="NVarChar(50)")]
+		public string WX_UserName
+		{
+			get
+			{
+				return this._WX_UserName;
+			}
+			set
+			{
+				if ((this._WX_UserName != value))
+				{
+					this.OnWX_UserNameChanging(value);
+					this.SendPropertyChanging();
+					this._WX_UserName = value;
+					this.SendPropertyChanged("WX_UserName");
+					this.OnWX_UserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Remark", DbType="NVarChar(4000)")]
+		public string Remark
+		{
+			get
+			{
+				return this._Remark;
+			}
+			set
+			{
+				if ((this._Remark != value))
+				{
+					this.OnRemarkChanging(value);
+					this.SendPropertyChanging();
+					this._Remark = value;
+					this.SendPropertyChanged("Remark");
+					this.OnRemarkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ToSendMessage", DbType="NVarChar(4000)")]
+		public string ToSendMessage
+		{
+			get
+			{
+				return this._ToSendMessage;
+			}
+			set
+			{
+				if ((this._ToSendMessage != value))
+				{
+					this.OnToSendMessageChanging(value);
+					this.SendPropertyChanging();
+					this._ToSendMessage = value;
+					this.SendPropertyChanged("ToSendMessage");
+					this.OnToSendMessageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NVarChar(50)")]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }
