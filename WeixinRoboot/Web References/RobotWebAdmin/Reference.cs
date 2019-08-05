@@ -23,7 +23,7 @@ namespace WeixinRoboot.RobotWebAdmin {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="SysadminServicesSoap", Namespace="http://13828081978.zicp.vip/")]
@@ -38,6 +38,8 @@ namespace WeixinRoboot.RobotWebAdmin {
         private System.Threading.SendOrPostCallback GetUserInfoOperationCompleted;
         
         private System.Threading.SendOrPostCallback BuidMD5ActiveCodeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback NewGameResultOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -91,6 +93,9 @@ namespace WeixinRoboot.RobotWebAdmin {
         
         /// <remarks/>
         public event BuidMD5ActiveCodeCompletedEventHandler BuidMD5ActiveCodeCompleted;
+        
+        /// <remarks/>
+        public event NewGameResultCompletedEventHandler NewGameResultCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetAllUsers", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -242,6 +247,46 @@ namespace WeixinRoboot.RobotWebAdmin {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/NewGameResult", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string NewGameResult(string str_Win, string str_dataperiod, ref bool NewResult, string JShiShiCaiMode, string jusrpar, string GameTime) {
+            object[] results = this.Invoke("NewGameResult", new object[] {
+                        str_Win,
+                        str_dataperiod,
+                        NewResult,
+                        JShiShiCaiMode,
+                        jusrpar,
+                        GameTime});
+            NewResult = ((bool)(results[1]));
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void NewGameResultAsync(string str_Win, string str_dataperiod, bool NewResult, string JShiShiCaiMode, string jusrpar, string GameTime) {
+            this.NewGameResultAsync(str_Win, str_dataperiod, NewResult, JShiShiCaiMode, jusrpar, GameTime, null);
+        }
+        
+        /// <remarks/>
+        public void NewGameResultAsync(string str_Win, string str_dataperiod, bool NewResult, string JShiShiCaiMode, string jusrpar, string GameTime, object userState) {
+            if ((this.NewGameResultOperationCompleted == null)) {
+                this.NewGameResultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnNewGameResultOperationCompleted);
+            }
+            this.InvokeAsync("NewGameResult", new object[] {
+                        str_Win,
+                        str_dataperiod,
+                        NewResult,
+                        JShiShiCaiMode,
+                        jusrpar,
+                        GameTime}, this.NewGameResultOperationCompleted, userState);
+        }
+        
+        private void OnNewGameResultOperationCompleted(object arg) {
+            if ((this.NewGameResultCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.NewGameResultCompleted(this, new NewGameResultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -261,11 +306,11 @@ namespace WeixinRoboot.RobotWebAdmin {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void GetAllUsersCompletedEventHandler(object sender, GetAllUsersCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetAllUsersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -287,11 +332,11 @@ namespace WeixinRoboot.RobotWebAdmin {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void CreateUserCompletedEventHandler(object sender, CreateUserCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CreateUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -313,11 +358,11 @@ namespace WeixinRoboot.RobotWebAdmin {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void SetUserLockCompletedEventHandler(object sender, SetUserLockCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class SetUserLockCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -339,11 +384,11 @@ namespace WeixinRoboot.RobotWebAdmin {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void GetUserInfoCompletedEventHandler(object sender, GetUserInfoCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetUserInfoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -365,11 +410,11 @@ namespace WeixinRoboot.RobotWebAdmin {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     public delegate void BuidMD5ActiveCodeCompletedEventHandler(object sender, BuidMD5ActiveCodeCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3062.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class BuidMD5ActiveCodeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -386,6 +431,40 @@ namespace WeixinRoboot.RobotWebAdmin {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void NewGameResultCompletedEventHandler(object sender, NewGameResultCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class NewGameResultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal NewGameResultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public bool NewResult {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[1]));
             }
         }
     }

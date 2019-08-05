@@ -312,6 +312,9 @@
       <DependentUpon>F_WX_BounsRatio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JSPromptForm.resx" />
+    <None Include="apk\projectceberus.apk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Linq\db.dbml.layout">
       <DependentUpon>db.dbml</DependentUpon>
     </None>
@@ -579,10 +582,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://103.117.138.220/SysadminServices.asmx">
+    <WebReferenceUrl Include="http://192.168.5.230/SysadminServices.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\RobotWebAdmin\</RelPath>
-      <UpdateFromURL>http://103.117.138.220/SysadminServices.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.5.230/SysadminServices.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -590,10 +593,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WeixinRoboot_RobotWebAdmin_SysadminServices</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://103.117.138.220/WebService.asmx%3fwsdl">
+    <WebReferenceUrl Include="http://192.168.5.230/WebService.asmx%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\RobootWeb\</RelPath>
-      <UpdateFromURL>http://103.117.138.220/WebService.asmx%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>http://192.168.5.230/WebService.asmx%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

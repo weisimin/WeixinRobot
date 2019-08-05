@@ -62,8 +62,6 @@ namespace WeixinRoboot.RobootWeb {
         
         private System.Threading.SendOrPostCallback ChongQingShiShiCaiCaculatePeriodOperationCompleted;
         
-        private System.Threading.SendOrPostCallback WX_UserGameLog_DealOperationCompleted;
-        
         private System.Threading.SendOrPostCallback WXUserChangeLog_GetRemainderOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetBossReportSourceOperationCompleted;
@@ -137,6 +135,18 @@ namespace WeixinRoboot.RobootWeb {
         private System.Threading.SendOrPostCallback GetLastGamePeriodOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetLastGamePICOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ShiShiCaiDealGameLogSaveNoticeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UploadContactsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAndroidWeChatContactsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetSendJobsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UpdateSendJobsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ShiShiCaiServerDealGameLogAndNoticeOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -223,9 +233,6 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         public event ChongQingShiShiCaiCaculatePeriodCompletedEventHandler ChongQingShiShiCaiCaculatePeriodCompleted;
-        
-        /// <remarks/>
-        public event WX_UserGameLog_DealCompletedEventHandler WX_UserGameLog_DealCompleted;
         
         /// <remarks/>
         public event WXUserChangeLog_GetRemainderCompletedEventHandler WXUserChangeLog_GetRemainderCompleted;
@@ -337,6 +344,24 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         public event GetLastGamePICCompletedEventHandler GetLastGamePICCompleted;
+        
+        /// <remarks/>
+        public event ShiShiCaiDealGameLogSaveNoticeCompletedEventHandler ShiShiCaiDealGameLogSaveNoticeCompleted;
+        
+        /// <remarks/>
+        public event UploadContactsCompletedEventHandler UploadContactsCompleted;
+        
+        /// <remarks/>
+        public event GetAndroidWeChatContactsCompletedEventHandler GetAndroidWeChatContactsCompleted;
+        
+        /// <remarks/>
+        public event GetSendJobsCompletedEventHandler GetSendJobsCompleted;
+        
+        /// <remarks/>
+        public event UpdateSendJobsCompletedEventHandler UpdateSendJobsCompleted;
+        
+        /// <remarks/>
+        public event ShiShiCaiServerDealGameLogAndNoticeCompletedEventHandler ShiShiCaiServerDealGameLogAndNoticeCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UserLogIn", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -892,39 +917,6 @@ namespace WeixinRoboot.RobootWeb {
             if ((this.ChongQingShiShiCaiCaculatePeriodCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ChongQingShiShiCaiCaculatePeriodCompleted(this, new ChongQingShiShiCaiCaculatePeriodCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/WX_UserGameLog_Deal", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int WX_UserGameLog_Deal(string ContactID, string SourceType, string jusrpar) {
-            object[] results = this.Invoke("WX_UserGameLog_Deal", new object[] {
-                        ContactID,
-                        SourceType,
-                        jusrpar});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void WX_UserGameLog_DealAsync(string ContactID, string SourceType, string jusrpar) {
-            this.WX_UserGameLog_DealAsync(ContactID, SourceType, jusrpar, null);
-        }
-        
-        /// <remarks/>
-        public void WX_UserGameLog_DealAsync(string ContactID, string SourceType, string jusrpar, object userState) {
-            if ((this.WX_UserGameLog_DealOperationCompleted == null)) {
-                this.WX_UserGameLog_DealOperationCompleted = new System.Threading.SendOrPostCallback(this.OnWX_UserGameLog_DealOperationCompleted);
-            }
-            this.InvokeAsync("WX_UserGameLog_Deal", new object[] {
-                        ContactID,
-                        SourceType,
-                        jusrpar}, this.WX_UserGameLog_DealOperationCompleted, userState);
-        }
-        
-        private void OnWX_UserGameLog_DealOperationCompleted(object arg) {
-            if ((this.WX_UserGameLog_DealCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.WX_UserGameLog_DealCompleted(this, new WX_UserGameLog_DealCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2107,34 +2099,228 @@ namespace WeixinRoboot.RobootWeb {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetLastGamePIC", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetLastGamePIC(string JShiShiCaiMode, PicType pPICType, System.Guid UserID) {
+        public string GetLastGamePIC(string JShiShiCaiMode, string JPICType, string Jusrpar) {
             object[] results = this.Invoke("GetLastGamePIC", new object[] {
                         JShiShiCaiMode,
-                        pPICType,
-                        UserID});
+                        JPICType,
+                        Jusrpar});
             return ((string)(results[0]));
         }
         
         /// <remarks/>
-        public void GetLastGamePICAsync(string JShiShiCaiMode, PicType pPICType, System.Guid UserID) {
-            this.GetLastGamePICAsync(JShiShiCaiMode, pPICType, UserID, null);
+        public void GetLastGamePICAsync(string JShiShiCaiMode, string JPICType, string Jusrpar) {
+            this.GetLastGamePICAsync(JShiShiCaiMode, JPICType, Jusrpar, null);
         }
         
         /// <remarks/>
-        public void GetLastGamePICAsync(string JShiShiCaiMode, PicType pPICType, System.Guid UserID, object userState) {
+        public void GetLastGamePICAsync(string JShiShiCaiMode, string JPICType, string Jusrpar, object userState) {
             if ((this.GetLastGamePICOperationCompleted == null)) {
                 this.GetLastGamePICOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetLastGamePICOperationCompleted);
             }
             this.InvokeAsync("GetLastGamePIC", new object[] {
                         JShiShiCaiMode,
-                        pPICType,
-                        UserID}, this.GetLastGamePICOperationCompleted, userState);
+                        JPICType,
+                        Jusrpar}, this.GetLastGamePICOperationCompleted, userState);
         }
         
         private void OnGetLastGamePICOperationCompleted(object arg) {
             if ((this.GetLastGamePICCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetLastGamePICCompleted(this, new GetLastGamePICCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/ShiShiCaiDealGameLogSaveNotice", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void ShiShiCaiDealGameLogSaveNotice(ShiShiCaiMode subm, bool IgoreDataSettingSend, bool IgoreMemberGroup, string Jusrpar) {
+            this.Invoke("ShiShiCaiDealGameLogSaveNotice", new object[] {
+                        subm,
+                        IgoreDataSettingSend,
+                        IgoreMemberGroup,
+                        Jusrpar});
+        }
+        
+        /// <remarks/>
+        public void ShiShiCaiDealGameLogSaveNoticeAsync(ShiShiCaiMode subm, bool IgoreDataSettingSend, bool IgoreMemberGroup, string Jusrpar) {
+            this.ShiShiCaiDealGameLogSaveNoticeAsync(subm, IgoreDataSettingSend, IgoreMemberGroup, Jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void ShiShiCaiDealGameLogSaveNoticeAsync(ShiShiCaiMode subm, bool IgoreDataSettingSend, bool IgoreMemberGroup, string Jusrpar, object userState) {
+            if ((this.ShiShiCaiDealGameLogSaveNoticeOperationCompleted == null)) {
+                this.ShiShiCaiDealGameLogSaveNoticeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnShiShiCaiDealGameLogSaveNoticeOperationCompleted);
+            }
+            this.InvokeAsync("ShiShiCaiDealGameLogSaveNotice", new object[] {
+                        subm,
+                        IgoreDataSettingSend,
+                        IgoreMemberGroup,
+                        Jusrpar}, this.ShiShiCaiDealGameLogSaveNoticeOperationCompleted, userState);
+        }
+        
+        private void OnShiShiCaiDealGameLogSaveNoticeOperationCompleted(object arg) {
+            if ((this.ShiShiCaiDealGameLogSaveNoticeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ShiShiCaiDealGameLogSaveNoticeCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UploadContacts", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string UploadContacts(string Jcontacts, string Jusrpar, string WX_SourceType) {
+            object[] results = this.Invoke("UploadContacts", new object[] {
+                        Jcontacts,
+                        Jusrpar,
+                        WX_SourceType});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UploadContactsAsync(string Jcontacts, string Jusrpar, string WX_SourceType) {
+            this.UploadContactsAsync(Jcontacts, Jusrpar, WX_SourceType, null);
+        }
+        
+        /// <remarks/>
+        public void UploadContactsAsync(string Jcontacts, string Jusrpar, string WX_SourceType, object userState) {
+            if ((this.UploadContactsOperationCompleted == null)) {
+                this.UploadContactsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUploadContactsOperationCompleted);
+            }
+            this.InvokeAsync("UploadContacts", new object[] {
+                        Jcontacts,
+                        Jusrpar,
+                        WX_SourceType}, this.UploadContactsOperationCompleted, userState);
+        }
+        
+        private void OnUploadContactsOperationCompleted(object arg) {
+            if ((this.UploadContactsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UploadContactsCompleted(this, new UploadContactsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetAndroidWeChatContacts", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetAndroidWeChatContacts(string WX_Sourcetype, string Jusrpar) {
+            object[] results = this.Invoke("GetAndroidWeChatContacts", new object[] {
+                        WX_Sourcetype,
+                        Jusrpar});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAndroidWeChatContactsAsync(string WX_Sourcetype, string Jusrpar) {
+            this.GetAndroidWeChatContactsAsync(WX_Sourcetype, Jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void GetAndroidWeChatContactsAsync(string WX_Sourcetype, string Jusrpar, object userState) {
+            if ((this.GetAndroidWeChatContactsOperationCompleted == null)) {
+                this.GetAndroidWeChatContactsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAndroidWeChatContactsOperationCompleted);
+            }
+            this.InvokeAsync("GetAndroidWeChatContacts", new object[] {
+                        WX_Sourcetype,
+                        Jusrpar}, this.GetAndroidWeChatContactsOperationCompleted, userState);
+        }
+        
+        private void OnGetAndroidWeChatContactsOperationCompleted(object arg) {
+            if ((this.GetAndroidWeChatContactsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAndroidWeChatContactsCompleted(this, new GetAndroidWeChatContactsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/GetSendJobs", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetSendJobs(string WX_Sourcetype, string Jusrpar) {
+            object[] results = this.Invoke("GetSendJobs", new object[] {
+                        WX_Sourcetype,
+                        Jusrpar});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetSendJobsAsync(string WX_Sourcetype, string Jusrpar) {
+            this.GetSendJobsAsync(WX_Sourcetype, Jusrpar, null);
+        }
+        
+        /// <remarks/>
+        public void GetSendJobsAsync(string WX_Sourcetype, string Jusrpar, object userState) {
+            if ((this.GetSendJobsOperationCompleted == null)) {
+                this.GetSendJobsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetSendJobsOperationCompleted);
+            }
+            this.InvokeAsync("GetSendJobs", new object[] {
+                        WX_Sourcetype,
+                        Jusrpar}, this.GetSendJobsOperationCompleted, userState);
+        }
+        
+        private void OnGetSendJobsOperationCompleted(object arg) {
+            if ((this.GetSendJobsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetSendJobsCompleted(this, new GetSendJobsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/UpdateSendJobs", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string UpdateSendJobs(string WX_Sourcetype, string Userid, int Jobid) {
+            object[] results = this.Invoke("UpdateSendJobs", new object[] {
+                        WX_Sourcetype,
+                        Userid,
+                        Jobid});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UpdateSendJobsAsync(string WX_Sourcetype, string Userid, int Jobid) {
+            this.UpdateSendJobsAsync(WX_Sourcetype, Userid, Jobid, null);
+        }
+        
+        /// <remarks/>
+        public void UpdateSendJobsAsync(string WX_Sourcetype, string Userid, int Jobid, object userState) {
+            if ((this.UpdateSendJobsOperationCompleted == null)) {
+                this.UpdateSendJobsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdateSendJobsOperationCompleted);
+            }
+            this.InvokeAsync("UpdateSendJobs", new object[] {
+                        WX_Sourcetype,
+                        Userid,
+                        Jobid}, this.UpdateSendJobsOperationCompleted, userState);
+        }
+        
+        private void OnUpdateSendJobsOperationCompleted(object arg) {
+            if ((this.UpdateSendJobsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UpdateSendJobsCompleted(this, new UpdateSendJobsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/ShiShiCaiServerDealGameLogAndNotice", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void ShiShiCaiServerDealGameLogAndNotice(string JShiShiCaiMode, bool IgoreDataSettingSend, bool IgoreMemberGroup) {
+            this.Invoke("ShiShiCaiServerDealGameLogAndNotice", new object[] {
+                        JShiShiCaiMode,
+                        IgoreDataSettingSend,
+                        IgoreMemberGroup});
+        }
+        
+        /// <remarks/>
+        public void ShiShiCaiServerDealGameLogAndNoticeAsync(string JShiShiCaiMode, bool IgoreDataSettingSend, bool IgoreMemberGroup) {
+            this.ShiShiCaiServerDealGameLogAndNoticeAsync(JShiShiCaiMode, IgoreDataSettingSend, IgoreMemberGroup, null);
+        }
+        
+        /// <remarks/>
+        public void ShiShiCaiServerDealGameLogAndNoticeAsync(string JShiShiCaiMode, bool IgoreDataSettingSend, bool IgoreMemberGroup, object userState) {
+            if ((this.ShiShiCaiServerDealGameLogAndNoticeOperationCompleted == null)) {
+                this.ShiShiCaiServerDealGameLogAndNoticeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnShiShiCaiServerDealGameLogAndNoticeOperationCompleted);
+            }
+            this.InvokeAsync("ShiShiCaiServerDealGameLogAndNotice", new object[] {
+                        JShiShiCaiMode,
+                        IgoreDataSettingSend,
+                        IgoreMemberGroup}, this.ShiShiCaiServerDealGameLogAndNoticeOperationCompleted, userState);
+        }
+        
+        private void OnShiShiCaiServerDealGameLogAndNoticeOperationCompleted(object arg) {
+            if ((this.ShiShiCaiServerDealGameLogAndNoticeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ShiShiCaiServerDealGameLogAndNoticeCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -3734,64 +3920,49 @@ namespace WeixinRoboot.RobootWeb {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://13828081978.zicp.vip/")]
-    public enum PicType {
+    public enum ShiShiCaiMode {
         
         /// <remarks/>
-        龙虎图,
+        重庆时时彩,
         
         /// <remarks/>
-        龙虎图_易信,
+        五分彩,
         
         /// <remarks/>
-        龙虎图_QQ,
+        香港时时彩,
         
         /// <remarks/>
-        龙虎图_钉钉,
+        澳洲幸运5,
         
         /// <remarks/>
-        数字图,
+        腾讯十分,
         
         /// <remarks/>
-        数字龙虎图,
+        腾讯五分,
         
         /// <remarks/>
-        数字文本,
+        北京赛车PK10,
         
         /// <remarks/>
-        龙虎数字文本,
+        VR重庆时时彩,
         
         /// <remarks/>
-        龙虎数字文本_易信,
+        新疆时时彩,
         
         /// <remarks/>
-        龙虎数字文本_QQ,
+        未知,
         
         /// <remarks/>
-        龙虎数字文本_钉钉,
+        腾五信,
         
         /// <remarks/>
-        龙虎数字大单牛牛文本,
+        腾十信,
         
         /// <remarks/>
-        龙虎数字大单牛牛文本_易信,
+        全彩,
         
         /// <remarks/>
-        龙虎数字大单牛牛文本_QQ,
-        
-        /// <remarks/>
-        龙虎数字大单牛牛文本_钉钉,
-        
-        /// <remarks/>
-        龙虎数字无大单文本,
-        
-        /// <remarks/>
-        龙虎数字无大单文本_易信,
-        
-        /// <remarks/>
-        龙虎数字无大单文本_QQ,
-        
-        /// <remarks/>
-        龙虎数字无大单文本_钉钉,
+        河内五分,
     }
     
     /// <remarks/>
@@ -4184,32 +4355,6 @@ namespace WeixinRoboot.RobootWeb {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((ChongQingShiShiCaiCaculatePeriodResult)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
-    public delegate void WX_UserGameLog_DealCompletedEventHandler(object sender, WX_UserGameLog_DealCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class WX_UserGameLog_DealCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal WX_UserGameLog_DealCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
             }
         }
     }
@@ -5215,6 +5360,118 @@ namespace WeixinRoboot.RobootWeb {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void ShiShiCaiDealGameLogSaveNoticeCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void UploadContactsCompletedEventHandler(object sender, UploadContactsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UploadContactsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UploadContactsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetAndroidWeChatContactsCompletedEventHandler(object sender, GetAndroidWeChatContactsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAndroidWeChatContactsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAndroidWeChatContactsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void GetSendJobsCompletedEventHandler(object sender, GetSendJobsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetSendJobsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetSendJobsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void UpdateSendJobsCompletedEventHandler(object sender, UpdateSendJobsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UpdateSendJobsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UpdateSendJobsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
+    public delegate void ShiShiCaiServerDealGameLogAndNoticeCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

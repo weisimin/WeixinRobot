@@ -128,6 +128,7 @@ namespace WeixinRobotLib.Entity.Linq
            }
            return subm;
        }
+
        public static WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode GetMode(DataRow dr)
        {
            WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode subm = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.未知;
@@ -250,6 +251,8 @@ namespace WeixinRobotLib.Entity.Linq
            public static string MemberSourceode { get; set; }
 
            public Linq.aspnet_UsersNewGameResultSend Membersetting {get;set;}
+           private string _WebServerURL = "http://103.117.138.220/WEBSERVICE.ASMX";
+           public string WebServerURL { get { return _WebServerURL; } set { _WebServerURL = value; } }
 
        }
 
@@ -769,6 +772,8 @@ namespace WeixinRobotLib.Entity.Linq
            }
        }
 
+
+      
 
 
     }

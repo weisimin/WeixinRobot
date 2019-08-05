@@ -1122,7 +1122,7 @@ public class WebService : System.Web.Services.WebService
 
         WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
         WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
-        WeixinRobotLib.Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out  GameFullPeriod, out  GameFullLocalPeriod, adminmode, out  Success, out  ErrorMessage, SpecMode, usrpar, NoBlock);
+        WeixinRobotLib.Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(RequestTime, RequestPeriod, db, WX_UserName, WX_SourceType, out  GameFullPeriod, out  GameFullLocalPeriod, adminmode, out  Success, out  ErrorMessage, SpecMode, usrpar.UserKey, NoBlock);
         r.GameFullPeriod = GameFullPeriod;
         r.GameFullLocalPeriod = GameFullLocalPeriod;
         r.Success = Success;
@@ -1130,17 +1130,12 @@ public class WebService : System.Web.Services.WebService
 
         return r;
     }
-    [WebMethod]
-    public Int32 WX_UserGameLog_Deal(string ContactID, string SourceType, string jusrpar)
-    {
-        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
-        return WeixinRobotLib.Linq.ProgramLogic.WX_UserGameLog_Deal(ContactID, SourceType, usrpar);
-    }
+
     [WebMethod]
     public decimal WXUserChangeLog_GetRemainder(string UserContactID, string SourceType, string jusrpar)
     {
         WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
-        return WeixinRobotLib.Linq.ProgramLogic.WXUserChangeLog_GetRemainder(UserContactID, SourceType, usrpar);
+        return WeixinRobotLib.Linq.ProgramLogic.WXUserChangeLog_GetRemainder(UserContactID, SourceType, usrpar.UserKey);
     }
     [WebMethod]
     public DataTable GetBossReportSource(string SourceType, string QueryTime, string jusrpar)
@@ -1582,7 +1577,7 @@ public class WebService : System.Web.Services.WebService
     {
         WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(jusrpar);
         WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
-        return WeixinRobotLib.Linq.ProgramLogic.GetUserPeriodInOut(GamePeriod, WX_UserName, WX_SourceType, db, usrpar);
+        return WeixinRobotLib.Linq.ProgramLogic.GetUserPeriodInOut(GamePeriod, WX_UserName, WX_SourceType, db, usrpar.UserKey);
     }
     [WebMethod]
     public DataTable GetBounsSource(DateTime QueryDate, string SourceType, string jusrpar)
@@ -2636,21 +2631,26 @@ public class WebService : System.Web.Services.WebService
         return JsonConvert.SerializeObject(hwnd);
     }
     [WebMethod]
-    public string MessageRobootDo(String RawContent, String WX_SourceType, String UserNameOrRemark, String FromUserNameTEMPID, String ToUserNameTEMPID, string JavaMsgTime, string msgType, Boolean IsTalkGroup, String MyUserTEMPID, string Jusrpar )
+    public string MessageRobootDo(String RawContent, String WX_SourceType, String UserNameOrRemark, String FromUserNameTEMPID, String ToUserNameTEMPID, string JavaMsgTime, string msgType, Boolean IsTalkGroup, String MyUserTEMPID, string Jusrpar)
     {
         try
         {
 
-        String SavePath = HttpContext.Current.Server.MapPath("~/PIC");
-        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
+            String SavePath = HttpContext.Current.Server.MapPath("~/PIC");
+            WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
 
-        return WeixinRobotLib.Linq.ProgramLogic.MessageRobotDo(WX_SourceType, FromUserNameTEMPID, ToUserNameTEMPID, RawContent, JavaMsgTime, msgType, IsTalkGroup, MyUserTEMPID, usrpar, SavePath);
+            if (Membership.ValidateUser(usrpar.UserName, usrpar.Password) == false)
+            {
+                return "授权失败";
+            }
+            String NewContent = (RawContent.Contains(":\n") ? (RawContent.Split(":\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[1]) : RawContent);
+            return WeixinRobotLib.Linq.ProgramLogic.MessageRobotDo(WX_SourceType, FromUserNameTEMPID, ToUserNameTEMPID, NewContent, JavaMsgTime, msgType, IsTalkGroup, MyUserTEMPID, usrpar, SavePath);
 
         }
         catch (Exception AnyError)
         {
-            return "服务器错误" + AnyError.Message; 
-           
+            return "服务器错误" + AnyError.Message;
+
         }
     }
     [WebMethod]
@@ -2815,7 +2815,7 @@ public class WebService : System.Web.Services.WebService
                 && (t.WX_SourceType == "微安")
                && (string.Compare(t.GamePeriod, (t.OpenMode == "澳洲幸运5" || t.OpenMode == "VR重庆时时彩" ? "" : "20") + LastPeriod) <= 0)
 
-                ).Select(t => new { t.WX_UserName, t.WX_SourceType, t.MemberGroupName, t.GamePeriod }).Distinct().ToArray();
+                ).Select(t => new { t.WX_UserName, t.WX_SourceType, t.MemberGroupName, t.GamePeriod ,t.aspnet_UserID}).Distinct().ToArray();
 
             var lst_membergroup = (from dssub in
                                        (from ds in noticeChangelist
@@ -2827,13 +2827,13 @@ public class WebService : System.Web.Services.WebService
             foreach (var notice_item in noticeChangelist)
             {
 
-                Int32 TotalChanges = WeixinRobotLib.Linq.ProgramLogic.WX_UserGameLog_Deal(notice_item.WX_UserName, notice_item.WX_SourceType, usrpar);
+                Int32 TotalChanges = WeixinRobotLib.Linq.ProgramLogic.WX_UserGameLog_ServerDeal(notice_item.WX_UserName, notice_item.WX_SourceType);
                 if (TotalChanges == 0)
                 {
                     continue;
                 }
 
-                decimal? ReminderMoney = WeixinRobotLib.Linq.ProgramLogic.WXUserChangeLog_GetRemainder(notice_item.WX_UserName, notice_item.WX_SourceType, usrpar);
+                decimal? ReminderMoney = WeixinRobotLib.Linq.ProgramLogic.WXUserChangeLog_GetRemainder(notice_item.WX_UserName, notice_item.WX_SourceType, usrpar.UserKey);
 
                 var Rows = db.WX_UserReply.Where(t => t.WX_UserName == notice_item.WX_UserName.Replace("'", "''") && t.WX_SourceType == notice_item.WX_SourceType);
 
@@ -2913,19 +2913,19 @@ public class WebService : System.Web.Services.WebService
                 string ShiShiCaiErrorMessage = "";
                 // Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.GetMode(sets.First());
 
-                WeixinRobotLib.Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(DateTime.Now, "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, true, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm, usrpar);
+                WeixinRobotLib.Linq.ProgramLogic.ChongQingShiShiCaiCaculatePeriod(DateTime.Now, "", db, "", "", out GameFullPeriod, out GameFullLocalPeriod, true, out ShiShiCaiSuccess, out ShiShiCaiErrorMessage, subm, usrpar.UserKey);
 
                 NextSubPeriod = GameFullPeriod.Substring(GameFullPeriod.Length - 3, 3);
                 ReturnSend += "战斗胜负数据如下：" + Environment.NewLine;
 
-                var buyusers = noticeChangelist.Where(t => t.MemberGroupName == memberite.MemberGroupName && t.WX_SourceType == memberite.WX_SourceType).Select(t => new { t.WX_UserName, t.WX_SourceType, t.GamePeriod }).Distinct();
+                var buyusers = noticeChangelist.Where(t => t.MemberGroupName == memberite.MemberGroupName && t.WX_SourceType == memberite.WX_SourceType).Select(t => new { t.WX_UserName, t.WX_SourceType, t.GamePeriod ,t.aspnet_UserID}).Distinct();
                 foreach (var useritem in buyusers)
                 {
 
 
-                    decimal? ReminderMoney = WeixinRobotLib.Linq.ProgramLogic.WXUserChangeLog_GetRemainder(useritem.WX_UserName, useritem.WX_SourceType, usrpar);
+                    decimal? ReminderMoney = WeixinRobotLib.Linq.ProgramLogic.WXUserChangeLog_GetRemainder(useritem.WX_UserName, useritem.WX_SourceType, useritem.aspnet_UserID);
                     ReturnSend += "[" + useritem.WX_UserName + "]本期盈亏:"
-                        + WeixinRobotLib.Linq.ProgramLogic.GetUserPeriodInOut(useritem.GamePeriod, useritem.WX_UserName, useritem.WX_SourceType, db, usrpar).ToString("N0")
+                        + WeixinRobotLib.Linq.ProgramLogic.GetUserPeriodInOut(useritem.GamePeriod, useritem.WX_UserName, useritem.WX_SourceType, db, usrpar.UserKey).ToString("N0")
                         + ",总分:" + (ReminderMoney.HasValue ? ReminderMoney.Value.ToString() : "0") + Environment.NewLine;
                     ReturnSend += "---------------" + Environment.NewLine;
 
@@ -2970,10 +2970,38 @@ public class WebService : System.Web.Services.WebService
         }
     }
 
-    public void SendRobotContent(String ToSend, String WeChatID, String WXSourcetype, WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar)
+    public String SendRobotContent(String Content, String TempToUserID, String WX_SourceType, WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar)
     {
+        switch (WX_SourceType)
+        {
+            case "易":
+                return "";
 
+            case "微":
+                return "";
+            case "安微":
+                return SendAndroidWXContent(Content, TempToUserID, usrpar.UserKey);
+            default:
+                return "";
 
+        }
+
+    }
+    public string SendAndroidWXContent(string Content, string TempToUserID, Guid UserID)
+    {
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+
+        var replys = db.WX_UserReply.Where(t => t.aspnet_UserID == UserID && t.WeChatID == TempToUserID);
+
+        WeixinRobotLib.Entity.Linq.aspnet_UserSendJob newjob = new WeixinRobotLib.Entity.Linq.aspnet_UserSendJob();
+        newjob.aspnet_Userid = UserID;
+        newjob.ToSendMessage = Content;
+        newjob.WX_UserName = (replys.Count() == 0 ? "找不到" + TempToUserID : replys.First().WX_UserName);
+        newjob.WechatID = TempToUserID;
+        newjob.Status = "未发";
+        db.aspnet_UserSendJob.InsertOnSubmit(newjob);
+        db.SubmitChanges();
+        return "";
     }
 
     [WebMethod]
@@ -3101,7 +3129,7 @@ public class WebService : System.Web.Services.WebService
         public string username { get; set; }
         public string nickname { get; set; }
         public string conRemark { get; set; }
-
+        public string type { get; set; }
     }
 
     [WebMethod]
@@ -3123,5 +3151,50 @@ public class WebService : System.Web.Services.WebService
             return "错误:" + Anyerror.Message;
         }//catch
     }
+
+    [WebMethod]
+    public String GetSendJobs(string WX_Sourcetype, string Jusrpar)
+    {
+
+        WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+        //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+        ////db.ObjectTrackingEnabled = false;
+        WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar = JsonConvert.DeserializeObject<WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam>(Jusrpar);
+
+        return JsonConvert.SerializeObject(db.aspnet_UserSendJob.Where(t => t.aspnet_Userid == usrpar.UserKey && t.Status == "未发").ToArray());
+
+    }
+    [WebMethod]
+    public String UpdateSendJobs(string WX_Sourcetype, String Userid, Int32 Jobid)
+    {
+        try
+        {
+
+            WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+            //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
+            ////db.ObjectTrackingEnabled = false;
+            WeixinRobotLib.Entity.Linq.aspnet_UserSendJob updjob = db.aspnet_UserSendJob.SingleOrDefault(t => t.aspnet_Userid == Guid.Parse(Userid)
+                && t.Joibid == Jobid
+                );
+            updjob.Status = "已发";
+            db.SubmitChanges();
+            return "成功";
+
+        }
+        catch (Exception AnyError)
+        {
+
+            return "错误：" + AnyError.Message;
+        }
+    }
+
+
+    [WebMethod]
+    public void ShiShiCaiServerDealGameLogAndNotice(String JShiShiCaiMode, bool IgoreDataSettingSend = true, bool IgoreMemberGroup = false)
+    {
+        WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode subm = (WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode)Enum.Parse(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), JShiShiCaiMode);
+        WeixinRobotLib.Linq.ProgramLogic.ShiShiCaiServerDealGameLogAndNotice(subm, IgoreDataSettingSend, IgoreMemberGroup);
+    }
+
 }//class end 
 

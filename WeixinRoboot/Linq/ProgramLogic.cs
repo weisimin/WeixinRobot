@@ -118,11 +118,7 @@ namespace WeixinRoboot.Linq
             }
             else if (dr.HeNeiWuFenMode == true)
             {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
-            }
-            else if (dr.HeNeiWuFenMode == true)
-            {
-                subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
+                subm = Linq.ProgramLogic.ShiShiCaiMode.河内五分;
             }
             else if (dr.VRChongqing == true)
             {
@@ -130,6 +126,53 @@ namespace WeixinRoboot.Linq
             }
             return subm;
         }
+
+        public static Linq.ProgramLogic.ShiShiCaiMode GetMode(Linq.WX_UserReply dr)
+        {
+            Linq.ProgramLogic.ShiShiCaiMode subm = Linq.ProgramLogic.ShiShiCaiMode.未知;
+            if (dr.ChongqingMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩;
+            }
+            else if (dr.FiveMinuteMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.五分彩;
+            }
+            else if (dr.HkMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.香港时时彩;
+            }
+            else if (dr.AozcMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5;
+            }
+            else if (dr.TengXunShiFenMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯十分;
+            }
+            else if (dr.TengXunWuFenMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾讯五分;
+            }
+            else if (dr.TengXunShiFenXinMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾十信;
+            }
+            else if (dr.TengXunWuFenXinMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.腾五信;
+            }
+            else if (dr.HeNeiWuFenMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.河内五分;
+            }
+            else if (dr.VRMode == true)
+            {
+                subm = Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩;
+            }
+            return subm;
+        }
+
         public static bool TimeInDuring(Int32? StartHour, Int32? StartMinute, Int32? EndHour, Int32? EndMinute)
         {
             if (StartHour.HasValue == false || EndHour.HasValue == false || StartMinute.HasValue == false || EndMinute.HasValue == false)

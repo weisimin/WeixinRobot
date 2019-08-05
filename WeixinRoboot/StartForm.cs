@@ -3260,7 +3260,8 @@ namespace WeixinRoboot
         public void ShiShiCaiDealGameLogAndNotice(Linq.ProgramLogic.ShiShiCaiMode subm, bool IgoreDataSettingSend = true, bool IgoreMemberGroup = false)
         {
 
-
+            RobootWeb.WebService ws = new RobootWeb.WebService();
+            ws.ShiShiCaiServerDealGameLogAndNotice(Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode),subm),IgoreDataSettingSend,IgoreMemberGroup);
 
             NetFramework.Console.WriteLine("正在开奖" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"), false);
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
@@ -5186,28 +5187,15 @@ namespace WeixinRoboot
                 var users = RunnerF.MemberSource.Select((ToUserID == "" ? "User_IsSendPic=1 " : " 1=1 ") + (ToUserID == "" ? "" : " and User_ContactTEMPID='" + ToUserID + "'"));
                 foreach (var item in users)
                 {
-
-                    DataRow[] dr = RunnerF.MemberSource.Select("User_ContactTEMPID='" + item.Field<object>("User_ContactTEMPID").ToString() + "'");
-                    if (dr.Length == 0)
-                    {
-                        continue;
-                    }
-                    if (Linq.ProgramLogic.GetMode(dr) != FilterSubmode)
-                    {
-                        continue;
-                    }
-
-                    string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
-                    string SourceType = dr[0].Field<string>("User_SourceType");
-                    Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
-                    if (!myset.IsSendPIC == true && ToUserID == "")
-                    {
-                        continue;
-                    }
                     Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
-                        && t.WX_SourceType == item.Field<object>("User_SourceType").ToString()
-                         && t.WX_UserName == item.Field<object>("User_ContactID").ToString()
-                        );
+                       && t.WX_SourceType == item.Field<object>("User_SourceType").ToString()
+                        && t.WX_UserName == item.Field<object>("User_ContactID").ToString()
+                       );
+                    Linq.WX_UserReply usrreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                      && t.WX_SourceType == item.Field<object>("User_SourceType").ToString()
+                       && t.WX_UserName == item.Field<object>("User_ContactID").ToString()
+                      );
+
                     if (webpcset == null)
                     {
                         webpcset = new Linq.WX_WebSendPICSetting();
@@ -5240,6 +5228,36 @@ namespace WeixinRoboot
                         db.SubmitChanges();
 
                     }
+                    #region
+                    webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == GlobalParam.UserKey
+                       && t.WX_SourceType == item.Field<object>("User_SourceType").ToString()
+                        && t.WX_UserName == item.Field<object>("User_ContactID").ToString()
+                       );
+
+                    #endregion
+
+
+
+                    DataRow[] dr = RunnerF.MemberSource.Select("User_ContactTEMPID='" + item.Field<object>("User_ContactTEMPID").ToString() + "'");
+                    if (dr.Length == 0)
+                    {
+                        continue;
+                    }
+
+
+                    if (Linq.ProgramLogic.GetMode(usrreply) != FilterSubmode)
+                    {
+                        continue;
+                    }
+
+                    string TEMPUserName = dr[0].Field<string>("User_ContactTEMPID");
+                    string SourceType = dr[0].Field<string>("User_SourceType");
+                    Linq.aspnet_UsersNewGameResultSend myset = Util_Services.GetServicesSetting();
+                    if (!myset.IsSendPIC == true && ToUserID == "")
+                    {
+                        continue;
+                    }
+                   
                     if (Linq.ProgramLogic.TimeInDuring(webpcset.PIC_StartHour, webpcset.PIC_StartMinute, webpcset.PIC_EndHour, webpcset.Pic_EndMinute) == false)
                     {
                         continue;
@@ -15969,6 +15987,16 @@ namespace WeixinRoboot
             }
 
             db.SubmitChanges();
+        }
+
+        private void btn_installcerberus_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Application.StartupPath+"\\apk\\projectcerberus.apk");
+        }
+
+        private void btn_installrobot_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Application.StartupPath + "\\apk\\wechatgenus.apk");
         }
 
 

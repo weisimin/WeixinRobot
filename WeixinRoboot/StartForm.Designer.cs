@@ -130,6 +130,8 @@
             this.T_TengXunShiFenXin = new System.Windows.Forms.CheckBox();
             this.cb_robotstop = new System.Windows.Forms.CheckBox();
             this.T_HeNeiWuFen = new System.Windows.Forms.CheckBox();
+            this.btn_installcerberus = new System.Windows.Forms.Button();
+            this.btn_installrobot = new System.Windows.Forms.Button();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
@@ -141,17 +143,19 @@
             // lbl_msg
             // 
             this.lbl_msg.AutoSize = true;
-            this.lbl_msg.Location = new System.Drawing.Point(250, 343);
+            this.lbl_msg.Location = new System.Drawing.Point(333, 429);
+            this.lbl_msg.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_msg.Name = "lbl_msg";
-            this.lbl_msg.Size = new System.Drawing.Size(77, 12);
+            this.lbl_msg.Size = new System.Drawing.Size(97, 15);
             this.lbl_msg.TabIndex = 1;
             this.lbl_msg.Text = "扫描微信登陆";
             // 
             // btn_resfresh
             // 
-            this.btn_resfresh.Location = new System.Drawing.Point(161, 327);
+            this.btn_resfresh.Location = new System.Drawing.Point(215, 409);
+            this.btn_resfresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_resfresh.Name = "btn_resfresh";
-            this.btn_resfresh.Size = new System.Drawing.Size(75, 23);
+            this.btn_resfresh.Size = new System.Drawing.Size(100, 29);
             this.btn_resfresh.TabIndex = 2;
             this.btn_resfresh.Text = "重启微信";
             this.btn_resfresh.UseVisualStyleBackColor = true;
@@ -164,13 +168,15 @@
             // 
             // Botton_Status
             // 
+            this.Botton_Status.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.Botton_Status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SI_url,
             this.lbl_ShowError,
             this.SI_ShowError});
-            this.Botton_Status.Location = new System.Drawing.Point(0, 672);
+            this.Botton_Status.Location = new System.Drawing.Point(0, 846);
             this.Botton_Status.Name = "Botton_Status";
-            this.Botton_Status.Size = new System.Drawing.Size(1008, 22);
+            this.Botton_Status.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.Botton_Status.Size = new System.Drawing.Size(1344, 22);
             this.Botton_Status.TabIndex = 4;
             this.Botton_Status.Text = "statusStrip1";
             // 
@@ -199,9 +205,10 @@
             // 
             this.lbl_waring.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbl_waring.ForeColor = System.Drawing.Color.Red;
-            this.lbl_waring.Location = new System.Drawing.Point(80, 35);
+            this.lbl_waring.Location = new System.Drawing.Point(107, 44);
+            this.lbl_waring.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_waring.Name = "lbl_waring";
-            this.lbl_waring.Size = new System.Drawing.Size(370, 45);
+            this.lbl_waring.Size = new System.Drawing.Size(493, 56);
             this.lbl_waring.TabIndex = 5;
             this.lbl_waring.Text = "微信机器人仅用于学习和交流，不得用于非法用途由此产生各种问题，均与作者无关";
             // 
@@ -211,7 +218,7 @@
             this.MI_UserSetting,
             this.MI_MyData});
             this.MI_Yonghu.Name = "MI_Yonghu";
-            this.MI_Yonghu.Size = new System.Drawing.Size(44, 21);
+            this.MI_Yonghu.Size = new System.Drawing.Size(51, 24);
             this.MI_Yonghu.Text = "用户";
             // 
             // MI_UserSetting
@@ -220,27 +227,27 @@
             this.新用户ToolStripMenuItem,
             this.MI_ModifyUser});
             this.MI_UserSetting.Name = "MI_UserSetting";
-            this.MI_UserSetting.Size = new System.Drawing.Size(124, 22);
+            this.MI_UserSetting.Size = new System.Drawing.Size(144, 26);
             this.MI_UserSetting.Text = "用户设置";
             // 
             // 新用户ToolStripMenuItem
             // 
             this.新用户ToolStripMenuItem.Name = "新用户ToolStripMenuItem";
-            this.新用户ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.新用户ToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.新用户ToolStripMenuItem.Text = "新用户";
             this.新用户ToolStripMenuItem.Click += new System.EventHandler(this.MI_NewUser_Click);
             // 
             // MI_ModifyUser
             // 
             this.MI_ModifyUser.Name = "MI_ModifyUser";
-            this.MI_ModifyUser.Size = new System.Drawing.Size(124, 22);
+            this.MI_ModifyUser.Size = new System.Drawing.Size(144, 26);
             this.MI_ModifyUser.Text = "信息更改";
             this.MI_ModifyUser.Click += new System.EventHandler(this.MI_UserSetting_Click);
             // 
             // MI_MyData
             // 
             this.MI_MyData.Name = "MI_MyData";
-            this.MI_MyData.Size = new System.Drawing.Size(124, 22);
+            this.MI_MyData.Size = new System.Drawing.Size(144, 26);
             this.MI_MyData.Text = "我的资料";
             this.MI_MyData.Click += new System.EventHandler(this.MI_MyData_Click);
             // 
@@ -250,20 +257,20 @@
             this.MI_Ratio_Setting,
             this.MI_Bouns_Setting});
             this.MI_Ratio.Name = "MI_Ratio";
-            this.MI_Ratio.Size = new System.Drawing.Size(44, 21);
+            this.MI_Ratio.Size = new System.Drawing.Size(51, 24);
             this.MI_Ratio.Text = "赔率";
             // 
             // MI_Ratio_Setting
             // 
             this.MI_Ratio_Setting.Name = "MI_Ratio_Setting";
-            this.MI_Ratio_Setting.Size = new System.Drawing.Size(124, 22);
+            this.MI_Ratio_Setting.Size = new System.Drawing.Size(144, 26);
             this.MI_Ratio_Setting.Text = "赔率设置";
             this.MI_Ratio_Setting.Click += new System.EventHandler(this.MI_Ratio_Setting_Click);
             // 
             // MI_Bouns_Setting
             // 
             this.MI_Bouns_Setting.Name = "MI_Bouns_Setting";
-            this.MI_Bouns_Setting.Size = new System.Drawing.Size(124, 22);
+            this.MI_Bouns_Setting.Size = new System.Drawing.Size(144, 26);
             this.MI_Bouns_Setting.Text = "福利设置";
             this.MI_Bouns_Setting.Click += new System.EventHandler(this.MI_Bouns_Setting_Click);
             // 
@@ -273,21 +280,21 @@
             this.MI_GameLogManulDeal,
             this.MI_Bouns_Manul});
             this.MI_GameLog.Name = "MI_GameLog";
-            this.MI_GameLog.Size = new System.Drawing.Size(68, 21);
+            this.MI_GameLog.Size = new System.Drawing.Size(81, 24);
             this.MI_GameLog.Text = "人工操作";
             // 
             // MI_GameLogManulDeal
             // 
             this.MI_GameLogManulDeal.Enabled = false;
             this.MI_GameLogManulDeal.Name = "MI_GameLogManulDeal";
-            this.MI_GameLogManulDeal.Size = new System.Drawing.Size(124, 22);
+            this.MI_GameLogManulDeal.Size = new System.Drawing.Size(144, 26);
             this.MI_GameLogManulDeal.Text = "人工开奖";
             this.MI_GameLogManulDeal.Click += new System.EventHandler(this.MI_GameLogManulDeal_Click);
             // 
             // MI_Bouns_Manul
             // 
             this.MI_Bouns_Manul.Name = "MI_Bouns_Manul";
-            this.MI_Bouns_Manul.Size = new System.Drawing.Size(124, 22);
+            this.MI_Bouns_Manul.Size = new System.Drawing.Size(144, 26);
             this.MI_Bouns_Manul.Text = "人工福利";
             this.MI_Bouns_Manul.Click += new System.EventHandler(this.MI_Bouns_Manul_Click);
             // 
@@ -297,25 +304,26 @@
             this.MI_OpenQuery,
             this.mi_reminderquery});
             this.MI_Query.Name = "MI_Query";
-            this.MI_Query.Size = new System.Drawing.Size(44, 21);
+            this.MI_Query.Size = new System.Drawing.Size(51, 24);
             this.MI_Query.Text = "查询";
             // 
             // MI_OpenQuery
             // 
             this.MI_OpenQuery.Name = "MI_OpenQuery";
-            this.MI_OpenQuery.Size = new System.Drawing.Size(124, 22);
+            this.MI_OpenQuery.Size = new System.Drawing.Size(144, 26);
             this.MI_OpenQuery.Text = "开奖统计";
             this.MI_OpenQuery.Click += new System.EventHandler(this.MI_OpenQuery_Click);
             // 
             // mi_reminderquery
             // 
             this.mi_reminderquery.Name = "mi_reminderquery";
-            this.mi_reminderquery.Size = new System.Drawing.Size(124, 22);
+            this.mi_reminderquery.Size = new System.Drawing.Size(144, 26);
             this.mi_reminderquery.Text = "余分查询";
             this.mi_reminderquery.Click += new System.EventHandler(this.mi_reminderquery_Click);
             // 
             // TopMenu
             // 
+            this.TopMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.TopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MI_Yonghu,
             this.MI_Ratio,
@@ -325,7 +333,8 @@
             this.MI_BallMatch});
             this.TopMenu.Location = new System.Drawing.Point(0, 0);
             this.TopMenu.Name = "TopMenu";
-            this.TopMenu.Size = new System.Drawing.Size(1008, 25);
+            this.TopMenu.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.TopMenu.Size = new System.Drawing.Size(1344, 28);
             this.TopMenu.TabIndex = 3;
             this.TopMenu.Text = "menuStrip1";
             this.TopMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.TopMenu_ItemClicked);
@@ -335,13 +344,13 @@
             this.MI_PCWechatSend.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MI_PCWechatSendSetting});
             this.MI_PCWechatSend.Name = "MI_PCWechatSend";
-            this.MI_PCWechatSend.Size = new System.Drawing.Size(68, 21);
+            this.MI_PCWechatSend.Size = new System.Drawing.Size(81, 24);
             this.MI_PCWechatSend.Text = "注入发图";
             // 
             // MI_PCWechatSendSetting
             // 
             this.MI_PCWechatSendSetting.Name = "MI_PCWechatSendSetting";
-            this.MI_PCWechatSendSetting.Size = new System.Drawing.Size(100, 22);
+            this.MI_PCWechatSendSetting.Size = new System.Drawing.Size(114, 26);
             this.MI_PCWechatSendSetting.Text = "设置";
             this.MI_PCWechatSendSetting.Click += new System.EventHandler(this.MI_PCWechatSendSetting_Click);
             // 
@@ -351,28 +360,29 @@
             this.MI_BallOpenManul,
             this.MI_BallGames});
             this.MI_BallMatch.Name = "MI_BallMatch";
-            this.MI_BallMatch.Size = new System.Drawing.Size(44, 21);
+            this.MI_BallMatch.Size = new System.Drawing.Size(51, 24);
             this.MI_BallMatch.Text = "球赛";
             // 
             // MI_BallOpenManul
             // 
             this.MI_BallOpenManul.Name = "MI_BallOpenManul";
-            this.MI_BallOpenManul.Size = new System.Drawing.Size(124, 22);
+            this.MI_BallOpenManul.Size = new System.Drawing.Size(144, 26);
             this.MI_BallOpenManul.Text = "人工开奖";
             this.MI_BallOpenManul.Click += new System.EventHandler(this.MI_BallOpenManul_Click);
             // 
             // MI_BallGames
             // 
             this.MI_BallGames.Name = "MI_BallGames";
-            this.MI_BallGames.Size = new System.Drawing.Size(124, 22);
+            this.MI_BallGames.Size = new System.Drawing.Size(144, 26);
             this.MI_BallGames.Text = "赛事查看";
             this.MI_BallGames.Click += new System.EventHandler(this.MI_BallGames_Click);
             // 
             // Btn_Draw
             // 
-            this.Btn_Draw.Location = new System.Drawing.Point(798, 254);
+            this.Btn_Draw.Location = new System.Drawing.Point(1064, 318);
+            this.Btn_Draw.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Btn_Draw.Name = "Btn_Draw";
-            this.Btn_Draw.Size = new System.Drawing.Size(75, 23);
+            this.Btn_Draw.Size = new System.Drawing.Size(100, 29);
             this.Btn_Draw.TabIndex = 6;
             this.Btn_Draw.Text = "画图";
             this.Btn_Draw.UseVisualStyleBackColor = true;
@@ -380,9 +390,10 @@
             // 
             // Btn_StartDownLoad
             // 
-            this.Btn_StartDownLoad.Location = new System.Drawing.Point(798, 221);
+            this.Btn_StartDownLoad.Location = new System.Drawing.Point(1064, 276);
+            this.Btn_StartDownLoad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Btn_StartDownLoad.Name = "Btn_StartDownLoad";
-            this.Btn_StartDownLoad.Size = new System.Drawing.Size(75, 23);
+            this.Btn_StartDownLoad.Size = new System.Drawing.Size(100, 29);
             this.Btn_StartDownLoad.TabIndex = 7;
             this.Btn_StartDownLoad.Text = "启动下载";
             this.Btn_StartDownLoad.UseVisualStyleBackColor = true;
@@ -391,9 +402,10 @@
             // 
             // btn_TestOrder
             // 
-            this.btn_TestOrder.Location = new System.Drawing.Point(798, 185);
+            this.btn_TestOrder.Location = new System.Drawing.Point(1064, 231);
+            this.btn_TestOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_TestOrder.Name = "btn_TestOrder";
-            this.btn_TestOrder.Size = new System.Drawing.Size(75, 23);
+            this.btn_TestOrder.Size = new System.Drawing.Size(100, 29);
             this.btn_TestOrder.TabIndex = 8;
             this.btn_TestOrder.Text = "测试下单";
             this.btn_TestOrder.UseVisualStyleBackColor = true;
@@ -402,9 +414,10 @@
             // 
             // OpenBlack
             // 
-            this.OpenBlack.Location = new System.Drawing.Point(5, 221);
+            this.OpenBlack.Location = new System.Drawing.Point(7, 276);
+            this.OpenBlack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.OpenBlack.Name = "OpenBlack";
-            this.OpenBlack.Size = new System.Drawing.Size(79, 26);
+            this.OpenBlack.Size = new System.Drawing.Size(105, 32);
             this.OpenBlack.TabIndex = 9;
             this.OpenBlack.Text = "显示/隐藏黑框";
             this.OpenBlack.UseVisualStyleBackColor = true;
@@ -413,26 +426,29 @@
             // codeweixin
             // 
             this.codeweixin.AutoSize = true;
-            this.codeweixin.Location = new System.Drawing.Point(216, 80);
+            this.codeweixin.Location = new System.Drawing.Point(288, 100);
+            this.codeweixin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.codeweixin.Name = "codeweixin";
-            this.codeweixin.Size = new System.Drawing.Size(65, 12);
+            this.codeweixin.Size = new System.Drawing.Size(82, 15);
             this.codeweixin.TabIndex = 12;
             this.codeweixin.Text = "微信二维码";
             // 
             // codeyixin
             // 
             this.codeyixin.AutoSize = true;
-            this.codeyixin.Location = new System.Drawing.Point(580, 80);
+            this.codeyixin.Location = new System.Drawing.Point(773, 100);
+            this.codeyixin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.codeyixin.Name = "codeyixin";
-            this.codeyixin.Size = new System.Drawing.Size(65, 12);
+            this.codeyixin.Size = new System.Drawing.Size(82, 15);
             this.codeyixin.TabIndex = 13;
             this.codeyixin.Text = "易信二维码";
             // 
             // btn_refreshyixin
             // 
-            this.btn_refreshyixin.Location = new System.Drawing.Point(524, 327);
+            this.btn_refreshyixin.Location = new System.Drawing.Point(699, 409);
+            this.btn_refreshyixin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_refreshyixin.Name = "btn_refreshyixin";
-            this.btn_refreshyixin.Size = new System.Drawing.Size(75, 23);
+            this.btn_refreshyixin.Size = new System.Drawing.Size(100, 29);
             this.btn_refreshyixin.TabIndex = 14;
             this.btn_refreshyixin.Text = "重启易信";
             this.btn_refreshyixin.UseVisualStyleBackColor = true;
@@ -440,9 +456,10 @@
             // 
             // btn_bossreport
             // 
-            this.btn_bossreport.Location = new System.Drawing.Point(798, 295);
+            this.btn_bossreport.Location = new System.Drawing.Point(1064, 369);
+            this.btn_bossreport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_bossreport.Name = "btn_bossreport";
-            this.btn_bossreport.Size = new System.Drawing.Size(75, 23);
+            this.btn_bossreport.Size = new System.Drawing.Size(100, 29);
             this.btn_bossreport.TabIndex = 15;
             this.btn_bossreport.Text = "老板报表";
             this.btn_bossreport.UseVisualStyleBackColor = true;
@@ -451,9 +468,10 @@
             // 
             // btn_InjectAndDo
             // 
-            this.btn_InjectAndDo.Location = new System.Drawing.Point(5, 99);
+            this.btn_InjectAndDo.Location = new System.Drawing.Point(7, 124);
+            this.btn_InjectAndDo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_InjectAndDo.Name = "btn_InjectAndDo";
-            this.btn_InjectAndDo.Size = new System.Drawing.Size(80, 33);
+            this.btn_InjectAndDo.Size = new System.Drawing.Size(107, 41);
             this.btn_InjectAndDo.TabIndex = 16;
             this.btn_InjectAndDo.Text = "1.注入发图";
             this.btn_InjectAndDo.UseVisualStyleBackColor = true;
@@ -461,9 +479,10 @@
             // 
             // Btn_ManulSend
             // 
-            this.Btn_ManulSend.Location = new System.Drawing.Point(4, 185);
+            this.Btn_ManulSend.Location = new System.Drawing.Point(5, 231);
+            this.Btn_ManulSend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Btn_ManulSend.Name = "Btn_ManulSend";
-            this.Btn_ManulSend.Size = new System.Drawing.Size(80, 27);
+            this.Btn_ManulSend.Size = new System.Drawing.Size(107, 34);
             this.Btn_ManulSend.TabIndex = 17;
             this.Btn_ManulSend.Text = "PC手工发图";
             this.Btn_ManulSend.UseVisualStyleBackColor = true;
@@ -471,9 +490,10 @@
             // 
             // btn_runtest
             // 
-            this.btn_runtest.Location = new System.Drawing.Point(798, 156);
+            this.btn_runtest.Location = new System.Drawing.Point(1064, 195);
+            this.btn_runtest.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_runtest.Name = "btn_runtest";
-            this.btn_runtest.Size = new System.Drawing.Size(75, 23);
+            this.btn_runtest.Size = new System.Drawing.Size(100, 29);
             this.btn_runtest.TabIndex = 18;
             this.btn_runtest.Text = "执行测试 ";
             this.btn_runtest.UseVisualStyleBackColor = true;
@@ -481,63 +501,75 @@
             // 
             // gb_football
             // 
-            this.gb_football.Location = new System.Drawing.Point(13, 372);
+            this.gb_football.Location = new System.Drawing.Point(17, 465);
+            this.gb_football.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gb_football.Name = "gb_football";
-            this.gb_football.Size = new System.Drawing.Size(151, 102);
+            this.gb_football.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_football.Size = new System.Drawing.Size(201, 128);
             this.gb_football.TabIndex = 19;
             this.gb_football.TabStop = false;
             this.gb_football.Text = "球赛";
             // 
             // gb_other
             // 
-            this.gb_other.Location = new System.Drawing.Point(620, 372);
+            this.gb_other.Location = new System.Drawing.Point(827, 465);
+            this.gb_other.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gb_other.Name = "gb_other";
-            this.gb_other.Size = new System.Drawing.Size(289, 102);
+            this.gb_other.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_other.Size = new System.Drawing.Size(385, 128);
             this.gb_other.TabIndex = 21;
             this.gb_other.TabStop = false;
             this.gb_other.Text = "其他玩法";
             // 
             // gb_refresh
             // 
-            this.gb_refresh.Location = new System.Drawing.Point(175, 372);
+            this.gb_refresh.Location = new System.Drawing.Point(233, 465);
+            this.gb_refresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gb_refresh.Name = "gb_refresh";
-            this.gb_refresh.Size = new System.Drawing.Size(127, 102);
+            this.gb_refresh.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_refresh.Size = new System.Drawing.Size(169, 128);
             this.gb_refresh.TabIndex = 22;
             this.gb_refresh.TabStop = false;
             this.gb_refresh.Text = "刷新";
             // 
             // PicBarCode_yixin
             // 
-            this.PicBarCode_yixin.Location = new System.Drawing.Point(524, 99);
+            this.PicBarCode_yixin.Location = new System.Drawing.Point(699, 124);
+            this.PicBarCode_yixin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PicBarCode_yixin.Name = "PicBarCode_yixin";
-            this.PicBarCode_yixin.Size = new System.Drawing.Size(160, 160);
+            this.PicBarCode_yixin.Size = new System.Drawing.Size(213, 200);
             this.PicBarCode_yixin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBarCode_yixin.TabIndex = 11;
             this.PicBarCode_yixin.TabStop = false;
             // 
             // PicBarCode
             // 
-            this.PicBarCode.Location = new System.Drawing.Point(178, 99);
+            this.PicBarCode.Location = new System.Drawing.Point(237, 124);
+            this.PicBarCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PicBarCode.Name = "PicBarCode";
-            this.PicBarCode.Size = new System.Drawing.Size(160, 160);
+            this.PicBarCode.Size = new System.Drawing.Size(213, 200);
             this.PicBarCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicBarCode.TabIndex = 0;
             this.PicBarCode.TabStop = false;
             // 
             // gb_point
             // 
-            this.gb_point.Location = new System.Drawing.Point(308, 372);
+            this.gb_point.Location = new System.Drawing.Point(411, 465);
+            this.gb_point.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gb_point.Name = "gb_point";
-            this.gb_point.Size = new System.Drawing.Size(152, 102);
+            this.gb_point.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_point.Size = new System.Drawing.Size(203, 128);
             this.gb_point.TabIndex = 23;
             this.gb_point.TabStop = false;
             this.gb_point.Text = "比分";
             // 
             // gb_pointlog
             // 
-            this.gb_pointlog.Location = new System.Drawing.Point(466, 372);
+            this.gb_pointlog.Location = new System.Drawing.Point(621, 465);
+            this.gb_pointlog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gb_pointlog.Name = "gb_pointlog";
-            this.gb_pointlog.Size = new System.Drawing.Size(133, 102);
+            this.gb_pointlog.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_pointlog.Size = new System.Drawing.Size(177, 128);
             this.gb_pointlog.TabIndex = 24;
             this.gb_pointlog.TabStop = false;
             this.gb_pointlog.Text = "进球时间";
@@ -545,9 +577,10 @@
             // cb_refreshball
             // 
             this.cb_refreshball.AutoSize = true;
-            this.cb_refreshball.Location = new System.Drawing.Point(12, 261);
+            this.cb_refreshball.Location = new System.Drawing.Point(16, 326);
+            this.cb_refreshball.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cb_refreshball.Name = "cb_refreshball";
-            this.cb_refreshball.Size = new System.Drawing.Size(72, 16);
+            this.cb_refreshball.Size = new System.Drawing.Size(89, 19);
             this.cb_refreshball.TabIndex = 25;
             this.cb_refreshball.Text = "采集球赛";
             this.cb_refreshball.UseVisualStyleBackColor = true;
@@ -556,94 +589,105 @@
             // lbl_six
             // 
             this.lbl_six.AutoSize = true;
-            this.lbl_six.Location = new System.Drawing.Point(12, 295);
+            this.lbl_six.Location = new System.Drawing.Point(16, 369);
+            this.lbl_six.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_six.Name = "lbl_six";
-            this.lbl_six.Size = new System.Drawing.Size(53, 12);
+            this.lbl_six.Size = new System.Drawing.Size(67, 15);
             this.lbl_six.TabIndex = 26;
             this.lbl_six.Text = "六下期：";
             // 
             // lbl_qqthread
             // 
             this.lbl_qqthread.AutoSize = true;
-            this.lbl_qqthread.Location = new System.Drawing.Point(12, 327);
+            this.lbl_qqthread.Location = new System.Drawing.Point(16, 409);
+            this.lbl_qqthread.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_qqthread.Name = "lbl_qqthread";
-            this.lbl_qqthread.Size = new System.Drawing.Size(113, 12);
+            this.lbl_qqthread.Size = new System.Drawing.Size(146, 15);
             this.lbl_qqthread.TabIndex = 27;
             this.lbl_qqthread.Text = "(ALT+O)采集:运行中";
             // 
             // lbl_during
             // 
             this.lbl_during.AutoSize = true;
-            this.lbl_during.Location = new System.Drawing.Point(165, 294);
+            this.lbl_during.Location = new System.Drawing.Point(220, 368);
+            this.lbl_during.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_during.Name = "lbl_during";
-            this.lbl_during.Size = new System.Drawing.Size(59, 12);
+            this.lbl_during.Size = new System.Drawing.Size(75, 15);
             this.lbl_during.TabIndex = 28;
             this.lbl_during.Text = "封盘时段:";
             // 
             // tb_StartHour
             // 
-            this.tb_StartHour.Location = new System.Drawing.Point(231, 289);
+            this.tb_StartHour.Location = new System.Drawing.Point(308, 361);
+            this.tb_StartHour.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_StartHour.Name = "tb_StartHour";
-            this.tb_StartHour.Size = new System.Drawing.Size(23, 21);
+            this.tb_StartHour.Size = new System.Drawing.Size(29, 25);
             this.tb_StartHour.TabIndex = 29;
             this.tb_StartHour.Text = "3";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(253, 292);
+            this.label1.Location = new System.Drawing.Point(337, 365);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(11, 12);
+            this.label1.Size = new System.Drawing.Size(15, 15);
             this.label1.TabIndex = 30;
             this.label1.Text = ":";
             // 
             // tb_StartMinute
             // 
-            this.tb_StartMinute.Location = new System.Drawing.Point(268, 289);
+            this.tb_StartMinute.Location = new System.Drawing.Point(357, 361);
+            this.tb_StartMinute.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_StartMinute.Name = "tb_StartMinute";
-            this.tb_StartMinute.Size = new System.Drawing.Size(27, 21);
+            this.tb_StartMinute.Size = new System.Drawing.Size(35, 25);
             this.tb_StartMinute.TabIndex = 31;
             this.tb_StartMinute.Text = "10";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(301, 293);
+            this.label2.Location = new System.Drawing.Point(401, 366);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(11, 12);
+            this.label2.Size = new System.Drawing.Size(15, 15);
             this.label2.TabIndex = 32;
             this.label2.Text = "~";
             // 
             // tb_EndMinute
             // 
-            this.tb_EndMinute.Location = new System.Drawing.Point(355, 289);
+            this.tb_EndMinute.Location = new System.Drawing.Point(473, 361);
+            this.tb_EndMinute.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_EndMinute.Name = "tb_EndMinute";
-            this.tb_EndMinute.Size = new System.Drawing.Size(27, 21);
+            this.tb_EndMinute.Size = new System.Drawing.Size(35, 25);
             this.tb_EndMinute.TabIndex = 35;
             this.tb_EndMinute.Text = "10";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(340, 292);
+            this.label3.Location = new System.Drawing.Point(453, 365);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(11, 12);
+            this.label3.Size = new System.Drawing.Size(15, 15);
             this.label3.TabIndex = 34;
             this.label3.Text = ":";
             // 
             // tb_EndHour
             // 
-            this.tb_EndHour.Location = new System.Drawing.Point(318, 289);
+            this.tb_EndHour.Location = new System.Drawing.Point(424, 361);
+            this.tb_EndHour.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_EndHour.Name = "tb_EndHour";
-            this.tb_EndHour.Size = new System.Drawing.Size(23, 21);
+            this.tb_EndHour.Size = new System.Drawing.Size(29, 25);
             this.tb_EndHour.TabIndex = 33;
             this.tb_EndHour.Text = "7";
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(389, 288);
+            this.btn_Save.Location = new System.Drawing.Point(519, 360);
+            this.btn_Save.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(75, 23);
+            this.btn_Save.Size = new System.Drawing.Size(100, 29);
             this.btn_Save.TabIndex = 36;
             this.btn_Save.Text = "保存";
             this.btn_Save.UseVisualStyleBackColor = true;
@@ -652,75 +696,84 @@
             // lbl_Nox
             // 
             this.lbl_Nox.AutoSize = true;
-            this.lbl_Nox.Location = new System.Drawing.Point(83, 606);
+            this.lbl_Nox.Location = new System.Drawing.Point(111, 758);
+            this.lbl_Nox.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Nox.Name = "lbl_Nox";
-            this.lbl_Nox.Size = new System.Drawing.Size(95, 12);
+            this.lbl_Nox.Size = new System.Drawing.Size(120, 15);
             this.lbl_Nox.TabIndex = 37;
             this.lbl_Nox.Text = "夜神模拟器目录:";
             // 
             // lbl_Leidian
             // 
             this.lbl_Leidian.AutoSize = true;
-            this.lbl_Leidian.Location = new System.Drawing.Point(83, 635);
+            this.lbl_Leidian.Location = new System.Drawing.Point(111, 794);
+            this.lbl_Leidian.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Leidian.Name = "lbl_Leidian";
-            this.lbl_Leidian.Size = new System.Drawing.Size(95, 12);
+            this.lbl_Leidian.Size = new System.Drawing.Size(120, 15);
             this.lbl_Leidian.TabIndex = 38;
             this.lbl_Leidian.Text = "雷电模拟器目录:";
             // 
             // tb_NoxPath
             // 
-            this.tb_NoxPath.Location = new System.Drawing.Point(187, 601);
+            this.tb_NoxPath.Location = new System.Drawing.Point(249, 751);
+            this.tb_NoxPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_NoxPath.Name = "tb_NoxPath";
-            this.tb_NoxPath.Size = new System.Drawing.Size(311, 21);
+            this.tb_NoxPath.Size = new System.Drawing.Size(413, 25);
             this.tb_NoxPath.TabIndex = 39;
             this.tb_NoxPath.Text = "c:\\Program Files\\Nox\\bin\\Nox.exe";
             // 
             // tb_LeidianPath
             // 
-            this.tb_LeidianPath.Location = new System.Drawing.Point(187, 635);
+            this.tb_LeidianPath.Location = new System.Drawing.Point(249, 794);
+            this.tb_LeidianPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_LeidianPath.Name = "tb_LeidianPath";
-            this.tb_LeidianPath.Size = new System.Drawing.Size(311, 21);
+            this.tb_LeidianPath.Size = new System.Drawing.Size(413, 25);
             this.tb_LeidianPath.TabIndex = 40;
             this.tb_LeidianPath.Text = "c:\\Changzhi\\dnplayer2\\dnplayer.exe";
             // 
             // tb_noxsharepath
             // 
-            this.tb_noxsharepath.Location = new System.Drawing.Point(606, 599);
+            this.tb_noxsharepath.Location = new System.Drawing.Point(808, 749);
+            this.tb_noxsharepath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_noxsharepath.Name = "tb_noxsharepath";
-            this.tb_noxsharepath.Size = new System.Drawing.Size(303, 21);
+            this.tb_noxsharepath.Size = new System.Drawing.Size(403, 25);
             this.tb_noxsharepath.TabIndex = 42;
             // 
             // lbl_nox_sharepath
             // 
             this.lbl_nox_sharepath.AutoSize = true;
-            this.lbl_nox_sharepath.Location = new System.Drawing.Point(504, 604);
+            this.lbl_nox_sharepath.Location = new System.Drawing.Point(672, 755);
+            this.lbl_nox_sharepath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_nox_sharepath.Name = "lbl_nox_sharepath";
-            this.lbl_nox_sharepath.Size = new System.Drawing.Size(83, 12);
+            this.lbl_nox_sharepath.Size = new System.Drawing.Size(105, 15);
             this.lbl_nox_sharepath.TabIndex = 41;
             this.lbl_nox_sharepath.Text = "夜神中转目录:";
             // 
             // tb_leidiansharepath
             // 
-            this.tb_leidiansharepath.Location = new System.Drawing.Point(608, 635);
+            this.tb_leidiansharepath.Location = new System.Drawing.Point(811, 794);
+            this.tb_leidiansharepath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_leidiansharepath.Name = "tb_leidiansharepath";
-            this.tb_leidiansharepath.Size = new System.Drawing.Size(301, 21);
+            this.tb_leidiansharepath.Size = new System.Drawing.Size(400, 25);
             this.tb_leidiansharepath.TabIndex = 44;
             // 
             // lbl_leidiansharepath
             // 
             this.lbl_leidiansharepath.AutoSize = true;
-            this.lbl_leidiansharepath.Location = new System.Drawing.Point(504, 635);
+            this.lbl_leidiansharepath.Location = new System.Drawing.Point(672, 794);
+            this.lbl_leidiansharepath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_leidiansharepath.Name = "lbl_leidiansharepath";
-            this.lbl_leidiansharepath.Size = new System.Drawing.Size(83, 12);
+            this.lbl_leidiansharepath.Size = new System.Drawing.Size(105, 15);
             this.lbl_leidiansharepath.TabIndex = 43;
             this.lbl_leidiansharepath.Text = "雷电中转目录:";
             // 
             // cb_adbnoxmode
             // 
             this.cb_adbnoxmode.AutoSize = true;
-            this.cb_adbnoxmode.Location = new System.Drawing.Point(13, 605);
+            this.cb_adbnoxmode.Location = new System.Drawing.Point(17, 756);
+            this.cb_adbnoxmode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cb_adbnoxmode.Name = "cb_adbnoxmode";
-            this.cb_adbnoxmode.Size = new System.Drawing.Size(66, 16);
+            this.cb_adbnoxmode.Size = new System.Drawing.Size(83, 19);
             this.cb_adbnoxmode.TabIndex = 45;
             this.cb_adbnoxmode.Text = "adb夜神";
             this.cb_adbnoxmode.UseVisualStyleBackColor = true;
@@ -728,9 +781,10 @@
             // cb_adbleidianmode
             // 
             this.cb_adbleidianmode.AutoSize = true;
-            this.cb_adbleidianmode.Location = new System.Drawing.Point(11, 631);
+            this.cb_adbleidianmode.Location = new System.Drawing.Point(15, 789);
+            this.cb_adbleidianmode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cb_adbleidianmode.Name = "cb_adbleidianmode";
-            this.cb_adbleidianmode.Size = new System.Drawing.Size(66, 16);
+            this.cb_adbleidianmode.Size = new System.Drawing.Size(83, 19);
             this.cb_adbleidianmode.TabIndex = 46;
             this.cb_adbleidianmode.Text = "adb雷电";
             this.cb_adbleidianmode.UseVisualStyleBackColor = true;
@@ -744,12 +798,13 @@
             this.gv_NoxEnums.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.NoxEnumName,
             this.NoxState});
-            this.gv_NoxEnums.Location = new System.Drawing.Point(13, 506);
+            this.gv_NoxEnums.Location = new System.Drawing.Point(17, 632);
+            this.gv_NoxEnums.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gv_NoxEnums.Name = "gv_NoxEnums";
             this.gv_NoxEnums.ReadOnly = true;
             this.gv_NoxEnums.RowHeadersVisible = false;
             this.gv_NoxEnums.RowTemplate.Height = 23;
-            this.gv_NoxEnums.Size = new System.Drawing.Size(153, 89);
+            this.gv_NoxEnums.Size = new System.Drawing.Size(204, 111);
             this.gv_NoxEnums.TabIndex = 47;
             // 
             // NoxEnumName
@@ -776,12 +831,13 @@
             this.gv_LeidianEnums.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.LeidianEnumName,
             this.LeiDianState});
-            this.gv_LeidianEnums.Location = new System.Drawing.Point(178, 506);
+            this.gv_LeidianEnums.Location = new System.Drawing.Point(237, 632);
+            this.gv_LeidianEnums.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gv_LeidianEnums.Name = "gv_LeidianEnums";
             this.gv_LeidianEnums.ReadOnly = true;
             this.gv_LeidianEnums.RowHeadersVisible = false;
             this.gv_LeidianEnums.RowTemplate.Height = 23;
-            this.gv_LeidianEnums.Size = new System.Drawing.Size(124, 89);
+            this.gv_LeidianEnums.Size = new System.Drawing.Size(165, 111);
             this.gv_LeidianEnums.TabIndex = 48;
             // 
             // LeidianEnumName
@@ -802,18 +858,20 @@
             // lbl_noxs
             // 
             this.lbl_noxs.AutoSize = true;
-            this.lbl_noxs.Location = new System.Drawing.Point(14, 486);
+            this.lbl_noxs.Location = new System.Drawing.Point(19, 608);
+            this.lbl_noxs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_noxs.Name = "lbl_noxs";
-            this.lbl_noxs.Size = new System.Drawing.Size(65, 12);
+            this.lbl_noxs.Size = new System.Drawing.Size(82, 15);
             this.lbl_noxs.TabIndex = 49;
             this.lbl_noxs.Text = "夜神模拟器";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(173, 486);
+            this.label4.Location = new System.Drawing.Point(231, 608);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.Size = new System.Drawing.Size(82, 15);
             this.label4.TabIndex = 50;
             this.label4.Text = "雷电模拟器";
             // 
@@ -821,27 +879,30 @@
             // 
             this.lbl_waringadb.AutoSize = true;
             this.lbl_waringadb.ForeColor = System.Drawing.Color.Red;
-            this.lbl_waringadb.Location = new System.Drawing.Point(13, 654);
+            this.lbl_waringadb.Location = new System.Drawing.Point(17, 818);
+            this.lbl_waringadb.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_waringadb.Name = "lbl_waringadb";
-            this.lbl_waringadb.Size = new System.Drawing.Size(131, 12);
+            this.lbl_waringadb.Size = new System.Drawing.Size(166, 15);
             this.lbl_waringadb.TabIndex = 51;
             this.lbl_waringadb.Text = "adb同时勾上会互相踢飞";
             // 
             // cb_TwoTreeNotSingle
             // 
             this.cb_TwoTreeNotSingle.AutoSize = true;
-            this.cb_TwoTreeNotSingle.Location = new System.Drawing.Point(268, 316);
+            this.cb_TwoTreeNotSingle.Location = new System.Drawing.Point(357, 395);
+            this.cb_TwoTreeNotSingle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cb_TwoTreeNotSingle.Name = "cb_TwoTreeNotSingle";
-            this.cb_TwoTreeNotSingle.Size = new System.Drawing.Size(96, 16);
+            this.cb_TwoTreeNotSingle.Size = new System.Drawing.Size(120, 19);
             this.cb_TwoTreeNotSingle.TabIndex = 52;
             this.cb_TwoTreeNotSingle.Text = "23不算单算和";
             this.cb_TwoTreeNotSingle.UseVisualStyleBackColor = true;
             // 
             // btn_Redownload
             // 
-            this.btn_Redownload.Location = new System.Drawing.Point(91, 185);
+            this.btn_Redownload.Location = new System.Drawing.Point(121, 231);
+            this.btn_Redownload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_Redownload.Name = "btn_Redownload";
-            this.btn_Redownload.Size = new System.Drawing.Size(75, 27);
+            this.btn_Redownload.Size = new System.Drawing.Size(100, 34);
             this.btn_Redownload.TabIndex = 53;
             this.btn_Redownload.Text = "重新下载";
             this.btn_Redownload.UseVisualStyleBackColor = true;
@@ -851,41 +912,46 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(351, 266);
+            this.label5.Location = new System.Drawing.Point(468, 332);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.Size = new System.Drawing.Size(67, 15);
             this.label5.TabIndex = 54;
             this.label5.Text = "福利比例";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(351, 241);
+            this.label6.Location = new System.Drawing.Point(468, 301);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.Size = new System.Drawing.Size(67, 15);
             this.label6.TabIndex = 55;
             this.label6.Text = "流水比例";
             // 
             // tb_liushuiratio
             // 
-            this.tb_liushuiratio.Location = new System.Drawing.Point(410, 238);
+            this.tb_liushuiratio.Location = new System.Drawing.Point(547, 298);
+            this.tb_liushuiratio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_liushuiratio.Name = "tb_liushuiratio";
-            this.tb_liushuiratio.Size = new System.Drawing.Size(51, 21);
+            this.tb_liushuiratio.Size = new System.Drawing.Size(67, 25);
             this.tb_liushuiratio.TabIndex = 56;
             // 
             // tb_fuliratio
             // 
-            this.tb_fuliratio.Location = new System.Drawing.Point(410, 263);
+            this.tb_fuliratio.Location = new System.Drawing.Point(547, 329);
+            this.tb_fuliratio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_fuliratio.Name = "tb_fuliratio";
-            this.tb_fuliratio.Size = new System.Drawing.Size(51, 21);
+            this.tb_fuliratio.Size = new System.Drawing.Size(67, 25);
             this.tb_fuliratio.TabIndex = 57;
             // 
             // T_AoZhouCai
             // 
             this.T_AoZhouCai.AutoSize = true;
-            this.T_AoZhouCai.Location = new System.Drawing.Point(351, 99);
+            this.T_AoZhouCai.Location = new System.Drawing.Point(468, 124);
+            this.T_AoZhouCai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.T_AoZhouCai.Name = "T_AoZhouCai";
-            this.T_AoZhouCai.Size = new System.Drawing.Size(60, 16);
+            this.T_AoZhouCai.Size = new System.Drawing.Size(74, 19);
             this.T_AoZhouCai.TabIndex = 58;
             this.T_AoZhouCai.Text = "澳洲彩";
             this.T_AoZhouCai.UseVisualStyleBackColor = true;
@@ -893,9 +959,10 @@
             // T_VRChongQingShiShiCai
             // 
             this.T_VRChongQingShiShiCai.AutoSize = true;
-            this.T_VRChongQingShiShiCai.Location = new System.Drawing.Point(351, 116);
+            this.T_VRChongQingShiShiCai.Location = new System.Drawing.Point(468, 145);
+            this.T_VRChongQingShiShiCai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.T_VRChongQingShiShiCai.Name = "T_VRChongQingShiShiCai";
-            this.T_VRChongQingShiShiCai.Size = new System.Drawing.Size(96, 16);
+            this.T_VRChongQingShiShiCai.Size = new System.Drawing.Size(120, 19);
             this.T_VRChongQingShiShiCai.TabIndex = 59;
             this.T_VRChongQingShiShiCai.Text = "VR重庆时时彩";
             this.T_VRChongQingShiShiCai.UseVisualStyleBackColor = true;
@@ -903,9 +970,10 @@
             // T_TengXunShiFen
             // 
             this.T_TengXunShiFen.AutoSize = true;
-            this.T_TengXunShiFen.Location = new System.Drawing.Point(351, 138);
+            this.T_TengXunShiFen.Location = new System.Drawing.Point(468, 172);
+            this.T_TengXunShiFen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.T_TengXunShiFen.Name = "T_TengXunShiFen";
-            this.T_TengXunShiFen.Size = new System.Drawing.Size(72, 16);
+            this.T_TengXunShiFen.Size = new System.Drawing.Size(89, 19);
             this.T_TengXunShiFen.TabIndex = 60;
             this.T_TengXunShiFen.Text = "腾讯十分";
             this.T_TengXunShiFen.UseVisualStyleBackColor = true;
@@ -913,9 +981,10 @@
             // T_TengXunWuFen
             // 
             this.T_TengXunWuFen.AutoSize = true;
-            this.T_TengXunWuFen.Location = new System.Drawing.Point(351, 156);
+            this.T_TengXunWuFen.Location = new System.Drawing.Point(468, 195);
+            this.T_TengXunWuFen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.T_TengXunWuFen.Name = "T_TengXunWuFen";
-            this.T_TengXunWuFen.Size = new System.Drawing.Size(72, 16);
+            this.T_TengXunWuFen.Size = new System.Drawing.Size(89, 19);
             this.T_TengXunWuFen.TabIndex = 61;
             this.T_TengXunWuFen.Text = "腾讯五分";
             this.T_TengXunWuFen.UseVisualStyleBackColor = true;
@@ -923,9 +992,10 @@
             // T_WuFenCai
             // 
             this.T_WuFenCai.AutoSize = true;
-            this.T_WuFenCai.Location = new System.Drawing.Point(351, 178);
+            this.T_WuFenCai.Location = new System.Drawing.Point(468, 222);
+            this.T_WuFenCai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.T_WuFenCai.Name = "T_WuFenCai";
-            this.T_WuFenCai.Size = new System.Drawing.Size(60, 16);
+            this.T_WuFenCai.Size = new System.Drawing.Size(74, 19);
             this.T_WuFenCai.TabIndex = 62;
             this.T_WuFenCai.Text = "五分彩";
             this.T_WuFenCai.UseVisualStyleBackColor = true;
@@ -933,18 +1003,21 @@
             // T_XinJiangShiShiCai
             // 
             this.T_XinJiangShiShiCai.AutoSize = true;
-            this.T_XinJiangShiShiCai.Location = new System.Drawing.Point(351, 200);
+            this.T_XinJiangShiShiCai.Location = new System.Drawing.Point(468, 250);
+            this.T_XinJiangShiShiCai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.T_XinJiangShiShiCai.Name = "T_XinJiangShiShiCai";
-            this.T_XinJiangShiShiCai.Size = new System.Drawing.Size(84, 16);
+            this.T_XinJiangShiShiCai.Size = new System.Drawing.Size(104, 19);
             this.T_XinJiangShiShiCai.TabIndex = 63;
             this.T_XinJiangShiShiCai.Text = "新疆时时彩";
             this.T_XinJiangShiShiCai.UseVisualStyleBackColor = true;
             // 
             // gb_vrchongqingshishicai
             // 
-            this.gb_vrchongqingshishicai.Location = new System.Drawing.Point(620, 493);
+            this.gb_vrchongqingshishicai.Location = new System.Drawing.Point(827, 616);
+            this.gb_vrchongqingshishicai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gb_vrchongqingshishicai.Name = "gb_vrchongqingshishicai";
-            this.gb_vrchongqingshishicai.Size = new System.Drawing.Size(289, 102);
+            this.gb_vrchongqingshishicai.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_vrchongqingshishicai.Size = new System.Drawing.Size(385, 128);
             this.gb_vrchongqingshishicai.TabIndex = 64;
             this.gb_vrchongqingshishicai.TabStop = false;
             this.gb_vrchongqingshishicai.Text = "VR重庆时时彩";
@@ -952,18 +1025,20 @@
             // T_chongqingshishicai
             // 
             this.T_chongqingshishicai.AutoSize = true;
-            this.T_chongqingshishicai.Location = new System.Drawing.Point(351, 221);
+            this.T_chongqingshishicai.Location = new System.Drawing.Point(468, 276);
+            this.T_chongqingshishicai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.T_chongqingshishicai.Name = "T_chongqingshishicai";
-            this.T_chongqingshishicai.Size = new System.Drawing.Size(84, 16);
+            this.T_chongqingshishicai.Size = new System.Drawing.Size(104, 19);
             this.T_chongqingshishicai.TabIndex = 65;
             this.T_chongqingshishicai.Text = "重庆时时彩";
             this.T_chongqingshishicai.UseVisualStyleBackColor = true;
             // 
             // btn_relogin
             // 
-            this.btn_relogin.Location = new System.Drawing.Point(915, 506);
+            this.btn_relogin.Location = new System.Drawing.Point(1220, 632);
+            this.btn_relogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_relogin.Name = "btn_relogin";
-            this.btn_relogin.Size = new System.Drawing.Size(67, 55);
+            this.btn_relogin.Size = new System.Drawing.Size(89, 69);
             this.btn_relogin.TabIndex = 66;
             this.btn_relogin.Text = "重登";
             this.btn_relogin.UseVisualStyleBackColor = true;
@@ -971,9 +1046,10 @@
             // 
             // btn_installapk
             // 
-            this.btn_installapk.Location = new System.Drawing.Point(89, 99);
+            this.btn_installapk.Location = new System.Drawing.Point(119, 124);
+            this.btn_installapk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_installapk.Name = "btn_installapk";
-            this.btn_installapk.Size = new System.Drawing.Size(75, 33);
+            this.btn_installapk.Size = new System.Drawing.Size(100, 41);
             this.btn_installapk.TabIndex = 67;
             this.btn_installapk.Text = "2.重装中继";
             this.btn_installapk.UseVisualStyleBackColor = true;
@@ -981,9 +1057,10 @@
             // 
             // btn_active
             // 
-            this.btn_active.Location = new System.Drawing.Point(5, 139);
+            this.btn_active.Location = new System.Drawing.Point(7, 174);
+            this.btn_active.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_active.Name = "btn_active";
-            this.btn_active.Size = new System.Drawing.Size(79, 33);
+            this.btn_active.Size = new System.Drawing.Size(105, 41);
             this.btn_active.TabIndex = 68;
             this.btn_active.Text = "3.激活输入";
             this.btn_active.UseVisualStyleBackColor = true;
@@ -991,9 +1068,10 @@
             // 
             // Btn_Restore
             // 
-            this.Btn_Restore.Location = new System.Drawing.Point(89, 138);
+            this.Btn_Restore.Location = new System.Drawing.Point(119, 172);
+            this.Btn_Restore.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Btn_Restore.Name = "Btn_Restore";
-            this.Btn_Restore.Size = new System.Drawing.Size(75, 33);
+            this.Btn_Restore.Size = new System.Drawing.Size(100, 41);
             this.Btn_Restore.TabIndex = 69;
             this.Btn_Restore.Text = "X.还原输入";
             this.Btn_Restore.UseVisualStyleBackColor = true;
@@ -1001,9 +1079,10 @@
             // 
             // btn_query
             // 
-            this.btn_query.Location = new System.Drawing.Point(90, 218);
+            this.btn_query.Location = new System.Drawing.Point(120, 272);
+            this.btn_query.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_query.Name = "btn_query";
-            this.btn_query.Size = new System.Drawing.Size(74, 29);
+            this.btn_query.Size = new System.Drawing.Size(99, 36);
             this.btn_query.TabIndex = 70;
             this.btn_query.Text = "?设备在线";
             this.btn_query.UseVisualStyleBackColor = true;
@@ -1011,9 +1090,11 @@
             // 
             // gb_tengxunwufen
             // 
-            this.gb_tengxunwufen.Location = new System.Drawing.Point(310, 493);
+            this.gb_tengxunwufen.Location = new System.Drawing.Point(413, 616);
+            this.gb_tengxunwufen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gb_tengxunwufen.Name = "gb_tengxunwufen";
-            this.gb_tengxunwufen.Size = new System.Drawing.Size(289, 102);
+            this.gb_tengxunwufen.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_tengxunwufen.Size = new System.Drawing.Size(385, 128);
             this.gb_tengxunwufen.TabIndex = 71;
             this.gb_tengxunwufen.TabStop = false;
             this.gb_tengxunwufen.Text = "腾讯五分";
@@ -1021,9 +1102,10 @@
             // T_TengXunWuFenXin
             // 
             this.T_TengXunWuFenXin.AutoSize = true;
-            this.T_TengXunWuFenXin.Location = new System.Drawing.Point(426, 156);
+            this.T_TengXunWuFenXin.Location = new System.Drawing.Point(568, 195);
+            this.T_TengXunWuFenXin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.T_TengXunWuFenXin.Name = "T_TengXunWuFenXin";
-            this.T_TengXunWuFenXin.Size = new System.Drawing.Size(84, 16);
+            this.T_TengXunWuFenXin.Size = new System.Drawing.Size(104, 19);
             this.T_TengXunWuFenXin.TabIndex = 73;
             this.T_TengXunWuFenXin.Text = "腾讯五分信";
             this.T_TengXunWuFenXin.UseVisualStyleBackColor = true;
@@ -1031,9 +1113,10 @@
             // T_TengXunShiFenXin
             // 
             this.T_TengXunShiFenXin.AutoSize = true;
-            this.T_TengXunShiFenXin.Location = new System.Drawing.Point(426, 138);
+            this.T_TengXunShiFenXin.Location = new System.Drawing.Point(568, 172);
+            this.T_TengXunShiFenXin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.T_TengXunShiFenXin.Name = "T_TengXunShiFenXin";
-            this.T_TengXunShiFenXin.Size = new System.Drawing.Size(84, 16);
+            this.T_TengXunShiFenXin.Size = new System.Drawing.Size(104, 19);
             this.T_TengXunShiFenXin.TabIndex = 72;
             this.T_TengXunShiFenXin.Text = "腾讯十分信";
             this.T_TengXunShiFenXin.UseVisualStyleBackColor = true;
@@ -1041,9 +1124,10 @@
             // cb_robotstop
             // 
             this.cb_robotstop.AutoSize = true;
-            this.cb_robotstop.Location = new System.Drawing.Point(90, 261);
+            this.cb_robotstop.Location = new System.Drawing.Point(120, 326);
+            this.cb_robotstop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cb_robotstop.Name = "cb_robotstop";
-            this.cb_robotstop.Size = new System.Drawing.Size(84, 16);
+            this.cb_robotstop.Size = new System.Drawing.Size(104, 19);
             this.cb_robotstop.TabIndex = 74;
             this.cb_robotstop.Text = "机器人停止";
             this.cb_robotstop.UseVisualStyleBackColor = true;
@@ -1052,18 +1136,43 @@
             // T_HeNeiWuFen
             // 
             this.T_HeNeiWuFen.AutoSize = true;
-            this.T_HeNeiWuFen.Location = new System.Drawing.Point(426, 178);
+            this.T_HeNeiWuFen.Location = new System.Drawing.Point(568, 222);
+            this.T_HeNeiWuFen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.T_HeNeiWuFen.Name = "T_HeNeiWuFen";
-            this.T_HeNeiWuFen.Size = new System.Drawing.Size(72, 16);
+            this.T_HeNeiWuFen.Size = new System.Drawing.Size(89, 19);
             this.T_HeNeiWuFen.TabIndex = 75;
             this.T_HeNeiWuFen.Text = "河内五分";
             this.T_HeNeiWuFen.UseVisualStyleBackColor = true;
             // 
+            // btn_installcerberus
+            // 
+            this.btn_installcerberus.Location = new System.Drawing.Point(7, 75);
+            this.btn_installcerberus.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_installcerberus.Name = "btn_installcerberus";
+            this.btn_installcerberus.Size = new System.Drawing.Size(100, 41);
+            this.btn_installcerberus.TabIndex = 76;
+            this.btn_installcerberus.Text = "下载防封";
+            this.btn_installcerberus.UseVisualStyleBackColor = true;
+            this.btn_installcerberus.Click += new System.EventHandler(this.btn_installcerberus_Click);
+            // 
+            // btn_installrobot
+            // 
+            this.btn_installrobot.Location = new System.Drawing.Point(120, 75);
+            this.btn_installrobot.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_installrobot.Name = "btn_installrobot";
+            this.btn_installrobot.Size = new System.Drawing.Size(100, 41);
+            this.btn_installrobot.TabIndex = 77;
+            this.btn_installrobot.Text = "下载安卓机器人";
+            this.btn_installrobot.UseVisualStyleBackColor = true;
+            this.btn_installrobot.Click += new System.EventHandler(this.btn_installrobot_Click);
+            // 
             // StartForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 694);
+            this.ClientSize = new System.Drawing.Size(1344, 868);
+            this.Controls.Add(this.btn_installrobot);
+            this.Controls.Add(this.btn_installcerberus);
             this.Controls.Add(this.T_HeNeiWuFen);
             this.Controls.Add(this.cb_robotstop);
             this.Controls.Add(this.T_TengXunWuFenXin);
@@ -1139,6 +1248,7 @@
             this.Controls.Add(this.PicBarCode);
             this.Controls.Add(this.TopMenu);
             this.MainMenuStrip = this.TopMenu;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "StartForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "启动";
@@ -1262,6 +1372,8 @@
         private System.Windows.Forms.CheckBox T_TengXunShiFenXin;
         private System.Windows.Forms.CheckBox cb_robotstop;
         private System.Windows.Forms.CheckBox T_HeNeiWuFen;
+        private System.Windows.Forms.Button btn_installcerberus;
+        private System.Windows.Forms.Button btn_installrobot;
 
     }
 }

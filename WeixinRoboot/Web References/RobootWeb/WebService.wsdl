@@ -277,22 +277,6 @@
           <s:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="s:string" />
         </s:sequence>
       </s:complexType>
-      <s:element name="WX_UserGameLog_Deal">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ContactID" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="SourceType" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="jusrpar" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="WX_UserGameLog_DealResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="WX_UserGameLog_DealResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="WXUserChangeLog_GetRemainder">
         <s:complexType>
           <s:sequence>
@@ -1091,40 +1075,122 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="JShiShiCaiMode" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="pPICType" type="tns:PicType" />
-            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="JPICType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:simpleType name="PicType">
-        <s:restriction base="s:string">
-          <s:enumeration value="龙虎图" />
-          <s:enumeration value="龙虎图_易信" />
-          <s:enumeration value="龙虎图_QQ" />
-          <s:enumeration value="龙虎图_钉钉" />
-          <s:enumeration value="数字图" />
-          <s:enumeration value="数字龙虎图" />
-          <s:enumeration value="数字文本" />
-          <s:enumeration value="龙虎数字文本" />
-          <s:enumeration value="龙虎数字文本_易信" />
-          <s:enumeration value="龙虎数字文本_QQ" />
-          <s:enumeration value="龙虎数字文本_钉钉" />
-          <s:enumeration value="龙虎数字大单牛牛文本" />
-          <s:enumeration value="龙虎数字大单牛牛文本_易信" />
-          <s:enumeration value="龙虎数字大单牛牛文本_QQ" />
-          <s:enumeration value="龙虎数字大单牛牛文本_钉钉" />
-          <s:enumeration value="龙虎数字无大单文本" />
-          <s:enumeration value="龙虎数字无大单文本_易信" />
-          <s:enumeration value="龙虎数字无大单文本_QQ" />
-          <s:enumeration value="龙虎数字无大单文本_钉钉" />
-        </s:restriction>
-      </s:simpleType>
       <s:element name="GetLastGamePICResponse">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetLastGamePICResult" type="s:string" />
           </s:sequence>
         </s:complexType>
+      </s:element>
+      <s:element name="ShiShiCaiDealGameLogSaveNotice">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="subm" type="tns:ShiShiCaiMode" />
+            <s:element minOccurs="1" maxOccurs="1" name="IgoreDataSettingSend" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="IgoreMemberGroup" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="ShiShiCaiMode">
+        <s:restriction base="s:string">
+          <s:enumeration value="重庆时时彩" />
+          <s:enumeration value="五分彩" />
+          <s:enumeration value="香港时时彩" />
+          <s:enumeration value="澳洲幸运5" />
+          <s:enumeration value="腾讯十分" />
+          <s:enumeration value="腾讯五分" />
+          <s:enumeration value="北京赛车PK10" />
+          <s:enumeration value="VR重庆时时彩" />
+          <s:enumeration value="新疆时时彩" />
+          <s:enumeration value="未知" />
+          <s:enumeration value="腾五信" />
+          <s:enumeration value="腾十信" />
+          <s:enumeration value="全彩" />
+          <s:enumeration value="河内五分" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="ShiShiCaiDealGameLogSaveNoticeResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="UploadContacts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Jcontacts" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WX_SourceType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadContactsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadContactsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAndroidWeChatContacts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WX_Sourcetype" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAndroidWeChatContactsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAndroidWeChatContactsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSendJobs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WX_Sourcetype" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Jusrpar" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSendJobsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSendJobsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSendJobs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WX_Sourcetype" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Userid" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Jobid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSendJobsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateSendJobsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ShiShiCaiServerDealGameLogAndNotice">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="JShiShiCaiMode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="IgoreDataSettingSend" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="IgoreMemberGroup" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ShiShiCaiServerDealGameLogAndNoticeResponse">
+        <s:complexType />
       </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
@@ -1230,12 +1296,6 @@
   </wsdl:message>
   <wsdl:message name="ChongQingShiShiCaiCaculatePeriodSoapOut">
     <wsdl:part name="parameters" element="tns:ChongQingShiShiCaiCaculatePeriodResponse" />
-  </wsdl:message>
-  <wsdl:message name="WX_UserGameLog_DealSoapIn">
-    <wsdl:part name="parameters" element="tns:WX_UserGameLog_Deal" />
-  </wsdl:message>
-  <wsdl:message name="WX_UserGameLog_DealSoapOut">
-    <wsdl:part name="parameters" element="tns:WX_UserGameLog_DealResponse" />
   </wsdl:message>
   <wsdl:message name="WXUserChangeLog_GetRemainderSoapIn">
     <wsdl:part name="parameters" element="tns:WXUserChangeLog_GetRemainder" />
@@ -1459,6 +1519,42 @@
   <wsdl:message name="GetLastGamePICSoapOut">
     <wsdl:part name="parameters" element="tns:GetLastGamePICResponse" />
   </wsdl:message>
+  <wsdl:message name="ShiShiCaiDealGameLogSaveNoticeSoapIn">
+    <wsdl:part name="parameters" element="tns:ShiShiCaiDealGameLogSaveNotice" />
+  </wsdl:message>
+  <wsdl:message name="ShiShiCaiDealGameLogSaveNoticeSoapOut">
+    <wsdl:part name="parameters" element="tns:ShiShiCaiDealGameLogSaveNoticeResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadContactsSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadContacts" />
+  </wsdl:message>
+  <wsdl:message name="UploadContactsSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadContactsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAndroidWeChatContactsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAndroidWeChatContacts" />
+  </wsdl:message>
+  <wsdl:message name="GetAndroidWeChatContactsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAndroidWeChatContactsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSendJobsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSendJobs" />
+  </wsdl:message>
+  <wsdl:message name="GetSendJobsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSendJobsResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSendJobsSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateSendJobs" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSendJobsSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateSendJobsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ShiShiCaiServerDealGameLogAndNoticeSoapIn">
+    <wsdl:part name="parameters" element="tns:ShiShiCaiServerDealGameLogAndNotice" />
+  </wsdl:message>
+  <wsdl:message name="ShiShiCaiServerDealGameLogAndNoticeSoapOut">
+    <wsdl:part name="parameters" element="tns:ShiShiCaiServerDealGameLogAndNoticeResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceSoap">
     <wsdl:operation name="UserLogIn">
       <wsdl:input message="tns:UserLogInSoapIn" />
@@ -1523,10 +1619,6 @@
     <wsdl:operation name="ChongQingShiShiCaiCaculatePeriod">
       <wsdl:input message="tns:ChongQingShiShiCaiCaculatePeriodSoapIn" />
       <wsdl:output message="tns:ChongQingShiShiCaiCaculatePeriodSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="WX_UserGameLog_Deal">
-      <wsdl:input message="tns:WX_UserGameLog_DealSoapIn" />
-      <wsdl:output message="tns:WX_UserGameLog_DealSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="WXUserChangeLog_GetRemainder">
       <wsdl:input message="tns:WXUserChangeLog_GetRemainderSoapIn" />
@@ -1676,6 +1768,30 @@
       <wsdl:input message="tns:GetLastGamePICSoapIn" />
       <wsdl:output message="tns:GetLastGamePICSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="ShiShiCaiDealGameLogSaveNotice">
+      <wsdl:input message="tns:ShiShiCaiDealGameLogSaveNoticeSoapIn" />
+      <wsdl:output message="tns:ShiShiCaiDealGameLogSaveNoticeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadContacts">
+      <wsdl:input message="tns:UploadContactsSoapIn" />
+      <wsdl:output message="tns:UploadContactsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAndroidWeChatContacts">
+      <wsdl:input message="tns:GetAndroidWeChatContactsSoapIn" />
+      <wsdl:output message="tns:GetAndroidWeChatContactsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSendJobs">
+      <wsdl:input message="tns:GetSendJobsSoapIn" />
+      <wsdl:output message="tns:GetSendJobsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSendJobs">
+      <wsdl:input message="tns:UpdateSendJobsSoapIn" />
+      <wsdl:output message="tns:UpdateSendJobsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ShiShiCaiServerDealGameLogAndNotice">
+      <wsdl:input message="tns:ShiShiCaiServerDealGameLogAndNoticeSoapIn" />
+      <wsdl:output message="tns:ShiShiCaiServerDealGameLogAndNoticeSoapOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1816,15 +1932,6 @@
     </wsdl:operation>
     <wsdl:operation name="ChongQingShiShiCaiCaculatePeriod">
       <soap:operation soapAction="http://13828081978.zicp.vip/ChongQingShiShiCaiCaculatePeriod" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="WX_UserGameLog_Deal">
-      <soap:operation soapAction="http://13828081978.zicp.vip/WX_UserGameLog_Deal" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -2165,6 +2272,60 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ShiShiCaiDealGameLogSaveNotice">
+      <soap:operation soapAction="http://13828081978.zicp.vip/ShiShiCaiDealGameLogSaveNotice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadContacts">
+      <soap:operation soapAction="http://13828081978.zicp.vip/UploadContacts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAndroidWeChatContacts">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetAndroidWeChatContacts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSendJobs">
+      <soap:operation soapAction="http://13828081978.zicp.vip/GetSendJobs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSendJobs">
+      <soap:operation soapAction="http://13828081978.zicp.vip/UpdateSendJobs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ShiShiCaiServerDealGameLogAndNotice">
+      <soap:operation soapAction="http://13828081978.zicp.vip/ShiShiCaiServerDealGameLogAndNotice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -2305,15 +2466,6 @@
     </wsdl:operation>
     <wsdl:operation name="ChongQingShiShiCaiCaculatePeriod">
       <soap12:operation soapAction="http://13828081978.zicp.vip/ChongQingShiShiCaiCaculatePeriod" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="WX_UserGameLog_Deal">
-      <soap12:operation soapAction="http://13828081978.zicp.vip/WX_UserGameLog_Deal" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -2654,13 +2806,67 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ShiShiCaiDealGameLogSaveNotice">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/ShiShiCaiDealGameLogSaveNotice" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadContacts">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/UploadContacts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAndroidWeChatContacts">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetAndroidWeChatContacts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSendJobs">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/GetSendJobs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSendJobs">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/UpdateSendJobs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ShiShiCaiServerDealGameLogAndNotice">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/ShiShiCaiServerDealGameLogAndNotice" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="WebService">
     <wsdl:port name="WebServiceSoap" binding="tns:WebServiceSoap">
-      <soap:address location="http://103.117.138.220/WebService.asmx" />
+      <soap:address location="http://192.168.5.230/WebService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebServiceSoap12" binding="tns:WebServiceSoap12">
-      <soap12:address location="http://103.117.138.220/WebService.asmx" />
+      <soap12:address location="http://192.168.5.230/WebService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

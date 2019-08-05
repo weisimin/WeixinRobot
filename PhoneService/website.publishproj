@@ -42,6 +42,10 @@ website.publishproj
     </AssemblyAttributes>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WeixinRobotLib.Entity\WeixinRobotLib.Entity.csproj">
+      <Project>{A79357B4-4242-46BE-8AAC-9B03C080D086}</Project>
+      <Name>WeixinRobotLib.Entity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WeixinRobotLib\WeixinRobotLib.csproj">
       <Project>{7B148AB2-C2EF-47B8-B1E9-50F49B705E76}</Project>
       <Name>WeixinRobotLib</Name>

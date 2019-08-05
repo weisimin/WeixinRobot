@@ -674,4 +674,15 @@
       <Column Name="RobotStop" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.aspnet_UserSendJob" Member="aspnet_UserSendJob">
+    <Type Name="aspnet_UserSendJob">
+      <Column Name="Joibid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="aspnet_Userid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="WechatID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="WX_UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Remark" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="ToSendMessage" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>

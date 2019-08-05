@@ -91,7 +91,7 @@ namespace WeixinRoboot.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://13828081978.zicp.vip/WebService.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.5.230/WebService.asmx")]
         public string WeixinRoboot_RobootWeb_WebService {
             get {
                 return ((string)(this["WeixinRoboot_RobootWeb_WebService"]));
@@ -101,7 +101,7 @@ namespace WeixinRoboot.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://13828081978.zicp.vip/SysadminServices.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.5.230/SysadminServices.asmx")]
         public string WeixinRoboot_RobotWebAdmin_SysadminServices {
             get {
                 return ((string)(this["WeixinRoboot_RobotWebAdmin_SysadminServices"]));
