@@ -32,18 +32,11 @@ namespace NetFramework
             ws.CookieContainer= new CookieContainer();
             
            string Result= ws.UserLogIn(UserName, Password);
-           if (Result == "用户不存在")
+           if (Result.Contains("错误") )
            {
                return null;
            }
-           else if (Result=="密码错误次数太多,已停用")
-           {
-               return false;
-           }
-           else if (Result == "密码错误")
-           {
-               return false;
-           }
+
            else
            {
                ProviderUserKey = Guid.Parse(Result);

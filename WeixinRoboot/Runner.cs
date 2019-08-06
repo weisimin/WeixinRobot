@@ -1296,7 +1296,11 @@ namespace WeixinRoboot
             {
                 DataRow newr = null;
                 Linq.WX_WebSendPICSetting picset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == replyitem.aspnet_UserID && t.WX_UserName == replyitem.WX_UserName && t.WX_SourceType == replyitem.WX_SourceType);
-                    newr = MemberSource.NewRow();
+                if (MemberSource.Select("User_SourceType='安微' and User_ContactTEMPID='"+(replyitem.WeChatID == null ? Guid.NewGuid().ToString() : replyitem.WeChatID)+"'").Length>0)
+                {
+                    continue;
+                }
+                newr = MemberSource.NewRow();
                     newr.SetField("User_ContactTEMPID", (replyitem.WeChatID == null ? Guid.NewGuid().ToString() : replyitem.WeChatID));
                     newr.SetField("User_SourceType", "安微");
 

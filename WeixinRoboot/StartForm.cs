@@ -2544,10 +2544,23 @@ namespace WeixinRoboot
             switch (WX_SourceType)
             {
                 case "易":
-                    return SendYiXinContent(Content, TempToUserID);
-
+                    if (YiXinOnline == true)
+                    {
+                        return SendYiXinContent(Content, TempToUserID);
+                    }
+                    else
+                    {
+                        return SendAndroidWXContent(Content, TempToUserID);
+                    }
                 case "微":
-                    return SendWXContent(Content, TempToUserID);
+                    if (WeiXinOnLine == true)
+                    {
+                        return SendWXContent(Content, TempToUserID);
+                    }
+                    else
+                    {
+                        return SendAndroidWXContent(Content, TempToUserID);
+                    }
                 case "安微":
                     return SendAndroidWXContent(Content, TempToUserID);
                 default:
@@ -2793,7 +2806,7 @@ namespace WeixinRoboot
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
 
-           var replys= db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.UserKey && t.WeChatID == TempToUserID);
+            var replys = db.WX_UserReply.Where(t => t.aspnet_UserID == GlobalParam.UserKey && t.WeChatID == TempToUserID);
 
             Linq.aspnet_UserSendJob newjob = new aspnet_UserSendJob();
             newjob.aspnet_Userid = GlobalParam.UserKey;
@@ -3261,7 +3274,7 @@ namespace WeixinRoboot
         {
 
             RobootWeb.WebService ws = new RobootWeb.WebService();
-            ws.ShiShiCaiServerDealGameLogAndNotice(Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode),subm),IgoreDataSettingSend,IgoreMemberGroup);
+            ws.ShiShiCaiServerDealGameLogAndNotice(Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm), IgoreDataSettingSend, IgoreMemberGroup);
 
             NetFramework.Console.WriteLine("正在开奖" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"), false);
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
@@ -3338,7 +3351,7 @@ namespace WeixinRoboot
                             }
                             db.SubmitChanges();
                         }
-                        else if (notice_item.WX_SourceType.Contains( "微") || notice_item.WX_SourceType == "易")
+                        else if (notice_item.WX_SourceType.Contains("微") || notice_item.WX_SourceType == "易")
                         {
                             foreach (var noticeitem in Rows)
                             {
@@ -5148,6 +5161,16 @@ namespace WeixinRoboot
             }
             NetFramework.Console.WriteLine(GlobalParam.UserName + "开始发送图片" + DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine, false);
 
+            //RobootWeb.WebService ws = new RobootWeb.WebService();
+
+            //String Result = ws.SendServerChongqingResultPic(Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), FilterSubmode), Mode, ToUserID);
+
+
+            //if (Result != "OK")
+            //{
+            //    NetFramework.Console.WriteLine(Result, true);
+            //}
+            return;
 
             #region
             try
@@ -5257,7 +5280,7 @@ namespace WeixinRoboot
                     {
                         continue;
                     }
-                   
+
                     if (Linq.ProgramLogic.TimeInDuring(webpcset.PIC_StartHour, webpcset.PIC_StartMinute, webpcset.PIC_EndHour, webpcset.Pic_EndMinute) == false)
                     {
                         continue;
@@ -5279,7 +5302,7 @@ namespace WeixinRoboot
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data3" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
-                            if (dr[0].Field<string>("User_SourceType").Contains( "微"))
+                            if (dr[0].Field<string>("User_SourceType").Contains("微"))
                             {
                                 SendRobotContent(StartForm.ReadVirtualFile("Data3_yixin" + GlobalParam.UserName + "_" + ToSendGameName + ".txt", db), TEMPUserName, SourceType);
                             }
@@ -8583,6 +8606,19 @@ namespace WeixinRoboot
         public object FileLock = false;
         public void DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode subm)
         {
+
+            //RobootWeb.WebService ws = new RobootWeb.WebService();
+
+            //string Result = ws.DrawServerChongqingshishicai(Enum.GetName(typeof(Linq.ProgramLogic.ShiShiCaiMode), subm));
+
+            //if (Result != "OK")
+            //{
+
+            //    NetFramework.Console.WriteLine(Result, true);
+
+            //}
+
+            return;
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             ////db.ObjectTrackingEnabled = false;
@@ -10589,19 +10625,55 @@ namespace WeixinRoboot
         private void BtnDrawGdi_Click(object sender, EventArgs e)
         {
             //Linq.dbDataContext db = new Linq.dbDataContext();
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+            Linq.aspnet_UsersNewGameResultSend loadset = Util_Services.GetServicesSetting();
 
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.北京赛车PK10);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
+            if (loadset.Thread_ChongQingShiShiCai == true)
+            {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+            }
 
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾十信);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾五信);
+            if (loadset.Thread_WuFen == true)
+            {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
+            }
+            //if (loadset.Thread_VRChongqing == true)
+            //{
+            //    DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
+            //}
+            if (loadset.Thread_AoZhouCai == true)
+            {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
+            }
+            if (loadset.Thread_TengXunShiFen == true)
+            {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
+            }
+            if (loadset.Thread_TengXunWuFen == true)
+            {
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
+            }
+            //if (loadset.Thread_VRChongqing == true)
+            //{
+            //    DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.北京赛车PK10);
+            //}
+            if (loadset.Thread_VRChongqing == true)
+            {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+            }
+            if (loadset.Thread_XinJiangShiShiCai == true)
+            {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
+            }
+            if (loadset.Thread_TengXunShiFenXin == true)
+            {
+
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾十信);
+            }
+            if (loadset.Thread_TengXunWuFenXin == true)
+            {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾五信);
+            }
 
         }
 
@@ -12367,20 +12439,7 @@ namespace WeixinRoboot
 
         private void Btn_ManulSend_Click(object sender, EventArgs e)
         {
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.香港时时彩);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
-
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.北京赛车PK10);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
-
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾十信);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾五信);
-            DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.河内五分);
+           
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             ////db.ObjectTrackingEnabled = false;
@@ -12389,12 +12448,15 @@ namespace WeixinRoboot
 
             if (loadset.Thread_ChongQingShiShiCai == true)
             {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩);
+
             }
 
 
             if (loadset.Thread_WuFen == true)
             {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.五分彩);
             }
 
@@ -12402,26 +12464,31 @@ namespace WeixinRoboot
 
             if (loadset.Thread_AoZhouCai == true)
             {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5);
             }
 
             if (loadset.Thread_TengXunShiFen == true)
             {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.腾讯十分);
             }
 
             if (loadset.Thread_TengXunWuFen == true)
             {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.腾讯五分);
             }
 
             if (loadset.Thread_TengXunShiFenXin == true)
             {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾十信);
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.腾十信);
             }
 
             if (loadset.Thread_TengXunWuFenXin == true)
             {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.腾五信);
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.腾五信);
             }
 
@@ -12429,14 +12496,17 @@ namespace WeixinRoboot
             if (loadset.Thread_VRChongqing == true)
             {
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩);
             }
 
             if (loadset.Thread_XinJiangShiShiCai == true)
             {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩);
             }
             if (loadset.Thread_HeNeiWuFen == true)
             {
+                DrawChongqingshishicai(Linq.ProgramLogic.ShiShiCaiMode.河内五分);
                 SendPicEnumWins(Linq.ProgramLogic.ShiShiCaiMode.河内五分);
             }
         }
@@ -15991,7 +16061,7 @@ namespace WeixinRoboot
 
         private void btn_installcerberus_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Application.StartupPath+"\\apk\\projectcerberus.apk");
+            System.Diagnostics.Process.Start(Application.StartupPath + "\\apk\\projectcerberus.apk");
         }
 
         private void btn_installrobot_Click(object sender, EventArgs e)

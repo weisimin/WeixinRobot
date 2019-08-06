@@ -455,9 +455,6 @@
     <Content Include="Template_shishicai.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Web References\RobootWeb\BallOpen_GetUpPaySourceClass.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
     <None Include="Web References\RobootWeb\ChongQingShiShiCaiCaculatePeriodResult.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -475,12 +472,6 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\RobootWeb\RemindQuery_GetReplyLogClass.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\RobootWeb\SendCharge_GetSourceClass.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\RobootWeb\SendManulOrder_GetOrderSourceClass.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\RobootWeb\UserChangeLogType.datasource">

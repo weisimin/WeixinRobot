@@ -140,7 +140,8 @@ namespace WeixinRoboot
 
             this.cb_SourceType.Items.AddRange(new object[] {
             "PCQ"});
-
+            this.cb_SourceType.Items.AddRange(new object[] {
+            "安微"});
             cb_SourceType.SelectedIndex = 0;
             dtp_querydate.Value = DateTime.Today.AddDays(-1);
 
