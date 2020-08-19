@@ -44,7 +44,7 @@ namespace WeixinRobotLib.Linq
             WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             //db.ObjectTrackingEnabled = false;
-            var toupdate = db.WX_UserGameLog.Where(t => 
+            var toupdate = db.WX_UserGameLog.Where(t =>
                  ((t.Result_HaveProcess == false) || t.Result_HaveProcess == null)
                 && (t.WX_UserName == ContactID)
                 && (t.WX_SourceType == SourceType)
@@ -96,10 +96,10 @@ namespace WeixinRobotLib.Linq
 
                 }
                 var grs = db.Game_Result.Where(t =>
-                   t.GamePeriod == ((gamelogitem.OpenMode == "澳洲幸运5" || gamelogitem.OpenMode == "VR重庆时时彩") ? gamelogitem.GamePeriod : (gamelogitem.OpenMode == "腾讯十分" ? (gamelogitem.GamePeriod.Substring(0, 8) + "-0" + gamelogitem.GamePeriod.Substring(8, 3)) : gamelogitem.GamePeriod.Substring(2)))
+                   t.GamePeriod == ((gamelogitem.OpenMode == "澳洲幸运5" || gamelogitem.OpenMode == "VR重庆时时彩" || gamelogitem.OpenMode == "腾讯五分") ? gamelogitem.GamePeriod : (gamelogitem.OpenMode == "腾讯十分" ? (gamelogitem.GamePeriod.Substring(0, 8) + "-0" + gamelogitem.GamePeriod.Substring(8, 3)) : gamelogitem.GamePeriod.Substring(2)))
                     && (t.GameName == gamelogitem.OpenMode || (gamelogitem.OpenMode == null && t.GameName == "重庆时时彩"))
 
-                    ).OrderByDescending(t=>t.GamePeriod);
+                    ).OrderByDescending(t => t.GamePeriod);
                 if (grs.Count() == 0)
                 {
                     continue;
@@ -4633,7 +4633,7 @@ namespace WeixinRobotLib.Linq
 
 
 
-                return "";
+                return "赔付模式" + Content;
             }
 
             else if (Content == "五分模式")
@@ -4659,7 +4659,7 @@ namespace WeixinRobotLib.Linq
                 db.SubmitChanges();
 
 
-                return "";
+                return "赔付模式" + Content;
             }
 
             else if (Content == "香港模式")
@@ -4685,7 +4685,7 @@ namespace WeixinRobotLib.Linq
                 db.SubmitChanges();
 
 
-                return "";
+                return "赔付模式" + Content;
             }
 
             else if (Content == "新疆模式")
@@ -4710,7 +4710,7 @@ namespace WeixinRobotLib.Linq
                 toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
 
-                return "";
+                return "赔付模式" + Content;
             }
             else if (Content == "腾十模式")
             {
@@ -4734,7 +4734,7 @@ namespace WeixinRobotLib.Linq
                 toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
 
-                return "";
+                return "赔付模式" + Content;
             }
             else if (Content == "腾五模式")
             {
@@ -4759,7 +4759,7 @@ namespace WeixinRobotLib.Linq
 
                 db.SubmitChanges();
 
-                return "";
+                return "赔付模式" + Content;
             }
             else if (Content == "腾十信模式")
             {
@@ -4784,7 +4784,7 @@ namespace WeixinRobotLib.Linq
 
                 db.SubmitChanges();
 
-                return "";
+                return "赔付模式" + Content;
             }
             else if (Content == "腾五信模式")
             {
@@ -4808,7 +4808,7 @@ namespace WeixinRobotLib.Linq
                 toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
 
-                return "";
+                return "赔付模式" + Content;
             }
             else if (Content == "澳彩模式")
             {
@@ -4832,7 +4832,7 @@ namespace WeixinRobotLib.Linq
                 toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
 
-                return "";
+                return "赔付模式" + Content;
             }
 
             else if (Content == "VR模式")
@@ -4857,7 +4857,7 @@ namespace WeixinRobotLib.Linq
                 toupdate.HeNeiWuFenMode = false;
                 db.SubmitChanges();
 
-                return "";
+                return "赔付模式" + Content;
             }
             else if (Content == "河五模式")
             {
@@ -4882,7 +4882,7 @@ namespace WeixinRobotLib.Linq
 
                 db.SubmitChanges();
 
-                return "";
+                return "赔付模式" + Content;
             }
             else if (Content == "牛牛停图")
             {
@@ -5116,7 +5116,35 @@ namespace WeixinRobotLib.Linq
                 }
 
             }
+            else if (Content.StartsWith("全玩家"))
+            {
+                String OpenMode = Content.Substring(3);
+                var plysers = db.WX_UserReply.Where(t => t.aspnet_UserID == usrpar.UserKey
+                    && t.WX_SourceType == WX_SourceType
 
+                    );
+                if (OpenMode=="重庆"||OpenMode=="VR"||OpenMode=="澳彩"||OpenMode=="香港"||OpenMode=="新疆"||OpenMode=="五分"||OpenMode=="腾五"||OpenMode=="腾五信"||OpenMode=="腾十"||OpenMode=="腾十信"||OpenMode=="河内")
+                {
+                foreach (var playeritem in plysers)
+                {
+                    playeritem.ChongqingMode = (OpenMode == "重庆" ? true : false);
+                    playeritem.VRMode = (OpenMode == "VR" ? true : false); ;
+                    playeritem.AozcMode = (OpenMode == "澳彩" ? true : false); ;
+                    playeritem.HkMode = (OpenMode == "香港" ? true : false);
+                    playeritem.XinJiangMode = (OpenMode == "新疆" ? true : false);
+                    playeritem.FiveMinuteMode = (OpenMode == "五分" ? true : false); ;
+                    playeritem.TengXunWuFenMode = (OpenMode == "腾五" ? true : false); ;
+                    playeritem.TengXunWuFenXinMode = (OpenMode == "腾五信" ? true : false); ;
+                    playeritem.TengXunShiFenMode = (OpenMode == "腾十" ? true : false); ;
+                    playeritem.TengXunShiFenXinMode = (OpenMode == "腾十信" ? true : false); ;
+                    playeritem.HeNeiWuFenMode = (OpenMode == "河内" ? true : false); ;
+                }
+
+                db.SubmitChanges();
+                return "玩家数:" + plysers .Count().ToString()+ ",已指定全玩家:" + OpenMode;
+                }
+                return "";
+            }
             else if (Content.Length >= 2)
             {
                 if (Content.StartsWith("上"))
@@ -5530,6 +5558,7 @@ namespace WeixinRobotLib.Linq
                     && t.BasicRatio != 0
                     && t.BasicRatio != null
                     && t.BonusBuyValueCondition == newgl.Buy_Value
+                    && t.WX_SourceType == WX_SourceType
                     );
                 foreach (var subbonus in bonusratios)
                 {
@@ -5629,8 +5658,34 @@ namespace WeixinRobotLib.Linq
         //https://numbers.videoracing.com/open_13_2.aspx
 
 
-        static string MaxAozcPeriod = "";
-        static string MaxAozcTime = "";
+        static string MaxAozcPeriod
+        {
+            get
+            {
+                WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                var grs = db.Game_Result.Where(t => t.GameName == "澳洲幸运5").OrderByDescending(t => t.GamePeriod);
+                if (grs.Count() == 0)
+                {
+                    throw new Exception("澳洲幸运5没开奖记录");
+                }
+                return grs.First().GamePeriod;
+            }
+        }
+        static string MaxAozcTime
+        {
+            get
+            {
+                WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
+                var grs = db.Game_Result.Where(t => t.GameName == "澳洲幸运5").OrderByDescending(t => t.GamePeriod);
+                if (grs.Count() == 0)
+                {
+                    throw new Exception("澳洲幸运5没开奖记录");
+                }
+                return grs.First().GameTime.Value.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+        }
+
+
         public static void ChongQingShiShiCaiCaculatePeriod(DateTime RequestTime, string RequestPeriod, dbDataContext db, string WX_UserName, string WX_SourceType, out string GameFullPeriod, out string GameFullLocalPeriod, Boolean adminmode, out Boolean Success, out string ErrorMessage, WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode SpecMode, Guid UserKey, Boolean NoBlock = false)
         {
 
@@ -9220,7 +9275,27 @@ namespace WeixinRobotLib.Linq
 
             WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSQLServer"].ConnectionString);
             WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == UserID);
+            if (myset == null)
+            {
 
+                myset = new WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend();
+                myset.aspnet_UserID = UserID;
+                db.aspnet_UsersNewGameResultSend.InsertOnSubmit(myset);
+                db.SubmitChanges();
+            }
+            myset = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == UserID);
+
+            if (myset.ImageTopText == null)
+            {
+                myset.ImageTopText = "";
+
+            }
+            if (myset.ImageEndText == null)
+            {
+                myset.ImageEndText = "";
+
+            }
+            db.SubmitChanges();
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             ////db.ObjectTrackingEnabled = false;
             DateTime Localday = DateTime.Now;
@@ -9266,7 +9341,7 @@ namespace WeixinRobotLib.Linq
 
 
 
-            string Sql = @"select top 288 GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where "
+            string Sql = @"select distinct top 288 GamePeriod as 期号,GameTime as 时间,GameResult as 开奖号码,NumTotal as 和数,BigSmall as 大小,SingleDouble as 单双,DragonTiger as 龙虎 from Game_Result where "
                ;
             if (subm == WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩 || subm == WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.腾讯五分 || subm == WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩 || subm == WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.河内五分)
             {
@@ -9287,9 +9362,9 @@ namespace WeixinRobotLib.Linq
                  + "%' and ";
             }
             WeixinRobotLib.Entity.Linq.Game_Result gr = db.Game_Result.Where(t => t.GameName == subm.ToString()).OrderByDescending(t => t.GameTime).First();
-            Sql += " aspnet_Userid='" + gr.aspnet_UserID.ToString()
+            //Sql += " aspnet_Userid='" + gr.aspnet_UserID.ToString()
 
-              + "' and GameName='" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm) + "' order by GamePeriod desc");
+            Sql += "  GameName='" + (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), subm) + "' order by GamePeriod desc");
 
 
 
@@ -9861,7 +9936,7 @@ namespace WeixinRobotLib.Linq
             Assembly myAssembly = Assembly.GetExecutingAssembly();
             Stream tigerStream = myAssembly.GetManifestResourceStream("WeixinRobotLib.tiger.png");
             Stream dragonStream = myAssembly.GetManifestResourceStream("WeixinRobotLib.dragon.png");
-            Stream okStream = myAssembly.GetManifestResourceStream("WeixinRobotLib.ok.png");
+            Stream okStream = myAssembly.GetManifestResourceStream("WeixinRobotLib.OK.png");
 
             Image img_tiger_V3 = Bitmap.FromStream(tigerStream);
             Image img_dragon_V3 = Bitmap.FromStream(dragonStream);
@@ -10391,7 +10466,7 @@ namespace WeixinRobotLib.Linq
                     continue;
                 }
                 DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
-                DatatextplainV5 += CaculateNumberAndDragon(subm, currow, (myset.TwoTreeNotSingle.HasValue ? false : myset.TwoTreeNotSingle.Value));
+                DatatextplainV5 += CaculateNumberAndDragon(subm, currow, (myset.TwoTreeNotSingle.HasValue ? myset.TwoTreeNotSingle.Value : false));
             }
             DatatextplainV5 += Environment.NewLine;
             Int32 TigerindexV5 = 0;
@@ -10460,7 +10535,7 @@ namespace WeixinRobotLib.Linq
                     continue;
                 }
                 DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
-                DatatextplainV8 += CaculateNumberAndDragon(subm, currow, (myset.TwoTreeNotSingle.HasValue ? false : myset.TwoTreeNotSingle.Value));
+                DatatextplainV8 += CaculateNumberAndDragon(subm, currow, (myset.TwoTreeNotSingle.HasValue ? myset.TwoTreeNotSingle.Value : false));
             }
             DatatextplainV8 += Environment.NewLine;
             Int32 TigerIndexV8 = 0;
@@ -10531,7 +10606,7 @@ namespace WeixinRobotLib.Linq
                     continue;
                 }
                 DataRow currow = dtCopy.Rows[dtCopy.Rows.Count - 1 - rev_index];
-                DatatextplainV6 += CaculateNumberAndDragon(subm, currow, (myset.TwoTreeNotSingle.HasValue ? false : myset.TwoTreeNotSingle.Value));
+                DatatextplainV6 += CaculateNumberAndDragon(subm, currow, (myset.TwoTreeNotSingle.HasValue ? myset.TwoTreeNotSingle.Value : false));
             }
             DatatextplainV6 += Environment.NewLine;
             Int32 TigerIndexV6 = 0;
@@ -11136,8 +11211,7 @@ namespace WeixinRobotLib.Linq
                 catch (Exception AnyError2)
                 {
 
-                    NetFramework.Console.WriteLine(AnyError2.Message, true);
-                    NetFramework.Console.WriteLine(AnyError2.StackTrace, true);
+                    return AnyError2.Message;
                 }
 
 
@@ -11261,11 +11335,18 @@ namespace WeixinRobotLib.Linq
             try
             {
 
-                string Content = RawContent;
+                string Content = RawContent.Replace("\n", "<br/>");
+                if (Content.Contains("<br/>") && Content.StartsWith("@") == false)
+                {
+                    Content = "@" + Content;
+                }
                 Regex groupwhosay = new Regex("@((?!<br/>)[\\s\\S])+<br/>", RegexOptions.IgnoreCase);
 
                 string str_groupwhosay = groupwhosay.Match(Content).Value;
-
+                if (WX_SourceType == "安微" && str_groupwhosay != "")
+                {
+                    str_groupwhosay = str_groupwhosay.Substring(1);
+                }
                 Content = Regex.Replace(Content, "@((?!<br/>)[\\s\\S])+<br/>", "", RegexOptions.IgnoreCase);
 
 
@@ -11276,7 +11357,7 @@ namespace WeixinRobotLib.Linq
 
                 #region 消息处理
                 aspnet_UsersNewGameResultSend membersetting = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == (Guid)usrpar.UserKey);
-
+                db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, membersetting);
                 //string FromUserNameTEMPID = AddMsgList["FromUserName"].ToString();
                 //string ToUserNameTEMPID = AddMsgList["ToUserName"].ToString();
 
@@ -11327,6 +11408,7 @@ namespace WeixinRobotLib.Linq
                 if (Content != "")
                 {
                     var Tocontacts = db.WX_UserReply.Where(t => t.WX_UserName == (FromUserNameTEMPID == MyUserTEMPID ? ToUserNameTEMPID : FromUserNameTEMPID)
+                        && t.aspnet_UserID == usrpar.UserKey
                         && t.WX_SourceType == WX_SourceType
                         );
                     if (Tocontacts.Count() == 0)
@@ -11384,7 +11466,7 @@ namespace WeixinRobotLib.Linq
                             try
                             {
                                 //执行会员命令
-                                MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Content, Tocontacts.First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", "");
+                                MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Content, Tocontacts.First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", WX_SourceType);
                                 string[] Splits = Content.Replace("，", ",").Replace("，", ",")
                                            .Replace(".", ",").Replace("。", ",").Replace("。", ",")
                                            .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -11394,7 +11476,7 @@ namespace WeixinRobotLib.Linq
                                     foreach (var Splititem in Splits)
                                     {
                                         Times.AddMilliseconds(10);
-                                        String TmpMessage = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Splititem, Tocontacts.First(), Times, usrpar, new List<Guid>(), membersetting, "", "");
+                                        String TmpMessage = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(Splititem, Tocontacts.First(), Times, usrpar, new List<Guid>(), membersetting, "", WX_SourceType);
 
                                         if (TmpMessage != "")
                                         {
@@ -11413,7 +11495,7 @@ namespace WeixinRobotLib.Linq
                                     String TmpMessage = NewWXContent(JavaMillionSecondTime(Convert.ToInt64(msgTime)), Content, Tocontacts.First(), "人工", (Guid)usrpar.UserKey, usrpar, SavePath, true);
                                     if (TmpMessage != "")
                                     {
-                                        MyOutResult = TmpMessage;
+                                        MyOutResult += (MyOutResult == "" ? "" : Environment.NewLine) + TmpMessage;
                                     }
 
                                 }
@@ -11566,35 +11648,38 @@ namespace WeixinRobotLib.Linq
                                         if (membersetting.SuperUser == true)
                                         {
 
-                                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", "");
+                                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType + "模式", (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", WX_SourceType);
+                                            db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, Tocontacts);
                                         }
                                         else
                                         {
-                                            return (SettingUserName == "" ? "" : SettingUserName + "群") + "会员限制彩种,不能切换彩种";
+                                            MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(membersetting.OpenMode + "模式", (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", WX_SourceType);
+                                            db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, Tocontacts);
+                                            return "不能切换彩种,模式" + membersetting.OpenMode + "模式," + MyOutResult;
 
                                         }
-                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", "");
-                                        //SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
+                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "发图", (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", WX_SourceType);
+                                        SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, PlayerReply.WeChatID, PlayerReply.WX_SourceType, PlayerReply.aspnet_UserID);
 
                                     }
                                     if (KeepPic == WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiPicKeepType.Stop && (MyOutResult == ""))
                                     {
-                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", "");
-                                        //SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
+                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(PicType + "停图", (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", WX_SourceType);
+                                        SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, PlayerReply.WeChatID, PlayerReply.WX_SourceType, PlayerReply.aspnet_UserID);
                                     }
                                     if (KeepPic == WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiPicKeepType.SetTime && (MyOutResult == ""))
                                     {
-                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType, (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", "");
-                                        //SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
+                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate(GameType, (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", WX_SourceType);
+                                        SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, PlayerReply.WeChatID, PlayerReply.WX_SourceType, PlayerReply.aspnet_UserID);
                                     }
                                     if (KeepPic == WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiPicKeepType.RestoreDefault && (MyOutResult == ""))
                                     {
-                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("停止", (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", "");
-                                        //SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, Tocontacts, SourceType);
+                                        MyOutResult = Linq.ProgramLogic.WX_UserReplyLog_MySendCreate("停止", (SettingUserName == "" ? Tocontacts : Settingcontacts).First(), JavaMillionSecondTime(Convert.ToInt64(msgTime)), usrpar, new List<Guid>(), membersetting, "", WX_SourceType);
+                                        SendRobotContent((SettingUserName == "" ? "" : SettingUserName + "群") + MyOutResult, PlayerReply.WeChatID, PlayerReply.WX_SourceType, PlayerReply.aspnet_UserID);
                                     }
                                     if (KeepPic == WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiPicKeepType.Keep || KeepPic == WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiPicKeepType.Once)
                                     {
-                                        string ToSendGameType = "";
+
                                         WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode ToSendEnumType = WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode.未知;
                                         switch (GameType)
                                         {
@@ -11654,7 +11739,7 @@ namespace WeixinRobotLib.Linq
 
                                         }//空白取数
 
-                                        SendChongqingResultPic(ToSendEnumType,usrpar, PicType + "图", PlayerReply.WeChatID);
+                                        SendChongqingResultPic(ToSendEnumType, usrpar.UserKey, PicType + "图", PlayerReply.WeChatID);
 
                                     }//不是未知发图模式
                                 }
@@ -11883,18 +11968,19 @@ namespace WeixinRobotLib.Linq
             return "";
         }//fun end
 
-        public static void SendChongqingResultPic(WeixinRobotLib.Entity. Linq.ProgramLogic.ShiShiCaiMode FilterSubmode,WeixinRobotLib.Entity.Linq.ProgramLogic.UserParam usrpar, string Mode = "All", string ToUserID = "")
+        public static void SendChongqingResultPic(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode FilterSubmode, Guid UserKey, string Mode = "All", string ToUserID = "")
         {
-            
+
 
             #region "有新的就通知,以及处理结果"
 
             WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             ////db.ObjectTrackingEnabled = false;
-           WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend myconfig = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t=>
-               t.aspnet_UserID==usrpar.UserKey
-               );
+            WeixinRobotLib.Entity.Linq.aspnet_UsersNewGameResultSend myconfig = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t =>
+                t.aspnet_UserID == UserKey
+                );
+            String UserName = System.Web.Security.Membership.GetUser(UserKey).UserName;
             if (
                 (DateTime.Now.Hour >= myconfig.SendImageStart && DateTime.Now.Hour <= myconfig.SendImageEnd)
                 || (DateTime.Now.Hour >= myconfig.SendImageStart2 && DateTime.Now.Hour <= myconfig.SendImageEnd2)
@@ -11909,23 +11995,48 @@ namespace WeixinRobotLib.Linq
 
                 // var users = db.WX_UserReply.Where(t => t.IsReply == true && t.aspnet_UserID == GlobalParam.Key);
                 //筛选内存中勾了跟踪的
-                var users =db.WX_UserReply.Where( t=>t.IsReply==true &&t.WeChatID==  ToUserID);
+                var users =
+                    from usreply in db.WX_UserReply
+                    join webset in db.WX_WebSendPICSetting on
+                        new { usreply.aspnet_UserID, usreply.WX_UserName, usreply.WX_SourceType }
+                        equals new { webset.aspnet_UserID, webset.WX_UserName, webset.WX_SourceType }
+                        into joinr
+                    from joinrt in joinr.DefaultIfEmpty()
+                    where usreply.IsReply == true
+                    && (usreply.WeChatID == ToUserID || Mode == "All")
+                   && (usreply.aspnet_UserID == UserKey)
+                   && (joinrt.IsSendPIC == true)
+                   && (
+                   (usreply.ChongqingMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.重庆时时彩)
+                   || (usreply.AozcMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.澳洲幸运5)
+                   || (usreply.FiveMinuteMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.五分彩)
+                   || (usreply.HeNeiWuFenMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.河内五分)
+                   || (usreply.HkMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.香港时时彩)
+                   || (usreply.TengXunShiFenMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.腾讯十分)
+                   || (usreply.TengXunWuFenMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.腾讯五分)
+                   || (usreply.TengXunShiFenXinMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.腾十信)
+                   || (usreply.TengXunWuFenXinMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.腾五信)
+                   || (usreply.VRMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.VR重庆时时彩)
+                   || (usreply.XinJiangMode == true && FilterSubmode == Entity.Linq.ProgramLogic.ShiShiCaiMode.新疆时时彩)
+                   )
+                    select usreply;
+
+
+
+
                 foreach (var item in users)
                 {
-                   WeixinRobotLib.Entity. Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey
-                       && t.WX_SourceType == item.WX_SourceType
-                        && t.WX_UserName == item.WX_UserName
-                       );
-                 WeixinRobotLib.Entity.  Linq.WX_UserReply usrreply = db.WX_UserReply.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey
-                      && t.WX_SourceType == item.WX_SourceType
-                       && t.WX_UserName == item.WX_UserName
-                      );
+                    WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == UserKey
+                        && t.WX_SourceType == item.WX_SourceType
+                         && t.WX_UserName == item.WX_UserName
+                        );
+
 
                     if (webpcset == null)
                     {
                         webpcset = new WeixinRobotLib.Entity.Linq.WX_WebSendPICSetting();
 
-                        webpcset.aspnet_UserID = usrpar.UserKey;
+                        webpcset.aspnet_UserID = UserKey;
 
                         webpcset.WX_SourceType = item.WX_SourceType;
                         webpcset.WX_UserName = item.WX_UserName;
@@ -11949,12 +12060,27 @@ namespace WeixinRobotLib.Linq
                         webpcset.NumberDragonTxt = true;
                         webpcset.NumberPIC = false;
                         webpcset.dragonpic = false;
+
+
+                        {
+                            webpcset.PIC_StartHour = 8;
+                        }
+                        {
+                            webpcset.PIC_StartMinute = 58;
+                        }
+                        {
+                            webpcset.PIC_EndHour = 2;
+                        }
+                        {
+                            webpcset.Pic_EndMinute = 3;
+                        }
+
                         db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
                         db.SubmitChanges();
 
                     }
                     #region
-                    webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == usrpar.UserKey
+                    webpcset = db.WX_WebSendPICSetting.SingleOrDefault(t => t.aspnet_UserID == UserKey
                        && t.WX_SourceType == item.WX_SourceType
                         && t.WX_UserName == item.WX_UserName
                        );
@@ -11963,29 +12089,28 @@ namespace WeixinRobotLib.Linq
 
 
 
-                    var dr = db.WX_UserReply.Where(t=>t.WeChatID==item.WeChatID);
+                    var dr = db.WX_UserReply.Where(t => t.WeChatID == item.WeChatID && t.aspnet_UserID == UserKey);
                     if (dr.Count() == 0)
                     {
                         continue;
                     }
 
 
-                    if (WeixinRobotLib.Entity. Linq.ProgramLogic.GetMode(usrreply) != FilterSubmode)
-                    {
-                        continue;
-                    }
+
 
                     string TEMPUserName = dr.First().WeChatID;
-                    string SourceType = dr.First().WX_SourceType;;
-                  
+                    string SourceType = dr.First().WX_SourceType; ;
+
                     if (!myconfig.IsSendPIC == true && ToUserID == "")
                     {
                         continue;
                     }
 
-                    if (WeixinRobotLib.Entity. Linq.ProgramLogic.TimeInDuring(webpcset.PIC_StartHour, webpcset.PIC_StartMinute, webpcset.PIC_EndHour, webpcset.Pic_EndMinute) == false)
+                    if (WeixinRobotLib.Entity.Linq.ProgramLogic.TimeInDuring(webpcset.PIC_StartHour, webpcset.PIC_StartMinute, webpcset.PIC_EndHour, webpcset.Pic_EndMinute) == false)
                     {
-                        continue;
+                        NetFramework.Console.WriteLine("-------------------------------------------------------------------", true);
+                        NetFramework.Console.WriteLine("不在发图时间段", true);
+                        NetFramework.Console.WriteLine("-------------------------------------------------------------------", true);
                     }
                     string ToSendGameName = (Enum.GetName(typeof(WeixinRobotLib.Entity.Linq.ProgramLogic.ShiShiCaiMode), FilterSubmode));
                     //只发勾了的群或指定的人
@@ -12002,16 +12127,16 @@ namespace WeixinRobotLib.Linq
                         {
                             if (dr.First().WX_SourceType == "易")
                             {
-                                SendRobotContent(ReadVirtualFile("Data3" + usrpar.UserName + "_" + ToSendGameName + ".txt", db,usrpar.UserKey), TEMPUserName, SourceType,usrpar.UserKey);
+                                SendRobotContent(ReadVirtualFile("Data3" + UserName + "_" + ToSendGameName + ".txt", db, UserKey), TEMPUserName, SourceType, UserKey);
                             }
                             if (dr.First().WX_SourceType.Contains("微"))
                             {
-                                SendRobotContent(ReadVirtualFile("Data3_yixin" + usrpar.UserName + "_" + ToSendGameName + ".txt", db,usrpar.UserKey), TEMPUserName, SourceType, usrpar.UserKey);
+                                SendRobotContent(ReadVirtualFile("Data3_yixin" + UserName + "_" + ToSendGameName + ".txt", db, UserKey), TEMPUserName, SourceType, UserKey);
                             }
                             webpcset.PreSendGameType = "龙虎";
 
                         }
-                       
+
 
                         if ((Mode == "All" && webpcset.NumberPIC == true) || (Mode == "图1图"))
                         {
@@ -12026,7 +12151,7 @@ namespace WeixinRobotLib.Linq
 
                         if ((Mode == "All" && webpcset.NumberAndDragonPIC == true) || (Mode == "图4图"))
                         {
-                            SendRobotContent(ReadVirtualFile("Data数字龙虎" + usrpar.UserName + "_" + ToSendGameName + ".txt", db,usrpar.UserKey), TEMPUserName, SourceType, usrpar.UserKey);
+                            SendRobotContent(ReadVirtualFile("Data数字龙虎" + UserName + "_" + ToSendGameName + ".txt", db, UserKey), TEMPUserName, SourceType, UserKey);
                             webpcset.PreSendGameType = "图4";
                         }
 
@@ -12040,11 +12165,11 @@ namespace WeixinRobotLib.Linq
                         {
                             if (dr.First().WX_SourceType == "易")
                             {
-                                SendRobotContent(ReadVirtualFile("Data数字龙虎dingding_五分龙虎Vr牛牛" + usrpar.UserName + "_" + ToSendGameName + ".txt", db,usrpar.UserKey), TEMPUserName, SourceType, usrpar.UserKey);
+                                SendRobotContent(ReadVirtualFile("Data数字龙虎dingding_五分龙虎Vr牛牛" + UserName + "_" + ToSendGameName + ".txt", db, UserKey), TEMPUserName, SourceType, UserKey);
                             }
                             if (dr.First().WX_SourceType.Contains("微"))
                             {
-                                SendRobotContent(ReadVirtualFile("Data数字龙虎_五分龙虎Vr牛牛" + usrpar.UserName + "_" + ToSendGameName + ".txt", db,usrpar.UserKey), TEMPUserName, SourceType, usrpar.UserKey);
+                                SendRobotContent(ReadVirtualFile("Data数字龙虎_五分龙虎Vr牛牛" + UserName + "_" + ToSendGameName + ".txt", db, UserKey), TEMPUserName, SourceType, UserKey);
                             }
                             webpcset.PreSendGameType = "牛牛";
                         }
@@ -12052,11 +12177,11 @@ namespace WeixinRobotLib.Linq
                         {
                             if (dr.First().WX_SourceType == "易")
                             {
-                                SendRobotContent(ReadVirtualFile("Data数字龙虎dingding_五分龙虎" + usrpar.UserName + "_" + ToSendGameName + ".txt", db,usrpar.UserKey), TEMPUserName, SourceType, usrpar.UserKey);
+                                SendRobotContent(ReadVirtualFile("Data数字龙虎dingding_五分龙虎" + UserName + "_" + ToSendGameName + ".txt", db, UserKey), TEMPUserName, SourceType, UserKey);
                             }
                             if (dr.First().WX_SourceType.Contains("微"))
                             {
-                                SendRobotContent(ReadVirtualFile("Data数字龙虎_五分龙虎" + usrpar.UserName + "_" + ToSendGameName + ".txt", db,usrpar.UserKey), TEMPUserName, SourceType, usrpar.UserKey);
+                                SendRobotContent(ReadVirtualFile("Data数字龙虎_五分龙虎" + UserName + "_" + ToSendGameName + ".txt", db, UserKey), TEMPUserName, SourceType, UserKey);
                             }
                             webpcset.PreSendGameType = "独龙虎";
                         }
@@ -12065,11 +12190,11 @@ namespace WeixinRobotLib.Linq
                         {
                             if (dr.First().WX_SourceType == "易")
                             {
-                                SendRobotContent(ReadVirtualFile("Data数字龙虎dingding" + usrpar.UserName + "_" + ToSendGameName + ".txt", db,usrpar.UserKey), TEMPUserName, SourceType, usrpar.UserKey);
+                                SendRobotContent(ReadVirtualFile("Data数字龙虎dingding" + UserName + "_" + ToSendGameName + ".txt", db, UserKey), TEMPUserName, SourceType, UserKey);
                             }
                             if (dr.First().WX_SourceType.Contains("微"))
                             {
-                                SendRobotContent(ReadVirtualFile("Data数字龙虎" + usrpar.UserName + "_" + ToSendGameName + ".txt", db,usrpar.UserKey), TEMPUserName, SourceType, usrpar.UserKey);
+                                SendRobotContent(ReadVirtualFile("Data数字龙虎" + UserName + "_" + ToSendGameName + ".txt", db, UserKey), TEMPUserName, SourceType, UserKey);
                             }
                             webpcset.PreSendGameType = "文本";
                         }
@@ -12092,44 +12217,45 @@ namespace WeixinRobotLib.Linq
             }//时间段范围的才发
             else
             {
-              
+
             }
 
             #endregion
 
-          }
+        }
         public static string SendRobotContent(string Content, string TempToUserID, string WX_SourceType, Guid UserKey)
         {
 
             switch (WX_SourceType)
             {
                 case "安微":
-                    return SendAndroidWXContent(Content, TempToUserID,UserKey);
+                    return SendAndroidWXContent(Content, TempToUserID, UserKey);
                 default:
-                      return "";
+                    return "";
 
             }
 
         }
-       
-        public  static string SendAndroidWXContent(string Content, string TempToUserID,Guid UserKey)
+
+        public static string SendAndroidWXContent(string Content, string TempToUserID, Guid UserKey)
         {
             WeixinRobotLib.Entity.Linq.dbDataContext db = new WeixinRobotLib.Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
 
             var replys = db.WX_UserReply.Where(t => t.aspnet_UserID == UserKey && t.WeChatID == TempToUserID);
 
-           WeixinRobotLib.Entity. Linq.aspnet_UserSendJob newjob = new aspnet_UserSendJob();
+            WeixinRobotLib.Entity.Linq.aspnet_UserSendJob newjob = new aspnet_UserSendJob();
             newjob.aspnet_Userid = UserKey;
             newjob.ToSendMessage = Content;
             newjob.WX_UserName = (replys.Count() == 0 ? "找不到" + TempToUserID : replys.First().WX_UserName);
             newjob.WechatID = TempToUserID;
             newjob.Status = "未发";
+            newjob.RequestTime = DateTime.Now;
             db.aspnet_UserSendJob.InsertOnSubmit(newjob);
             db.SubmitChanges();
             return "";
         }
 
-        public static void ShiShiCaiServerDealGameLogAndNotice(Entity.Linq.ProgramLogic.ShiShiCaiMode subm,bool IgoreDataSettingSend = true, bool IgoreMemberGroup = false)
+        public static void ShiShiCaiServerDealGameLogAndNotice(Entity.Linq.ProgramLogic.ShiShiCaiMode subm, bool IgoreDataSettingSend = true, bool IgoreMemberGroup = false)
         {
 
 
@@ -12137,46 +12263,50 @@ namespace WeixinRobotLib.Linq
             Entity.Linq.dbDataContext db = new Entity.Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings["LocalSqlServer"].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
             ////db.ObjectTrackingEnabled = false;
-                       string LastPeriod = db.Game_Result.Where(t => t.GameName == subm.ToString()
+            string LastPeriod = db.Game_Result.Where(t => t.GameName == subm.ToString()
 
-                ).OrderByDescending(t => t.GamePeriod).First().GamePeriod;
+     ).OrderByDescending(t => t.GamePeriod).First().GamePeriod;
 
-           
-            if (   (IgoreDataSettingSend == true))
+
+            if ((IgoreDataSettingSend == true))
             {
 
 
                 #region "发送余额"
                 var noticeChangelist = db.WX_UserGameLog.Where(t => t.Result_HaveProcess == false
-                   // && t.aspnet_UserID == usrpar.UserKey
- && (string.Compare(t.GamePeriod, (t.OpenMode == "澳洲幸运5" || t.OpenMode == "VR重庆时时彩" ? "" : "20") + LastPeriod) <= 0)
-                    ).Select(t => new { t.WX_UserName, t.WX_SourceType, t.MemberGroupName, t.GamePeriod,t.aspnet_UserID }).Distinct().ToArray();
+                    // && t.aspnet_UserID == usrpar.UserKey
+         && (string.Compare(t.GamePeriod, (t.OpenMode == "澳洲幸运5" || t.OpenMode == "VR重庆时时彩" ? "" : "20") + LastPeriod) <= 0)
+        && (t.WX_SourceType != "微" && t.WX_SourceType != "易")
+        && (t.WX_SourceType.StartsWith("安") == true)
+                    ).Select(t => new { t.WX_UserName, t.WX_SourceType, t.MemberGroupName, t.GamePeriod, t.aspnet_UserID }).Distinct().ToArray();
 
                 var lst_membergroup = (from dssub in
                                            (from ds in noticeChangelist
                                             select new { ds.MemberGroupName, ds.WX_SourceType, ds.aspnet_UserID }).Distinct()
-                                       select new TMP_MemberGroup(dssub.MemberGroupName, dssub.WX_SourceType,dssub.aspnet_UserID)).ToArray();
+                                       select new TMP_MemberGroup(dssub.MemberGroupName, dssub.WX_SourceType, dssub.aspnet_UserID)).ToArray();
 
 
 
                 foreach (var notice_item in noticeChangelist)
                 {
-                    Entity.Linq.aspnet_UsersNewGameResultSend checkus = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == notice_item.aspnet_UserID);
-                    if (checkus != null || checkus.IsNewSend == false || checkus==null)
-                    {
-                        return ;
-                    }
 
                     Int32 TotalChanges = Linq.ProgramLogic.WX_UserGameLog_ServerDeal(notice_item.WX_UserName, notice_item.WX_SourceType);
                     if (TotalChanges == 0)
                     {
                         continue;
                     }
+                    Entity.Linq.aspnet_UsersNewGameResultSend checkus = db.aspnet_UsersNewGameResultSend.SingleOrDefault(t => t.aspnet_UserID == notice_item.aspnet_UserID);
+                    if (checkus == null || checkus.IsNewSend == false)
+                    {
+                        return;
+                    }
+
+
 
                     decimal? ReminderMoney = Linq.ProgramLogic.WXUserChangeLog_GetRemainder(notice_item.WX_UserName, notice_item.WX_SourceType, notice_item.aspnet_UserID);
 
                     var Rows = db.WX_UserReply.Where(t => t.WX_UserName == notice_item.WX_UserName && t.WX_SourceType == notice_item.WX_SourceType && t.aspnet_UserID == notice_item.aspnet_UserID);
-                   
+
                     if (Rows.Count() < 1)
                     {
                         NetFramework.Console.WriteLine("找不到联系人，发不出", true);
@@ -12196,7 +12326,7 @@ namespace WeixinRobotLib.Linq
                     //if ((notice_item.WX_SourceType == "微" || notice_item.WX_SourceType == "易") || IgoreMemberGroup)
                     {
 
-                        if (IgoreMemberGroup == true && (notice_item.WX_SourceType .Contains( "微" )==false)&& notice_item.WX_SourceType != "易")
+                        if (IgoreMemberGroup == true && (notice_item.WX_SourceType.Contains("微") == false) && notice_item.WX_SourceType != "易")
                         {
 
                             var sets = db.WX_PCSendPicSetting.Where(t => t.aspnet_UserID == notice_item.aspnet_UserID
@@ -12263,7 +12393,7 @@ namespace WeixinRobotLib.Linq
                     NextSubPeriod = GameFullPeriod.Substring(GameFullPeriod.Length - 3, 3);
                     ReturnSend += "战斗胜负数据如下：" + Environment.NewLine;
 
-                    var buyusers = noticeChangelist.Where(t => t.MemberGroupName == memberite.MemberGroupName && t.WX_SourceType == memberite.WX_SourceType).Select(t => new { t.WX_UserName, t.WX_SourceType, t.GamePeriod,t.aspnet_UserID }).Distinct();
+                    var buyusers = noticeChangelist.Where(t => t.MemberGroupName == memberite.MemberGroupName && t.WX_SourceType == memberite.WX_SourceType).Select(t => new { t.WX_UserName, t.WX_SourceType, t.GamePeriod, t.aspnet_UserID }).Distinct();
                     foreach (var useritem in buyusers)
                     {
 
@@ -12279,7 +12409,7 @@ namespace WeixinRobotLib.Linq
                     }
 
                     ReturnSend += "====================" + Environment.NewLine
-                        + Enum.GetName(typeof(Entity. Linq.ProgramLogic.ShiShiCaiMode), subm) + "【" + NextSubPeriod + "回合】" + Environment.NewLine
+                        + Enum.GetName(typeof(Entity.Linq.ProgramLogic.ShiShiCaiMode), subm) + "【" + NextSubPeriod + "回合】" + Environment.NewLine
                                 + "开战！" + Environment.NewLine
                                 + "请各指挥官开始进攻！" + Environment.NewLine
                                 + "====================" + Environment.NewLine;
@@ -12315,7 +12445,7 @@ namespace WeixinRobotLib.Linq
         }
         private class TMP_MemberGroup
         {
-            public TMP_MemberGroup(string _MemberGroupName, string _WX_SourceType,Guid _aspnet_UserID)
+            public TMP_MemberGroup(string _MemberGroupName, string _WX_SourceType, Guid _aspnet_UserID)
             {
 
                 MemberGroupName = _MemberGroupName;
