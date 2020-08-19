@@ -106,10 +106,6 @@
       <HintPath>..\packages\Brotli.NET.1.0.19\lib\net40\Brotli.NET.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EO.Base, Version=17.2.92.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\EO.Base.dll</HintPath>
-    </Reference>
     <Reference Include="EO.WebBrowser, Version=17.2.92.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\EO.WebBrowser.dll</HintPath>
