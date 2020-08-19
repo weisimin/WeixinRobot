@@ -575,7 +575,7 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="MssageRobootDo">
+      <s:element name="MessageRobootDo">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="RawContent" type="s:string" />
@@ -591,10 +591,10 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="MssageRobootDoResponse">
+      <s:element name="MessageRobootDoResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="MssageRobootDoResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MessageRobootDoResult" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -885,11 +885,11 @@
   <wsdl:message name="SaveWebSendPicSettingSoapOut">
     <wsdl:part name="parameters" element="tns:SaveWebSendPicSettingResponse" />
   </wsdl:message>
-  <wsdl:message name="MssageRobootDoSoapIn">
-    <wsdl:part name="parameters" element="tns:MssageRobootDo" />
+  <wsdl:message name="MessageRobootDoSoapIn">
+    <wsdl:part name="parameters" element="tns:MessageRobootDo" />
   </wsdl:message>
-  <wsdl:message name="MssageRobootDoSoapOut">
-    <wsdl:part name="parameters" element="tns:MssageRobootDoResponse" />
+  <wsdl:message name="MessageRobootDoSoapOut">
+    <wsdl:part name="parameters" element="tns:MessageRobootDoResponse" />
   </wsdl:message>
   <wsdl:message name="UploadContactsSoapIn">
     <wsdl:part name="parameters" element="tns:UploadContacts" />
@@ -1050,9 +1050,9 @@
       <wsdl:input message="tns:SaveWebSendPicSettingSoapIn" />
       <wsdl:output message="tns:SaveWebSendPicSettingSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="MssageRobootDo">
-      <wsdl:input message="tns:MssageRobootDoSoapIn" />
-      <wsdl:output message="tns:MssageRobootDoSoapOut" />
+    <wsdl:operation name="MessageRobootDo">
+      <wsdl:input message="tns:MessageRobootDoSoapIn" />
+      <wsdl:output message="tns:MessageRobootDoSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="UploadContacts">
       <wsdl:input message="tns:UploadContactsSoapIn" />
@@ -1346,8 +1346,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="MssageRobootDo">
-      <soap:operation soapAction="http://13828081978.zicp.vip/MssageRobootDo" style="document" />
+    <wsdl:operation name="MessageRobootDo">
+      <soap:operation soapAction="http://13828081978.zicp.vip/MessageRobootDo" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1682,8 +1682,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="MssageRobootDo">
-      <soap12:operation soapAction="http://13828081978.zicp.vip/MssageRobootDo" style="document" />
+    <wsdl:operation name="MessageRobootDo">
+      <soap12:operation soapAction="http://13828081978.zicp.vip/MessageRobootDo" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1757,10 +1757,10 @@
   </wsdl:binding>
   <wsdl:service name="WebService">
     <wsdl:port name="WebServiceSoap" binding="tns:WebServiceSoap">
-      <soap:address location="http://192.168.5.230/WebService.asmx" />
+      <soap:address location="http://13828081978.qicp.vip:9133/WebService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebServiceSoap12" binding="tns:WebServiceSoap12">
-      <soap12:address location="http://192.168.5.230/WebService.asmx" />
+      <soap12:address location="http://13828081978.qicp.vip:9133/WebService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -19,10 +19,10 @@ namespace WeixinRoboot
         {
             InitializeComponent();
             OnLoginSuccess += new LoginSuccess(Login_OnLoginSuccess);
-            cb_datasource.SelectedItem = "远程服务器";
+            cb_datasource.SelectedItem = "13828081978.qicp.vip";
         }
 
-        void Login_OnLoginSuccess(string UserName )
+        void Login_OnLoginSuccess(string UserName)
         {
             this.Hide();
 
@@ -38,7 +38,7 @@ namespace WeixinRoboot
             #region 本地登录
             //try
             //{
-                
+
 
             //    #region 不使用WEBSERVICE的登录
             //    bool? Success = NetFramework.Util_User.ValidateUser(tb_UserName.Text, tb_pwd.Text);
@@ -70,7 +70,8 @@ namespace WeixinRoboot
             #region 服务器登录
             try
             {
-                bool? Success = NetFramework.Util_User.ValidateWebUser(tb_UserName.Text, tb_pwd.Text, ref  GlobalParam.UserKey, ref GlobalParam.ASPXAUTH, ref GlobalParam.LoginCookie);
+                String Message = "";
+                bool? Success = NetFramework.Util_User.ValidateWebUser(tb_UserName.Text, tb_pwd.Text, ref  GlobalParam.UserKey, ref GlobalParam.ASPXAUTH, ref GlobalParam.LoginCookie, out Message);
                 if (Success == null)
                 {
                     MessageBox.Show("找不到用户名:" + tb_UserName.Text);
@@ -85,9 +86,9 @@ namespace WeixinRoboot
                 }
                 else if (Success.Value == false)
                 {
-                    MessageBox.Show("密码错误");
+                    MessageBox.Show(Message);
                 }
-              
+
             }
             catch (Exception AnyError)
             {
@@ -97,7 +98,7 @@ namespace WeixinRoboot
             #endregion
 
         }
-        public delegate void LoginSuccess(string UserName );
+        public delegate void LoginSuccess(string UserName);
         public event LoginSuccess OnLoginSuccess;
 
         private void btn_Cancel_Click(object sender, EventArgs e)
@@ -135,6 +136,11 @@ namespace WeixinRoboot
                     GlobalParam.DataSourceName = "NoSqlServer4M";
                     GlobalParam.MemberSourceode = "Remote";
                     break;
+                case "13828081978.qicp.vip":
+                    GlobalParam.DataSourceName = "13828081978.qicp.vip";
+                    GlobalParam.MemberSourceode = "Remote";
+                    break;
+
                 default:
                     break;
             }

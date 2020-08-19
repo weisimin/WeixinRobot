@@ -14824,6 +14824,8 @@ namespace WeixinRobotLib.Entity.Linq
 		
 		private string _Status;
 		
+		private System.Nullable<System.DateTime> _RequestTime;
+		
     #region 可扩展性方法定义
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -14842,6 +14844,8 @@ namespace WeixinRobotLib.Entity.Linq
     partial void OnToSendMessageChanged();
     partial void OnStatusChanging(string value);
     partial void OnStatusChanged();
+    partial void OnRequestTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnRequestTimeChanged();
     #endregion
 		
 		public aspnet_UserSendJob()
@@ -14985,6 +14989,26 @@ namespace WeixinRobotLib.Entity.Linq
 					this._Status = value;
 					this.SendPropertyChanged("Status");
 					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RequestTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> RequestTime
+		{
+			get
+			{
+				return this._RequestTime;
+			}
+			set
+			{
+				if ((this._RequestTime != value))
+				{
+					this.OnRequestTimeChanging(value);
+					this.SendPropertyChanging();
+					this._RequestTime = value;
+					this.SendPropertyChanged("RequestTime");
+					this.OnRequestTimeChanged();
 				}
 			}
 		}

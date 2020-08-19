@@ -195,7 +195,7 @@
         <elementListCompartment Id="03b06e76-81e7-4b4c-8758-a489623f7469" absoluteBounds="4.015, 3.335, 1.9700000000000002, 4.258880615234375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4.03875 : 2.575); (4.03875 : 2.875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.9375 : 2.575); (4.9375 : 2.875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbDataContext/aspnet_Users/aspnet_Users_aspnet_Membership" />
       <nodes>
         <classShapeMoniker Id="6a77f076-b811-43ee-8efa-f695bc2659f1" />
@@ -208,10 +208,10 @@
         <elementListCompartment Id="1fbdedb5-5bf8-42de-910d-a1d468abac94" absoluteBounds="3.7649999999999997, 1.835, 1.9700000000000002, 9.0343729654947911" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="54538a64-376a-4407-bc7b-125f6bc0ed07" isExpanded="false" absoluteBounds="3.75, 0.75, 2, 0.45">
+    <classShape Id="c0bd5d42-8301-4707-a028-992a5b6ee19e" isExpanded="false" absoluteBounds="3.75, 0.75, 2, 0.45">
       <DataClassMoniker Name="/dbDataContext/aspnet_UserSendJob" />
       <nestedChildShapes>
-        <elementListCompartment Id="86a03677-fc82-4b9f-bb63-231358686aa2" absoluteBounds="3.7649999999999997, 1.21, 1.9700000000000002, 1.5846048990885415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8ddac797-8db7-4596-863d-ed3ddf5b903f" absoluteBounds="3.7649999999999997, 1.21, 1.9700000000000002, 1.7756245930989585" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

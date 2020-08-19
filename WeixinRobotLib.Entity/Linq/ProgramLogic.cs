@@ -35,7 +35,7 @@ namespace WeixinRobotLib.Entity.Linq
        {
            if (StartHour.HasValue == false || EndHour.HasValue == false || StartMinute.HasValue == false || EndMinute.HasValue == false)
            {
-               return false;
+               return true;
            }
            bool CrossDay = false;
            if (StartHour * 60 + StartMinute > EndHour * 60 + EndMinute)
@@ -233,7 +233,7 @@ namespace WeixinRobotLib.Entity.Linq
            }
            return subm;
        }
-
+      
        public class UserParam
        {
            public string UserName;

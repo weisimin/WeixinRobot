@@ -88,7 +88,7 @@ namespace WeixinRoboot.RobootWeb {
         
         private System.Threading.SendOrPostCallback SaveWebSendPicSettingOperationCompleted;
         
-        private System.Threading.SendOrPostCallback MssageRobootDoOperationCompleted;
+        private System.Threading.SendOrPostCallback MessageRobootDoOperationCompleted;
         
         private System.Threading.SendOrPostCallback UploadContactsOperationCompleted;
         
@@ -230,7 +230,7 @@ namespace WeixinRoboot.RobootWeb {
         public event SaveWebSendPicSettingCompletedEventHandler SaveWebSendPicSettingCompleted;
         
         /// <remarks/>
-        public event MssageRobootDoCompletedEventHandler MssageRobootDoCompleted;
+        public event MessageRobootDoCompletedEventHandler MessageRobootDoCompleted;
         
         /// <remarks/>
         public event UploadContactsCompletedEventHandler UploadContactsCompleted;
@@ -1218,9 +1218,9 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/MssageRobootDo", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string MssageRobootDo(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
-            object[] results = this.Invoke("MssageRobootDo", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://13828081978.zicp.vip/MessageRobootDo", RequestNamespace="http://13828081978.zicp.vip/", ResponseNamespace="http://13828081978.zicp.vip/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string MessageRobootDo(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
+            object[] results = this.Invoke("MessageRobootDo", new object[] {
                         RawContent,
                         WX_SourceType,
                         UserNameOrRemark,
@@ -1235,16 +1235,16 @@ namespace WeixinRoboot.RobootWeb {
         }
         
         /// <remarks/>
-        public void MssageRobootDoAsync(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
-            this.MssageRobootDoAsync(RawContent, WX_SourceType, UserNameOrRemark, FromUserNameTEMPID, ToUserNameTEMPID, JavaMsgTime, msgType, IsTalkGroup, MyUserTEMPID, Jusrpar, null);
+        public void MessageRobootDoAsync(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar) {
+            this.MessageRobootDoAsync(RawContent, WX_SourceType, UserNameOrRemark, FromUserNameTEMPID, ToUserNameTEMPID, JavaMsgTime, msgType, IsTalkGroup, MyUserTEMPID, Jusrpar, null);
         }
         
         /// <remarks/>
-        public void MssageRobootDoAsync(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar, object userState) {
-            if ((this.MssageRobootDoOperationCompleted == null)) {
-                this.MssageRobootDoOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMssageRobootDoOperationCompleted);
+        public void MessageRobootDoAsync(string RawContent, string WX_SourceType, string UserNameOrRemark, string FromUserNameTEMPID, string ToUserNameTEMPID, string JavaMsgTime, string msgType, bool IsTalkGroup, string MyUserTEMPID, string Jusrpar, object userState) {
+            if ((this.MessageRobootDoOperationCompleted == null)) {
+                this.MessageRobootDoOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMessageRobootDoOperationCompleted);
             }
-            this.InvokeAsync("MssageRobootDo", new object[] {
+            this.InvokeAsync("MessageRobootDo", new object[] {
                         RawContent,
                         WX_SourceType,
                         UserNameOrRemark,
@@ -1254,13 +1254,13 @@ namespace WeixinRoboot.RobootWeb {
                         msgType,
                         IsTalkGroup,
                         MyUserTEMPID,
-                        Jusrpar}, this.MssageRobootDoOperationCompleted, userState);
+                        Jusrpar}, this.MessageRobootDoOperationCompleted, userState);
         }
         
-        private void OnMssageRobootDoOperationCompleted(object arg) {
-            if ((this.MssageRobootDoCompleted != null)) {
+        private void OnMessageRobootDoOperationCompleted(object arg) {
+            if ((this.MessageRobootDoCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.MssageRobootDoCompleted(this, new MssageRobootDoCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.MessageRobootDoCompleted(this, new MessageRobootDoCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2846,17 +2846,17 @@ namespace WeixinRoboot.RobootWeb {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
-    public delegate void MssageRobootDoCompletedEventHandler(object sender, MssageRobootDoCompletedEventArgs e);
+    public delegate void MessageRobootDoCompletedEventHandler(object sender, MessageRobootDoCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1099.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class MssageRobootDoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class MessageRobootDoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal MssageRobootDoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal MessageRobootDoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

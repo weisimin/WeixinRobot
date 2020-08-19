@@ -26,20 +26,20 @@ namespace NetFramework
 
         }
 
-        public static bool? ValidateWebUser(string UserName, string Password,ref Guid ProviderUserKey,ref string AspxAuth,ref CookieContainer otscookie)
+        public static bool? ValidateWebUser(string UserName, string Password,ref Guid ProviderUserKey,ref string AspxAuth,ref CookieContainer otscookie,out String Message)
         {
             WeixinRoboot.RobootWeb.WebService ws = new WeixinRoboot.RobootWeb.WebService();
             ws.CookieContainer= new CookieContainer();
-            
-           string Result= ws.UserLogIn(UserName, Password);
-           if (Result.Contains("错误") )
+
+            Message = ws.UserLogIn(UserName, Password);
+            if (Message.Contains("错误"))
            {
-               return null;
+               return false;
            }
 
            else
            {
-               ProviderUserKey = Guid.Parse(Result);
+               ProviderUserKey = Guid.Parse(Message);
                AspxAuth = ws.GetUserToken(UserName, Password);
                otscookie = ws.CookieContainer;
                return true;

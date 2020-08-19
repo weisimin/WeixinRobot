@@ -511,6 +511,7 @@ namespace WeixinRoboot
                     Btn_Build.Enabled = false;
                     Cb_OpenMode.Enabled = true;
                     cb_SuperUser.Enabled = true;
+                    Cb_OpenMode.SelectedItem = "VR";
                     break;
                 case "Modify":
                     fd_password.Enabled = false;
@@ -534,16 +535,17 @@ namespace WeixinRoboot
                     fd_EndDate.Enabled = false;
                     Btn_Build.Visible = false;
 
-                    lbl_pic.Visible = false;
-                    lbl_order.Visible = false;
+                    lbl_pic.Visible = true;
+                    lbl_order.Visible = true;
                     lbl_tracecount.Visible = false;
 
-                    FD_SendPIC.Visible = false;
-                    FD_ReceiveOrder.Visible = false;
+                    FD_SendPIC.Visible = true;
+                    FD_ReceiveOrder.Visible = true;
                     fd_MaxPlayerCount.Visible = false;
                     Cb_OpenMode.Enabled = false;
                     cb_SuperUser.Enabled = false;
-
+                    FD_SendPIC.Enabled = false;
+                    FD_ReceiveOrder.Enabled = false;
 
 
 
@@ -749,6 +751,7 @@ namespace WeixinRoboot
             else
             {
                 Cb_OpenMode.Enabled = true;
+                Cb_OpenMode.SelectedItem = "VR";
             }
         }
     }

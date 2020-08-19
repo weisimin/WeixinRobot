@@ -279,10 +279,10 @@
   </wsdl:binding>
   <wsdl:service name="SysadminServices">
     <wsdl:port name="SysadminServicesSoap" binding="tns:SysadminServicesSoap">
-      <soap:address location="http://192.168.5.230/SysadminServices.asmx" />
+      <soap:address location="http://13828081978.qicp.vip:9133/SysadminServices.asmx" />
     </wsdl:port>
     <wsdl:port name="SysadminServicesSoap12" binding="tns:SysadminServicesSoap12">
-      <soap12:address location="http://192.168.5.230/SysadminServices.asmx" />
+      <soap12:address location="http://13828081978.qicp.vip:9133/SysadminServices.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

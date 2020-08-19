@@ -42,9 +42,10 @@
             // 
             this.lbl_UserName.AutoSize = true;
             this.lbl_UserName.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_UserName.Location = new System.Drawing.Point(74, 46);
+            this.lbl_UserName.Location = new System.Drawing.Point(99, 58);
+            this.lbl_UserName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_UserName.Name = "lbl_UserName";
-            this.lbl_UserName.Size = new System.Drawing.Size(74, 21);
+            this.lbl_UserName.Size = new System.Drawing.Size(92, 27);
             this.lbl_UserName.TabIndex = 0;
             this.lbl_UserName.Text = "会员号：";
             // 
@@ -52,35 +53,39 @@
             // 
             this.lbl_Pwd.AutoSize = true;
             this.lbl_Pwd.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_Pwd.Location = new System.Drawing.Point(74, 85);
+            this.lbl_Pwd.Location = new System.Drawing.Point(99, 106);
+            this.lbl_Pwd.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Pwd.Name = "lbl_Pwd";
-            this.lbl_Pwd.Size = new System.Drawing.Size(58, 21);
+            this.lbl_Pwd.Size = new System.Drawing.Size(72, 27);
             this.lbl_Pwd.TabIndex = 1;
             this.lbl_Pwd.Text = "密码：";
             // 
             // tb_UserName
             // 
             this.tb_UserName.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tb_UserName.Location = new System.Drawing.Point(172, 42);
+            this.tb_UserName.Location = new System.Drawing.Point(229, 52);
+            this.tb_UserName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_UserName.Name = "tb_UserName";
-            this.tb_UserName.Size = new System.Drawing.Size(157, 29);
+            this.tb_UserName.Size = new System.Drawing.Size(208, 34);
             this.tb_UserName.TabIndex = 2;
             // 
             // tb_pwd
             // 
             this.tb_pwd.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tb_pwd.Location = new System.Drawing.Point(172, 81);
+            this.tb_pwd.Location = new System.Drawing.Point(229, 101);
+            this.tb_pwd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tb_pwd.Name = "tb_pwd";
             this.tb_pwd.PasswordChar = '*';
-            this.tb_pwd.Size = new System.Drawing.Size(157, 29);
+            this.tb_pwd.Size = new System.Drawing.Size(208, 34);
             this.tb_pwd.TabIndex = 3;
             // 
             // btn_Login
             // 
             this.btn_Login.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btn_Login.Location = new System.Drawing.Point(78, 174);
+            this.btn_Login.Location = new System.Drawing.Point(104, 218);
+            this.btn_Login.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_Login.Name = "btn_Login";
-            this.btn_Login.Size = new System.Drawing.Size(80, 28);
+            this.btn_Login.Size = new System.Drawing.Size(107, 35);
             this.btn_Login.TabIndex = 4;
             this.btn_Login.Text = "登录";
             this.btn_Login.UseVisualStyleBackColor = true;
@@ -88,9 +93,10 @@
             // 
             // btn_Cancel
             // 
-            this.btn_Cancel.Location = new System.Drawing.Point(249, 174);
+            this.btn_Cancel.Location = new System.Drawing.Point(332, 218);
+            this.btn_Cancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_Cancel.Name = "btn_Cancel";
-            this.btn_Cancel.Size = new System.Drawing.Size(80, 28);
+            this.btn_Cancel.Size = new System.Drawing.Size(107, 35);
             this.btn_Cancel.TabIndex = 5;
             this.btn_Cancel.Text = "取消";
             this.btn_Cancel.UseVisualStyleBackColor = true;
@@ -100,9 +106,10 @@
             // 
             this.lbl_data.AutoSize = true;
             this.lbl_data.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_data.Location = new System.Drawing.Point(74, 134);
+            this.lbl_data.Location = new System.Drawing.Point(99, 168);
+            this.lbl_data.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_data.Name = "lbl_data";
-            this.lbl_data.Size = new System.Drawing.Size(74, 21);
+            this.lbl_data.Size = new System.Drawing.Size(92, 27);
             this.lbl_data.TabIndex = 6;
             this.lbl_data.Text = "数据源：";
             // 
@@ -111,24 +118,26 @@
             this.cb_datasource.Font = new System.Drawing.Font("宋体", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cb_datasource.FormattingEnabled = true;
             this.cb_datasource.Items.AddRange(new object[] {
+            "13828081978.qicp.vip",
             "远程服务器",
             "本机",
             "迷你本机",
             "迷你全本机",
             "无数据库15M",
             "无数据库4M"});
-            this.cb_datasource.Location = new System.Drawing.Point(172, 134);
+            this.cb_datasource.Location = new System.Drawing.Point(229, 168);
+            this.cb_datasource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cb_datasource.Name = "cb_datasource";
-            this.cb_datasource.Size = new System.Drawing.Size(157, 29);
+            this.cb_datasource.Size = new System.Drawing.Size(208, 35);
             this.cb_datasource.TabIndex = 7;
             this.cb_datasource.SelectedIndexChanged += new System.EventHandler(this.cb_datasource_SelectedIndexChanged);
             this.cb_datasource.SelectedValueChanged += new System.EventHandler(this.cb_datasource_SelectedValueChanged);
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 228);
+            this.ClientSize = new System.Drawing.Size(589, 285);
             this.Controls.Add(this.cb_datasource);
             this.Controls.Add(this.lbl_data);
             this.Controls.Add(this.btn_Cancel);
@@ -137,6 +146,7 @@
             this.Controls.Add(this.tb_UserName);
             this.Controls.Add(this.lbl_Pwd);
             this.Controls.Add(this.lbl_UserName);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录";

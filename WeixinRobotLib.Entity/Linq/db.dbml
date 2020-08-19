@@ -683,6 +683,7 @@
       <Column Name="Remark" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
       <Column Name="ToSendMessage" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
       <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="RequestTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

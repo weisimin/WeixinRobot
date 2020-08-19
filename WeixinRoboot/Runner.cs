@@ -408,6 +408,18 @@ namespace WeixinRoboot
                             webpcset.NumberDragonTxt = true;
                             webpcset.NumberPIC = false;
                             webpcset.dragonpic = false;
+                            {
+                                webpcset.PIC_StartHour = 8;
+                            }
+                            {
+                                webpcset.PIC_StartMinute = 58;
+                            }
+                            {
+                                webpcset.PIC_EndHour = 2;
+                            }
+                            {
+                                webpcset.Pic_EndMinute = 3;
+                            }
                             db.WX_WebSendPICSetting.InsertOnSubmit(webpcset);
                             db.SubmitChanges();
 

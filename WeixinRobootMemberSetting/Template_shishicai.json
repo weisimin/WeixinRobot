@@ -1,0 +1,42 @@
+﻿{
+"FromUserName": "@914e5d98ee80238a7a4153523e4ed01e6ed8b0b281f47c38317e114015e6f5b3",
+"ToUserName": "@f7240aabdee0b7243fde9e43b63f24ecfe426c5d42297ebb534fb7e8e218ee81",
+"MsgType": 49,
+"Content": "&lt;?xml version=\"1.0\"?&gt;<br/>&lt;msg&gt;<br/>\t&lt;appmsg appid=\"wx020a535dccd46c11\" sdkver=\"0\"&gt;<br/>\t\t&lt;title&gt;重庆时时彩&lt;/title&gt;<br/>\t\t&lt;des&gt;我正在看【重庆时时彩】，分享给你，一起看吧！&lt;/des&gt;<br/>\t\t&lt;username /&gt;<br/>\t\t&lt;action&gt;view&lt;/action&gt;<br/>\t\t&lt;type&gt;5&lt;/type&gt;<br/>\t\t&lt;showtype&gt;0&lt;/showtype&gt;<br/>\t\t&lt;content /&gt;<br/>\t\t&lt;url&gt;https://h5.jdd.com/communal/kaijiang/list/2041/#today#?frm=sc&amp;amp;bv=1&lt;/url&gt;<br/>\t\t&lt;lowurl /&gt;<br/>\t\t&lt;dataurl /&gt;<br/>\t\t&lt;lowdataurl /&gt;<br/>\t\t&lt;contentattr&gt;0&lt;/contentattr&gt;<br/>\t\t&lt;streamvideo&gt;<br/>\t\t\t&lt;streamvideourl /&gt;<br/>\t\t\t&lt;streamvideototaltime&gt;0&lt;/streamvideototaltime&gt;<br/>\t\t\t&lt;streamvideotitle /&gt;<br/>\t\t\t&lt;streamvideowording /&gt;<br/>\t\t\t&lt;streamvideoweburl /&gt;<br/>\t\t\t&lt;streamvideothumburl /&gt;<br/>\t\t\t&lt;streamvideoaduxinfo /&gt;<br/>\t\t\t&lt;streamvideopublishid /&gt;<br/>\t\t&lt;/streamvideo&gt;<br/>\t\t&lt;canvasPageItem&gt;<br/>\t\t\t&lt;canvasPageXml&gt;&lt;![CDATA[]]&gt;&lt;/canvasPageXml&gt;<br/>\t\t&lt;/canvasPageItem&gt;<br/>\t\t&lt;appattach&gt;<br/>\t\t\t&lt;attachid /&gt;<br/>\t\t\t&lt;cdnthumburl&gt;305c0201000455305302010002048f3a969202033d14b9020412e6607102045c0084ae042e6175706170706d73675f326238376137386432653661353632385f313534333533373833393535305f33393938300204010800030201000400&lt;/cdnthumburl&gt;<br/>\t\t\t&lt;cdnthumbmd5&gt;be081d9d48ab15a5e33621d68bc8a2e4&lt;/cdnthumbmd5&gt;<br/>\t\t\t&lt;cdnthumblength&gt;7090&lt;/cdnthumblength&gt;<br/>\t\t\t&lt;cdnthumbheight&gt;120&lt;/cdnthumbheight&gt;<br/>\t\t\t&lt;cdnthumbwidth&gt;60&lt;/cdnthumbwidth&gt;<br/>\t\t\t&lt;cdnthumbaeskey&gt;b336916382ce4b74807303fa55422eb5&lt;/cdnthumbaeskey&gt;<br/>\t\t\t&lt;aeskey&gt;b336916382ce4b74807303fa55422eb5&lt;/aeskey&gt;<br/>\t\t\t&lt;encryver&gt;1&lt;/encryver&gt;<br/>\t\t\t&lt;fileext /&gt;<br/>\t\t\t&lt;islargefilemsg&gt;0&lt;/islargefilemsg&gt;<br/>\t\t&lt;/appattach&gt;<br/>\t\t&lt;extinfo /&gt;<br/>\t\t&lt;androidsource&gt;3&lt;/androidsource&gt;<br/>\t\t&lt;thumburl /&gt;<br/>\t\t&lt;mediatagname /&gt;<br/>\t\t&lt;messageaction&gt;&lt;![CDATA[]]&gt;&lt;/messageaction&gt;<br/>\t\t&lt;messageext&gt;&lt;![CDATA[]]&gt;&lt;/messageext&gt;<br/>\t\t&lt;emoticongift&gt;<br/>\t\t\t&lt;packageflag&gt;0&lt;/packageflag&gt;<br/>\t\t\t&lt;packageid /&gt;<br/>\t\t&lt;/emoticongift&gt;<br/>\t\t&lt;emoticonshared&gt;<br/>\t\t\t&lt;packageflag&gt;0&lt;/packageflag&gt;<br/>\t\t\t&lt;packageid /&gt;<br/>\t\t&lt;/emoticonshared&gt;<br/>\t\t&lt;designershared&gt;<br/>\t\t\t&lt;designeruin&gt;0&lt;/designeruin&gt;<br/>\t\t\t&lt;designername&gt;null&lt;/designername&gt;<br/>\t\t\t&lt;designerrediretcturl&gt;null&lt;/designerrediretcturl&gt;<br/>\t\t&lt;/designershared&gt;<br/>\t\t&lt;emotionpageshared&gt;<br/>\t\t\t&lt;tid&gt;0&lt;/tid&gt;<br/>\t\t\t&lt;title&gt;null&lt;/title&gt;<br/>\t\t\t&lt;desc&gt;null&lt;/desc&gt;<br/>\t\t\t&lt;iconUrl&gt;null&lt;/iconUrl&gt;<br/>\t\t\t&lt;secondUrl&gt;null&lt;/secondUrl&gt;<br/>\t\t\t&lt;pageType&gt;0&lt;/pageType&gt;<br/>\t\t&lt;/emotionpageshared&gt;<br/>\t\t&lt;webviewshared&gt;<br/>\t\t\t&lt;shareUrlOriginal /&gt;<br/>\t\t\t&lt;shareUrlOpen /&gt;<br/>\t\t\t&lt;jsAppId /&gt;<br/>\t\t\t&lt;publisherId /&gt;<br/>\t\t&lt;/webviewshared&gt;<br/>\t\t&lt;template_id /&gt;<br/>\t\t&lt;md5&gt;be081d9d48ab15a5e33621d68bc8a2e4&lt;/md5&gt;<br/>\t\t&lt;weappinfo&gt;<br/>\t\t\t&lt;username /&gt;<br/>\t\t\t&lt;appid /&gt;<br/>\t\t\t&lt;appservicetype&gt;0&lt;/appservicetype&gt;<br/>\t\t&lt;/weappinfo&gt;<br/>\t\t&lt;statextstr&gt;GhQKEnd4MDIwYTUzNWRjY2Q0NmMxMQ==&lt;/statextstr&gt;<br/>\t\t&lt;websearch&gt;<br/>\t\t\t&lt;rec_category&gt;0&lt;/rec_category&gt;<br/>\t\t&lt;/websearch&gt;<br/>\t&lt;/appmsg&gt;<br/>\t&lt;fromusername&gt;&lt;/fromusername&gt;<br/>\t&lt;scene&gt;0&lt;/scene&gt;<br/>\t&lt;appinfo&gt;<br/>\t\t&lt;version&gt;2&lt;/version&gt;<br/>\t\t&lt;appname&gt;UC浏览器&lt;/appname&gt;<br/>\t&lt;/appinfo&gt;<br/>\t&lt;commenturl&gt;&lt;/commenturl&gt;<br/>&lt;/msg&gt;<br/>",
+"Status": 3,
+"ImgStatus": 2,
+"CreateTime": 1543537839,
+"VoiceLength": 0,
+"PlayLength": 0,
+"FileName": "重庆时时彩",
+"FileSize": "",
+"MediaId": "",
+"Url": "https://h5.jdd.com/communal/kaijiang/list/2041/#today#?frm=sc&amp;bv=1",
+"AppMsgType": 5,
+"StatusNotifyCode": 0,
+"StatusNotifyUserName": "",
+"RecommendInfo": {
+"UserName": "",
+"NickName": "",
+"QQNum": 0,
+"Province": "",
+"City": "",
+"Content": "",
+"Signature": "",
+"Alias": "",
+"Scene": 0,
+"VerifyFlag": 0,
+"AttrStatus": 0,
+"Sex": 0,
+"Ticket": "",
+"OpCode": 0
+}
+,
+"ForwardFlag": 0,
+"AppInfo": {
+"AppID": "wx020a535dccd46c11",
+"Type": 0
+}
+
+}
+

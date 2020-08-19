@@ -132,6 +132,8 @@
             this.T_HeNeiWuFen = new System.Windows.Forms.CheckBox();
             this.btn_installcerberus = new System.Windows.Forms.Button();
             this.btn_installrobot = new System.Windows.Forms.Button();
+            this.cb_servermode = new System.Windows.Forms.CheckBox();
+            this.btn_deal = new System.Windows.Forms.Button();
             this.Botton_Status.SuspendLayout();
             this.TopMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBarCode_yixin)).BeginInit();
@@ -153,7 +155,7 @@
             // btn_resfresh
             // 
             this.btn_resfresh.Location = new System.Drawing.Point(215, 409);
-            this.btn_resfresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_resfresh.Margin = new System.Windows.Forms.Padding(4);
             this.btn_resfresh.Name = "btn_resfresh";
             this.btn_resfresh.Size = new System.Drawing.Size(100, 29);
             this.btn_resfresh.TabIndex = 2;
@@ -380,7 +382,7 @@
             // Btn_Draw
             // 
             this.Btn_Draw.Location = new System.Drawing.Point(1064, 318);
-            this.Btn_Draw.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_Draw.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Draw.Name = "Btn_Draw";
             this.Btn_Draw.Size = new System.Drawing.Size(100, 29);
             this.Btn_Draw.TabIndex = 6;
@@ -391,7 +393,7 @@
             // Btn_StartDownLoad
             // 
             this.Btn_StartDownLoad.Location = new System.Drawing.Point(1064, 276);
-            this.Btn_StartDownLoad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_StartDownLoad.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_StartDownLoad.Name = "Btn_StartDownLoad";
             this.Btn_StartDownLoad.Size = new System.Drawing.Size(100, 29);
             this.Btn_StartDownLoad.TabIndex = 7;
@@ -403,7 +405,7 @@
             // btn_TestOrder
             // 
             this.btn_TestOrder.Location = new System.Drawing.Point(1064, 231);
-            this.btn_TestOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_TestOrder.Margin = new System.Windows.Forms.Padding(4);
             this.btn_TestOrder.Name = "btn_TestOrder";
             this.btn_TestOrder.Size = new System.Drawing.Size(100, 29);
             this.btn_TestOrder.TabIndex = 8;
@@ -415,7 +417,7 @@
             // OpenBlack
             // 
             this.OpenBlack.Location = new System.Drawing.Point(7, 276);
-            this.OpenBlack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OpenBlack.Margin = new System.Windows.Forms.Padding(4);
             this.OpenBlack.Name = "OpenBlack";
             this.OpenBlack.Size = new System.Drawing.Size(105, 32);
             this.OpenBlack.TabIndex = 9;
@@ -446,7 +448,7 @@
             // btn_refreshyixin
             // 
             this.btn_refreshyixin.Location = new System.Drawing.Point(699, 409);
-            this.btn_refreshyixin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_refreshyixin.Margin = new System.Windows.Forms.Padding(4);
             this.btn_refreshyixin.Name = "btn_refreshyixin";
             this.btn_refreshyixin.Size = new System.Drawing.Size(100, 29);
             this.btn_refreshyixin.TabIndex = 14;
@@ -456,8 +458,8 @@
             // 
             // btn_bossreport
             // 
-            this.btn_bossreport.Location = new System.Drawing.Point(1064, 369);
-            this.btn_bossreport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_bossreport.Location = new System.Drawing.Point(1064, 395);
+            this.btn_bossreport.Margin = new System.Windows.Forms.Padding(4);
             this.btn_bossreport.Name = "btn_bossreport";
             this.btn_bossreport.Size = new System.Drawing.Size(100, 29);
             this.btn_bossreport.TabIndex = 15;
@@ -469,7 +471,7 @@
             // btn_InjectAndDo
             // 
             this.btn_InjectAndDo.Location = new System.Drawing.Point(7, 124);
-            this.btn_InjectAndDo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_InjectAndDo.Margin = new System.Windows.Forms.Padding(4);
             this.btn_InjectAndDo.Name = "btn_InjectAndDo";
             this.btn_InjectAndDo.Size = new System.Drawing.Size(107, 41);
             this.btn_InjectAndDo.TabIndex = 16;
@@ -480,7 +482,7 @@
             // Btn_ManulSend
             // 
             this.Btn_ManulSend.Location = new System.Drawing.Point(5, 231);
-            this.Btn_ManulSend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_ManulSend.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_ManulSend.Name = "Btn_ManulSend";
             this.Btn_ManulSend.Size = new System.Drawing.Size(107, 34);
             this.Btn_ManulSend.TabIndex = 17;
@@ -491,7 +493,7 @@
             // btn_runtest
             // 
             this.btn_runtest.Location = new System.Drawing.Point(1064, 195);
-            this.btn_runtest.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_runtest.Margin = new System.Windows.Forms.Padding(4);
             this.btn_runtest.Name = "btn_runtest";
             this.btn_runtest.Size = new System.Drawing.Size(100, 29);
             this.btn_runtest.TabIndex = 18;
@@ -502,9 +504,9 @@
             // gb_football
             // 
             this.gb_football.Location = new System.Drawing.Point(17, 465);
-            this.gb_football.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_football.Margin = new System.Windows.Forms.Padding(4);
             this.gb_football.Name = "gb_football";
-            this.gb_football.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_football.Padding = new System.Windows.Forms.Padding(4);
             this.gb_football.Size = new System.Drawing.Size(201, 128);
             this.gb_football.TabIndex = 19;
             this.gb_football.TabStop = false;
@@ -513,9 +515,9 @@
             // gb_other
             // 
             this.gb_other.Location = new System.Drawing.Point(827, 465);
-            this.gb_other.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_other.Margin = new System.Windows.Forms.Padding(4);
             this.gb_other.Name = "gb_other";
-            this.gb_other.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_other.Padding = new System.Windows.Forms.Padding(4);
             this.gb_other.Size = new System.Drawing.Size(385, 128);
             this.gb_other.TabIndex = 21;
             this.gb_other.TabStop = false;
@@ -524,9 +526,9 @@
             // gb_refresh
             // 
             this.gb_refresh.Location = new System.Drawing.Point(233, 465);
-            this.gb_refresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_refresh.Margin = new System.Windows.Forms.Padding(4);
             this.gb_refresh.Name = "gb_refresh";
-            this.gb_refresh.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_refresh.Padding = new System.Windows.Forms.Padding(4);
             this.gb_refresh.Size = new System.Drawing.Size(169, 128);
             this.gb_refresh.TabIndex = 22;
             this.gb_refresh.TabStop = false;
@@ -535,7 +537,7 @@
             // PicBarCode_yixin
             // 
             this.PicBarCode_yixin.Location = new System.Drawing.Point(699, 124);
-            this.PicBarCode_yixin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PicBarCode_yixin.Margin = new System.Windows.Forms.Padding(4);
             this.PicBarCode_yixin.Name = "PicBarCode_yixin";
             this.PicBarCode_yixin.Size = new System.Drawing.Size(213, 200);
             this.PicBarCode_yixin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -545,7 +547,7 @@
             // PicBarCode
             // 
             this.PicBarCode.Location = new System.Drawing.Point(237, 124);
-            this.PicBarCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PicBarCode.Margin = new System.Windows.Forms.Padding(4);
             this.PicBarCode.Name = "PicBarCode";
             this.PicBarCode.Size = new System.Drawing.Size(213, 200);
             this.PicBarCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -555,9 +557,9 @@
             // gb_point
             // 
             this.gb_point.Location = new System.Drawing.Point(411, 465);
-            this.gb_point.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_point.Margin = new System.Windows.Forms.Padding(4);
             this.gb_point.Name = "gb_point";
-            this.gb_point.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_point.Padding = new System.Windows.Forms.Padding(4);
             this.gb_point.Size = new System.Drawing.Size(203, 128);
             this.gb_point.TabIndex = 23;
             this.gb_point.TabStop = false;
@@ -566,9 +568,9 @@
             // gb_pointlog
             // 
             this.gb_pointlog.Location = new System.Drawing.Point(621, 465);
-            this.gb_pointlog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_pointlog.Margin = new System.Windows.Forms.Padding(4);
             this.gb_pointlog.Name = "gb_pointlog";
-            this.gb_pointlog.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_pointlog.Padding = new System.Windows.Forms.Padding(4);
             this.gb_pointlog.Size = new System.Drawing.Size(177, 128);
             this.gb_pointlog.TabIndex = 24;
             this.gb_pointlog.TabStop = false;
@@ -578,7 +580,7 @@
             // 
             this.cb_refreshball.AutoSize = true;
             this.cb_refreshball.Location = new System.Drawing.Point(16, 326);
-            this.cb_refreshball.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cb_refreshball.Margin = new System.Windows.Forms.Padding(4);
             this.cb_refreshball.Name = "cb_refreshball";
             this.cb_refreshball.Size = new System.Drawing.Size(89, 19);
             this.cb_refreshball.TabIndex = 25;
@@ -619,7 +621,7 @@
             // tb_StartHour
             // 
             this.tb_StartHour.Location = new System.Drawing.Point(308, 361);
-            this.tb_StartHour.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_StartHour.Margin = new System.Windows.Forms.Padding(4);
             this.tb_StartHour.Name = "tb_StartHour";
             this.tb_StartHour.Size = new System.Drawing.Size(29, 25);
             this.tb_StartHour.TabIndex = 29;
@@ -638,7 +640,7 @@
             // tb_StartMinute
             // 
             this.tb_StartMinute.Location = new System.Drawing.Point(357, 361);
-            this.tb_StartMinute.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_StartMinute.Margin = new System.Windows.Forms.Padding(4);
             this.tb_StartMinute.Name = "tb_StartMinute";
             this.tb_StartMinute.Size = new System.Drawing.Size(35, 25);
             this.tb_StartMinute.TabIndex = 31;
@@ -657,7 +659,7 @@
             // tb_EndMinute
             // 
             this.tb_EndMinute.Location = new System.Drawing.Point(473, 361);
-            this.tb_EndMinute.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_EndMinute.Margin = new System.Windows.Forms.Padding(4);
             this.tb_EndMinute.Name = "tb_EndMinute";
             this.tb_EndMinute.Size = new System.Drawing.Size(35, 25);
             this.tb_EndMinute.TabIndex = 35;
@@ -676,7 +678,7 @@
             // tb_EndHour
             // 
             this.tb_EndHour.Location = new System.Drawing.Point(424, 361);
-            this.tb_EndHour.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_EndHour.Margin = new System.Windows.Forms.Padding(4);
             this.tb_EndHour.Name = "tb_EndHour";
             this.tb_EndHour.Size = new System.Drawing.Size(29, 25);
             this.tb_EndHour.TabIndex = 33;
@@ -685,7 +687,7 @@
             // btn_Save
             // 
             this.btn_Save.Location = new System.Drawing.Point(519, 360);
-            this.btn_Save.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Save.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(100, 29);
             this.btn_Save.TabIndex = 36;
@@ -716,7 +718,7 @@
             // tb_NoxPath
             // 
             this.tb_NoxPath.Location = new System.Drawing.Point(249, 751);
-            this.tb_NoxPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_NoxPath.Margin = new System.Windows.Forms.Padding(4);
             this.tb_NoxPath.Name = "tb_NoxPath";
             this.tb_NoxPath.Size = new System.Drawing.Size(413, 25);
             this.tb_NoxPath.TabIndex = 39;
@@ -725,7 +727,7 @@
             // tb_LeidianPath
             // 
             this.tb_LeidianPath.Location = new System.Drawing.Point(249, 794);
-            this.tb_LeidianPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_LeidianPath.Margin = new System.Windows.Forms.Padding(4);
             this.tb_LeidianPath.Name = "tb_LeidianPath";
             this.tb_LeidianPath.Size = new System.Drawing.Size(413, 25);
             this.tb_LeidianPath.TabIndex = 40;
@@ -734,7 +736,7 @@
             // tb_noxsharepath
             // 
             this.tb_noxsharepath.Location = new System.Drawing.Point(808, 749);
-            this.tb_noxsharepath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_noxsharepath.Margin = new System.Windows.Forms.Padding(4);
             this.tb_noxsharepath.Name = "tb_noxsharepath";
             this.tb_noxsharepath.Size = new System.Drawing.Size(403, 25);
             this.tb_noxsharepath.TabIndex = 42;
@@ -752,7 +754,7 @@
             // tb_leidiansharepath
             // 
             this.tb_leidiansharepath.Location = new System.Drawing.Point(811, 794);
-            this.tb_leidiansharepath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_leidiansharepath.Margin = new System.Windows.Forms.Padding(4);
             this.tb_leidiansharepath.Name = "tb_leidiansharepath";
             this.tb_leidiansharepath.Size = new System.Drawing.Size(400, 25);
             this.tb_leidiansharepath.TabIndex = 44;
@@ -771,7 +773,7 @@
             // 
             this.cb_adbnoxmode.AutoSize = true;
             this.cb_adbnoxmode.Location = new System.Drawing.Point(17, 756);
-            this.cb_adbnoxmode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cb_adbnoxmode.Margin = new System.Windows.Forms.Padding(4);
             this.cb_adbnoxmode.Name = "cb_adbnoxmode";
             this.cb_adbnoxmode.Size = new System.Drawing.Size(83, 19);
             this.cb_adbnoxmode.TabIndex = 45;
@@ -782,7 +784,7 @@
             // 
             this.cb_adbleidianmode.AutoSize = true;
             this.cb_adbleidianmode.Location = new System.Drawing.Point(15, 789);
-            this.cb_adbleidianmode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cb_adbleidianmode.Margin = new System.Windows.Forms.Padding(4);
             this.cb_adbleidianmode.Name = "cb_adbleidianmode";
             this.cb_adbleidianmode.Size = new System.Drawing.Size(83, 19);
             this.cb_adbleidianmode.TabIndex = 46;
@@ -799,7 +801,7 @@
             this.NoxEnumName,
             this.NoxState});
             this.gv_NoxEnums.Location = new System.Drawing.Point(17, 632);
-            this.gv_NoxEnums.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gv_NoxEnums.Margin = new System.Windows.Forms.Padding(4);
             this.gv_NoxEnums.Name = "gv_NoxEnums";
             this.gv_NoxEnums.ReadOnly = true;
             this.gv_NoxEnums.RowHeadersVisible = false;
@@ -832,7 +834,7 @@
             this.LeidianEnumName,
             this.LeiDianState});
             this.gv_LeidianEnums.Location = new System.Drawing.Point(237, 632);
-            this.gv_LeidianEnums.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gv_LeidianEnums.Margin = new System.Windows.Forms.Padding(4);
             this.gv_LeidianEnums.Name = "gv_LeidianEnums";
             this.gv_LeidianEnums.ReadOnly = true;
             this.gv_LeidianEnums.RowHeadersVisible = false;
@@ -890,7 +892,7 @@
             // 
             this.cb_TwoTreeNotSingle.AutoSize = true;
             this.cb_TwoTreeNotSingle.Location = new System.Drawing.Point(357, 395);
-            this.cb_TwoTreeNotSingle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cb_TwoTreeNotSingle.Margin = new System.Windows.Forms.Padding(4);
             this.cb_TwoTreeNotSingle.Name = "cb_TwoTreeNotSingle";
             this.cb_TwoTreeNotSingle.Size = new System.Drawing.Size(120, 19);
             this.cb_TwoTreeNotSingle.TabIndex = 52;
@@ -900,7 +902,7 @@
             // btn_Redownload
             // 
             this.btn_Redownload.Location = new System.Drawing.Point(121, 231);
-            this.btn_Redownload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Redownload.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Redownload.Name = "btn_Redownload";
             this.btn_Redownload.Size = new System.Drawing.Size(100, 34);
             this.btn_Redownload.TabIndex = 53;
@@ -932,7 +934,7 @@
             // tb_liushuiratio
             // 
             this.tb_liushuiratio.Location = new System.Drawing.Point(547, 298);
-            this.tb_liushuiratio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_liushuiratio.Margin = new System.Windows.Forms.Padding(4);
             this.tb_liushuiratio.Name = "tb_liushuiratio";
             this.tb_liushuiratio.Size = new System.Drawing.Size(67, 25);
             this.tb_liushuiratio.TabIndex = 56;
@@ -940,7 +942,7 @@
             // tb_fuliratio
             // 
             this.tb_fuliratio.Location = new System.Drawing.Point(547, 329);
-            this.tb_fuliratio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_fuliratio.Margin = new System.Windows.Forms.Padding(4);
             this.tb_fuliratio.Name = "tb_fuliratio";
             this.tb_fuliratio.Size = new System.Drawing.Size(67, 25);
             this.tb_fuliratio.TabIndex = 57;
@@ -949,7 +951,7 @@
             // 
             this.T_AoZhouCai.AutoSize = true;
             this.T_AoZhouCai.Location = new System.Drawing.Point(468, 124);
-            this.T_AoZhouCai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.T_AoZhouCai.Margin = new System.Windows.Forms.Padding(4);
             this.T_AoZhouCai.Name = "T_AoZhouCai";
             this.T_AoZhouCai.Size = new System.Drawing.Size(74, 19);
             this.T_AoZhouCai.TabIndex = 58;
@@ -960,7 +962,7 @@
             // 
             this.T_VRChongQingShiShiCai.AutoSize = true;
             this.T_VRChongQingShiShiCai.Location = new System.Drawing.Point(468, 145);
-            this.T_VRChongQingShiShiCai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.T_VRChongQingShiShiCai.Margin = new System.Windows.Forms.Padding(4);
             this.T_VRChongQingShiShiCai.Name = "T_VRChongQingShiShiCai";
             this.T_VRChongQingShiShiCai.Size = new System.Drawing.Size(120, 19);
             this.T_VRChongQingShiShiCai.TabIndex = 59;
@@ -971,7 +973,7 @@
             // 
             this.T_TengXunShiFen.AutoSize = true;
             this.T_TengXunShiFen.Location = new System.Drawing.Point(468, 172);
-            this.T_TengXunShiFen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.T_TengXunShiFen.Margin = new System.Windows.Forms.Padding(4);
             this.T_TengXunShiFen.Name = "T_TengXunShiFen";
             this.T_TengXunShiFen.Size = new System.Drawing.Size(89, 19);
             this.T_TengXunShiFen.TabIndex = 60;
@@ -982,7 +984,7 @@
             // 
             this.T_TengXunWuFen.AutoSize = true;
             this.T_TengXunWuFen.Location = new System.Drawing.Point(468, 195);
-            this.T_TengXunWuFen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.T_TengXunWuFen.Margin = new System.Windows.Forms.Padding(4);
             this.T_TengXunWuFen.Name = "T_TengXunWuFen";
             this.T_TengXunWuFen.Size = new System.Drawing.Size(89, 19);
             this.T_TengXunWuFen.TabIndex = 61;
@@ -993,7 +995,7 @@
             // 
             this.T_WuFenCai.AutoSize = true;
             this.T_WuFenCai.Location = new System.Drawing.Point(468, 222);
-            this.T_WuFenCai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.T_WuFenCai.Margin = new System.Windows.Forms.Padding(4);
             this.T_WuFenCai.Name = "T_WuFenCai";
             this.T_WuFenCai.Size = new System.Drawing.Size(74, 19);
             this.T_WuFenCai.TabIndex = 62;
@@ -1004,7 +1006,7 @@
             // 
             this.T_XinJiangShiShiCai.AutoSize = true;
             this.T_XinJiangShiShiCai.Location = new System.Drawing.Point(468, 250);
-            this.T_XinJiangShiShiCai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.T_XinJiangShiShiCai.Margin = new System.Windows.Forms.Padding(4);
             this.T_XinJiangShiShiCai.Name = "T_XinJiangShiShiCai";
             this.T_XinJiangShiShiCai.Size = new System.Drawing.Size(104, 19);
             this.T_XinJiangShiShiCai.TabIndex = 63;
@@ -1014,9 +1016,9 @@
             // gb_vrchongqingshishicai
             // 
             this.gb_vrchongqingshishicai.Location = new System.Drawing.Point(827, 616);
-            this.gb_vrchongqingshishicai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_vrchongqingshishicai.Margin = new System.Windows.Forms.Padding(4);
             this.gb_vrchongqingshishicai.Name = "gb_vrchongqingshishicai";
-            this.gb_vrchongqingshishicai.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_vrchongqingshishicai.Padding = new System.Windows.Forms.Padding(4);
             this.gb_vrchongqingshishicai.Size = new System.Drawing.Size(385, 128);
             this.gb_vrchongqingshishicai.TabIndex = 64;
             this.gb_vrchongqingshishicai.TabStop = false;
@@ -1026,7 +1028,7 @@
             // 
             this.T_chongqingshishicai.AutoSize = true;
             this.T_chongqingshishicai.Location = new System.Drawing.Point(468, 276);
-            this.T_chongqingshishicai.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.T_chongqingshishicai.Margin = new System.Windows.Forms.Padding(4);
             this.T_chongqingshishicai.Name = "T_chongqingshishicai";
             this.T_chongqingshishicai.Size = new System.Drawing.Size(104, 19);
             this.T_chongqingshishicai.TabIndex = 65;
@@ -1036,7 +1038,7 @@
             // btn_relogin
             // 
             this.btn_relogin.Location = new System.Drawing.Point(1220, 632);
-            this.btn_relogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_relogin.Margin = new System.Windows.Forms.Padding(4);
             this.btn_relogin.Name = "btn_relogin";
             this.btn_relogin.Size = new System.Drawing.Size(89, 69);
             this.btn_relogin.TabIndex = 66;
@@ -1047,7 +1049,7 @@
             // btn_installapk
             // 
             this.btn_installapk.Location = new System.Drawing.Point(119, 124);
-            this.btn_installapk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_installapk.Margin = new System.Windows.Forms.Padding(4);
             this.btn_installapk.Name = "btn_installapk";
             this.btn_installapk.Size = new System.Drawing.Size(100, 41);
             this.btn_installapk.TabIndex = 67;
@@ -1058,7 +1060,7 @@
             // btn_active
             // 
             this.btn_active.Location = new System.Drawing.Point(7, 174);
-            this.btn_active.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_active.Margin = new System.Windows.Forms.Padding(4);
             this.btn_active.Name = "btn_active";
             this.btn_active.Size = new System.Drawing.Size(105, 41);
             this.btn_active.TabIndex = 68;
@@ -1069,7 +1071,7 @@
             // Btn_Restore
             // 
             this.Btn_Restore.Location = new System.Drawing.Point(119, 172);
-            this.Btn_Restore.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_Restore.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Restore.Name = "Btn_Restore";
             this.Btn_Restore.Size = new System.Drawing.Size(100, 41);
             this.Btn_Restore.TabIndex = 69;
@@ -1080,7 +1082,7 @@
             // btn_query
             // 
             this.btn_query.Location = new System.Drawing.Point(120, 272);
-            this.btn_query.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_query.Margin = new System.Windows.Forms.Padding(4);
             this.btn_query.Name = "btn_query";
             this.btn_query.Size = new System.Drawing.Size(99, 36);
             this.btn_query.TabIndex = 70;
@@ -1091,9 +1093,9 @@
             // gb_tengxunwufen
             // 
             this.gb_tengxunwufen.Location = new System.Drawing.Point(413, 616);
-            this.gb_tengxunwufen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_tengxunwufen.Margin = new System.Windows.Forms.Padding(4);
             this.gb_tengxunwufen.Name = "gb_tengxunwufen";
-            this.gb_tengxunwufen.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gb_tengxunwufen.Padding = new System.Windows.Forms.Padding(4);
             this.gb_tengxunwufen.Size = new System.Drawing.Size(385, 128);
             this.gb_tengxunwufen.TabIndex = 71;
             this.gb_tengxunwufen.TabStop = false;
@@ -1103,7 +1105,7 @@
             // 
             this.T_TengXunWuFenXin.AutoSize = true;
             this.T_TengXunWuFenXin.Location = new System.Drawing.Point(568, 195);
-            this.T_TengXunWuFenXin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.T_TengXunWuFenXin.Margin = new System.Windows.Forms.Padding(4);
             this.T_TengXunWuFenXin.Name = "T_TengXunWuFenXin";
             this.T_TengXunWuFenXin.Size = new System.Drawing.Size(104, 19);
             this.T_TengXunWuFenXin.TabIndex = 73;
@@ -1114,7 +1116,7 @@
             // 
             this.T_TengXunShiFenXin.AutoSize = true;
             this.T_TengXunShiFenXin.Location = new System.Drawing.Point(568, 172);
-            this.T_TengXunShiFenXin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.T_TengXunShiFenXin.Margin = new System.Windows.Forms.Padding(4);
             this.T_TengXunShiFenXin.Name = "T_TengXunShiFenXin";
             this.T_TengXunShiFenXin.Size = new System.Drawing.Size(104, 19);
             this.T_TengXunShiFenXin.TabIndex = 72;
@@ -1125,7 +1127,7 @@
             // 
             this.cb_robotstop.AutoSize = true;
             this.cb_robotstop.Location = new System.Drawing.Point(120, 326);
-            this.cb_robotstop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cb_robotstop.Margin = new System.Windows.Forms.Padding(4);
             this.cb_robotstop.Name = "cb_robotstop";
             this.cb_robotstop.Size = new System.Drawing.Size(104, 19);
             this.cb_robotstop.TabIndex = 74;
@@ -1137,7 +1139,7 @@
             // 
             this.T_HeNeiWuFen.AutoSize = true;
             this.T_HeNeiWuFen.Location = new System.Drawing.Point(568, 222);
-            this.T_HeNeiWuFen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.T_HeNeiWuFen.Margin = new System.Windows.Forms.Padding(4);
             this.T_HeNeiWuFen.Name = "T_HeNeiWuFen";
             this.T_HeNeiWuFen.Size = new System.Drawing.Size(89, 19);
             this.T_HeNeiWuFen.TabIndex = 75;
@@ -1166,11 +1168,36 @@
             this.btn_installrobot.UseVisualStyleBackColor = true;
             this.btn_installrobot.Click += new System.EventHandler(this.btn_installrobot_Click);
             // 
+            // cb_servermode
+            // 
+            this.cb_servermode.AutoSize = true;
+            this.cb_servermode.Location = new System.Drawing.Point(117, 360);
+            this.cb_servermode.Margin = new System.Windows.Forms.Padding(4);
+            this.cb_servermode.Name = "cb_servermode";
+            this.cb_servermode.Size = new System.Drawing.Size(104, 19);
+            this.cb_servermode.TabIndex = 78;
+            this.cb_servermode.Text = "服务器模式";
+            this.cb_servermode.UseVisualStyleBackColor = true;
+            this.cb_servermode.CheckedChanged += new System.EventHandler(this.cb_servermode_CheckedChanged);
+            // 
+            // btn_deal
+            // 
+            this.btn_deal.Location = new System.Drawing.Point(1064, 358);
+            this.btn_deal.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_deal.Name = "btn_deal";
+            this.btn_deal.Size = new System.Drawing.Size(100, 29);
+            this.btn_deal.TabIndex = 79;
+            this.btn_deal.Text = "赔付";
+            this.btn_deal.UseVisualStyleBackColor = true;
+            this.btn_deal.Click += new System.EventHandler(this.btn_deal_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 868);
+            this.Controls.Add(this.btn_deal);
+            this.Controls.Add(this.cb_servermode);
             this.Controls.Add(this.btn_installrobot);
             this.Controls.Add(this.btn_installcerberus);
             this.Controls.Add(this.T_HeNeiWuFen);
@@ -1248,7 +1275,7 @@
             this.Controls.Add(this.PicBarCode);
             this.Controls.Add(this.TopMenu);
             this.MainMenuStrip = this.TopMenu;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "StartForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "启动";
@@ -1374,6 +1401,8 @@
         private System.Windows.Forms.CheckBox T_HeNeiWuFen;
         private System.Windows.Forms.Button btn_installcerberus;
         private System.Windows.Forms.Button btn_installrobot;
+        private System.Windows.Forms.CheckBox cb_servermode;
+        private System.Windows.Forms.Button btn_deal;
 
     }
 }

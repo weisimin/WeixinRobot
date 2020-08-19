@@ -15,7 +15,7 @@
     <TargetFrameworkProfile />
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <NuGetPackageImportStamp>54170980</NuGetPackageImportStamp>
-    <PublishUrl>D:\publish\</PublishUrl>
+    <PublishUrl>d:\publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -25,10 +25,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://103.117.138.220:8080/</InstallUrl>
+    <InstallUrl>http://13828081978.qicp.vip:9123/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>95</ApplicationRevision>
+    <ApplicationRevision>105</ApplicationRevision>
     <ApplicationVersion>2.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -315,6 +315,9 @@
     <None Include="apk\projectceberus.apk">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="apk\wechatgenus.apk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Linq\db.dbml.layout">
       <DependentUpon>db.dbml</DependentUpon>
     </None>
@@ -573,10 +576,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://192.168.5.230/SysadminServices.asmx">
+    <WebReferenceUrl Include="http://13828081978.qicp.vip:9133/SysadminServices.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\RobotWebAdmin\</RelPath>
-      <UpdateFromURL>http://192.168.5.230/SysadminServices.asmx</UpdateFromURL>
+      <UpdateFromURL>http://13828081978.qicp.vip:9133/SysadminServices.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -584,10 +587,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WeixinRoboot_RobotWebAdmin_SysadminServices</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.5.230/WebService.asmx%3fwsdl">
+    <WebReferenceUrl Include="http://13828081978.qicp.vip:9133/WebService.asmx%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\RobootWeb\</RelPath>
-      <UpdateFromURL>http://192.168.5.230/WebService.asmx%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>http://13828081978.qicp.vip:9133/WebService.asmx%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

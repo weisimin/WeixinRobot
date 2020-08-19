@@ -1,0 +1,94 @@
+﻿<?xml version="1.0"?>
+<msg>
+  <appmsg appid="wx020a535dccd46c11" sdkver="0">
+    <title>重庆时时彩</title>
+    <des>我正在看【重庆时时彩】，分享给你，一起看吧！</des>
+    <username />
+    <action>view</action>
+    <type>5</type>
+    <showtype>0</showtype>
+    <content />
+    <url>https://h5.jdd.com/communal/kaijiang/list/2041/#today#?frm=sc&amp;amp;bv=1</url>
+    <lowurl />
+    <dataurl />
+    <lowdataurl />
+    <contentattr>0</contentattr>
+    <streamvideo>
+      <streamvideourl />
+      <streamvideototaltime>0</streamvideototaltime>
+      <streamvideotitle />
+      <streamvideowording />
+      <streamvideoweburl />
+      <streamvideothumburl />
+      <streamvideoaduxinfo />
+      <streamvideopublishid />
+    </streamvideo>
+    <canvasPageItem>
+      <canvasPageXml><![CDATA[]]></canvasPageXml>
+    </canvasPageItem>
+    <appattach>
+      <attachid />
+      <cdnthumburl>305c0201000455305302010002048f3a969202033d14b9020412e6607102045c0084ae042e6175706170706d73675f326238376137386432653661353632385f313534333533373833393535305f33393938300204010800030201000400</cdnthumburl>
+      <cdnthumbmd5>be081d9d48ab15a5e33621d68bc8a2e4</cdnthumbmd5>
+      <cdnthumblength>7090</cdnthumblength>
+      <cdnthumbheight>120</cdnthumbheight>
+      <cdnthumbwidth>60</cdnthumbwidth>
+      <cdnthumbaeskey>b336916382ce4b74807303fa55422eb5</cdnthumbaeskey>
+      <aeskey>b336916382ce4b74807303fa55422eb5</aeskey>
+      <encryver>1</encryver>
+      <fileext />
+      <islargefilemsg>0</islargefilemsg>
+    </appattach>
+    <extinfo />
+    <androidsource>3</androidsource>
+    <thumburl />
+    <mediatagname />
+    <messageaction><![CDATA[]]></messageaction>
+    <messageext><![CDATA[]]></messageext>
+    <emoticongift>
+      <packageflag>0</packageflag>
+      <packageid />
+    </emoticongift>
+    <emoticonshared>
+      <packageflag>0</packageflag>
+      <packageid />
+    </emoticonshared>
+    <designershared>
+      <designeruin>0</designeruin>
+      <designername>null</designername>
+      <designerrediretcturl>null</designerrediretcturl>
+    </designershared>
+    <emotionpageshared>
+      <tid>0</tid>
+      <title>null</title>
+      <desc>null</desc>
+      <iconUrl>null</iconUrl>
+      <secondUrl>null</secondUrl>
+      <pageType>0</pageType>
+    </emotionpageshared>
+    <webviewshared>
+      <shareUrlOriginal />
+      <shareUrlOpen />
+      <jsAppId />
+      <publisherId />
+    </webviewshared>
+    <template_id />
+    <md5>be081d9d48ab15a5e33621d68bc8a2e4</md5>
+    <weappinfo>
+      <username />
+      <appid />
+      <appservicetype>0</appservicetype>
+    </weappinfo>
+    <statextstr>GhQKEnd4MDIwYTUzNWRjY2Q0NmMxMQ==</statextstr>
+    <websearch>
+      <rec_category>0</rec_category>
+    </websearch>
+  </appmsg>
+  <fromusername></fromusername>
+  <scene>0</scene>
+  <appinfo>
+    <version>2</version>
+    <appname>UC浏览器</appname>
+  </appinfo>
+  <commenturl></commenturl>
+</msg>
