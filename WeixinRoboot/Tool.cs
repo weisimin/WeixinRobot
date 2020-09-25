@@ -1319,7 +1319,7 @@ namespace NetFramework
 
 
         public static object LockLoad = true;
-        public static string JoinQueueAndWait(string URL, EO.WinForm.WebControl wb, Int32 milientTime = 2000)
+        public static string JoinQueueAndWait(string URL, System.Windows. wb, Int32 milientTime = 2000)
         {
             NetFramework.Console.WriteLine("网页组件正在锁定", false);
             //lock (LockLoad)

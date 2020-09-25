@@ -28,17 +28,17 @@ namespace WeixinRoboot
 {
     public partial class StartForm : Form
     {
-        EO.WinForm.WebControl wb_ballgame = null;
+        WebBrowser wb_ballgame = null;
 
-        EO.WinForm.WebControl wb_other = null;
-        EO.WinForm.WebControl wb_refresh = null;
+       WebBrowser wb_other = null;
+       WebBrowser wb_refresh = null;
 
-        EO.WinForm.WebControl wb_balllivepoint = null;
+       WebBrowser wb_balllivepoint = null;
 
 
-        EO.WinForm.WebControl wb_pointlog = null;
+       WebBrowser wb_pointlog = null;
 
-        EO.WinForm.WebControl wb_vrchongqing = null;
+       WebBrowser wb_vrchongqing = null;
 
         public StartForm()
         {
@@ -305,9 +305,9 @@ namespace WeixinRoboot
             {
 
 
-                wb_ballgame = new EO.WinForm.WebControl();
+                wb_ballgame = new WebBrowser();
                 // wb_ballgame.ScriptErrorsSuppressed = true;
-                wb_ballgame.WebView = new EO.WebBrowser.WebView();
+                //wb_ballgame.WebView = new EO.WebBrowser.WebView();
 
                 wb_ballgame.Dock = DockStyle.Fill;
                 wb_ballgame.Name = "wb_football";
@@ -327,17 +327,17 @@ namespace WeixinRoboot
 
 
 
-                wb_other = new EO.WinForm.WebControl();
+                wb_other = new WebBrowser();
                 //wb_other.ScriptErrorsSuppressed = true;
                 // wb_other.Dock = DockStyle.Fill;
                 // wb_other.Name = "wb_other";
-                wb_other.WebView = new EO.WebBrowser.WebView();
+                //wb_other.WebView = new EO.WebBrowser.WebView();
                 gb_other.Controls.Add(wb_other);
 
 
 
-                wb_refresh = new EO.WinForm.WebControl();
-                wb_refresh.WebView = new EO.WebBrowser.WebView();
+                wb_refresh = new WebBrowser();
+                //wb_refresh.WebView = new EO.WebBrowser.WebView();
                 //wb_refresh.ScriptErrorsSuppressed = true;
                 wb_refresh.Dock = DockStyle.Fill;
                 wb_refresh.Name = "wb_refresh";
@@ -349,8 +349,8 @@ namespace WeixinRoboot
 
 
 
-                wb_balllivepoint = new EO.WinForm.WebControl();
-                wb_balllivepoint.WebView = new EO.WebBrowser.WebView();
+                wb_balllivepoint = new WebBrowser();
+                //wb_balllivepoint.WebView = new EO.WebBrowser.WebView();
                 //wb_balllivepoint.ScriptErrorsSuppressed = true;
                 wb_balllivepoint.Dock = DockStyle.Fill;
                 wb_balllivepoint.Name = "wb_balllivepoint";
@@ -360,8 +360,8 @@ namespace WeixinRoboot
 
 
 
-                wb_pointlog = new EO.WinForm.WebControl();
-                wb_pointlog.WebView = new EO.WebBrowser.WebView();
+                wb_pointlog = new WebBrowser();
+               // wb_pointlog.WebView = new EO.WebBrowser.WebView();
                 //wb_pointlog.ScriptErrorsSuppressed = true;
                 wb_pointlog.Dock = DockStyle.Fill;
                 wb_pointlog.Name = "wb_pointlog";
@@ -371,8 +371,8 @@ namespace WeixinRoboot
 
 
             }
-            wb_vrchongqing = new EO.WinForm.WebControl();
-            wb_vrchongqing.WebView = new EO.WebBrowser.WebView();
+            wb_vrchongqing = new WebBrowser();
+            //wb_vrchongqing.WebView = new EO.WebBrowser.WebView();
             //wb_vrchongqing.ScriptErrorsSuppressed = true;
             wb_vrchongqing.Dock = DockStyle.Fill;
             wb_vrchongqing.Name = "wb_vrchongqing";
@@ -7447,14 +7447,16 @@ namespace WeixinRoboot
                 {
                     return;
                 }
-                if (wb_vrchongqing == null || wb_vrchongqing.WebView == null || wb_vrchongqing.WebView.Url.Contains("Bet/Index/42") == false)
+                if (wb_vrchongqing == null 
+                //|| wb_vrchongqing.WebView == null 
+                || wb_vrchongqing.Url.AbsoluteUri.Contains("Bet/Index/42") == false)
                 {
                     NetFramework.Console.WriteLine("未登陆不能使用WEB采集", true);
                     return;
                 }
                 try
                 {
-                    Source = wb_vrchongqing.WebView.GetHtml();
+                    Source = wb_vrchongqing.DocumentText;
 
 
                 }
@@ -13170,7 +13172,7 @@ namespace WeixinRoboot
         }
 
 
-        //private void Refreshball(CefSharp.WinForms.ChromiumCefSharp.WinForms.ChromiumEO.WinForm.WebControl wb, string idname, string balltype)
+        //private void Refreshball(CefSharp.WinForms.ChromiumCefSharp.WinForms.ChromiumWebBrowser wb, string idname, string balltype)
         //{
         //    this.Invoke(new Action(() =>
         //    {
@@ -13412,7 +13414,7 @@ namespace WeixinRoboot
 
         //    }));//ACTION结束
         //}
-        //private void Refreshother(CefSharp.WinForms.ChromiumCefSharp.WinForms.ChromiumEO.WinForm.WebControl wb)
+        //private void Refreshother(CefSharp.WinForms.ChromiumCefSharp.WinForms.ChromiumWebBrowser wb)
         //{
         //    this.Invoke(new Action(() =>
         //    {
@@ -13592,7 +13594,7 @@ namespace WeixinRoboot
         public enum BallType { 足球, 篮球 }
 
         private object LockLoad = false;
-        private void RefreshballV2(EO.WinForm.WebControl ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
+        private void RefreshballV2(WebBrowser ballgame, string idname, BallType DoBallType, Linq.ProgramLogic.BallCompanyType PcompanyType)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
@@ -14719,7 +14721,7 @@ namespace WeixinRoboot
             }
         }
 
-        private void GetAndSetPoint(EO.WinForm.WebControl balllivepoint, BallType p_balltype)
+        private void GetAndSetPoint(WebBrowser balllivepoint, BallType p_balltype)
         {
             Linq.dbDataContext db = new Linq.dbDataContext(System.Configuration.ConfigurationManager.ConnectionStrings[GlobalParam.DataSourceName].ConnectionString);
             //db.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED");
